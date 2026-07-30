@@ -10,8 +10,9 @@ import { listFulfilledOrders } from "./orders";
 import { getFeedbackInsights } from "./feedback";
 import { lifecycleInsightsForLearning } from "./feedback-lifecycle";
 import { listReviewQueue } from "./system-ship";
+import { dataRoot } from "@/lib/data-root";
 
-const PATH = join(process.cwd(), "data", "products", "learning.json");
+const PATH = join(dataRoot(), "products", "learning.json");
 
 export type GapId =
   | "no_preview_used"

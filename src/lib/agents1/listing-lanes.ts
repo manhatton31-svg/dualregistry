@@ -11,6 +11,7 @@ import { loadStoreCache } from "./store-cache";
 import { loadState } from "./growth/persist";
 import type { AgentListing, FailedCheck, McpListing } from "./types";
 import { getProbePublic, type ProbeResult } from "./probe";
+import { dataRoot } from "@/lib/data-root";
 
 /**
  * Probe must be this fresh to stay Active.
@@ -169,7 +170,7 @@ export async function loadProbeIndex(): Promise<Map<string, ProbeResult>> {
     const { readFile } = await import("node:fs/promises");
     const { join } = await import("node:path");
     const raw = await readFile(
-      join(process.cwd(), "data/probes.json"),
+      join(dataRoot(), "probes.json"),
       "utf8",
     );
     const s = JSON.parse(raw) as { results?: Record<string, ProbeResult> };

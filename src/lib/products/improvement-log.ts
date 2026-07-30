@@ -5,6 +5,7 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { randomBytes } from "node:crypto";
+import { dataRoot } from "@/lib/data-root";
 import {
   listFeedback,
   getFeedbackInsights,
@@ -20,7 +21,7 @@ import {
   type FeedbackDrivenContext,
 } from "./generate";
 
-const PATH = join(process.cwd(), "data", "products", "improvement-log.json");
+const PATH = join(dataRoot(), "products", "improvement-log.json");
 
 export type LogEntry = {
   id: string;
@@ -477,7 +478,7 @@ export async function buildPublicFeedbackBoard() {
   }> = [];
   try {
     const raw = await readFile(
-      join(process.cwd(), "data", "products", "feedback.json"),
+      join(dataRoot(), "products", "feedback.json"),
       "utf8",
     );
     const store = JSON.parse(raw) as { items?: typeof rawItems };

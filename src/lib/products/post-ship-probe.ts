@@ -5,8 +5,9 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { randomBytes } from "node:crypto";
+import { dataRoot } from "@/lib/data-root";
 
-const PATH = join(process.cwd(), "data", "products", "post-ship-probes.json");
+const PATH = join(dataRoot(), "products", "post-ship-probes.json");
 
 /** Sitewide: only count a clarity ship as fixed at this after-score */
 export const CLARITY_FIXED_MIN = 4;

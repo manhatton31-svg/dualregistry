@@ -10,6 +10,7 @@ import { isPublicCountableDemo, REAL_NUMBERS_POLICY } from "./real-numbers";
 import { listFulfilledOrders, reloadOrdersFromDisk } from "./orders";
 import { listFeedback } from "./feedback";
 import { loadStoreCache } from "@/lib/agents1/store-cache";
+import { dataRoot } from "@/lib/data-root";
 
 const METRICS_RESET_PATH = join(
   process.cwd(),
@@ -232,7 +233,7 @@ export async function recomputeInsights(): Promise<ProductEngagement> {
   let summaryDiscounts = 0;
   try {
     const raw = await readFile(
-      join(process.cwd(), "data", "products", "feedback.json"),
+      join(dataRoot(), "products", "feedback.json"),
       "utf8",
     );
     const full = JSON.parse(raw) as {

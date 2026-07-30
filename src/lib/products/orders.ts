@@ -4,6 +4,7 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { randomBytes } from "node:crypto";
+import { dataRoot } from "@/lib/data-root";
 import {
   PRODUCTS,
   type ProductSku,
@@ -20,7 +21,7 @@ import {
   MCP_MESH_VERSION,
 } from "./generate";
 
-const PATH = join(process.cwd(), "data", "products", "orders.json");
+const PATH = join(dataRoot(), "products", "orders.json");
 
 export type OrderStatus = "pending" | "paid" | "fulfilled" | "failed" | "demo";
 

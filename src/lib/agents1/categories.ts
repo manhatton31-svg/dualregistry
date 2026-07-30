@@ -11,8 +11,9 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 
-const PATH = join(process.cwd(), "data", "registry-categories.json");
+const PATH = join(dataRoot(), "registry-categories.json");
 
 /** Mutually exclusive MCP primary categories */
 export const MCP_CATEGORIES = [

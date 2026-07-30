@@ -7,6 +7,7 @@
  */
 import { startCheckout } from "./stripe";
 import type { ProbeResult } from "@/lib/agents1/probe";
+import { dataRoot } from "@/lib/data-root";
 import {
   buildTakeDemoSkill,
   captureContactFromCard,
@@ -37,7 +38,7 @@ async function persistClaim(opts: {
   try {
     const { readFile, writeFile, mkdir } = await import("node:fs/promises");
     const { join } = await import("node:path");
-    const dir = join(process.cwd(), "data", "products");
+    const dir = join(dataRoot(), "products");
     await mkdir(dir, { recursive: true });
     const path = join(dir, "claim-outbox.json");
     let data: { items: Array<Record<string, unknown>> } = { items: [] };

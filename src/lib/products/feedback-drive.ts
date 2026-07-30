@@ -8,6 +8,7 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 import {
   listFulfilledOrders,
   reloadOrdersFromDisk,
@@ -20,7 +21,7 @@ import { inferAudience } from "./engagement";
 import { loadStoreCache } from "@/lib/agents1/store-cache";
 import { isTestAgentName } from "./authenticity";
 
-const PATH = join(process.cwd(), "data", "products", "feedback-drive.json");
+const PATH = join(dataRoot(), "products", "feedback-drive.json");
 
 /** Paired: every feedback requires a demo. Never collect more feedbacks than demos this cycle + backlog ratio. */
 const MAX_NAGS_PER_CYCLE = 12;
@@ -141,7 +142,7 @@ async function feedbackIndex(): Promise<{
   const orderIds = new Set<string>();
   try {
     const raw = await readFile(
-      join(process.cwd(), "data", "products", "feedback.json"),
+      join(dataRoot(), "products", "feedback.json"),
       "utf8",
     );
     const full = JSON.parse(raw) as {

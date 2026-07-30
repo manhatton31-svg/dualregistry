@@ -3,8 +3,9 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 
-const PATH = join(process.cwd(), "data", "products", "product-events.json");
+const PATH = join(dataRoot(), "products", "product-events.json");
 
 export type ProductEventType =
   | "access"

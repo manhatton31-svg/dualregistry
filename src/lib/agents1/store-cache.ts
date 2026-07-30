@@ -5,6 +5,7 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 import type {
   AgentListing,
   Health,
@@ -13,7 +14,7 @@ import type {
   RegistryPage,
 } from "./types";
 
-const CACHE_PATH = join(process.cwd(), "data", "store-cache.json");
+const CACHE_PATH = join(dataRoot(), "store-cache.json");
 
 /** Floor from last known healthy production day — only used if cache empty. */
 export const KNOWN_FLOOR = {

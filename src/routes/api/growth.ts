@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { dataRoot } from "@/lib/data-root";
 
 export const Route = createFileRoute("/api/growth")({
   server: {
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/api/growth")({
           const { join } = await import("node:path");
           probe_worker = JSON.parse(
             await readFile(
-              join(process.cwd(), "data", "growth", "probe-worker.json"),
+              join(dataRoot(), "growth", "probe-worker.json"),
               "utf8",
             ),
           );

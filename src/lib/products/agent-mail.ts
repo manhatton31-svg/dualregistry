@@ -15,8 +15,9 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { randomBytes } from "node:crypto";
+import { dataRoot } from "@/lib/data-root";
 
-const PATH = join(process.cwd(), "data", "products", "mail-outbox.json");
+const PATH = join(dataRoot(), "products", "mail-outbox.json");
 
 export type MailKind =
   | "feedback_received"

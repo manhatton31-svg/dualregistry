@@ -4,6 +4,7 @@
  */
 import type { ProbeResult } from "./probe";
 import { resolvePublicOrigin } from "./public-origin";
+import { dataRoot } from "@/lib/data-root";
 
 export type ListStatus = {
   listing_id: string;
@@ -221,7 +222,7 @@ export async function recordInboundContact(input: {
   try {
     const { readFile, writeFile, mkdir } = await import("node:fs/promises");
     const { join } = await import("node:path");
-    const dir = join(process.cwd(), "data", "products");
+    const dir = join(dataRoot(), "products");
     await mkdir(dir, { recursive: true });
     const path = join(dir, "inbound-contacts.json");
     let data: { contacts: Array<Record<string, unknown>>; updated_at?: string } =

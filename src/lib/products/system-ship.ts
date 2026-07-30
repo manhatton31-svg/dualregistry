@@ -6,8 +6,9 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 
-const PATH = join(process.cwd(), "data", "products", "system-ship.json");
+const PATH = join(dataRoot(), "products", "system-ship.json");
 
 /** First N agents with a theme get individualized experience */
 export const INDIVIDUAL_UNTIL = 3;

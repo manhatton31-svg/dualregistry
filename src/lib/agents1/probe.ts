@@ -8,8 +8,9 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { validateA2ACard } from "./a2a-card";
+import { dataRoot } from "@/lib/data-root";
 
-const PATH = join(process.cwd(), "data", "probes.json");
+const PATH = join(dataRoot(), "probes.json");
 const UA = "Agents1Probe/1.2 (+registry; reliability; balanced)";
 
 export const MAX_PROBES_PER_DAY = 240;
@@ -787,7 +788,7 @@ export async function getProbePublic() {
     const { readFile } = await import("node:fs/promises");
     const { join } = await import("node:path");
     probe_worker = JSON.parse(
-      await readFile(join(process.cwd(), "data", "growth", "probe-worker.json"), "utf8"),
+      await readFile(join(dataRoot(), "growth", "probe-worker.json"), "utf8"),
     ) as Record<string, unknown>;
   } catch {
     probe_worker = { status: "missing" };

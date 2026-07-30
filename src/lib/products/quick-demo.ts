@@ -17,6 +17,7 @@ import {
   type ProductOrder,
 } from "./orders";
 import { listFeedback } from "./feedback";
+import { dataRoot, dataPath } from "@/lib/data-root";
 
 export type QuickDemoInput = {
   listing_id?: string;
@@ -437,7 +438,7 @@ export async function listingEngagementBadges(): Promise<
     const { isPublicCountableDemo } = await import("./real-numbers");
     const epochRaw = await import("node:fs/promises").then((fs) =>
       fs.readFile(
-        `${process.cwd()}/data/products/metrics-reset.json`,
+        dataPath("products/metrics-reset.json"),
         "utf8",
       ),
     );

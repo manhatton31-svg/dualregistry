@@ -5,6 +5,7 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { randomBytes } from "node:crypto";
+import { dataRoot } from "@/lib/data-root";
 import {
   LIFECYCLE_PHASES,
   LIFECYCLE_POLICY,
@@ -33,7 +34,7 @@ import {
 import { recordChange, changesForOrder, formatChangeMessage } from "./change-log";
 import type { ProductOrder } from "./orders";
 
-const PATH = join(process.cwd(), "data", "products", "lifecycle.json");
+const PATH = join(dataRoot(), "products", "lifecycle.json");
 
 export type PhaseStatus = "pending" | "due" | "completed" | "skipped" | "expired";
 

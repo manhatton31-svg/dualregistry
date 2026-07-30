@@ -12,6 +12,7 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 
 /** Active CF plan for this deployment */
 export const CF_PLAN: "free" | "paid" = "paid";
@@ -68,7 +69,7 @@ export const PUT_THROTTLE_PCT = CF_PLAN === "paid" ? 0.7 : 0.45;
 /** Above this fraction → discover-only. */
 export const PUT_STOP_PCT = CF_PLAN === "paid" ? 0.92 : 0.75;
 
-const PATH = join(process.cwd(), "data", "free-tier.json");
+const PATH = join(dataRoot(), "free-tier.json");
 const STORE_ORIGIN = "https://grok-agent-store.manhatton31.workers.dev";
 
 export type FreeTierState = {

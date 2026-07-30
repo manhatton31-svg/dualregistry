@@ -10,6 +10,7 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 import {
   generateKernel,
   generateRecursiveLoop,
@@ -19,7 +20,7 @@ import {
   type FeedbackDrivenContext,
 } from "./generate";
 
-const PATH = join(process.cwd(), "data", "products", "self-loop.json");
+const PATH = join(dataRoot(), "products", "self-loop.json");
 const MIN_GAP_MS = 20 * 60 * 1000;
 
 export type SelfKR = {

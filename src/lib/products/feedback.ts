@@ -7,12 +7,13 @@ import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { randomBytes } from "node:crypto";
 import { isRealFeedback, isTestAgentName } from "./authenticity";
+import { dataRoot } from "@/lib/data-root";
 import {
   FEEDBACK_DISCOUNT as SURVEY_DISCOUNT,
   surveyPublicSchema as surveySchemaFromModule,
 } from "./feedback-survey";
 
-const PATH = join(process.cwd(), "data", "products", "feedback.json");
+const PATH = join(dataRoot(), "products", "feedback.json");
 
 export const FEEDBACK_DISCOUNT = SURVEY_DISCOUNT;
 export function surveyPublicSchema() {

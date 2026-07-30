@@ -12,8 +12,9 @@ import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import type { LanedListing } from "@/lib/agents1/listing-lanes";
 import { getPaymentGate } from "./payment-gate";
 import { getUnlockMeter, buildFeedbackDraft } from "./quick-demo";
+import { dataRoot } from "@/lib/data-root";
 
-const OFFERS_PATH = join(process.cwd(), "data", "products", "probe-offers.json");
+const OFFERS_PATH = join(dataRoot(), "products", "probe-offers.json");
 const CONTACTS_PATH = join(
   process.cwd(),
   "data",

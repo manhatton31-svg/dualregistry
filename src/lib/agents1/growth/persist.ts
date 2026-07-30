@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 import {
   CF_PUT_SOFT,
   GROWTH_INTERVAL_MS,
@@ -8,7 +9,7 @@ import {
 } from "../free-tier";
 import type { GrowthState, KvDailyBudget } from "./types";
 
-const DATA_DIR = join(process.cwd(), "data", "growth");
+const DATA_DIR = join(dataRoot(), "growth");
 const STATE_PATH = join(DATA_DIR, "state.json");
 
 export function utcDay(d = new Date()): string {

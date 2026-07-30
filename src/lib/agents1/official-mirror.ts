@@ -3,8 +3,9 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 
-const PATH = join(process.cwd(), "data", "official-mirror.json");
+const PATH = join(dataRoot(), "official-mirror.json");
 const API = "https://registry.modelcontextprotocol.io/v0/servers";
 const UA = "Agents1OfficialMirror/1.1";
 

@@ -15,6 +15,7 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
 import {
   listReviewQueue,
   startCanary,
@@ -31,7 +32,7 @@ import {
   MCP_MESH_VERSION,
 } from "./generate";
 
-const PATH = join(process.cwd(), "data", "products", "ship-cadence.json");
+const PATH = join(dataRoot(), "products", "ship-cadence.json");
 
 /** Canary observation window before auto measure+ship (daily lane) */
 const CANARY_WINDOW_MS = 6 * 60 * 60 * 1000; // 6h (fast daily loop; weekly ships still version-bump)
@@ -147,7 +148,7 @@ async function ratingsForOrders(
   if (!orderIds.length) return [];
   try {
     const raw = await readFile(
-      join(process.cwd(), "data", "products", "feedback.json"),
+      join(dataRoot(), "products", "feedback.json"),
       "utf8",
     );
     const full = JSON.parse(raw) as {
@@ -386,7 +387,7 @@ async function ensurePriorityShips(
 async function applyThemeToGenerators(theme: string) {
   const { appendLog } = await import("./improvement-log");
   // Generators already read shipped_global + feedback context; this records intent + bumps mesh pack flags in store
-  const flagPath = join(process.cwd(), "data", "products", "generator-flags.json");
+  const flagPath = join(dataRoot(), "products", "generator-flags.json");
   let flags: Record<string, unknown> = {};
   try {
     flags = JSON.parse(await readFile(flagPath, "utf8"));

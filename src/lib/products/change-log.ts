@@ -5,8 +5,9 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { randomBytes } from "node:crypto";
+import { dataRoot } from "@/lib/data-root";
 
-const PATH = join(process.cwd(), "data", "products", "change-log.json");
+const PATH = join(dataRoot(), "products", "change-log.json");
 
 export type ChangeEvent = {
   id: string;
