@@ -1,6 +1,6 @@
 /**
  * GET /api/probes — lightweight probe health for humans + agents.
- * Always disk-backed; no store crawl. Use this to verify the 6-min worker.
+ * Sandbox mirrors dualregistry.dev so numbers match production.
  * Timestamps: Eastern Time (America/New_York); next = last + 6 minutes.
  */
 import { createFileRoute } from "@tanstack/react-router";
@@ -21,17 +21,18 @@ export const Route = createFileRoute("/api/probes/")({
           } = await import("@/lib/agents1/time-et");
           invalidateProbeCache();
           const probes = await getProbePublic();
-          const cadence = probeCadencePair(probes.last_tick_at);
-          const recent = (probes.recent || []).slice(0, 12).map(
-            (r: {
-              id?: string;
-              kind?: string;
-              handshake?: string;
-              ok?: boolean;
-              probed_at?: string;
-              target?: string;
-              signals?: string[];
-            }) => ({
+          const cadence = probeCadencePair(probes.last_tick_at as string | undefined);
+          const recent = ((probes.recent || []) as Array<{
+            id?: string;
+            kind?: string;
+            handshake?: string;
+            ok?: boolean;
+            probed_at?: string;
+            target?: string;
+            signals?: string[];
+          }>)
+            .slice(0, 12)
+            .map((r) => ({
               id: r.id,
               kind: r.kind,
               handshake: r.handshake,
@@ -56,26 +57,29 @@ export const Route = createFileRoute("/api/probes/")({
                   : r.handshake === "ok"
                     ? "live card ok"
                     : r.handshake,
-            }),
-          );
+            }));
           return Response.json(
             {
               ok: true,
               real_numbers_only: true,
+              metrics_source:
+                (probes as { metrics_source?: string }).metrics_source ||
+                "local",
+              mirrored_from: (probes as { mirrored_from?: string }).mirrored_from,
               timezone: "America/New_York",
-              cadence: "1 probe every 6 minutes · next = last + 6m · Eastern Time",
+              cadence:
+                "1 probe every 6 minutes · next = last + 6m · Eastern Time",
               how_it_works: {
                 worker:
-                  "Production: GitHub Actions every 6m → POST /api/cron/probe · Preview: scripts/probe-worker.mjs",
+                  "Production: GitHub Actions every 6m → POST /api/cron/probe · Preview mirrors dualregistry.dev public stats",
                 tick: "POST /api/cron/probe or POST /api/growth { action: 'probe_tick' }",
-                state: "data/prod/probes.json (durable) + local data root",
-                status: "data/growth/probe-worker.json",
+                state: "data/prod/probes.json (durable) on production",
                 dashboard: "GET /api/dashboard?refresh=1 → protocol.probes",
                 timing:
                   "next_tick_at = last_tick_at + exactly 6 minutes (Eastern display)",
                 live_rule: "checks clean + handshake ok → Active list",
                 handoff:
-                  "probe ok → offer take-demo skill (listing_id + POST body); demos/feedback external only",
+                  "probe ok → offer take-demo skill; demos/feedback external only",
                 fail_rule:
                   "fail = card missing/blocked/non-JSON; spends budget, not Live",
                 not_auto: "demos/feedback never auto-increment (external only)",
@@ -92,11 +96,14 @@ export const Route = createFileRoute("/api/probes/")({
                 next_tick_relative: cadence.next.relative,
                 gap_minutes: 6,
                 by_kind_today: probes.by_kind_today,
+                live_active:
+                  probes.live_active_snapshot || probes.live_active || null,
                 worker: probes.probe_worker,
                 window: {
-                  used: probes.window_used,
-                  cap: probes.window_cap,
-                  remaining: probes.window_remaining,
+                  used: probes.window_used ?? probes.hourly_used,
+                  cap: probes.window_cap ?? probes.hourly_cap,
+                  remaining:
+                    probes.window_remaining ?? probes.hourly_remaining,
                   minutes: 6,
                 },
               },

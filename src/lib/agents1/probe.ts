@@ -891,6 +891,43 @@ export async function runProbeBudgeted(
 }
 
 export async function getProbePublic() {
+  // Sandbox / local: always return production public probe numbers so
+  // dualregistry.dev and Grok preview never disagree on used/last/next/live.
+  try {
+    const { shouldMirrorProductionMetrics, CANONICAL_API } = await import(
+      "./canonical-metrics"
+    );
+    if (shouldMirrorProductionMetrics()) {
+      const res = await fetch(
+        `${CANONICAL_API}/api/dashboard?refresh=1&mirror=1`,
+        {
+          headers: {
+            accept: "application/json",
+            "user-agent": "DualRegistryProbeMirror/1.0",
+            "cache-control": "no-cache",
+          },
+          cache: "no-store",
+          signal: AbortSignal.timeout(12_000),
+        },
+      );
+      if (res.ok) {
+        const d = (await res.json()) as {
+          protocol?: { probes?: Record<string, unknown> };
+        };
+        const probes = d.protocol?.probes;
+        if (probes && typeof probes.used === "number") {
+          return {
+            ...probes,
+            metrics_source: "mirrored-production",
+            mirrored_from: CANONICAL_API,
+          };
+        }
+      }
+    }
+  } catch {
+    /* fall through to local */
+  }
+
   const s = await loadProbeState();
   const day_remaining = Math.max(0, s.budget - s.used);
   const hourly_remaining = Math.max(0, s.hourly_cap - s.hourly_used);
