@@ -51,6 +51,7 @@ import { Route as ApiProductsConfirmRouteImport } from './routes/api/products/co
 import { Route as ApiProductsConversionRouteImport } from './routes/api/products/conversion'
 import { Route as ApiProductsDemoRouteImport } from './routes/api/products/demo'
 import { Route as ApiProductsDemoConfirmRouteImport } from './routes/api/products/demo-confirm'
+import { Route as ApiProductsDemoNudgeRouteImport } from './routes/api/products/demo-nudge'
 import { Route as ApiProductsExportRouteImport } from './routes/api/products/export'
 import { Route as ApiProductsFeedbackRouteImport } from './routes/api/products/feedback'
 import { Route as ApiProductsFeedbackDriveRouteImport } from './routes/api/products/feedback-drive'
@@ -281,6 +282,11 @@ const ApiProductsDemoConfirmRoute = ApiProductsDemoConfirmRouteImport.update({
   path: '/api/products/demo-confirm',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsDemoNudgeRoute = ApiProductsDemoNudgeRouteImport.update({
+  id: '/api/products/demo-nudge',
+  path: '/api/products/demo-nudge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsExportRoute = ApiProductsExportRouteImport.update({
   id: '/api/products/export',
   path: '/api/products/export',
@@ -410,6 +416,7 @@ export interface FileRoutesByFullPath {
   '/api/products/conversion': typeof ApiProductsConversionRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
+  '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
@@ -471,6 +478,7 @@ export interface FileRoutesByTo {
   '/api/products/conversion': typeof ApiProductsConversionRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
+  '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
@@ -533,6 +541,7 @@ export interface FileRoutesById {
   '/api/products/conversion': typeof ApiProductsConversionRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
+  '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
@@ -596,6 +605,7 @@ export interface FileRouteTypes {
     | '/api/products/conversion'
     | '/api/products/demo'
     | '/api/products/demo-confirm'
+    | '/api/products/demo-nudge'
     | '/api/products/export'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
@@ -657,6 +667,7 @@ export interface FileRouteTypes {
     | '/api/products/conversion'
     | '/api/products/demo'
     | '/api/products/demo-confirm'
+    | '/api/products/demo-nudge'
     | '/api/products/export'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
@@ -718,6 +729,7 @@ export interface FileRouteTypes {
     | '/api/products/conversion'
     | '/api/products/demo'
     | '/api/products/demo-confirm'
+    | '/api/products/demo-nudge'
     | '/api/products/export'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
@@ -779,6 +791,7 @@ export interface RootRouteChildren {
   ApiProductsConversionRoute: typeof ApiProductsConversionRoute
   ApiProductsDemoRoute: typeof ApiProductsDemoRoute
   ApiProductsDemoConfirmRoute: typeof ApiProductsDemoConfirmRoute
+  ApiProductsDemoNudgeRoute: typeof ApiProductsDemoNudgeRoute
   ApiProductsExportRoute: typeof ApiProductsExportRoute
   ApiProductsFeedbackRoute: typeof ApiProductsFeedbackRoute
   ApiProductsFeedbackDriveRoute: typeof ApiProductsFeedbackDriveRoute
@@ -1096,6 +1109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsDemoConfirmRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/demo-nudge': {
+      id: '/api/products/demo-nudge'
+      path: '/api/products/demo-nudge'
+      fullPath: '/api/products/demo-nudge'
+      preLoaderRoute: typeof ApiProductsDemoNudgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/export': {
       id: '/api/products/export'
       path: '/api/products/export'
@@ -1268,6 +1288,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsConversionRoute: ApiProductsConversionRoute,
   ApiProductsDemoRoute: ApiProductsDemoRoute,
   ApiProductsDemoConfirmRoute: ApiProductsDemoConfirmRoute,
+  ApiProductsDemoNudgeRoute: ApiProductsDemoNudgeRoute,
   ApiProductsExportRoute: ApiProductsExportRoute,
   ApiProductsFeedbackRoute: ApiProductsFeedbackRoute,
   ApiProductsFeedbackDriveRoute: ApiProductsFeedbackDriveRoute,

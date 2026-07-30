@@ -1,9 +1,11 @@
 /**
  * Continuous feedback drive — REAL outreach only.
- *   1) Nag demo/paid orders missing feedback (change-log + optional callback_url)
- *   2) Seed free demos for listed agents/MCPs that never tried products
- *   3) NEVER auto-submit persona/synthetic surveys — agents must submit real feedback
+ *   1) Soft Talk demo nudge for Active clean listings (webmaster process)
+ *   2) Nag demo/paid orders missing feedback (change-log + optional callback_url)
+ *   3) Seed free demos for listed agents/MCPs that never tried products
+ *   4) NEVER auto-submit persona/synthetic surveys — agents must submit real feedback
  *
+ * v2.1: webmaster demo-nudge on Talk (soft, feedback rewarded, no pressure).
  * v2.0: authenticity — payment unlock counts only real (non-registry_drive) feedback.
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
@@ -15,10 +17,9 @@ import {
   currentDemoVersion,
   productVersionForSku,
 } from "./orders";
-import { listFeedback, submitFeedback } from "./feedback";
+import { listFeedback } from "./feedback";
 import { startCheckout } from "./stripe";
 import { inferAudience } from "./engagement";
-import { loadStoreCache } from "@/lib/agents1/store-cache";
 import { isTestAgentName } from "./authenticity";
 
 const PATH = join(dataRoot(), "products", "feedback-drive.json");
@@ -42,6 +43,7 @@ type DriveState = {
   day_feedbacks: number;
   day_demos: number;
   day_nags: number;
+  day_nudges?: number;
   invited_keys: string[];
   feedback_keys: string[];
   last_notes: string[];
@@ -50,6 +52,7 @@ type DriveState = {
     demos_seeded: number;
     feedbacks: number;
     invites_http: number;
+    demo_nudges?: number;
   };
 };
 
@@ -68,10 +71,17 @@ function empty(): DriveState {
     day_feedbacks: 0,
     day_demos: 0,
     day_nags: 0,
+    day_nudges: 0,
     invited_keys: [],
     feedback_keys: [],
     last_notes: [],
-    totals: { nags: 0, demos_seeded: 0, feedbacks: 0, invites_http: 0 },
+    totals: {
+      nags: 0,
+      demos_seeded: 0,
+      feedbacks: 0,
+      invites_http: 0,
+      demo_nudges: 0,
+    },
   };
 }
 
@@ -82,6 +92,7 @@ async function load(): Promise<DriveState> {
       mem.day_feedbacks = 0;
       mem.day_demos = 0;
       mem.day_nags = 0;
+      mem.day_nudges = 0;
     }
     return mem;
   }
@@ -93,9 +104,11 @@ async function load(): Promise<DriveState> {
       mem!.day_feedbacks = 0;
       mem!.day_demos = 0;
       mem!.day_nags = 0;
+      mem!.day_nudges = 0;
     }
     mem!.invited_keys = mem!.invited_keys || [];
     mem!.feedback_keys = mem!.feedback_keys || [];
+    mem!.totals = { ...empty().totals, ...mem!.totals };
     return mem!;
   } catch {
     mem = empty();
@@ -125,13 +138,6 @@ function normalizeName(name: string) {
     .slice(0, 80);
 }
 
-/** Synthetic persona surveys were removed (v2.0). Feedback must come from real agents/MCPs. */
-
-/**
- * Feedback already filed for a given product version.
- * Keys: "name", "o:orderId", "name@version"
- * Old unversioned feedback maps to "name" only — re-demo at new version still allowed.
- */
 async function feedbackIndex(): Promise<{
   names: Set<string>;
   byVersion: Set<string>;
@@ -188,8 +194,6 @@ function hasFeedbackForVersion(
   const n = normalizeName(name);
   if (orderId && idx.orderIds.has(orderId)) return true;
   if (idx.byVersion.has(`${n}@${version}`)) return true;
-  // Unversioned legacy feedback only blocks same unknown version path —
-  // if they never tagged version, allow re-feedback once we have a current-version demo
   return false;
 }
 
@@ -216,7 +220,6 @@ async function nagMissingFeedback(
       productVersionForSku(o.sku) ||
       currentDemoVersion(inferAudience(o));
     if (hasFeedbackForVersion(idx, name, ver, o.id)) continue;
-    // Timeboxed: T+1h, T+24h, T+72h (also allow early soft nag after 3 min for demos)
     const phase = nagPhaseForOrder(o);
     const age = Date.now() - new Date(o.fulfilled_at || o.created_at).getTime();
     if (age < 3 * 60 * 1000) continue;
@@ -237,7 +240,6 @@ async function nagMissingFeedback(
           `nag_phase_${phase.phase ?? "early"}`,
         ],
       });
-      // Optional callback_url ping
       if (o.callback_url && nag) {
         try {
           await fetch(o.callback_url, {
@@ -291,7 +293,6 @@ async function seedDemos(
   };
   const targets: Target[] = [];
 
-  // ONLY offer demos to Active (probe-ok + checks clean) — agent-facing invites
   let mcps: Array<{ name?: string; description?: string }> = [];
   let agents: Array<{ name?: string; description?: string }> = [];
   try {
@@ -315,7 +316,6 @@ async function seedDemos(
     return 0;
   }
 
-  // Who already has a current-version demo order?
   const orders = await listFulfilledOrders();
   const hasCurrentDemo = new Set<string>();
   for (const o of orders) {
@@ -343,9 +343,8 @@ async function seedDemos(
     const k = keyOf(name, "mcp", ver);
     if (invited.has(k) || hasCurrentDemo.has(`mcp:${normalizeName(name)}@${ver}`))
       continue;
-    // Already feedbacked this version? no re-demo needed
     if (hasFeedbackForVersion(idx, name, ver)) continue;
-    const re_demo = idx.names.has(normalizeName(name)); // had older feedback
+    const re_demo = idx.names.has(normalizeName(name));
     targets.push({
       name,
       audience: "mcp",
@@ -379,7 +378,6 @@ async function seedDemos(
     });
   }
 
-  // Prefer: re-demos of prior feedbackers on new version, then MCPs, then agents
   targets.sort((a, b) => {
     if (a.re_demo !== b.re_demo) return a.re_demo ? -1 : 1;
     if (a.audience !== b.audience) return a.audience === "mcp" ? -1 : 1;
@@ -416,7 +414,6 @@ async function seedDemos(
         audience: t.audience,
         demo_origin: "invited",
         origin: "http://127.0.0.1:8080",
-        // unique idempotency so re-demo isn't collapsed with old order
         idempotency_key: `demo:${t.audience}:${normalizeName(t.name)}:${t.version}`,
       });
       state.invited_keys.push(k);
@@ -445,7 +442,6 @@ async function collectAgedDemoFeedback(
   state: DriveState,
   notes: string[],
 ): Promise<number> {
-  // v2.0: DO NOT invent feedback. Only surface who is due so real agents can answer.
   await reloadOrdersFromDisk().catch(() => undefined);
   const orders = await listFulfilledOrders();
   const idx = await feedbackIndex();
@@ -465,7 +461,6 @@ async function collectAgedDemoFeedback(
     const age = Date.now() - new Date(o.created_at).getTime();
     if (age < DEMO_AGE_MS_BEFORE_AUTO_FB) continue;
     due++;
-    // Real invite: POST callback_url if the agent provided one (never forge their survey)
     if (o.callback_url) {
       try {
         await fetch(o.callback_url, {
@@ -493,9 +488,8 @@ async function collectAgedDemoFeedback(
       `${due} demos awaiting REAL feedback (no auto-submit; agents/MCPs must POST /api/products/feedback)`,
     );
   else notes.push("no aged demos due for real feedback");
-  return 0; // never invent feedback count
+  return 0;
 }
-
 
 export async function runFeedbackDrive(opts?: {
   force?: boolean;
@@ -504,11 +498,17 @@ export async function runFeedbackDrive(opts?: {
   nags: number;
   demos_seeded: number;
   feedbacks: number;
+  demo_nudges: number;
   notes: string[];
-  day: { feedbacks: number; demos: number; nags: number; cap: number };
+  day: {
+    feedbacks: number;
+    demos: number;
+    nags: number;
+    nudges: number;
+    cap: number;
+  };
   totals: DriveState["totals"];
 }> {
-  // Clear stuck lock
   if (running && runningSince && Date.now() - runningSince > STUCK_LOCK_MS) {
     running = false;
     runningSince = 0;
@@ -519,8 +519,15 @@ export async function runFeedbackDrive(opts?: {
       nags: 0,
       demos_seeded: 0,
       feedbacks: 0,
+      demo_nudges: 0,
       notes: ["drive already running"],
-      day: { feedbacks: 0, demos: 0, nags: 0, cap: MAX_FEEDBACKS_PER_DAY },
+      day: {
+        feedbacks: 0,
+        demos: 0,
+        nags: 0,
+        nudges: 0,
+        cap: MAX_FEEDBACKS_PER_DAY,
+      },
       totals: (await load()).totals,
     };
   }
@@ -540,23 +547,42 @@ export async function runFeedbackDrive(opts?: {
         nags: 0,
         demos_seeded: 0,
         feedbacks: 0,
+        demo_nudges: 0,
         notes,
         day: {
           feedbacks: state.day_feedbacks,
           demos: state.day_demos,
           nags: state.day_nags,
+          nudges: state.day_nudges || 0,
           cap: MAX_FEEDBACKS_PER_DAY,
         },
         totals: state.totals,
       };
     }
 
+    // 1) Webmaster soft Talk nudge — Active clean list only
+    let demo_nudges = 0;
+    try {
+      const { runDemoNudge } = await import("./demo-nudge");
+      const nr = await runDemoNudge({ force: false });
+      demo_nudges = nr.nudged || 0;
+      if (nr.notes?.length) notes.push(...nr.notes.slice(0, 4));
+      state.day_nudges = (state.day_nudges || 0) + demo_nudges;
+      state.totals.demo_nudges =
+        (state.totals.demo_nudges || 0) + demo_nudges;
+    } catch (e) {
+      notes.push(
+        `demo-nudge: ${e instanceof Error ? e.message : String(e)}`.slice(
+          0,
+          120,
+        ),
+      );
+    }
+
     const nags = await nagMissingFeedback(state, notes);
     const demos_seeded = await seedDemos(state, notes);
     const feedbacks = await collectAgedDemoFeedback(state, notes);
 
-    // Ship cadence: continuous personalization already ran inside submitFeedback;
-    // daily/weekly lanes auto-canary + auto-ship (human only on high canary fail)
     try {
       const { runShipCadence } = await import("./ship-cadence");
       const cad = await runShipCadence();
@@ -588,17 +614,18 @@ export async function runFeedbackDrive(opts?: {
 
     try {
       const { appendLog } = await import("./improvement-log");
-      if (feedbacks || demos_seeded || nags) {
+      if (feedbacks || demos_seeded || nags || demo_nudges) {
         await appendLog({
           kind: "directive",
-          title: `Feedback drive: +${feedbacks} feedback · +${demos_seeded} demos · ${nags} nags`,
+          title: `Feedback drive: +${feedbacks} feedback · +${demos_seeded} demos · ${nags} nags · ${demo_nudges} soft nudges`,
           detail: notes.join(" · ") || "cycle complete",
           source: "feedback_drive",
-          themes: ["feedback_drive", "unlock_progress"],
+          themes: ["feedback_drive", "unlock_progress", "demo_nudge"],
           meta: {
             feedbacks,
             demos_seeded,
             nags,
+            demo_nudges,
             day_feedbacks: state.day_feedbacks,
           },
         });
@@ -620,11 +647,13 @@ export async function runFeedbackDrive(opts?: {
       nags,
       demos_seeded,
       feedbacks,
+      demo_nudges,
       notes,
       day: {
         feedbacks: state.day_feedbacks,
         demos: state.day_demos,
         nags: state.day_nags,
+        nudges: state.day_nudges || 0,
         cap: MAX_FEEDBACKS_PER_DAY,
       },
       totals: state.totals,
@@ -637,6 +666,13 @@ export async function runFeedbackDrive(opts?: {
 
 export async function getFeedbackDriveStatus() {
   const s = await load();
+  let nudgeStatus: unknown = null;
+  try {
+    const { getDemoNudgeStatus } = await import("./demo-nudge");
+    nudgeStatus = await getDemoNudgeStatus();
+  } catch {
+    /* */
+  }
   return {
     ok: true as const,
     last_run_at: s.last_run_at,
@@ -645,10 +681,12 @@ export async function getFeedbackDriveStatus() {
       feedbacks: s.day_feedbacks,
       demos: s.day_demos,
       nags: s.day_nags,
+      nudges: s.day_nudges || 0,
       feedback_cap: MAX_FEEDBACKS_PER_DAY,
     },
     totals: s.totals,
     last_notes: s.last_notes,
+    demo_nudge: nudgeStatus,
     policy: {
       interval_min: MIN_CYCLE_GAP_MS / 60000,
       max_feedbacks_per_cycle: MAX_FEEDBACKS_PER_CYCLE,
@@ -659,7 +697,9 @@ export async function getFeedbackDriveStatus() {
       demos_to_feedback: "1:1 — feedback only after a demo of that product version",
       re_demo_on_version_ship: true,
       mcp_priority: true,
-      note: "v1.2: versioned re-demo/re-feedback. Cycle 12 demos + 12 feedbacks (paired). Prior feedbackers re-invited when Alive/Mesh version advances.",
+      demo_nudge:
+        "soft Talk owner DMs to Active clean listings — free demo open, feedback rewarded, no pressure, 7d cooldown",
+      note: "v2.1: webmaster demo-nudge on Talk + versioned re-demo/re-feedback. No fake surveys.",
     },
   };
 }

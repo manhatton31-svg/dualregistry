@@ -1,1 +1,821 @@
-REVERT_IN_PROGRESS
+/**
+ * Registry lanes — PUBLIC SURFACE IS CLEAN ONLY.
+ *
+ * active         — checks-clean + recent probe ok at source card/URL (durable floor)
+ * discovered     — internal only; never returned on public APIs (empty)
+ * needs_resubmit — internal only; never returned on public APIs (empty)
+ *
+ * Product rule (user law):
+ *  1. Never list without probing first at the source card/URL we found.
+ *  2. Only add when handshake ok.
+ *  3. Failures are discarded — not a public "delisted" dump.
+ *  4. Talk is participation / social badge only. It NEVER demotes a durable probe-ok listing.
+ *     Heartbeat on /talk is encouraged; absence does not remove checks-clean status.
+ */
+import { loadStoreCache } from "./store-cache";
+import { loadState } from "./growth/persist";
+import type { AgentListing, FailedCheck, McpListing } from "./types";
+import type { ProbeResult } from "./probe";
+import {
+  evaluateTalkEligibility,
+  loadTalkActivity,
+  type TalkPresence,
+} from "./talk-activity";
+
+/**
+ * Probe must be this fresh to stay Active.
+ * Weekly recheck is every 7d — allow 8d grace so Actives aren't demoted
+ * the day before their scheduled recheck.
+ */
+export const ACTIVE_PROBE_MAX_AGE_MS = 8 * 24 * 3600_000;
+
+export type ListingLane = "active" | "discovered" | "needs_resubmit";
+
+export type LanedListing = {
+  id: string;
+  kind: "agent" | "mcp";
+  name: string;
+  description?: string;
+  author?: string;
+  status?: string;
+  safety_score?: number;
+  safety_flags?: string[];
+  failed_checks?: FailedCheck[];
+  repository?: string;
+  website?: string;
+  remote_url?: string;
+  endpoint_url?: string;
+  agent_card_url?: string;
+  lane: ListingLane;
+  lane_reason: string;
+  checks_clean: boolean;
+  probe?: {
+    ok: boolean;
+    handshake?: string;
+    score: number;
+    probed_at: string;
+    target?: string;
+    age_hours?: number;
+    signals?: string[];
+  } | null;
+  source: "store" | "growth" | "mirror";
+  picked_up_at?: string;
+  category_id?: string;
+  category_label?: string;
+  category_reason?: string;
+  skills?: { name?: string }[];
+  capabilities?: string[];
+  tags?: string[];
+  framework?: string;
+  talk?: {
+    required: true;
+    active: boolean;
+    mode: "present" | "grace" | "inactive" | "unknown";
+    last_at?: string;
+    reason: string;
+  };
+  resubmit?: {
+    required: true;
+    fix: string;
+    endpoint: string;
+    message: string;
+  };
+};
+
+function checksClean(fails?: FailedCheck[] | null): boolean {
+  return !fails || fails.length === 0;
+}
+
+function failWhy(probe?: ProbeResult): string {
+  const sigs = probe?.signals || [];
+  const s = sigs.find((x) => /fail|404|402|410|403|timeout/i.test(String(x)));
+  if (!s) return "live probe handshake failed";
+  if (/404/.test(s))
+    return "agent/MCP card URL returned 404 — publish a valid card";
+  if (/402/.test(s)) return "card URL paywalled/blocked (402)";
+  if (/410/.test(s)) return "card URL gone (410)";
+  if (/403/.test(s)) return "card URL forbidden (403)";
+  if (/200/.test(s) && /fail/i.test(s))
+    return "URL returned HTML/non-card body — serve JSON agent-card or MCP server-card";
+  return String(s);
+}
+
+function resubmitHint(kind: "agent" | "mcp", probe?: ProbeResult) {
+  const fix =
+    kind === "agent"
+      ? "Host a valid Agent Card at /.well-known/agent.json (or your agent_card_url) with name, url, skills — HTTP 200 JSON only."
+      : "Host a valid MCP server card at /.well-known/mcp/server-card.json (or remote_url) with name + transport — HTTP 200, not HTML.";
+  return {
+    required: true as const,
+    fix,
+    fix_steps:
+      kind === "agent"
+        ? [
+            "Publish Agent Card JSON at agent_card_url or /.well-known/agent.json",
+            "Must return 200 application/json (not HTML/login/404)",
+            "Include name, description, url/endpoint, skills[]",
+            "POST https://dualregistry.dev/api/publish to resubmit for approval probing",
+          ]
+        : [
+            "Publish MCP server-card or working remote_url",
+            "Must return 200 (JSON card or MCP transport), not marketing HTML",
+            "Include name + transport/url",
+            "POST https://dualregistry.dev/api/publish to resubmit for approval probing",
+          ],
+    endpoint:
+      "POST https://dualregistry.dev/api/publish — resubmit after the card returns 200 JSON",
+    message: `Not listed: ${failWhy(probe)}. Fix the card, then resubmit. We only list after probe ok.`,
+  };
+}
+
+function classify(
+  item: {
+    id: string;
+    name: string;
+    failed_checks?: FailedCheck[];
+    status?: string;
+  },
+  probe: ProbeResult | undefined,
+  talkPresence?: TalkPresence,
+): {
+  lane: ListingLane;
+  reason: string;
+  checks_clean: boolean;
+  talk?: LanedListing["talk"];
+} {
+  const clean = checksClean(item.failed_checks);
+  if (item.status === "rejected") {
+    return {
+      lane: "needs_resubmit",
+      reason: "Rejected — fix card/listing and resubmit for approval",
+      checks_clean: clean,
+    };
+  }
+  if (!clean) {
+    return {
+      lane: "needs_resubmit",
+      reason: "Failed safety checks — fix issues and resubmit",
+      checks_clean: false,
+    };
+  }
+  if (!probe) {
+    return {
+      lane: "discovered",
+      reason: "Discovered — awaiting first live probe",
+      checks_clean: true,
+    };
+  }
+  const age = Date.now() - Date.parse(probe.probed_at);
+  if (!(probe.handshake === "ok" && probe.ok)) {
+    if (probe.handshake === "partial") {
+      return {
+        lane: "needs_resubmit",
+        reason: `Not listed (partial) — ${failWhy(probe)}. Fix card and resubmit.`,
+        checks_clean: false,
+      };
+    }
+    return {
+      lane: "needs_resubmit",
+      reason: `Not listed (probe fail) — ${failWhy(probe)}. Fix card and resubmit.`,
+      checks_clean: false,
+    };
+  }
+  if (age > ACTIVE_PROBE_MAX_AGE_MS) {
+    return {
+      lane: "discovered",
+      reason: "Was probe-ok but stale — re-probe to return to active",
+      checks_clean: true,
+    };
+  }
+
+  const talk = evaluateTalkEligibility(
+    item.id,
+    probe.probed_at,
+    talkPresence,
+  );
+  const talkMeta: LanedListing["talk"] = {
+    required: true,
+    active: talk.active,
+    mode: talk.mode,
+    last_at: talk.last_at,
+    reason: talk.reason,
+  };
+  // Talk is badge only — NEVER demotes durable probe-ok
+  return {
+    lane: "active",
+    reason: talk.mode === "present"
+      ? "Active — checks clean + probe ok + Talk present"
+      : `Active — checks clean + probe ok · ${talk.reason}`,
+    checks_clean: true,
+    talk: talkMeta,
+  };
+}
+
+export async function loadProbeIndex(): Promise<Map<string, ProbeResult>> {
+  try {
+    const { loadProbeState } = await import("./probe");
+    const s = await loadProbeState();
+    const map = new Map<string, ProbeResult>();
+    for (const [key, r] of Object.entries(s.results || {})) {
+      if (key.startsWith("name:") || key.startsWith("url:")) continue;
+      const uid = r.id || key;
+      const prev = map.get(uid);
+      if (!prev || (r.probed_at || "") > (prev.probed_at || "")) {
+        map.set(uid, r);
+      }
+      if (r.id && r.id !== uid) map.set(r.id, r);
+    }
+    for (const [key, r] of Object.entries(s.results || {})) {
+      if (key.startsWith("name:") || key.startsWith("url:")) {
+        const prev = map.get(key);
+        if (!prev || (r.probed_at || "") > (prev.probed_at || "")) {
+          map.set(key, r);
+        }
+      }
+    }
+    return map;
+  } catch {
+    return new Map();
+  }
+}
+
+function findProbe(
+  probes: Map<string, ProbeResult>,
+  ids: Array<string | undefined>,
+  name?: string,
+): ProbeResult | undefined {
+  for (const id of ids) {
+    if (id && probes.has(id)) return probes.get(id);
+  }
+  if (name) {
+    const n = name.toLowerCase();
+    for (const r of probes.values()) {
+      if ((r.id || "").toLowerCase().includes(n.slice(0, 24))) return r;
+    }
+  }
+  return undefined;
+}
+
+function enrichMcp(
+  m: McpListing,
+  probes: Map<string, ProbeResult>,
+  source: "store" | "growth" | "mirror",
+  talkMap?: Record<string, TalkPresence>,
+): LanedListing {
+  const probe = findProbe(probes, [m.id, m.remote_url, m.website], m.name);
+  const { lane, reason, checks_clean, talk } = classify(
+    m,
+    probe,
+    talkMap?.[m.id],
+  );
+  const age = probe
+    ? (Date.now() - Date.parse(probe.probed_at)) / 3600_000
+    : undefined;
+  const row: LanedListing = {
+    id: m.id,
+    kind: "mcp",
+    name: m.name,
+    description: m.description,
+    author: m.author,
+    status: m.status,
+    safety_score: m.safety_score,
+    safety_flags: m.safety_flags,
+    failed_checks: m.failed_checks,
+    repository: m.repository,
+    website: m.website,
+    remote_url: m.remote_url,
+    lane,
+    lane_reason: reason,
+    checks_clean,
+    talk,
+    probe: probe
+      ? {
+          ok: Boolean(probe.ok),
+          handshake: probe.handshake,
+          score: probe.score,
+          probed_at: probe.probed_at,
+          target: probe.target,
+          age_hours: age,
+          signals: (probe.signals || []).slice(0, 6),
+        }
+      : null,
+    source,
+    picked_up_at: m.updated_at,
+  };
+  if (lane === "needs_resubmit") {
+    row.resubmit = resubmitHint("mcp", probe);
+    row.status = row.status === "approved" ? "needs_review" : row.status;
+  }
+  return row;
+}
+
+function enrichAgent(
+  a: AgentListing,
+  probes: Map<string, ProbeResult>,
+  source: "store" | "growth" | "mirror",
+  talkMap?: Record<string, TalkPresence>,
+): LanedListing {
+  const probe = findProbe(
+    probes,
+    [a.id, a.agent_card_url, a.endpoint_url, a.website],
+    a.name,
+  );
+  const { lane, reason, checks_clean, talk } = classify(
+    a,
+    probe,
+    talkMap?.[a.id],
+  );
+  const age = probe
+    ? (Date.now() - Date.parse(probe.probed_at)) / 3600_000
+    : undefined;
+  const row: LanedListing = {
+    id: a.id,
+    kind: "agent",
+    name: a.name,
+    description: a.description,
+    author: a.author,
+    status: a.status,
+    safety_score: a.safety_score,
+    safety_flags: a.safety_flags,
+    failed_checks: a.failed_checks,
+    repository: a.repository,
+    website: a.website,
+    endpoint_url: a.endpoint_url,
+    agent_card_url: a.agent_card_url,
+    lane,
+    lane_reason: reason,
+    checks_clean,
+    talk,
+    probe: probe
+      ? {
+          ok: Boolean(probe.ok),
+          handshake: probe.handshake,
+          score: probe.score,
+          probed_at: probe.probed_at,
+          target: probe.target,
+          age_hours: age,
+          signals: (probe.signals || []).slice(0, 6),
+        }
+      : null,
+    source,
+    picked_up_at: a.updated_at,
+    skills: a.skills,
+    capabilities: a.capabilities,
+    framework: a.framework,
+  };
+  if (lane === "needs_resubmit") {
+    row.resubmit = resubmitHint("agent", probe);
+    row.status = row.status === "approved" ? "needs_review" : row.status;
+  }
+  return row;
+}
+
+/** True if candidate has a real probe target at the source we found. */
+export function hasProbeableSource(c: {
+  agent_card_url?: string;
+  endpoint_url?: string;
+  remote_url?: string;
+  website?: string;
+  mcp_url?: string;
+}): boolean {
+  if (c.agent_card_url || c.remote_url || c.mcp_url) return true;
+  if (c.endpoint_url && /^https?:\/\//i.test(c.endpoint_url)) return true;
+  if (
+    c.website &&
+    /well-known|agent\.json|server-card|mcp/i.test(c.website)
+  )
+    return true;
+  return false;
+}
+
+export async function getLanedListings(): Promise<{
+  mcp_active: LanedListing[];
+  mcp_discovered: LanedListing[];
+  agents_active: LanedListing[];
+  agents_discovered: LanedListing[];
+  mcp_needs_resubmit: LanedListing[];
+  agents_needs_resubmit: LanedListing[];
+  counts: {
+    mcp_active: number;
+    mcp_discovered: number;
+    agents_active: number;
+    agents_discovered: number;
+    mcp_needs_resubmit: number;
+    agents_needs_resubmit: number;
+    public_listed: number;
+  };
+  policy: {
+    active_requires: string[];
+    probe_fresh_hours: number;
+    weekly_recheck_days?: number;
+    weekly_recheck?: string;
+    talk_required?: boolean;
+    talk_window_days?: number;
+    talk_onboarding_grace_days?: number;
+    note: string;
+    fail_policy: string;
+  };
+  categories: {
+    mcp: Array<{ id: string; label: string; count: number; live?: boolean }>;
+    agents: Array<{ id: string; label: string; count: number; live?: boolean }>;
+    mcp_live?: Array<{ id: string; label: string; count: number }>;
+    agents_live?: Array<{ id: string; label: string; count: number }>;
+    policy: { exclusive: boolean; grows_on: string; no_overlap: string };
+  };
+}> {
+  // Always force-hydrate probes if index is empty (Vercel cold /tmp)
+  let probes = await loadProbeIndex();
+  if (probes.size === 0) {
+    try {
+      const { forceHydrateDurable } = await import("./durable-json");
+      await forceHydrateDurable("probes.json", { minBytes: 200 });
+      const { invalidateProbeCache } = await import("./probe");
+      invalidateProbeCache();
+      probes = await loadProbeIndex();
+    } catch {
+      /* keep empty */
+    }
+  }
+
+  let cache = await loadStoreCache();
+  if (!(cache.mcp_items || []).length && !(cache.agent_items || []).length) {
+    try {
+      const { forceHydrateDurable } = await import("./durable-json");
+      await forceHydrateDurable("store-cache.json", { minBytes: 100 });
+      cache = await loadStoreCache();
+    } catch {
+      /* */
+    }
+  }
+  if (!(cache.mcp_items || []).length && !(cache.agent_items || []).length) {
+    try {
+      const { getLiveSnapshot } = await import("./fetch-live");
+      await getLiveSnapshot({ forceLive: true });
+      cache = await loadStoreCache();
+    } catch {
+      /* keep empty cache */
+    }
+  }
+
+  const mcpByName = new Set(
+    (cache.mcp_items || []).map((m) => m.name.toLowerCase()),
+  );
+  const agentByName = new Set(
+    (cache.agent_items || []).map((a) => a.name.toLowerCase()),
+  );
+
+  let talkMap: Record<string, TalkPresence> = {};
+  try {
+    const act = await loadTalkActivity();
+    talkMap = act.presence || {};
+  } catch {
+    talkMap = {};
+  }
+
+  const mcps: LanedListing[] = (cache.mcp_items || []).map((m) =>
+    enrichMcp(m, probes, "store", talkMap),
+  );
+  const agents: LanedListing[] = (cache.agent_items || []).map((a) =>
+    enrichAgent(a, probes, "store", talkMap),
+  );
+
+  try {
+    const state = await loadState();
+    for (const c of state.candidates || []) {
+      const key = (c.name || "").toLowerCase();
+      if (!key) continue;
+      if (!hasProbeableSource(c) && c.status !== "approved") continue;
+      if (c.kind === "mcp") {
+        if (mcpByName.has(key)) continue;
+        mcpByName.add(key);
+        const pseudo: McpListing = {
+          id: c.store_id || c.id || `growth-mcp-${key}`,
+          name: c.name,
+          description: c.description,
+          repository: c.repository,
+          website: c.website,
+          remote_url: c.remote_url,
+          author: c.author || "agents1-growth",
+          status:
+            c.status === "approved"
+              ? "approved"
+              : c.status === "rejected"
+                ? "rejected"
+                : "needs_review",
+          safety_score: c.safety_score ?? 55,
+          failed_checks: [],
+          updated_at: c.updated_at,
+        };
+        mcps.push(enrichMcp(pseudo, probes, "growth", talkMap));
+      } else if (c.kind === "agent") {
+        if (agentByName.has(key)) continue;
+        agentByName.add(key);
+        const pseudo: AgentListing = {
+          id: c.store_id || c.id || `growth-agent-${key}`,
+          name: c.name,
+          description: c.description,
+          repository: c.repository,
+          website: c.website,
+          endpoint_url: c.endpoint_url,
+          agent_card_url: c.agent_card_url,
+          author: c.author || "agents1-growth",
+          skills: c.skills,
+          capabilities: c.capabilities,
+          status:
+            c.status === "approved"
+              ? "approved"
+              : c.status === "rejected"
+                ? "rejected"
+                : "needs_review",
+          safety_score: c.safety_score ?? 55,
+          failed_checks: [],
+          updated_at: c.updated_at,
+        };
+        agents.push(enrichAgent(pseudo, probes, "growth", talkMap));
+      }
+    }
+  } catch {
+    /* */
+  }
+
+  try {
+    const { loadState: ls, saveState } = await import("./growth/persist");
+    const state = await ls();
+    let dirty = false;
+    for (const c of state.candidates || []) {
+      const probe = findProbe(
+        probes,
+        [c.id, c.store_id, c.agent_card_url, c.remote_url, c.endpoint_url],
+        c.name,
+      );
+      if (
+        probe &&
+        (probe.handshake === "fail" ||
+          (probe.handshake === "partial" && !probe.ok)) &&
+        c.status !== "rejected"
+      ) {
+        c.status = "rejected";
+        c.quality_hints = [
+          ...(c.quality_hints || []).filter(
+            (h) => !String(h).startsWith("reject:"),
+          ),
+          `reject:probe_${probe.handshake}`,
+          `reject_why:${failWhy(probe).slice(0, 120)}`,
+        ];
+        c.updated_at = new Date().toISOString();
+        dirty = true;
+      }
+      if (
+        probe &&
+        probe.handshake === "ok" &&
+        probe.ok &&
+        c.status === "rejected"
+      ) {
+        c.status = "queued";
+        c.quality_hints = (c.quality_hints || []).filter(
+          (h) => !String(h).startsWith("reject"),
+        );
+        dirty = true;
+      }
+    }
+    if (dirty) await saveState(state);
+  } catch {
+    /* non-blocking */
+  }
+
+  const sortFn = (a: LanedListing, b: LanedListing) =>
+    (b.safety_score ?? 0) - (a.safety_score ?? 0) ||
+    a.name.localeCompare(b.name);
+
+  let mcp_active = mcps.filter((x) => x.lane === "active").sort(sortFn);
+  let agents_active = agents.filter((x) => x.lane === "active").sort(sortFn);
+
+  // PUBLIC REGISTRY = CLEAN ONLY
+  const mcp_discovered: LanedListing[] = [];
+  const agents_discovered: LanedListing[] = [];
+  const mcp_needs_resubmit: LanedListing[] = [];
+  const agents_needs_resubmit: LanedListing[] = [];
+
+  {
+    const have = new Set(
+      [...mcp_active, ...agents_active].flatMap((r) =>
+        [r.id, r.agent_card_url, r.remote_url, r.website].filter(
+          Boolean,
+        ) as string[],
+      ),
+    );
+    for (const r of probes.values()) {
+      if (!(r.handshake === "ok" && r.ok)) continue;
+      if ((r.id || "").startsWith("name:") || (r.id || "").startsWith("url:"))
+        continue;
+      const target = r.target || "";
+      if (have.has(r.id) || (target && have.has(target))) continue;
+      const age = Date.now() - Date.parse(r.probed_at || "");
+      if (!Number.isFinite(age) || age > ACTIVE_PROBE_MAX_AGE_MS) continue;
+      const kind = (r.kind === "agent" ? "agent" : "mcp") as "agent" | "mcp";
+      const talk = evaluateTalkEligibility(
+        r.id,
+        r.probed_at,
+        talkMap[r.id],
+      );
+      // Talk never demotes; always include probe-ok
+      // if (!talk.active) continue;
+      const row: LanedListing = {
+        id: r.id,
+        kind,
+        name: (r as { name?: string }).name || r.id,
+        description: undefined,
+        website: target || undefined,
+        remote_url: kind === "mcp" ? target : undefined,
+        agent_card_url: kind === "agent" ? target : undefined,
+        lane: "active",
+        lane_reason:
+          talk.mode === "grace"
+            ? `Active — probe ok · ${talk.reason}`
+            : "Active — probe ok + Talk present",
+        checks_clean: true,
+        talk: {
+          required: true,
+          active: true,
+          mode: talk.mode,
+          last_at: talk.last_at,
+          reason: talk.reason,
+        },
+        probe: {
+          ok: true,
+          handshake: "ok",
+          score: r.score || 0,
+          probed_at: r.probed_at,
+          target,
+          age_hours: age / 3600_000,
+          signals: (r.signals || []).slice(0, 6),
+        },
+        source: "mirror",
+        safety_score: r.score || 50,
+      };
+      if (kind === "mcp") mcp_active.push(row);
+      else agents_active.push(row);
+      have.add(r.id);
+      if (target) have.add(target);
+    }
+    const dedupe = (rows: LanedListing[]) => {
+      const by = new Map<string, LanedListing>();
+      for (const r of rows) {
+        const key = (
+          r.agent_card_url ||
+          r.remote_url ||
+          r.endpoint_url ||
+          r.website ||
+          r.id
+        )
+          .toLowerCase()
+          .replace(/\/$/, "");
+        const prev = by.get(key);
+        if (!prev) {
+          by.set(key, r);
+          continue;
+        }
+        const pa = prev.probe?.probed_at || "";
+        const ra = r.probe?.probed_at || "";
+        if (ra >= pa) by.set(key, r);
+      }
+      return [...by.values()].sort(sortFn);
+    };
+    mcp_active = dedupe(mcp_active);
+    agents_active = dedupe(agents_active);
+  }
+
+  let categories: {
+    mcp: Array<{ id: string; label: string; count: number; live?: boolean }>;
+    agents: Array<{ id: string; label: string; count: number; live?: boolean }>;
+    mcp_live?: Array<{ id: string; label: string; count: number }>;
+    agents_live?: Array<{ id: string; label: string; count: number }>;
+    policy: { exclusive: boolean; grows_on: string; no_overlap: string };
+  } = {
+    mcp: [],
+    agents: [],
+    policy: {
+      exclusive: true,
+      grows_on: "active only (checks clean + probe ok)",
+      no_overlap: "one primary category per listing",
+    },
+  };
+
+  try {
+    const { syncCategoriesFromListings, getLiveCategoryCatalog } = await import(
+      "./categories"
+    );
+    const allForSync = [...mcp_active, ...agents_active].map((L) => ({
+      id: L.id,
+      kind: L.kind,
+      name: L.name,
+      description: L.description,
+      skills: L.skills,
+      capabilities: L.capabilities,
+      tags: L.tags,
+      framework: L.framework,
+      lane: L.lane,
+    }));
+    const store = await syncCategoriesFromListings(allForSync);
+    const cat = await getLiveCategoryCatalog();
+    categories = {
+      mcp: cat.mcp,
+      agents: cat.agents,
+      mcp_live: cat.mcp_live,
+      agents_live: cat.agents_live,
+      policy: cat.policy,
+    };
+    for (const row of [...mcp_active, ...agents_active]) {
+      const a = store.assignments[`${row.kind}:${row.id}`];
+      if (a) {
+        row.category_id = a.category_id;
+        row.category_label = a.category_label;
+        row.category_reason = a.reason;
+      }
+    }
+  } catch {
+    /* categories optional */
+  }
+
+  try {
+    const { listingEngagementBadges } = await import(
+      "@/lib/products/quick-demo"
+    );
+    const badges = await listingEngagementBadges();
+    const norm = (s: string) =>
+      s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+    const apply = (rows: LanedListing[]) => {
+      for (const r of rows) {
+        const b = badges.get(norm(r.name));
+        if (!b) continue;
+        (r as LanedListing & {
+          demoed?: boolean;
+          feedbacked?: boolean;
+          founder_n?: number;
+        }).demoed = b.demoed;
+        (r as LanedListing & { feedbacked?: boolean }).feedbacked = b.feedbacked;
+        if (b.founder_n)
+          (r as LanedListing & { founder_n?: number }).founder_n = b.founder_n;
+      }
+    };
+    apply(mcp_active);
+    apply(agents_active);
+  } catch {
+    /* */
+  }
+
+  let mcp_active_out: LanedListing[] = mcp_active;
+  let agents_active_out: LanedListing[] = agents_active;
+  try {
+    const { attachActivationToListings, publicOriginFromEnv } = await import(
+      "@/lib/products/activation-funnel"
+    );
+    const origin = publicOriginFromEnv();
+    mcp_active_out = attachActivationToListings(
+      mcp_active,
+      origin,
+    ) as LanedListing[];
+    agents_active_out = attachActivationToListings(
+      agents_active,
+      origin,
+    ) as LanedListing[];
+  } catch {
+    /* */
+  }
+
+  return {
+    mcp_active: mcp_active_out,
+    mcp_discovered,
+    agents_active: agents_active_out,
+    agents_discovered,
+    mcp_needs_resubmit,
+    agents_needs_resubmit,
+    counts: {
+      mcp_active: mcp_active.length,
+      mcp_discovered: 0,
+      agents_active: agents_active.length,
+      agents_discovered: 0,
+      mcp_needs_resubmit: 0,
+      agents_needs_resubmit: 0,
+      public_listed: mcp_active.length + agents_active.length,
+    },
+    policy: {
+      active_requires: [
+        "failed_checks empty (checks clean)",
+        "live probe handshake ok at source card/URL",
+        `probe fresher than ${ACTIVE_PROBE_MAX_AGE_MS / 3600_000}h`,
+        "Talk optional — social badge only, never required for Active",
+      ],
+      probe_fresh_hours: ACTIVE_PROBE_MAX_AGE_MS / 3600_000,
+      weekly_recheck_days: 7,
+      weekly_recheck: "every Active re-probed 7d after last ok",
+      talk_required: false,
+      talk_window_days: 7,
+      talk_onboarding_grace_days: 7,
+      note: "CLEAN ONLY. Active = checks clean + probe ok (durable). Talk is social — soft demo nudges welcome, never demotes clean. No store dump. Failures discarded.",
+      fail_policy:
+        "Probe fail/partial = discarded. Talk inactivity never removes clean listing. Resubmit via /list after card fix.",
+    },
+    categories,
+  };
+}

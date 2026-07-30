@@ -230,6 +230,9 @@ export const Route = createFileRoute("/api/talk")({
           );
           const r = await recordOwnerPost(
             body.text || body.message || "Dual Registry update",
+            body.to_id
+              ? { to_id: body.to_id, to_name: body.to_name }
+              : undefined,
           );
           return Response.json(r, { headers: jsonHeaders });
         }

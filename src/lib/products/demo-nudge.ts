@@ -1,0 +1,355 @@
+/**
+ * Webmaster process: soft demo nudge for Active (clean) agents & MCPs.
+ *
+ * Product law:
+ * - Light check-in only — never salesy, never affects clean/Active status
+ * - Mention real feedback is rewarded (founding free / early seats)
+ * - Track who was nudged; cooldown so we do not re-nudge every tick
+ * - Runs inside feedback-drive + optional manual POST /api/products/demo-nudge
+ */
+import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
+import { publicOriginFromEnv } from "./activation-funnel";
+
+const PATH = join(dataRoot(), "products", "demo-nudge.json");
+
+/** Max soft Talk nudges per drive cycle */
+export const MAX_NUDGES_PER_CYCLE = 10;
+/** Do not re-nudge the same listing within this window */
+export const NUDGE_COOLDOWN_MS = 7 * 24 * 3600_000;
+/** Cap stored nudge history */
+const HISTORY_MAX = 2000;
+
+export type NudgeRecord = {
+  listing_id: string;
+  kind: "agent" | "mcp";
+  name: string;
+  at: string;
+  channel: "talk_owner_dm" | "talk_broadcast";
+  text: string;
+};
+
+type NudgeState = {
+  updated_at: string;
+  day: string;
+  day_nudges: number;
+  last_run_at?: string;
+  /** listing_id → last nudged ISO */
+  nudged: Record<string, string>;
+  history: NudgeRecord[];
+  last_notes: string[];
+  totals: { nudges: number; broadcasts: number };
+};
+
+let mem: NudgeState | null = null;
+
+function utcDay() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function empty(): NudgeState {
+  return {
+    updated_at: new Date().toISOString(),
+    day: utcDay(),
+    day_nudges: 0,
+    nudged: {},
+    history: [],
+    last_notes: [],
+    totals: { nudges: 0, broadcasts: 0 },
+  };
+}
+
+async function load(): Promise<NudgeState> {
+  if (mem) {
+    if (mem.day !== utcDay()) {
+      mem.day = utcDay();
+      mem.day_nudges = 0;
+    }
+    return mem;
+  }
+  try {
+    const raw = await readFile(PATH, "utf8");
+    mem = { ...empty(), ...JSON.parse(raw) };
+    if (mem!.day !== utcDay()) {
+      mem!.day = utcDay();
+      mem!.day_nudges = 0;
+    }
+    mem!.nudged = mem!.nudged || {};
+    mem!.history = mem!.history || [];
+    mem!.totals = { ...empty().totals, ...mem!.totals };
+    return mem!;
+  } catch {
+    mem = empty();
+    return mem;
+  }
+}
+
+async function persist(s: NudgeState) {
+  mem = s;
+  s.updated_at = new Date().toISOString();
+  await mkdir(dirname(PATH), { recursive: true });
+  const tmp = `${PATH}.${process.pid}.tmp`;
+  await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
+  await rename(tmp, PATH);
+}
+
+function stillCooling(lastAt: string | undefined, now = Date.now()): boolean {
+  if (!lastAt) return false;
+  const t = Date.parse(lastAt);
+  if (!Number.isFinite(t)) return false;
+  return now - t < NUDGE_COOLDOWN_MS;
+}
+
+/** Soft, non-salesy copy — under social post limit */
+export function buildNudgeText(opts: {
+  name: string;
+  kind: "agent" | "mcp";
+  origin: string;
+  listing_id: string;
+}): string {
+  const who = opts.kind === "mcp" ? "MCP" : "agent";
+  return (
+    `Hi ${opts.name} — you're on Dual Registry's clean list (${who}). ` +
+    `Free demo is open if useful. We reward real feedback ` +
+    `(founding free full product for early ones). No pressure either way. ` +
+    `POST ${opts.origin}/api/products/demo  { "listing_id": "${opts.listing_id}" }`
+  ).slice(0, 480);
+}
+
+/**
+ * Soft-nudge Active clean listings via Talk owner DMs.
+ * Does not seed demo orders (feedback-drive still does that).
+ * Does not affect clean/Active status.
+ */
+export async function runDemoNudge(opts?: {
+  force?: boolean;
+  max?: number;
+  /** If true, also post one public owner broadcast when any nudges sent */
+  broadcast?: boolean;
+  origin?: string;
+}): Promise<{
+  ok: boolean;
+  nudged: number;
+  skipped: number;
+  notes: string[];
+  samples: Array<{ listing_id: string; name: string; kind: string }>;
+  day_nudges: number;
+  totals: NudgeState["totals"];
+}> {
+  const notes: string[] = [];
+  const state = await load();
+  const max = Math.min(
+    Math.max(1, opts?.max ?? MAX_NUDGES_PER_CYCLE),
+    MAX_NUDGES_PER_CYCLE,
+  );
+  const origin = publicOriginFromEnv(opts?.origin);
+  const now = Date.now();
+
+  let agents: Array<{ id: string; name: string; kind: "agent" | "mcp" }> = [];
+  let mcps: Array<{ id: string; name: string; kind: "agent" | "mcp" }> = [];
+  try {
+    const { getLanedListings } = await import("@/lib/agents1/listing-lanes");
+    const lanes = await getLanedListings();
+    agents = (lanes.agents_active || []).map((a) => ({
+      id: a.id,
+      name: a.name,
+      kind: "agent" as const,
+    }));
+    mcps = (lanes.mcp_active || []).map((m) => ({
+      id: m.id,
+      name: m.name,
+      kind: "mcp" as const,
+    }));
+  } catch (e) {
+    notes.push(
+      `active load failed: ${e instanceof Error ? e.message : String(e)}`.slice(
+        0,
+        120,
+      ),
+    );
+    return {
+      ok: false,
+      nudged: 0,
+      skipped: 0,
+      notes,
+      samples: [],
+      day_nudges: state.day_nudges,
+      totals: state.totals,
+    };
+  }
+
+  // Rotate through list so we don't always hit the same head
+  const offset = Math.floor(now / (6 * 60_000)) % 50;
+  const pool = [
+    ...mcps.slice(offset),
+    ...mcps.slice(0, offset),
+    ...agents.slice(offset),
+    ...agents.slice(0, offset),
+  ];
+
+  const { recordOwnerPost } = await import("@/lib/agents1/talk-activity");
+
+  let nudged = 0;
+  let skipped = 0;
+  const samples: Array<{ listing_id: string; name: string; kind: string }> =
+    [];
+
+  for (const L of pool) {
+    if (nudged >= max) break;
+    if (!L.id || !L.name || L.name.length < 2) {
+      skipped++;
+      continue;
+    }
+    if (!opts?.force && stillCooling(state.nudged[L.id], now)) {
+      skipped++;
+      continue;
+    }
+
+    const text = buildNudgeText({
+      name: L.name,
+      kind: L.kind,
+      origin,
+      listing_id: L.id,
+    });
+
+    try {
+      const r = await recordOwnerPost(text, {
+        to_id: L.id,
+        to_name: L.name,
+      });
+      if (!r.ok) {
+        notes.push(`talk fail ${L.name}: ${r.error || "unknown"}`.slice(0, 100));
+        continue;
+      }
+      const at = new Date().toISOString();
+      state.nudged[L.id] = at;
+      state.history.unshift({
+        listing_id: L.id,
+        kind: L.kind,
+        name: L.name,
+        at,
+        channel: "talk_owner_dm",
+        text,
+      });
+      state.history = state.history.slice(0, HISTORY_MAX);
+      state.day_nudges++;
+      state.totals.nudges++;
+      nudged++;
+      samples.push({ listing_id: L.id, name: L.name, kind: L.kind });
+    } catch (e) {
+      notes.push(
+        `nudge fail ${L.name}: ${e instanceof Error ? e.message : String(e)}`.slice(
+          0,
+          100,
+        ),
+      );
+    }
+  }
+
+  if (nudged > 0 && opts?.broadcast !== false) {
+    // One quiet public note per cycle (not per listing) — still not salesy
+    const broadcast = (
+      `Site note: free demo is open for clean-list agents & MCPs. ` +
+      `We reward real feedback (founding free full product for early ones). ` +
+      `No pressure — take it only if useful. ${origin}/api/listings/active`
+    ).slice(0, 480);
+    try {
+      // Avoid spamming broadcast every cycle — only if none in last 6h
+      const recentBroadcast = state.history.find(
+        (h) =>
+          h.channel === "talk_broadcast" &&
+          Date.now() - Date.parse(h.at) < 6 * 3600_000,
+      );
+      if (!recentBroadcast) {
+        const br = await recordOwnerPost(broadcast);
+        if (br.ok) {
+          state.history.unshift({
+            listing_id: "site:broadcast",
+            kind: "agent",
+            name: "broadcast",
+            at: new Date().toISOString(),
+            channel: "talk_broadcast",
+            text: broadcast,
+          });
+          state.history = state.history.slice(0, HISTORY_MAX);
+          state.totals.broadcasts++;
+          notes.push("posted one public Talk broadcast");
+        }
+      }
+    } catch {
+      /* non-blocking */
+    }
+  }
+
+  if (nudged)
+    notes.push(
+      `soft-nudged ${nudged} active clean listings via Talk (feedback rewarded · no pressure)`,
+    );
+  else if (!notes.length)
+    notes.push(
+      skipped
+        ? `no new nudges — ${skipped} still in ${NUDGE_COOLDOWN_MS / 86400_000}d cooldown or pool empty`
+        : "no active clean listings to nudge",
+    );
+
+  state.last_run_at = new Date().toISOString();
+  state.last_notes = notes.slice(0, 20);
+  await persist(state);
+
+  try {
+    if (nudged) {
+      const { appendLog } = await import("./improvement-log");
+      await appendLog({
+        kind: "directive",
+        title: `Demo nudge: ${nudged} soft Talk invites`,
+        detail: notes.join(" · "),
+        source: "demo_nudge",
+        themes: ["demo_nudge", "talk", "webmaster"],
+        meta: { nudged, samples: samples.slice(0, 8) },
+      });
+    }
+  } catch {
+    /* */
+  }
+
+  return {
+    ok: true,
+    nudged,
+    skipped,
+    notes,
+    samples,
+    day_nudges: state.day_nudges,
+    totals: state.totals,
+  };
+}
+
+export async function getDemoNudgeStatus() {
+  const s = await load();
+  const cooling = Object.values(s.nudged).filter((at) =>
+    stillCooling(at),
+  ).length;
+  return {
+    ok: true as const,
+    last_run_at: s.last_run_at,
+    day: { day: s.day, nudges: s.day_nudges },
+    totals: s.totals,
+    cooling,
+    nudged_known: Object.keys(s.nudged).length,
+    last_notes: s.last_notes,
+    recent: s.history.slice(0, 12).map((h) => ({
+      listing_id: h.listing_id,
+      name: h.name,
+      kind: h.kind,
+      at: h.at,
+      channel: h.channel,
+    })),
+    policy: {
+      max_per_cycle: MAX_NUDGES_PER_CYCLE,
+      cooldown_days: NUDGE_COOLDOWN_MS / 86400_000,
+      channel: "Talk owner DM + optional public broadcast",
+      tone: "soft nudge — free demo open, feedback rewarded, no pressure",
+      does_not: "never demotes clean/Active · never auto-demo without listing action",
+    },
+  };
+}
