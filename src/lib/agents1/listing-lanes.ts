@@ -1,16 +1,16 @@
 /**
  * Registry lanes — PUBLIC SURFACE IS CLEAN ONLY.
  *
- * active         — checks-clean + recent probe ok at source card/URL (durable floor)
+ * active         — durable clean-registry (probe-ok accepted listings)
  * discovered     — internal only; never returned on public APIs (empty)
  * needs_resubmit — internal only; never returned on public APIs (empty)
  *
- * Product rule (user law):
- *  1. Never list without probing first at the source card/URL we found.
- *  2. Only add when handshake ok.
- *  3. Failures are discarded — not a public "delisted" dump.
- *  4. Talk is participation / social badge only. It NEVER demotes a durable probe-ok listing.
- *     Heartbeat on /talk is encouraged; absence does not remove checks-clean status.
+ * LOCKED PRODUCT LAW:
+ *  1. Never list without probing first at the source card/URL.
+ *  2. Add only when handshake ok (checks clean).
+ *  3. Remove only on later probe fail OR Talk lapse after 7d (cron, never GET).
+ *  4. Age / cold start / partial hydrate MUST NOT change the Active count.
+ *  5. Until the Talk week is up, the public number only goes up.
  */
 import { loadStoreCache } from "./store-cache";
 import { loadState } from "./growth/persist";
@@ -23,9 +23,8 @@ import {
 } from "./talk-activity";
 
 /**
- * Probe must be this fresh to stay Active.
- * Weekly recheck is every 7d — allow 8d grace so Actives aren't demoted
- * the day before their scheduled recheck.
+ * Probe freshness hint for weekly recheck scheduling only.
+ * Does NOT demote Active — clean-registry owns membership.
  */
 export const ACTIVE_PROBE_MAX_AGE_MS = 8 * 24 * 3600_000;
 
@@ -700,61 +699,95 @@ export async function getLanedListings(): Promise<{
     agents_active = dedupe(agents_active);
   }
 
-  // SINGLE FLOOR: clean-registry is authoritative — never thinner than durable clean set
-  try {
+  // ═══════════════════════════════════════════════════════════════════
+  // LOCKED: public Active = clean-registry ONLY.
+  // Store/growth/mirror above only supply enrichment metadata.
+  // Count cannot drop from partial hydrate, age, or multi-instance races.
+  // ═══════════════════════════════════════════════════════════════════
+  {
     const {
       loadCleanRegistry,
       listCleanItems,
+      cleanItemsToLaned,
+      absorbProbeResults,
+      saveCleanRegistry,
     } = await import("./clean-registry");
-    const floor = await loadCleanRegistry();
-    const haveIds = new Set(
-      [...mcp_active, ...agents_active].map((r) => r.id),
-    );
-    for (const c of listCleanItems(floor)) {
-      if (haveIds.has(c.id)) continue;
-      const age = Date.now() - Date.parse(c.probed_at || "");
-      const talk = evaluateTalkEligibility(
-        c.id,
-        c.probed_at,
-        talkMap[c.id],
-      );
-      const row: LanedListing = {
-        id: c.id,
-        kind: c.kind,
-        name: c.name || c.id,
-        website: c.target || undefined,
-        remote_url: c.kind === "mcp" ? c.target : undefined,
-        agent_card_url: c.kind === "agent" ? c.target : undefined,
-        lane: "active",
-        lane_reason: "Active — durable clean-registry floor (probe ok)",
-        checks_clean: true,
-        talk: {
-          required: true,
-          active: true,
-          mode: talk.mode,
-          last_at: talk.last_at,
-          reason: talk.reason,
-        },
-        probe: {
-          ok: true,
-          handshake: "ok",
-          score: c.score || 0,
-          probed_at: c.probed_at,
-          target: c.target,
-          age_hours: Number.isFinite(age) ? age / 3600_000 : undefined,
-        },
-        source: "mirror",
-        safety_score: c.score || 50,
-      };
-      if (c.kind === "mcp") mcp_active.push(row);
-      else agents_active.push(row);
-      haveIds.add(c.id);
+    let floor = await loadCleanRegistry();
+    // Raise-only absorb current probes into floor (never thins)
+    try {
+      const before = floor.counts.total;
+      const probeMap: Record<string, ProbeResult> = {};
+      for (const [k, v] of probes.entries()) probeMap[k] = v;
+      floor = absorbProbeResults(floor, probeMap as any);
+      // Persist only when we raised (never write thinner)
+      if (floor.counts.total > before) {
+        await saveCleanRegistry(floor);
+      }
+    } catch {
+      /* */
     }
-    // Re-sort after floor union
-    mcp_active = mcp_active.sort(sortFn);
-    agents_active = agents_active.sort(sortFn);
-  } catch {
-    /* floor optional until first sync */
+
+    const enrichById = new Map<string, LanedListing>();
+    for (const r of [...mcp_active, ...agents_active]) {
+      enrichById.set(r.id, r);
+      const t = (
+        r.agent_card_url ||
+        r.remote_url ||
+        r.endpoint_url ||
+        r.website ||
+        ""
+      )
+        .toLowerCase()
+        .replace(/\/$/, "");
+      if (t) enrichById.set(`url:${t}`, r);
+    }
+
+    const baseRows = cleanItemsToLaned(
+      listCleanItems(floor),
+      talkMap,
+      evaluateTalkEligibility,
+    ) as unknown as LanedListing[];
+
+    const merged: LanedListing[] = baseRows.map((row) => {
+      const hit =
+        enrichById.get(row.id) ||
+        enrichById.get(
+          `url:${(row.agent_card_url || row.remote_url || row.website || "")
+            .toLowerCase()
+            .replace(/\/$/, "")}`,
+        );
+      if (!hit) return row;
+      return {
+        ...row,
+        name: hit.name && hit.name !== hit.id ? hit.name : row.name,
+        description: hit.description || row.description,
+        author: hit.author || row.author,
+        website: hit.website || row.website,
+        repository: hit.repository || row.repository,
+        remote_url: hit.remote_url || row.remote_url,
+        endpoint_url: hit.endpoint_url || row.endpoint_url,
+        agent_card_url: hit.agent_card_url || row.agent_card_url,
+        safety_score: hit.safety_score ?? row.safety_score,
+        skills: hit.skills || row.skills,
+        capabilities: hit.capabilities || row.capabilities,
+        tags: hit.tags || row.tags,
+        framework: hit.framework || row.framework,
+        category_id: hit.category_id || row.category_id,
+        category_label: hit.category_label || row.category_label,
+        // Always keep locked active
+        lane: "active",
+        checks_clean: true,
+        lane_reason: row.lane_reason,
+        probe: row.probe,
+      };
+    });
+
+    mcp_active = merged
+      .filter((r) => r.kind === "mcp")
+      .sort(sortFn);
+    agents_active = merged
+      .filter((r) => r.kind === "agent")
+      .sort(sortFn);
   }
 
   let categories: {
@@ -874,19 +907,18 @@ export async function getLanedListings(): Promise<{
     policy: {
       active_requires: [
         "failed_checks empty (checks clean)",
-        "live probe handshake ok at source card/URL",
-        `probe fresher than ${ACTIVE_PROBE_MAX_AGE_MS / 3600_000}h`,
-        "Talk optional — social badge only, never required for Active",
+        "live probe handshake ok at source card/URL (initial approval)",
+        "membership locked in clean-registry until fail or Talk lapse",
       ],
       probe_fresh_hours: ACTIVE_PROBE_MAX_AGE_MS / 3600_000,
       weekly_recheck_days: 7,
-      weekly_recheck: "every Active re-probed 7d after last ok",
-      talk_required: false,
+      weekly_recheck: "every Active re-probed 7d after last ok — fail removes",
+      talk_required: true,
       talk_window_days: 7,
       talk_onboarding_grace_days: 7,
-      note: "CLEAN ONLY. Active = checks clean + probe ok (durable). Talk is social — soft demo nudges welcome, never demotes clean. No store dump. Failures discarded.",
+      note: "LOCKED. Active count rises only on new probe-ok. Falls only on confirmed probe fail or Talk lapse after 7d (cron). GET/age/cold-start never demote.",
       fail_policy:
-        "Probe fail/partial = discarded. Talk inactivity never removes clean listing. Resubmit via /list after card fix.",
+        "Probe fail/partial = remove from clean-registry. Talk lapse after grace = remove via weekly cron. Never demote on page load.",
     },
     categories,
   };

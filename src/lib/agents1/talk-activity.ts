@@ -122,8 +122,9 @@ export type TalkEligibility = {
 };
 
 /**
- * Talk participation status (badge only).
- * Does NOT gate Active lane — durable probe-ok owns the clean floor.
+ * Talk participation status (badge).
+ * Listing membership is owned by clean-registry; demotion for Talk lapse
+ * runs only on weekly cron via shouldDemoteForTalkLapse — never on GET.
  */
 export function evaluateTalkEligibility(
   listingId: string,
@@ -146,7 +147,7 @@ export function evaluateTalkEligibility(
       active: true,
       checks_clean_talk: true,
       reason:
-        "Talk quiet — check in on /talk when ready (does not remove clean listing)",
+        "Talk quiet — check in on /talk within 7d of last presence to maintain after onboarding",
       last_at: presence.last_at,
       mode: "inactive",
     };
@@ -162,19 +163,50 @@ export function evaluateTalkEligibility(
       return {
         active: true,
         checks_clean_talk: true,
-        reason: `Talk welcome — join /talk anytime (probe-ok holds Active; ${daysLeft}d since probe)`,
+        reason: `Talk onboarding grace — ${daysLeft}d left to check in on /talk (listing holds)`,
         mode: "grace",
       };
     }
+    // Past onboarding, never talked — badge shows inactive; cron may demote later
+    return {
+      active: true,
+      checks_clean_talk: true,
+      reason:
+        "Talk overdue — listing still holds until weekly maintenance run",
+      mode: "inactive",
+    };
   }
 
   return {
     active: true,
     checks_clean_talk: true,
-    reason:
-      "Talk welcome — heartbeat on /talk is optional participation, not a listing gate",
+    reason: "Talk welcome — heartbeat on /talk within 7d of approval",
     mode: "grace",
   };
+}
+
+/**
+ * True only when Talk maintenance has truly lapsed.
+ * Used by weekly cron to remove from clean-registry — never by GET.
+ * First 7d after approval: never demote (number only goes up).
+ */
+export function shouldDemoteForTalkLapse(
+  approvedAt: string | undefined,
+  presence: TalkPresence | undefined,
+  now = Date.now(),
+): boolean {
+  if (!approvedAt) return false;
+  const approved = Date.parse(approvedAt);
+  if (!Number.isFinite(approved) || approved > now) return false;
+  // Onboarding grace: cannot demote
+  if (now - approved < TALK_ONBOARDING_GRACE_MS) return false;
+  if (presence?.last_at) {
+    const last = Date.parse(presence.last_at);
+    if (!Number.isFinite(last)) return true;
+    return now - last > TALK_ACTIVE_MS;
+  }
+  // Past grace, never showed up on Talk
+  return true;
 }
 
 function postId() {

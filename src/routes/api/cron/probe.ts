@@ -228,7 +228,36 @@ async function runTick() {
   try {
     const { syncCleanFromProbeResults } = await import("@/lib/agents1/clean-registry");
     const clean = await syncCleanFromProbeResults(state.results || {});
-    cleanRaw = JSON.stringify(clean, null, 2);
+    // Talk maintenance (cron only): after 7d grace + 7d quiet → remove.
+    // Never runs on GET — so during the first week the number only goes up.
+    try {
+      const {
+        loadTalkActivity,
+        shouldDemoteForTalkLapse,
+      } = await import("@/lib/agents1/talk-activity");
+      const {
+        removeCleanOnTalkLapse,
+        listCleanItems,
+        loadCleanRegistry,
+      } = await import("@/lib/agents1/clean-registry");
+      const act = await loadTalkActivity();
+      const now = Date.now();
+      for (const item of listCleanItems(clean)) {
+        if (
+          shouldDemoteForTalkLapse(
+            item.approved_at || item.probed_at,
+            act.presence?.[item.id],
+            now,
+          )
+        ) {
+          await removeCleanOnTalkLapse(item.id);
+        }
+      }
+      const after = await loadCleanRegistry();
+      cleanRaw = JSON.stringify(after, null, 2);
+    } catch {
+      cleanRaw = JSON.stringify(clean, null, 2);
+    }
     await writeFile(join(dataRoot(), "clean-registry.json"), cleanRaw, "utf8").catch(() => undefined);
   } catch {
     try {

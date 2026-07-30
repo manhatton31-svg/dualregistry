@@ -86,24 +86,49 @@ export async function forceHydrateDurable(
 ): Promise<string | null> {
   const minBytes = opts?.minBytes ?? 64;
   const local = await readLocal(name);
+
+  // clean-registry / counter floors: ALWAYS fetch remote and keep the larger blob
+  // so a thin cold-start /tmp never wins over GitHub high-water.
+  if (
+    name === "clean-registry.json" ||
+    name === "counter-floors.json" ||
+    name === "live-counters.json" ||
+    name === "probes.json"
+  ) {
+    const remote = await hydrateRemote(name);
+    if (remote && local) {
+      // Prefer larger (more complete) payload; write winner local
+      const winner = remote.length >= local.length ? remote : local;
+      if (winner === remote && remote.length > local.length) {
+        await writeLocal(name, remote);
+      }
+      // For clean-registry, if remote has more items, always take remote base
+      if (name === "clean-registry.json") {
+        try {
+          const L = JSON.parse(local) as { items?: object; counts?: { total?: number } };
+          const R = JSON.parse(remote) as { items?: object; counts?: { total?: number } };
+          const lt = L.counts?.total ?? Object.keys(L.items || {}).length;
+          const rt = R.counts?.total ?? Object.keys(R.items || {}).length;
+          if (rt >= lt) {
+            await writeLocal(name, remote);
+            return remote;
+          }
+          return local;
+        } catch {
+          return remote.length >= local.length ? remote : local;
+        }
+      }
+      return winner;
+    }
+    if (remote) return remote;
+    return local;
+  }
+
   if (local && local.length >= minBytes) {
-    // Still try remote if local looks like empty object shell
     try {
       const j = JSON.parse(local) as Record<string, unknown>;
       const keys = Object.keys(j);
-      if (
-        name === "probes.json" &&
-        j.results &&
-        typeof j.results === "object" &&
-        Object.keys(j.results as object).length > 0
-      ) {
-        return local;
-      }
-      if (
-        name !== "probes.json" &&
-        keys.length > 2 &&
-        local.length >= minBytes * 4
-      ) {
+      if (keys.length > 2 && local.length >= minBytes * 4) {
         return local;
       }
     } catch {
