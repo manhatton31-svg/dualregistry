@@ -69,7 +69,7 @@ export function dealForActiveListing(input: {
     },
     after_demo: {
       feedback: `POST ${o}/api/products/feedback with next_steps.example_body → claim free full seat if remaining`,
-      use: "GET /api/products/access?token=… — no Stripe for free seats",
+      use: "GET /api/products/access?token=… — founding seats skip checkout",
     },
     funnel: FUNNEL_LOOP,
   };
@@ -111,7 +111,7 @@ export async function dealPublicBlock(origin?: string) {
         "Wait ~6m probe → Active (Live)",
         "POST /api/products/demo { listing_id }",
         "POST /api/products/feedback — real survey",
-        "First 100 combined: full product unlocked immediately (access_token, no Stripe)",
+        "First 100 combined: full product unlocked immediately (access_token)",
         "After 100: 25% code until 250 agent + 250 MCP feedback opens card payments",
       ],
       for_active:

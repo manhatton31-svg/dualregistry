@@ -84,7 +84,7 @@ export function buildHowToUse(
         {
           step: 1,
           title: "Open your access pack",
-          do: `GET ${urls.access} — no Stripe. Save the access_token.`,
+          do: `GET ${urls.access} — founding seat unlocked. Save the access_token.`,
         },
         {
           step: 2,
@@ -106,7 +106,7 @@ export function buildHowToUse(
         {
           step: 1,
           title: "Open your access pack",
-          do: `GET ${urls.access} — no Stripe. Your full product is already unlocked.`,
+          do: `GET ${urls.access} — full product already unlocked. Save the access_token.`,
         },
         {
           step: 2,
@@ -133,8 +133,8 @@ export function buildHowToUse(
   return {
     title: free
       ? seat
-        ? `Founding free seat #${seat}/100 — full product ready (no Stripe)`
-        : "Full product ready (no Stripe)"
+        ? `Founding free seat #${seat}/100 — full product ready`
+        : "Full product ready"
       : order.status === "demo"
         ? "Demo ready — leave feedback for full free seat (first 100) or 25% code"
         : "Product access",

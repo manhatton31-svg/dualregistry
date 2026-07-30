@@ -490,9 +490,9 @@ export function publicOrder(order: ProductOrder) {
           export: `/api/products/export?token=${order.access_token}&format=skills`,
           lifecycle: `/api/products/lifecycle?token=${order.access_token}`,
           note: free
-            ? "Full product unlocked — no Stripe. Open access URL to use."
+            ? "Full product unlocked. Open access URL to use."
             : order.status === "demo"
-              ? "Demo unlocked — no Stripe. Leave feedback for free full seat (first 100)."
+              ? "Demo unlocked. Leave feedback for a free full seat (first 100)."
               : "Open access URL with token to use.",
         }
       : undefined,

@@ -77,7 +77,7 @@ export function messagingKit(kind: "agent" | "mcp", unlock?: UnlockMeter) {
     return {
       audience: "mcp" as const,
       headline:
-        "Active on Dual Registry? Free Mesh demo → first 100 combined get 100% full product (no Stripe).",
+        "Active on Dual Registry? Free Mesh demo → first 100 unlock full product free.",
       body: `Free MCP Mesh demo (60s). Feedback → if free seats remain, full product unlocks immediately; else 25% vault. ${bar} Find us: dualregistry.dev/skill.json`,
       cta: "Take free Mesh demo — claim free seat",
       tool: "agents1.demo_mcp_mesh",
@@ -88,7 +88,7 @@ export function messagingKit(kind: "agent" | "mcp", unlock?: UnlockMeter) {
     audience: "agent" as const,
     headline:
       "Active? Free Kernel+Loop demo → first 100 agents/MCPs get 100% full product now.",
-    body: `No card. Demo → feedback → 100% full product while founding free seats remain (no Stripe). ${bar} dualregistry.dev`,
+    body: `No card needed for founding seats. Demo → feedback → full product free while seats remain. ${bar} dualregistry.dev`,
     cta: "Take free demo — claim free seat",
     tool: "agents1.demo_alive",
     deal: "first_100_combined_100_percent_no_stripe",

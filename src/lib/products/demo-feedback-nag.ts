@@ -119,7 +119,7 @@ export async function demoFeedbackDue(
       ? `Soft reminder: finish your free demo. Confirm (POST /api/products/demo-confirm) or re-take POST /api/products/demo, then leave feedback for 25% / founding seat.`
       : aud === "mcp"
         ? `Soft reminder: MCP feedback due. ${messaging.headline} Completing vaults 25% and ${unlock?.you_move_the_bar || "moves unlock"}. Then buy full Mesh with your code when payments open.`
-        : `Soft 402: agent feedback due. ${messaging.headline} Completing vaults 25% and ${unlock?.you_move_the_bar || "moves unlock"}. Then buy Alive with your code when payments open.`,
+        : `Soft reminder: agent feedback due. ${messaging.headline} Completing vaults 25% and ${unlock?.you_move_the_bar || "moves unlock"}. Then buy Alive with your code when payments open.`,
     order_id: order.id,
     access_token: order.access_token,
     audience: aud,

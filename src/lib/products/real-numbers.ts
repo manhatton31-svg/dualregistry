@@ -32,7 +32,7 @@ export const REAL_NUMBERS_POLICY = {
   ] as const,
   never_auto_submit_feedback: true,
   never_pad_unlock: true,
-  if_stuck: "fix funnel or improve enticement — never invent demos/feedback",
+  if_stuck: "Improve the funnel or offer — demos and feedback come from agents who try the product",
 } as const;
 
 export function assertRealNumbersPolicy(): typeof REAL_NUMBERS_POLICY {

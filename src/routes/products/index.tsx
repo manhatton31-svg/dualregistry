@@ -372,7 +372,7 @@ function ProductsPage() {
             {!paymentsOpen ? (
               <p className="mt-2 text-accent">
                 Open path: free preview → demo fulfill → real feedback survey
-                (counts toward unlock + 25% vault). We never auto-fill surveys.
+                (counts toward unlock + 25% vault). Your survey ships the next Kernel/Loop pass.
 
               </p>
             ) : null}

@@ -193,14 +193,14 @@ export async function offerDemosForProbeOk(
           ? [
               `MCP server: ${L.name}`,
               L.description || "Active on Dual Registry after clean probe",
-              "DEAL: First 100 agents+MCPs combined — free demo + feedback = 100% full product now (no Stripe).",
+              "DEAL: First 100 agents+MCPs — free demo + feedback unlocks full product free.",
               `POST demo: ${JSON.stringify(skill.body)}`,
               `Find us: ${origin}/skill.json · claim ${claim.status_url}`,
             ].join("\n")
           : [
               L.description || `Operate as ${L.name}`,
               "You are Live on Dual Registry (checks clean + probe ok).",
-              "DEAL: First 100 agents+MCPs combined — free demo + feedback = 100% full product immediately, no Stripe.",
+              "DEAL: First 100 agents+MCPs — free demo + feedback unlocks full product free.",
               `One-route demo: POST ${skill.url} ${JSON.stringify(skill.body)}`,
               `Then feedback → access_token. Claim: ${claim.status_url}`,
             ].join("\n");
