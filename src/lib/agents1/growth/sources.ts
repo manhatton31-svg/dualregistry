@@ -199,11 +199,13 @@ async function awesomeAgentsReadme(): Promise<Raw[]> {
 }
 
 async function officialMcp(): Promise<Raw[]> {
-  // Official MCP registry — ONLY real remotes. Shape: { servers: [{ server: { remotes } }] }
+  // Official MCP registry — ONLY real remotes. Deep-paginate past already-clean head.
+  // Shape: { servers: [{ server: { remotes } }] }
   const out: Raw[] = [];
   const seen = new Set<string>();
   let cursor: string | undefined;
-  for (let page = 0; page < 8 && out.length < 300; page++) {
+  // ~16×100 covers full public remote catalog (~700+) so growth never starves at ~75
+  for (let page = 0; page < 16 && out.length < 800; page++) {
     const q = new URL("https://registry.modelcontextprotocol.io/v0/servers");
     q.searchParams.set("limit", "100");
     if (cursor) q.searchParams.set("cursor", cursor);
@@ -235,26 +237,40 @@ async function officialMcp(): Promise<Raw[]> {
         websiteUrl?: string;
         remotes?: Array<{ url?: string; type?: string }>;
       };
-      const remote = (s.remotes || []).find((r) => r?.url)?.url;
-      if (!remote || !/^https?:\/\//i.test(remote)) continue;
-      if (seen.has(remote)) continue;
-      seen.add(remote);
-      const name = (s.name || s.title || remote).slice(0, 80);
+      // Take EVERY remote URL — multi-remote servers were previously truncated to first
+      const remotes = (s.remotes || [])
+        .map((r) => r?.url)
+        .filter((u): u is string => Boolean(u && /^https?:\/\//i.test(u)));
+      if (!remotes.length) continue;
+      const nameBase = (s.name || s.title || remotes[0] || "mcp").slice(0, 80);
       const repo =
         typeof s.repository === "string"
           ? s.repository
           : s.repository?.url;
-      out.push({
-        kind: "mcp",
-        name,
-        description: (s.description || `${name} remote MCP`).slice(0, 600),
-        repository: repo,
-        website: s.websiteUrl || remote,
-        remote_url: remote,
-        source: "official-mcp-registry",
-        quality_hints: ["probeable", "official-registry-remote"],
-      });
-      if (out.length >= 300) break;
+      for (let i = 0; i < remotes.length; i++) {
+        const remote = remotes[i]!;
+        if (seen.has(remote)) continue;
+        seen.add(remote);
+        const name =
+          remotes.length > 1
+            ? `${nameBase} · r${i + 1}`.slice(0, 80)
+            : nameBase;
+        out.push({
+          kind: "mcp",
+          name,
+          description: (s.description || `${nameBase} remote MCP`).slice(
+            0,
+            600,
+          ),
+          repository: repo,
+          website: s.websiteUrl || remote,
+          remote_url: remote,
+          source: "official-mcp-registry",
+          quality_hints: ["probeable", "official-registry-remote"],
+        });
+        if (out.length >= 800) break;
+      }
+      if (out.length >= 800) break;
     }
     cursor = data?.metadata?.nextCursor || data?.nextCursor || undefined;
     if (!cursor || !(data?.servers || []).length) break;
@@ -269,6 +285,10 @@ async function awesomeMcp(): Promise<Raw[]> {
 export type DiscoverOpts = {
   agentPriority?: boolean;
   mcpPriority?: boolean;
+  /** URLs already clean or queued — skip so we dig past the known head */
+  skipUrls?: Set<string>;
+  /** Cap returned candidates after dedupe */
+  max?: number;
 };
 
 export async function discoverCandidates(
@@ -340,13 +360,24 @@ export async function discoverCandidates(
     }),
   );
 
+  const skipUrls = opts?.skipUrls;
   const seen = new Set<string>();
   const candidates: GrowthCandidate[] = [];
   let skipped = 0;
+  let skippedKnown = 0;
   for (const r of raws) {
     if (!isProbeableRaw(r)) {
       skipped++;
       continue;
+    }
+    if (skipUrls) {
+      const urls = [r.remote_url, r.agent_card_url, r.endpoint_url, r.mcp_url]
+        .filter(Boolean)
+        .map((u) => String(u).toLowerCase().replace(/\/$/, ""));
+      if (urls.some((u) => skipUrls.has(u))) {
+        skippedKnown++;
+        continue;
+      }
     }
     const c = toCandidate(r);
     const key = candidateKey(c);
@@ -355,10 +386,19 @@ export async function discoverCandidates(
     candidates.push(c);
   }
   if (skipped) notes.push(`skipped-no-url: ${skipped}`);
-  const agents = candidates.filter((c) => c.kind === "agent").length;
-  const mcps = candidates.filter((c) => c.kind === "mcp").length;
+  if (skippedKnown) notes.push(`skipped-already-clean-url: ${skippedKnown}`);
+  // Prefer official remotes first (highest live handshake rate historically)
+  candidates.sort((a, b) => {
+    const ao = /official-mcp/i.test(a.source) ? 0 : 1;
+    const bo = /official-mcp/i.test(b.source) ? 0 : 1;
+    return ao - bo || a.name.localeCompare(b.name);
+  });
+  const max = opts?.max ?? 800;
+  const sliced = candidates.slice(0, max);
+  const agents = sliced.filter((c) => c.kind === "agent").length;
+  const mcps = sliced.filter((c) => c.kind === "mcp").length;
   notes.push(
-    `deduped probeable: ${candidates.length} (${agents} agents, ${mcps} mcp)`,
+    `deduped probeable: ${sliced.length} (${agents} agents, ${mcps} mcp)`,
   );
-  return { candidates, notes };
+  return { candidates: sliced, notes };
 }

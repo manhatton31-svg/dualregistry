@@ -121,7 +121,7 @@ export function buildMetricsTruthFromParts(input: {
           ? `${input.probeUsed}/${input.probeBudget}`
           : "internal",
       source: "data/probes.json",
-      how: "Up to 8 probes / 6m tick · soft 2500/day · only handshake ok becomes clean list. Goal 333 clean/day.",
+      how: "Up to 64 probes / 2m tick · soft 100000/day · only handshake ok becomes clean list. Goal 333 clean/day.",
       live: true,
     },
     {

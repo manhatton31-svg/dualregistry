@@ -44,8 +44,9 @@ export const MAX_PROBES_PER_DAY = 100_000;
 export const CLEAN_GROWTH_TARGET_PER_DAY = 333;
 /** Tick window — still serialize multi-instance via last_tick, but allow high volume per tick. */
 export const PROBE_WINDOW_MS = 2 * 60_000;
-/** Full handshake probes per tick (mixed agents+MCPs). Only ok → clean list. */
-export const MAX_PROBES_PER_WINDOW = 48;
+/** Full handshake probes per tick (mixed agents+MCPs). Only ok → clean list.
+ *  64/tick × 10 ticks/hr × 24h ≈ 15k probes/day — enough headroom at ~2–5% ok rate for 333 clean. */
+export const MAX_PROBES_PER_WINDOW = 64;
 export const MAX_PROBES_PER_HOUR = MAX_PROBES_PER_WINDOW * 30;
 export const PROBES_PER_TICK = MAX_PROBES_PER_WINDOW;
 /** Short freshness window (hours) — discovery won't re-hit very recent oks */
@@ -941,14 +942,17 @@ export async function runProbeBudgeted(
     else if (r.kind === "mcp") mcpToday++;
   }
 
-  // Prefer live candidates; if pattern-demotion emptied the set, fall back to
-  // anything above hard pattern-kill so we still burn budget toward 333/day.
-  let rankedLive = ranked.filter((x) => x.pri > -1000);
+  // Prefer spendable discovery (pri >= 0). Fall back only to soft-retry band
+  // (pri > -1000). NEVER fall back to still-ok (-10000) — that re-burned the
+  // clean set and froze Active at ~75 while "ok 38" looked healthy.
+  let rankedLive = ranked.filter((x) => x.pri >= 0);
   if (rankedLive.length === 0) {
-    rankedLive = ranked.filter((x) => x.pri > -15000);
+    rankedLive = ranked.filter((x) => x.pri > -1000);
   }
+  // Weekly rechecks are purpose-tagged and get pri ~3500 when due — already in >=0
+  // If still empty, do not probe still-ok discovery; return empty work set.
   if (rankedLive.length === 0) {
-    rankedLive = ranked.slice(0, Math.min(max, 48));
+    rankedLive = [];
   }
   const resolveKind = (item: ProbeTarget): "agent" | "mcp" => {
     if (item.kind === "agent" || item.kind === "mcp") return item.kind;
@@ -962,7 +966,8 @@ export async function runProbeBudgeted(
 
   const take = Math.min(max, remaining, Math.max(rankedLive.length, 1));
   // Full probes per tick — never hard-cap at 1
-  const maxFullProbes = Math.max(1, Math.min(take, max, remaining, 48));
+  const maxFullProbes = Math.max(1, Math.min(take, max, remaining, MAX_PROBES_PER_WINDOW));
+
   const maxPreflightRejects = Math.max(64, maxFullProbes * 6);
   const selected: typeof ranked = [];
   let ai = 0;
@@ -1018,12 +1023,13 @@ export async function runProbeBudgeted(
     } else break;
   }
 
-  // Never select fresh-ok for spend — always burn budget on never/dirty/stale
+  // Never select still-ok / pattern-kill for spend. Empty queue > re-proving Active.
   const spendable = selected.filter((x) => x.pri >= 0);
-  const queue = spendable.length ? spendable : selected;
+  const softRetry = selected.filter((x) => x.pri > -1000 && x.pri < 0);
+  const queue = spendable.length ? spendable : softRetry;
 
   // Parallel full-probe pool (speed toward 333/day within function time limits)
-  const CONCURRENCY = 8;
+  const CONCURRENCY = 10;
   const work = queue.slice(0, maxFullProbes + maxPreflightRejects);
   const out: ProbeResult[] = [];
   let gotCleanOk = false;

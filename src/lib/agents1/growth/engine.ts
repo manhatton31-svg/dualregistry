@@ -117,6 +117,222 @@ function purgeUnprobeable(state: GrowthState, notes: string[]): number {
   return dropped;
 }
 
+function normUrl(u?: string | null): string {
+  return (u || "").toLowerCase().trim().replace(/\/$/, "");
+}
+
+function candidateUrls(c: {
+  remote_url?: string;
+  agent_card_url?: string;
+  endpoint_url?: string;
+  website?: string;
+  mcp_url?: string;
+  target?: string;
+}): string[] {
+  return [
+    c.remote_url,
+    c.agent_card_url,
+    c.endpoint_url,
+    c.mcp_url,
+    (c as { target?: string }).target,
+    c.website,
+  ]
+    .map(normUrl)
+    .filter(Boolean);
+}
+
+/**
+ * Drop already-Active clean listings from the discovery queue.
+ * They clog slots and get re-probed as "ok 38" with zero growth.
+ */
+async function purgeAlreadyClean(
+  state: GrowthState,
+  notes: string[],
+): Promise<{ cleanIds: Set<string>; cleanUrls: Set<string> }> {
+  const cleanIds = new Set<string>();
+  const cleanUrls = new Set<string>();
+  try {
+    const { loadCleanRegistry } = await import("../clean-registry");
+    const reg = await loadCleanRegistry();
+    for (const [id, it] of Object.entries(reg?.items || {})) {
+      cleanIds.add(id);
+      if (it?.id) cleanIds.add(it.id);
+      for (const u of candidateUrls(it as { target?: string })) cleanUrls.add(u);
+    }
+  } catch {
+    /* */
+  }
+  const before = state.candidates.length;
+  const keep: GrowthCandidate[] = [];
+  let marked = 0;
+  for (const c of state.candidates || []) {
+    const urls = candidateUrls(c);
+    const isClean =
+      cleanIds.has(c.id) ||
+      (c.store_id ? cleanIds.has(c.store_id) : false) ||
+      urls.some((u) => cleanUrls.has(u));
+    if (isClean) {
+      // Mark approved so we never rediscover as "queued"
+      c.status = "approved";
+      marked++;
+      continue;
+    }
+    // handshake:ok but not in clean yet → keep (raise may have failed once)
+    keep.push(c);
+  }
+  state.candidates = keep.slice(0, MAX_CANDIDATES);
+  if (marked > 0 || before !== keep.length) {
+    notes.push(
+      `purge-clean: removed ${before - keep.length} already-Active (clean floor ${cleanIds.size}) · queue now ${keep.length}`,
+    );
+  }
+  return { cleanIds, cleanUrls };
+}
+
+/**
+ * Refill discovery queue from harvest + official registry.
+ * Production probes ONLY call runProbeTick — without this, Active freezes at ~75.
+ */
+async function refillDiscoveryQueue(
+  state: GrowthState,
+  notes: string[],
+  opts?: { force?: boolean },
+): Promise<number> {
+  const { cleanIds, cleanUrls } = await purgeAlreadyClean(state, notes);
+  const neverClean = state.candidates.filter(
+    (c) =>
+      ["queued", "enriched", "deferred", "failed", "submitted"].includes(
+        c.status,
+      ) && hasProbeableSource(c),
+  ).length;
+  // Always refill when thin or forced (behind 333/day)
+  if (!opts?.force && neverClean >= 64) {
+    notes.push(`discover-refill: skip (queue already ${neverClean} not-yet-clean)`);
+    return 0;
+  }
+
+  const skipUrls = new Set<string>(cleanUrls);
+  for (const c of state.candidates) {
+    for (const u of candidateUrls(c)) skipUrls.add(u);
+  }
+
+  let added = 0;
+  try {
+    const disc = await discoverCandidates({
+      agentPriority: false,
+      mcpPriority: false,
+      skipUrls,
+      max: 400,
+    });
+    const queuedKeys = new Set(state.candidates.map((c) => candidateKey(c)));
+    const queuedIds = new Set(
+      state.candidates.flatMap((c) =>
+        [c.id, c.store_id].filter(Boolean) as string[],
+      ),
+    );
+    for (const c of disc.candidates || []) {
+      if (!hasProbeableSource(c)) continue;
+      if (cleanIds.has(c.id) || (c.store_id && cleanIds.has(c.store_id))) continue;
+      if (candidateUrls(c).some((u) => cleanUrls.has(u))) continue;
+      const k = candidateKey(c);
+      if (queuedKeys.has(k) || queuedIds.has(c.id)) continue;
+      // Allow re-queue even if in seen_keys when not clean — seen_keys was permanent
+      // death for failed first probes and froze Active. Only block exact queue dupes.
+      queuedKeys.add(k);
+      queuedIds.add(c.id);
+      state.candidates.unshift(c);
+      if (!state.seen_keys.includes(k)) state.seen_keys.push(k);
+      added++;
+    }
+    for (const n of disc.notes || []) notes.push(n);
+    notes.push(
+      `discover-refill: +${added} never-clean probeable (queue ${state.candidates.length})`,
+    );
+  } catch (e) {
+    notes.push(
+      `discover-refill: ${e instanceof Error ? e.message : String(e)}`,
+    );
+  }
+
+  // Also inject probeable store-cache rows not yet clean (different ID scheme)
+  try {
+    const { loadStoreCache } = await import("../store-cache");
+    const cache = await loadStoreCache();
+    const queuedIds = new Set(
+      state.candidates.flatMap((c) =>
+        [c.id, c.store_id].filter(Boolean) as string[],
+      ),
+    );
+    let storeAdded = 0;
+    const ts = new Date().toISOString();
+    for (const m of cache.mcp_items || []) {
+      if (!m?.id || cleanIds.has(m.id) || queuedIds.has(m.id)) continue;
+      if (!m.remote_url && !m.website) continue;
+      if (!hasProbeableSource(m)) continue;
+      if (candidateUrls(m).some((u) => cleanUrls.has(u))) continue;
+      state.candidates.unshift({
+        id: m.id,
+        kind: "mcp",
+        name: m.name || m.id,
+        description: m.description || `${m.name || m.id} MCP from store cache`,
+        repository: m.repository,
+        website: m.website,
+        remote_url: m.remote_url,
+        author: m.author,
+        source: "store-cache-refill",
+        status: "queued",
+        attempts: 0,
+        discovered_at: ts,
+        updated_at: ts,
+        store_id: m.id,
+        quality_hints: ["probeable", "store-cache"],
+      });
+      queuedIds.add(m.id);
+      storeAdded++;
+      if (storeAdded >= 80) break;
+    }
+    let agentAdded = 0;
+    for (const a of cache.agent_items || []) {
+      if (!a?.id || cleanIds.has(a.id) || queuedIds.has(a.id)) continue;
+      if (!hasProbeableSource(a)) continue;
+      if (candidateUrls(a).some((u) => cleanUrls.has(u))) continue;
+      state.candidates.unshift({
+        id: a.id,
+        kind: "agent",
+        name: a.name || a.id,
+        description: a.description || `${a.name || a.id} agent from store cache`,
+        repository: a.repository,
+        website: a.website,
+        agent_card_url: a.agent_card_url,
+        endpoint_url: a.endpoint_url,
+        author: a.author,
+        source: "store-cache-refill",
+        status: "queued",
+        attempts: 0,
+        discovered_at: ts,
+        updated_at: ts,
+        store_id: a.id,
+        quality_hints: ["probeable", "store-cache"],
+      });
+      queuedIds.add(a.id);
+      agentAdded++;
+      if (agentAdded >= 80) break;
+    }
+    if (storeAdded + agentAdded > 0) {
+      notes.push(
+        `store-refill: +${storeAdded} mcp · +${agentAdded} agents never-clean`,
+      );
+      added += storeAdded + agentAdded;
+    }
+  } catch (e) {
+    notes.push(`store-refill: ${e instanceof Error ? e.message : String(e)}`);
+  }
+
+  // Cap queue — prefer never-probed / never-clean
+  state.candidates = state.candidates.slice(0, MAX_CANDIDATES);
+  return added;
+}
+
 async function applyHandshakeProbes(
   state: GrowthState,
   run: { notes: string[] },
@@ -134,15 +350,43 @@ async function applyHandshakeProbes(
       /* */
     }
 
+    // Also skip by target URL so ID-scheme mismatches cannot re-burn clean
+    const cleanUrls = new Set<string>();
+    try {
+      const { loadCleanRegistry } = await import("../clean-registry");
+      const reg2 = await loadCleanRegistry();
+      for (const it of Object.values(reg2?.items || {})) {
+        const t = (it?.target || "").toLowerCase().replace(/\/$/, "");
+        if (t) cleanUrls.add(t);
+      }
+    } catch {
+      /* */
+    }
+    const isAlreadyClean = (c: GrowthCandidate) => {
+      if (cleanIds.has(c.id) || (c.store_id && cleanIds.has(c.store_id)))
+        return true;
+      for (const u of [
+        c.remote_url,
+        c.agent_card_url,
+        c.endpoint_url,
+        c.mcp_url,
+      ]) {
+        const n = (u || "").toLowerCase().replace(/\/$/, "");
+        if (n && cleanUrls.has(n)) return true;
+      }
+      return false;
+    };
+
     // Probe candidates only when we have a real card/endpoint at the source we found.
+    // Never include already-Active — discovery budget is for NEW clean only.
     const probeTargets: PT[] = state.candidates
       .filter((c) =>
-        ["queued", "enriched", "deferred", "failed", "approved", "submitted"].includes(
+        ["queued", "enriched", "deferred", "failed", "submitted"].includes(
           c.status,
         ),
       )
       .filter((c) => hasProbeableSource(c))
-      .filter((c) => !cleanIds.has(c.id) && !(c.store_id && cleanIds.has(c.store_id)))
+      .filter((c) => !isAlreadyClean(c))
       .map((c) => {
         const dirty =
           c.status === "failed" ||
@@ -335,7 +579,11 @@ async function applyHandshakeProbes(
       const hints = new Set(c.quality_hints || []);
       for (const s of pr.protocol_hints) hints.add(`proto:${s}`);
       if (pr.namespace_verified) hints.add("ns:verified");
-      if (pr.handshake === "ok") hints.add("handshake:ok");
+      if (pr.handshake === "ok") {
+        hints.add("handshake:ok");
+        // Already raised into clean-registry — leave discovery queue
+        c.status = "approved";
+      }
       // Do NOT permanent-reject on first fail — that emptied the queue and froze Active at ~75.
       if (pr.handshake === "fail") {
         hints.add("handshake:fail");
@@ -409,7 +657,7 @@ async function applyHandshakeProbes(
   }
 }
 
-/** Probe-only tick — high volume toward CLEAN_GROWTH_TARGET_PER_DAY */
+/** Probe tick — refill never-clean discovery then high-volume probes toward 333/day */
 export async function runProbeTick(opts?: { max?: number }): Promise<{
   ok: boolean;
   probed: number;
@@ -425,14 +673,35 @@ export async function runProbeTick(opts?: { max?: number }): Promise<{
     probed_at?: string;
   } | null;
 }> {
-  const { PROBES_PER_TICK } = await import("@/lib/agents1/probe");
+  const { PROBES_PER_TICK, CLEAN_GROWTH_TARGET_PER_DAY } = await import(
+    "@/lib/agents1/probe"
+  );
   const state = await loadState();
   const notes: string[] = [];
   purgeUnprobeable(state, notes);
+  await purgeAlreadyClean(state, notes);
+
+  // Production only hits this path (Actions → /api/cron/probe). Must discover here.
+  let behind = true;
+  try {
+    const { loadCleanRegistry } = await import("../clean-registry");
+    const reg = await loadCleanRegistry();
+    const total = reg?.counts?.total || Object.keys(reg?.items || {}).length;
+    behind = total < CLEAN_GROWTH_TARGET_PER_DAY;
+    notes.push(
+      `clean floor ${total} · target ${CLEAN_GROWTH_TARGET_PER_DAY}/day · behind=${behind}`,
+    );
+  } catch {
+    notes.push("clean floor unknown — treating as behind target");
+  }
+  await refillDiscoveryQueue(state, notes, { force: behind });
+  await saveState(state); // persist new queue before long probe so crash keeps progress
+
   const before = await loadProbeState();
   const usedBefore = before.used || 0;
   await applyHandshakeProbes(state, { notes }, opts?.max ?? PROBES_PER_TICK);
 
+  await purgeAlreadyClean(state, notes);
   purgeUnprobeable(state, notes);
   await saveState(state);
   try {
@@ -597,14 +866,23 @@ export async function runGrowthCycle(opts?: {
         });
 
         let skippedNoUrl = 0;
+        // Drop already-Active before enqueue so seen_keys cannot trap us
+        await purgeAlreadyClean(state, run.notes);
+        const queuedKeys = new Set(state.candidates.map((c) => candidateKey(c)));
         for (const c of disc.candidates || []) {
           if (!hasProbeableSource(c)) {
             skippedNoUrl++;
             continue;
           }
           const k = candidateKey(c);
-          if (state.seen_keys.includes(k)) continue;
-          state.seen_keys.push(k);
+          // Only skip exact queue duplicates — NOT permanent seen_keys death
+          if (queuedKeys.has(k)) continue;
+          if (state.seen_keys.includes(k)) {
+            // Allow re-queue if not currently Active and not in queue
+            // (seen_keys alone previously froze growth after first fail wave)
+          }
+          if (!state.seen_keys.includes(k)) state.seen_keys.push(k);
+          queuedKeys.add(k);
           state.candidates.unshift(c);
           run.discovered++;
         }
