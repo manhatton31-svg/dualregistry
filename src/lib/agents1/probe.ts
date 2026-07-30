@@ -1103,6 +1103,23 @@ export async function runProbeBudgeted(
       else state.weekly.demoted += 1;
     }
 
+    if (result.handshake === "ok" && result.ok) {
+      try {
+        const { raiseClean } = await import("./clean-registry");
+        await raiseClean({
+          id: item.store_id || item.id,
+          kind: (kind === "agent" ? "agent" : "mcp") as "agent" | "mcp",
+          name: item.name || item.id,
+          target: result.target,
+          probed_at: result.probed_at,
+          score: result.score,
+          handshake: "ok",
+        });
+      } catch {
+        /* */
+      }
+    }
+
     // FAIL / PARTIAL → delist + permanent block (never probe again)
     if (
       result.handshake === "fail" ||
@@ -1110,6 +1127,12 @@ export async function runProbeBudgeted(
       !result.ok
     ) {
       if (result.handshake !== "skip") {
+        try {
+          const { removeCleanOnFail } = await import("./clean-registry");
+          await removeCleanOnFail(item.store_id || item.id);
+        } catch {
+          /* */
+        }
         try {
           const { delistOnProbeFail } = await import("./delist-on-fail");
           const del = await delistOnProbeFail({
@@ -1283,6 +1306,22 @@ export async function runProbeBudgeted(
       agents: liveFloor.agents,
       at: liveFloor.at,
     };
+    // Single public clean floor — absorb all ok, drop only explicit fails
+    try {
+      const { syncCleanFromProbeResults } = await import("./clean-registry");
+      const clean = await syncCleanFromProbeResults(state.results || {});
+      // Align live snapshot upward to clean floor (never down)
+      if (clean.counts.total > (state.live_active_snapshot?.total || 0)) {
+        state.live_active_snapshot = {
+          total: clean.counts.total,
+          mcp: clean.counts.mcp,
+          agents: clean.counts.agents,
+          at: clean.updated_at,
+        };
+      }
+    } catch {
+      /* */
+    }
     try {
       const { delistStats } = await import("./delist-on-fail");
       const ds = await delistStats();

@@ -180,11 +180,25 @@ function classify(
       checks_clean: false,
     };
   }
+  // Age alone NEVER demotes clean. Weekly recheck will refresh; fail removes.
+  // Stale probe-ok stays Active until a later probe fails.
   if (age > ACTIVE_PROBE_MAX_AGE_MS) {
+    const talkStale = evaluateTalkEligibility(
+      item.id,
+      probe.probed_at,
+      talkPresence,
+    );
     return {
-      lane: "discovered",
-      reason: "Was probe-ok but stale — re-probe to return to active",
+      lane: "active",
+      reason: `Active — probe ok (recheck pending · ${Math.round(age / 86400_000)}d since last ok)`,
       checks_clean: true,
+      talk: {
+        required: true,
+        active: true,
+        mode: talkStale.mode,
+        last_at: talkStale.last_at,
+        reason: talkStale.reason,
+      },
     };
   }
 
@@ -611,7 +625,8 @@ export async function getLanedListings(): Promise<{
       const target = r.target || "";
       if (have.has(r.id) || (target && have.has(target))) continue;
       const age = Date.now() - Date.parse(r.probed_at || "");
-      if (!Number.isFinite(age) || age > ACTIVE_PROBE_MAX_AGE_MS) continue;
+      // Age alone never excludes clean mirror rows
+      if (!Number.isFinite(age)) continue;
       const kind = (r.kind === "agent" ? "agent" : "mcp") as "agent" | "mcp";
       const talk = evaluateTalkEligibility(
         r.id,
@@ -683,6 +698,63 @@ export async function getLanedListings(): Promise<{
     };
     mcp_active = dedupe(mcp_active);
     agents_active = dedupe(agents_active);
+  }
+
+  // SINGLE FLOOR: clean-registry is authoritative — never thinner than durable clean set
+  try {
+    const {
+      loadCleanRegistry,
+      listCleanItems,
+    } = await import("./clean-registry");
+    const floor = await loadCleanRegistry();
+    const haveIds = new Set(
+      [...mcp_active, ...agents_active].map((r) => r.id),
+    );
+    for (const c of listCleanItems(floor)) {
+      if (haveIds.has(c.id)) continue;
+      const age = Date.now() - Date.parse(c.probed_at || "");
+      const talk = evaluateTalkEligibility(
+        c.id,
+        c.probed_at,
+        talkMap[c.id],
+      );
+      const row: LanedListing = {
+        id: c.id,
+        kind: c.kind,
+        name: c.name || c.id,
+        website: c.target || undefined,
+        remote_url: c.kind === "mcp" ? c.target : undefined,
+        agent_card_url: c.kind === "agent" ? c.target : undefined,
+        lane: "active",
+        lane_reason: "Active — durable clean-registry floor (probe ok)",
+        checks_clean: true,
+        talk: {
+          required: true,
+          active: true,
+          mode: talk.mode,
+          last_at: talk.last_at,
+          reason: talk.reason,
+        },
+        probe: {
+          ok: true,
+          handshake: "ok",
+          score: c.score || 0,
+          probed_at: c.probed_at,
+          target: c.target,
+          age_hours: Number.isFinite(age) ? age / 3600_000 : undefined,
+        },
+        source: "mirror",
+        safety_score: c.score || 50,
+      };
+      if (c.kind === "mcp") mcp_active.push(row);
+      else agents_active.push(row);
+      haveIds.add(c.id);
+    }
+    // Re-sort after floor union
+    mcp_active = mcp_active.sort(sortFn);
+    agents_active = agents_active.sort(sortFn);
+  } catch {
+    /* floor optional until first sync */
   }
 
   let categories: {

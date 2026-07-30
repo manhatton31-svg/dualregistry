@@ -224,6 +224,19 @@ async function runTick() {
     floorsRaw = null;
   }
   let liveCountersRaw: string | null = null;
+  let cleanRaw: string | null = null;
+  try {
+    const { syncCleanFromProbeResults } = await import("@/lib/agents1/clean-registry");
+    const clean = await syncCleanFromProbeResults(state.results || {});
+    cleanRaw = JSON.stringify(clean, null, 2);
+    await writeFile(join(dataRoot(), "clean-registry.json"), cleanRaw, "utf8").catch(() => undefined);
+  } catch {
+    try {
+      cleanRaw = await readDurableRaw("clean-registry.json");
+    } catch {
+      cleanRaw = null;
+    }
+  }
   try {
     const { raiseLiveCounters } = await import("@/lib/agents1/live-counter");
     const c = await raiseLiveCounters({
@@ -265,6 +278,7 @@ async function runTick() {
       "data/prod/delisted.json": delistRaw,
       "data/prod/counter-floors.json": floorsRaw,
       "data/prod/live-counters.json": liveCountersRaw,
+      "data/prod/clean-registry.json": cleanRaw,
       "data/prod/store-cache.json": cacheRaw
         ? // trim huge caches for commit size — keep counts + recent items
           (() => {
