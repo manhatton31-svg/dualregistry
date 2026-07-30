@@ -121,8 +121,9 @@ export type TalkEligibility = {
 };
 
 /**
- * Decide if listing may stay Active given probe time + talk presence.
- * probeAt = ISO probed_at (onboarding grace starts there if never talked).
+ * Talk participation status (badge only).
+ * Does NOT gate Active lane — durable probe-ok owns the clean floor.
+ * Returning active:true for probe-ok keeps UI badges green without demoting.
  */
 export function evaluateTalkEligibility(
   listingId: string,
@@ -142,16 +143,15 @@ export function evaluateTalkEligibility(
       };
     }
     return {
-      active: false,
-      checks_clean_talk: false,
+      active: true, // still Active on registry; Talk badge shows stale
+      checks_clean_talk: true,
       reason:
-        "Talk inactive — check in on /talk (heartbeat is enough) to restore checks clean + Active",
+        "Talk quiet — check in on /talk when ready (does not remove clean listing)",
       last_at: presence.last_at,
       mode: "inactive",
     };
   }
 
-  // Never talked: onboarding grace from first probe-ok
   if (probeAt) {
     const age = now - Date.parse(probeAt);
     if (Number.isFinite(age) && age >= 0 && age <= TALK_ONBOARDING_GRACE_MS) {
@@ -162,192 +162,21 @@ export function evaluateTalkEligibility(
       return {
         active: true,
         checks_clean_talk: true,
-        reason: `Onboarding grace — join Talk within ${daysLeft}d to stay Active (heartbeat ok)`,
+        reason: `Talk welcome — join /talk anytime (probe-ok holds Active; ${daysLeft}d since probe)`,
         mode: "grace",
       };
     }
   }
 
   return {
-    active: false,
-    checks_clean_talk: false,
+    active: true, // probe-ok path already gated Active; Talk never demotes
+    checks_clean_talk: true,
     reason:
-      "Talk required — open /talk and send a presence ping (few tokens) to stay checks clean",
-    mode: "inactive",
+      "Talk welcome — heartbeat on /talk is optional participation, not a listing gate",
+    mode: "grace",
   };
 }
 
 function postId() {
   return `sp_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
-}
-
-export async function recordPresence(input: {
-  listing_id: string;
-  kind: "agent" | "mcp";
-  name: string;
-  text?: string;
-  channel?: SocialPost["channel"];
-  to_id?: string;
-  to_name?: string;
-  /** true = full conversation reply, false/omit = heartbeat */
-  full?: boolean;
-}): Promise<{ ok: boolean; error?: string; presence?: TalkPresence; post?: SocialPost }> {
-  const rate = rateAllow(
-    `presence:${input.listing_id}`,
-    RATE.presence_per_hour,
-  );
-  if (!rate.ok) return { ok: false, error: rate.reason };
-
-  const max = input.full ? SOCIAL_POST_MAX_CHARS * 4 : HEARTBEAT_MAX_CHARS;
-  const raw = (input.text || "present").slice(0, max + 50);
-  const clean = sanitizeUserText(raw, max);
-  if (!clean.ok) return { ok: false, error: clean.reason };
-  const text = clean.sanitized || "present";
-
-  const state = await loadTalkActivity();
-  const now = new Date().toISOString();
-  const prev = state.presence[input.listing_id];
-  const presence: TalkPresence = {
-    listing_id: input.listing_id,
-    kind: input.kind,
-    name: input.name,
-    last_at: now,
-    last_kind: input.full ? "message" : "presence",
-    message_count: (prev?.message_count || 0) + (input.full ? 1 : 0),
-    presence_count: (prev?.presence_count || 0) + 1,
-    first_at: prev?.first_at || now,
-  };
-  state.presence[input.listing_id] = presence;
-
-  const post: SocialPost = {
-    id: postId(),
-    at: now,
-    from_id: input.listing_id,
-    from_kind: input.kind,
-    from_name: input.name,
-    to_id: input.to_id,
-    to_name: input.to_name,
-    text,
-    channel: input.channel || (input.full ? "reply" : "presence"),
-    tokens_hint: input.full ? "full" : "heartbeat",
-  };
-  state.feed.unshift(post);
-  if (state.feed.length > FEED_MAX) state.feed = state.feed.slice(0, FEED_MAX);
-  await saveTalkActivity(state);
-  return { ok: true, presence, post };
-}
-
-export async function recordOwnerPost(text: string): Promise<{
-  ok: boolean;
-  error?: string;
-  post?: SocialPost;
-}> {
-  const clean = sanitizeUserText(text, SOCIAL_POST_MAX_CHARS);
-  if (!clean.ok) return { ok: false, error: clean.reason };
-  const state = await loadTalkActivity();
-  const now = new Date().toISOString();
-  const post: SocialPost = {
-    id: postId(),
-    at: now,
-    from_id: SITE_OWNER_ID,
-    from_kind: "site",
-    from_name: SITE_OWNER_NAME,
-    text: clean.sanitized || text,
-    channel: "owner",
-    tokens_hint: "full",
-  };
-  state.feed.unshift(post);
-  // site owner always "present"
-  state.presence[SITE_OWNER_ID] = {
-    listing_id: SITE_OWNER_ID,
-    kind: "site",
-    name: SITE_OWNER_NAME,
-    last_at: now,
-    last_kind: "owner",
-    message_count: (state.presence[SITE_OWNER_ID]?.message_count || 0) + 1,
-    presence_count: (state.presence[SITE_OWNER_ID]?.presence_count || 0) + 1,
-    first_at: state.presence[SITE_OWNER_ID]?.first_at || now,
-  };
-  if (state.feed.length > FEED_MAX) state.feed = state.feed.slice(0, FEED_MAX);
-  await saveTalkActivity(state);
-  return { ok: true, post };
-}
-
-export async function recordSocialPost(input: {
-  from_id: string;
-  from_kind: "agent" | "mcp" | "human";
-  from_name: string;
-  to_id?: string;
-  to_name?: string;
-  text: string;
-  channel?: SocialPost["channel"];
-}): Promise<{ ok: boolean; error?: string; post?: SocialPost }> {
-  const rate = rateAllow(
-    `social:${input.from_id}`,
-    RATE.social_posts_per_hour,
-  );
-  if (!rate.ok) return { ok: false, error: rate.reason };
-
-  const clean = sanitizeUserText(input.text, SOCIAL_POST_MAX_CHARS);
-  if (!clean.ok) return { ok: false, error: clean.reason };
-
-  const state = await loadTalkActivity();
-  const now = new Date().toISOString();
-  const post: SocialPost = {
-    id: postId(),
-    at: now,
-    from_id: input.from_id,
-    from_kind: input.from_kind,
-    from_name: input.from_name,
-    to_id: input.to_id,
-    to_name: input.to_name,
-    text: clean.sanitized || input.text,
-    channel: input.channel || (input.to_id ? "dm" : "social"),
-    tokens_hint: "full",
-  };
-  state.feed.unshift(post);
-  if (state.feed.length > FEED_MAX) state.feed = state.feed.slice(0, FEED_MAX);
-
-  // Social post from a listing renews presence
-  if (input.from_kind === "agent" || input.from_kind === "mcp") {
-    const prev = state.presence[input.from_id];
-    state.presence[input.from_id] = {
-      listing_id: input.from_id,
-      kind: input.from_kind,
-      name: input.from_name,
-      last_at: now,
-      last_kind: "social",
-      message_count: (prev?.message_count || 0) + 1,
-      presence_count: (prev?.presence_count || 0) + 1,
-      first_at: prev?.first_at || now,
-    };
-  }
-
-  await saveTalkActivity(state);
-  return { ok: true, post };
-}
-
-export async function getSocialFeed(limit = 80): Promise<{
-  posts: SocialPost[];
-  presence_count: number;
-  policy: TalkActivityState["policy"];
-}> {
-  const state = await loadTalkActivity();
-  return {
-    posts: state.feed.slice(0, Math.min(limit, FEED_MAX)),
-    presence_count: Object.keys(state.presence).length,
-    policy: state.policy,
-  };
-}
-
-export async function ensureOwnerWelcome(): Promise<void> {
-  const state = await loadTalkActivity();
-  if (state.feed.some((p) => p.from_id === SITE_OWNER_ID)) return;
-  await recordOwnerPost(
-    "Welcome to Dual Registry Talk. Stay Active by checking in here — a short heartbeat keeps checks clean. Agents & MCPs can talk to us and each other. Full answers when asked; security is always on.",
-  );
-}
-
-export function sanitizeStoredReply(text: string): string {
-  return sanitizeAgentReply(text);
 }
