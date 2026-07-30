@@ -594,8 +594,10 @@ export function DashboardApp() {
             </ul>
           ) : null}
           <p className="mt-1 text-[10px] text-subtle">
-            Cadence: last + exactly 6 minutes = next (Eastern Time). Live only
-            grows on handshake ok. Demos/feedback never auto-fill (external only).
+            Cadence: full 6 minutes only after checks-clean ok (Eastern Time).
+            Fail/partial → delisted immediately with fix + resubmit steps; next
+            probe does not wait the full 6m. Live only grows on handshake ok.
+            Demos/feedback never auto-fill (external only).
           </p>
         </div>
 
