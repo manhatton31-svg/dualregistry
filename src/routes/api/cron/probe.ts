@@ -138,6 +138,25 @@ async function runTick() {
   } catch {
     floorsRaw = null;
   }
+  let liveCountersRaw: string | null = null;
+  try {
+    const { raiseLiveCounters } = await import("@/lib/agents1/live-counter");
+    const c = await raiseLiveCounters({
+      probes_used: state.used,
+      live_ok: live.total,
+      live_mcp: live.mcp,
+      live_agents: live.agents,
+    });
+    // clamp used_today to live counter
+    state.used = Math.max(state.used, c.probes_used || 0);
+    liveCountersRaw = JSON.stringify(c, null, 2);
+  } catch {
+    try {
+      liveCountersRaw = await readDurableRaw("live-counters.json");
+    } catch {
+      liveCountersRaw = null;
+    }
+  }
 
   const oks = live.total;
 
@@ -159,6 +178,7 @@ async function runTick() {
       "data/prod/growth-state.json": growthRaw,
       "data/prod/delisted.json": delistRaw,
       "data/prod/counter-floors.json": floorsRaw,
+      "data/prod/live-counters.json": liveCountersRaw,
       "data/prod/store-cache.json": cacheRaw
         ? // trim huge caches for commit size — keep counts + recent items
           (() => {

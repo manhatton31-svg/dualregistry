@@ -51,15 +51,12 @@ jobs:
             sys.exit(0)
           commit = d.get("commit") or {}
 
-          def max_merge_probes(existing: dict, incoming: dict) -> dict:
+          def max_merge_probes(existing, incoming):
               day = incoming.get("day") or existing.get("day")
               out = {**existing, **incoming}
               out["day"] = day
-              # used high-water
               used = max(int(existing.get("used") or 0), int(incoming.get("used") or 0))
-              # floor to unique primary probes today
-              results = {**(existing.get("results") or {}), **(incoming.get("results") or {})}
-              # prefer newer result per key
+              results = {**(existing.get("results") or {})}
               for k, r in (incoming.get("results") or {}).items():
                   prev = results.get(k)
                   if not prev or (r.get("probed_at") or "") >= (prev.get("probed_at") or ""):
@@ -68,15 +65,13 @@ jobs:
               for k,r in results.items():
                   if k.startswith("name:") or k.startswith("url:"): continue
                   if not (r.get("probed_at") or "").startswith(day or ""): continue
-                  # skip pure preflight rejects for budget floor
-                  if any("preflight-reject" in str(s) for s in (r.get("signals") or [])):
-                      continue
+                  if any("preflight-reject" in str(s) for s in (r.get("signals") or [])): continue
+                  if any("bulk-prefilter" in str(s) for s in (r.get("signals") or [])): continue
                   uid=str(r.get("id") or k)
                   if uid in seen: continue
                   seen.add(uid); today+=1
               out["used"] = max(used, today)
               out["results"] = results
-              # live high-water
               la = existing.get("live_active_snapshot") or {}
               lb = incoming.get("live_active_snapshot") or {}
               out["live_active_snapshot"] = {
@@ -85,13 +80,12 @@ jobs:
                   "agents": max(int(la.get("agents") or 0), int(lb.get("agents") or 0)),
                   "at": max(la.get("at") or "", lb.get("at") or ""),
               }
-              # timestamps: take newer
               for key in ("last_tick_at", "last_ok_tick_at", "updated_at"):
                   a, b = existing.get(key) or "", incoming.get(key) or ""
                   out[key] = a if a >= b else b
               return out
 
-          def max_merge_floors(existing: dict, incoming: dict) -> dict:
+          def max_merge_floors(existing, incoming):
               day = incoming.get("day") or existing.get("day")
               out = {**existing, **incoming}
               out["day"] = day
@@ -100,7 +94,6 @@ jobs:
                   used = max(used, int(existing.get("used_floor") or 0))
               if incoming.get("day") == day:
                   used = max(used, int(incoming.get("used_floor") or 0))
-              # also max with tick used_today
               used = max(used, int(d.get("used_today") or 0))
               out["used_floor"] = used
               la = existing.get("live_floor") or {}
@@ -111,17 +104,29 @@ jobs:
                   "agents": max(int(la.get("agents") or 0), int(lb.get("agents") or 0)),
                   "at": max(la.get("at") or "", lb.get("at") or ""),
               }
-              out["delisted_floor"] = max(
-                  int(existing.get("delisted_floor") or 0),
-                  int(incoming.get("delisted_floor") or 0),
-              )
+              out["delisted_floor"] = max(int(existing.get("delisted_floor") or 0), int(incoming.get("delisted_floor") or 0))
               bu = list(set((existing.get("blocked_urls") or []) + (incoming.get("blocked_urls") or [])))
               bi = list(set((existing.get("blocked_ids") or []) + (incoming.get("blocked_ids") or [])))
               out["blocked_urls"] = bu[:5000]
               out["blocked_ids"] = bi[:5000]
               return out
 
-          def max_merge_delisted(existing: dict, incoming: dict) -> dict:
+          def max_merge_live_counters(existing, incoming):
+              day = incoming.get("day") or existing.get("day")
+              out = {**existing, **incoming}
+              out["day"] = day
+              used = 0
+              if existing.get("day") == day:
+                  used = max(used, int(existing.get("probes_used") or 0))
+              if incoming.get("day") == day:
+                  used = max(used, int(incoming.get("probes_used") or 0))
+              used = max(used, int(d.get("used_today") or 0))
+              out["probes_used"] = used
+              for k in ("live_ok", "live_mcp", "live_agents", "delisted_count"):
+                  out[k] = max(int(existing.get(k) or 0), int(incoming.get(k) or 0))
+              return out
+
+          def max_merge_delisted(existing, incoming):
               by = {}
               for src in (existing, incoming):
                   for it in (src.get("items") or []):
@@ -152,23 +157,24 @@ jobs:
                       existing = json.loads(path.read_text())
                   except Exception:
                       existing = {}
+              if not isinstance(existing, dict):
+                  existing = {}
               if rel.endswith("probes.json"):
-                  merged = max_merge_probes(existing if isinstance(existing, dict) else {}, incoming)
+                  merged = max_merge_probes(existing, incoming)
               elif rel.endswith("counter-floors.json"):
-                  merged = max_merge_floors(existing if isinstance(existing, dict) else {}, incoming)
+                  merged = max_merge_floors(existing, incoming)
+              elif rel.endswith("live-counters.json"):
+                  merged = max_merge_live_counters(existing, incoming)
               elif rel.endswith("delisted.json"):
-                  merged = max_merge_delisted(existing if isinstance(existing, dict) else {}, incoming)
+                  merged = max_merge_delisted(existing, incoming)
               else:
-                  # default: prefer incoming if larger json else keep both keys max for known counters
-                  merged = {**(existing if isinstance(existing, dict) else {}), **incoming}
+                  merged = {**existing, **incoming}
               path.write_text(json.dumps(merged, indent=2))
-              print("wrote", rel, "bytes", path.stat().st_size,
-                    "used" if "used" in merged else "floor",
-                    merged.get("used", merged.get("used_floor", "")))
+              print("wrote", rel, "bytes", path.stat().st_size)
 
-          # Ensure counter-floors used_floor >= probes used and tick used_today
           floors_path = pathlib.Path("data/prod/counter-floors.json")
           probes_path = pathlib.Path("data/prod/probes.json")
+          live_path = pathlib.Path("data/prod/live-counters.json")
           if probes_path.exists():
               probes = json.loads(probes_path.read_text())
               floors = json.loads(floors_path.read_text()) if floors_path.exists() else {
@@ -176,27 +182,39 @@ jobs:
                   "live_floor": {"total":0,"mcp":0,"agents":0,"at":""},
                   "delisted_floor": 0, "blocked_urls": [], "blocked_ids": []
               }
+              livec = json.loads(live_path.read_text()) if live_path.exists() else {
+                  "day": probes.get("day"), "probes_used": 0, "live_ok": 0,
+                  "live_mcp": 0, "live_agents": 0, "delisted_count": 0
+              }
               day = probes.get("day")
-              floors["day"] = day
-              floors["used_floor"] = max(
+              max_used = max(
                   int(floors.get("used_floor") or 0),
                   int(probes.get("used") or 0),
+                  int(livec.get("probes_used") or 0),
                   int(d.get("used_today") or 0),
               )
+              floors["day"] = day
+              floors["used_floor"] = max_used
               live = probes.get("live_active_snapshot") or {}
               fl = floors.get("live_floor") or {}
               floors["live_floor"] = {
-                  "total": max(int(fl.get("total") or 0), int(live.get("total") or 0)),
-                  "mcp": max(int(fl.get("mcp") or 0), int(live.get("mcp") or 0)),
-                  "agents": max(int(fl.get("agents") or 0), int(live.get("agents") or 0)),
+                  "total": max(int(fl.get("total") or 0), int(live.get("total") or 0), int(livec.get("live_ok") or 0)),
+                  "mcp": max(int(fl.get("mcp") or 0), int(live.get("mcp") or 0), int(livec.get("live_mcp") or 0)),
+                  "agents": max(int(fl.get("agents") or 0), int(live.get("agents") or 0), int(livec.get("live_agents") or 0)),
                   "at": max(fl.get("at") or "", live.get("at") or ""),
               }
               floors_path.parent.mkdir(parents=True, exist_ok=True)
               floors_path.write_text(json.dumps(floors, indent=2))
-              # probes used must match floor
-              probes["used"] = max(int(probes.get("used") or 0), int(floors["used_floor"]))
+              probes["used"] = max_used
               probes_path.write_text(json.dumps(probes, indent=2))
-              print("locked used_floor", floors["used_floor"], "probes.used", probes["used"])
+              livec["day"] = day
+              livec["probes_used"] = max_used
+              livec["live_ok"] = max(int(livec.get("live_ok") or 0), int(floors["live_floor"]["total"]))
+              livec["live_mcp"] = max(int(livec.get("live_mcp") or 0), int(floors["live_floor"]["mcp"]))
+              livec["live_agents"] = max(int(livec.get("live_agents") or 0), int(floors["live_floor"]["agents"]))
+              live_path.parent.mkdir(parents=True, exist_ok=True)
+              live_path.write_text(json.dumps(livec, indent=2))
+              print("locked used", max_used, "live", livec["live_ok"])
           print("probed", d.get("probed"), "used", d.get("used_today"), "live_ok", d.get("live_active_probe_ok"))
           PY
 
@@ -211,6 +229,5 @@ jobs:
             exit 0
           fi
           git commit -m "chore(prod): durable probe state (max-merge) $(date -u +%Y-%m-%dT%H:%MZ)"
-          # pull-rebase then push to reduce lost floors on concurrent commits
           git pull --rebase origin main || true
           git push

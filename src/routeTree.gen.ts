@@ -20,6 +20,7 @@ import { Route as AgentsPublicRouteImport } from './routes/agents/public'
 import { Route as AgentsSearchRouteImport } from './routes/agents/search'
 import { Route as ApiCatalogRouteImport } from './routes/api/catalog'
 import { Route as ApiCategoriesRouteImport } from './routes/api/categories'
+import { Route as ApiCountersRouteImport } from './routes/api/counters'
 import { Route as ApiDashboardRouteImport } from './routes/api/dashboard'
 import { Route as ApiGrowthRouteImport } from './routes/api/growth'
 import { Route as ApiListingLanesRouteImport } from './routes/api/listing-lanes'
@@ -120,6 +121,11 @@ const ApiCatalogRoute = ApiCatalogRouteImport.update({
 const ApiCategoriesRoute = ApiCategoriesRouteImport.update({
   id: '/api/categories',
   path: '/api/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCountersRoute = ApiCountersRouteImport.update({
+  id: '/api/counters',
+  path: '/api/counters',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDashboardRoute = ApiDashboardRouteImport.update({
@@ -363,6 +369,7 @@ export interface FileRoutesByFullPath {
   '/agents/search': typeof AgentsSearchRoute
   '/api/catalog': typeof ApiCatalogRoute
   '/api/categories': typeof ApiCategoriesRoute
+  '/api/counters': typeof ApiCountersRoute
   '/api/dashboard': typeof ApiDashboardRoute
   '/api/growth': typeof ApiGrowthRoute
   '/api/listing-lanes': typeof ApiListingLanesRoute
@@ -421,6 +428,7 @@ export interface FileRoutesByTo {
   '/agents/search': typeof AgentsSearchRoute
   '/api/catalog': typeof ApiCatalogRoute
   '/api/categories': typeof ApiCategoriesRoute
+  '/api/counters': typeof ApiCountersRoute
   '/api/dashboard': typeof ApiDashboardRoute
   '/api/growth': typeof ApiGrowthRoute
   '/api/listing-lanes': typeof ApiListingLanesRoute
@@ -480,6 +488,7 @@ export interface FileRoutesById {
   '/agents/search': typeof AgentsSearchRoute
   '/api/catalog': typeof ApiCatalogRoute
   '/api/categories': typeof ApiCategoriesRoute
+  '/api/counters': typeof ApiCountersRoute
   '/api/dashboard': typeof ApiDashboardRoute
   '/api/growth': typeof ApiGrowthRoute
   '/api/listing-lanes': typeof ApiListingLanesRoute
@@ -540,6 +549,7 @@ export interface FileRouteTypes {
     | '/agents/search'
     | '/api/catalog'
     | '/api/categories'
+    | '/api/counters'
     | '/api/dashboard'
     | '/api/growth'
     | '/api/listing-lanes'
@@ -598,6 +608,7 @@ export interface FileRouteTypes {
     | '/agents/search'
     | '/api/catalog'
     | '/api/categories'
+    | '/api/counters'
     | '/api/dashboard'
     | '/api/growth'
     | '/api/listing-lanes'
@@ -656,6 +667,7 @@ export interface FileRouteTypes {
     | '/agents/search'
     | '/api/catalog'
     | '/api/categories'
+    | '/api/counters'
     | '/api/dashboard'
     | '/api/growth'
     | '/api/listing-lanes'
@@ -715,6 +727,7 @@ export interface RootRouteChildren {
   AgentsSearchRoute: typeof AgentsSearchRoute
   ApiCatalogRoute: typeof ApiCatalogRoute
   ApiCategoriesRoute: typeof ApiCategoriesRoute
+  ApiCountersRoute: typeof ApiCountersRoute
   ApiDashboardRoute: typeof ApiDashboardRoute
   ApiGrowthRoute: typeof ApiGrowthRoute
   ApiListingLanesRoute: typeof ApiListingLanesRoute
@@ -838,6 +851,13 @@ declare module '@tanstack/react-router' {
       path: '/api/categories'
       fullPath: '/api/categories'
       preLoaderRoute: typeof ApiCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/counters': {
+      id: '/api/counters'
+      path: '/api/counters'
+      fullPath: '/api/counters'
+      preLoaderRoute: typeof ApiCountersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/dashboard': {
@@ -1180,6 +1200,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgentsSearchRoute: AgentsSearchRoute,
   ApiCatalogRoute: ApiCatalogRoute,
   ApiCategoriesRoute: ApiCategoriesRoute,
+  ApiCountersRoute: ApiCountersRoute,
   ApiDashboardRoute: ApiDashboardRoute,
   ApiGrowthRoute: ApiGrowthRoute,
   ApiListingLanesRoute: ApiListingLanesRoute,

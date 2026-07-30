@@ -2,22 +2,19 @@
  * Red-team: used/live floors never decrease under stale merge.
  * Run: node scripts/redteam-used-floor.mjs
  */
-function mergeFloors(a, b) {
+
+function mergeCounters(a, b) {
   const day = new Date().toISOString().slice(0, 10);
-  let used = 0;
-  if (a.day === day) used = Math.max(used, Number(a.used_floor) || 0);
-  if (b.day === day) used = Math.max(used, Number(b.used_floor) || 0);
+  let probes = 0;
+  if (a.day === day) probes = Math.max(probes, Number(a.probes_used) || 0);
+  if (b.day === day) probes = Math.max(probes, Number(b.probes_used) || 0);
   return {
     day,
-    used_floor: used,
-    live_floor: {
-      total: Math.max(a.live_floor?.total || 0, b.live_floor?.total || 0),
-      mcp: Math.max(a.live_floor?.mcp || 0, b.live_floor?.mcp || 0),
-      agents: Math.max(a.live_floor?.agents || 0, b.live_floor?.agents || 0),
-    },
-    delisted_floor: Math.max(
-      Number(a.delisted_floor) || 0,
-      Number(b.delisted_floor) || 0,
+    probes_used: probes,
+    live_ok: Math.max(Number(a.live_ok) || 0, Number(b.live_ok) || 0),
+    delisted_count: Math.max(
+      Number(a.delisted_count) || 0,
+      Number(b.delisted_count) || 0,
     ),
   };
 }
@@ -25,26 +22,26 @@ function mergeFloors(a, b) {
 const day = new Date().toISOString().slice(0, 10);
 const high = {
   day,
-  used_floor: 50,
-  live_floor: { total: 40, mcp: 20, agents: 20 },
-  delisted_floor: 100,
+  probes_used: 77,
+  live_ok: 42,
+  delisted_count: 287,
 };
 const stale = {
   day,
-  used_floor: 30,
-  live_floor: { total: 10, mcp: 5, agents: 5 },
-  delisted_floor: 20,
+  probes_used: 70,
+  live_ok: 10,
+  delisted_count: 50,
 };
 
-const m = mergeFloors(high, stale);
-const m2 = mergeFloors(stale, high);
+const m = mergeCounters(high, stale);
+const m2 = mergeCounters(stale, high);
 let ok =
-  m.used_floor >= 50 &&
-  m.live_floor.total >= 40 &&
-  m.delisted_floor >= 100 &&
-  m2.used_floor >= 50;
+  m.probes_used >= 77 &&
+  m2.probes_used >= 77 &&
+  m.live_ok >= 42 &&
+  m.delisted_count >= 287;
 
-// Simulate triple race: 77, then 76 write, then 75
+// Simulate race writes 77, 76, 75, 80, 79
 let floor = 0;
 for (const n of [77, 76, 75, 80, 79]) {
   floor = Math.max(floor, n);
@@ -58,7 +55,7 @@ console.log(
       merge_stale_reload: m,
       race_floor: floor,
       detail: ok
-        ? "PASS: used never drops below high-water under stale reload or race"
+        ? "PASS: probes_used never drops below high-water (77 vs stale 70)"
         : "FAIL",
     },
     null,

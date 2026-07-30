@@ -190,18 +190,23 @@ export async function registryCountsAfterDelist(base: {
     );
     const floors = await loadCounterFloors();
     delisted_total = Math.max(delisted_total, floors.delisted_floor || 0);
-    // If floor is higher than counted items (partial hydrate), scale mcp/agent
-    // proportionally so In Registry still shrinks
     if (delisted_total > dm + da && dm + da > 0) {
       const scale = delisted_total / (dm + da);
       dm = Math.round(dm * scale);
       da = Math.round(da * scale);
     } else if (delisted_total > dm + da) {
-      // no items yet — apply floor as total only
       dm = Math.max(dm, Math.floor(delisted_total / 2));
       da = Math.max(da, delisted_total - dm);
     }
     await raiseDelistedFloor(delisted_total);
+  } catch {
+    /* */
+  }
+  // Live counter single source of truth for delisted high-water
+  try {
+    const { raiseLiveCounters } = await import("./live-counter");
+    const c = await raiseLiveCounters({ delisted_count: delisted_total });
+    delisted_total = Math.max(delisted_total, c.delisted_count || 0);
   } catch {
     /* */
   }

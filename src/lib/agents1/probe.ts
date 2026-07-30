@@ -328,44 +328,50 @@ async function persist(s: ProbeState) {
   } catch {
     /* */
   }
-  // 2) Clamp to durable counter floors (absolute high-water)
+  // 2) Clamp to LIVE COUNTERS (Redis/GitHub CAS) + durable floors
   try {
-    const { loadCounterFloors, raiseUsedFloor, raiseLiveFloor } = await import(
-      "./counter-floors"
+    const { raiseLiveCounters, loadLiveCounters } = await import(
+      "./live-counter"
     );
-    const floors = await loadCounterFloors();
-    if (floors.day === s.day) {
-      s.used = Math.max(s.used, floors.used_floor || 0);
-    }
-    if (s.live_active_snapshot) {
-      s.live_active_snapshot = {
-        total: Math.max(
-          s.live_active_snapshot.total || 0,
-          floors.live_floor?.total || 0,
-        ),
-        mcp: Math.max(
-          s.live_active_snapshot.mcp || 0,
-          floors.live_floor?.mcp || 0,
-        ),
-        agents: Math.max(
-          s.live_active_snapshot.agents || 0,
-          floors.live_floor?.agents || 0,
-        ),
-        at: s.live_active_snapshot.at || new Date().toISOString(),
-      };
-    }
-    // Raise floors to match before any GitHub write
-    await raiseUsedFloor(s.used);
-    if (s.live_active_snapshot) {
-      await raiseLiveFloor(s.live_active_snapshot);
-    }
-    // Re-clamp after raise (another instance may have higher floor)
-    const floors2 = await loadCounterFloors();
-    if (floors2.day === s.day) {
-      s.used = Math.max(s.used, floors2.used_floor || 0);
-    }
+    const raised = await raiseLiveCounters({
+      probes_used: s.used,
+      live_ok: s.live_active_snapshot?.total || 0,
+      live_mcp: s.live_active_snapshot?.mcp || 0,
+      live_agents: s.live_active_snapshot?.agents || 0,
+    });
+    s.used = Math.max(s.used, raised.probes_used || 0);
+    s.live_active_snapshot = {
+      total: Math.max(
+        s.live_active_snapshot?.total || 0,
+        raised.live_ok || 0,
+      ),
+      mcp: Math.max(s.live_active_snapshot?.mcp || 0, raised.live_mcp || 0),
+      agents: Math.max(
+        s.live_active_snapshot?.agents || 0,
+        raised.live_agents || 0,
+      ),
+      at: new Date().toISOString(),
+    };
+    // re-load in case another instance raised higher during our write
+    const again = await loadLiveCounters();
+    s.used = Math.max(s.used, again.probes_used || 0);
   } catch {
-    /* */
+    // fallback floors only
+    try {
+      const { loadCounterFloors, raiseUsedFloor, raiseLiveFloor } = await import(
+        "./counter-floors"
+      );
+      const floors = await loadCounterFloors();
+      if (floors.day === s.day) {
+        s.used = Math.max(s.used, floors.used_floor || 0);
+      }
+      await raiseUsedFloor(s.used);
+      if (s.live_active_snapshot) {
+        await raiseLiveFloor(s.live_active_snapshot);
+      }
+    } catch {
+      /* */
+    }
   }
   mem = s;
   s.updated_at = new Date().toISOString();
@@ -1375,33 +1381,55 @@ export async function getProbePublic() {
     .slice(0, 10)
     .map(([reason, count]) => ({ reason, count }));
 
-  // Apply durable high-water floors so UI never flaps down
+  // Apply LIVE COUNTERS (Redis/GitHub CAS) — single source of truth
   let usedOut = s.used;
   let liveOut: { total: number; mcp: number; agents: number; at: string } =
     s.live_active_snapshot || {
       ...countLiveFromResults(s.results),
       at: new Date().toISOString(),
     };
+  let counterBackend = "local";
   try {
-    const { loadCounterFloors, raiseUsedFloor, raiseLiveFloor } = await import(
-      "./counter-floors"
+    const { loadLiveCounters, raiseLiveCounters } = await import(
+      "./live-counter"
     );
-    const floors = await loadCounterFloors();
-    usedOut = Math.max(s.used, floors.used_floor || 0);
-    if (usedOut > s.used) await raiseUsedFloor(usedOut);
-    liveOut = {
-      total: Math.max(liveOut.total || 0, floors.live_floor?.total || 0),
-      mcp: Math.max(liveOut.mcp || 0, floors.live_floor?.mcp || 0),
-      agents: Math.max(liveOut.agents || 0, floors.live_floor?.agents || 0),
-      at: liveOut.at || floors.live_floor?.at || new Date().toISOString(),
-    };
-    await raiseLiveFloor({
-      total: liveOut.total,
-      mcp: liveOut.mcp,
-      agents: liveOut.agents,
+    const raised = await raiseLiveCounters({
+      probes_used: Math.max(s.used, usedOut),
+      live_ok: liveOut.total,
+      live_mcp: liveOut.mcp,
+      live_agents: liveOut.agents,
     });
+    usedOut = Math.max(s.used, raised.probes_used || 0);
+    liveOut = {
+      total: Math.max(liveOut.total || 0, raised.live_ok || 0),
+      mcp: Math.max(liveOut.mcp || 0, raised.live_mcp || 0),
+      agents: Math.max(liveOut.agents || 0, raised.live_agents || 0),
+      at: liveOut.at || new Date().toISOString(),
+    };
+    counterBackend = raised.backend || "live-counter";
   } catch {
-    /* */
+    try {
+      const { loadCounterFloors, raiseUsedFloor, raiseLiveFloor } = await import(
+        "./counter-floors"
+      );
+      const floors = await loadCounterFloors();
+      usedOut = Math.max(s.used, floors.used_floor || 0);
+      if (usedOut > s.used) await raiseUsedFloor(usedOut);
+      liveOut = {
+        total: Math.max(liveOut.total || 0, floors.live_floor?.total || 0),
+        mcp: Math.max(liveOut.mcp || 0, floors.live_floor?.mcp || 0),
+        agents: Math.max(liveOut.agents || 0, floors.live_floor?.agents || 0),
+        at: liveOut.at || floors.live_floor?.at || new Date().toISOString(),
+      };
+      await raiseLiveFloor({
+        total: liveOut.total,
+        mcp: liveOut.mcp,
+        agents: liveOut.agents,
+      });
+      counterBackend = "counter-floors";
+    } catch {
+      /* */
+    }
   }
 
   return {
@@ -1430,7 +1458,8 @@ export async function getProbePublic() {
     live_active: liveOut,
     live_active_snapshot: liveOut,
     source_of_truth:
-      "durable counter-floors (high-water) + data/prod/probes.json",
+      "live-counter (Redis/Upstash or GitHub CAS) — high-water never decreases",
+    counter_backend: counterBackend,
     probe_worker: probe_worker
       ? {
           status: probe_worker.status,
