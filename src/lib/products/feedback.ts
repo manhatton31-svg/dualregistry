@@ -250,6 +250,31 @@ function recompute(s: FeedbackStore) {
 async function load(): Promise<FeedbackStore> {
   if (mem) return mem;
   try {
+    const { loadDurableJson } = await import("@/lib/agents1/durable-json");
+    const remote = await loadDurableJson<Partial<FeedbackStore>>(
+      "products-feedback.json",
+      () => ({}),
+    );
+    if (remote && Array.isArray(remote.items) && remote.items.length) {
+      mem = {
+        ...empty(),
+        ...remote,
+        items: remote.items || [],
+        discounts: remote.discounts || [],
+        insights: remote.insights || {},
+        summary: { ...empty().summary, ...(remote.summary || {}) },
+      };
+      try {
+        recompute(mem!);
+      } catch {
+        /* */
+      }
+      return mem!;
+    }
+  } catch {
+    /* */
+  }
+  try {
     const raw = await readFile(PATH, "utf8");
     const parsed = JSON.parse(raw) as FeedbackStore;
     mem = {
@@ -283,6 +308,20 @@ async function persist(s: FeedbackStore) {
     const tmp = `${PATH}.${process.pid}.tmp`;
     await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
     await rename(tmp, PATH);
+    try {
+      if (process.env.VERCEL || process.env.AGENTS1_CANONICAL_WRITER === "1") {
+        const { saveDurableJson } = await import("@/lib/agents1/durable-json");
+        await saveDurableJson("products-feedback.json", {
+          updated_at: s.updated_at,
+          items: (s.items || []).slice(-500),
+          discounts: (s.discounts || []).slice(-500),
+          insights: s.insights,
+          summary: s.summary,
+        });
+      }
+    } catch {
+      /* */
+    }
   });
   await chain;
 }

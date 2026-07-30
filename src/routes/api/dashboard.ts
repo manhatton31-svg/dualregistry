@@ -2,6 +2,9 @@
  * Fast dashboard payload for the UI — never hangs forever.
  * Soft poll (default): cache + disk probes, target <2s, never 504.
  * ?refresh=1 / ?live=1: recompute verified numbers (harder timeout).
+ *
+ * Grok sandbox / local: mirror dualregistry.dev public metrics so phone
+ * production and sandbox always show the same demos/feedback/probes/times.
  */
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -51,6 +54,54 @@ async function attachSidePanels(timeoutMs: number) {
   return { product_engagement, listing_lanes, metrics_truth, protocol };
 }
 
+/** Overlay production metrics onto local payload (sandbox match). */
+async function applyProductionMirror<T extends Record<string, unknown>>(
+  payload: T,
+  requestUrl: string,
+): Promise<T & { metrics_source?: string; mirrored_from?: string }> {
+  try {
+    const {
+      shouldMirrorProductionMetrics,
+      fetchProductionDashboardSlice,
+    } = await import("@/lib/agents1/canonical-metrics");
+    // Avoid infinite loop if production is called with mirror=1 from itself
+    const u = new URL(requestUrl);
+    if (u.searchParams.get("mirror") === "1") return payload;
+    if (!shouldMirrorProductionMetrics()) {
+      return { ...payload, metrics_source: "production-local" };
+    }
+    const slice = await withTimeout(fetchProductionDashboardSlice(), 10_000);
+    if (!slice) {
+      return { ...payload, metrics_source: "local-mirror-failed" };
+    }
+    return {
+      ...payload,
+      product_engagement:
+        slice.product_engagement ?? payload.product_engagement,
+      protocol: {
+        ...((payload.protocol as object) || {}),
+        probes:
+          slice.protocol?.probes ??
+          (payload.protocol as { probes?: unknown })?.probes,
+      },
+      // Keep lane counts aligned when production has them
+      listing_lanes: payload.listing_lanes
+        ? {
+            ...(payload.listing_lanes as object),
+            counts:
+              slice.listing_lanes?.counts ||
+              (payload.listing_lanes as { counts?: unknown })?.counts,
+          }
+        : payload.listing_lanes,
+      metrics_source: "mirrored-production",
+      mirrored_from: slice.mirrored_from,
+      mirrored_at: slice.mirrored_at,
+    };
+  } catch {
+    return payload;
+  }
+}
+
 export const Route = createFileRoute("/api/dashboard")({
   server: {
     handlers: {
@@ -94,15 +145,11 @@ export const Route = createFileRoute("/api/dashboard")({
                 3_000,
               )) || {};
             const side = await attachSidePanels(2_000);
-            return Response.json(
-              {
-                ok: true,
-                ...snap,
-                ...side,
-                soft: true,
-              },
-              { headers },
+            const body = await applyProductionMirror(
+              { ok: true, ...snap, ...side, soft: true },
+              request.url,
             );
+            return Response.json(body, { headers });
           }
 
           // Hard refresh: allow live revalidate with hard ceiling
@@ -117,26 +164,19 @@ export const Route = createFileRoute("/api/dashboard")({
                 3_000,
               )) || {};
             const side = await attachSidePanels(2_500);
-            return Response.json(
-              {
-                ok: true,
-                ...cached,
-                ...side,
-                degraded: true,
-              },
-              { headers },
+            const body = await applyProductionMirror(
+              { ok: true, ...cached, ...side, degraded: true },
+              request.url,
             );
+            return Response.json(body, { headers });
           }
 
           const side = await attachSidePanels(3_000);
-          return Response.json(
-            {
-              ok: true,
-              ...snap,
-              ...side,
-            },
-            { headers },
+          const body = await applyProductionMirror(
+            { ok: true, ...snap, ...side },
+            request.url,
           );
+          return Response.json(body, { headers });
         } catch (e) {
           // Last resort: probes-only so Overview never goes blank
           let protocol = null;
@@ -149,7 +189,7 @@ export const Route = createFileRoute("/api/dashboard")({
           } catch {
             /* */
           }
-          return Response.json(
+          const body = await applyProductionMirror(
             {
               ok: true,
               degraded: true,
@@ -157,8 +197,9 @@ export const Route = createFileRoute("/api/dashboard")({
               error: e instanceof Error ? e.message : String(e),
               message: "Partial dashboard — probe stats still live",
             },
-            { headers },
+            request.url,
           );
+          return Response.json(body, { headers });
         }
       },
     },

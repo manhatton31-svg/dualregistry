@@ -107,6 +107,26 @@ export function currentDemoVersion(audience: "agent" | "mcp"): string {
 
 async function load(force = false): Promise<Store> {
   if (mem && !force) return mem;
+  // Prefer durable production blob when present (GitHub → /tmp)
+  try {
+    const { loadDurableJson } = await import("@/lib/agents1/durable-json");
+    const remote = await loadDurableJson<Partial<Store>>(
+      "products-orders.json",
+      () => ({}),
+    );
+    if (remote && remote.orders && Object.keys(remote.orders).length) {
+      mem = {
+        ...empty(),
+        ...remote,
+        orders: remote.orders || {},
+        by_token: remote.by_token || {},
+        by_idempotency: remote.by_idempotency || {},
+      };
+      return mem;
+    }
+  } catch {
+    /* */
+  }
   try {
     const raw = await readFile(PATH, "utf8");
     mem = { ...empty(), ...(JSON.parse(raw) as Store) };
@@ -127,11 +147,31 @@ export async function reloadOrdersFromDisk() {
 
 async function persist(s: Store) {
   mem = s;
+  s.updated_at = new Date().toISOString();
   chain = chain.then(async () => {
     await mkdir(dirname(PATH), { recursive: true });
     const tmp = `${PATH}.${process.pid}.tmp`;
     await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
     await rename(tmp, PATH);
+    // Production: also durable to GitHub via token or cron commit path
+    try {
+      if (process.env.VERCEL || process.env.AGENTS1_CANONICAL_WRITER === "1") {
+        const { saveDurableJson } = await import("@/lib/agents1/durable-json");
+        // Keep durable file lean — only last 500 orders for hydrate
+        const ids = Object.keys(s.orders || {});
+        const keep = ids.slice(-500);
+        const slimOrders: Record<string, ProductOrder> = {};
+        for (const id of keep) slimOrders[id] = s.orders[id]!;
+        await saveDurableJson("products-orders.json", {
+          orders: slimOrders,
+          by_token: s.by_token,
+          by_idempotency: s.by_idempotency,
+          updated_at: s.updated_at,
+        });
+      }
+    } catch {
+      /* */
+    }
   });
   await chain;
 }

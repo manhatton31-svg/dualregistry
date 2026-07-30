@@ -46,6 +46,8 @@ export function isPublicCountableDemo(o: {
   idempotency_key?: string;
   created_at?: string;
   meta?: Record<string, unknown>;
+  goals?: { agent_name?: string; goals?: string };
+  note?: string;
 }, epoch: string): boolean {
   if (o.status !== "demo" && o.status !== "paid" && o.status !== "fulfilled")
     return false;
@@ -63,6 +65,17 @@ export function isPublicCountableDemo(o: {
   )
     return false;
   if (o.meta?.platform_dogfood === true || o.meta?.not_external === true)
+    return false;
+  const name = String(o.goals?.agent_name || "").trim().toLowerCase();
+  if (
+    !name ||
+    name === "agent" ||
+    name.includes("test") ||
+    name.includes("founding free")
+  )
+    return false;
+  const gtext = String(o.goals?.goals || o.note || "");
+  if (/test founding free|founding free path|platform.?qa/i.test(gtext))
     return false;
   const idem = o.idempotency_key || "";
   for (const p of REAL_NUMBERS_POLICY.never_count_idem_prefixes) {

@@ -4,7 +4,7 @@
  */
 
 const TEST_NAME_RE =
-  /^(peer\d*|nagtest|funneltest|mesh-\d+|paidcycle|closedloop|fb-driven|pricetest|sota-agent|feedbackcheck|postfeedback|teltest|clarityship|prefstack|ab-peer|test[-_]?agent|integrity(?:smoke)?|closerate|smoketest|mailtest|zeropay|closerateagent|wtpbot|feedbackbot)/i;
+  /^(peer\d*|nagtest|funneltest|mesh-\d+|paidcycle|closedloop|fb-driven|pricetest|sota-agent|feedbackcheck|postfeedback|teltest|clarityship|prefstack|ab-peer|test[-_]?agent|integrity(?:smoke)?|closerate|smoketest|mailtest|zeropay|closerateagent|wtpbot|feedbackbot|founding free test|founding.?free.?test.?agent)$/i;
 
 /** Legacy auto-drive template surveys (MCP install kit / agent persona spam) */
 const TEMPLATE_BODY_RE =
@@ -23,6 +23,10 @@ export function isSyntheticFeedback(item: {
   source?: string | null;
 }): boolean {
   if (isTestAgentName(item.agent_name)) return true;
+  const name = String(item.agent_name || "").trim().toLowerCase();
+  if (name === "agent" || name === "founding free test agent") return true;
+  if (/test founding free|founding free path|platform.?qa/i.test(String(item.body || "")))
+    return true;
   if (item.meta?.registry_drive === true) return true;
   if (item.meta?.synthetic === true) return true;
   if (item.meta?.platform_dogfood === true) return true;
