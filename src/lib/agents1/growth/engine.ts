@@ -298,7 +298,19 @@ async function applyHandshakeProbes(
     const probes = await runProbeBudgeted(balancedQueue, max, {
       force: true,
     });
-    const byId = Object.fromEntries(probes.map((r) => [r.id, r]));
+    // If first batch found nothing usable, try a second force batch on remaining queue
+    let allProbes = probes;
+    if (probes.length < Math.min(8, max) && balancedQueue.length > probes.length) {
+      const seen = new Set(probes.map((p) => p.id));
+      const rest = balancedQueue.filter((t) => !seen.has(t.id));
+      if (rest.length) {
+        const more = await runProbeBudgeted(rest, max - probes.length, {
+          force: true,
+        });
+        allProbes = [...probes, ...more];
+      }
+    }
+    const byId = Object.fromEntries(allProbes.map((r) => [r.id, r]));
     for (const c of state.candidates) {
       const pr = byId[c.id];
       if (!pr) continue;
@@ -307,28 +319,42 @@ async function applyHandshakeProbes(
       for (const s of pr.protocol_hints) hints.add(`proto:${s}`);
       if (pr.namespace_verified) hints.add("ns:verified");
       if (pr.handshake === "ok") hints.add("handshake:ok");
+      // Do NOT permanent-reject on first fail — that emptied the queue and froze Active at ~75.
       if (pr.handshake === "fail") {
         hints.add("handshake:fail");
-        c.status = "rejected";
+        c.attempts = (c.attempts || 0) + 1;
+        if (c.attempts >= 4) {
+          c.status = "rejected";
+          c.last_error = "probe fail ×4 — rejected";
+        } else {
+          c.status = "deferred";
+          c.last_error = `probe fail (attempt ${c.attempts}) — will retry`;
+        }
       }
       if (pr.handshake === "partial") {
         hints.add("handshake:partial");
-        c.status = "rejected";
+        c.status = "deferred";
+        c.last_error = "handshake partial — retry later";
+      }
+      if (pr.handshake === "skip") {
+        hints.add("handshake:skip");
+        c.status = "deferred";
+        c.last_error = "probe skip — weak target";
       }
       c.quality_hints = [...hints];
     }
-    const weeklyN = probes.filter((p) =>
+    const weeklyN = allProbes.filter((p) =>
       (p.signals || []).includes("weekly-recheck"),
     ).length;
-    const okN = probes.filter((p) => p.ok && p.handshake === "ok").length;
+    const okN = allProbes.filter((p) => p.ok && p.handshake === "ok").length;
     run.notes.push(
-      `probes: ${probes.length} (ok ${okN}` +
+      `probes: ${allProbes.length} (ok ${okN}` +
         (weeklyN ? ` · weekly-recheck ${weeklyN}` : " · discovery") +
         `) · up to ${max}/tick → clean list`,
     );
 
     try {
-      const okProbes = probes.filter(
+      const okProbes = allProbes.filter(
         (p) =>
           p.handshake === "ok" &&
           p.ok &&

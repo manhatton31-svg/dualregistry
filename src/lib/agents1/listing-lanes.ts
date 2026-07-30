@@ -391,6 +391,29 @@ export function hasProbeableSource(c: {
   website?: string;
   mcp_url?: string;
 }): boolean {
+  const urls = [
+    c.agent_card_url,
+    c.remote_url,
+    c.mcp_url,
+    c.endpoint_url,
+    c.website,
+  ].filter(Boolean) as string[];
+  if (!urls.length) return false;
+  // At least one URL that is not a known-dead registry/HTML page
+  const usable = urls.some((u) => {
+    try {
+      const x = new URL(u);
+      if (!/^https?:$/i.test(x.protocol)) return false;
+      if (/(^|\.)npmjs\.(com|org)$/i.test(x.hostname) && /\/package\//i.test(x.pathname))
+        return false;
+      if (/github\.com$/i.test(x.hostname) && /\/\.well-known\//i.test(x.pathname))
+        return false;
+      return true;
+    } catch {
+      return false;
+    }
+  });
+  if (!usable) return false;
   if (c.agent_card_url || c.remote_url || c.mcp_url) return true;
   if (c.endpoint_url && /^https?:\/\//i.test(c.endpoint_url)) return true;
   if (

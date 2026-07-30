@@ -791,11 +791,10 @@ function probePriority(
   if (prev.handshake === "ok" && prev.ok && age < ACTIVE_REPROBE_MS) return -10000;
   // Was ok but past 7d without weekly tag — leave for weekly lane
   if (prev.handshake === "ok" && prev.ok && age >= ACTIVE_REPROBE_MS) return -5000;
-  // FAIL / PARTIAL: cooldown then allow re-try (new remotes / flaky hosts).
-  // Permanent hard-block starved clean growth toward 333/day.
+  // FAIL / PARTIAL: short cool-down then re-try (need volume toward 333/day)
   if (prev.handshake === "fail" || prev.handshake === "partial") {
-    if (age < 6 * 3600_000) return -800; // 6h cool-down
-    return p + 200; // re-queue after cool-down
+    if (age < 30 * 60_000) return -800; // 30m cool-down (was 6h — starved growth)
+    return p + 600; // re-queue aggressively after cool-down
   }
   if (item.dirty) {
     if (age < 6 * 3600_000) return -800;
@@ -940,7 +939,15 @@ export async function runProbeBudgeted(
     else if (r.kind === "mcp") mcpToday++;
   }
 
-  const rankedLive = ranked.filter((x) => x.pri > -1000);
+  // Prefer live candidates; if pattern-demotion emptied the set, fall back to
+  // anything above hard pattern-kill so we still burn budget toward 333/day.
+  let rankedLive = ranked.filter((x) => x.pri > -1000);
+  if (rankedLive.length === 0) {
+    rankedLive = ranked.filter((x) => x.pri > -15000);
+  }
+  if (rankedLive.length === 0) {
+    rankedLive = ranked.slice(0, Math.min(max, 48));
+  }
   const resolveKind = (item: ProbeTarget): "agent" | "mcp" => {
     if (item.kind === "agent" || item.kind === "mcp") return item.kind;
     if (item.agent_card_url || item.endpoint_url) return "agent";
@@ -951,10 +958,10 @@ export async function runProbeBudgeted(
   agents.sort((a, b) => b.pri - a.pri);
   mcps.sort((a, b) => b.pri - a.pri);
 
-  const take = Math.min(max, remaining, rankedLive.length);
-  // Full probes per tick = budget take (was hard-capped at 1 — that blocked 333/day).
-  const maxFullProbes = Math.max(1, take);
-  const maxPreflightRejects = Math.max(32, maxFullProbes * 4);
+  const take = Math.min(max, remaining, Math.max(rankedLive.length, 1));
+  // Full probes per tick — never hard-cap at 1
+  const maxFullProbes = Math.max(1, Math.min(take, max, remaining, 48));
+  const maxPreflightRejects = Math.max(64, maxFullProbes * 6);
   const selected: typeof ranked = [];
   let ai = 0;
   let mi = 0;

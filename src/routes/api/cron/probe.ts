@@ -72,7 +72,22 @@ async function runTick() {
       last_tick_at: state0.last_tick_at,
     });
     const lastIso = auth.last_tick_at || state0.last_tick_at;
-    if (lastIso) {
+    // Behind clean growth target? Never skip — force volume toward 333/day
+    let behindTarget = false;
+    try {
+      const { loadCleanRegistry } = await import(
+        "@/lib/agents1/clean-registry"
+      );
+      const { CLEAN_GROWTH_TARGET_PER_DAY } = await import(
+        "@/lib/agents1/probe"
+      );
+      const reg = await loadCleanRegistry();
+      const total = reg?.counts?.total || Object.keys(reg?.items || {}).length;
+      behindTarget = total < CLEAN_GROWTH_TARGET_PER_DAY;
+    } catch {
+      behindTarget = true;
+    }
+    if (lastIso && !behindTarget) {
       const age = Date.now() - Date.parse(lastIso);
       if (Number.isFinite(age) && age >= 0 && age < PROBE_WINDOW_MS - 5_000) {
         const live = state0.live_active_snapshot || {
