@@ -330,7 +330,7 @@ export async function grantFullProductAfterFoundingFeedback(input: {
       access_token: order.access_token,
       percent_off: 100,
       remaining: claimResult.remaining,
-      message: `Founding free seat #${claimResult.claim.seat}/100 unlocked — 100% off full product. Post-setup feedback is due; weekly lifecycle starts now.`,
+      message: `Founding free seat #${claimResult.claim.seat}/100 unlocked — full product ready, no Stripe. GET /api/products/access?token=${order.access_token} then paste kernel or GET export?format=skills. Post-setup feedback: GET /api/products/lifecycle?token=${order.access_token}`,
     };
   } catch (e) {
     return {

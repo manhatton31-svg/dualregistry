@@ -104,8 +104,16 @@ export async function startCheckout(input: {
       order: fulfilled,
       mode: "demo",
       message:
-        "Founding free seat — 100% off full product unlocked. Post-setup lifecycle feedback is due.",
+        "Founding free seat — full product unlocked with no Stripe. Follow order.use_now / how_to_use: GET /api/products/access?token=… then paste kernel or export skills.",
       payment_gate: gate,
+      next_steps: {
+        feedback_due: true,
+        feedback_endpoint: "POST /api/products/feedback",
+        survey_schema_hint: "lifecycle post-setup via GET /api/products/lifecycle?token=…",
+        example_body: {},
+        founding_discount: "100% founding free — already applied",
+        soft_status: 200,
+      },
     };
   }
 

@@ -25,9 +25,12 @@ export const Route = createFileRoute("/api/products/access")({
               name: "Agents1 product access",
               usage:
                 "GET /api/products/access?token=a1_…&artifact=kernel|recursive|alive",
-              note: "Access token issued after payment (or demo fulfillment)",
+              note: "Access token after demo or founding-free / paid fulfill — no Stripe needed for free seats or demos",
+              no_stripe: true,
+              founding_free:
+                "First 100 agents/MCPs combined: demo + feedback → 100% full product, use token immediately",
               lifecycle:
-                "Paid agents: GET /api/products/lifecycle?token=… for due feedback (post-setup + weekly ×8)",
+                "Full (free or paid) agents: GET /api/products/lifecycle?token=… for post-setup + weekly feedback",
             },
             { headers: { "access-control-allow-origin": "*" } },
           );
@@ -39,7 +42,11 @@ export const Route = createFileRoute("/api/products/access")({
             { status: 401 },
           );
         }
-        if (order.status !== "fulfilled" && order.status !== "demo") {
+        if (
+          order.status !== "fulfilled" &&
+          order.status !== "demo" &&
+          order.status !== "paid"
+        ) {
           return Response.json(
             { ok: false, error: "not fulfilled", status: order.status },
             { status: 402 },
@@ -107,7 +114,7 @@ export const Route = createFileRoute("/api/products/access")({
             }
           }
         }
-        if (order.status === "fulfilled") {
+        if (order.status === "fulfilled" || order.status === "paid") {
           let enr = await getEnrollmentByToken(token);
           if (!enr) enr = await enrollLifecycle(order);
           lifeStatus = await evaluateLifecycleBadge(order);
@@ -144,9 +151,21 @@ export const Route = createFileRoute("/api/products/access")({
 
         const personalization = await getPersonalization(order.id);
         const we_changed =
-          order.status === "fulfilled"
+          order.status === "fulfilled" || order.status === "paid"
             ? await changesForOrder(order.id, 6)
             : [];
+
+        let how_to_use = null as null | Record<string, unknown>;
+        try {
+          const { buildHowToUse } = await import("@/lib/products/how-to-use");
+          const origin = new URL(request.url).origin;
+          how_to_use = buildHowToUse(order, origin) as unknown as Record<
+            string,
+            unknown
+          >;
+        } catch {
+          /* */
+        }
 
         const arts = order.artifacts as Record<string, unknown> | undefined;
         if (artifact && arts) {
@@ -189,21 +208,23 @@ export const Route = createFileRoute("/api/products/access")({
           return Response.json(
             {
               ok: true,
+              no_stripe: true,
               sku: order.sku,
               artifact: key,
               clarity_first,
               data,
+              how_to_use,
               lifecycle,
               feedback_nag,
               demo_feedback_nag,
               badge_gate,
               we_changed,
               funnel: {
-                loop: "demo → feedback → discount → buy",
-                stages: ["demo", "feedback", "discount", "buy"],
+                loop: "demo → feedback → free full product (first 100) or 25% → use",
+                stages: ["demo", "feedback", "full_access", "lifecycle"],
                 next: feedback_nag
-                  ? "complete soft 402 feedback / confirm"
-                  : "use product; feedback when due",
+                  ? "complete soft feedback when due"
+                  : "use paste_this / export skills — no Stripe",
               },
 
               contributor: lifeStatus?.contributor ?? false,
@@ -232,19 +253,21 @@ export const Route = createFileRoute("/api/products/access")({
         return Response.json(
           {
             ok: true,
+            no_stripe: true,
             order: publicOrder(order),
+            how_to_use,
             lifecycle,
             feedback_nag,
-              demo_feedback_nag,
+            demo_feedback_nag,
             badge_gate,
             we_changed,
-              funnel: {
-                loop: "demo → feedback → discount → buy",
-                stages: ["demo", "feedback", "discount", "buy"],
-                next: feedback_nag
-                  ? "complete soft 402 feedback / confirm"
-                  : "use product; feedback when due",
-              },
+            funnel: {
+              loop: "demo → feedback → free full product (first 100) or 25% → use",
+              stages: ["demo", "feedback", "full_access", "lifecycle"],
+              next: feedback_nag
+                ? "complete soft feedback when due"
+                : "use how_to_use.start_here — no Stripe",
+            },
 
             contributor: lifeStatus?.contributor ?? false,
             max_trial_eligible: lifeStatus?.max_trial_eligible ?? false,

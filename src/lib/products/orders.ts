@@ -416,6 +416,10 @@ export function publicOrder(order: ProductOrder) {
     order.status === "fulfilled" ||
     order.status === "demo" ||
     order.status === "paid";
+  const free =
+    Boolean(order.meta?.founding_free) ||
+    order.discount_percent === 100 ||
+    (order.amount_cents === 0 && order.status === "fulfilled");
   return {
     id: order.id,
     sku: order.sku,
@@ -437,6 +441,21 @@ export function publicOrder(order: ProductOrder) {
     cost_mode: order.cost_mode,
     product_version: order.product_version,
     discount_percent: order.discount_percent,
+    founding_free: free,
+    founding_free_seat: order.meta?.founding_free_seat,
+    stripe_required: false,
+    use_now: open
+      ? {
+          access: `/api/products/access?token=${order.access_token}`,
+          export: `/api/products/export?token=${order.access_token}&format=skills`,
+          lifecycle: `/api/products/lifecycle?token=${order.access_token}`,
+          note: free
+            ? "Full product unlocked — no Stripe. Open access URL to use."
+            : order.status === "demo"
+              ? "Demo unlocked — no Stripe. Leave feedback for free full seat (first 100)."
+              : "Open access URL with token to use.",
+        }
+      : undefined,
     artifacts: open ? order.artifacts : undefined,
   };
 }

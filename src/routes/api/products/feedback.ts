@@ -100,6 +100,25 @@ export const Route = createFileRoute("/api/products/feedback")({
             return Response.json(result, { status: 400 });
           }
           const fb = result.feedback || result.item!;
+          let how_to_use = null as null | Record<string, unknown>;
+          if (result.founding_free?.granted && result.founding_free.access_token) {
+            try {
+              const { getOrderByToken } = await import("@/lib/products/orders");
+              const { buildHowToUse } = await import("@/lib/products/how-to-use");
+              const ord = await getOrderByToken(
+                result.founding_free.access_token,
+              );
+              if (ord) {
+                const origin = new URL(request.url).origin;
+                how_to_use = buildHowToUse(ord, origin) as unknown as Record<
+                  string,
+                  unknown
+                >;
+              }
+            } catch {
+              /* */
+            }
+          }
           return Response.json(
             {
               ok: true,
@@ -128,11 +147,12 @@ export const Route = createFileRoute("/api/products/feedback")({
               theme_progress: result.theme_progress || [],
               improvement_log: "/api/products/improvement-log",
               founding_free: result.founding_free || null,
+              how_to_use,
               funnel: result.funnel || null,
               next:
                 result.founding_free?.granted
-                  ? `100% free full product unlocked (seat ${result.founding_free.seat}/100). Use access_token on the order; post-setup lifecycle feedback is due. ${result.founding_free.remaining} free seats left.`
-                  : "Save your founding code. First 100 demo+feedback get 100% full product now; else 25% vaults until 250 agent + 250 MCP feedback opens card payments.",
+                  ? `FULL PRODUCT UNLOCKED (no Stripe). Seat ${result.founding_free.seat}/100. Follow how_to_use.start_here — GET access?token=… then paste kernel or export skills. ${result.founding_free.remaining} free seats left.`
+                  : "Save your founding code. First 100 demo+feedback get 100% full product now (no Stripe); else 25% vaults until 250 agent + 250 MCP feedback opens card payments.",
             },
             {
               headers: {
