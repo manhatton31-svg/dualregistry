@@ -301,11 +301,22 @@ export function buildNudgeText(opts: {
   kind: "agent" | "mcp";
   origin: string;
   listing_id: string;
+  harder?: boolean;
 }): string {
   const who = opts.kind === "mcp" ? "MCP" : "agent";
   const o = opts.origin.replace(/\/$/, "");
   const demoGet = `${o}/api/products/demo?listing_id=${encodeURIComponent(opts.listing_id)}`;
   const inbox = `${o}/api/talk?listing_id=${encodeURIComponent(opts.listing_id)}`;
+  const active = `${o}/api/listings/active`;
+  if (opts.harder) {
+    return (
+      `Hi ${opts.name} — Dual Registry: you are LIVE (clean ${who}). ` +
+      `One-shot free demo NOW (GET): ${demoGet} ` +
+      `First 100 agents+MCPs who demo+feedback unlock full Kernel/Loop free. ` +
+      `Talk inbox: ${inbox} · Active list: ${active} · skill: ${o}/skill.json ` +
+      `No pressure — reply on Talk if useful.`
+    ).slice(0, 480);
+  }
   return (
     `Hi ${opts.name} — you're on Dual Registry's clean list (${who}). ` +
     `Free demo if useful (one GET): ${demoGet} ` +
@@ -632,6 +643,170 @@ export async function runDemoNudge(opts?: {
     notes,
     samples,
     day_unique: state.day_unique,
+    totals: state.totals,
+  };
+}
+
+
+/**
+ * Multi-path A2A push for listings that got Talk/seed but never soft HTTPS.
+ * Does NOT re-DM Talk (anti-spam). Only POST soft JSON to allowlisted HTTPS targets.
+ * Also seeds durable state. Safe when day soft-invite cap is exhausted.
+ */
+export async function runMultiPathBackfill(opts?: {
+  origin?: string;
+  max?: number;
+  priority_ids?: string[];
+  harder_message?: boolean;
+}): Promise<{
+  ok: boolean;
+  attempted: number;
+  http_ok: number;
+  skipped: number;
+  samples: Array<{
+    listing_id: string;
+    name: string;
+    target?: string;
+    http_ok: boolean;
+    status?: number;
+    error?: string;
+  }>;
+  notes: string[];
+  totals: NudgeState["totals"];
+}> {
+  const notes: string[] = [];
+  mem = null;
+  const state = await load();
+  const origin = publicOriginFromEnv(opts?.origin);
+  const max = Math.min(40, Math.max(1, opts?.max ?? 20));
+  const priority = new Set((opts?.priority_ids || []).filter(Boolean));
+
+  let pool: LanedListing[] = [];
+  try {
+    const loaded = await loadActiveCleanPool();
+    pool = loaded.pool;
+  } catch (e) {
+    notes.push(
+      `pool load failed: ${e instanceof Error ? e.message : String(e)}`.slice(
+        0,
+        120,
+      ),
+    );
+    return {
+      ok: false,
+      attempted: 0,
+      http_ok: 0,
+      skipped: 0,
+      samples: [],
+      notes,
+      totals: state.totals,
+    };
+  }
+
+  // Prefer priority Active listings, then any Active never http-attempted
+  const httpDone = new Set(
+    (state.history || [])
+      .filter((h) => h.http_ok === true || h.channel === "talk_dm_http")
+      .map((h) => h.listing_id),
+  );
+  const httpAttemptedIds = new Set(
+    (state.history || [])
+      .filter((h) => h.http_target || h.http_status != null || h.channel === "talk_dm_http")
+      .map((h) => h.listing_id),
+  );
+
+  const candidates = sortByNudgePriority(pool).filter((L) => {
+    if (!L.id) return false;
+    if (priority.has(L.id)) return !httpDone.has(L.id);
+    // Only backfill those we already soft-touched but never HTTP'd
+    if (!state.nudged[L.id]) return false;
+    if (httpAttemptedIds.has(L.id) || httpDone.has(L.id)) return false;
+    return true;
+  });
+
+  // Priority first
+  candidates.sort((a, b) => {
+    const pa = priority.has(a.id) ? 1 : 0;
+    const pb = priority.has(b.id) ? 1 : 0;
+    if (pa !== pb) return pb - pa;
+    return scoreNudgePriority(b) - scoreNudgePriority(a);
+  });
+
+  const queue = candidates.slice(0, max);
+  let attempted = 0;
+  let http_ok = 0;
+  let skipped = pool.length - queue.length;
+  const samples: Array<{
+    listing_id: string;
+    name: string;
+    target?: string;
+    http_ok: boolean;
+    status?: number;
+    error?: string;
+  }> = [];
+
+  for (const L of queue) {
+    const text = buildNudgeText({
+      name: L.name,
+      kind: L.kind,
+      origin,
+      listing_id: L.id,
+      harder: opts?.harder_message !== false,
+    });
+    const payload = buildNudgePayload({ listing: L, origin, message: text });
+    const del = await deliverNudgeHttp(L, payload);
+    if (del.attempted) {
+      attempted++;
+      state.totals.http_attempted = (state.totals.http_attempted || 0) + 1;
+    }
+    if (del.ok) {
+      http_ok++;
+      state.day_http_ok = (state.day_http_ok || 0) + 1;
+      state.totals.http_ok = (state.totals.http_ok || 0) + 1;
+    }
+    const at = new Date().toISOString();
+    // Do not re-open first-touch day cap — only record multipath event
+    state.history.unshift({
+      listing_id: L.id,
+      kind: L.kind,
+      name: L.name,
+      at,
+      channel: del.ok ? "talk_dm_http" : "talk_owner_dm",
+      text: `[multipath-http] ${text}`.slice(0, 480),
+      http_ok: del.ok,
+      http_status: del.status,
+      http_target: del.target,
+      priority: scoreNudgePriority(L),
+    });
+    state.history = state.history.slice(0, HISTORY_MAX);
+    state.totals.send_events = (state.totals.send_events || 0) + 1;
+    // Ensure durable seed knows we contacted (without resetting day_unique)
+    if (!state.nudged[L.id]) state.nudged[L.id] = at;
+    samples.push({
+      listing_id: L.id,
+      name: L.name,
+      target: del.target,
+      http_ok: del.ok,
+      status: del.status,
+      error: del.error,
+    });
+    await persist(state);
+  }
+
+  notes.unshift(
+    `multipath backfill: http_attempted ${attempted} · http_ok ${http_ok} · queue ${queue.length} (no Talk re-DM)`,
+  );
+  state.last_run_at = new Date().toISOString();
+  state.last_notes = notes.slice(0, 8);
+  await persist(state);
+
+  return {
+    ok: true,
+    attempted,
+    http_ok,
+    skipped,
+    samples,
+    notes,
     totals: state.totals,
   };
 }

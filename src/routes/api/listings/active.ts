@@ -5,6 +5,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
+import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
 
 export const Route = createFileRoute("/api/listings/active")({
   server: {
@@ -113,10 +114,10 @@ export const Route = createFileRoute("/api/listings/active")({
             payment_gate: funnel.payment_gate,
           },
           {
-            headers: {
-              "cache-control": "public, max-age=30",
-              "access-control-allow-origin": "*",
-            },
+            headers: withDemoCtaHeaders(
+              { "cache-control": "public, max-age=30" },
+              { origin },
+            ),
           },
         );
       },

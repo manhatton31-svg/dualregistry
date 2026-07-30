@@ -5,6 +5,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getListingStatus } from "@/lib/agents1/inbound-discovery";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
+import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
 
 export const Route = createFileRoute("/api/listings/status")({
   server: {
@@ -21,8 +22,15 @@ export const Route = createFileRoute("/api/listings/status")({
               message: "Pass ?id=listing_id or ?name=display_name",
               skill: `${origin}/skill.json`,
               list: `${origin}/list`,
+              demo_get: `${origin}/api/products/demo`,
             },
-            { status: 400 },
+            {
+              status: 400,
+              headers: withDemoCtaHeaders(
+                { "cache-control": "no-store" },
+                { origin },
+              ),
+            },
           );
         }
         const status = await getListingStatus({ id, name, origin });
@@ -51,13 +59,16 @@ export const Route = createFileRoute("/api/listings/status")({
               message: "No listing matched — POST /api/publish first",
               publish: `${origin}/api/publish`,
               skill: `${origin}/skill.json`,
+              demo_get: id
+                ? `${origin}/api/products/demo?listing_id=${encodeURIComponent(id)}`
+                : `${origin}/api/products/demo`,
             },
             {
               status: 404,
-              headers: {
-                "access-control-allow-origin": "*",
-                "cache-control": "no-store",
-              },
+              headers: withDemoCtaHeaders(
+                { "cache-control": "no-store" },
+                { origin, listing_id: id },
+              ),
             },
           );
         }
@@ -77,15 +88,18 @@ export const Route = createFileRoute("/api/listings/status")({
               resubmit: delist.resubmit,
               message: delist.resubmit.message,
               next: "Fix card → POST /api/publish → wait for approval probe",
+              demo_get: `${origin}/api/products/demo?listing_id=${encodeURIComponent(delist.id)}`,
             },
             {
-              headers: {
-                "access-control-allow-origin": "*",
-                "cache-control": "no-store",
-              },
+              headers: withDemoCtaHeaders(
+                { "cache-control": "no-store" },
+                { origin, listing_id: delist.id },
+              ),
             },
           );
         }
+        const listingId =
+          (status as { id?: string } | null)?.id || id || undefined;
         return Response.json(
           {
             ok: true,
@@ -93,14 +107,21 @@ export const Route = createFileRoute("/api/listings/status")({
             ...status,
             public: status!.lane === "active" || status!.lane === "discovered",
             delisted: status!.lane === "needs_resubmit" || Boolean(delist),
-            fix: delist?.fix || (status as { resubmit?: { fix?: string } })?.resubmit,
-            resubmit: delist?.resubmit || (status as { resubmit?: unknown })?.resubmit,
+            fix:
+              delist?.fix ||
+              (status as { resubmit?: { fix?: string } })?.resubmit,
+            resubmit:
+              delist?.resubmit ||
+              (status as { resubmit?: unknown })?.resubmit,
+            demo_get: listingId
+              ? `${origin}/api/products/demo?listing_id=${encodeURIComponent(listingId)}`
+              : `${origin}/api/products/demo`,
           },
           {
-            headers: {
-              "access-control-allow-origin": "*",
-              "cache-control": "no-store",
-            },
+            headers: withDemoCtaHeaders(
+              { "cache-control": "no-store" },
+              { origin, listing_id: listingId },
+            ),
           },
         );
       },
