@@ -170,6 +170,11 @@ async function snapshotFromCache(
     cache.milestones?.agents?.approved ?? cache.agents_approved;
   let mcpAdj = mcpCount;
   let agentAdj = agentCount;
+  let delistMeta: {
+    delisted_mcp: number;
+    delisted_agents: number;
+    delisted_total: number;
+  } | null = null;
   try {
     const { registryCountsAfterDelist } = await import("./delist-on-fail");
     const adj = await registryCountsAfterDelist({
@@ -178,6 +183,11 @@ async function snapshotFromCache(
     });
     mcpAdj = adj.mcp;
     agentAdj = adj.agents;
+    delistMeta = {
+      delisted_mcp: adj.delisted_mcp,
+      delisted_agents: adj.delisted_agents,
+      delisted_total: adj.delisted_total,
+    };
   } catch {
     /* */
   }
@@ -237,6 +247,7 @@ async function snapshotFromCache(
     skills: seedSkills as SkillsGraph,
     poll: seedPoll as PollStatus,
     errors: [...errors, note],
+    delist: delistMeta,
     revalidate: {
       checkedAt: new Date().toISOString(),
       mcp: [],
