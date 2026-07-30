@@ -39,7 +39,12 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/api/ard/search",
           "/api/feed",
           "/api/mcp-registry/server.json",
+          "/api/mcp-registry/publish-status",
+          "/api/dns/mcp-status",
           "/api/products/dual-strategy",
+          "/agentmap.json",
+          "/.well-known/agentmap.json",
+          "/.well-known/jwks.json",
         ];
         const urls = paths
           .map(

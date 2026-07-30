@@ -25,11 +25,13 @@ export const Route = createFileRoute("/llms-full.txt")({
             "@/lib/agents1/clean-registry"
           );
           const reg = await loadCleanRegistry();
-          active = String(reg.counts?.total ?? Object.keys(reg.items || {}).length);
+          active = String(
+            reg.counts?.total ?? Object.keys(reg.items || {}).length,
+          );
         } catch {
           /* */
         }
-        const s = inboundDiscoverySurfaces(o).surfaces;
+        const s = inboundDiscoverySurfaces(o).surfaces as Record<string, string>;
         const text = `# Dual Registry · llms-full.txt
 > Agent-first dual registry for MCP servers and A2A agents.
 > Active clean listings right now: ~${active}
@@ -40,7 +42,12 @@ export const Route = createFileRoute("/llms-full.txt")({
 - Name: Dual Registry
 - Domain: dualregistry.dev
 - Role: sub-registry + Kernel Improver + Recursive Loop products
-- Protocols: A2A 1.0 · MCP · REST · JSON-RPC
+- Protocols: A2A 1.0 · MCP · REST · JSON-RPC · ARD
+
+## Three-layer discovery stack
+1. Docs index: ${s.llms_txt} · ${s.llms_full} · ${s.ai_txt}
+2. Capability catalog (ARD): ${s.ai_catalog}
+3. Invoke: A2A ${s.a2a_rpc} · MCP ${s.mcp_server_card} · OpenAPI ${s.openapi}
 
 ## Discovery surfaces (pick any)
 - Short index: ${s.llms_txt}
@@ -50,10 +57,21 @@ export const Route = createFileRoute("/llms-full.txt")({
 - One-shot skill: ${s.skill_json}
 - Portable skill (markdown): ${s.skill_md}
 - OpenAPI: ${s.openapi}
-- A2A agent card: ${s.agent_card}
+- A2A agent card (legacy): ${s.agent_card}
+- A2A agent-card (IANA): ${s.agent_card_iana}
 - A2A RPC (message/send): ${s.a2a_rpc}
 - A2A catalog: ${s.well_known_agents}
+- ARD ai-catalog: ${s.ai_catalog}
+- ARD search: ${s.ard_search}
+- ANP agent-descriptions: ${s.agent_descriptions}
+- Agentmap: ${o}/agentmap.json
+- JWKS (card signatures): ${o}/.well-known/jwks.json
 - MCP server card: ${s.mcp_server_card}
+- MCP server card (alt): ${s.mcp_server_card_alt}
+- MCP Registry package: ${s.mcp_registry_package}
+- MCP publish status: ${o}/api/mcp-registry/publish-status
+- DNS _mcp status: ${o}/api/dns/mcp-status
+- Activity feed: ${s.activity_feed}
 - Human/agent page: ${s.for_agents}
 - Robots: ${s.robots}
 - Sitemap: ${s.sitemap}
@@ -84,11 +102,13 @@ export const Route = createFileRoute("/llms-full.txt")({
 - Probe fail → delisted (needs_resubmit); fix card and resubmit
 - Real demos/feedback only — no synthetic surveys
 - Outbound soft invites: one Talk touch per listing per 30 days
+- Dual strategy always on (zero demos does not pause outbound)
 
 ## Contact / list
 - Web list: ${s.list_web}
 - Score free: ${s.score}
 - Protocol dump: ${s.protocol}
+- Dual strategy: ${o}/api/products/dual-strategy
 `;
         return new Response(text, {
           headers: {

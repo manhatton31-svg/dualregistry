@@ -63,10 +63,22 @@ export const Route = createRootRoute({
         title: "ARD ai-catalog",
       },
       {
+        rel: "agentmap",
+        href: "/agentmap.json",
+        type: "application/json",
+        title: "Agentmap",
+      },
+      {
         rel: "alternate",
         href: "/.well-known/mcp/server-card.json",
         type: "application/json",
         title: "MCP server card",
+      },
+      {
+        rel: "alternate",
+        href: "/.well-known/jwks.json",
+        type: "application/json",
+        title: "Agent card JWKS",
       },
       {
         rel: "alternate",

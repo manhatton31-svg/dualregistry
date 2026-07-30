@@ -45,6 +45,9 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
     dual_strategy_api: `${o}/api/products/dual-strategy`,
     dns_mcp_txt: `v=1 name=io.agents1.registry url=${o}/.well-known/mcp/server-card.json`,
     dns_record_hint: `_mcp.${hostnameOf(o)}. IN TXT "v=1 name=io.agents1.registry url=${o}/.well-known/mcp/server-card.json"`,
+    mcp_registry_auth: `${o}/.well-known/mcp-registry-auth`,
+    agentmap: `${o}/agentmap.json`,
+    jwks: `${o}/.well-known/jwks.json`,
   };
 }
 

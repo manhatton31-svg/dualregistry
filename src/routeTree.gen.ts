@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentmapDotjsonRouteImport } from './routes/agentmap[.]json'
 import { Route as AiDottxtRouteImport } from './routes/ai[.]txt'
 import { Route as DiscoveryDotjsonRouteImport } from './routes/discovery[.]json'
 import { Route as ListRouteImport } from './routes/list'
@@ -23,8 +24,11 @@ import { Route as TalkRouteImport } from './routes/talk'
 import { Route as DotwellKnownAgentCardDotjsonRouteImport } from './routes/[.]well-known/agent-card[.]json'
 import { Route as DotwellKnownAgentDescriptionsRouteImport } from './routes/[.]well-known/agent-descriptions'
 import { Route as DotwellKnownAgentDotjsonRouteImport } from './routes/[.]well-known/agent[.]json'
+import { Route as DotwellKnownAgentmapDotjsonRouteImport } from './routes/[.]well-known/agentmap[.]json'
 import { Route as DotwellKnownAgentsRouteImport } from './routes/[.]well-known/agents'
 import { Route as DotwellKnownAiCatalogDotjsonRouteImport } from './routes/[.]well-known/ai-catalog[.]json'
+import { Route as DotwellKnownJwksDotjsonRouteImport } from './routes/[.]well-known/jwks[.]json'
+import { Route as DotwellKnownMcpRegistryAuthRouteImport } from './routes/[.]well-known/mcp-registry-auth'
 import { Route as AgentsPublicRouteImport } from './routes/agents/public'
 import { Route as AgentsSearchRouteImport } from './routes/agents/search'
 import { Route as ApiA2aRouteImport } from './routes/api/a2a'
@@ -53,9 +57,11 @@ import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[
 import { Route as ApiArdSearchRouteImport } from './routes/api/ard/search'
 import { Route as ApiCronPrefilterRouteImport } from './routes/api/cron/prefilter'
 import { Route as ApiCronProbeRouteImport } from './routes/api/cron/probe'
+import { Route as ApiDnsMcpStatusRouteImport } from './routes/api/dns/mcp-status'
 import { Route as ApiFunnelIndexRouteImport } from './routes/api/funnel/index'
 import { Route as ApiListingsActiveRouteImport } from './routes/api/listings/active'
 import { Route as ApiListingsStatusRouteImport } from './routes/api/listings/status'
+import { Route as ApiMcpRegistryPublishStatusRouteImport } from './routes/api/mcp-registry/publish-status'
 import { Route as ApiMcpRegistryServerDotjsonRouteImport } from './routes/api/mcp-registry/server[.]json'
 import { Route as ApiProbesIndexRouteImport } from './routes/api/probes/index'
 import { Route as ApiProductsAccessRouteImport } from './routes/api/products/access'
@@ -89,6 +95,11 @@ import { Route as ApiProductsWtpRouteImport } from './routes/api/products/wtp'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentmapDotjsonRoute = AgentmapDotjsonRouteImport.update({
+  id: '/agentmap.json',
+  path: '/agentmap.json',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AiDottxtRoute = AiDottxtRouteImport.update({
@@ -159,6 +170,12 @@ const DotwellKnownAgentDotjsonRoute =
     path: '/.well-known/agent.json',
     getParentRoute: () => rootRouteImport,
   } as any)
+const DotwellKnownAgentmapDotjsonRoute =
+  DotwellKnownAgentmapDotjsonRouteImport.update({
+    id: '/.well-known/agentmap.json',
+    path: '/.well-known/agentmap.json',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DotwellKnownAgentsRoute = DotwellKnownAgentsRouteImport.update({
   id: '/.well-known/agents',
   path: '/.well-known/agents',
@@ -168,6 +185,17 @@ const DotwellKnownAiCatalogDotjsonRoute =
   DotwellKnownAiCatalogDotjsonRouteImport.update({
     id: '/.well-known/ai-catalog.json',
     path: '/.well-known/ai-catalog.json',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DotwellKnownJwksDotjsonRoute = DotwellKnownJwksDotjsonRouteImport.update({
+  id: '/.well-known/jwks.json',
+  path: '/.well-known/jwks.json',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DotwellKnownMcpRegistryAuthRoute =
+  DotwellKnownMcpRegistryAuthRouteImport.update({
+    id: '/.well-known/mcp-registry-auth',
+    path: '/.well-known/mcp-registry-auth',
     getParentRoute: () => rootRouteImport,
   } as any)
 const AgentsPublicRoute = AgentsPublicRouteImport.update({
@@ -312,6 +340,11 @@ const ApiCronProbeRoute = ApiCronProbeRouteImport.update({
   path: '/api/cron/probe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiDnsMcpStatusRoute = ApiDnsMcpStatusRouteImport.update({
+  id: '/api/dns/mcp-status',
+  path: '/api/dns/mcp-status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiFunnelIndexRoute = ApiFunnelIndexRouteImport.update({
   id: '/api/funnel/',
   path: '/api/funnel/',
@@ -327,6 +360,12 @@ const ApiListingsStatusRoute = ApiListingsStatusRouteImport.update({
   path: '/api/listings/status',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMcpRegistryPublishStatusRoute =
+  ApiMcpRegistryPublishStatusRouteImport.update({
+    id: '/api/mcp-registry/publish-status',
+    path: '/api/mcp-registry/publish-status',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiMcpRegistryServerDotjsonRoute =
   ApiMcpRegistryServerDotjsonRouteImport.update({
     id: '/api/mcp-registry/server.json',
@@ -478,6 +517,7 @@ const ApiProductsWtpRoute = ApiProductsWtpRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/list': typeof ListRouteWithChildren
@@ -491,8 +531,11 @@ export interface FileRoutesByFullPath {
   '/.well-known/agent-card.json': typeof DotwellKnownAgentCardDotjsonRoute
   '/.well-known/agent-descriptions': typeof DotwellKnownAgentDescriptionsRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
+  '/.well-known/agentmap.json': typeof DotwellKnownAgentmapDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/.well-known/ai-catalog.json': typeof DotwellKnownAiCatalogDotjsonRoute
+  '/.well-known/jwks.json': typeof DotwellKnownJwksDotjsonRoute
+  '/.well-known/mcp-registry-auth': typeof DotwellKnownMcpRegistryAuthRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
   '/api/a2a': typeof ApiA2aRoute
@@ -521,8 +564,10 @@ export interface FileRoutesByFullPath {
   '/api/ard/search': typeof ApiArdSearchRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
+  '/api/dns/mcp-status': typeof ApiDnsMcpStatusRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
+  '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
@@ -556,6 +601,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/list': typeof ListRouteWithChildren
@@ -569,8 +615,11 @@ export interface FileRoutesByTo {
   '/.well-known/agent-card.json': typeof DotwellKnownAgentCardDotjsonRoute
   '/.well-known/agent-descriptions': typeof DotwellKnownAgentDescriptionsRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
+  '/.well-known/agentmap.json': typeof DotwellKnownAgentmapDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/.well-known/ai-catalog.json': typeof DotwellKnownAiCatalogDotjsonRoute
+  '/.well-known/jwks.json': typeof DotwellKnownJwksDotjsonRoute
+  '/.well-known/mcp-registry-auth': typeof DotwellKnownMcpRegistryAuthRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
   '/api/a2a': typeof ApiA2aRoute
@@ -599,8 +648,10 @@ export interface FileRoutesByTo {
   '/api/ard/search': typeof ApiArdSearchRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
+  '/api/dns/mcp-status': typeof ApiDnsMcpStatusRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
+  '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
@@ -635,6 +686,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/list': typeof ListRouteWithChildren
@@ -648,8 +700,11 @@ export interface FileRoutesById {
   '/.well-known/agent-card.json': typeof DotwellKnownAgentCardDotjsonRoute
   '/.well-known/agent-descriptions': typeof DotwellKnownAgentDescriptionsRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
+  '/.well-known/agentmap.json': typeof DotwellKnownAgentmapDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/.well-known/ai-catalog.json': typeof DotwellKnownAiCatalogDotjsonRoute
+  '/.well-known/jwks.json': typeof DotwellKnownJwksDotjsonRoute
+  '/.well-known/mcp-registry-auth': typeof DotwellKnownMcpRegistryAuthRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
   '/api/a2a': typeof ApiA2aRoute
@@ -678,8 +733,10 @@ export interface FileRoutesById {
   '/api/ard/search': typeof ApiArdSearchRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
+  '/api/dns/mcp-status': typeof ApiDnsMcpStatusRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
+  '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
@@ -715,6 +772,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/agentmap.json'
     | '/ai.txt'
     | '/discovery.json'
     | '/list'
@@ -728,8 +786,11 @@ export interface FileRouteTypes {
     | '/.well-known/agent-card.json'
     | '/.well-known/agent-descriptions'
     | '/.well-known/agent.json'
+    | '/.well-known/agentmap.json'
     | '/.well-known/agents'
     | '/.well-known/ai-catalog.json'
+    | '/.well-known/jwks.json'
+    | '/.well-known/mcp-registry-auth'
     | '/agents/public'
     | '/agents/search'
     | '/api/a2a'
@@ -758,8 +819,10 @@ export interface FileRouteTypes {
     | '/api/ard/search'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
+    | '/api/dns/mcp-status'
     | '/api/listings/active'
     | '/api/listings/status'
+    | '/api/mcp-registry/publish-status'
     | '/api/mcp-registry/server.json'
     | '/api/products/access'
     | '/api/products/agent'
@@ -793,6 +856,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/agentmap.json'
     | '/ai.txt'
     | '/discovery.json'
     | '/list'
@@ -806,8 +870,11 @@ export interface FileRouteTypes {
     | '/.well-known/agent-card.json'
     | '/.well-known/agent-descriptions'
     | '/.well-known/agent.json'
+    | '/.well-known/agentmap.json'
     | '/.well-known/agents'
     | '/.well-known/ai-catalog.json'
+    | '/.well-known/jwks.json'
+    | '/.well-known/mcp-registry-auth'
     | '/agents/public'
     | '/agents/search'
     | '/api/a2a'
@@ -836,8 +903,10 @@ export interface FileRouteTypes {
     | '/api/ard/search'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
+    | '/api/dns/mcp-status'
     | '/api/listings/active'
     | '/api/listings/status'
+    | '/api/mcp-registry/publish-status'
     | '/api/mcp-registry/server.json'
     | '/api/products/access'
     | '/api/products/agent'
@@ -871,6 +940,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/agentmap.json'
     | '/ai.txt'
     | '/discovery.json'
     | '/list'
@@ -884,8 +954,11 @@ export interface FileRouteTypes {
     | '/.well-known/agent-card.json'
     | '/.well-known/agent-descriptions'
     | '/.well-known/agent.json'
+    | '/.well-known/agentmap.json'
     | '/.well-known/agents'
     | '/.well-known/ai-catalog.json'
+    | '/.well-known/jwks.json'
+    | '/.well-known/mcp-registry-auth'
     | '/agents/public'
     | '/agents/search'
     | '/api/a2a'
@@ -914,8 +987,10 @@ export interface FileRouteTypes {
     | '/api/ard/search'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
+    | '/api/dns/mcp-status'
     | '/api/listings/active'
     | '/api/listings/status'
+    | '/api/mcp-registry/publish-status'
     | '/api/mcp-registry/server.json'
     | '/api/products/access'
     | '/api/products/agent'
@@ -950,6 +1025,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentmapDotjsonRoute: typeof AgentmapDotjsonRoute
   AiDottxtRoute: typeof AiDottxtRoute
   DiscoveryDotjsonRoute: typeof DiscoveryDotjsonRoute
   ListRoute: typeof ListRouteWithChildren
@@ -963,8 +1039,11 @@ export interface RootRouteChildren {
   DotwellKnownAgentCardDotjsonRoute: typeof DotwellKnownAgentCardDotjsonRoute
   DotwellKnownAgentDescriptionsRoute: typeof DotwellKnownAgentDescriptionsRoute
   DotwellKnownAgentDotjsonRoute: typeof DotwellKnownAgentDotjsonRoute
+  DotwellKnownAgentmapDotjsonRoute: typeof DotwellKnownAgentmapDotjsonRoute
   DotwellKnownAgentsRoute: typeof DotwellKnownAgentsRoute
   DotwellKnownAiCatalogDotjsonRoute: typeof DotwellKnownAiCatalogDotjsonRoute
+  DotwellKnownJwksDotjsonRoute: typeof DotwellKnownJwksDotjsonRoute
+  DotwellKnownMcpRegistryAuthRoute: typeof DotwellKnownMcpRegistryAuthRoute
   AgentsPublicRoute: typeof AgentsPublicRoute
   AgentsSearchRoute: typeof AgentsSearchRoute
   ApiA2aRoute: typeof ApiA2aRoute
@@ -992,8 +1071,10 @@ export interface RootRouteChildren {
   ApiArdSearchRoute: typeof ApiArdSearchRoute
   ApiCronPrefilterRoute: typeof ApiCronPrefilterRoute
   ApiCronProbeRoute: typeof ApiCronProbeRoute
+  ApiDnsMcpStatusRoute: typeof ApiDnsMcpStatusRoute
   ApiListingsActiveRoute: typeof ApiListingsActiveRoute
   ApiListingsStatusRoute: typeof ApiListingsStatusRoute
+  ApiMcpRegistryPublishStatusRoute: typeof ApiMcpRegistryPublishStatusRoute
   ApiMcpRegistryServerDotjsonRoute: typeof ApiMcpRegistryServerDotjsonRoute
   ApiProductsAccessRoute: typeof ApiProductsAccessRoute
   ApiProductsAgentRoute: typeof ApiProductsAgentRoute
@@ -1033,6 +1114,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agentmap.json': {
+      id: '/agentmap.json'
+      path: '/agentmap.json'
+      fullPath: '/agentmap.json'
+      preLoaderRoute: typeof AgentmapDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ai.txt': {
@@ -1126,6 +1214,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotwellKnownAgentDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/agentmap.json': {
+      id: '/.well-known/agentmap.json'
+      path: '/.well-known/agentmap.json'
+      fullPath: '/.well-known/agentmap.json'
+      preLoaderRoute: typeof DotwellKnownAgentmapDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/agents': {
       id: '/.well-known/agents'
       path: '/.well-known/agents'
@@ -1138,6 +1233,20 @@ declare module '@tanstack/react-router' {
       path: '/.well-known/ai-catalog.json'
       fullPath: '/.well-known/ai-catalog.json'
       preLoaderRoute: typeof DotwellKnownAiCatalogDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/jwks.json': {
+      id: '/.well-known/jwks.json'
+      path: '/.well-known/jwks.json'
+      fullPath: '/.well-known/jwks.json'
+      preLoaderRoute: typeof DotwellKnownJwksDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/mcp-registry-auth': {
+      id: '/.well-known/mcp-registry-auth'
+      path: '/.well-known/mcp-registry-auth'
+      fullPath: '/.well-known/mcp-registry-auth'
+      preLoaderRoute: typeof DotwellKnownMcpRegistryAuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agents/public': {
@@ -1336,6 +1445,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCronProbeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/dns/mcp-status': {
+      id: '/api/dns/mcp-status'
+      path: '/api/dns/mcp-status'
+      fullPath: '/api/dns/mcp-status'
+      preLoaderRoute: typeof ApiDnsMcpStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/funnel/': {
       id: '/api/funnel/'
       path: '/api/funnel'
@@ -1355,6 +1471,13 @@ declare module '@tanstack/react-router' {
       path: '/api/listings/status'
       fullPath: '/api/listings/status'
       preLoaderRoute: typeof ApiListingsStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/mcp-registry/publish-status': {
+      id: '/api/mcp-registry/publish-status'
+      path: '/api/mcp-registry/publish-status'
+      fullPath: '/api/mcp-registry/publish-status'
+      preLoaderRoute: typeof ApiMcpRegistryPublishStatusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/mcp-registry/server.json': {
@@ -1575,6 +1698,7 @@ const ListRouteWithChildren = ListRoute._addFileChildren(ListRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentmapDotjsonRoute: AgentmapDotjsonRoute,
   AiDottxtRoute: AiDottxtRoute,
   DiscoveryDotjsonRoute: DiscoveryDotjsonRoute,
   ListRoute: ListRouteWithChildren,
@@ -1588,8 +1712,11 @@ const rootRouteChildren: RootRouteChildren = {
   DotwellKnownAgentCardDotjsonRoute: DotwellKnownAgentCardDotjsonRoute,
   DotwellKnownAgentDescriptionsRoute: DotwellKnownAgentDescriptionsRoute,
   DotwellKnownAgentDotjsonRoute: DotwellKnownAgentDotjsonRoute,
+  DotwellKnownAgentmapDotjsonRoute: DotwellKnownAgentmapDotjsonRoute,
   DotwellKnownAgentsRoute: DotwellKnownAgentsRoute,
   DotwellKnownAiCatalogDotjsonRoute: DotwellKnownAiCatalogDotjsonRoute,
+  DotwellKnownJwksDotjsonRoute: DotwellKnownJwksDotjsonRoute,
+  DotwellKnownMcpRegistryAuthRoute: DotwellKnownMcpRegistryAuthRoute,
   AgentsPublicRoute: AgentsPublicRoute,
   AgentsSearchRoute: AgentsSearchRoute,
   ApiA2aRoute: ApiA2aRoute,
@@ -1617,8 +1744,10 @@ const rootRouteChildren: RootRouteChildren = {
   ApiArdSearchRoute: ApiArdSearchRoute,
   ApiCronPrefilterRoute: ApiCronPrefilterRoute,
   ApiCronProbeRoute: ApiCronProbeRoute,
+  ApiDnsMcpStatusRoute: ApiDnsMcpStatusRoute,
   ApiListingsActiveRoute: ApiListingsActiveRoute,
   ApiListingsStatusRoute: ApiListingsStatusRoute,
+  ApiMcpRegistryPublishStatusRoute: ApiMcpRegistryPublishStatusRoute,
   ApiMcpRegistryServerDotjsonRoute: ApiMcpRegistryServerDotjsonRoute,
   ApiProductsAccessRoute: ApiProductsAccessRoute,
   ApiProductsAgentRoute: ApiProductsAgentRoute,

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "dev.dualregistry/registry",
+  "description": "Dual Registry — free MCP + agent list, probe-clean Active, Kernel Improver + Recursive Loop. Self-list via skill.json / publish. Dual strategy: outbound invites + inbound self-serve.",
+  "version": "2.0.0",
+  "title": "Dual Registry",
+  "websiteUrl": "https://www.dualregistry.dev",
+  "repository": {
+    "url": "https://github.com/manhatton31-svg/dualregistry",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://www.dualregistry.dev/api/protocol"
+    }
+  ]
+}
