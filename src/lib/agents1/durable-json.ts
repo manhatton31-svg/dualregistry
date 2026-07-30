@@ -67,8 +67,12 @@ async function hydrateRemote(name: string): Promise<string | null> {
     if (!res.ok) return null;
     const text = await res.text();
     if (!text.trim() || text.trim().startsWith("<!")) return null;
-    // validate JSON
-    JSON.parse(text);
+    // validate JSON — never persist PLACEHOLDER / corrupt blobs
+    try {
+      JSON.parse(text);
+    } catch {
+      return null;
+    }
     await writeLocal(name, text);
     return text;
   } catch {
@@ -161,8 +165,22 @@ export async function loadDurableJson<T>(
         if (forced) raw = forced;
       }
     } catch {
-      const forced = await forceHydrateDurable(name);
-      if (forced) raw = forced;
+      // Corrupt local (e.g. PLACEHOLDER) — wipe and rehydrate remote
+      try {
+        const forced = await forceHydrateDurable(name, { minBytes: 2 });
+        if (forced) {
+          try {
+            JSON.parse(forced);
+            raw = forced;
+          } catch {
+            raw = null;
+          }
+        } else {
+          raw = null;
+        }
+      } catch {
+        raw = null;
+      }
     }
   }
   if (!raw) return fallback();
