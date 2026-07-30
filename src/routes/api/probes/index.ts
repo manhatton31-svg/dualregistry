@@ -31,7 +31,7 @@ export const Route = createFileRoute("/api/probes/")({
             target?: string;
             signals?: string[];
           }>)
-            .slice(0, 12)
+            .slice(0, 24)
             .map((r) => ({
               id: r.id,
               kind: r.kind,

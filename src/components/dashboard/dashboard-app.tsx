@@ -585,7 +585,7 @@ export function DashboardApp() {
           </div>
           {(proto?.probes?.recent || []).length > 0 ? (
             <ul className="mt-2 max-h-36 space-y-1 overflow-y-auto border-t border-border/50 pt-2">
-              {(proto?.probes?.recent || []).slice(0, 8).map((r, i) => {
+              {(proto?.probes?.recent || []).slice(0, 16).map((r, i) => {
                 const et = r.probed_at
                   ? formatEtClock(r.probed_at, { withSeconds: true })
                   : "—";

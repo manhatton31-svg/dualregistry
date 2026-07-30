@@ -22,6 +22,15 @@ import {
   type MergeableProbeState,
 } from "./probe-merge";
 import { durableRemoteRawUrl } from "./durable-json";
+import {
+  appendTickLog,
+  backfillTickLogFromResults,
+  mergeTickLogs,
+  type TickLogEntry,
+} from "./tick-log";
+
+export type { TickLogEntry } from "./tick-log";
+export { appendTickLog, mergeTickLogs, backfillTickLogFromResults } from "./tick-log";
 
 const PATH = join(dataRoot(), "probes.json");
 const DURABLE_NAME = "probes.json";
@@ -80,6 +89,11 @@ type ProbeState = {
   hourly_used: number;
   hourly_cap: number;
   results: Record<string, ProbeResult>;
+  /**
+   * Append-only chronological log of every full probe attempt.
+   * Survives merges so the UI never shows multi-hour gaps when used climbs.
+   */
+  tick_log?: TickLogEntry[];
   updated_at: string;
   last_tick_at?: string;
   /** Only advanced on checks-clean ok — drives full 6-minute wait */
@@ -277,6 +291,10 @@ export async function loadProbeState(): Promise<ProbeState> {
     hourly_used:
       merged.hour_bucket === hour ? Number(merged.hourly_used) || 0 : 0,
     results: (merged.results || {}) as Record<string, ProbeResult>,
+    tick_log: backfillTickLogFromResults(
+      (merged.results || {}) as Record<string, ProbeResult>,
+      mergeTickLogs(merged.tick_log, memPart?.tick_log),
+    ),
     used: Number(merged.used) || 0,
     last_tick_at: merged.last_tick_at,
     last_ok_tick_at: merged.last_ok_tick_at,
@@ -313,6 +331,7 @@ async function persist(s: ProbeState) {
       const merged = mergeProbeStates(s as MergeableProbeState, remote, s.day);
       s.used = Math.max(s.used, Number(merged.used) || 0);
       s.results = (merged.results || s.results) as Record<string, ProbeResult>;
+      s.tick_log = mergeTickLogs(s.tick_log, (merged as MergeableProbeState).tick_log);
       s.last_tick_at = merged.last_tick_at || s.last_tick_at;
       if (merged.live_active_snapshot) {
         const a = s.live_active_snapshot;
@@ -1077,6 +1096,7 @@ export async function runProbeBudgeted(
       }
       state.used += 1;
       out.push(result);
+      appendTickLog(state, result, true, { name: item.name });
       // ONE full probe only — stop (even on fail)
       break;
     }
@@ -1086,6 +1106,7 @@ export async function runProbeBudgeted(
     state.hourly_used += 1;
     gotCleanOk = true;
     out.push(result);
+    appendTickLog(state, result, true, { name: item.name });
   }
   state.last_tick_at = new Date().toISOString();
   state.updated_at = state.last_tick_at;
@@ -1305,18 +1326,28 @@ export async function getProbePublic() {
     ? s.weekly
     : { week, rechecked: 0, still_ok: 0, demoted: 0 };
 
-  const recent = Object.values(s.results)
-    .filter((r) => r && r.probed_at)
+  const recentFromLog = (s.tick_log && s.tick_log.length
+    ? s.tick_log
+    : backfillTickLogFromResults(s.results)
+  )
+    // Prefer budget-spent probes in the public log (real ticks)
+    .filter((t) => t.spent_budget !== false)
     .sort((a, b) => (a.probed_at < b.probed_at ? 1 : -1))
-    .slice(0, 30);
+    .slice(0, 40);
 
-  // Dedupe recent by id
-  const seenRecent = new Set<string>();
-  const recentUnique = recent.filter((r) => {
-    if (seenRecent.has(r.id)) return false;
-    seenRecent.add(r.id);
-    return true;
-  });
+  // Map tick log → recent shape (chronological — NOT deduped by listing id)
+  const recentUnique = recentFromLog.map((t) => ({
+    id: t.id,
+    kind: (t.kind as "agent" | "mcp") || "agent",
+    target: t.target || "",
+    ok: Boolean(t.ok),
+    latency_ms: 0,
+    score: 0,
+    signals: t.signals || [],
+    handshake: t.handshake as ProbeResult["handshake"],
+    protocol_hints: [] as string[],
+    probed_at: t.probed_at,
+  }));
 
   // Outcome summary — unique primary listings (why fail / how many)
   const primaryMap = new Map<string, ProbeResult>();

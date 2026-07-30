@@ -2,6 +2,8 @@
  * Monotonic merge of probe state blobs.
  * Prevents serverless multi-instance flapping (used 5→3, Live 12→5).
  */
+import { mergeTickLogs, type TickLogEntry } from "./tick-log";
+
 export type MergeableProbeState = {
   day?: string;
   used?: number;
@@ -10,6 +12,7 @@ export type MergeableProbeState = {
   hourly_used?: number;
   hourly_cap?: number;
   results?: Record<string, any>;
+  tick_log?: TickLogEntry[];
   updated_at?: string;
   last_tick_at?: string;
   last_ok_tick_at?: string;
@@ -49,7 +52,6 @@ function mergeResults(
       out[k] = r;
       continue;
     }
-    // keep the more recent probe for this key
     if ((r.probed_at || "") >= (prev.probed_at || "")) {
       out[k] = r;
     }
@@ -65,19 +67,16 @@ export function mergeProbeStates(
 ): MergeableProbeState {
   const L = local && Object.keys(local).length ? local : null;
   const R = remote && Object.keys(remote).length ? remote : null;
-  if (!L && !R) return { day, used: 0, results: {} };
+  if (!L && !R) return { day, used: 0, results: {}, tick_log: [] };
   if (!L) return { ...R!, day: R!.day === day ? day : day };
   if (!R) return { ...L, day: L.day === day ? day : day };
 
-  // Different day: prefer current day state; if neither matches, take newer updated_at
   const Lday = L.day === day;
   const Rday = R.day === day;
   if (Lday && !Rday) return { ...L, day };
   if (Rday && !Lday) return { ...R, day };
 
   const results = mergeResults(L.results || {}, R.results || {});
-  // Floor used to unique primary budget probes for this day (never go backwards)
-  // Preflight rejects do NOT count toward used
   let todayPrimaries = 0;
   const seen = new Set<string>();
   for (const [k, r] of Object.entries(results)) {
@@ -85,17 +84,30 @@ export function mergeProbeStates(
     if (k.startsWith("name:") || k.startsWith("url:")) continue;
     if (!(r.probed_at || "").startsWith(day)) continue;
     const sigs = r.signals || [];
-    if (sigs.some((s: unknown) => String(s).includes("preflight-reject"))) continue;
-    if (sigs.some((s: unknown) => String(s).includes("bulk-prefilter"))) continue;
+    if (sigs.some((s: unknown) => String(s).includes("preflight-reject")))
+      continue;
+    if (sigs.some((s: unknown) => String(s).includes("bulk-prefilter")))
+      continue;
     const uid = String(r.id || k);
     if (seen.has(uid)) continue;
     seen.add(uid);
     todayPrimaries++;
   }
+  let tickSpend = 0;
+  const tickSeen = new Set<string>();
+  for (const t of mergeTickLogs(L.tick_log, R.tick_log)) {
+    if (!t.spent_budget) continue;
+    if (!(t.probed_at || "").startsWith(day)) continue;
+    const uid = `${t.probed_at}|${t.id}`;
+    if (tickSeen.has(uid)) continue;
+    tickSeen.add(uid);
+    tickSpend++;
+  }
   const used = Math.max(
     Number(L.used) || 0,
     Number(R.used) || 0,
     todayPrimaries,
+    tickSpend,
   );
   const last_tick_at = newerIso(L.last_tick_at, R.last_tick_at);
   const last_ok_tick_at = newerIso(L.last_ok_tick_at, R.last_ok_tick_at);
@@ -108,14 +120,17 @@ export function mergeProbeStates(
           : L.last_handshake || R.last_handshake)) ||
     L.last_handshake ||
     R.last_handshake;
-  const updated_at = newerIso(L.updated_at, R.updated_at) || new Date().toISOString();
+  const updated_at =
+    newerIso(L.updated_at, R.updated_at) || new Date().toISOString();
 
-  // hour bucket: if same, max hourly_used; else prefer the one matching current bucket later
   let hour_bucket = L.hour_bucket || R.hour_bucket;
   let hourly_used = 0;
   if (L.hour_bucket && L.hour_bucket === R.hour_bucket) {
     hour_bucket = L.hour_bucket;
-    hourly_used = Math.max(Number(L.hourly_used) || 0, Number(R.hourly_used) || 0);
+    hourly_used = Math.max(
+      Number(L.hourly_used) || 0,
+      Number(R.hourly_used) || 0,
+    );
   } else if ((L.last_tick_at || "") >= (R.last_tick_at || "")) {
     hour_bucket = L.hour_bucket;
     hourly_used = Number(L.hourly_used) || 0;
@@ -124,7 +139,6 @@ export function mergeProbeStates(
     hourly_used = Number(R.hourly_used) || 0;
   }
 
-  // live snapshot: HIGH-WATER — never take a lower total (prevents Live flap down)
   let live = L.live_active_snapshot || R.live_active_snapshot;
   if (L.live_active_snapshot && R.live_active_snapshot) {
     live = {
@@ -147,33 +161,17 @@ export function mergeProbeStates(
     };
   }
 
-  const weekly =
-    L.weekly || R.weekly
-      ? {
-          week: L.weekly?.week || R.weekly?.week || "",
-          rechecked: Math.max(
-            Number(L.weekly?.rechecked) || 0,
-            Number(R.weekly?.rechecked) || 0,
-          ),
-          still_ok: Math.max(
-            Number(L.weekly?.still_ok) || 0,
-            Number(R.weekly?.still_ok) || 0,
-          ),
-          demoted: Math.max(
-            Number(L.weekly?.demoted) || 0,
-            Number(R.weekly?.demoted) || 0,
-          ),
-        }
-      : undefined;
+  const tick_log = mergeTickLogs(L.tick_log, R.tick_log);
 
   return {
     day,
     used,
-    budget: Math.max(Number(L.budget) || 0, Number(R.budget) || 0, 240),
+    budget: L.budget || R.budget,
     hour_bucket,
     hourly_used,
-    hourly_cap: Math.max(Number(L.hourly_cap) || 0, Number(R.hourly_cap) || 0, 1),
+    hourly_cap: L.hourly_cap || R.hourly_cap,
     results,
+    tick_log,
     updated_at,
     last_tick_at,
     last_ok_tick_at,
@@ -184,24 +182,26 @@ export function mergeProbeStates(
       Number(R.wasted_probes_discarded) || 0,
     ),
     real_active_only: L.real_active_only ?? R.real_active_only,
-    weekly,
+    weekly: L.weekly || R.weekly,
     live_active_snapshot: live,
   };
 }
 
-export function countLiveFromResults(
-  results: Record<string, any> | undefined,
-): { total: number; mcp: number; agents: number } {
+export function countLiveFromResults(results: Record<string, any> = {}): {
+  total: number;
+  mcp: number;
+  agents: number;
+} {
   let mcp = 0;
   let agents = 0;
   const seen = new Set<string>();
-  for (const [k, r] of Object.entries(results || {})) {
+  for (const [k, r] of Object.entries(results)) {
     if (!r) continue;
     if (k.startsWith("name:") || k.startsWith("url:")) continue;
-    if (!(r.ok && r.handshake === "ok")) continue;
-    const id = String(r.id || k);
-    if (seen.has(id)) continue;
-    seen.add(id);
+    if (!(r.handshake === "ok" && r.ok)) continue;
+    const uid = String(r.id || k);
+    if (seen.has(uid)) continue;
+    seen.add(uid);
     if (r.kind === "mcp") mcp++;
     else agents++;
   }
