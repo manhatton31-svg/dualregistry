@@ -1,6 +1,6 @@
 {
   "day": "2026-07-30",
-  "used": 84,
+  "used": 85,
   "budget": 240,
   "hour_bucket": "2026-07-30T03:42",
   "hourly_used": 0,
@@ -5032,7 +5032,7 @@
     }
   },
   "updated_at": "2026-07-30T03:47:17.505Z",
-  "last_tick_at": "2026-07-30T06:01:36.909Z",
+  "last_tick_at": "2026-07-30T06:08:51.170Z",
   "last_ok_tick_at": "2026-07-30T03:40:22.032Z",
   "last_handshake": "fail",
   "wasted_probes_discarded": 0,
@@ -5040,9 +5040,25 @@
     "total": 42,
     "mcp": 22,
     "agents": 20,
-    "at": "2026-07-30T06:00:46.341Z"
+    "at": "2026-07-30T06:14:55.212Z"
   },
   "tick_log": [
+    {
+      "tick_id": "2026-07-30T06:08:50.902Z|mcp_abbe3ef39eb92e47d26c|partial",
+      "id": "mcp_abbe3ef39eb92e47d26c",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://bunzee.ai/mcp-server",
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T06:08:50.902Z",
+      "spent_budget": true
+    },
     {
       "tick_id": "2026-07-30T05:54:40.506Z|mcp_811b895a5481cf4a13eb|partial",
       "id": "mcp_811b895a5481cf4a13eb",
