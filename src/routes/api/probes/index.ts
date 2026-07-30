@@ -1,6 +1,7 @@
 /**
  * GET /api/probes — lightweight probe health for humans + agents.
  * Always disk-backed; no store crawl. Use this to verify the 6-min worker.
+ * Timestamps: Eastern Time (America/New_York); next = last + 6 minutes.
  */
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -12,8 +13,15 @@ export const Route = createFileRoute("/api/probes/")({
           const { getProbePublic, invalidateProbeCache } = await import(
             "@/lib/agents1/probe"
           );
+          const {
+            formatEtClock,
+            formatEtFull,
+            formatProbeRelative,
+            probeCadencePair,
+          } = await import("@/lib/agents1/time-et");
           invalidateProbeCache();
           const probes = await getProbePublic();
+          const cadence = probeCadencePair(probes.last_tick_at);
           const recent = (probes.recent || []).slice(0, 12).map(
             (r: {
               id?: string;
@@ -29,6 +37,15 @@ export const Route = createFileRoute("/api/probes/")({
               handshake: r.handshake,
               ok: r.ok,
               probed_at: r.probed_at,
+              probed_at_et: r.probed_at
+                ? formatEtClock(r.probed_at, { withSeconds: true })
+                : null,
+              probed_at_et_full: r.probed_at
+                ? formatEtFull(r.probed_at)
+                : null,
+              probed_relative: r.probed_at
+                ? formatProbeRelative(r.probed_at, "past")
+                : null,
               target: r.target,
               signals: (r.signals || []).slice(0, 4),
               why:
@@ -45,7 +62,8 @@ export const Route = createFileRoute("/api/probes/")({
             {
               ok: true,
               real_numbers_only: true,
-              cadence: "1 probe every 6 minutes UTC · 240/day",
+              timezone: "America/New_York",
+              cadence: "1 probe every 6 minutes · next = last + 6m · Eastern Time",
               how_it_works: {
                 worker:
                   "Production: GitHub Actions every 6m → POST /api/cron/probe · Preview: scripts/probe-worker.mjs",
@@ -54,7 +72,7 @@ export const Route = createFileRoute("/api/probes/")({
                 status: "data/growth/probe-worker.json",
                 dashboard: "GET /api/dashboard?refresh=1 → protocol.probes",
                 timing:
-                  "next_tick_at = last_tick_at + 6 minutes (always; not wall-clock alone)",
+                  "next_tick_at = last_tick_at + exactly 6 minutes (Eastern display)",
                 live_rule: "checks clean + handshake ok → Active list",
                 handoff:
                   "probe ok → offer take-demo skill (listing_id + POST body); demos/feedback external only",
@@ -67,7 +85,12 @@ export const Route = createFileRoute("/api/probes/")({
                 budget: probes.budget,
                 remaining: probes.remaining,
                 last_tick_at: probes.last_tick_at,
-                next_tick_at: probes.next_tick_at,
+                last_tick_at_et: cadence.last?.et_full ?? null,
+                last_tick_relative: cadence.last?.relative ?? null,
+                next_tick_at: cadence.next.iso,
+                next_tick_at_et: cadence.next.et_full,
+                next_tick_relative: cadence.next.relative,
+                gap_minutes: 6,
                 by_kind_today: probes.by_kind_today,
                 worker: probes.probe_worker,
                 window: {

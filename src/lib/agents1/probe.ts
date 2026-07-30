@@ -14,6 +14,7 @@ import {
   saveDurableJson,
   durableFileMtime,
 } from "./durable-json";
+import { nextProbeFromLast } from "./time-et";
 
 const PATH = join(dataRoot(), "probes.json");
 const DURABLE_NAME = "probes.json";
@@ -955,27 +956,8 @@ export async function getProbePublic() {
     baseline_note: s.baseline_note,
     wasted_probes_discarded: s.wasted_probes_discarded,
     last_tick_at: s.last_tick_at,
-    // Next = last tick + 6 minutes (cadence contract). Wall-clock only if no last tick.
-    next_tick_at: (() => {
-      const SLOT = 6 * 60 * 1000;
-      const now = Date.now();
-      const lastMs = s.last_tick_at ? Date.parse(s.last_tick_at) : NaN;
-      if (Number.isFinite(lastMs)) {
-        let next = lastMs + SLOT;
-        // Overdue → keep advancing slots so UI never shows a past "next"
-        while (next < now + 2_000) next += SLOT;
-        return new Date(next).toISOString();
-      }
-      const fromWorker = probe_worker?.next_tick_at
-        ? Date.parse(String(probe_worker.next_tick_at))
-        : NaN;
-      if (Number.isFinite(fromWorker) && fromWorker > now + 2_000) {
-        return new Date(fromWorker).toISOString();
-      }
-      let next = Math.ceil(now / SLOT) * SLOT + 500;
-      if (next - now < 2000) next += SLOT;
-      return new Date(next).toISOString();
-    })(),
+    // Next = last tick + exactly 6 minutes (cadence contract).
+    next_tick_at: nextProbeFromLast(s.last_tick_at),
     probe_worker: probe_worker
       ? {
           status: probe_worker.status,

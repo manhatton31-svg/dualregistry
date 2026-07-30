@@ -26,6 +26,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ListingTable, type ListingRow } from "./listing-table";
+import {
+  formatEtClock,
+  formatProbeRelative,
+  probeCadencePair,
+} from "@/lib/agents1/time-et";
 
 type ProductEngagement = {
   demo_agents?: number;
@@ -218,55 +223,6 @@ function formatRelative(iso: string) {
   return `${Math.floor(ms / 3600_000)}h ago`;
 }
 
-/** Past → "2m ago"; future → "in 4m". last + 6m must equal cadence (not wall clock). */
-function formatProbeWhen(iso: string | null | undefined, role: "past" | "future" = "past") {
-  if (!iso) return "—";
-  const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return "—";
-  const delta = t - Date.now(); // positive = future
-  if (role === "future" || delta > 0) {
-    if (delta <= 20_000) return "any moment";
-    if (delta < 3600_000) {
-      // floor so "2m ago + in 4m" = 6m cadence (never round up leftover seconds)
-      const m = Math.max(1, Math.floor(delta / 60_000));
-      return `in ${m}m`;
-    }
-    return `in ${Math.floor(delta / 3600_000)}h`;
-  }
-  const ago = -delta;
-  if (ago < 45_000) return "just now";
-  if (ago < 3600_000) return `${Math.max(1, Math.floor(ago / 60_000))}m ago`;
-  return `${Math.floor(ago / 3600_000)}h ago`;
-}
-
-/** Next tick = last + 6m (production + preview contract). */
-function nextProbeSlotIso(fromMs = Date.now()): string {
-  const slot = 6 * 60 * 1000;
-  const next = Math.ceil(fromMs / slot) * slot + 500;
-  if (next - fromMs < 2000) {
-    return new Date(next + slot).toISOString();
-  }
-  return new Date(next).toISOString();
-}
-
-function resolveNextTickAt(protoNext?: string | null, lastTick?: string | null): string {
-  const now = Date.now();
-  const SLOT = 6 * 60 * 1000;
-  // Authoritative: last_tick + 6 minutes
-  if (lastTick) {
-    const last = Date.parse(lastTick);
-    if (Number.isFinite(last)) {
-      let next = last + SLOT;
-      while (next < now + 2_000) next += SLOT;
-      return new Date(next).toISOString();
-    }
-  }
-  if (protoNext) {
-    const t = Date.parse(protoNext);
-    if (Number.isFinite(t) && t > now + 2_000) return protoNext;
-  }
-  return nextProbeSlotIso(now);
-}
 
 function StatCard(props: {
   label: string;
@@ -366,10 +322,10 @@ export function DashboardApp() {
   const [tab, setTab] = useState<TabId>("overview");
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
-  // Re-render every 30s so "last Xm ago / next in Ym" stays honest without full fetch
+  // Re-render every 15s so ET timestamps + "Xm ago / in Ym" stay live
   const [, setTick] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setTick((n) => n + 1), 30_000);
+    const id = setInterval(() => setTick((n) => n + 1), 15_000);
     return () => clearInterval(id);
   }, []);
 
@@ -389,12 +345,13 @@ export function DashboardApp() {
 
   const probeUsed = proto?.probes?.used;
   const probeBudget = proto?.probes?.budget ?? 240;
-  const nextTickIso = resolveNextTickAt(
-    proto?.probes?.next_tick_at || proto?.probes?.probe_worker?.next_tick_at,
-    proto?.probes?.last_tick_at,
-  );
-  const lastTickLabel = formatProbeWhen(proto?.probes?.last_tick_at, "past");
-  const nextTickLabel = formatProbeWhen(nextTickIso, "future");
+  const cadence = probeCadencePair(proto?.probes?.last_tick_at);
+  const lastTickLabel = cadence.last?.relative ?? "—";
+  const nextTickLabel = cadence.next.relative;
+  const lastEt = cadence.last?.et ?? "—";
+  const nextEt = cadence.next.et;
+  const lastEtFull = cadence.last?.et_full ?? "—";
+  const nextEtFull = cadence.next.et_full;
 
   const mcpActiveRows = useMemo(
     () =>
@@ -520,8 +477,8 @@ export function DashboardApp() {
             }
             hint={
               proto?.probes?.last_tick_at
-                ? `last ${lastTickLabel} · next ${nextTickLabel} · ${proto.probes.by_kind_today?.agents ?? "—"}a/${proto.probes.by_kind_today?.mcps ?? "—"}m`
-                : "worker every 6 min"
+                ? `last ${lastEt} (${lastTickLabel}) · next ${nextEt} (${nextTickLabel}) · ${proto.probes.by_kind_today?.agents ?? "—"}a/${proto.probes.by_kind_today?.mcps ?? "—"}m`
+                : "every 6 min ET"
             }
             icon={Activity}
             accent="warn"
@@ -565,26 +522,56 @@ export function DashboardApp() {
             <span className="text-fg font-medium">
               {probeUsed ?? "—"}/{probeBudget ?? 240}
             </span>{" "}
-            today · last {lastTickLabel} · next {nextTickLabel} · kinds{" "}
-            {proto?.probes?.by_kind_today?.agents ?? "—"}a /{" "}
+            today · kinds {proto?.probes?.by_kind_today?.agents ?? "—"}a /{" "}
             {proto?.probes?.by_kind_today?.mcps ?? "—"}m
           </p>
-          {proto?.probes?.recent?.[0] ? (
-            <p className="mt-1 truncate text-[11px] text-subtle">
-              Last:{" "}
-              <span className="text-muted">
-                {proto.probes.recent[0].kind} ·{" "}
-                {proto.probes.recent[0].handshake || "—"}
-                {proto.probes.recent[0].ok ? " ✓" : " ✗"} ·{" "}
-                {(proto.probes.recent[0] as { target?: string }).target ||
-                  proto.probes.recent[0].id ||
-                  ""}
-              </span>
-            </p>
+          <div className="mt-2 grid gap-1.5 rounded border border-border/60 bg-bg/40 px-2.5 py-2 text-[11px] sm:grid-cols-2">
+            <div>
+              <p className="text-[10px] uppercase tracking-wide text-subtle">
+                Last probe (ET)
+              </p>
+              <p className="tabular font-medium text-fg">{lastEtFull}</p>
+              <p className="text-muted">{lastTickLabel}</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-wide text-subtle">
+                Next probe (ET) · +6 min
+              </p>
+              <p className="tabular font-medium text-fg">{nextEtFull}</p>
+              <p className="text-muted">{nextTickLabel}</p>
+            </div>
+          </div>
+          {(proto?.probes?.recent || []).length > 0 ? (
+            <ul className="mt-2 max-h-36 space-y-1 overflow-y-auto border-t border-border/50 pt-2">
+              {(proto?.probes?.recent || []).slice(0, 8).map((r, i) => {
+                const et = r.probed_at
+                  ? formatEtClock(r.probed_at, { withSeconds: true })
+                  : "—";
+                const rel = r.probed_at
+                  ? formatProbeRelative(r.probed_at, "past")
+                  : "";
+                return (
+                  <li
+                    key={`${r.id || i}-${r.probed_at || i}`}
+                    className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-[11px]"
+                  >
+                    <span className="tabular font-medium text-fg shrink-0">
+                      {et}
+                    </span>
+                    <span className="text-subtle shrink-0">{rel}</span>
+                    <span className="truncate text-muted">
+                      {r.kind || "—"} · {r.handshake || "—"}
+                      {r.ok ? " ✓" : " ✗"} ·{" "}
+                      {(r as { target?: string }).target || r.id || r.name || ""}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
           ) : null}
           <p className="mt-1 text-[10px] text-subtle">
-            Live only grows on handshake ok. Demos/feedback never auto-fill
-            (external actors only).
+            Cadence: last + exactly 6 minutes = next (Eastern Time). Live only
+            grows on handshake ok. Demos/feedback never auto-fill (external only).
           </p>
         </div>
 
