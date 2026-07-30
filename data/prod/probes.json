@@ -1,6 +1,6 @@
 {
   "day": "2026-07-30",
-  "used": 87,
+  "used": 90,
   "budget": 240,
   "hour_bucket": "2026-07-30T06:12",
   "hourly_used": 1,
@@ -5151,8 +5151,8 @@
       "probed_at": "2026-07-30T06:15:25.125Z"
     }
   },
-  "updated_at": "2026-07-30T06:24:16.840087+00:00",
-  "last_tick_at": "2026-07-30T06:21:52.482Z",
+  "updated_at": "2026-07-30T06:48:13.685149+00:00",
+  "last_tick_at": "2026-07-30T06:43:38.995Z",
   "last_ok_tick_at": "2026-07-30T03:40:22.032Z",
   "last_handshake": "partial",
   "wasted_probes_discarded": 0,
@@ -5160,9 +5160,57 @@
     "total": 42,
     "mcp": 22,
     "agents": 20,
-    "at": "2026-07-30T06:24:16.322Z"
+    "at": "2026-07-30T06:48:13.391Z"
   },
   "tick_log": [
+    {
+      "tick_id": "2026-07-30T06:43:38.954Z|mcp_20b0c8a9bbbf60538335|partial",
+      "id": "mcp_20b0c8a9bbbf60538335",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://www.krtr.ai/api/mcp",
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T06:43:38.954Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T06:37:25.798Z|agtpub_e215818c3a6a96bf036f|partial",
+      "id": "agtpub_e215818c3a6a96bf036f",
+      "kind": "agent",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://turva.dev/.well-known/agent.json",
+      "signals": [
+        "card-partial",
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T06:37:25.798Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T06:31:19.787Z|mcp_1eb09fd555b37dd91789|partial",
+      "id": "mcp_1eb09fd555b37dd91789",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://app.geodesiclabs.ai/mcp",
+      "signals": [
+        "remote 406",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "probed_at": "2026-07-30T06:31:19.787Z",
+      "spent_budget": true
+    },
     {
       "tick_id": "2026-07-30T06:21:52.413Z|mcp_1eb09fd555b37dd91789|partial",
       "id": "mcp_1eb09fd555b37dd91789",
