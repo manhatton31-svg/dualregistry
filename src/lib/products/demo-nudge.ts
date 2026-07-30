@@ -23,8 +23,23 @@ import {
 
 const DURABLE_NAME = "demo-nudge.json";
 
-/** Max soft Talk nudges per drive cycle (unique listings) */
+/** Base floor when list is tiny */
+export const MIN_NUDGES_PER_CYCLE = 5;
+/** Hard ceiling per cycle (still ≤ remaining eligible) */
+export const MAX_NUDGES_PER_CYCLE_CAP = 40;
+/** Share of active clean list to touch each cycle (~25%) */
+export const NUDGE_ACTIVE_SHARE = 0.25;
+
+/** @deprecated use capForActive — kept for status readers */
 export const MAX_NUDGES_PER_CYCLE = 10;
+
+/** Proportional to Active clean size: ~25% per cycle, min 5, max 40 */
+export function capForActive(activeClean: number): number {
+  const n = Math.max(0, Math.floor(activeClean));
+  if (n <= 0) return 0;
+  const proportional = Math.ceil(n * NUDGE_ACTIVE_SHARE);
+  return Math.min(MAX_NUDGES_PER_CYCLE_CAP, Math.max(MIN_NUDGES_PER_CYCLE, proportional), n);
+}
 /** Do not re-nudge the same listing within this window */
 export const NUDGE_COOLDOWN_MS = 7 * 24 * 3600_000;
 const HISTORY_MAX = 2000;
@@ -285,13 +300,6 @@ export async function runDemoNudge(opts?: {
 
   state.last_active_clean = pool.length;
 
-  // Prune nudged map to still-active only (delisted never count as "extra")
-  for (const id of Object.keys(state.nudged)) {
-    if (!activeIds.has(id)) {
-      // keep cooldown record but do not count toward "over listing" — already unique
-    }
-  }
-
   // Eligible = active clean AND (force OR not cooling)
   const eligible = pool.filter((L) => {
     if (!L.id || L.name.length < 2) return false;
@@ -299,10 +307,12 @@ export async function runDemoNudge(opts?: {
     return !stillCooling(state.nudged[L.id], now);
   });
 
+  const propCap = capForActive(pool.length);
   const max = Math.min(
-    Math.max(0, opts?.max ?? MAX_NUDGES_PER_CYCLE),
-    MAX_NUDGES_PER_CYCLE,
+    Math.max(0, opts?.max ?? propCap),
+    propCap,
     eligible.length, // hard: never more than remaining eligible actives
+    pool.length,
   );
 
   if (max === 0) {
@@ -546,7 +556,8 @@ export async function getDemoNudgeStatus() {
         priority: h.priority,
       })),
     policy: {
-      max_per_cycle: MAX_NUDGES_PER_CYCLE,
+      max_per_cycle: capForActive(active_clean),
+      active_share: NUDGE_ACTIVE_SHARE,
       cooldown_days: NUDGE_COOLDOWN_MS / 86400_000,
       only: "Active clean list (clean-registry ∩ agents_active/mcp_active)",
       metrics: "unique listings only — never send-events > active count",

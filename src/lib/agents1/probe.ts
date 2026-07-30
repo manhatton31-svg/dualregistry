@@ -802,14 +802,16 @@ function probePriority(
     return p + 150;
   }
   if (prev.handshake === "skip") {
+    // Skip burns a slot with no path to clean — deprioritize hard for 24h
+    if (age < 24 * 3600_000) return -9000;
     const hasUrl = Boolean(
       item.agent_card_url ||
         item.endpoint_url ||
         item.remote_url ||
         item.website,
     );
-    if (!hasUrl) return p - 50;
-    return p + 400;
+    if (!hasUrl) return -5000;
+    return p - 200; // rare retry only after a day
   }
   if (age > RETRY_DIRTY_MS) return p + 400;
   return p + 50;
@@ -820,7 +822,20 @@ export async function runProbeBudgeted(
   max = MAX_PROBES_PER_WINDOW,
   opts?: { force?: boolean },
 ): Promise<ProbeResult[]> {
-  const state = await loadProbeState();
+  let state: ProbeState;
+  try {
+    state = await loadProbeState();
+  } catch {
+    state = empty();
+  }
+  if (!state || typeof state !== "object") state = empty();
+  state.results = state.results || {};
+  state.used = Number(state.used) || 0;
+  state.budget = Number(state.budget) || MAX_PROBES_PER_DAY;
+  state.hourly_used = Number(state.hourly_used) || 0;
+  state.hourly_cap = Number(state.hourly_cap) || MAX_PROBES_PER_HOUR;
+  state.day = state.day || utcDay();
+
   const priorLastTick = state.last_tick_at;
   const priorLastOk = state.last_ok_tick_at;
   const priorHandshake = state.last_handshake;
@@ -836,9 +851,9 @@ export async function runProbeBudgeted(
       live_agents: state.live_active_snapshot?.agents,
     });
     // Align used to global high-water before anything else
-    state.used = Math.max(state.used, auth.used || 0);
+    state.used = Math.max(state.used, (auth && auth.used) || 0);
     if (!opts?.force) {
-      const lastIso = auth.last_tick_at || state.last_tick_at;
+      const lastIso = (auth && auth.last_tick_at) || state.last_tick_at;
       if (lastIso) {
         const age = Date.now() - Date.parse(lastIso);
         if (Number.isFinite(age) && age >= 0 && age < PROBE_WINDOW_MS - 5_000) {

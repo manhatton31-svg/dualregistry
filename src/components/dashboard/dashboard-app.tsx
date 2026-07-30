@@ -548,9 +548,17 @@ export function DashboardApp() {
                     </p>
                     <p className="mt-1 text-lg font-semibold tabular">
                       {pe?.demo_invited ?? comm?.nudged_known ?? 0}
+                      <span className="text-sm font-normal text-muted">
+                        {" "}
+                        /{" "}
+                        {(data?.listing_lanes?.counts?.public_listed as number) ||
+                          ((data?.listing_lanes?.counts?.agents_active || 0) +
+                            (data?.listing_lanes?.counts?.mcp_active || 0) ||
+                            "—")}
+                      </span>
                     </p>
                     <p className="mt-0.5 text-[11px] text-muted">
-                      unique clean listings · not spam events
+                      unique of active clean · ~25%/cycle
                     </p>
                   </div>
                   <div className="rounded-[var(--radius-md)] border border-border/60 p-3 col-span-2 sm:col-span-1">

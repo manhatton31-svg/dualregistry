@@ -120,6 +120,16 @@ function patternFail(url: string): string | null {
         return rule.why;
       }
     }
+    // npm package pages are HTML listings — never MCP/agent cards
+    if (
+      /(^|\.)npmjs\.com$/i.test(u.hostname) &&
+      /\/package\//i.test(u.pathname)
+    ) {
+      return "npmjs.com/package/* is a registry page, not a live MCP/agent card";
+    }
+    if (/(^|\.)npmjs\.org$/i.test(u.hostname) && /\/package\//i.test(u.pathname)) {
+      return "npmjs.org/package/* is not a live MCP endpoint";
+    }
     if (u.hostname === "github.com" && /^\/?$/.test(u.pathname)) {
       return "github.com root is not an agent card URL";
     }
