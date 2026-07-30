@@ -26,6 +26,8 @@ export type CounterFloors = {
   /** High-water store approved — never decrease (stops In Registry flap) */
   store_mcp_floor?: number;
   store_agents_floor?: number;
+  /** High-water last probe tick ISO — never goes backwards */
+  last_tick_floor?: string;
   blocked_urls: string[];
   blocked_ids: string[];
   updated_at: string;
@@ -86,6 +88,10 @@ export function mergeFloors(a: CounterFloors, b: CounterFloors): CounterFloors {
       Number(a.store_agents_floor) || 0,
       Number(b.store_agents_floor) || 0,
     ),
+    last_tick_floor:
+      (a.last_tick_floor || "") >= (b.last_tick_floor || "")
+        ? a.last_tick_floor || b.last_tick_floor
+        : b.last_tick_floor || a.last_tick_floor,
     blocked_urls: [
       ...new Set([...(a.blocked_urls || []), ...(b.blocked_urls || [])]),
     ].slice(0, 5000),
@@ -258,6 +264,25 @@ export async function raiseLiveFloor(live: {
 }
 
 /** Delisted high-water. */
+
+/** Last-tick high-water ISO — never goes backwards. */
+export async function raiseLastTickFloor(iso: string): Promise<string | undefined> {
+  if (!iso || !Number.isFinite(Date.parse(iso))) return undefined;
+  const f = await loadCounterFloors();
+  const prev = f.last_tick_floor || "";
+  const next = iso >= prev ? iso : prev;
+  if (next === prev && f.last_tick_floor) return next;
+  const out: CounterFloors = {
+    ...f,
+    last_tick_floor: next,
+    updated_at: new Date().toISOString(),
+  };
+  await saveCounterFloors(out);
+  const after = await loadCounterFloors();
+  const a = after.last_tick_floor || "";
+  return a >= next ? a : next;
+}
+
 export async function raiseDelistedFloor(n: number): Promise<number> {
   const f = await loadCounterFloors();
   const out: CounterFloors = {

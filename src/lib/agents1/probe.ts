@@ -1157,6 +1157,21 @@ export async function runProbeBudgeted(
       state.hourly_used = Math.max(state.hourly_used, 1);
       state.last_handshake = lastOut?.handshake || "fail";
     }
+    // Shared high-water so other instances honor cadence + used
+    try {
+      const { raiseUsedFloor, raiseLastTickFloor } = await import(
+        "./counter-floors"
+      );
+      await raiseUsedFloor(state.used);
+      await raiseLastTickFloor(state.last_tick_at);
+      const { observeDisplayAuthority } = await import("./display-authority");
+      observeDisplayAuthority({
+        used: state.used,
+        last_tick_at: state.last_tick_at,
+      });
+    } catch {
+      /* */
+    }
   } else {
     // Preflight-only: restore prior cadence markers (do not fake a tick)
     state.last_tick_at = priorLastTick;

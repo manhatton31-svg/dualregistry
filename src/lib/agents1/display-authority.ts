@@ -173,6 +173,7 @@ export async function readDisplayAuthority(hints?: {
       delisted_total: floors.delisted_floor,
       store_mcp: floors.store_mcp_floor,
       store_agents: floors.store_agents_floor,
+      last_tick_at: floors.last_tick_floor,
     });
   }
 
@@ -227,6 +228,7 @@ export async function readDisplayAuthority(hints?: {
             delisted_total: j.delisted_floor,
             store_mcp: j.store_mcp_floor,
             store_agents: j.store_agents_floor,
+            last_tick_at: j.last_tick_floor,
           });
         } else if (name === "live-counters.json") {
           a = maxAuthority(a, {

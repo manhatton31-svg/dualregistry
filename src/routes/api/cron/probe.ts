@@ -163,7 +163,7 @@ async function runTick() {
   }
   // Raise shared floors so multi-instance GET never sees a lower used/last
   try {
-    const { raiseUsedFloor, raiseLiveFloor } = await import(
+    const { raiseUsedFloor, raiseLiveFloor, raiseLastTickFloor } = await import(
       "@/lib/agents1/counter-floors"
     );
     await raiseUsedFloor(state.used);
@@ -172,6 +172,7 @@ async function runTick() {
       mcp: live.mcp,
       agents: live.agents,
     });
+    await raiseLastTickFloor(lastIso);
   } catch {
     /* */
   }
