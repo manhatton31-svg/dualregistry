@@ -371,11 +371,30 @@ export async function getLanedListings(): Promise<{
     policy: { exclusive: boolean; grows_on: string; no_overlap: string };
   };
 }> {
-  const [cache0, probes] = await Promise.all([
-    loadStoreCache(),
-    loadProbeIndex(),
-  ]);
-  let cache = cache0;
+  // Always force-hydrate probes if index is empty (Vercel cold /tmp)
+  let probes = await loadProbeIndex();
+  if (probes.size === 0) {
+    try {
+      const { forceHydrateDurable } = await import("./durable-json");
+      await forceHydrateDurable("probes.json", { minBytes: 200 });
+      const { invalidateProbeCache } = await import("./probe");
+      invalidateProbeCache();
+      probes = await loadProbeIndex();
+    } catch {
+      /* keep empty */
+    }
+  }
+
+  let cache = await loadStoreCache();
+  if (!(cache.mcp_items || []).length && !(cache.agent_items || []).length) {
+    try {
+      const { forceHydrateDurable } = await import("./durable-json");
+      await forceHydrateDurable("store-cache.json", { minBytes: 100 });
+      cache = await loadStoreCache();
+    } catch {
+      /* */
+    }
+  }
   if (!(cache.mcp_items || []).length && !(cache.agent_items || []).length) {
     try {
       const { getLiveSnapshot } = await import("./fetch-live");

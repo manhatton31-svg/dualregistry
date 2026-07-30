@@ -168,14 +168,22 @@ export function ListingTable({
                   </button>
                 ) : null}
                 {showDemoCta && r.lane === "active" ? (
-                  <a
-                    className="font-medium text-accent hover:underline"
-                    href={`/products?demo_listing=${encodeURIComponent(r.id)}&kind=${r.kind || "agent"}`}
-                  >
-                    {r.kind === "mcp"
-                      ? "Generate agent kit (free)"
-                      : "Take free demo"}
-                  </a>
+                  <>
+                    <a
+                      className="font-medium text-accent hover:underline"
+                      href={`/talk?id=${encodeURIComponent(r.id)}`}
+                    >
+                      Talk
+                    </a>
+                    <a
+                      className="font-medium text-accent hover:underline"
+                      href={`/products?demo_listing=${encodeURIComponent(r.id)}&kind=${r.kind || "agent"}`}
+                    >
+                      {r.kind === "mcp"
+                        ? "Generate agent kit (free)"
+                        : "Take free demo"}
+                    </a>
+                  </>
                 ) : null}
               </div>
             </li>
@@ -285,12 +293,20 @@ export function ListingTable({
                         </a>
                       ) : null}
                       {showDemoCta && r.lane === "active" ? (
-                        <a
-                          className="font-medium text-accent hover:underline"
-                          href={`/products?demo_listing=${encodeURIComponent(r.id)}&kind=${r.kind || "agent"}`}
-                        >
-                          {r.kind === "mcp" ? "Agent kit" : "Demo"}
-                        </a>
+                        <>
+                          <a
+                            className="font-medium text-accent hover:underline"
+                            href={`/talk?id=${encodeURIComponent(r.id)}`}
+                          >
+                            Talk
+                          </a>
+                          <a
+                            className="font-medium text-accent hover:underline"
+                            href={`/products?demo_listing=${encodeURIComponent(r.id)}&kind=${r.kind || "agent"}`}
+                          >
+                            {r.kind === "mcp" ? "Agent kit" : "Demo"}
+                          </a>
+                        </>
                       ) : null}
                     </div>
                   </td>

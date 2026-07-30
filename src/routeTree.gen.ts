@@ -14,6 +14,7 @@ import { Route as DiscoveryDotjsonRouteImport } from './routes/discovery[.]json'
 import { Route as ListRouteImport } from './routes/list'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as SkillDotjsonRouteImport } from './routes/skill[.]json'
+import { Route as TalkRouteImport } from './routes/talk'
 import { Route as DotwellKnownAgentDotjsonRouteImport } from './routes/[.]well-known/agent[.]json'
 import { Route as DotwellKnownAgentsRouteImport } from './routes/[.]well-known/agents'
 import { Route as AgentsPublicRouteImport } from './routes/agents/public'
@@ -28,6 +29,7 @@ import { Route as ApiProtocolRouteImport } from './routes/api/protocol'
 import { Route as ApiPublishRouteImport } from './routes/api/publish'
 import { Route as ApiScoreRouteImport } from './routes/api/score'
 import { Route as ApiStatsRouteImport } from './routes/api/stats'
+import { Route as ApiTalkRouteImport } from './routes/api/talk'
 import { Route as BadgeKindRouteImport } from './routes/badge/$kind'
 import { Route as ForAgentsIndexRouteImport } from './routes/for-agents/index'
 import { Route as ListStatusRouteImport } from './routes/list/status'
@@ -90,6 +92,11 @@ const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
 const SkillDotjsonRoute = SkillDotjsonRouteImport.update({
   id: '/skill.json',
   path: '/skill.json',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TalkRoute = TalkRouteImport.update({
+  id: '/talk',
+  path: '/talk',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DotwellKnownAgentDotjsonRoute =
@@ -161,6 +168,11 @@ const ApiScoreRoute = ApiScoreRouteImport.update({
 const ApiStatsRoute = ApiStatsRouteImport.update({
   id: '/api/stats',
   path: '/api/stats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTalkRoute = ApiTalkRouteImport.update({
+  id: '/api/talk',
+  path: '/api/talk',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BadgeKindRoute = BadgeKindRouteImport.update({
@@ -363,6 +375,7 @@ export interface FileRoutesByFullPath {
   '/list': typeof ListRouteWithChildren
   '/llms.txt': typeof LlmsDottxtRoute
   '/skill.json': typeof SkillDotjsonRoute
+  '/talk': typeof TalkRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/agents/public': typeof AgentsPublicRoute
@@ -377,6 +390,7 @@ export interface FileRoutesByFullPath {
   '/api/publish': typeof ApiPublishRoute
   '/api/score': typeof ApiScoreRoute
   '/api/stats': typeof ApiStatsRoute
+  '/api/talk': typeof ApiTalkRoute
   '/badge/$kind': typeof BadgeKindRoute
   '/list/status': typeof ListStatusRoute
   '/products/improvement-log': typeof ProductsImprovementLogRoute
@@ -422,6 +436,7 @@ export interface FileRoutesByTo {
   '/list': typeof ListRouteWithChildren
   '/llms.txt': typeof LlmsDottxtRoute
   '/skill.json': typeof SkillDotjsonRoute
+  '/talk': typeof TalkRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/agents/public': typeof AgentsPublicRoute
@@ -436,6 +451,7 @@ export interface FileRoutesByTo {
   '/api/publish': typeof ApiPublishRoute
   '/api/score': typeof ApiScoreRoute
   '/api/stats': typeof ApiStatsRoute
+  '/api/talk': typeof ApiTalkRoute
   '/badge/$kind': typeof BadgeKindRoute
   '/list/status': typeof ListStatusRoute
   '/products/improvement-log': typeof ProductsImprovementLogRoute
@@ -482,6 +498,7 @@ export interface FileRoutesById {
   '/list': typeof ListRouteWithChildren
   '/llms.txt': typeof LlmsDottxtRoute
   '/skill.json': typeof SkillDotjsonRoute
+  '/talk': typeof TalkRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/agents/public': typeof AgentsPublicRoute
@@ -496,6 +513,7 @@ export interface FileRoutesById {
   '/api/publish': typeof ApiPublishRoute
   '/api/score': typeof ApiScoreRoute
   '/api/stats': typeof ApiStatsRoute
+  '/api/talk': typeof ApiTalkRoute
   '/badge/$kind': typeof BadgeKindRoute
   '/list/status': typeof ListStatusRoute
   '/products/improvement-log': typeof ProductsImprovementLogRoute
@@ -543,6 +561,7 @@ export interface FileRouteTypes {
     | '/list'
     | '/llms.txt'
     | '/skill.json'
+    | '/talk'
     | '/.well-known/agent.json'
     | '/.well-known/agents'
     | '/agents/public'
@@ -557,6 +576,7 @@ export interface FileRouteTypes {
     | '/api/publish'
     | '/api/score'
     | '/api/stats'
+    | '/api/talk'
     | '/badge/$kind'
     | '/list/status'
     | '/products/improvement-log'
@@ -602,6 +622,7 @@ export interface FileRouteTypes {
     | '/list'
     | '/llms.txt'
     | '/skill.json'
+    | '/talk'
     | '/.well-known/agent.json'
     | '/.well-known/agents'
     | '/agents/public'
@@ -616,6 +637,7 @@ export interface FileRouteTypes {
     | '/api/publish'
     | '/api/score'
     | '/api/stats'
+    | '/api/talk'
     | '/badge/$kind'
     | '/list/status'
     | '/products/improvement-log'
@@ -661,6 +683,7 @@ export interface FileRouteTypes {
     | '/list'
     | '/llms.txt'
     | '/skill.json'
+    | '/talk'
     | '/.well-known/agent.json'
     | '/.well-known/agents'
     | '/agents/public'
@@ -675,6 +698,7 @@ export interface FileRouteTypes {
     | '/api/publish'
     | '/api/score'
     | '/api/stats'
+    | '/api/talk'
     | '/badge/$kind'
     | '/list/status'
     | '/products/improvement-log'
@@ -721,6 +745,7 @@ export interface RootRouteChildren {
   ListRoute: typeof ListRouteWithChildren
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   SkillDotjsonRoute: typeof SkillDotjsonRoute
+  TalkRoute: typeof TalkRoute
   DotwellKnownAgentDotjsonRoute: typeof DotwellKnownAgentDotjsonRoute
   DotwellKnownAgentsRoute: typeof DotwellKnownAgentsRoute
   AgentsPublicRoute: typeof AgentsPublicRoute
@@ -735,6 +760,7 @@ export interface RootRouteChildren {
   ApiPublishRoute: typeof ApiPublishRoute
   ApiScoreRoute: typeof ApiScoreRoute
   ApiStatsRoute: typeof ApiStatsRoute
+  ApiTalkRoute: typeof ApiTalkRoute
   BadgeKindRoute: typeof BadgeKindRoute
   ProductsImprovementLogRoute: typeof ProductsImprovementLogRoute
   ProductsRoadmapRoute: typeof ProductsRoadmapRoute
@@ -809,6 +835,13 @@ declare module '@tanstack/react-router' {
       path: '/skill.json'
       fullPath: '/skill.json'
       preLoaderRoute: typeof SkillDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/talk': {
+      id: '/talk'
+      path: '/talk'
+      fullPath: '/talk'
+      preLoaderRoute: typeof TalkRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/agent.json': {
@@ -907,6 +940,13 @@ declare module '@tanstack/react-router' {
       path: '/api/stats'
       fullPath: '/api/stats'
       preLoaderRoute: typeof ApiStatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/talk': {
+      id: '/api/talk'
+      path: '/api/talk'
+      fullPath: '/api/talk'
+      preLoaderRoute: typeof ApiTalkRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/badge/$kind': {
@@ -1194,6 +1234,7 @@ const rootRouteChildren: RootRouteChildren = {
   ListRoute: ListRouteWithChildren,
   LlmsDottxtRoute: LlmsDottxtRoute,
   SkillDotjsonRoute: SkillDotjsonRoute,
+  TalkRoute: TalkRoute,
   DotwellKnownAgentDotjsonRoute: DotwellKnownAgentDotjsonRoute,
   DotwellKnownAgentsRoute: DotwellKnownAgentsRoute,
   AgentsPublicRoute: AgentsPublicRoute,
@@ -1208,6 +1249,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublishRoute: ApiPublishRoute,
   ApiScoreRoute: ApiScoreRoute,
   ApiStatsRoute: ApiStatsRoute,
+  ApiTalkRoute: ApiTalkRoute,
   BadgeKindRoute: BadgeKindRoute,
   ProductsImprovementLogRoute: ProductsImprovementLogRoute,
   ProductsRoadmapRoute: ProductsRoadmapRoute,

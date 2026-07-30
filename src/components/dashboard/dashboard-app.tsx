@@ -336,6 +336,12 @@ export function DashboardApp() {
               </a>
             </Button>
             <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">
+              <a href="/talk">
+                <Bot className="h-3.5 w-3.5" />
+                Talk to clean
+              </a>
+            </Button>
+            <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">
               <a href="/list">List yourself</a>
             </Button>
             <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">

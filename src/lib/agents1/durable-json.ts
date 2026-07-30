@@ -4,6 +4,7 @@
  * Read path:
  *  1. local dataRoot() file
  *  2. if missing/empty → hydrate from GitHub raw (data/prod/*)
+ *  3. forceHydrate always re-fetches remote when local is thin or force=true
  *
  * Write path:
  *  1. always write local
@@ -75,6 +76,44 @@ async function hydrateRemote(name: string): Promise<string | null> {
   }
 }
 
+/**
+ * Prefer remote when local is missing, empty, or smaller than remote high-water.
+ * Call on cold paths so Vercel /tmp never serves a thin empty set.
+ */
+export async function forceHydrateDurable(
+  name: string,
+  opts?: { minBytes?: number },
+): Promise<string | null> {
+  const minBytes = opts?.minBytes ?? 64;
+  const local = await readLocal(name);
+  if (local && local.length >= minBytes) {
+    // Still try remote if local looks like empty object shell
+    try {
+      const j = JSON.parse(local) as Record<string, unknown>;
+      const keys = Object.keys(j);
+      if (
+        name === "probes.json" &&
+        j.results &&
+        typeof j.results === "object" &&
+        Object.keys(j.results as object).length > 0
+      ) {
+        return local;
+      }
+      if (
+        name !== "probes.json" &&
+        keys.length > 2 &&
+        local.length >= minBytes * 4
+      ) {
+        return local;
+      }
+    } catch {
+      /* rehydrate */
+    }
+  }
+  const remote = await hydrateRemote(name);
+  return remote || local;
+}
+
 export async function loadDurableJson<T>(
   name: string,
   fallback: () => T,
@@ -82,6 +121,22 @@ export async function loadDurableJson<T>(
   let raw = await readLocal(name);
   if (!raw) {
     raw = await hydrateRemote(name);
+  }
+  // Thin/empty shells: force remote hydrate once more (Vercel cold start)
+  if (raw) {
+    try {
+      const j = JSON.parse(raw) as Record<string, unknown>;
+      if (
+        name === "probes.json" &&
+        (!j.results || !Object.keys((j.results as object) || {}).length)
+      ) {
+        const forced = await forceHydrateDurable(name, { minBytes: 200 });
+        if (forced) raw = forced;
+      }
+    } catch {
+      const forced = await forceHydrateDurable(name);
+      if (forced) raw = forced;
+    }
   }
   if (!raw) return fallback();
   try {
@@ -129,12 +184,6 @@ async function pushGithub(
       const j = (await get.json()) as { sha?: string };
       sha = j.sha;
     }
-    const body = {
-      message: `chore(prod): durable ${name}`,
-      content: Buffer.from(content, "utf8").toString("base64"),
-      branch: DEFAULT_BRANCH,
-      ...(sha ? { sha } : {}),
-    };
     const put = await fetch(api, {
       method: "PUT",
       headers: {
@@ -143,15 +192,20 @@ async function pushGithub(
         "content-type": "application/json",
         "user-agent": "DualRegistryDurable/1.0",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        message: `chore(prod): durable ${name}`,
+        content: Buffer.from(content, "utf8").toString("base64"),
+        branch: DEFAULT_BRANCH,
+        ...(sha ? { sha } : {}),
+      }),
       signal: AbortSignal.timeout(20_000),
     });
     if (!put.ok) {
-      const t = await put.text().catch(() => "");
+      const err = await put.text();
       return {
         local: true,
         remote: false,
-        error: `github ${put.status}: ${t.slice(0, 200)}`,
+        error: `github ${put.status}: ${err.slice(0, 200)}`,
       };
     }
     return { local: true, remote: true };
@@ -164,14 +218,14 @@ async function pushGithub(
   }
 }
 
-/** For cron/Actions: snapshot file after local writes */
 export async function readDurableRaw(name: string): Promise<string | null> {
   return readLocal(name);
 }
 
 export async function durableFileMtime(name: string): Promise<number> {
   try {
-    return (await stat(durableLocalPath(name))).mtimeMs;
+    const s = await stat(durableLocalPath(name));
+    return s.mtimeMs;
   } catch {
     return 0;
   }
