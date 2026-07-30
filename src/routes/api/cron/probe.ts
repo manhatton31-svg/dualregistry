@@ -54,6 +54,53 @@ async function stampWorker(patch: Record<string, unknown>) {
 }
 
 async function runTick() {
+  // Global cadence: if last tick < 6m ago anywhere, return current state without probing
+  try {
+    const { loadProbeState, invalidateProbeCache, PROBE_WINDOW_MS } =
+      await import("@/lib/agents1/probe");
+    const { readDisplayAuthority } = await import(
+      "@/lib/agents1/display-authority"
+    );
+    invalidateProbeCache();
+    const state0 = await loadProbeState();
+    const auth = await readDisplayAuthority({
+      used: state0.used,
+      last_tick_at: state0.last_tick_at,
+    });
+    const lastIso = auth.last_tick_at || state0.last_tick_at;
+    if (lastIso) {
+      const age = Date.now() - Date.parse(lastIso);
+      if (Number.isFinite(age) && age >= 0 && age < PROBE_WINDOW_MS - 5_000) {
+        const live = state0.live_active_snapshot || {
+          total: 0,
+          mcp: 0,
+          agents: 0,
+        };
+        const probesRaw = JSON.stringify(
+          { ...state0, used: Math.max(state0.used, auth.used || 0) },
+          null,
+          2,
+        );
+        return {
+          ok: true,
+          action: "probe_tick_skipped_cadence",
+          probed: 0,
+          used_today: Math.max(state0.used, auth.used || 0),
+          budget: state0.budget,
+          live_active_probe_ok: live.total,
+          skipped: true,
+          reason: `global cadence: last tick ${Math.round(age / 1000)}s ago (< 6m)`,
+          last_tick_at: lastIso,
+          commit: {
+            "data/prod/probes.json": probesRaw,
+          },
+        };
+      }
+    }
+  } catch {
+    /* continue to normal tick */
+  }
+
   // Warm store cache so probe targets exist (listings from store)
   try {
     const { getLiveSnapshot } = await import("@/lib/agents1/fetch-live");

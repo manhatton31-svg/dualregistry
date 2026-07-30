@@ -808,6 +808,36 @@ export async function runProbeBudgeted(
   max = 1,
 ): Promise<ProbeResult[]> {
   const state = await loadProbeState();
+
+  // GLOBAL CADENCE GATE — never probe if any instance already ticked < 6m ago
+  // Prevents multi-instance double-ticks (22s gaps) that race used counters.
+  try {
+    const { readDisplayAuthority } = await import("./display-authority");
+    const auth = await readDisplayAuthority({
+      used: state.used,
+      last_tick_at: state.last_tick_at,
+      live_total: state.live_active_snapshot?.total,
+      live_mcp: state.live_active_snapshot?.mcp,
+      live_agents: state.live_active_snapshot?.agents,
+    });
+    // Align used to global high-water before anything else
+    state.used = Math.max(state.used, auth.used || 0);
+    const lastIso = auth.last_tick_at || state.last_tick_at;
+    if (lastIso) {
+      const age = Date.now() - Date.parse(lastIso);
+      if (Number.isFinite(age) && age >= 0 && age < PROBE_WINDOW_MS - 5_000) {
+        // Too soon globally — no budget spend, no last_tick bump
+        return [];
+      }
+    }
+    // Also honor local hour window if already spent
+    if (state.hourly_used >= state.hourly_cap) {
+      return [];
+    }
+  } catch {
+    /* fall through to local remaining checks */
+  }
+
   const dayRemaining = Math.max(0, state.budget - state.used);
   const hourRemaining = Math.max(0, state.hourly_cap - state.hourly_used);
   const remaining = Math.min(dayRemaining, hourRemaining);
