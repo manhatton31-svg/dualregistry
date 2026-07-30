@@ -1323,7 +1323,11 @@ export async function getProbePublic() {
 
   // Apply durable high-water floors so UI never flaps down
   let usedOut = s.used;
-  let liveOut = s.live_active_snapshot || countLiveFromResults(s.results);
+  let liveOut: { total: number; mcp: number; agents: number; at: string } =
+    s.live_active_snapshot || {
+      ...countLiveFromResults(s.results),
+      at: new Date().toISOString(),
+    };
   try {
     const { loadCounterFloors, raiseUsedFloor, raiseLiveFloor } = await import(
       "./counter-floors"
@@ -1335,10 +1339,7 @@ export async function getProbePublic() {
       total: Math.max(liveOut.total || 0, floors.live_floor?.total || 0),
       mcp: Math.max(liveOut.mcp || 0, floors.live_floor?.mcp || 0),
       agents: Math.max(liveOut.agents || 0, floors.live_floor?.agents || 0),
-      at:
-        (liveOut as { at?: string }).at ||
-        floors.live_floor?.at ||
-        new Date().toISOString(),
+      at: liveOut.at || floors.live_floor?.at || new Date().toISOString(),
     };
     await raiseLiveFloor({
       total: liveOut.total,
