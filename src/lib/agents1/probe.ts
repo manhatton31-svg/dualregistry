@@ -1487,6 +1487,7 @@ export async function getProbePublic() {
       ...countLiveFromResults(s.results),
       at: new Date().toISOString(),
     };
+  let lastTickOut = s.last_tick_at;
   let counterBackend = "display-authority";
   try {
     const { readDisplayAuthority, observeDisplayAuthority } = await import(
@@ -1506,16 +1507,28 @@ export async function getProbePublic() {
       agents: Math.max(liveOut.agents || 0, auth.live_agents || 0),
       at: liveOut.at || new Date().toISOString(),
     };
+    // last_tick never goes backwards — max ISO string / time
+    if (auth.last_tick_at && (!lastTickOut || auth.last_tick_at > lastTickOut)) {
+      lastTickOut = auth.last_tick_at;
+    }
+    // Also max from newest tick_log entry
+    const newestLog = (s.tick_log || [])[0]?.probed_at;
+    if (newestLog && (!lastTickOut || newestLog > lastTickOut)) {
+      lastTickOut = newestLog;
+    }
     // Keep process memory high-water (no durable write on GET)
     observeDisplayAuthority({
       used: usedOut,
       live_total: liveOut.total,
       live_mcp: liveOut.mcp,
       live_agents: liveOut.agents,
-      last_tick_at: s.last_tick_at,
+      last_tick_at: lastTickOut,
     });
     // Align in-memory state for this instance so subsequent ticks don't regress
     if (usedOut > s.used) s.used = usedOut;
+    if (lastTickOut && (!s.last_tick_at || lastTickOut > s.last_tick_at)) {
+      s.last_tick_at = lastTickOut;
+    }
     s.live_active_snapshot = liveOut;
     counterBackend = "display-authority(max-of-all-sources)";
   } catch {
@@ -1549,13 +1562,13 @@ export async function getProbePublic() {
     real_active_only: Boolean(s.real_active_only),
     baseline_note: s.baseline_note,
     wasted_probes_discarded: s.wasted_probes_discarded,
-    last_tick_at: s.last_tick_at,
+    last_tick_at: lastTickOut || s.last_tick_at,
     last_ok_tick_at: s.last_ok_tick_at,
     last_handshake: s.last_handshake || null,
     next_tick_at:
       s.last_handshake === "ok" || (!s.last_handshake && s.last_ok_tick_at)
-        ? nextProbeFromLast(s.last_ok_tick_at || s.last_tick_at)
-        : nextProbeFromLast(s.last_tick_at),
+        ? nextProbeFromLast(s.last_ok_tick_at || lastTickOut || s.last_tick_at)
+        : nextProbeFromLast(lastTickOut || s.last_tick_at),
     cadence_rule:
       "One full probe per 6 minutes. Preflight skips known-dead cards without spending budget. Live counts never decrease.",
     live_active: liveOut,
