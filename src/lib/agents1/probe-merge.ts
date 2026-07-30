@@ -76,13 +76,17 @@ export function mergeProbeStates(
   if (Rday && !Lday) return { ...R, day };
 
   const results = mergeResults(L.results || {}, R.results || {});
-  // Floor used to unique primary probes recorded for this day (never go backwards)
+  // Floor used to unique primary budget probes for this day (never go backwards)
+  // Preflight rejects do NOT count toward used
   let todayPrimaries = 0;
   const seen = new Set<string>();
   for (const [k, r] of Object.entries(results)) {
     if (!r) continue;
     if (k.startsWith("name:") || k.startsWith("url:")) continue;
     if (!(r.probed_at || "").startsWith(day)) continue;
+    const sigs = r.signals || [];
+    if (sigs.some((s: unknown) => String(s).includes("preflight-reject"))) continue;
+    if (sigs.some((s: unknown) => String(s).includes("bulk-prefilter"))) continue;
     const uid = String(r.id || k);
     if (seen.has(uid)) continue;
     seen.add(uid);

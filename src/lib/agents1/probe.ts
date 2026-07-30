@@ -306,7 +306,7 @@ export async function loadProbeState(): Promise<ProbeState> {
 }
 
 async function persist(s: ProbeState) {
-  // Monotonic: never persist a lower used than remote/local same day
+  // 1) Merge remote probes (max used)
   try {
     const remote = await fetchRemoteProbeState();
     if (remote && remote.day === s.day) {
@@ -317,8 +317,52 @@ async function persist(s: ProbeState) {
       if (merged.live_active_snapshot) {
         const a = s.live_active_snapshot;
         const b = merged.live_active_snapshot;
-        if (!a || (b.total >= (a.total || 0))) s.live_active_snapshot = b;
+        s.live_active_snapshot = {
+          total: Math.max(a?.total || 0, b.total || 0),
+          mcp: Math.max(a?.mcp || 0, b.mcp || 0),
+          agents: Math.max(a?.agents || 0, b.agents || 0),
+          at: new Date().toISOString(),
+        };
       }
+    }
+  } catch {
+    /* */
+  }
+  // 2) Clamp to durable counter floors (absolute high-water)
+  try {
+    const { loadCounterFloors, raiseUsedFloor, raiseLiveFloor } = await import(
+      "./counter-floors"
+    );
+    const floors = await loadCounterFloors();
+    if (floors.day === s.day) {
+      s.used = Math.max(s.used, floors.used_floor || 0);
+    }
+    if (s.live_active_snapshot) {
+      s.live_active_snapshot = {
+        total: Math.max(
+          s.live_active_snapshot.total || 0,
+          floors.live_floor?.total || 0,
+        ),
+        mcp: Math.max(
+          s.live_active_snapshot.mcp || 0,
+          floors.live_floor?.mcp || 0,
+        ),
+        agents: Math.max(
+          s.live_active_snapshot.agents || 0,
+          floors.live_floor?.agents || 0,
+        ),
+        at: s.live_active_snapshot.at || new Date().toISOString(),
+      };
+    }
+    // Raise floors to match before any GitHub write
+    await raiseUsedFloor(s.used);
+    if (s.live_active_snapshot) {
+      await raiseLiveFloor(s.live_active_snapshot);
+    }
+    // Re-clamp after raise (another instance may have higher floor)
+    const floors2 = await loadCounterFloors();
+    if (floors2.day === s.day) {
+      s.used = Math.max(s.used, floors2.used_floor || 0);
     }
   } catch {
     /* */
@@ -326,6 +370,16 @@ async function persist(s: ProbeState) {
   mem = s;
   s.updated_at = new Date().toISOString();
   chain = chain.then(async () => {
+    // Never persist used below floor — re-clamp immediately before write
+    try {
+      const { loadCounterFloors } = await import("./counter-floors");
+      const floors = await loadCounterFloors();
+      if (floors.day === s.day) {
+        s.used = Math.max(s.used, floors.used_floor || 0);
+      }
+    } catch {
+      /* */
+    }
     await saveDurableJson(DURABLE_NAME, s);
     try {
       await mkdir(dirname(PATH), { recursive: true });
@@ -333,7 +387,7 @@ async function persist(s: ProbeState) {
       await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
       await rename(tmp, PATH);
     } catch {
-      /* durable local write already attempted */
+      /* */
     }
     memMtime = (await fileMtime()) || Date.now();
   });
