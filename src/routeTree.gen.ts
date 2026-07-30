@@ -10,15 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AiDottxtRouteImport } from './routes/ai[.]txt'
 import { Route as DiscoveryDotjsonRouteImport } from './routes/discovery[.]json'
 import { Route as ListRouteImport } from './routes/list'
+import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as OpenapiDotjsonRouteImport } from './routes/openapi[.]json'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkillDotjsonRouteImport } from './routes/skill[.]json'
 import { Route as TalkRouteImport } from './routes/talk'
 import { Route as DotwellKnownAgentDotjsonRouteImport } from './routes/[.]well-known/agent[.]json'
 import { Route as DotwellKnownAgentsRouteImport } from './routes/[.]well-known/agents'
 import { Route as AgentsPublicRouteImport } from './routes/agents/public'
 import { Route as AgentsSearchRouteImport } from './routes/agents/search'
+import { Route as ApiA2aRouteImport } from './routes/api/a2a'
 import { Route as ApiCatalogRouteImport } from './routes/api/catalog'
 import { Route as ApiCategoriesRouteImport } from './routes/api/categories'
 import { Route as ApiCountersRouteImport } from './routes/api/counters'
@@ -37,6 +43,7 @@ import { Route as ProductsIndexRouteImport } from './routes/products/index'
 import { Route as ProductsImprovementLogRouteImport } from './routes/products/improvement-log'
 import { Route as ProductsRoadmapRouteImport } from './routes/products/roadmap'
 import { Route as ProductsSuccessRouteImport } from './routes/products/success'
+import { Route as SkillsDualregistryDotmdRouteImport } from './routes/skills/dualregistry[.]md'
 import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[.]well-known/mcp/server-card[.]json'
 import { Route as ApiCronPrefilterRouteImport } from './routes/api/cron/prefilter'
 import { Route as ApiCronProbeRouteImport } from './routes/api/cron/probe'
@@ -52,6 +59,7 @@ import { Route as ApiProductsConversionRouteImport } from './routes/api/products
 import { Route as ApiProductsDemoRouteImport } from './routes/api/products/demo'
 import { Route as ApiProductsDemoConfirmRouteImport } from './routes/api/products/demo-confirm'
 import { Route as ApiProductsDemoNudgeRouteImport } from './routes/api/products/demo-nudge'
+import { Route as ApiProductsDualStrategyRouteImport } from './routes/api/products/dual-strategy'
 import { Route as ApiProductsExportRouteImport } from './routes/api/products/export'
 import { Route as ApiProductsFeedbackRouteImport } from './routes/api/products/feedback'
 import { Route as ApiProductsFeedbackDriveRouteImport } from './routes/api/products/feedback-drive'
@@ -76,6 +84,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiDottxtRoute = AiDottxtRouteImport.update({
+  id: '/ai.txt',
+  path: '/ai.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DiscoveryDotjsonRoute = DiscoveryDotjsonRouteImport.update({
   id: '/discovery.json',
   path: '/discovery.json',
@@ -86,9 +99,29 @@ const ListRoute = ListRouteImport.update({
   path: '/list',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
+  id: '/llms-full.txt',
+  path: '/llms-full.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
   id: '/llms.txt',
   path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpenapiDotjsonRoute = OpenapiDotjsonRouteImport.update({
+  id: '/openapi.json',
+  path: '/openapi.json',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SkillDotjsonRoute = SkillDotjsonRouteImport.update({
@@ -120,6 +153,11 @@ const AgentsPublicRoute = AgentsPublicRouteImport.update({
 const AgentsSearchRoute = AgentsSearchRouteImport.update({
   id: '/agents/search',
   path: '/agents/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiA2aRoute = ApiA2aRouteImport.update({
+  id: '/api/a2a',
+  path: '/api/a2a',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiCatalogRoute = ApiCatalogRouteImport.update({
@@ -212,6 +250,11 @@ const ProductsSuccessRoute = ProductsSuccessRouteImport.update({
   path: '/products/success',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SkillsDualregistryDotmdRoute = SkillsDualregistryDotmdRouteImport.update({
+  id: '/skills/dualregistry.md',
+  path: '/skills/dualregistry.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DotwellKnownMcpServerCardDotjsonRoute =
   DotwellKnownMcpServerCardDotjsonRouteImport.update({
     id: '/.well-known/mcp/server-card.json',
@@ -286,6 +329,11 @@ const ApiProductsDemoConfirmRoute = ApiProductsDemoConfirmRouteImport.update({
 const ApiProductsDemoNudgeRoute = ApiProductsDemoNudgeRouteImport.update({
   id: '/api/products/demo-nudge',
   path: '/api/products/demo-nudge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiProductsDualStrategyRoute = ApiProductsDualStrategyRouteImport.update({
+  id: '/api/products/dual-strategy',
+  path: '/api/products/dual-strategy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiProductsExportRoute = ApiProductsExportRouteImport.update({
@@ -383,15 +431,21 @@ const ApiProductsWtpRoute = ApiProductsWtpRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/list': typeof ListRouteWithChildren
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/openapi.json': typeof OpenapiDotjsonRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
   '/talk': typeof TalkRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
+  '/api/a2a': typeof ApiA2aRoute
   '/api/catalog': typeof ApiCatalogRoute
   '/api/categories': typeof ApiCategoriesRoute
   '/api/counters': typeof ApiCountersRoute
@@ -408,6 +462,7 @@ export interface FileRoutesByFullPath {
   '/products/improvement-log': typeof ProductsImprovementLogRoute
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
+  '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
@@ -423,6 +478,7 @@ export interface FileRoutesByFullPath {
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
+  '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
@@ -446,15 +502,21 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/list': typeof ListRouteWithChildren
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/openapi.json': typeof OpenapiDotjsonRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
   '/talk': typeof TalkRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
+  '/api/a2a': typeof ApiA2aRoute
   '/api/catalog': typeof ApiCatalogRoute
   '/api/categories': typeof ApiCategoriesRoute
   '/api/counters': typeof ApiCountersRoute
@@ -471,6 +533,7 @@ export interface FileRoutesByTo {
   '/products/improvement-log': typeof ProductsImprovementLogRoute
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
+  '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
   '/for-agents': typeof ForAgentsIndexRoute
   '/products': typeof ProductsIndexRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
@@ -486,6 +549,7 @@ export interface FileRoutesByTo {
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
+  '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
@@ -510,15 +574,21 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/list': typeof ListRouteWithChildren
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/openapi.json': typeof OpenapiDotjsonRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
   '/talk': typeof TalkRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
+  '/api/a2a': typeof ApiA2aRoute
   '/api/catalog': typeof ApiCatalogRoute
   '/api/categories': typeof ApiCategoriesRoute
   '/api/counters': typeof ApiCountersRoute
@@ -535,6 +605,7 @@ export interface FileRoutesById {
   '/products/improvement-log': typeof ProductsImprovementLogRoute
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
+  '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
@@ -550,6 +621,7 @@ export interface FileRoutesById {
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
+  '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
@@ -575,15 +647,21 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai.txt'
     | '/discovery.json'
     | '/list'
+    | '/llms-full.txt'
     | '/llms.txt'
+    | '/openapi.json'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/skill.json'
     | '/talk'
     | '/.well-known/agent.json'
     | '/.well-known/agents'
     | '/agents/public'
     | '/agents/search'
+    | '/api/a2a'
     | '/api/catalog'
     | '/api/categories'
     | '/api/counters'
@@ -600,6 +678,7 @@ export interface FileRouteTypes {
     | '/products/improvement-log'
     | '/products/roadmap'
     | '/products/success'
+    | '/skills/dualregistry.md'
     | '/for-agents/'
     | '/products/'
     | '/.well-known/mcp/server-card.json'
@@ -615,6 +694,7 @@ export interface FileRouteTypes {
     | '/api/products/demo'
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
+    | '/api/products/dual-strategy'
     | '/api/products/export'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
@@ -638,15 +718,21 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai.txt'
     | '/discovery.json'
     | '/list'
+    | '/llms-full.txt'
     | '/llms.txt'
+    | '/openapi.json'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/skill.json'
     | '/talk'
     | '/.well-known/agent.json'
     | '/.well-known/agents'
     | '/agents/public'
     | '/agents/search'
+    | '/api/a2a'
     | '/api/catalog'
     | '/api/categories'
     | '/api/counters'
@@ -663,6 +749,7 @@ export interface FileRouteTypes {
     | '/products/improvement-log'
     | '/products/roadmap'
     | '/products/success'
+    | '/skills/dualregistry.md'
     | '/for-agents'
     | '/products'
     | '/.well-known/mcp/server-card.json'
@@ -678,6 +765,7 @@ export interface FileRouteTypes {
     | '/api/products/demo'
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
+    | '/api/products/dual-strategy'
     | '/api/products/export'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
@@ -701,15 +789,21 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ai.txt'
     | '/discovery.json'
     | '/list'
+    | '/llms-full.txt'
     | '/llms.txt'
+    | '/openapi.json'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/skill.json'
     | '/talk'
     | '/.well-known/agent.json'
     | '/.well-known/agents'
     | '/agents/public'
     | '/agents/search'
+    | '/api/a2a'
     | '/api/catalog'
     | '/api/categories'
     | '/api/counters'
@@ -726,6 +820,7 @@ export interface FileRouteTypes {
     | '/products/improvement-log'
     | '/products/roadmap'
     | '/products/success'
+    | '/skills/dualregistry.md'
     | '/for-agents/'
     | '/products/'
     | '/.well-known/mcp/server-card.json'
@@ -741,6 +836,7 @@ export interface FileRouteTypes {
     | '/api/products/demo'
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
+    | '/api/products/dual-strategy'
     | '/api/products/export'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
@@ -765,15 +861,21 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiDottxtRoute: typeof AiDottxtRoute
   DiscoveryDotjsonRoute: typeof DiscoveryDotjsonRoute
   ListRoute: typeof ListRouteWithChildren
+  LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
+  OpenapiDotjsonRoute: typeof OpenapiDotjsonRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkillDotjsonRoute: typeof SkillDotjsonRoute
   TalkRoute: typeof TalkRoute
   DotwellKnownAgentDotjsonRoute: typeof DotwellKnownAgentDotjsonRoute
   DotwellKnownAgentsRoute: typeof DotwellKnownAgentsRoute
   AgentsPublicRoute: typeof AgentsPublicRoute
   AgentsSearchRoute: typeof AgentsSearchRoute
+  ApiA2aRoute: typeof ApiA2aRoute
   ApiCatalogRoute: typeof ApiCatalogRoute
   ApiCategoriesRoute: typeof ApiCategoriesRoute
   ApiCountersRoute: typeof ApiCountersRoute
@@ -789,6 +891,7 @@ export interface RootRouteChildren {
   ProductsImprovementLogRoute: typeof ProductsImprovementLogRoute
   ProductsRoadmapRoute: typeof ProductsRoadmapRoute
   ProductsSuccessRoute: typeof ProductsSuccessRoute
+  SkillsDualregistryDotmdRoute: typeof SkillsDualregistryDotmdRoute
   ForAgentsIndexRoute: typeof ForAgentsIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   DotwellKnownMcpServerCardDotjsonRoute: typeof DotwellKnownMcpServerCardDotjsonRoute
@@ -804,6 +907,7 @@ export interface RootRouteChildren {
   ApiProductsDemoRoute: typeof ApiProductsDemoRoute
   ApiProductsDemoConfirmRoute: typeof ApiProductsDemoConfirmRoute
   ApiProductsDemoNudgeRoute: typeof ApiProductsDemoNudgeRoute
+  ApiProductsDualStrategyRoute: typeof ApiProductsDualStrategyRoute
   ApiProductsExportRoute: typeof ApiProductsExportRoute
   ApiProductsFeedbackRoute: typeof ApiProductsFeedbackRoute
   ApiProductsFeedbackDriveRoute: typeof ApiProductsFeedbackDriveRoute
@@ -835,6 +939,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai.txt': {
+      id: '/ai.txt'
+      path: '/ai.txt'
+      fullPath: '/ai.txt'
+      preLoaderRoute: typeof AiDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/discovery.json': {
       id: '/discovery.json'
       path: '/discovery.json'
@@ -849,11 +960,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/llms-full.txt': {
+      id: '/llms-full.txt'
+      path: '/llms-full.txt'
+      fullPath: '/llms-full.txt'
+      preLoaderRoute: typeof LlmsFullDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/llms.txt': {
       id: '/llms.txt'
       path: '/llms.txt'
       fullPath: '/llms.txt'
       preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/openapi.json': {
+      id: '/openapi.json'
+      path: '/openapi.json'
+      fullPath: '/openapi.json'
+      preLoaderRoute: typeof OpenapiDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/skill.json': {
@@ -896,6 +1035,13 @@ declare module '@tanstack/react-router' {
       path: '/agents/search'
       fullPath: '/agents/search'
       preLoaderRoute: typeof AgentsSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/a2a': {
+      id: '/api/a2a'
+      path: '/api/a2a'
+      fullPath: '/api/a2a'
+      preLoaderRoute: typeof ApiA2aRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/catalog': {
@@ -1024,6 +1170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/skills/dualregistry.md': {
+      id: '/skills/dualregistry.md'
+      path: '/skills/dualregistry.md'
+      fullPath: '/skills/dualregistry.md'
+      preLoaderRoute: typeof SkillsDualregistryDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/mcp/server-card.json': {
       id: '/.well-known/mcp/server-card.json'
       path: '/.well-known/mcp/server-card.json'
@@ -1127,6 +1280,13 @@ declare module '@tanstack/react-router' {
       path: '/api/products/demo-nudge'
       fullPath: '/api/products/demo-nudge'
       preLoaderRoute: typeof ApiProductsDemoNudgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/products/dual-strategy': {
+      id: '/api/products/dual-strategy'
+      path: '/api/products/dual-strategy'
+      fullPath: '/api/products/dual-strategy'
+      preLoaderRoute: typeof ApiProductsDualStrategyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/products/export': {
@@ -1270,15 +1430,21 @@ const ListRouteWithChildren = ListRoute._addFileChildren(ListRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiDottxtRoute: AiDottxtRoute,
   DiscoveryDotjsonRoute: DiscoveryDotjsonRoute,
   ListRoute: ListRouteWithChildren,
+  LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
+  OpenapiDotjsonRoute: OpenapiDotjsonRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkillDotjsonRoute: SkillDotjsonRoute,
   TalkRoute: TalkRoute,
   DotwellKnownAgentDotjsonRoute: DotwellKnownAgentDotjsonRoute,
   DotwellKnownAgentsRoute: DotwellKnownAgentsRoute,
   AgentsPublicRoute: AgentsPublicRoute,
   AgentsSearchRoute: AgentsSearchRoute,
+  ApiA2aRoute: ApiA2aRoute,
   ApiCatalogRoute: ApiCatalogRoute,
   ApiCategoriesRoute: ApiCategoriesRoute,
   ApiCountersRoute: ApiCountersRoute,
@@ -1294,6 +1460,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsImprovementLogRoute: ProductsImprovementLogRoute,
   ProductsRoadmapRoute: ProductsRoadmapRoute,
   ProductsSuccessRoute: ProductsSuccessRoute,
+  SkillsDualregistryDotmdRoute: SkillsDualregistryDotmdRoute,
   ForAgentsIndexRoute: ForAgentsIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   DotwellKnownMcpServerCardDotjsonRoute: DotwellKnownMcpServerCardDotjsonRoute,
@@ -1309,6 +1476,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsDemoRoute: ApiProductsDemoRoute,
   ApiProductsDemoConfirmRoute: ApiProductsDemoConfirmRoute,
   ApiProductsDemoNudgeRoute: ApiProductsDemoNudgeRoute,
+  ApiProductsDualStrategyRoute: ApiProductsDualStrategyRoute,
   ApiProductsExportRoute: ApiProductsExportRoute,
   ApiProductsFeedbackRoute: ApiProductsFeedbackRoute,
   ApiProductsFeedbackDriveRoute: ApiProductsFeedbackDriveRoute,

@@ -30,6 +30,33 @@ export const Route = createRootRoute({
         href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap",
       },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      // Machine discovery for agents / AEO / LLM crawlers
+      { rel: "describedby", href: "/llms.txt", type: "text/plain" },
+      {
+        rel: "alternate",
+        href: "/discovery.json",
+        type: "application/json",
+        title: "Dual Registry discovery",
+      },
+      {
+        rel: "alternate",
+        href: "/openapi.json",
+        type: "application/json",
+        title: "OpenAPI",
+      },
+      {
+        rel: "alternate",
+        href: "/.well-known/agent.json",
+        type: "application/json",
+        title: "A2A agent card",
+      },
+      {
+        rel: "alternate",
+        href: "/skill.json",
+        type: "application/json",
+        title: "List yourself skill",
+      },
+      { rel: "sitemap", href: "/sitemap.xml", type: "application/xml" },
     ],
   }),
   component: () => (

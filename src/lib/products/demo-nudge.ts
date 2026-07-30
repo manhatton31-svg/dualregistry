@@ -7,7 +7,8 @@
  * - State is MAX-MERGED durable + Talk owner-DM history (cannot forget who we nudged)
  * - Metrics = unique listings; never event spam counts
  * - force=false always (feedback-drive); ops force still respects Talk evidence of prior DM today
- * - Day first-touch budget is TIERED from active-clean size (not a fixed 48)
+  * - Day first-touch budget is TIERED from active-clean size
+ * - Dual strategy: keep tier day budgets even with 0 demos/replies (30d silence still holds)
  */
 import {
   forceHydrateDurable,
@@ -27,16 +28,16 @@ import {
 const DURABLE_NAME = "demo-nudge.json";
 
 /** Share of eligible (never-contacted) per cycle */
-export const NUDGE_ACTIVE_SHARE = 0.1;
+export const NUDGE_ACTIVE_SHARE = 0.12;
 /** Hard ceiling on a single cycle send (after day room) */
-export const MAX_NUDGES_PER_CYCLE_CAP = 12;
+export const MAX_NUDGES_PER_CYCLE_CAP = 16;
 /**
  * Absolute ceiling across all tiers (333+ proportional clamps here).
  * @deprecated prefer dayBudgetForActive(active).day_budget
  */
 export const MAX_FIRST_TOUCHES_PER_DAY = 80;
 /** @deprecated — use MAX_NUDGES_PER_CYCLE_CAP */
-export const MAX_NUDGES_PER_CYCLE = 12;
+export const MAX_NUDGES_PER_CYCLE = 16;
 export const MIN_NUDGES_PER_CYCLE = 0;
 
 /** Absolute minimum silence after any soft invite */
@@ -55,15 +56,18 @@ export type NudgeTierDef = {
 };
 
 export const NUDGE_TIERS: readonly NudgeTierDef[] = [
-  { id: "t1", label: "1–49 active", min_active: 0, max_active: 49, day_budget: 8 },
-  { id: "t2", label: "50–99 active", min_active: 50, max_active: 99, day_budget: 16 },
-  { id: "t3", label: "100–199 active", min_active: 100, max_active: 199, day_budget: 32 },
-  { id: "t4", label: "200–332 active", min_active: 200, max_active: 332, day_budget: 48 },
+  { id: "t1", label: "1–49 active", min_active: 0, max_active: 49, day_budget: 12 },
+  { id: "t2", label: "50–99 active", min_active: 50, max_active: 99, day_budget: 24 },
+  { id: "t3", label: "100–199 active", min_active: 100, max_active: 199, day_budget: 40 },
+  { id: "t4", label: "200–332 active", min_active: 200, max_active: 332, day_budget: 56 },
   { id: "t5", label: "333+ active", min_active: 333, max_active: null, day_budget: null },
 ] as const;
 
-/** Quiet floor when no real replies yet — never blast a silent list */
-export const SILENT_REPLY_DAY_CAP = 16;
+/**
+ * @deprecated Silent-reply throttle removed (dual strategy goes harder with 0 demos).
+ * Kept for API/dashboard compatibility only.
+ */
+export const SILENT_REPLY_DAY_CAP = 40;
 
 export type NudgeDayPlan = {
   active_clean: number;
@@ -100,8 +104,8 @@ export function pickNudgeTier(activeClean: number): NudgeTierDef {
 
 /**
  * Resolve daily first-touch budget + cycle plan from active-clean size.
- * Governor: zero real replies in 7d → stay at SILENT_REPLY_DAY_CAP (t2)
- * so we never "go hard" on a silent pool just because the list grew.
+ * Dual strategy: full tier budget even with 0 demos/replies.
+ * Anti-spam remains 30d silence + day cap + Active-clean only.
  */
 export function dayBudgetForActive(
   activeClean: number,
@@ -114,10 +118,10 @@ export function dayBudgetForActive(
   let day_budget = rawDayBudgetForTier(active, tier);
   let governor: string | null = null;
 
-  if (replies_7d === 0 && day_budget > SILENT_REPLY_DAY_CAP) {
-    day_budget = SILENT_REPLY_DAY_CAP;
+  // Do NOT cut budget when silent — user directive: go harder even with 0 demos/sales.
+  if (replies_7d === 0) {
     governor =
-      "no real Talk replies in 7d — day budget held at 16 (unlock higher tiers after first reply)";
+      "dual-strategy: 0 replies this week — full tier day budget still applies (30d silence holds)";
   }
 
   // Absolute safety: never schedule more first-touches than the list
@@ -155,7 +159,7 @@ export function dayBudgetForActive(
 
 /**
  * How many soft first-touches this cycle.
- * min(10% of eligible, cycle cap 12, day room, eligible pool)
+ * min(share of eligible, cycle cap, day room, eligible pool)
  */
 export function capForActive(
   activeClean: number,

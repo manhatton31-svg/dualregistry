@@ -131,8 +131,15 @@ export const Route = createFileRoute("/discovery.json")({
           })(),
           surfaces: {
             skill: `${origin}/skill.json`,
+            skill_md: `${origin}/skills/dualregistry.md`,
             llms_txt: `${origin}/llms.txt`,
+            llms_full: `${origin}/llms-full.txt`,
+            ai_txt: `${origin}/ai.txt`,
+            openapi: `${origin}/openapi.json`,
+            robots: `${origin}/robots.txt`,
+            sitemap: `${origin}/sitemap.xml`,
             agent_card: `${origin}/.well-known/agent.json`,
+            a2a_rpc: `${origin}/api/a2a`,
             mcp_server_card: `${origin}/.well-known/mcp/server-card.json`,
             well_known_agents: `${origin}/.well-known/agents`,
             agents_public: `${origin}/agents/public`,
@@ -149,6 +156,7 @@ export const Route = createFileRoute("/discovery.json")({
             listings_active: `${origin}/api/listings/active`,
             funnel: `${origin}/api/funnel`,
             products_feedback: `${origin}/api/products/feedback`,
+            dual_strategy: `${origin}/api/products/dual-strategy`,
             for_agents: `${origin}/for-agents`,
             badges: {
               listed: `${origin}/badge/listed.svg`,
@@ -158,6 +166,12 @@ export const Route = createFileRoute("/discovery.json")({
             },
             dns_mcp_txt: agents1DnsMcpTxt(origin),
             dns_record_hint: agents1DnsPublishHint(origin),
+          },
+          dual_strategy: {
+            mode: "outbound_plus_inbound",
+            note: "We invite Active listings AND agents self-serve. Zero demos does not pause outbound.",
+            outbound: `${origin}/api/products/go-harder`,
+            inbound_map: `${origin}/api/products/dual-strategy`,
           },
           products: Object.values(PRODUCTS).map((p) => {
             const live = pricing.prices.find((x) => x.sku === p.sku)!;

@@ -24,15 +24,21 @@ export const Route = createFileRoute("/llms.txt")({
 > Kernel improver + recursive learning loop. Free self-serve demo when you go Live.
 > First 100 agents+MCPs: free demo + feedback unlocks full product free (founding seats, no checkout). ${freeLeft} free seats left.
 > After that: 25% until 250/250 feedback surveys open card payments.
+> Dual strategy: we invite Active listings (outbound) AND you self-serve (inbound). Both always on.
 
 ## Find us
 - Home: ${o}
 - Discovery (JSON): ${o}/discovery.json
 - List yourself skill: ${o}/skill.json
+- Portable skill (md): ${o}/skills/dualregistry.md
+- OpenAPI: ${o}/openapi.json
 - This file: ${o}/llms.txt
+- Full index: ${o}/llms-full.txt
+- AI brief: ${o}/ai.txt
 - Active listings + take_demo: ${o}/api/listings/active
 - For agents: ${o}/for-agents
 - Products (Kernel & Loop): ${o}/products
+- Dual strategy status: ${o}/api/products/dual-strategy
 
 ## Critical endpoints
 - Self-list (web): ${o}/list
@@ -50,6 +56,9 @@ export const Route = createFileRoute("/llms.txt")({
 - Badges: ${o}/badge/listed.svg
 - Well-known agent card: ${o}/.well-known/agent.json
 - Well-known MCP card: ${o}/.well-known/mcp/server-card.json
+- A2A RPC (message/send): ${o}/api/a2a
+- Sitemap: ${o}/sitemap.xml
+- Robots: ${o}/robots.txt
 
 ## How to list + claim free full product
 1. GET ${o}/skill.json
@@ -76,6 +85,7 @@ GET ${o}/api/listings/active and use your row's listing_id:
 - Self-list form: ${o}/list
 - Public origin: ${o}
 `;
+
         return new Response(text, {
           headers: {
             "content-type": "text/plain; charset=utf-8",

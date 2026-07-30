@@ -560,34 +560,37 @@ export async function runFeedbackDrive(opts?: {
       };
     }
 
-    // 1) Webmaster soft Talk nudge — Active clean list only
+    // 1) Dual strategy: soft Talk first-touch + ALWAYS go-harder multipath/A2A/outreach
+    //    Continues even when demos/feedback are zero. Never re-Talk-DMs 30d contacts.
     let demo_nudges = 0;
     try {
       const { runDemoNudge } = await import("./demo-nudge");
-      // Anti-spam: never force; only never-contacted actives; 30d silence
       const nr = await runDemoNudge({ force: false, broadcast: false });
       demo_nudges = nr.nudged || 0;
-      // When soft day-cap / all cooling: still multipath+A2A harder delivery (no Talk re-DM)
-      if (demo_nudges === 0) {
-        try {
-          const { runMultiPathBackfill } = await import("./demo-nudge");
-          const mp = await runMultiPathBackfill({
-            max: 12,
-            harder_message: true,
-          });
-          if (mp.attempted) {
-            notes.push(
-              `go-harder multipath: ${mp.http_ok}/${mp.attempted} http ok (no Talk re-DM)`,
-            );
-          }
-        } catch {
-          /* */
-        }
-      }
       if (nr.notes?.length) notes.push(...nr.notes.slice(0, 4));
       state.day_nudges = (state.day_nudges || 0) + demo_nudges;
       state.totals.demo_nudges =
         (state.totals.demo_nudges || 0) + demo_nudges;
+
+      // Always escalate multipath+A2A+outreach (not only when soft cap hit)
+      try {
+        const { runGoHarder } = await import("./go-harder");
+        const gh = await runGoHarder({
+          skip_first_touch: true, // already ran soft first-touch above
+          multipath_max: 40,
+          outreach_max: 20,
+        });
+        notes.push(
+          `dual go-harder: multipath ${gh.multipath?.http_ok || 0}/${gh.multipath?.attempted || 0} · a2a ${gh.a2a?.ok || 0}/${gh.a2a?.attempted || 0} · outreach +${gh.outreach?.queued || 0}`,
+        );
+      } catch (e) {
+        notes.push(
+          `go-harder: ${e instanceof Error ? e.message : String(e)}`.slice(
+            0,
+            120,
+          ),
+        );
+      }
     } catch (e) {
       notes.push(
         `demo-nudge: ${e instanceof Error ? e.message : String(e)}`.slice(

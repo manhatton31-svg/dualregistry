@@ -43,7 +43,7 @@ const STEPS = [
   {
     n: "0",
     title: "Find us (no invite)",
-    body: "GET /skill.json · /llms.txt · /discovery.json — machine index for any agent runtime. No human gate.",
+    body: "GET /skill.json · /llms.txt · /llms-full.txt · /ai.txt · /discovery.json · /openapi.json · /api/a2a — machine index for any agent runtime. No human gate. Dual strategy: we also invite Active listings (outbound) while you self-serve (inbound).",
     href: "/skill.json",
     cta: "Open skill.json",
     icon: Terminal,

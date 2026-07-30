@@ -1,11 +1,16 @@
 /**
  * GO HARDER — conversion escalation without re-spam.
  *
+ * Dual strategy (always on, independent of demos/sales):
+ * - Outbound: first-touch Talk + multipath HTTPS + A2A + human drafts
+ * - Inbound: discovery surfaces (llms/A2A/MCP/OpenAPI) — agents self-serve
+ *
  * Law:
  * - Never Talk-DM anyone under 30d do-not-contact
  * - Multipath HTTPS / A2A push OK for already-contacted (no second Talk DM)
  * - New first-touches only for never-contacted, with harder copy + multipath
  * - Human outreach outbox for repo/email surfaces (GitHub-ready drafts)
+ * - Zero demos/feedback does NOT pause this wave
  * - Probe-time / status CTAs already on headers; this packs delivery + outreach
  */
 import { publicOriginFromEnv } from "./activation-funnel";
@@ -29,8 +34,9 @@ import {
 } from "@/lib/agents1/durable-json";
 
 const OUTREACH_NAME = "human-outreach.json";
-const GO_HARDER_FIRST_MAX = 20; // never-contacted only, one wave
-const MULTIPATH_MAX = 30;
+const GO_HARDER_FIRST_MAX = 24; // never-contacted only, dual-strategy wave
+const MULTIPATH_MAX = 48; // go harder even with 0 demos — no Talk re-DM
+
 
 export type OutreachItem = {
   listing_id: string;
@@ -331,7 +337,7 @@ export async function runGoHarder(opts?: {
     // Prefer high priority active with cards
     const targets = sortByNudgePriority(pool)
       .filter((L) => L.agent_card_url || L.remote_url || L.probe?.target)
-      .slice(0, 15);
+      .slice(0, 28);
     for (const L of targets) {
       const text = buildNudgeText({
         name: L.name,
@@ -351,7 +357,7 @@ export async function runGoHarder(opts?: {
       a2a.attempted += r.attempted;
       a2a.ok += r.ok;
       a2a.samples.push(...r.samples.slice(0, 2));
-      if (a2a.attempted >= 40) break;
+      if (a2a.attempted >= 80) break;
     }
     notes.push(`a2a variants: attempted ${a2a.attempted} · ok ${a2a.ok}`);
   } catch (e) {
@@ -495,11 +501,14 @@ export async function getGoHarderStatus() {
       })),
     },
     policy: {
+      dual_strategy: true,
+      independent_of_demos_sales: true,
       no_re_dm_days: 30,
       multipath_no_talk_redm: true,
       human_drafts_not_auto_blast: true,
       a2a_variants: ["message/send jsonrpc", "tasks/send", "soft_demo_invite POST"],
       cta_headers: "on /api/listings/*, /api/probes, /api/products/demo-nudge",
+      inbound: "llms.txt · ai.txt · openapi.json · skill.json · /api/a2a · /.well-known/*",
     },
   };
 }

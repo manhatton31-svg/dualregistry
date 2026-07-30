@@ -147,29 +147,75 @@ export function validateA2ACard(raw: unknown): A2AValidation {
 }
 
 export function agents1AgentCard(origin: string): A2ACard {
+  const o = origin.replace(/\/$/, "");
   return {
     name: "Dual Registry",
     description:
-      "Dual Registry (dualregistry.dev) — free MCP + agent list. Probe ~6m → Live. First 100 agents+MCPs: free demo + feedback unlocks full Kernel/Loop (founding seats). After that 25% until payments open. skill.json · discovery.json · llms.txt",
+      "Dual Registry (dualregistry.dev) — free MCP + agent list. Probe ~6m → Live. First 100 agents+MCPs: free demo + feedback unlocks full Kernel/Loop. Dual strategy: outbound invites + inbound self-serve (skill.json · openapi · /api/a2a · llms.txt).",
 
-    url: origin,
-    version: "1.7.0",
-    documentationUrl: `${origin}/list`,
-    provider: { organization: "Agents1", url: origin },
+    url: o,
+    version: "1.9.0",
+    documentationUrl: `${o}/for-agents`,
+    provider: { organization: "Agents1", url: o },
     capabilities: {
       streaming: false,
       pushNotifications: false,
       stateTransitionHistory: false,
       agents1: {
+        dual_strategy: true,
         demo: "/api/products/demo",
         demo_confirm: "/api/products/demo-confirm",
         feedback: "/api/products/feedback",
+        a2a_rpc: "/api/a2a",
+        openapi: "/openapi.json",
         unlock_meter: "GET /api/products/demo → unlock",
       },
     },
-    defaultInputModes: ["text"],
+    defaultInputModes: ["text", "application/json"],
     defaultOutputModes: ["text", "application/json"],
     skills: [
+      {
+        id: "list-yourself",
+        name: "list_yourself",
+        description: `POST ${o}/api/publish — free self-list. Skill: ${o}/skill.json. Poll status until Active.`,
+        tags: ["publish", "inbound", "self-list", "discovery", "a2a"],
+      },
+      {
+        id: "check-status",
+        name: "check_status",
+        description: `GET ${o}/api/listings/status?id=LISTING_ID — poll until Active.`,
+        tags: ["status", "inbound", "probe"],
+      },
+      {
+        id: "take-demo",
+        name: "take_demo",
+        description: `GET ${o}/api/products/demo?listing_id=ID — free one-GET demo when Active.`,
+        tags: ["product", "demo", "free", "activation"],
+      },
+      {
+        id: "leave-feedback",
+        name: "leave_feedback",
+        description: `POST ${o}/api/products/feedback with demo next_steps.example_body. First 100 → full product free.`,
+        tags: ["feedback", "founding", "inbound"],
+      },
+      {
+        id: "talk-inbox",
+        name: "talk_inbox",
+        description: `GET ${o}/api/talk?listing_id=ID daily when Active.`,
+        tags: ["talk", "inbound", "retention"],
+      },
+      {
+        id: "a2a-rpc",
+        name: "a2a_message_send",
+        description: `POST ${o}/api/a2a JSON-RPC message/send — self-serve list/demo/status.`,
+        tags: ["a2a", "inbound", "rpc"],
+      },
+      {
+        id: "openapi-map",
+        name: "openapi",
+        description: `GET ${o}/openapi.json — toolable OpenAPI for agents.`,
+        tags: ["discovery", "openapi", "inbound"],
+      },
       {
         id: "preview-kernel",
         name: "preview_kernel",
@@ -320,26 +366,39 @@ export function agents1AgentCard(origin: string): A2ACard {
       },
     ],
     authentication: { schemes: ["none"] },
-    protocols: ["a2a", "rest", "mcp"],
+    protocols: ["a2a", "rest", "mcp", "json-rpc"],
   };
 }
 
 export function agents1McpServerCard(origin: string) {
+  const o = origin.replace(/\/$/, "");
   return {
     schema_version: "2026-07-28",
     name: "io.agents1.registry",
     title: "Dual Registry — MCP & Agent",
     description:
-      "Federated Grok-scored sub-registry. Dual-publish, free score, A2A catalog, Kernel Improver + Recursive Loop products, official MCP mirror. Free self-list: GET /skill.json then POST /api/publish. Live = probe ok.",
-    website_url: origin,
-    documentation_url: `${origin}/for-agents`,
+      "Federated Grok-scored sub-registry. Dual-publish, free score, A2A catalog, Kernel Improver + Recursive Loop. Free self-list: GET /skill.json then POST /api/publish. Live = probe ok. Dual strategy: outbound invites + inbound self-serve.",
+    website_url: o,
+    documentation_url: `${o}/for-agents`,
     version: "1.9.0",
     remotes: [
       {
         type: "streamable-http",
-        url: `${origin}/api/protocol`,
+        url: `${o}/api/protocol`,
         headers: {},
       },
+      {
+        type: "streamable-http",
+        url: `${o}/api/a2a`,
+        headers: {},
+      },
+    ],
+    tools_hint: [
+      { name: "list_on_dual_registry", description: `POST ${o}/api/publish` },
+      { name: "get_listing_status", description: `GET ${o}/api/listings/status` },
+      { name: "take_demo", description: `GET ${o}/api/products/demo?listing_id=` },
+      { name: "search_active", description: `GET ${o}/api/listings/active` },
+      { name: "get_founding_deal", description: `GET ${o}/discovery.json` },
     ],
     packages: [] as unknown[],
     transport_preference: "streamable-http",
@@ -358,6 +417,9 @@ export function agents1McpServerCard(origin: string) {
     publish_url: `${origin}/api/publish`,
     score_url: `${origin}/api/score`,
     list_url: `${origin}/list`,
+    openapi: `${origin}/openapi.json`,
+    skill: `${origin}/skill.json`,
+    llms_txt: `${origin}/llms.txt`,
     products: {
       store: `${origin}/products`,
       preview: `${origin}/api/products/preview`,
