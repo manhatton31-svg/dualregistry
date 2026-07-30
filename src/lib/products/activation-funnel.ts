@@ -8,7 +8,7 @@
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
+import { resolvePublicOrigin, CANONICAL_PUBLIC_ORIGIN } from "@/lib/agents1/public-origin";
 import type { LanedListing } from "@/lib/agents1/listing-lanes";
 import { getPaymentGate } from "./payment-gate";
 import { getUnlockMeter, buildFeedbackDraft } from "./quick-demo";
@@ -127,14 +127,38 @@ async function saveJson(path: string, data: unknown) {
 }
 
 export function publicOriginFromEnv(reqOrigin?: string): string {
-  if (reqOrigin) return reqOrigin.replace(/\/$/, "");
-  try {
-    return resolvePublicOrigin(
-      new Request("http://127.0.0.1:8080/"),
-    ).replace(/\/$/, "");
-  } catch {
-    return "http://127.0.0.1:8080";
+  // Explicit call-site origin wins only if it's a real public host
+  if (reqOrigin && /^https?:\/\//i.test(reqOrigin)) {
+    const o = reqOrigin.replace(/\/$/, "");
+    try {
+      const host = new URL(o).hostname.toLowerCase();
+      if (
+        host === "localhost" ||
+        host === "127.0.0.1" ||
+        host.endsWith(".local") ||
+        /^\d+\.\d+\.\d+\.\d+$/.test(host)
+      ) {
+        // Never advertise loopback to agents/MCPs
+        return CANONICAL_PUBLIC_ORIGIN;
+      }
+      return o;
+    } catch {
+      /* fall through */
+    }
   }
+  const env =
+    typeof process !== "undefined"
+      ? process.env.AGENTS1_PUBLIC_ORIGIN || process.env.PUBLIC_ORIGIN
+      : undefined;
+  if (env && /^https?:\/\//i.test(env)) return env.replace(/\/$/, "");
+  // On Vercel / production always dualregistry.dev
+  if (
+    typeof process !== "undefined" &&
+    (process.env.VERCEL || process.env.NODE_ENV === "production")
+  ) {
+    return CANONICAL_PUBLIC_ORIGIN;
+  }
+  return resolvePublicOrigin() || CANONICAL_PUBLIC_ORIGIN;
 }
 
 /** Exact take-demo skill — same path TensorFeed / npm Trends used. */

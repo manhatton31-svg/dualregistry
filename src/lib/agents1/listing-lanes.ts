@@ -598,6 +598,7 @@ export async function getLanedListings(): Promise<{
     const { attachActivationToListings, publicOriginFromEnv } = await import(
       "@/lib/products/activation-funnel"
     );
+    // Always dualregistry.dev (or AGENTS1_PUBLIC_ORIGIN) for agent-facing take_demo URLs
     const origin = publicOriginFromEnv();
     mcp_active_out = attachActivationToListings(
       mcp_active,

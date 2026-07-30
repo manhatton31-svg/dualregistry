@@ -15,6 +15,13 @@ export function resolvePublicOrigin(request?: Request): string {
   if (env && /^https?:\/\//i.test(env)) {
     return env.replace(/\/$/, "");
   }
+  // Production / Vercel without env: never fall through to loopback
+  if (
+    typeof process !== "undefined" &&
+    (process.env.VERCEL || process.env.NODE_ENV === "production")
+  ) {
+    return CANONICAL_PUBLIC_ORIGIN;
+  }
   if (request) {
     try {
       const u = new URL(request.url);
@@ -33,6 +40,7 @@ export function resolvePublicOrigin(request?: Request): string {
           host.includes("preview") ||
           /^\d+\.\d+\.\d+\.\d+$/.test(host)
         ) {
+          // Agent-facing code should use publicOriginFromEnv; UI can stay local
           return `${proto}://${host}`.replace(/\/$/, "");
         }
         // Canonical brand domain (strip www)
