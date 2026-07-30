@@ -539,7 +539,8 @@ export async function runGrowthCycle(opts?: {
       `store index (internal): ${index.mcp_total} mcp / ${index.agent_total} agents — public list is clean-only`,
     );
 
-    if (isReadSafe(ft)) {
+    // Discover when store reads are still allowed (isReadSafe = exhausted / hard-stop)
+    if (!isReadSafe(ft)) {
       try {
         const disc = await discoverCandidates({
           agentPriority: index.agent_total + BALANCE_GAP < index.mcp_total,
@@ -563,12 +564,17 @@ export async function runGrowthCycle(opts?: {
           );
         }
         state.totals.discovered += run.discovered;
+        run.notes.push(
+          `discover: +${run.discovered} probeable candidates (mixed agents+MCPs)`,
+        );
         for (const n of disc.notes || []) run.notes.push(n);
       } catch (e) {
         run.notes.push(
           `discover: ${e instanceof Error ? e.message : String(e)}`,
         );
       }
+    } else {
+      run.notes.push("discover: skipped (get budget hard-stop)");
     }
 
     purgeUnprobeable(state, run.notes);
