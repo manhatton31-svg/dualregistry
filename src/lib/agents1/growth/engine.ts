@@ -120,7 +120,7 @@ function purgeUnprobeable(state: GrowthState, notes: string[]): number {
 async function applyHandshakeProbes(
   state: GrowthState,
   run: { notes: string[] },
-  max = 1,
+  max = 8,
 ) {
   try {
     type PT = Parameters<typeof runProbeBudgeted>[0][number];
@@ -384,7 +384,8 @@ export async function runProbeTick(opts?: { max?: number }): Promise<{
   purgeUnprobeable(state, notes);
   const before = await loadProbeState();
   const usedBefore = before.used || 0;
-  await applyHandshakeProbes(state, { notes }, opts?.max ?? 1);
+  await applyHandshakeProbes(state, { notes }, opts?.max ?? 8);
+
   purgeUnprobeable(state, notes);
   await saveState(state);
   try {
@@ -571,7 +572,8 @@ export async function runGrowthCycle(opts?: {
     }
 
     purgeUnprobeable(state, run.notes);
-    await applyHandshakeProbes(state, run, 1);
+    await applyHandshakeProbes(state, run, 8);
+
 
     const dailyOpsSnap = await loadDailyOps();
     const midnightBurst = shouldDoMidnightBurst(dailyOpsSnap);

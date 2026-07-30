@@ -1,10 +1,9 @@
 /**
  * Dual Registry dashboard — clean targets first, real numbers only.
- * Never show store dump, discovered queue, or delisted wall.
+ * Never show store dump, discovered queue, delisted wall, or probe-budget theatre.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  Activity,
   Bot,
   CheckCircle2,
   Copy,
@@ -100,13 +99,6 @@ type DashboardData = {
   } | null;
   protocol?: {
     probes?: {
-      used?: number;
-      budget?: number;
-      remaining?: number;
-      hourly_remaining?: number;
-      hourly_cap?: number;
-      by_kind_today?: { agents?: number; mcps?: number };
-      live_active?: { total?: number; mcp?: number; agents?: number };
       weekly_recheck?: {
         active_ok?: number;
         due_now?: number;
@@ -230,9 +222,6 @@ export function DashboardApp() {
   const unlockPct =
     ((fbAgents / unlockAgents) * 50 + (fbMcps / unlockMcps) * 50) || 0;
 
-  const probeUsed = proto?.probes?.used;
-  const probeBudget = proto?.probes?.budget ?? 240;
-
   const liveMcp = lanes?.counts?.mcp_active ?? null;
   const liveAgents = lanes?.counts?.agents_active ?? null;
   const liveTotal =
@@ -285,6 +274,7 @@ export function DashboardApp() {
       ok: true,
       product: "dualregistry-clean-targets",
       rule: "checks_clean + live probe handshake ok at source URL",
+      growth_target_per_day: 333,
       counts: { agents: agents.length, mcps: mcps.length },
       agents,
       mcps,
@@ -302,9 +292,6 @@ export function DashboardApp() {
     }
   }, [cleanExport]);
 
-  const probeRemaining = proto?.probes?.remaining;
-  const probeHourLeft = proto?.probes?.hourly_remaining;
-  const probeHourCap = proto?.probes?.hourly_cap;
   const weekly = proto?.probes?.weekly_recheck;
 
   return (
@@ -326,8 +313,8 @@ export function DashboardApp() {
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
               Find a real card/URL on the internet → probe it there → list only
-              if handshake is ok. Nothing is added before a probe. Failures are
-              discarded — not a delisted wall of junk.
+              if handshake is ok. Growing toward 333 clean listings per day
+              (mixed agents + MCPs). Failures are discarded.
             </p>
             {error ? (
               <p className="mt-1 text-xs text-danger">{error}</p>
@@ -375,33 +362,22 @@ export function DashboardApp() {
           </div>
         </header>
 
-        <div className="mb-4 grid min-w-0 grid-cols-2 gap-2 sm:mb-5 sm:grid-cols-3 sm:gap-3">
+        <div className="mb-4 grid min-w-0 grid-cols-2 gap-2 sm:mb-5 sm:gap-3">
           <StatCard
             label="Clean registry"
             value={liveTotal != null ? liveTotal : "—"}
             hint={
               liveMcp != null && liveAgents != null
-                ? `${liveMcp} MCP · ${liveAgents} agents · listed only if probe ok`
+                ? `${liveMcp} MCP · ${liveAgents} agents · checks clean + probe ok`
                 : "loading"
             }
             icon={CheckCircle2}
             accent="success"
           />
           <StatCard
-            label="Probes today"
-            value={
-              probeUsed != null && probeBudget != null
-                ? `${probeUsed}/${probeBudget}`
-                : "—"
-            }
-            hint="budget used finding clean targets"
-            icon={Activity}
-            accent="warn"
-          />
-          <StatCard
             label="Rule"
             value="probe first"
-            hint="Nothing is listed until handshake ok at its own card/URL"
+            hint="List only if handshake ok at source URL · grow toward 333 clean/day"
             icon={Radio}
             accent="info"
           />
@@ -512,8 +488,8 @@ export function DashboardApp() {
                   handshake is ok — then it appears here with the target URL.
                 </p>
                 <p>
-                  Failures stay off the registry. Resubmit via /list after fixing
-                  the card.
+                  Growing mixed agents + MCPs toward 333 clean listings per day.
+                  Failures stay off the registry.
                 </p>
                 {refreshedAt ? (
                   <p className="text-subtle">
@@ -615,30 +591,17 @@ export function DashboardApp() {
 
         {tab === "ops" ? (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-2">
-              <StatCard
-                label="Probes today"
-                value={
-                  probeUsed != null && probeBudget != null
-                    ? `${probeUsed}/${probeBudget}`
-                    : "—"
-                }
-                hint={
-                  probeBudget != null
-                    ? `${probeRemaining ?? 0} left · ${probeHourLeft ?? "—"}/${probeHourCap ?? 1} window`
-                    : "probe at source URL first"
-                }
-                icon={Radio}
-                accent="warn"
-              />
-              <StatCard
-                label="Clean listed"
-                value={liveTotal ?? "—"}
-                hint="only probe-ok targets"
-                icon={CheckCircle2}
-                accent="success"
-              />
-            </div>
+            <StatCard
+              label="Clean listed"
+              value={liveTotal ?? "—"}
+              hint={
+                liveMcp != null && liveAgents != null
+                  ? `${liveMcp} MCP · ${liveAgents} agents · only probe-ok`
+                  : "only probe-ok targets"
+              }
+              icon={CheckCircle2}
+              accent="success"
+            />
             {weekly ? (
               <p className="text-[11px] text-subtle">
                 Weekly recheck: active_ok {weekly.active_ok ?? "—"} · due now{" "}

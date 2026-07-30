@@ -77,6 +77,13 @@ export async function harvestGithubTopics(): Promise<HarvestRaw[]> {
     for (const it of data.items) {
       if (!it.html_url || !it.name) continue;
       const stars = it.stargazers_count ?? 0;
+      const homepage = (it.homepage || "").trim();
+      let siteOrigin: string | undefined;
+      try {
+        if (homepage.startsWith("http")) siteOrigin = new URL(homepage).origin;
+      } catch {
+        /* */
+      }
       const desc =
         (it.description || "").trim() ||
         `${it.full_name} ${kind} discovered via GitHub topic harvest for Agents1.`;
@@ -91,11 +98,16 @@ export async function harvestGithubTopics(): Promise<HarvestRaw[]> {
                 600,
               ),
         repository: it.html_url,
-        website: it.homepage || it.html_url,
-        endpoint_url: kind === "agent" ? it.homepage || it.html_url : undefined,
+        website: homepage || it.html_url,
+        endpoint_url: kind === "agent" ? homepage || undefined : undefined,
+        // Probe at real well-known path when we have a non-GitHub homepage
         agent_card_url:
-          kind === "agent" && it.homepage
-            ? undefined // enrich will try well-known
+          kind === "agent" && siteOrigin
+            ? `${siteOrigin}/.well-known/agent.json`
+            : undefined,
+        remote_url:
+          kind === "mcp" && siteOrigin
+            ? `${siteOrigin}/.well-known/mcp/server-card.json`
             : undefined,
         author: it.owner?.login,
         protocols: kind === "agent" ? ["rest", "a2a"] : undefined,
@@ -109,8 +121,10 @@ export async function harvestGithubTopics(): Promise<HarvestRaw[]> {
           stars >= 50 ? `stars:${stars}` : "",
           kind === "mcp" ? "harvest:mcp" : "harvest:agent",
           "github-topic",
+          siteOrigin ? "has-homepage-wellknown" : "",
         ].filter(Boolean),
       });
+
     }
   }
   return out;
@@ -167,7 +181,8 @@ export async function harvestNpmMcp(): Promise<HarvestRaw[]> {
  * Well-known crawl: for official-mirror websites, probe agent.json + server-card.
  * Budgeted — few hosts per cycle.
  */
-export async function harvestWellKnownCrawl(maxHosts = 12): Promise<HarvestRaw[]> {
+export async function harvestWellKnownCrawl(maxHosts = 24): Promise<HarvestRaw[]> {
+
   const mirror = await loadOfficialMirror();
   const hosts = new Set<string>();
   for (const e of mirror.entries) {

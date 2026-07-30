@@ -153,17 +153,31 @@ const SEED_MCPS: Raw[] = [
 ];
 
 async function agentCards(): Promise<Raw[]> {
-  // Light well-known discovery — only URLs that look like real cards
+  // Known live agent cards + light expansion from mirror-style hosts
   const seeds = [
     "https://agoragentic.com/.well-known/agent.json",
     "https://tensorfeed.ai/.well-known/agent.json",
     "https://nexez.ai/.well-known/agent.json",
+    "https://api.pictomancer.ai/.well-known/agent.json",
+    "https://www.sitepulsar.ai/.well-known/agent.json",
+    "https://mcp.law.ai/.well-known/agent.json",
+    "https://api.meacheal.ai/.well-known/agent.json",
+    "https://nothumansearch.ai/.well-known/agent.json",
+    "https://corduroy-labs.ai/.well-known/agent.json",
+    "https://aibtc.com/.well-known/agent.json",
+    "https://gouvernance.ai/.well-known/agent-card.json",
+    "https://agent.yuens.me/.well-known/agent.json",
+    "https://www.scriptmasterlabs.com/.well-known/agent.json",
+    "https://africanmarketos.com/.well-known/agent.json",
+    "https://agent-guild-5d5r.onrender.com/.well-known/agent.json",
   ];
   const out: Raw[] = [];
   for (const u of seeds) {
-    const j = await fetchJson<{ name?: string; description?: string; url?: string }>(
-      u,
-    );
+    const j = await fetchJson<{
+      name?: string;
+      description?: string;
+      url?: string;
+    }>(u);
     if (!j?.name) continue;
     out.push({
       kind: "agent",
@@ -173,7 +187,7 @@ async function agentCards(): Promise<Raw[]> {
       agent_card_url: u,
       endpoint_url: j.url || u,
       source: "agent-cards",
-      quality_hints: ["probeable"],
+      quality_hints: ["probeable", "well-known"],
     });
   }
   return out;
@@ -185,9 +199,40 @@ async function awesomeAgentsReadme(): Promise<Raw[]> {
 }
 
 async function officialMcp(): Promise<Raw[]> {
-  // Do NOT dump the official MCP registry wholesale — that wasted hundreds of probes.
-  // Harvest + well-known crawl supply probeable endpoints only.
-  return [];
+  // Official MCP registry — ONLY entries with a real remote URL (probeable).
+  // Cap volume so we don't re-dump the universe; discovery is probe-first.
+  const data = await fetchJson<{
+    servers?: Array<{
+      name?: string;
+      description?: string;
+      repository?: { url?: string } | string;
+      websiteUrl?: string;
+      remotes?: Array<{ url?: string; type?: string }>;
+      packages?: Array<{ registryType?: string; identifier?: string }>;
+    }>;
+  }>("https://registry.modelcontextprotocol.io/v0/servers?limit=100");
+  const out: Raw[] = [];
+  for (const s of data?.servers || []) {
+    const remote = (s.remotes || []).find((r) => r?.url)?.url;
+    if (!remote || !/^https?:\/\//i.test(remote)) continue;
+    const name = (s.name || remote).slice(0, 80);
+    const repo =
+      typeof s.repository === "string"
+        ? s.repository
+        : s.repository?.url;
+    out.push({
+      kind: "mcp",
+      name,
+      description: (s.description || `${name} remote MCP`).slice(0, 600),
+      repository: repo,
+      website: s.websiteUrl || remote,
+      remote_url: remote,
+      source: "official-mcp-registry",
+      quality_hints: ["probeable", "official-registry-remote"],
+    });
+    if (out.length >= 40) break;
+  }
+  return out;
 }
 
 async function awesomeMcp(): Promise<Raw[]> {

@@ -18,7 +18,8 @@ function authorized(request: Request): boolean {
   // Vercel Cron invocations are trusted (production schedule only)
   if (request.headers.get("x-vercel-cron") === "1") return true;
   const secret = process.env.CRON_SECRET?.trim();
-  if (!secret) return true; // open tick (budget-capped at 240/day)
+  if (!secret) return true; // open tick (budget-capped; high daily ceiling)
+
   const url = new URL(request.url);
   const q = url.searchParams.get("secret") || "";
   const auth = request.headers.get("authorization") || "";
@@ -123,11 +124,12 @@ async function runTick() {
   }
 
   const { runProbeTick } = await import("@/lib/agents1/growth/engine");
-  const { invalidateProbeCache, loadProbeState } = await import(
+  const { invalidateProbeCache, loadProbeState, PROBES_PER_TICK } = await import(
     "@/lib/agents1/probe"
   );
   invalidateProbeCache();
-  const result = await runProbeTick({ max: 1 });
+  const result = await runProbeTick({ max: PROBES_PER_TICK });
+
   invalidateProbeCache();
   const state = await loadProbeState();
   const lastIso = state.last_tick_at || new Date().toISOString();

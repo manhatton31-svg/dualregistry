@@ -1,8 +1,10 @@
 /**
  * Live handshake probes (no store KV).
  *
- * Discovery: 1 probe / 6 min · 240/day soft · never-probed first → grow Active.
- * Weekly recheck: unlimited · every Active re-probed 7d after last ok, then every 7d.
+ * Discovery: multi-probe per 6m tick · high daily cap · never-probed first → grow Active.
+ * Goal: grow clean registry toward CLEAN_GROWTH_TARGET_PER_DAY (mixed agents+MCPs).
+ * Only handshake ok + checks clean promote to the public list.
+ * Weekly recheck: unlimited · every Active re-probed 7d after last ok.
  * Discovery always outranks weekly recheck when both are due.
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
@@ -36,10 +38,15 @@ const PATH = join(dataRoot(), "probes.json");
 const DURABLE_NAME = "probes.json";
 const UA = "Agents1Probe/1.2 (+registry; reliability; balanced)";
 
-export const MAX_PROBES_PER_DAY = 240;
+/** Soft daily probe spend — high enough to grow clean list (not a public product card). */
+export const MAX_PROBES_PER_DAY = 2500;
+/** Target clean listings (agents + MCPs) added per UTC day. */
+export const CLEAN_GROWTH_TARGET_PER_DAY = 333;
 export const PROBE_WINDOW_MS = 6 * 60_000;
-export const MAX_PROBES_PER_WINDOW = 1;
+/** Probes per 6m tick — mixed agents/MCPs; only ok → clean list. */
+export const MAX_PROBES_PER_WINDOW = 8;
 export const MAX_PROBES_PER_HOUR = MAX_PROBES_PER_WINDOW;
+export const PROBES_PER_TICK = MAX_PROBES_PER_WINDOW;
 /** Short freshness window (hours) — discovery won't re-hit very recent oks */
 const FRESH_OK_MS = 6 * 3600_000;
 /** Active weekly recheck interval — unlimited queue, scales with Active count */
@@ -1644,7 +1651,8 @@ export async function getProbePublic() {
       max_per_window: MAX_PROBES_PER_WINDOW,
       window_minutes: 6,
       cadence:
-        "1 probe / 6 min discovery-first (240/day) · unlimited weekly Active recheck at 7d",
+        "up to 8 probes / 6 min discovery-first (2500/day soft) · grow clean list toward 333/day · only ok listed",
+
       balance:
         "catch-up: 100% lagging kind until day counts within 1; then 50/50. Prefer never-probed.",
       max_per_hour: 10,

@@ -115,13 +115,13 @@ export function buildMetricsTruthFromParts(input: {
     },
     {
       id: "probes_today",
-      label: "Probes today",
+      label: "Probes today (internal)",
       value:
         input.probeUsed != null && input.probeBudget != null
           ? `${input.probeUsed}/${input.probeBudget}`
-          : "see Ops / protocol",
+          : "internal",
       source: "data/probes.json",
-      how: "5 every 30 min · 240/day handshakes. Promotes discovered → live.",
+      how: "Up to 8 probes / 6m tick · soft 2500/day · only handshake ok becomes clean list. Goal 333 clean/day.",
       live: true,
     },
     {

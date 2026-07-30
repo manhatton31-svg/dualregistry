@@ -1,6 +1,7 @@
 /**
  * Cheap pre-screen before a full handshake probe.
- * Avoids burning the daily 240 budget on targets that will almost certainly fail.
+ * Avoids wasting probes on targets that will almost certainly fail.
+
  *
  * High-confidence fail → delist / skip (no budget spend)
  * Promising / unknown → full probe
