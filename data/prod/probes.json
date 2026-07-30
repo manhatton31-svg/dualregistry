@@ -1,6 +1,6 @@
 {
   "day": "2026-07-30",
-  "used": 77,
+  "used": 79,
   "budget": 240,
   "hour_bucket": "2026-07-30T03:42",
   "hourly_used": 0,
@@ -5041,5 +5041,1633 @@
     "mcp": 22,
     "agents": 20,
     "at": "2026-07-30T04:48:07.823Z"
-  }
+  },
+  "tick_log": [
+    {
+      "tick_id": "2026-07-30T03:47:17.468Z|agtpub_db071a3747a40a840a8c|fail",
+      "id": "agtpub_db071a3747a40a840a8c",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 13"
+      ],
+      "probed_at": "2026-07-30T03:47:17.468Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T03:47:01.641Z|mcp_eb6604d6549c3918008c|partial",
+      "id": "mcp_eb6604d6549c3918008c",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://mcp.korey.ai/mcp",
+      "signals": [
+        "remote 200",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T03:47:01.641Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T03:46:04.740Z|mcp_d489373dd8874c8bc31a|fail",
+      "id": "mcp_d489373dd8874c8bc31a",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://server.smithery.ai/@arjunkmrm/time/mcp",
+      "signals": [
+        "remote fail 404",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T03:46:04.740Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T03:45:05.930Z|mcp_fe657f21568f42549bee|fail",
+      "id": "mcp_fe657f21568f42549bee",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://server.smithery.ai/@arjunkmrm/tutorials/mcp",
+      "signals": [
+        "remote fail 404",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T03:45:05.930Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T03:40:22.032Z|agtpub_3c5075ba16667511f5f5|ok",
+      "id": "agtpub_3c5075ba16667511f5f5",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://agent.yuens.me/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T03:40:22.032Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T03:39:46.345Z|mcp_0a32844aeb66afdd1eaa|fail",
+      "id": "mcp_0a32844aeb66afdd1eaa",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://server.smithery.ai/@arjunkmrm/watch2/mcp",
+      "signals": [
+        "remote fail 404",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T03:39:46.345Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T03:34:30.983Z|mcp_52ffb4a7a55c30f8ffed|fail",
+      "id": "mcp_52ffb4a7a55c30f8ffed",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://server.smithery.ai/@bhushangitfull/file-mcp-smith/mcp",
+      "signals": [
+        "remote fail 404",
+        "stars 0",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T03:34:30.983Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T03:30:30.788Z|mcp_389c41920721e9bd6631|fail",
+      "id": "mcp_389c41920721e9bd6631",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://server.smithery.ai/@aryankeluskar/poke-video-mcp/mcp",
+      "signals": [
+        "remote fail 404",
+        "stars 0",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T03:30:30.788Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T03:29:57.236Z|agtpub_ce0cd362f4d521662080|fail",
+      "id": "agtpub_ce0cd362f4d521662080",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://a2a-workbench.allsrc.dev/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "probed_at": "2026-07-30T03:29:57.236Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T03:27:35.638Z|mcp_f289aeb8b70427104eb6|fail",
+      "id": "mcp_f289aeb8b70427104eb6",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://server.smithery.ai/@bergeramit/bergeramit-hw3-tech/mcp",
+      "signals": [
+        "remote fail 404",
+        "stars 0",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T03:27:35.638Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T02:10:16.262Z|mcp_9f6f323a6662abe4fee3|fail",
+      "id": "mcp_9f6f323a6662abe4fee3",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://server.smithery.ai/@bielacki/igdb-mcp-server/mcp",
+      "signals": [
+        "remote fail 404",
+        "stars 4",
+        "license",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T02:10:16.262Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T02:03:07.322Z|agtpub_93a55a245189e3403932|fail",
+      "id": "agtpub_93a55a245189e3403932",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://registry.inference-gateway.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 1",
+        "license"
+      ],
+      "probed_at": "2026-07-30T02:03:07.322Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:54:01.528Z|mcp-tinyfish-ai-web-agent-|partial",
+      "id": "mcp-tinyfish-ai-web-agent-",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": true,
+      "target": "https://agent.tinyfish.ai/mcp",
+      "signals": [
+        "remote 401",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T01:54:01.528Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:48:01.415Z|mcp-tokonomix-council-https-github-com-tokonomix-tokonomix-council-mcp|skip",
+      "id": "mcp-tokonomix-council-https-github-com-tokonomix-tokonomix-council-mcp",
+      "kind": "mcp",
+      "handshake": "skip",
+      "ok": false,
+      "target": "https://tokonomix.ai",
+      "signals": [
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T01:48:01.415Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:42:00.928Z|mcp-blackout-https-github-com-thrain-ai-blackout-pdf|skip",
+      "id": "mcp-blackout-https-github-com-thrain-ai-blackout-pdf",
+      "kind": "mcp",
+      "handshake": "skip",
+      "ok": false,
+      "target": "https://blackout.thrain.ai",
+      "signals": [
+        "stars 0",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T01:42:00.928Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:36:00.918Z|agent-agentup-https-github-com-lukasb3863-agentup|fail",
+      "id": "agent-agentup-https-github-com-lukasb3863-agentup",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T01:36:00.918Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:36:00.918Z|agtpub_10262232c734848fc8f6|fail",
+      "id": "agtpub_10262232c734848fc8f6",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T01:36:00.918Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:30:00.782Z|mcp-askhuman-https-github-com-thrain-ai-askhuman|skip",
+      "id": "mcp-askhuman-https-github-com-thrain-ai-askhuman",
+      "kind": "mcp",
+      "handshake": "skip",
+      "ok": false,
+      "target": "https://askhuman.thrain.ai",
+      "signals": [
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T01:30:00.782Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:24:00.882Z|mcp-trade-router-mcp-https-github-com-traderouter-trade-router-mcp|skip",
+      "id": "mcp-trade-router-mcp-https-github-com-traderouter-trade-router-mcp",
+      "kind": "mcp",
+      "handshake": "skip",
+      "ok": false,
+      "target": "https://github.com/TradeRouter/trade-router-mcp",
+      "signals": [
+        "stars 3",
+        "license"
+      ],
+      "probed_at": "2026-07-30T01:24:00.882Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:18:01.051Z|mcp-hypertool-mcp-https-github-com-toolprint-hypertool-mcp|skip",
+      "id": "mcp-hypertool-mcp-https-github-com-toolprint-hypertool-mcp",
+      "kind": "mcp",
+      "handshake": "skip",
+      "ok": false,
+      "target": "https://github.com/toolprint/hypertool-mcp",
+      "signals": [
+        "stars 155"
+      ],
+      "probed_at": "2026-07-30T01:18:01.051Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:12:00.869Z|agtpub_1d3583031bd03b157c3c|ok",
+      "id": "agtpub_1d3583031bd03b157c3c",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://mcp.law.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T01:12:00.869Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:06:00.772Z|mcp-spotlight-https-spotlight-thrain-ai|skip",
+      "id": "mcp-spotlight-https-spotlight-thrain-ai",
+      "kind": "mcp",
+      "handshake": "skip",
+      "ok": false,
+      "target": "https://spotlight.thrain.ai",
+      "signals": [
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T01:06:00.772Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:00:00.860Z|agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk|fail",
+      "id": "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T01:00:00.860Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T01:00:00.860Z|agtpub_195ea387a17a06f7fe96|fail",
+      "id": "agtpub_195ea387a17a06f7fe96",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-30T01:00:00.860Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:54:02.446Z|agtpub_6991e4a5ad724d275bba|fail",
+      "id": "agtpub_6991e4a5ad724d275bba",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://meshmail.ai/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 200",
+        "card fail 404",
+        "stars 108",
+        "license"
+      ],
+      "probed_at": "2026-07-30T00:54:02.446Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:48:01.010Z|mcp-syntheticbrew-https-app-syntheticbrew-ai|ok",
+      "id": "mcp-syntheticbrew-https-app-syntheticbrew-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://app.syntheticbrew.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T00:48:01.010Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:42:00.871Z|agtpub_a9572e664c3fe69d2294|ok",
+      "id": "agtpub_a9572e664c3fe69d2294",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://api.pictomancer.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T00:42:00.871Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:36:00.902Z|agent-a2a-java-sdk-spring-https-github-com-goodfriend2ks-a2a-java-sdk-spring|fail",
+      "id": "agent-a2a-java-sdk-spring-https-github-com-goodfriend2ks-a2a-java-sdk-spring",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "probed_at": "2026-07-30T00:36:00.902Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:36:00.902Z|agtpub_231f73307bdb9e0a2ad2|fail",
+      "id": "agtpub_231f73307bdb9e0a2ad2",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "probed_at": "2026-07-30T00:36:00.902Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:30:00.756Z|mcp-https-api-synlake-ai-https-api-synlake-ai|ok",
+      "id": "mcp-https-api-synlake-ai-https-api-synlake-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://api.synlake.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T00:30:00.756Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:24:00.798Z|agtpub_b9f0d8828d83cb7ac364|ok",
+      "id": "agtpub_b9f0d8828d83cb7ac364",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://aibtc.com/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "stars 3"
+      ],
+      "probed_at": "2026-07-30T00:24:00.798Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:18:00.832Z|agent-maf-a2a-https-github-com-thousandfacedhero-maf-a2a|fail",
+      "id": "agent-maf-a2a-https-github-com-thousandfacedhero-maf-a2a",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "probed_at": "2026-07-30T00:18:00.832Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:18:00.832Z|agtpub_34961b3d0e59f1783de4|fail",
+      "id": "agtpub_34961b3d0e59f1783de4",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "probed_at": "2026-07-30T00:18:00.832Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:12:00.978Z|agtpub_31c620076f963c1add9e|ok",
+      "id": "agtpub_31c620076f963c1add9e",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://gouvernance.ai/.well-known/agent-card.json",
+      "signals": [
+        "card fail 200",
+        "a2a-card",
+        "alt .well-known/agent-card.json",
+        "stars 6",
+        "license"
+      ],
+      "probed_at": "2026-07-30T00:12:00.978Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:06:01.559Z|agtpub_1fa4c154fce33c420b97|ok",
+      "id": "agtpub_1fa4c154fce33c420b97",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://africanmarketos.com/.well-known/agent.json",
+      "signals": [
+        "card fail 404",
+        "a2a-card",
+        "alt .well-known/agent.json",
+        "stars 0"
+      ],
+      "probed_at": "2026-07-30T00:06:01.559Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T00:00:04.094Z|agtpub_0affb04e5feef5a50d10|fail",
+      "id": "agtpub_0affb04e5feef5a50d10",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://motus.phanthy.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 12",
+        "license"
+      ],
+      "probed_at": "2026-07-30T00:00:04.094Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:54:00.956Z|agent-a2a-playground-https-github-com-alis-exchange-a2a-playground|fail",
+      "id": "agent-a2a-playground-https-github-com-alis-exchange-a2a-playground",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:54:00.956Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:54:00.956Z|agtpub_56ae20f0e1fb4b171294|fail",
+      "id": "agtpub_56ae20f0e1fb4b171294",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:54:00.956Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:48:00.828Z|agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a|fail",
+      "id": "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 179",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:48:00.828Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:48:00.828Z|agtpub_6b1009d884a24c78aa41|fail",
+      "id": "agtpub_6b1009d884a24c78aa41",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 179",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:48:00.828Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:42:25.054Z|mcp-https-syntheticbrew-ai-https-syntheticbrew-ai|ok",
+      "id": "mcp-https-syntheticbrew-ai-https-syntheticbrew-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://syntheticbrew.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T23:42:25.054Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:41:48.513Z|agent-llm-https-github-com-r-uby-dev-llm|fail",
+      "id": "agent-llm-https-github-com-r-uby-dev-llm",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 136",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:41:48.513Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:41:48.513Z|agtpub_e968362d5f4a6bcb6983|fail",
+      "id": "agtpub_e968362d5f4a6bcb6983",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 136",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:41:48.513Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:30:00.791Z|agent-awesome-adk-https-github-com-rashraj-awesome-adk|fail",
+      "id": "agent-awesome-adk-https-github-com-rashraj-awesome-adk",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 49",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:30:00.791Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:30:00.791Z|agtpub_6210a208b4f0fd280b73|fail",
+      "id": "agtpub_6210a208b4f0fd280b73",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 49",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:30:00.791Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:24:01.101Z|mcp-travelmindsai-concierge-https-travelminds-ai|ok",
+      "id": "mcp-travelmindsai-concierge-https-travelminds-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://travelminds.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T23:24:01.101Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:18:00.881Z|agent-a2a4j-https-github-com-pheonixhkbxoic-a2a4j|fail",
+      "id": "agent-a2a4j-https-github-com-pheonixhkbxoic-a2a4j",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 19",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:18:00.881Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:18:00.881Z|agtpub_8b42ade04783cec42700|fail",
+      "id": "agtpub_8b42ade04783cec42700",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 19",
+        "license"
+      ],
+      "probed_at": "2026-07-29T23:18:00.881Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:12:00.822Z|agent-songgenerationa2a-https-github-com-shiv33ndu-songgenerationa2a|fail",
+      "id": "agent-songgenerationa2a-https-github-com-shiv33ndu-songgenerationa2a",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-29T23:12:00.822Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:12:00.822Z|agtpub_e926e55b11f093fb6364|fail",
+      "id": "agtpub_e926e55b11f093fb6364",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-29T23:12:00.822Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:07:10.632Z|mcp-amazon-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-amazon-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T23:07:10.632Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:00:00.667Z|agent-corduroy-labs-https-corduroy-labs-ai|ok",
+      "id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://corduroy-labs.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T23:00:00.667Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T23:00:00.667Z|agtpub_838f097c66bd7b8926ca|ok",
+      "id": "agtpub_838f097c66bd7b8926ca",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://corduroy-labs.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T23:00:00.667Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:55:34.014Z|agent-the-stall-https-the-stall-intuitek-ai|partial",
+      "id": "agent-the-stall-https-the-stall-intuitek-ai",
+      "kind": "agent",
+      "handshake": "partial",
+      "ok": true,
+      "target": "https://the-stall.intuitek.ai/.well-known/agent.json",
+      "signals": [
+        "card-json-parse",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-29T22:55:34.014Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:55:34.014Z|agtpub_d062f0839db5e1d50d1e|partial",
+      "id": "agtpub_d062f0839db5e1d50d1e",
+      "kind": "agent",
+      "handshake": "partial",
+      "ok": true,
+      "target": "https://the-stall.intuitek.ai/.well-known/agent.json",
+      "signals": [
+        "card-json-parse",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-29T22:55:34.014Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:54:00.812Z|agent-meacheal-supply-chain-agent-https-api-meacheal-ai|ok",
+      "id": "agent-meacheal-supply-chain-agent-https-api-meacheal-ai",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://api.meacheal.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T22:54:00.812Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:54:00.812Z|agtpub_290c692ad6bcd5efbe11|ok",
+      "id": "agtpub_290c692ad6bcd5efbe11",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://api.meacheal.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T22:54:00.812Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:50:01.304Z|agent-nexez-https-nexez-ai-|ok",
+      "id": "agent-nexez-https-nexez-ai-",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://nexez.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T22:50:01.304Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:50:01.304Z|agtpub_00f3ba4fc443a690c152|ok",
+      "id": "agtpub_00f3ba4fc443a690c152",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://nexez.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T22:50:01.304Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:48:00.755Z|agent-not-human-search-https-nothumansearch-ai|ok",
+      "id": "agent-not-human-search-https-nothumansearch-ai",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://nothumansearch.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T22:48:00.755Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:48:00.755Z|agtpub_4bb2f54b68b2093269dd|ok",
+      "id": "agtpub_4bb2f54b68b2093269dd",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://nothumansearch.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T22:48:00.755Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:42:01.526Z|agtpub_adee5f3ade099f842913|fail",
+      "id": "agtpub_adee5f3ade099f842913",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 200",
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 4"
+      ],
+      "probed_at": "2026-07-29T22:42:01.526Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:36:01.260Z|agtpub_4505eaa93e316d2ea4f2|fail",
+      "id": "agtpub_4505eaa93e316d2ea4f2",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://sys.uxprojects-jok.com/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "stars 2",
+        "license"
+      ],
+      "probed_at": "2026-07-29T22:36:01.260Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:31:44.027Z|mcp-app-store-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-app-store-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T22:31:44.027Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:30:00.789Z|agtpub_8c8b6567f19495419a30|fail",
+      "id": "agtpub_8c8b6567f19495419a30",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://kamiazya-whiteboard.pages.dev/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "stars 3",
+        "license"
+      ],
+      "probed_at": "2026-07-29T22:30:00.789Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:24:04.482Z|agtpub_44420010dbccc9fce717|fail",
+      "id": "agtpub_44420010dbccc9fce717",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://openlinker.ai/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 3",
+        "license"
+      ],
+      "probed_at": "2026-07-29T22:24:04.482Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:18:00.827Z|agtpub_19b5c225f314b425634c|fail",
+      "id": "agtpub_19b5c225f314b425634c",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://bnbchainmcp.vercel.app/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 402",
+        "card fail 402",
+        "card fail 402",
+        "card fail 402",
+        "stars 31",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T22:18:00.827Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:13:14.028Z|agtpub_dad2035f1c5862896e17|fail",
+      "id": "agtpub_dad2035f1c5862896e17",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://foxbook.dev/.well-known/ai-agent.json",
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 3",
+        "license"
+      ],
+      "probed_at": "2026-07-29T22:13:14.028Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:12:01.583Z|agtpub_279c88c667456f4fcc59|fail",
+      "id": "agtpub_279c88c667456f4fcc59",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://itinai.com/.well-known/agent.json",
+      "signals": [
+        "card fail 200",
+        "stars 3",
+        "license",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-29T22:12:01.583Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:06:01.558Z|agtpub_efe2d008b63c96157697|fail",
+      "id": "agtpub_efe2d008b63c96157697",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://zyraxonai.lovable.app/.well-known/agent.json",
+      "signals": [
+        "card fail 404",
+        "stars 6",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-29T22:06:01.558Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T22:00:00.843Z|agtpub_86c4f439a1554fe420d4|fail",
+      "id": "agtpub_86c4f439a1554fe420d4",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://leasing-api.vercel.app/.well-known/agent.json",
+      "signals": [
+        "card fail 404",
+        "stars 0",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-29T22:00:00.843Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:54:00.758Z|agtpub_3a9582f56016cfa2a813|fail",
+      "id": "agtpub_3a9582f56016cfa2a813",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github-to-mcp.vercel.app/.well-known/agent.json",
+      "signals": [
+        "card fail 402",
+        "stars 31",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-29T21:54:00.758Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:48:00.796Z|agtpub_84d99fc99dfd5819977e|fail",
+      "id": "agtpub_84d99fc99dfd5819977e",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://lar.md/.well-known/agent.json",
+      "signals": [
+        "card fail 404",
+        "stars 1",
+        "license",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-29T21:48:00.796Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:45:44.955Z|agtpub_605d8588850b2606e2e2|fail",
+      "id": "agtpub_605d8588850b2606e2e2",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://phenobarbital.github.io/ai-parrot/.well-known/agent.json",
+      "signals": [
+        "card fail 404",
+        "stars 28",
+        "license",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-29T21:45:44.955Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:45:43.728Z|agtpub_46262b0fb3b0cb020f0d|fail",
+      "id": "agtpub_46262b0fb3b0cb020f0d",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://ptsoagent.vercel.app/.well-known/agent.json",
+      "signals": [
+        "card fail 404",
+        "stars 0",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-29T21:45:43.728Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:45:42.449Z|agtpub_98ffd8dc6b8a61a65e52|fail",
+      "id": "agtpub_98ffd8dc6b8a61a65e52",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://github.com/linny006?utm_source=github&utm_medium=about&utm_campaign=trending-claude-skills/.well-known/agent.json",
+      "signals": [
+        "card fail 200",
+        "stars 18",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-29T21:45:42.449Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:45:39.252Z|agtpub_06811106b3c136e3973b|ok",
+      "id": "agtpub_06811106b3c136e3973b",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://www.scriptmasterlabs.com/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "stars 0",
+        "license"
+      ],
+      "probed_at": "2026-07-29T21:45:39.252Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:45:30.380Z|agtpub_e2e50435ad4a0367f5c6|fail",
+      "id": "agtpub_e2e50435ad4a0367f5c6",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://khive.ai/.well-known/agent.json",
+      "signals": [
+        "card fail 404",
+        "stars 401",
+        "license",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry"
+      ],
+      "probed_at": "2026-07-29T21:45:30.380Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:45:13.040Z|agtpub_426275eb4bc92da62f4f|skip",
+      "id": "agtpub_426275eb4bc92da62f4f",
+      "kind": "agent",
+      "handshake": "skip",
+      "ok": false,
+      "target": "",
+      "signals": [
+        "stars 3"
+      ],
+      "probed_at": "2026-07-29T21:45:13.040Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:42:00.648Z|mcp-competitor-tracking-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-competitor-tracking-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T21:42:00.648Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:36:00.725Z|mcp-content-strategy-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-content-strategy-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T21:36:00.725Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:30:00.697Z|mcp-crypto-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-crypto-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T21:30:00.697Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:24:00.740Z|mcp-ecommerce-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-ecommerce-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T21:24:00.740Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:18:00.659Z|mcp-google-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-google-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T21:18:00.659Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:15:22.232Z|mcp-market-research-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-market-research-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T21:15:22.232Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T21:14:05.124Z|mcp-news-sentiment-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-news-sentiment-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T21:14:05.124Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:47:20.485Z|mcp-news-volume-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-news-volume-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T20:47:20.485Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:47:19.664Z|mcp-reddit-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-reddit-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T20:47:19.664Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:47:18.807Z|mcp-npm-trends-mcp-https-trendsmcp-ai|ok",
+      "id": "mcp-npm-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T20:47:18.807Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:47:17.794Z|mcp-ai-tool-directory-https-tooldirectory-ai|ok",
+      "id": "mcp-ai-tool-directory-https-tooldirectory-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://tooldirectory.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T20:47:17.794Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:47:16.569Z|agent-sitepulsar-https-www-sitepulsar-ai|ok",
+      "id": "agent-sitepulsar-https-www-sitepulsar-ai",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://www.sitepulsar.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T20:47:16.569Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:47:16.569Z|agtpub_db3cbbaa4357ee7b5c95|ok",
+      "id": "agtpub_db3cbbaa4357ee7b5c95",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://www.sitepulsar.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T20:47:16.569Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:45:08.853Z|agent-tensorfeed-https-tensorfeed-ai|ok",
+      "id": "agent-tensorfeed-https-tensorfeed-ai",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://tensorfeed.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T20:45:08.853Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:45:08.853Z|agtpub_34e576be34211c1defc0|ok",
+      "id": "agtpub_34e576be34211c1defc0",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://tensorfeed.ai/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-29T20:45:08.853Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:08:21.819Z|mcp-cuongpo-coti-mcp-https-github-com-cuongpo-coti-mcp|skip",
+      "id": "mcp-cuongpo-coti-mcp-https-github-com-cuongpo-coti-mcp",
+      "kind": "mcp",
+      "handshake": "skip",
+      "ok": false,
+      "target": "https://server.smithery.ai/@cuongpo/coti-mcp/mcp",
+      "signals": [
+        "try-404",
+        "try-404",
+        "try-404",
+        "repo-only",
+        "gh-stars:0",
+        "has-license"
+      ],
+      "probed_at": "2026-07-29T20:08:21.819Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:08:21.420Z|mcp-ctaylor86-mcp-video-download-server-https-github-com-ctaylor86-mcp-video-dow|skip",
+      "id": "mcp-ctaylor86-mcp-video-download-server-https-github-com-ctaylor86-mcp-video-dow",
+      "kind": "mcp",
+      "handshake": "skip",
+      "ok": false,
+      "target": "https://server.smithery.ai/@ctaylor86/mcp-video-download-server/mcp",
+      "signals": [
+        "try-404",
+        "try-404",
+        "try-404",
+        "repo-only",
+        "gh-stars:0",
+        "has-license"
+      ],
+      "probed_at": "2026-07-29T20:08:21.420Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:08:20.941Z|mcp-cristianoaredes-mcp-dadosbr-https-github-com-cristianoaredes-mcp-dadosbr|skip",
+      "id": "mcp-cristianoaredes-mcp-dadosbr-https-github-com-cristianoaredes-mcp-dadosbr",
+      "kind": "mcp",
+      "handshake": "skip",
+      "ok": false,
+      "target": "https://server.smithery.ai/@cristianoaredes/mcp-dadosbr/mcp",
+      "signals": [
+        "try-404",
+        "try-404",
+        "try-404",
+        "repo-only",
+        "gh-stars:4",
+        "has-license"
+      ],
+      "probed_at": "2026-07-29T20:08:20.941Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:08:20.461Z|mcp-duvomike-mcp-|fail",
+      "id": "mcp-duvomike-mcp-",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://server.smithery.ai/@duvomike/mcp/mcp",
+      "signals": [
+        "try-404",
+        "no-live-remote",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-29T20:08:20.461Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T20:00:59.880358Z|agtpub_ae427eacf129a7ad16a0|ok",
+      "id": "agtpub_ae427eacf129a7ad16a0",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://agoragentic.com/.well-known/agent.json",
+      "signals": [
+        "real-active"
+      ],
+      "probed_at": "2026-07-29T20:00:59.880358Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T13:53:44.010Z|mcp-https-hirey-ai-https-hirey-ai|ok",
+      "id": "mcp-https-hirey-ai-https-hirey-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://hirey.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T13:53:44.010Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-29T12:49:43.943Z|mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai|ok",
+      "id": "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai",
+      "kind": "mcp",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://corduroy-labs.ai/.well-known/mcp/server-card.json",
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "probed_at": "2026-07-29T12:49:43.943Z",
+      "spent_budget": true
+    }
+  ]
 }
