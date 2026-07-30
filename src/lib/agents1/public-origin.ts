@@ -1,8 +1,11 @@
 /**
  * Public origin for cards, DNS, dual-publish docs.
- * Domain prep: set AGENTS1_PUBLIC_ORIGIN=https://your.domain when you buy one.
- * Until then, request origin (live preview) is used.
+ * Production domain: dualregistry.dev
+ * Override with AGENTS1_PUBLIC_ORIGIN if needed.
  */
+
+/** Canonical production host for agents/MCP discovery. */
+export const CANONICAL_PUBLIC_ORIGIN = "https://dualregistry.dev";
 
 export function resolvePublicOrigin(request?: Request): string {
   const env =
@@ -15,20 +18,36 @@ export function resolvePublicOrigin(request?: Request): string {
   if (request) {
     try {
       const u = new URL(request.url);
-      // Prefer forwarded host when behind preview proxy
       const fwd =
         request.headers.get("x-forwarded-host") ||
         request.headers.get("host");
       const proto =
         request.headers.get("x-forwarded-proto") ||
         (u.protocol === "https:" ? "https" : "http");
-      if (fwd) return `${proto}://${fwd.split(",")[0].trim()}`.replace(/\/$/, "");
+      if (fwd) {
+        const host = fwd.split(",")[0].trim().toLowerCase();
+        // Live preview / local: keep request host so HMR and soft polls work
+        if (
+          host.includes("localhost") ||
+          host.includes("127.0.0.1") ||
+          host.includes("preview") ||
+          /^\d+\.\d+\.\d+\.\d+$/.test(host)
+        ) {
+          return `${proto}://${host}`.replace(/\/$/, "");
+        }
+        // Canonical brand domain (strip www)
+        if (host === "dualregistry.dev" || host === "www.dualregistry.dev") {
+          return CANONICAL_PUBLIC_ORIGIN;
+        }
+        return `${proto}://${host}`.replace(/\/$/, "");
+      }
       return u.origin;
     } catch {
       /* */
     }
   }
-  return "http://127.0.0.1:8080";
+  // Default for workers, mail, skill builders when no request context
+  return CANONICAL_PUBLIC_ORIGIN;
 }
 
 export function domainReadyStatus(origin: string): {
@@ -53,13 +72,15 @@ export function domainReadyStatus(origin: string): {
   const notes: string[] = [];
   if (!has_custom_domain) {
     notes.push(
-      "Set AGENTS1_PUBLIC_ORIGIN=https://YOUR_DOMAIN after DNS points at this app",
-    );
-    notes.push(
-      "Then publish DNS TXT: _mcp.YOUR_DOMAIN → value from /discovery.json",
+      "Canonical public origin is https://dualregistry.dev — set AGENTS1_PUBLIC_ORIGIN to override",
     );
   } else {
-    notes.push(`Public host ${host} — publish _mcp.${host} TXT for free inbound discovery`);
+    notes.push(
+      `Public host ${host} — publish _mcp.${host} TXT for free inbound discovery`,
+    );
+    if (host === "dualregistry.dev" || host.endsWith(".dualregistry.dev")) {
+      notes.push("Receive: hello@dualregistry.dev · Resend outbound TBD");
+    }
   }
   return {
     has_custom_domain,
