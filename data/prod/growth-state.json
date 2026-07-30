@@ -1,12 +1,12 @@
 {
   "version": 3,
-  "updated_at": "2026-07-30T03:45:05.979Z",
+  "updated_at": "2026-07-30T13:57:46.368Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
     "running": false,
-    "next_run_at": "2026-07-30T03:46:36.894Z",
-    "last_run_at": "2026-07-30T03:40:36.894Z"
+    "next_run_at": "2026-07-30T13:54:20.658Z",
+    "last_run_at": "2026-07-30T13:48:20.658Z"
   },
   "kv": {
     "day": "2026-07-30",
@@ -25,6 +25,28 @@
   "candidates": [],
   "runs": [
     {
+      "id": "run_ms7kg6e4",
+      "started_at": "2026-07-30T13:45:25.852Z",
+      "discovered": 0,
+      "submitted": 0,
+      "approved": 0,
+      "duplicates": 0,
+      "deferred": 0,
+      "failed": 0,
+      "notes": [
+        "Free-tier UTC 2026-07-30: put 0/2500 \u00b7 get 4/40000 (Agents1 share)",
+        "Policy: probe-first clean registry \u00b7 only probeable source URLs \u00b7 never list store dump",
+        "store index (internal): 332 mcp / 397 agents \u2014 public list is clean-only",
+        "probe-queue: 0 discovery \u00b7 0 weekly-due (probeable only)",
+        "probe-balance-queue: 0 agents \u00b7 0 mcps \u00b7 0 weekly",
+        "probes: 0 (ok 0 \u00b7 discovery) \u00b7 1/6min",
+        "writes this cycle: 0 agent + 0 mcp = 0",
+        "feedback-drive: drive already running"
+      ],
+      "budget_remaining": 2500,
+      "finished_at": "2026-07-30T13:48:20.658Z"
+    },
+    {
       "id": "run_ms6ytb9y",
       "started_at": "2026-07-30T03:39:47.158Z",
       "discovered": 0,
@@ -34,14 +56,14 @@
       "deferred": 0,
       "failed": 0,
       "notes": [
-        "Free-tier UTC 2026-07-30: put 0/2500 · get 8/40000 (Agents1 share)",
-        "Policy: protect reads · even-rate MCP↔agent · protocol probes every 6m",
+        "Free-tier UTC 2026-07-30: put 0/2500 \u00b7 get 8/40000 (Agents1 share)",
+        "Policy: protect reads \u00b7 even-rate MCP\u2194agent \u00b7 protocol probes every 6m",
         "store: 332 mcp / 350 agents (live)",
-        "probe-queue: 140 discovery · 0 weekly-due (unlimited)",
-        "probe-balance-queue: 40 agents · 80 mcps · 0 weekly (interleaved)",
-        "probes: 0 (ok 0 · discovery) · 1/6min",
+        "probe-queue: 140 discovery \u00b7 0 weekly-due (unlimited)",
+        "probe-balance-queue: 40 agents \u00b7 80 mcps \u00b7 0 weekly (interleaved)",
+        "probes: 0 (ok 0 \u00b7 discovery) \u00b7 1/6min",
         "writes this cycle: 0 agent + 0 mcp = 0",
-        "feedback-drive: skipped — ran recently"
+        "feedback-drive: skipped \u2014 ran recently"
       ],
       "budget_remaining": 2500,
       "finished_at": "2026-07-30T03:40:36.894Z"
