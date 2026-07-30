@@ -4,12 +4,15 @@
  * Timestamps: Eastern Time (America/New_York); next = last + 6 minutes.
  */
 import { createFileRoute } from "@tanstack/react-router";
+import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
+import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
 export const Route = createFileRoute("/api/probes/")({
   server: {
     handlers: {
-      GET: async () => {
+      GET: async ({ request }) => {
         try {
+          const origin = resolvePublicOrigin(request);
           const { getProbePublic, invalidateProbeCache } = await import(
             "@/lib/agents1/probe"
           );
@@ -109,12 +112,25 @@ export const Route = createFileRoute("/api/probes/")({
               },
               outcomes: probes.outcomes,
               recent,
+              demo_cta: {
+                get: `${origin}/api/products/demo`,
+                get_one_shot:
+                  "GET /api/products/demo?listing_id=YOUR_ID — free demo, no card",
+                post: `${origin}/api/products/demo`,
+                talk: `${origin}/api/talk?listing_id=YOUR_ID`,
+                active: `${origin}/api/listings/active`,
+                skill: `${origin}/skill.json`,
+                headline:
+                  "Active? Free Kernel+Loop demo → first 100 agents/MCPs get 100% full product now.",
+              },
             },
             {
-              headers: {
-                "access-control-allow-origin": "*",
-                "cache-control": "no-store",
-              },
+              headers: withDemoCtaHeaders(
+                {
+                  "cache-control": "no-store",
+                },
+                { origin },
+              ),
             },
           );
         } catch (e) {
@@ -123,7 +139,10 @@ export const Route = createFileRoute("/api/probes/")({
               ok: false,
               error: e instanceof Error ? e.message : String(e),
             },
-            { status: 500 },
+            {
+              status: 500,
+              headers: withDemoCtaHeaders({ "cache-control": "no-store" }),
+            },
           );
         }
       },
