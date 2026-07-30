@@ -35,10 +35,10 @@ export const Route = createFileRoute("/api/mcp-registry/publish-status")({
         const origin = resolvePublicOrigin(request).replace(/\/$/, "");
         const dns = await checkMcpDns(origin);
         const githubNs = "io.github.manhatton31-svg/dualregistry";
-        const domainNs = "dev.dualregistry.www/registry";
+        const domainNs = "dev.dualregistry/registry";
         const [gh, domain, agents1] = await Promise.all([
           searchOfficial("dualregistry"),
-          searchOfficial("dev.dualregistry.www"),
+          searchOfficial("dev.dualregistry/registry"),
           searchOfficial("io.agents1.registry"),
         ]);
 
@@ -57,24 +57,24 @@ export const Route = createFileRoute("/api/mcp-registry/publish-status")({
               agents1: agents1,
             },
             package: packageUrl,
-            recommended_names: [domainNs, "dev.dualregistry/registry", githubNs],
+            recommended_names: [domainNs, "dev.dualregistry.www/registry", githubNs],
             dns,
             mcp_registry_auth: `${origin}/.well-known/mcp-registry-auth`,
             publish_steps: [
-              "Already published as dev.dualregistry.www/registry v2.0.0 (HTTP domain auth on www.dualregistry.dev).",
-              "To republish: mcp-publisher login http --domain www.dualregistry.dev --private-key <hex>",
+              "LIVE as dev.dualregistry/registry v2.0.1 (apex DNS MCPv1 auth + remote streamable-http).",
+              "DNS _mcp TXT live for MCP discovery draft.",
+              "Apex TXT: v=MCPv1; k=ed25519; p=… for registry ownership.",
+              "To republish: mcp-publisher login dns --domain dualregistry.dev --private-key <hex>",
               "Then: mcp-publisher publish server.json",
-              "Apex dualregistry.dev 308-redirects; registry HTTP auth must use www for now.",
-              "Optional cleaner namespace: set apex DNS/auth without 308, then publish dev.dualregistry/registry",
-              "Optional DNS _mcp TXT for MCP discovery clients (separate from registry auth): see /api/dns/mcp-status",
             ],
             note:
-              "Official registry entry is LIVE. DNS _mcp TXT is still optional for draft MCP DNS discovery.",
+              "Official registry entry LIVE under clean namespace. _mcp DNS TXT live. robots.txt may still be CF-managed; use /agentmap.json and /robots-agent.txt.",
             automation_status: {
               package_live: true,
               official_registry_listed: Boolean(gh.found || domain.found),
               dns_txt_live: dns.live,
               http_auth_live: true,
+              apex_dns_auth: true,
               interactive_auth_required: false,
             },
           },

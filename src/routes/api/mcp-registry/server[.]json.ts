@@ -19,9 +19,10 @@ export const Route = createFileRoute("/api/mcp-registry/server.json")({
         const body = {
           $schema:
             "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-          name: "dev.dualregistry.www/registry",
+          name: "dev.dualregistry/registry",
           description:
             "Free dual MCP+agent registry. Probe Live, free demo, Kernel/Loop. Self-list + dual strategy.",
+          version: "2.0.1",
           version: "2.0.0",
           title: "Dual Registry",
           websiteUrl: origin,

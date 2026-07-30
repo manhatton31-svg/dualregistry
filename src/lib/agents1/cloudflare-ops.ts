@@ -11,6 +11,8 @@ import { agents1DnsMcpTxt } from "./a2a-card";
 const CF_API = "https://api.cloudflare.com/client/v4";
 export const CF_ACCOUNT_ID =
   process.env.CLOUDFLARE_ACCOUNT_ID || "9eb4a5b3e147fddda19c7bfaa5a9f674";
+export const CF_ZONE_ID_DEFAULT =
+  process.env.CLOUDFLARE_ZONE_ID || "1e892303b972264844d7a357de945433";
 
 export type CfApplyResult = {
   ok: boolean;
@@ -235,6 +237,7 @@ export async function applyCloudflareDiscoverability(opts?: {
 
   const zoneId =
     process.env.CLOUDFLARE_ZONE_ID ||
+    CF_ZONE_ID_DEFAULT ||
     (await resolveZoneId(token, domain));
   if (!zoneId) {
     return {
