@@ -1,8 +1,8 @@
 {
   "day": "2026-07-30",
-  "used": 101,
+  "used": 102,
   "budget": 240,
-  "hour_bucket": "2026-07-30T10:00",
+  "hour_bucket": "2026-07-30T11:54",
   "hourly_used": 1,
   "hourly_cap": 1,
   "results": {
@@ -6147,10 +6147,70 @@
       "namespace_verified": true,
       "has_license": false,
       "probed_at": "2026-07-30T10:03:08.466Z"
+    },
+    "mcp_afa5b4c88df096938527": {
+      "id": "mcp_afa5b4c88df096938527",
+      "kind": "mcp",
+      "target": "https://mcp.good-sport.ai/mcp",
+      "ok": false,
+      "latency_ms": 23,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T11:55:48.258Z"
+    },
+    "name:mcp:good-sport": {
+      "id": "mcp_afa5b4c88df096938527",
+      "kind": "mcp",
+      "target": "https://mcp.good-sport.ai/mcp",
+      "ok": false,
+      "latency_ms": 23,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T11:55:48.258Z"
+    },
+    "url:https://mcp.good-sport.ai/mcp": {
+      "id": "mcp_afa5b4c88df096938527",
+      "kind": "mcp",
+      "target": "https://mcp.good-sport.ai/mcp",
+      "ok": false,
+      "latency_ms": 23,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T11:55:48.258Z"
     }
   },
-  "updated_at": "2026-07-30T10:03:08.898Z",
-  "last_tick_at": "2026-07-30T10:03:08.579Z",
+  "updated_at": "2026-07-30T11:55:51.204Z",
+  "last_tick_at": "2026-07-30T11:55:48.558Z",
   "last_ok_tick_at": "2026-07-30T09:56:23.957Z",
   "last_handshake": "partial",
   "wasted_probes_discarded": 0,
@@ -6158,9 +6218,26 @@
     "total": 42,
     "mcp": 22,
     "agents": 21,
-    "at": "2026-07-30T10:04:01.151Z"
+    "at": "2026-07-30T11:58:40.847Z"
   },
   "tick_log": [
+    {
+      "tick_id": "2026-07-30T11:55:48.258Z|mcp_afa5b4c88df096938527|partial",
+      "id": "mcp_afa5b4c88df096938527",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://mcp.good-sport.ai/mcp",
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "probed_at": "2026-07-30T11:55:48.258Z",
+      "spent_budget": true
+    },
     {
       "tick_id": "2026-07-30T10:03:08.466Z|mcp_5ba260e8045cd5795591|partial",
       "id": "mcp_5ba260e8045cd5795591",
