@@ -406,6 +406,21 @@ export async function getLiveSnapshot(opts?: {
   // then durable delists (fail/partial) are subtracted so In Registry drops.
   let mcpTotal = milestones.mcp?.approved ?? merged.mcp_approved;
   let agentsTotal = milestones.agents?.approved ?? merged.agents_approved;
+  // High-water store totals so In Registry never flaps from store blips
+  try {
+    const { raiseStoreFloor, loadCounterFloors } = await import(
+      "./counter-floors"
+    );
+    // Only raise floors when we have a confident live total (not soft zeros)
+    if (mcpTotal > 0 || agentsTotal > 0) {
+      await raiseStoreFloor({ mcp: mcpTotal, agents: agentsTotal });
+    }
+    const floors = await loadCounterFloors();
+    mcpTotal = Math.max(mcpTotal, floors.store_mcp_floor || 0);
+    agentsTotal = Math.max(agentsTotal, floors.store_agents_floor || 0);
+  } catch {
+    /* */
+  }
   let delistMeta: {
     delisted_mcp: number;
     delisted_agents: number;

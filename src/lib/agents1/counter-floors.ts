@@ -23,6 +23,9 @@ export type CounterFloors = {
   live_floor: { total: number; mcp: number; agents: number; at: string };
   /** High-water delisted unique count — never decrease */
   delisted_floor: number;
+  /** High-water store approved — never decrease (stops In Registry flap) */
+  store_mcp_floor?: number;
+  store_agents_floor?: number;
   blocked_urls: string[];
   blocked_ids: string[];
   updated_at: string;
@@ -74,6 +77,14 @@ export function mergeFloors(a: CounterFloors, b: CounterFloors): CounterFloors {
     delisted_floor: Math.max(
       Number(a.delisted_floor) || 0,
       Number(b.delisted_floor) || 0,
+    ),
+    store_mcp_floor: Math.max(
+      Number(a.store_mcp_floor) || 0,
+      Number(b.store_mcp_floor) || 0,
+    ),
+    store_agents_floor: Math.max(
+      Number(a.store_agents_floor) || 0,
+      Number(b.store_agents_floor) || 0,
     ),
     blocked_urls: [
       ...new Set([...(a.blocked_urls || []), ...(b.blocked_urls || [])]),
@@ -333,5 +344,30 @@ export function redTeamMonotonicUsed(): {
     detail: ok
       ? "mergeFloors keeps high-water used=50 and live=40 under stale reload"
       : `FAIL used=${merged.used_floor} live=${merged.live_floor.total}`,
+  };
+}
+
+/** Store approved high-water — never decrease (stops In Registry flap). */
+export async function raiseStoreFloor(input: {
+  mcp?: number;
+  agents?: number;
+}): Promise<{ mcp: number; agents: number }> {
+  const f = await loadCounterFloors();
+  const out: CounterFloors = {
+    ...f,
+    store_mcp_floor: Math.max(
+      Number(f.store_mcp_floor) || 0,
+      Math.floor(input.mcp || 0),
+    ),
+    store_agents_floor: Math.max(
+      Number(f.store_agents_floor) || 0,
+      Math.floor(input.agents || 0),
+    ),
+  };
+  await saveCounterFloors(out);
+  const after = await loadCounterFloors();
+  return {
+    mcp: after.store_mcp_floor || 0,
+    agents: after.store_agents_floor || 0,
   };
 }

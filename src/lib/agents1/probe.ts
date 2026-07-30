@@ -1155,27 +1155,37 @@ export async function runProbeBudgeted(
   }
   await persist(state);
 
-  // Raise durable floors (source of truth for dashboard)
+  // Raise durable floors ONLY after a real probe tick (never on GET)
   try {
     const { raiseUsedFloor, raiseLiveFloor, raiseDelistedFloor } = await import(
       "./counter-floors"
     );
-    const day = state.day;
-    const seen = new Set<string>();
-    let today = 0;
-    for (const [k, r] of Object.entries(state.results || {})) {
-      if (k.startsWith("name:") || k.startsWith("url:")) continue;
-      if (!(r.probed_at || "").startsWith(day)) continue;
-      // only count budget-spending outcomes (not pure preflight)
-      const pre = (r.signals || []).some((s) => String(s).includes("preflight-reject"));
-      if (pre) continue;
-      const uid = String(r.id || k);
-      if (seen.has(uid)) continue;
-      seen.add(uid);
-      today++;
-    }
-    state.used = await raiseUsedFloor(Math.max(state.used, today));
-    const liveFloor = await raiseLiveFloor(state.live_active_snapshot);
+    const { raiseLiveCounters } = await import("./live-counter");
+    const { readDisplayAuthority, observeDisplayAuthority } = await import(
+      "./display-authority"
+    );
+    // Max with every source so we never raise to a lower value
+    const auth = await readDisplayAuthority({
+      used: state.used,
+      live_total: state.live_active_snapshot?.total || 0,
+      live_mcp: state.live_active_snapshot?.mcp || 0,
+      live_agents: state.live_active_snapshot?.agents || 0,
+      last_tick_at: state.last_tick_at,
+    });
+    state.used = await raiseUsedFloor(
+      Math.max(state.used, auth.used || 0),
+    );
+    const liveFloor = await raiseLiveFloor({
+      total: Math.max(
+        state.live_active_snapshot?.total || 0,
+        auth.live_total || 0,
+      ),
+      mcp: Math.max(state.live_active_snapshot?.mcp || 0, auth.live_mcp || 0),
+      agents: Math.max(
+        state.live_active_snapshot?.agents || 0,
+        auth.live_agents || 0,
+      ),
+    });
     state.live_active_snapshot = {
       total: liveFloor.total,
       mcp: liveFloor.mcp,
@@ -1185,10 +1195,25 @@ export async function runProbeBudgeted(
     try {
       const { delistStats } = await import("./delist-on-fail");
       const ds = await delistStats();
-      await raiseDelistedFloor(ds.total);
+      await raiseDelistedFloor(
+        Math.max(ds.total, auth.delisted_total || 0),
+      );
     } catch {
       /* */
     }
+    await raiseLiveCounters({
+      probes_used: state.used,
+      live_ok: state.live_active_snapshot.total,
+      live_mcp: state.live_active_snapshot.mcp,
+      live_agents: state.live_active_snapshot.agents,
+    });
+    observeDisplayAuthority({
+      used: state.used,
+      live_total: state.live_active_snapshot.total,
+      live_mcp: state.live_active_snapshot.mcp,
+      live_agents: state.live_active_snapshot.agents,
+      last_tick_at: state.last_tick_at,
+    });
     await persist(state);
   } catch {
     /* */
@@ -1412,52 +1437,56 @@ export async function getProbePublic() {
     .slice(0, 10)
     .map(([reason, count]) => ({ reason, count }));
 
-  // Apply LIVE COUNTERS (Redis/GitHub CAS) — single source of truth
+  // READ-ONLY high-water — never raise/write on GET (that raced and dropped numbers)
   let usedOut = s.used;
   let liveOut: { total: number; mcp: number; agents: number; at: string } =
     s.live_active_snapshot || {
       ...countLiveFromResults(s.results),
       at: new Date().toISOString(),
     };
-  let counterBackend = "local";
+  let counterBackend = "display-authority";
   try {
-    const { loadLiveCounters, raiseLiveCounters } = await import(
-      "./live-counter"
+    const { readDisplayAuthority, observeDisplayAuthority } = await import(
+      "./display-authority"
     );
-    const raised = await raiseLiveCounters({
-      probes_used: Math.max(s.used, usedOut),
-      live_ok: liveOut.total,
+    const auth = await readDisplayAuthority({
+      used: s.used,
+      live_total: liveOut.total,
       live_mcp: liveOut.mcp,
       live_agents: liveOut.agents,
+      last_tick_at: s.last_tick_at,
     });
-    usedOut = Math.max(s.used, raised.probes_used || 0);
+    usedOut = Math.max(s.used, auth.used || 0);
     liveOut = {
-      total: Math.max(liveOut.total || 0, raised.live_ok || 0),
-      mcp: Math.max(liveOut.mcp || 0, raised.live_mcp || 0),
-      agents: Math.max(liveOut.agents || 0, raised.live_agents || 0),
+      total: Math.max(liveOut.total || 0, auth.live_total || 0),
+      mcp: Math.max(liveOut.mcp || 0, auth.live_mcp || 0),
+      agents: Math.max(liveOut.agents || 0, auth.live_agents || 0),
       at: liveOut.at || new Date().toISOString(),
     };
-    counterBackend = raised.backend || "live-counter";
+    // Keep process memory high-water (no durable write on GET)
+    observeDisplayAuthority({
+      used: usedOut,
+      live_total: liveOut.total,
+      live_mcp: liveOut.mcp,
+      live_agents: liveOut.agents,
+      last_tick_at: s.last_tick_at,
+    });
+    // Align in-memory state for this instance so subsequent ticks don't regress
+    if (usedOut > s.used) s.used = usedOut;
+    s.live_active_snapshot = liveOut;
+    counterBackend = "display-authority(max-of-all-sources)";
   } catch {
     try {
-      const { loadCounterFloors, raiseUsedFloor, raiseLiveFloor } = await import(
-        "./counter-floors"
-      );
+      const { loadCounterFloors } = await import("./counter-floors");
       const floors = await loadCounterFloors();
       usedOut = Math.max(s.used, floors.used_floor || 0);
-      if (usedOut > s.used) await raiseUsedFloor(usedOut);
       liveOut = {
         total: Math.max(liveOut.total || 0, floors.live_floor?.total || 0),
         mcp: Math.max(liveOut.mcp || 0, floors.live_floor?.mcp || 0),
         agents: Math.max(liveOut.agents || 0, floors.live_floor?.agents || 0),
         at: liveOut.at || floors.live_floor?.at || new Date().toISOString(),
       };
-      await raiseLiveFloor({
-        total: liveOut.total,
-        mcp: liveOut.mcp,
-        agents: liveOut.agents,
-      });
-      counterBackend = "counter-floors";
+      counterBackend = "counter-floors-readonly";
     } catch {
       /* */
     }
@@ -1489,7 +1518,7 @@ export async function getProbePublic() {
     live_active: liveOut,
     live_active_snapshot: liveOut,
     source_of_truth:
-      "live-counter (Redis/Upstash or GitHub CAS) — high-water never decreases",
+      "display-authority: max(GH probes, floors, live-counters, local) — GET never writes",
     counter_backend: counterBackend,
     probe_worker: probe_worker
       ? {

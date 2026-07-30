@@ -181,39 +181,54 @@ export async function registryCountsAfterDelist(base: {
     if (it.kind === "mcp") dm++;
     else da++;
   }
-  const mcp = Math.max(0, base.mcp - dm);
-  const agents = Math.max(0, base.agents - da);
+
+  // High-water store totals + delisted (READ-ONLY max — no raise races on GET)
+  let storeMcp = base.mcp;
+  let storeAgents = base.agents;
   let delisted_total = dm + da;
   try {
-    const { loadCounterFloors, raiseDelistedFloor } = await import(
-      "./counter-floors"
-    );
+    const { readDisplayAuthority } = await import("./display-authority");
+    const { loadCounterFloors } = await import("./counter-floors");
     const floors = await loadCounterFloors();
-    delisted_total = Math.max(delisted_total, floors.delisted_floor || 0);
+    storeMcp = Math.max(storeMcp, floors.store_mcp_floor || 0, base.mcp);
+    storeAgents = Math.max(
+      storeAgents,
+      floors.store_agents_floor || 0,
+      base.agents,
+    );
+    delisted_total = Math.max(
+      delisted_total,
+      floors.delisted_floor || 0,
+      (s.active_ids || []).length,
+    );
+    // Keep kind split proportional to actual items when floor is higher
     if (delisted_total > dm + da && dm + da > 0) {
       const scale = delisted_total / (dm + da);
       dm = Math.round(dm * scale);
       da = Math.round(da * scale);
     } else if (delisted_total > dm + da) {
-      dm = Math.max(dm, Math.floor(delisted_total / 2));
-      da = Math.max(da, delisted_total - dm);
+      // prefer known item kinds; put remainder on agents if unknown
+      const extra = delisted_total - (dm + da);
+      da += extra;
     }
-    await raiseDelistedFloor(delisted_total);
+    const auth = await readDisplayAuthority({
+      store_mcp: storeMcp,
+      store_agents: storeAgents,
+      delisted_total,
+    });
+    storeMcp = Math.max(storeMcp, auth.store_mcp || 0);
+    storeAgents = Math.max(storeAgents, auth.store_agents || 0);
+    delisted_total = Math.max(delisted_total, auth.delisted_total || 0);
   } catch {
     /* */
   }
-  // Live counter single source of truth for delisted high-water
-  try {
-    const { raiseLiveCounters } = await import("./live-counter");
-    const c = await raiseLiveCounters({ delisted_count: delisted_total });
-    delisted_total = Math.max(delisted_total, c.delisted_count || 0);
-  } catch {
-    /* */
-  }
+
+  const mcp = Math.max(0, storeMcp - dm);
+  const agents = Math.max(0, storeAgents - da);
   return {
-    mcp: Math.max(0, base.mcp - dm),
-    agents: Math.max(0, base.agents - da),
-    total: Math.max(0, base.mcp - dm) + Math.max(0, base.agents - da),
+    mcp,
+    agents,
+    total: mcp + agents,
     delisted_mcp: dm,
     delisted_agents: da,
     delisted_total,
