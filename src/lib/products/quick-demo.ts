@@ -280,6 +280,12 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
   artifacts_hint: string;
   messaging: ReturnType<typeof messagingKit>;
   unlock: UnlockMeter;
+  reciprocity?: {
+    has_agent_card: boolean;
+    priority_demo: boolean;
+    agent_card_url: string | null;
+    note: string;
+  };
   next_steps: {
     feedback_due: true;
     soft_status: 402;
@@ -372,6 +378,9 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
       ? "invited_confirmed"
       : "self_serve";
 
+  const cardUrl = input.agent_card_url || listing?.agent_card_url;
+  const hasAgentCard = Boolean(cardUrl && /^https:\/\//i.test(cardUrl));
+
   return {
     ok: true,
     mode: "demo",
@@ -385,6 +394,14 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     artifacts_hint: `GET /api/products/access?order_id=${result.order.id}&token=${result.order.access_token}`,
     messaging: msg,
     unlock,
+    reciprocity: {
+      has_agent_card: hasAgentCard,
+      priority_demo: hasAgentCard,
+      agent_card_url: cardUrl || null,
+      note: hasAgentCard
+        ? "Verifiable agent-card present — priority demo path"
+        : "Publish /.well-known/agent-card.json for priority demo reciprocity",
+    },
     next_steps: {
       feedback_due: true,
       soft_status: 402,

@@ -9,7 +9,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "2.0.0";
+export const DUAL_STRATEGY_VERSION = "2.1.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {

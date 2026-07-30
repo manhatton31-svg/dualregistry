@@ -510,9 +510,45 @@ export function agents1McpServerCard(origin: string) {
 }
 
 export function agents1DnsMcpTxt(origin: string): string {
-  return `v=1 name=io.agents1.registry url=${origin}/.well-known/mcp/server-card.json`;
+  // IETF draft-morrison-mcp-dns-discovery (v=mcp1) + optional pk pin
+  const o = origin.replace(/\/$/, "");
+  // Prefer www card URL for live dualregistry (apex may 308)
+  let url = `${o}/.well-known/mcp/server-card.json`;
+  try {
+    const u = new URL(o);
+    if (u.hostname === "dualregistry.dev") {
+      url = `https://www.dualregistry.dev/.well-known/mcp/server-card.json`;
+    }
+  } catch {
+    /* */
+  }
+  const pk =
+    process.env.MCP_DNS_PK ||
+    "ed25519:AYLu/dJpwe1IkWiuahzQKYa1MXgQckdaxZ3y8jRzu7Q=";
+  return `v=mcp1; url=${url}; proto=streamable-http; pk=${pk}; scope=tools,resources; cap=registry; priority=10`;
+}
+
+/** Legacy TXT format (still accepted by checkMcpDns for live detection). */
+export function agents1DnsMcpTxtLegacy(origin: string): string {
+  const o = origin.replace(/\/$/, "");
+  let url = `${o}/.well-known/mcp/server-card.json`;
+  try {
+    const u = new URL(o);
+    if (u.hostname === "dualregistry.dev") {
+      url = `https://www.dualregistry.dev/.well-known/mcp/server-card.json`;
+    }
+  } catch {
+    /* */
+  }
+  return `v=1 name=io.agents1.registry url=${url}`;
 }
 
 export function agents1DnsPublishHint(origin: string): string {
-  return `_mcp.${new URL(origin).hostname}. IN TXT "v=1 name=io.agents1.registry url=${origin}/.well-known/mcp/server-card.json"`;
+  let host = "dualregistry.dev";
+  try {
+    host = new URL(origin).hostname.replace(/^www\./, "");
+  } catch {
+    /* */
+  }
+  return `_mcp.${host}. IN TXT "${agents1DnsMcpTxt(origin)}"`;
 }

@@ -23,7 +23,6 @@ export const Route = createFileRoute("/api/mcp-registry/server.json")({
           description:
             "Free dual MCP+agent registry. Probe Live, free demo, Kernel/Loop. Self-list + dual strategy.",
           version: "2.0.1",
-          version: "2.0.0",
           title: "Dual Registry",
           websiteUrl: origin,
           repository: {

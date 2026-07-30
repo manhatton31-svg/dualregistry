@@ -1,12 +1,21 @@
 /**
  * ARD registry search — natural language / keyword over Dual catalog + Active
- * GET  /api/ard/search?q=…
- * POST /api/ard/search { q, limit? }
+ * GET  /api/ard/search?q=…&federation=referrals|auto|none
+ * POST /api/ard/search { q, limit?, federation? }
  */
 import { createFileRoute } from "@tanstack/react-router";
-import { ardSearch } from "@/lib/agents1/ai-catalog";
+import {
+  ardSearch,
+  type ArdFederationMode,
+} from "@/lib/agents1/ai-catalog";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
+
+function parseFed(raw: string | null | undefined): ArdFederationMode {
+  const v = (raw || "referrals").toLowerCase();
+  if (v === "none" || v === "auto" || v === "referrals") return v;
+  return "referrals";
+}
 
 export const Route = createFileRoute("/api/ard/search")({
   server: {
@@ -25,15 +34,15 @@ export const Route = createFileRoute("/api/ard/search")({
         const url = new URL(request.url);
         const q = url.searchParams.get("q") || url.searchParams.get("query") || "";
         const limit = parseInt(url.searchParams.get("limit") || "12", 10) || 12;
+        const federation = parseFed(url.searchParams.get("federation"));
         try {
-          const result = await ardSearch(origin, q, { limit });
+          const result = await ardSearch(origin, q, { limit, federation });
           return Response.json(
             {
               ok: true,
               protocol: "ard",
               ...result,
-              federation: "none",
-              note: "Dual Registry ARD search — catalog entries + Active clean listings",
+              note: "Dual Registry ARD search — static catalog + Active projection + federation referrals",
             },
             {
               headers: withDemoCtaHeaders(
@@ -54,7 +63,12 @@ export const Route = createFileRoute("/api/ard/search")({
       },
       POST: async ({ request }) => {
         const origin = resolvePublicOrigin(request);
-        let body: { q?: string; query?: string; limit?: number } = {};
+        let body: {
+          q?: string;
+          query?: string;
+          limit?: number;
+          federation?: string;
+        } = {};
         try {
           body = (await request.json()) as typeof body;
         } catch {
@@ -62,13 +76,15 @@ export const Route = createFileRoute("/api/ard/search")({
         }
         const q = body.q || body.query || "";
         try {
-          const result = await ardSearch(origin, q, { limit: body.limit });
+          const result = await ardSearch(origin, q, {
+            limit: body.limit,
+            federation: parseFed(body.federation),
+          });
           return Response.json(
             {
               ok: true,
               protocol: "ard",
               ...result,
-              federation: "none",
             },
             {
               headers: withDemoCtaHeaders(

@@ -23,6 +23,7 @@ import {
   deliverNudgeHttp,
   sortByNudgePriority,
   scoreNudgePriority,
+  loadNudgeScoreContext,
 } from "./nudge-deliver";
 
 const DURABLE_NAME = "demo-nudge.json";
@@ -507,8 +508,9 @@ async function loadActiveCleanPool(): Promise<{
     : active;
   const byId = new Map<string, LanedListing>();
   for (const L of pool) byId.set(L.id, L);
+  const scoreCtx = await loadNudgeScoreContext();
   return {
-    pool: sortByNudgePriority([...byId.values()]),
+    pool: sortByNudgePriority([...byId.values()], scoreCtx),
     activeIds: new Set(byId.keys()),
     notes,
   };
@@ -648,7 +650,7 @@ export async function runDemoNudge(opts?: {
     };
   }
 
-  let queue = sortByNudgePriority(eligible).slice(0, max);
+  let queue = sortByNudgePriority(eligible, await loadNudgeScoreContext()).slice(0, max);
   const { recordOwnerPost } = await import("@/lib/agents1/talk-activity");
 
   let nudged = 0;
@@ -889,7 +891,7 @@ export async function runMultiPathBackfill(opts?: {
       .map((h) => h.listing_id),
   );
 
-  const candidates = sortByNudgePriority(pool).filter((L) => {
+  const candidates = sortByNudgePriority(pool, await loadNudgeScoreContext()).filter((L) => {
     if (!L.id) return false;
     if (priority.has(L.id)) return !httpDone.has(L.id);
     // Only backfill those we already soft-touched but never HTTP'd
@@ -899,11 +901,12 @@ export async function runMultiPathBackfill(opts?: {
   });
 
   // Priority first
+  const scoreCtx = await loadNudgeScoreContext();
   candidates.sort((a, b) => {
     const pa = priority.has(a.id) ? 1 : 0;
     const pb = priority.has(b.id) ? 1 : 0;
     if (pa !== pb) return pb - pa;
-    return scoreNudgePriority(b) - scoreNudgePriority(a);
+    return scoreNudgePriority(b, scoreCtx) - scoreNudgePriority(a, scoreCtx);
   });
 
   const queue = candidates.slice(0, max);

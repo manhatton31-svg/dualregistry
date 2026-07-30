@@ -57,15 +57,25 @@ export const Route = createFileRoute("/api/protocol")({
         const mirror = await loadOfficialMirror();
         return Response.json(
           {
+            // MCP 2026-07-28: discovery + invoke are stateless (no session handshake required)
+            stateless: true,
+            transport: "streamable-http",
+            mcp_release: "2026-07-28",
+            session: null,
             surfaces: {
               agent_card: `${origin}/.well-known/agent.json`,
+              agent_card_iana: `${origin}/.well-known/agent-card.json`,
               mcp_server_card: `${origin}/.well-known/mcp/server-card.json`,
+              ai_catalog: `${origin}/.well-known/ai-catalog.json`,
+              jwks: `${origin}/.well-known/jwks.json`,
               well_known_agents: `${origin}/.well-known/agents`,
               agents_public: `${origin}/agents/public`,
               agents_search: `${origin}/agents/search`,
               publish: `${origin}/api/publish`,
               score: `${origin}/api/score`,
               catalog: `${origin}/api/catalog`,
+              ard_search: `${origin}/api/ard/search`,
+              feed: `${origin}/api/feed`,
               discovery: `${origin}/discovery.json`,
               list: `${origin}/list`,
               products: `${origin}/products`,
@@ -79,6 +89,7 @@ export const Route = createFileRoute("/api/protocol")({
               products_run: `${origin}/api/products/run`,
               dns_mcp_txt: agents1DnsMcpTxt(origin),
               dns_record_hint: agents1DnsPublishHint(origin),
+              dns_mcp_status: `${origin}/api/dns/mcp-status`,
             },
             domain: domainReadyStatus(origin),
             dual_publish: dualPublishDocs(origin),
@@ -111,6 +122,7 @@ export const Route = createFileRoute("/api/protocol")({
               "Free score: GET /api/score?url=…",
               "A2A open catalog: /agents/public + /.well-known/agents",
               "Use product: GET /api/products/access?token=… (founding seats skip checkout)",
+              "MCP transport is stateless streamable-http (2026-07-28) — no session id required for discovery",
             ],
             deal: await (async () => {
               try {

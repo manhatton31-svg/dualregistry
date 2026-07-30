@@ -3,6 +3,10 @@
  * Dual-loop: outbound deposits inbound breadcrumbs; inbound points at self-serve funnel.
  */
 import { CANONICAL_PUBLIC_ORIGIN } from "@/lib/agents1/public-origin";
+import {
+  agents1DnsMcpTxt,
+  agents1DnsPublishHint,
+} from "@/lib/agents1/a2a-card";
 
 export function discoveryPack(origin?: string, listingId?: string | null) {
   const o = (origin || CANONICAL_PUBLIC_ORIGIN).replace(/\/$/, "");
@@ -10,6 +14,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
   return {
     origin: o,
     dual_strategy: true,
+    version: "2.1.0",
     llms_txt: `${o}/llms.txt`,
     llms_full: `${o}/llms-full.txt`,
     ai_txt: `${o}/ai.txt`,
@@ -43,11 +48,26 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
       ? `${o}/api/talk?listing_id=${encodeURIComponent(id)}`
       : `${o}/api/talk?feed=1`,
     dual_strategy_api: `${o}/api/products/dual-strategy`,
-    dns_mcp_txt: `v=1 name=io.agents1.registry url=${o}/.well-known/mcp/server-card.json`,
-    dns_record_hint: `_mcp.${hostnameOf(o)}. IN TXT "v=1 name=io.agents1.registry url=${o}/.well-known/mcp/server-card.json"`,
+    dns_mcp_txt: agents1DnsMcpTxt(o),
+    dns_record_hint: agents1DnsPublishHint(o),
     mcp_registry_auth: `${o}/.well-known/mcp-registry-auth`,
+    mcp_registry_package: `${o}/api/mcp-registry/server.json`,
+    official_mcp_registry:
+      "https://registry.modelcontextprotocol.io/v0/servers?search=dualregistry",
     agentmap: `${o}/agentmap.json`,
     jwks: `${o}/.well-known/jwks.json`,
+    robots_agent: `${o}/robots-agent.txt`,
+    protocol: `${o}/api/protocol`,
+    score: `${o}/api/score`,
+    self_serve_steps: [
+      `GET ${o}/skill.json`,
+      `POST ${o}/api/publish {"url":"https://YOUR_HOST/.well-known/agent.json"}`,
+      `GET ${o}/api/listings/status?name=YOUR_NAME until lane=active`,
+      id
+        ? `GET ${o}/api/products/demo?listing_id=${encodeURIComponent(id)}`
+        : `GET ${o}/api/products/demo?listing_id=YOUR_ID`,
+      `POST ${o}/api/products/feedback`,
+    ],
   };
 }
 
@@ -78,5 +98,10 @@ export function discoveryLinkHeader(
     `<${p.ard_search}>; rel="https://dualregistry.dev/rel/ard-search"; title="ARD search"`,
     `<${p.active}>; rel="https://dualregistry.dev/rel/active"; title="Active clean list"`,
     `<${p.talk}>; rel="https://dualregistry.dev/rel/talk-inbox"; title="Talk inbox"`,
+    `<${p.jwks}>; rel="jwks"; title="Agent card JWKS"`,
+    `<${p.agentmap}>; rel="agentmap"; title="Agentmap"`,
+    `<${p.activity_feed}>; rel="feed"; title="Activity feed"`,
   ].join(", ");
 }
+
+export { hostnameOf };

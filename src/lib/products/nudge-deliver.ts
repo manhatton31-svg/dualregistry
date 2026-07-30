@@ -2,6 +2,8 @@
  * Soft HTTP delivery of demo nudges to listing targets.
  * SSRF-safe: https only, public hosts, allowlisted to listing URLs.
  * Never demotes clean status. Failures are soft (Talk DM still counts).
+ *
+ * Synergy v2.1: full discovery pack in every payload + feed/recency scoring.
  */
 import type { LanedListing } from "@/lib/agents1/listing-lanes";
 import {
@@ -32,7 +34,14 @@ export type NudgePayload = {
   cta_primary?: string;
   cta_url?: string;
   /** Full inbound discovery pack — agents can self-serve later without re-DM */
-  discovery?: Record<string, string | boolean>;
+  discovery?: Record<string, unknown>;
+  self_serve_steps?: string[];
+  /** Reciprocity: listing already publishes a card → priority demo path */
+  reciprocity?: {
+    has_agent_card: boolean;
+    priority_demo: boolean;
+    note: string;
+  };
   actions?: Array<{
     method: string;
     url: string;
@@ -84,6 +93,11 @@ export function buildNudgePayload(opts: {
   const o = opts.origin.replace(/\/$/, "");
   const id = opts.listing.id;
   const pack = discoveryPack(o, id);
+  const hasCard = Boolean(
+    opts.listing.agent_card_url &&
+      /^https:\/\//i.test(opts.listing.agent_card_url),
+  );
+  const { self_serve_steps, ...packRest } = pack;
   return {
     type: "dualregistry.soft_demo_invite",
     tone: "soft",
@@ -102,22 +116,18 @@ export function buildNudgePayload(opts: {
     cta_primary: "GET free demo one-shot",
     cta_url: pack.demo_get,
     discovery: {
+      ...packRest,
       dual_strategy: true,
-      skill: pack.skill_json,
-      skill_md: pack.skill_md,
-      agent_card: pack.agent_card_iana,
-      agent_card_legacy: pack.agent_card,
-      ai_catalog: pack.ai_catalog,
-      openapi: pack.openapi,
-      discovery_json: pack.discovery_json,
-      llms_txt: pack.llms_txt,
-      a2a_rpc: pack.a2a_rpc,
-      ard_search: pack.ard_search,
-      mcp_server_card: pack.mcp_server_card,
-      for_agents: pack.for_agents,
-      publish: pack.publish,
-      status: pack.status,
-      feed: pack.activity_feed,
+      viral_note:
+        "Publish your own agent-card + skill.json so others can find you the same way",
+    },
+    self_serve_steps: self_serve_steps,
+    reciprocity: {
+      has_agent_card: hasCard,
+      priority_demo: hasCard,
+      note: hasCard
+        ? "You publish a verifiable agent-card — priority demo path unlocked"
+        : "Add /.well-known/agent-card.json to unlock priority demo reciprocity",
     },
     actions: [
       {
@@ -149,7 +159,28 @@ export function buildNudgePayload(opts: {
       {
         method: "GET",
         url: pack.agent_card_iana,
-        title: "A2A agent-card.json",
+        title: "A2A agent-card.json (signed)",
+      },
+      {
+        method: "GET",
+        url: pack.jwks,
+        title: "JWKS verify signatures",
+      },
+      {
+        method: "GET",
+        url: pack.activity_feed,
+        title: "Activity feed",
+      },
+      {
+        method: "GET",
+        url: pack.agentmap,
+        title: "Agentmap",
+      },
+      {
+        method: "POST",
+        url: pack.publish,
+        body: { url: "https://YOUR_HOST/.well-known/agent.json" },
+        title: "Self-list free",
       },
     ],
   } as NudgePayload;
@@ -171,7 +202,6 @@ export function pickDeliverTargets(L: LanedListing): string[] {
     if (seen.has(s)) return;
     seen.add(s);
     out.push(s);
-    // Also try website origin root for A2A inboxes that ignore card POSTs
     try {
       const url = new URL(s);
       const root = `${url.protocol}//${url.host}/`;
@@ -181,7 +211,12 @@ export function pickDeliverTargets(L: LanedListing): string[] {
       }
       const a2a = `${url.protocol}//${url.host}/.well-known/agent.json`;
       const mcp = `${url.protocol}//${url.host}/.well-known/mcp/server-card.json`;
-      for (const alt of [a2a, mcp, `${url.protocol}//${url.host}/a2a`, `${url.protocol}//${url.host}/inbox`]) {
+      for (const alt of [
+        a2a,
+        mcp,
+        `${url.protocol}//${url.host}/a2a`,
+        `${url.protocol}//${url.host}/inbox`,
+      ]) {
         if (!seen.has(alt) && assertSafeOutboundUrl(alt).ok) {
           seen.add(alt);
           out.push(alt);
@@ -229,7 +264,11 @@ export async function deliverNudgeHttp(
       continue;
     }
     const host = new URL(allowed.sanitized || target).host;
-    const rate = rateAllow(`nudge-out:${host}`, RATE.outbound_per_minute, 60_000);
+    const rate = rateAllow(
+      `nudge-out:${host}`,
+      RATE.outbound_per_minute,
+      60_000,
+    );
     if (!rate.ok) {
       last = {
         attempted: true,
@@ -250,7 +289,8 @@ export async function deliverNudgeHttp(
           "x-dualregistry-event": "soft_demo_invite",
           "x-dualregistry-listing-id": listing.id,
           "x-dualregistry-demo-get": payload.demo_get,
-          link: `<${payload.demo_get}>; rel="https://dualregistry.dev/rel/demo"`,
+          "x-dualregistry-discovery": "full-pack-v2.1",
+          link: `<${payload.demo_get}>; rel="https://dualregistry.dev/rel/demo", <${payload.discovery?.ai_catalog || ""}>; rel="ai-catalog"`,
         },
         body: JSON.stringify(payload),
         redirect: "manual",
@@ -265,10 +305,6 @@ export async function deliverNudgeHttp(
         error: ok ? undefined : `http ${res.status}`,
       };
       if (ok) return last;
-      // 405/404/401 on card → try next path (website /inbox /a2a)
-      if (![401, 403, 404, 405, 501].includes(res.status)) {
-        // other errors: still try next, but keep last
-      }
     } catch (e) {
       last = {
         attempted: true,
@@ -281,13 +317,26 @@ export async function deliverNudgeHttp(
   return last;
 }
 
+/** Optional feed/recency context for outbound ranking. */
+export type NudgeScoreContext = {
+  /** listing_id → ms since epoch of last registry activity */
+  recent_active_ms?: Map<string, number>;
+  /** listing_ids seen in activity feed recently */
+  feed_hot?: Set<string>;
+  now?: number;
+};
+
 /**
  * Priority for who gets nudged first.
- * Higher = more likely to notice / act (card, Talk presence, human surface).
+ * Higher = more likely to notice / act (card, Talk presence, feed recency).
  */
-export function scoreNudgePriority(L: LanedListing): number {
+export function scoreNudgePriority(
+  L: LanedListing,
+  ctx?: NudgeScoreContext,
+): number {
   let s = 0;
-  if (L.agent_card_url && /^https:\/\//i.test(L.agent_card_url)) s += 50;
+  // P2 reciprocity: verifiable agent-card gets strong priority + demo path
+  if (L.agent_card_url && /^https:\/\//i.test(L.agent_card_url)) s += 70;
   if (L.remote_url && /^https:\/\//i.test(L.remote_url)) s += 40;
   if (L.probe?.target && /^https:\/\//i.test(L.probe.target)) s += 15;
   if (L.talk?.active || L.talk?.mode === "present") s += 45;
@@ -296,16 +345,53 @@ export function scoreNudgePriority(L: LanedListing): number {
   if (L.repository && /github\.com|gitlab\.com|bitbucket/i.test(L.repository))
     s += 25;
   if (L.website && /^https:\/\//i.test(L.website)) s += 12;
-  if (L.author && /@|\./.test(L.author)) s += 18; // looks like contact/handle
+  if (L.author && /@|\./.test(L.author)) s += 18;
   if (L.source === "growth") s += 5;
-  if (L.kind === "agent") s += 3; // slight agent preference for A2A reply paths
+  if (L.kind === "agent") s += 3;
+
+  // Feed-driven ranking
+  if (ctx?.feed_hot?.has(L.id)) s += 35;
+  if (ctx?.recent_active_ms?.has(L.id)) {
+    const at = ctx.recent_active_ms.get(L.id)!;
+    const now = ctx.now ?? Date.now();
+    const ageH = (now - at) / 3600_000;
+    if (ageH < 24) s += 40;
+    else if (ageH < 72) s += 25;
+    else if (ageH < 168) s += 12;
+  }
   return s;
 }
 
-export function sortByNudgePriority<T extends LanedListing>(rows: T[]): T[] {
+export function sortByNudgePriority<T extends LanedListing>(
+  rows: T[],
+  ctx?: NudgeScoreContext,
+): T[] {
   return [...rows].sort((a, b) => {
-    const d = scoreNudgePriority(b) - scoreNudgePriority(a);
+    const d = scoreNudgePriority(b, ctx) - scoreNudgePriority(a, ctx);
     if (d !== 0) return d;
     return (a.name || "").localeCompare(b.name || "");
   });
+}
+
+/** Load clean-registry recency + feed hot set for outbound ranking. */
+export async function loadNudgeScoreContext(): Promise<NudgeScoreContext> {
+  const recent_active_ms = new Map<string, number>();
+  const feed_hot = new Set<string>();
+  const now = Date.now();
+  try {
+    const { loadCleanRegistry } = await import("@/lib/agents1/clean-registry");
+    const reg = await loadCleanRegistry();
+    for (const [id, raw] of Object.entries(reg.items || {})) {
+      const row = raw as { approved_at?: string; at?: string };
+      const iso = row.approved_at || row.at;
+      if (!iso) continue;
+      const t = Date.parse(iso);
+      if (!Number.isFinite(t)) continue;
+      recent_active_ms.set(id, t);
+      if (now - t < 7 * 24 * 3600_000) feed_hot.add(id);
+    }
+  } catch {
+    /* */
+  }
+  return { recent_active_ms, feed_hot, now };
 }

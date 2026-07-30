@@ -19,6 +19,7 @@ import {
   scoreNudgePriority,
   sortByNudgePriority,
   pickDeliverTargets,
+  loadNudgeScoreContext,
   type NudgePayload,
 } from "./nudge-deliver";
 import {
@@ -268,7 +269,8 @@ async function loadActivePool(): Promise<LanedListing[]> {
     ? rows.filter((L) => cleanIds!.has(L.id))
     : rows;
   const by = new Map(filtered.map((L) => [L.id, L]));
-  return sortByNudgePriority([...by.values()]);
+  const ctx = await loadNudgeScoreContext();
+  return sortByNudgePriority([...by.values()], ctx);
 }
 
 /**
