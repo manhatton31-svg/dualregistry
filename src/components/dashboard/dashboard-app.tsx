@@ -1,6 +1,6 @@
 /**
- * Dual Registry dashboard — clean targets first, real numbers only.
- * Never show store dump, discovered queue, delisted wall, or probe-budget theatre.
+ * Dual Registry dashboard — clean listings live under Agents / MCPs only.
+ * Product engagement is its own tab (no duplicate registry tables).
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -8,8 +8,10 @@ import {
   CheckCircle2,
   Copy,
   Cpu,
+  MessageSquare,
   Radio,
   Search,
+  Sparkles,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -109,10 +111,9 @@ type DashboardData = {
 };
 
 const TABS = [
-  { id: "clean", label: "Clean targets" },
+  { id: "engage", label: "Product engagement" },
   { id: "mcp", label: "MCPs" },
   { id: "agents", label: "Agents" },
-  { id: "ops", label: "Ops" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
@@ -206,17 +207,18 @@ function useLiveData() {
 
 export function DashboardApp() {
   const { data, refreshedAt, refreshing, error, refresh } = useLiveData();
-  const [tab, setTab] = useState<TabId>("clean");
+  const [tab, setTab] = useState<TabId>("engage");
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   const lanes = data?.listing_lanes;
   const pe = data?.product_engagement;
-  const proto = data?.protocol;
 
   const fbAgents = pe?.feedback_agent_only ?? 0;
   const fbMcps = pe?.feedback_mcps ?? 0;
+  const demoAgents = pe?.demo_agent_only ?? pe?.demo_agents ?? 0;
+  const demoMcps = pe?.demo_mcps ?? 0;
   const unlockAgents = 250;
   const unlockMcps = 250;
   const unlockPct =
@@ -246,11 +248,6 @@ export function DashboardApp() {
     [lanes, query, categoryFilter],
   );
 
-  const allCleanRows = useMemo(
-    () => [...agentActiveRows, ...mcpActiveRows],
-    [agentActiveRows, mcpActiveRows],
-  );
-
   const cleanExport = useMemo(() => {
     const agents = (lanes?.agents_active || []).map((a) => ({
       kind: "agent" as const,
@@ -272,7 +269,7 @@ export function DashboardApp() {
     }));
     return {
       ok: true,
-      product: "dualregistry-clean-targets",
+      product: "dualregistry-clean",
       rule: "checks_clean + live probe handshake ok at source URL",
       growth_target_per_day: 333,
       counts: { agents: agents.length, mcps: mcps.length },
@@ -291,8 +288,6 @@ export function DashboardApp() {
       /* */
     }
   }, [cleanExport]);
-
-  const weekly = proto?.probes?.weekly_recheck;
 
   return (
     <div className="mesh-bg min-h-dvh">
@@ -313,9 +308,8 @@ export function DashboardApp() {
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
               Find a real card/URL on the internet → probe it there → list only
-              if handshake is ok. Stay Active via Talk presence (heartbeat).
-              Growing toward 333 clean listings per day
-              (mixed agents + MCPs). Failures are discarded.
+              if handshake is ok. Browse clean listings under Agents and MCPs.
+              Stay Active via Talk. Growing toward 333 clean per day.
             </p>
             {error ? (
               <p className="mt-1 text-xs text-danger">{error}</p>
@@ -375,7 +369,7 @@ export function DashboardApp() {
             value={liveTotal != null ? liveTotal : "—"}
             hint={
               liveMcp != null && liveAgents != null
-                ? `${liveMcp} MCP · ${liveAgents} agents · checks clean + probe ok`
+                ? `${liveMcp} MCP · ${liveAgents} agents · see Agents & MCPs tabs`
                 : "loading"
             }
             icon={CheckCircle2}
@@ -384,7 +378,7 @@ export function DashboardApp() {
           <StatCard
             label="Rule"
             value="probe + talk"
-            hint="Handshake ok + Talk presence (or 7d grace) · grow toward 333 clean/day"
+            hint="Handshake ok + Talk presence · grow toward 333 clean/day"
             icon={Radio}
             accent="info"
           />
@@ -398,6 +392,7 @@ export function DashboardApp() {
               onClick={() => {
                 setTab(t.id);
                 setCategoryFilter(null);
+                setQuery("");
               }}
               className={cn(
                 "min-h-10 flex-1 rounded-[var(--radius-sm)] px-3 text-sm font-medium transition sm:min-h-9",
@@ -407,96 +402,177 @@ export function DashboardApp() {
               )}
             >
               {t.label}
-              {t.id === "clean" && liveTotal != null ? (
-                <span className="ml-1 tabular text-subtle">{liveTotal}</span>
+              {t.id === "mcp" && liveMcp != null ? (
+                <span className="ml-1 tabular text-subtle">{liveMcp}</span>
+              ) : null}
+              {t.id === "agents" && liveAgents != null ? (
+                <span className="ml-1 tabular text-subtle">{liveAgents}</span>
               ) : null}
             </button>
           ))}
         </nav>
 
-        {tab === "clean" ? (
+        {tab === "engage" ? (
           <div className="space-y-4">
-            <Card className="border-success/30">
+            <Card className="border-accent/25">
               <CardHeader className="pb-2">
-                <div className="flex flex-wrap items-start justify-between gap-2">
-                  <div>
-                    <CardTitle className="flex items-center gap-2 text-sm">
-                      <CheckCircle2 className="h-4 w-4 text-success" />
-                      Clean targets — use these
-                    </CardTitle>
-                    <CardDescription className="text-xs">
-                      {liveTotal ?? 0} listings with checks clean + handshake ok
-                      at source URL. JSON at{" "}
-                      <a
-                        href="/api/listings/active"
-                        className="text-accent underline"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        /api/listings/active
-                      </a>
-                      .
-                    </CardDescription>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="accent"
-                    onClick={() => void copyCleanJson()}
-                  >
-                    <Copy className="h-3.5 w-3.5" />
-                    {copied ? "Copied" : "Copy all JSON"}
-                  </Button>
-                </div>
+                <CardTitle className="flex items-center gap-2 text-sm">
+                  <Sparkles className="h-4 w-4 text-accent" />
+                  Product engagement
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Real demos and feedback from clean listings only — no padded
+                  metrics. Payments unlock at 250 agent + 250 MCP feedback.
+                  Founding free after demo + feedback for the first 100 clean
+                  listings.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 pb-4 pt-0">
-                <div>
-                  <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-subtle">
-                    Agents ({agentActiveRows.length})
-                  </p>
-                  <ListingTable
-                    rows={agentActiveRows}
-                    showDemoCta
-                    emptyLabel="No clean agents yet — we only list after probe ok at source URL"
-                  />
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                      Agent demos
+                    </p>
+                    <p className="mt-1 text-xl font-semibold tabular text-fg">
+                      {demoAgents}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-muted">self-serve</p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                      MCP demos
+                    </p>
+                    <p className="mt-1 text-xl font-semibold tabular text-fg">
+                      {demoMcps}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-muted">self-serve</p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                      Agent feedback
+                    </p>
+                    <p className="mt-1 text-xl font-semibold tabular text-fg">
+                      {fbAgents}
+                      <span className="text-sm font-normal text-muted">
+                        /{unlockAgents}
+                      </span>
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-muted">
+                      {pe?.feedback_rate_agents_pct != null
+                        ? `${Math.round(pe.feedback_rate_agents_pct)}% rate`
+                        : "toward unlock"}
+                    </p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                      MCP feedback
+                    </p>
+                    <p className="mt-1 text-xl font-semibold tabular text-fg">
+                      {fbMcps}
+                      <span className="text-sm font-normal text-muted">
+                        /{unlockMcps}
+                      </span>
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-muted">
+                      {pe?.feedback_rate_mcps_pct != null
+                        ? `${Math.round(pe.feedback_rate_mcps_pct)}% rate`
+                        : "toward unlock"}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-subtle">
-                    MCPs ({mcpActiveRows.length})
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between gap-2 text-xs">
+                    <span className="text-muted">Payment unlock progress</span>
+                    <span className="tabular font-medium text-fg">
+                      {Math.round(unlockPct)}%
+                    </span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-bg-elevated">
+                    <div
+                      className="h-full rounded-full bg-accent transition-[width] duration-300"
+                      style={{
+                        width: `${Math.min(100, Math.max(0, unlockPct))}%`,
+                      }}
+                    />
+                  </div>
+                  <p className="text-[11px] text-subtle">
+                    Combined path to 250 agent + 250 MCP real feedback.
                   </p>
-                  <ListingTable
-                    rows={mcpActiveRows}
-                    showDemoCta
-                    emptyLabel="No clean MCPs yet — we only list after probe ok at source URL"
-                  />
                 </div>
-                {allCleanRows.length === 0 ? (
-                  <p className="text-sm text-muted">
-                    Empty registry — nothing has passed a live probe yet.
-                  </p>
-                ) : null}
+
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  <div className="rounded-[var(--radius-md)] border border-border/60 p-3">
+                    <p className="text-[10px] uppercase tracking-wide text-subtle">
+                      Discounts issued
+                    </p>
+                    <p className="mt-1 text-lg font-semibold tabular">
+                      {pe?.discounts_issued ?? 0}
+                    </p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/60 p-3">
+                    <p className="text-[10px] uppercase tracking-wide text-subtle">
+                      Soft demo nudges
+                    </p>
+                    <p className="mt-1 text-lg font-semibold tabular">
+                      {pe?.demo_invited ?? 0}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-muted">
+                      Talk invites · not salesy
+                    </p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/60 p-3 col-span-2 sm:col-span-1">
+                    <p className="text-[10px] uppercase tracking-wide text-subtle">
+                      Self-serve demos
+                    </p>
+                    <p className="mt-1 text-lg font-semibold tabular">
+                      {pe?.demo_self_serve ?? 0}
+                    </p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm">How this registry works</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-sm">
+                  <MessageSquare className="h-4 w-4 text-accent" />
+                  How engagement works
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-1.5 text-[11px] text-muted pb-3 pt-0">
+              <CardContent className="space-y-1.5 pb-3 pt-0 text-[11px] text-muted">
                 <p>
-                  <span className="font-medium text-fg">1. Find</span> a real
-                  agent card or MCP endpoint on the internet.
+                  <span className="font-medium text-fg">1. Clean list</span> —
+                  agents and MCPs that pass live probe live under their tabs.
                 </p>
                 <p>
-                  <span className="font-medium text-fg">2. Probe</span> that URL
-                  first (never list before probe).
+                  <span className="font-medium text-fg">2. Soft nudge</span> — we
+                  invite Active listings via Talk to try a free demo and share
+                  feedback (rewarded, not salesy).
                 </p>
                 <p>
-                  <span className="font-medium text-fg">3. List</span> only if
-                  handshake is ok — then it appears here with the target URL.
+                  <span className="font-medium text-fg">3. Demo → feedback</span>{" "}
+                  — real counts only. First 100 clean listings that complete
+                  both unlock founding free full product.
                 </p>
                 <p>
-                  Growing mixed agents + MCPs toward 333 clean listings per day.
-                  Failures stay off the registry.
+                  Browse registries under{" "}
+                  <button
+                    type="button"
+                    className="font-medium text-accent underline"
+                    onClick={() => setTab("mcp")}
+                  >
+                    MCPs
+                  </button>{" "}
+                  and{" "}
+                  <button
+                    type="button"
+                    className="font-medium text-accent underline"
+                    onClick={() => setTab("agents")}
+                  >
+                    Agents
+                  </button>
+                  .
                 </p>
                 {refreshedAt ? (
                   <p className="text-subtle">
@@ -529,7 +605,7 @@ export function DashboardApp() {
               return (
                 <div className="space-y-1.5">
                   <p className="text-[11px] text-subtle">
-                    Categories unlock when Active.
+                    Clean only · categories unlock when Active.
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     <button
@@ -580,8 +656,26 @@ export function DashboardApp() {
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-sm">
                   <CheckCircle2 className="h-4 w-4 text-success" />
-                  Active · clean + probe ok
+                  {tab === "mcp" ? "MCPs" : "Agents"} · clean + probe ok
+                  <span className="ml-1 tabular text-muted font-normal">
+                    (
+                    {tab === "mcp"
+                      ? liveMcp ?? mcpActiveRows.length
+                      : liveAgents ?? agentActiveRows.length}
+                    )
+                  </span>
                 </CardTitle>
+                <CardDescription className="text-xs">
+                  Full clean registry for this kind. JSON:{" "}
+                  <a
+                    href="/api/listings/active"
+                    className="text-accent underline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    /api/listings/active
+                  </a>
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ListingTable
@@ -595,70 +689,6 @@ export function DashboardApp() {
             </Card>
           </div>
         )}
-
-        {tab === "ops" ? (
-          <div className="space-y-4">
-            <StatCard
-              label="Clean listed"
-              value={liveTotal ?? "—"}
-              hint={
-                liveMcp != null && liveAgents != null
-                  ? `${liveMcp} MCP · ${liveAgents} agents · only probe-ok`
-                  : "only probe-ok targets"
-              }
-              icon={CheckCircle2}
-              accent="success"
-            />
-            {weekly ? (
-              <p className="text-[11px] text-subtle">
-                Weekly recheck: active_ok {weekly.active_ok ?? "—"} · due now{" "}
-                {weekly.due_now ?? "—"} · this week{" "}
-                {weekly.rechecked_this_week ?? "—"}
-              </p>
-            ) : null}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Product engagement</CardTitle>
-              </CardHeader>
-              <CardContent className="pb-3 pt-0 text-sm">
-                <p className="text-muted text-xs mb-2">
-                  Unlock payments at 250 agent + 250 MCP feedback. Founding free
-                  after demo+feedback for first 100 clean listings.
-                </p>
-                <div className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
-                  <div>
-                    <p className="text-[10px] uppercase text-subtle">
-                      Agent feedback
-                    </p>
-                    <p className="tabular font-semibold">
-                      {fbAgents}/{unlockAgents}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] uppercase text-subtle">
-                      MCP feedback
-                    </p>
-                    <p className="tabular font-semibold">
-                      {fbMcps}/{unlockMcps}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] uppercase text-subtle">Unlock</p>
-                    <p className="tabular font-semibold">
-                      {Math.round(unlockPct)}%
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] uppercase text-subtle">Discounts</p>
-                    <p className="tabular font-semibold">
-                      {pe?.discounts_issued ?? 0}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        ) : null}
       </div>
     </div>
   );
