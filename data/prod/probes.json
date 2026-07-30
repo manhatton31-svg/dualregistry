@@ -1,9 +1,9 @@
 {
   "day": "2026-07-30",
-  "used": 99,
+  "used": 101,
   "budget": 240,
-  "hour_bucket": "2026-07-30T07:42",
-  "hourly_used": 0,
+  "hour_bucket": "2026-07-30T10:00",
+  "hourly_used": 1,
   "hourly_cap": 1,
   "results": {
     "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai": {
@@ -6015,20 +6015,185 @@
       "namespace_verified": false,
       "has_license": false,
       "probed_at": "2026-07-30T07:41:54.140Z"
+    },
+    "agtpub_4c34b0bf38d34d7e64ee": {
+      "id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "agent",
+      "target": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 169,
+      "score": 66,
+      "signals": [
+        "a2a-card",
+        "stars 1",
+        "license",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "github_stars": 1,
+      "has_license": true,
+      "probed_at": "2026-07-30T09:56:23.956Z"
+    },
+    "name:agent:agent-guild": {
+      "id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "agent",
+      "target": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 169,
+      "score": 66,
+      "signals": [
+        "a2a-card",
+        "stars 1",
+        "license",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "github_stars": 1,
+      "has_license": true,
+      "probed_at": "2026-07-30T09:56:23.956Z"
+    },
+    "url:https://agent-guild-5d5r.onrender.com/.well-known/agent.json": {
+      "id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "agent",
+      "target": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 169,
+      "score": 66,
+      "signals": [
+        "a2a-card",
+        "stars 1",
+        "license",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "github_stars": 1,
+      "has_license": true,
+      "probed_at": "2026-07-30T09:56:23.956Z"
+    },
+    "mcp_5ba260e8045cd5795591": {
+      "id": "mcp_5ba260e8045cd5795591",
+      "kind": "mcp",
+      "target": "https://mcp.dripmetrics.ai/mcp",
+      "ok": false,
+      "latency_ms": 8,
+      "score": 40,
+      "signals": [
+        "remote 405",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T10:03:08.466Z"
+    },
+    "name:mcp:dripmetrics": {
+      "id": "mcp_5ba260e8045cd5795591",
+      "kind": "mcp",
+      "target": "https://mcp.dripmetrics.ai/mcp",
+      "ok": false,
+      "latency_ms": 8,
+      "score": 40,
+      "signals": [
+        "remote 405",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T10:03:08.466Z"
+    },
+    "url:https://mcp.dripmetrics.ai/mcp": {
+      "id": "mcp_5ba260e8045cd5795591",
+      "kind": "mcp",
+      "target": "https://mcp.dripmetrics.ai/mcp",
+      "ok": false,
+      "latency_ms": 8,
+      "score": 40,
+      "signals": [
+        "remote 405",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T10:03:08.466Z"
     }
   },
-  "updated_at": "2026-07-30T07:41:54.613Z",
-  "last_tick_at": "2026-07-30T07:41:54.190Z",
-  "last_ok_tick_at": "2026-07-30T03:40:22.032Z",
+  "updated_at": "2026-07-30T10:03:08.898Z",
+  "last_tick_at": "2026-07-30T10:03:08.579Z",
+  "last_ok_tick_at": "2026-07-30T09:56:23.957Z",
   "last_handshake": "partial",
   "wasted_probes_discarded": 0,
   "live_active_snapshot": {
     "total": 42,
     "mcp": 22,
-    "agents": 20,
-    "at": "2026-07-30T07:42:58.860Z"
+    "agents": 21,
+    "at": "2026-07-30T10:04:01.151Z"
   },
   "tick_log": [
+    {
+      "tick_id": "2026-07-30T10:03:08.466Z|mcp_5ba260e8045cd5795591|partial",
+      "id": "mcp_5ba260e8045cd5795591",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://mcp.dripmetrics.ai/mcp",
+      "signals": [
+        "remote 405",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "probed_at": "2026-07-30T10:03:08.466Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T09:56:23.956Z|agtpub_4c34b0bf38d34d7e64ee|ok",
+      "id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "agent",
+      "handshake": "ok",
+      "ok": true,
+      "target": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json",
+      "signals": [
+        "a2a-card",
+        "stars 1",
+        "license",
+        "ns:name~host"
+      ],
+      "probed_at": "2026-07-30T09:56:23.956Z",
+      "spent_budget": true
+    },
     {
       "tick_id": "2026-07-30T07:41:54.140Z|mcp_e5aae261421c14d1bac6|partial",
       "id": "mcp_e5aae261421c14d1bac6",
