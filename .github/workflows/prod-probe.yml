@@ -157,6 +157,54 @@ jobs:
                   "active_ids": [i["id"] for i in items],
               }
 
+          def max_merge_clean(existing, incoming):
+              items = {}
+              for src in (existing, incoming):
+                  for k, it in (src.get("items") or {}).items():
+                      if not it or not isinstance(it, dict):
+                          continue
+                      iid = it.get("id") or k
+                      if not iid:
+                          continue
+                      prev = items.get(iid)
+                      if not prev:
+                          items[iid] = {**it, "id": iid}
+                          continue
+                      # keep earliest approved_at, newest probed_at, max score
+                      items[iid] = {
+                          **prev,
+                          **it,
+                          "id": iid,
+                          "approved_at": min(
+                              prev.get("approved_at") or it.get("approved_at") or "",
+                              it.get("approved_at") or prev.get("approved_at") or "",
+                          ) or (prev.get("approved_at") or it.get("approved_at")),
+                          "probed_at": max(
+                              prev.get("probed_at") or "",
+                              it.get("probed_at") or "",
+                          ),
+                          "score": max(int(prev.get("score") or 0), int(it.get("score") or 0)),
+                          "handshake": "ok",
+                      }
+              mcp = sum(1 for it in items.values() if it.get("kind") == "mcp")
+              agents = sum(1 for it in items.values() if it.get("kind") == "agent")
+              total = len(items)
+              hw_e = existing.get("high_water") or {}
+              hw_i = incoming.get("high_water") or {}
+              high_water = {
+                  "total": max(int(hw_e.get("total") or 0), int(hw_i.get("total") or 0), total),
+                  "mcp": max(int(hw_e.get("mcp") or 0), int(hw_i.get("mcp") or 0), mcp),
+                  "agents": max(int(hw_e.get("agents") or 0), int(hw_i.get("agents") or 0), agents),
+              }
+              return {
+                  "day": incoming.get("day") or existing.get("day"),
+                  "updated_at": max(existing.get("updated_at") or "", incoming.get("updated_at") or ""),
+                  "counts": {"total": total, "mcp": mcp, "agents": agents},
+                  "high_water": high_water,
+                  "items": items,
+                  "policy": incoming.get("policy") or existing.get("policy") or {},
+              }
+
           for rel, content in commit.items():
               if not content:
                   continue
@@ -183,6 +231,8 @@ jobs:
                   merged = max_merge_live_counters(existing, incoming)
               elif rel.endswith("delisted.json"):
                   merged = max_merge_delisted(existing, incoming)
+              elif rel.endswith("clean-registry.json"):
+                  merged = max_merge_clean(existing, incoming)
               else:
                   merged = {**existing, **incoming}
               path.write_text(json.dumps(merged, indent=2))
