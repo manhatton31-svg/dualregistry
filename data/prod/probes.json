@@ -1,6 +1,6 @@
 {
   "day": "2026-07-30",
-  "used": 90,
+  "used": 93,
   "budget": 240,
   "hour_bucket": "2026-07-30T06:12",
   "hourly_used": 1,
@@ -5152,7 +5152,7 @@
     }
   },
   "updated_at": "2026-07-30T06:48:13.685149+00:00",
-  "last_tick_at": "2026-07-30T06:43:38.995Z",
+  "last_tick_at": "2026-07-30T07:02:53.654Z",
   "last_ok_tick_at": "2026-07-30T03:40:22.032Z",
   "last_handshake": "partial",
   "wasted_probes_discarded": 0,
@@ -5160,9 +5160,57 @@
     "total": 42,
     "mcp": 22,
     "agents": 20,
-    "at": "2026-07-30T06:48:13.391Z"
+    "at": "2026-07-30T07:03:06.443Z"
   },
   "tick_log": [
+    {
+      "tick_id": "2026-07-30T07:02:53.611Z|mcp_a79e0b920eae4a357235|partial",
+      "id": "mcp_a79e0b920eae4a357235",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://mcp.byteray.ai/mcp",
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T07:02:53.611Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T06:56:36.692Z|mcp_811b895a5481cf4a13eb|fail",
+      "id": "mcp_811b895a5481cf4a13eb",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://mcp.buywhere.ai/mcp",
+      "signals": [
+        "remote fail 0",
+        "stars 0",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T06:56:36.692Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T06:49:40.210Z|mcp_993de53e72c83c2326c1|partial",
+      "id": "mcp_993de53e72c83c2326c1",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://api.kontato.ai/mcp",
+      "signals": [
+        "remote 406",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T06:49:40.210Z",
+      "spent_budget": true
+    },
     {
       "tick_id": "2026-07-30T06:43:38.954Z|mcp_20b0c8a9bbbf60538335|partial",
       "id": "mcp_20b0c8a9bbbf60538335",
