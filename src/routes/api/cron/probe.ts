@@ -76,13 +76,21 @@ async function runTick() {
   const result = await runProbeTick({ max: 1 });
   invalidateProbeCache();
   const state = await loadProbeState();
+  const lastIso = state.last_tick_at || new Date().toISOString();
+  const lastMs = Date.parse(lastIso);
+  const nextIso = new Date(
+    (Number.isFinite(lastMs) ? lastMs : Date.now()) + 6 * 60_000,
+  ).toISOString();
   const worker = await stampWorker({
     status: "ok",
-    last_tick_at: new Date().toISOString(),
+    mode: "production-cron",
+    scheduler: "github-actions-every-6m",
+    last_tick_at: lastIso,
+    next_tick_at: nextIso,
     last_result: result.last_result || null,
     probed: result.probed,
     used: result.used,
-    ticks: Number((result as { used?: number }).used || 0),
+    ticks: Number(state.used || 0),
     notes: result.notes?.slice(0, 8),
   });
 

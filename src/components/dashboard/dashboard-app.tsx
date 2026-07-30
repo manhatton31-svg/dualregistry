@@ -218,19 +218,20 @@ function formatRelative(iso: string) {
   return `${Math.floor(ms / 3600_000)}h ago`;
 }
 
-/** Past → "2m ago"; future → "in 4m". Cadence-aware for probe next/last. */
+/** Past → "2m ago"; future → "in 4m". last + 6m must equal cadence (not wall clock). */
 function formatProbeWhen(iso: string | null | undefined, role: "past" | "future" = "past") {
   if (!iso) return "—";
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return "—";
   const delta = t - Date.now(); // positive = future
   if (role === "future" || delta > 0) {
-    if (delta <= 15_000) return "any moment";
+    if (delta <= 20_000) return "any moment";
     if (delta < 3600_000) {
-      const m = Math.max(1, Math.round(delta / 60_000));
+      // floor so "2m ago + in 4m" = 6m cadence (never round up leftover seconds)
+      const m = Math.max(1, Math.floor(delta / 60_000));
       return `in ${m}m`;
     }
-    return `in ${Math.round(delta / 3600_000)}h`;
+    return `in ${Math.floor(delta / 3600_000)}h`;
   }
   const ago = -delta;
   if (ago < 45_000) return "just now";
@@ -238,11 +239,10 @@ function formatProbeWhen(iso: string | null | undefined, role: "past" | "future"
   return `${Math.floor(ago / 3600_000)}h ago`;
 }
 
-/** Next UTC 6-minute boundary (+500ms pad, same as worker). */
+/** Next tick = last + 6m (production + preview contract). */
 function nextProbeSlotIso(fromMs = Date.now()): string {
   const slot = 6 * 60 * 1000;
   const next = Math.ceil(fromMs / slot) * slot + 500;
-  // If we're within 2s of a boundary that just fired, use the following one
   if (next - fromMs < 2000) {
     return new Date(next + slot).toISOString();
   }
@@ -251,18 +251,19 @@ function nextProbeSlotIso(fromMs = Date.now()): string {
 
 function resolveNextTickAt(protoNext?: string | null, lastTick?: string | null): string {
   const now = Date.now();
-  if (protoNext) {
-    const t = Date.parse(protoNext);
-    // Trust server if still in the future
-    if (Number.isFinite(t) && t > now + 5_000) return protoNext;
-  }
-  // Derive from last tick + 6m if available and still future
+  const SLOT = 6 * 60 * 1000;
+  // Authoritative: last_tick + 6 minutes
   if (lastTick) {
     const last = Date.parse(lastTick);
     if (Number.isFinite(last)) {
-      const guess = last + 6 * 60 * 1000;
-      if (guess > now + 5_000) return new Date(guess).toISOString();
+      let next = last + SLOT;
+      while (next < now + 2_000) next += SLOT;
+      return new Date(next).toISOString();
     }
+  }
+  if (protoNext) {
+    const t = Date.parse(protoNext);
+    if (Number.isFinite(t) && t > now + 2_000) return protoNext;
   }
   return nextProbeSlotIso(now);
 }

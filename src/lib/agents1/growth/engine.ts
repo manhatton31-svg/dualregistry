@@ -324,7 +324,8 @@ async function applyHandshakeProbes(
     try {
       const okProbes = probes.filter(
         (p) =>
-          (p.ok || p.handshake === "ok" || p.handshake === "partial") &&
+          p.handshake === "ok" &&
+          p.ok &&
           !(p.signals || []).includes("weekly-recheck"),
       );
       if (okProbes.length) {

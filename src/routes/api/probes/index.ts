@@ -47,12 +47,17 @@ export const Route = createFileRoute("/api/probes/")({
               real_numbers_only: true,
               cadence: "1 probe every 6 minutes UTC · 240/day",
               how_it_works: {
-                worker: "scripts/probe-worker.mjs (started by startup.sh)",
-                tick: "POST /api/growth { action: 'probe_tick' }",
-                state: "data/probes.json",
+                worker:
+                  "Production: GitHub Actions every 6m → POST /api/cron/probe · Preview: scripts/probe-worker.mjs",
+                tick: "POST /api/cron/probe or POST /api/growth { action: 'probe_tick' }",
+                state: "data/prod/probes.json (durable) + local data root",
                 status: "data/growth/probe-worker.json",
                 dashboard: "GET /api/dashboard?refresh=1 → protocol.probes",
+                timing:
+                  "next_tick_at = last_tick_at + 6 minutes (always; not wall-clock alone)",
                 live_rule: "checks clean + handshake ok → Active list",
+                handoff:
+                  "probe ok → offer take-demo skill (listing_id + POST body); demos/feedback external only",
                 fail_rule:
                   "fail = card missing/blocked/non-JSON; spends budget, not Live",
                 not_auto: "demos/feedback never auto-increment (external only)",

@@ -818,13 +818,27 @@ export async function getProbePublic() {
   }
   let agents_today = 0;
   let mcps_today = 0;
+  // Only count probes that match today's budget spends (most recent N = used).
+  // Prevents seeded history from inflating "16a/9m" when used is 1.
+  const todaysPrimary = Object.entries(s.results)
+    .filter(
+      ([key, r]) =>
+        !key.startsWith("name:") &&
+        !key.startsWith("url:") &&
+        (r.probed_at || "").startsWith(s.day),
+    )
+    .map(([, r]) => r)
+    .sort((a, b) => (a.probed_at < b.probed_at ? 1 : -1));
   const seenDayPub = new Set<string>();
-  for (const [key, r] of Object.entries(s.results)) {
-    if (key.startsWith("name:") || key.startsWith("url:")) continue;
-    if (!(r.probed_at || "").startsWith(s.day)) continue;
-    const uid = r.id || key;
-    if (seenDayPub.has(uid)) continue;
+  const todaysSpend = todaysPrimary.filter((r) => {
+    const uid = r.id;
+    if (seenDayPub.has(uid)) return false;
     seenDayPub.add(uid);
+    return true;
+  });
+  const counted =
+    s.used > 0 ? todaysSpend.slice(0, s.used) : ([] as typeof todaysSpend);
+  for (const r of counted) {
     if (r.kind === "agent") agents_today++;
     else if (r.kind === "mcp") mcps_today++;
   }
@@ -941,18 +955,25 @@ export async function getProbePublic() {
     baseline_note: s.baseline_note,
     wasted_probes_discarded: s.wasted_probes_discarded,
     last_tick_at: s.last_tick_at,
-    // Always compute next UTC 6-min boundary (worker field can be stale after restart)
+    // Next = last tick + 6 minutes (cadence contract). Wall-clock only if no last tick.
     next_tick_at: (() => {
-      const slot = 6 * 60 * 1000;
+      const SLOT = 6 * 60 * 1000;
       const now = Date.now();
-      let next = Math.ceil(now / slot) * slot + 500;
-      if (next - now < 2000) next += slot;
+      const lastMs = s.last_tick_at ? Date.parse(s.last_tick_at) : NaN;
+      if (Number.isFinite(lastMs)) {
+        let next = lastMs + SLOT;
+        // Overdue → keep advancing slots so UI never shows a past "next"
+        while (next < now + 2_000) next += SLOT;
+        return new Date(next).toISOString();
+      }
       const fromWorker = probe_worker?.next_tick_at
         ? Date.parse(String(probe_worker.next_tick_at))
         : NaN;
-      if (Number.isFinite(fromWorker) && fromWorker > now + 5_000) {
+      if (Number.isFinite(fromWorker) && fromWorker > now + 2_000) {
         return new Date(fromWorker).toISOString();
       }
+      let next = Math.ceil(now / SLOT) * SLOT + 500;
+      if (next - now < 2000) next += SLOT;
       return new Date(next).toISOString();
     })(),
     probe_worker: probe_worker
