@@ -1,14 +1,14 @@
 /**
  * Webmaster demo nudge — soft Talk invites for Active clean listings.
  * GET  — status
- * POST { force?, max?, broadcast?, multipath?, priority_ids?, harder? } — run now
- * multipath=true → soft HTTPS backfill without Talk re-DM (works after day cap)
+ * POST { force?, max?, broadcast?, multipath?, mode: multipath|harder|presence_harder }
  */
 import { createFileRoute } from "@tanstack/react-router";
 import {
   getDemoNudgeStatus,
   runDemoNudge,
   runMultiPathBackfill,
+  runPresenceHarder,
 } from "@/lib/products/demo-nudge";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
@@ -41,6 +41,7 @@ export const Route = createFileRoute("/api/products/demo-nudge")({
         let max: number | undefined;
         let broadcast: boolean | undefined;
         let multipath = false;
+        let presenceHarder = false;
         let harder = true;
         let priority_ids: string[] | undefined;
         try {
@@ -51,6 +52,7 @@ export const Route = createFileRoute("/api/products/demo-nudge")({
             multipath?: boolean;
             multi_path?: boolean;
             harder?: boolean;
+            presence_harder?: boolean;
             priority_ids?: string[];
             mode?: string;
           };
@@ -60,8 +62,11 @@ export const Route = createFileRoute("/api/products/demo-nudge")({
           multipath =
             body.multipath === true ||
             body.multi_path === true ||
-            body.mode === "multipath" ||
-            body.mode === "harder";
+            body.mode === "multipath";
+          presenceHarder =
+            body.presence_harder === true ||
+            body.mode === "harder" ||
+            body.mode === "presence_harder";
           if (typeof body.harder === "boolean") harder = body.harder;
           if (Array.isArray(body.priority_ids)) {
             priority_ids = body.priority_ids.filter(
@@ -70,6 +75,20 @@ export const Route = createFileRoute("/api/products/demo-nudge")({
           }
         } catch {
           /* empty body ok */
+        }
+
+        if (presenceHarder) {
+          const result = await runPresenceHarder({ origin, max });
+          const status = await getDemoNudgeStatus();
+          return Response.json(
+            { ok: true, mode: "presence_harder", result, status },
+            {
+              headers: withDemoCtaHeaders(
+                { "cache-control": "no-store" },
+                { origin },
+              ),
+            },
+          );
         }
 
         if (multipath) {

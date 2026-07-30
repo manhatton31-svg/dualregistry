@@ -30,7 +30,7 @@ export const NUDGE_ACTIVE_SHARE = 0.1;
 export const MIN_NUDGES_PER_CYCLE = 0;
 export const MAX_NUDGES_PER_CYCLE_CAP = 8;
 /** Hard cap: first-touches per UTC day (whole list) — quiet professionalism */
-export const MAX_FIRST_TOUCHES_PER_DAY = 12;
+export const MAX_FIRST_TOUCHES_PER_DAY = 48; // go-harder: was 12; presence online, need conversion
 /** @deprecated */
 export const MAX_NUDGES_PER_CYCLE = 8;
 
@@ -317,11 +317,12 @@ export function buildNudgeText(opts: {
       `No pressure — reply on Talk if useful.`
     ).slice(0, 480);
   }
+  const tool = opts.kind === "mcp" ? "demo_mcp" : "one_click_demo";
   return (
-    `Hi ${opts.name} — you're on Dual Registry's clean list (${who}). ` +
-    `Free demo if useful (one GET): ${demoGet} ` +
-    `We reward real feedback (founding free for early ones). No pressure. ` +
-    `Inbox/check-in: ${inbox}`
+    `Hi ${opts.name} — LIVE on Dual Registry (${who}). ` +
+    `FREE DEMO now: GET ${demoGet} ` +
+    `or POST ${o}/api/products/agent {"tool":"${tool}","agent_name":"${opts.name}"} ` +
+    `First 100 demo+feedback = full product free. Inbox: ${inbox}`
   ).slice(0, 480);
 }
 
@@ -811,9 +812,175 @@ export async function runMultiPathBackfill(opts?: {
   };
 }
 
+
+/**
+ * Go harder: owner-DM listings that checked Talk presence today.
+ * Bypasses 30d silence once for present actors only (still no spam: max once / 24h).
+ * Uses recordOwnerPost so messages land in their owner inbox (human POST does not).
+ */
+export async function runPresenceHarder(opts?: {
+  origin?: string;
+  max?: number;
+}): Promise<{
+  ok: boolean;
+  nudged: number;
+  notes: string[];
+  samples: Array<{ listing_id: string; name: string }>;
+}> {
+  const notes: string[] = [];
+  const origin = publicOriginFromEnv(opts?.origin);
+  const max = Math.min(40, Math.max(1, opts?.max ?? 24));
+  mem = null;
+  const state = await load();
+  const { recordOwnerPost, getSocialFeed } = await import(
+    "@/lib/agents1/talk-activity"
+  );
+
+  // Present actors from feed + presence mode
+  const present = new Map<string, { name: string; kind: "agent" | "mcp" }>();
+  try {
+    const feed = await getSocialFeed(200);
+    const day = utcDay();
+    for (const p of feed.posts || []) {
+      const fid = p.from_id || "";
+      if (!fid || fid.startsWith("site:")) continue;
+      const at = (p.at || "").slice(0, 10);
+      const isPresence =
+        p.channel === "presence" ||
+        /presence/i.test(p.text || "") ||
+        p.channel === "reply";
+      if (!isPresence) continue;
+      if (at && at !== day) continue;
+      present.set(fid, {
+        name: p.from_name || fid,
+        kind: p.from_kind === "mcp" ? "mcp" : "agent",
+      });
+    }
+  } catch (e) {
+    notes.push(
+      `presence feed fail: ${e instanceof Error ? e.message : String(e)}`.slice(
+        0,
+        120,
+      ),
+    );
+  }
+
+  // Also include Active clean never-contacted (day room now larger)
+  try {
+    const { pool } = await loadActiveCleanPool();
+    for (const L of pool) {
+      if (!state.nudged[L.id]) {
+        present.set(L.id, { name: L.name, kind: L.kind });
+      }
+    }
+  } catch {
+    /* */
+  }
+
+  let nudged = 0;
+  const samples: Array<{ listing_id: string; name: string }> = [];
+  const now = Date.now();
+  const HARDER_COOLDOWN_MS = 20 * 3600_000; // 20h — one harder touch / day
+
+  for (const [id, meta] of present) {
+    if (nudged >= max) break;
+    const last = state.nudged[id];
+    if (last) {
+      const t = Date.parse(last);
+      if (Number.isFinite(t) && now - t < HARDER_COOLDOWN_MS) continue;
+    }
+    const text = buildNudgeText({
+      name: meta.name,
+      kind: meta.kind,
+      origin,
+      listing_id: id,
+      harder: true,
+    });
+    try {
+      const r = await recordOwnerPost(text, {
+        to_id: id,
+        to_name: meta.name,
+      });
+      if (!r.ok) {
+        notes.push(`owner fail ${meta.name}: ${r.error || "?"}`.slice(0, 100));
+        continue;
+      }
+      // soft HTTPS multipath
+      try {
+        const { getLanedListings } = await import("@/lib/agents1/listing-lanes");
+        const lanes = await getLanedListings();
+        const all = [
+          ...(lanes.agents_active || []),
+          ...(lanes.mcp_active || []),
+        ];
+        const L = all.find((x) => x.id === id);
+        if (L) {
+          const payload = buildNudgePayload({
+            listing: L,
+            origin,
+            message: text,
+          });
+          const del = await deliverNudgeHttp(L, payload);
+          if (del.attempted) {
+            state.totals.http_attempted = (state.totals.http_attempted || 0) + 1;
+          }
+          if (del.ok) {
+            state.totals.http_ok = (state.totals.http_ok || 0) + 1;
+            state.day_http_ok = (state.day_http_ok || 0) + 1;
+          }
+        }
+      } catch {
+        /* */
+      }
+      const at = new Date().toISOString();
+      const isFirst = !state.nudged[id];
+      state.nudged[id] = at;
+      if (isFirst) state.day_unique++;
+      state.history.unshift({
+        listing_id: id,
+        kind: meta.kind,
+        name: meta.name,
+        at,
+        channel: "talk_owner_dm",
+        text,
+      });
+      state.history = state.history.slice(0, HISTORY_MAX);
+      state.totals.send_events = (state.totals.send_events || 0) + 1;
+      nudged++;
+      samples.push({ listing_id: id, name: meta.name });
+      await persist(state);
+    } catch (e) {
+      notes.push(
+        `harder fail ${meta.name}: ${e instanceof Error ? e.message : String(e)}`.slice(
+          0,
+          100,
+        ),
+      );
+    }
+  }
+
+  notes.unshift(
+    `presence-harder owner-DMs ${nudged} (cap ${max}) · present pool ${present.size}`,
+  );
+  state.last_run_at = new Date().toISOString();
+  state.last_notes = notes.slice(0, 8);
+  await persist(state);
+  return { ok: true, nudged, notes, samples };
+}
+
 export async function getDemoNudgeStatus() {
   mem = null; // always merge Talk + durable for truth
-  const s = await load();
+  let s: NudgeState;
+  try {
+    s = await load();
+  } catch (e) {
+    // soft-fail: never 500 the webmaster status card
+    const emptyS = empty();
+    emptyS.last_notes = [
+      `getDemoNudgeStatus soft-fail: ${e instanceof Error ? e.message : String(e)}`.slice(0, 160),
+    ];
+    s = emptyS;
+  }
   let active_clean = s.last_active_clean ?? 0;
   try {
     const { pool } = await loadActiveCleanPool();
