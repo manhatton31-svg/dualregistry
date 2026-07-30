@@ -7,7 +7,7 @@ import { chromium } from "playwright";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
-const BASE = process.env.MONITOR_URL || "https://dualregistry.dev";
+const BASE = process.env.MONITOR_URL || "https://www.dualregistry.dev";
 const outDir = "/workspace/screenshots";
 mkdirSync(outDir, { recursive: true });
 

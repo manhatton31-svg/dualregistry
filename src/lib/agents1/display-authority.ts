@@ -6,6 +6,7 @@
  * 2. Display value = max(all known sources) including process memory.
  * 3. Within a UTC day, process memory never decreases used/live/delisted.
  * 4. Store approved totals are high-water (never flap down).
+ * 5. last_tick_at is high-water (ISO string max) — never goes backwards.
  *
  * Writes only happen on real probe ticks / delist / prefilter via raise* APIs.
  */
@@ -45,6 +46,13 @@ function empty(day = utcDay()): DisplayAuthority {
   };
 }
 
+function maxIso(a?: string | null, b?: string | null): string | undefined {
+  const aa = a || "";
+  const bb = b || "";
+  if (!aa && !bb) return undefined;
+  return aa >= bb ? aa || undefined : bb || undefined;
+}
+
 /** Pure max merge */
 export function maxAuthority(
   a: DisplayAuthority,
@@ -67,10 +75,7 @@ export function maxAuthority(
     ),
     store_mcp: Math.max(a.store_mcp || 0, Number(b.store_mcp) || 0),
     store_agents: Math.max(a.store_agents || 0, Number(b.store_agents) || 0),
-    last_tick_at:
-      (a.last_tick_at || "") >= (b.last_tick_at || "")
-        ? a.last_tick_at
-        : b.last_tick_at || a.last_tick_at,
+    last_tick_at: maxIso(a.last_tick_at, b.last_tick_at),
     updated_at: new Date().toISOString(),
   };
 }
@@ -93,6 +98,20 @@ async function fetchJson(url: string): Promise<any | null> {
   } catch {
     return null;
   }
+}
+
+function newestTickLog(probes: any): string | undefined {
+  let best = "";
+  for (const t of probes?.tick_log || []) {
+    const p = t?.probed_at || "";
+    if (p > best) best = p;
+  }
+  // also scan results probed_at
+  for (const r of Object.values(probes?.results || {}) as any[]) {
+    const p = r?.probed_at || "";
+    if (p > best) best = p;
+  }
+  return best || undefined;
 }
 
 /**
@@ -123,13 +142,14 @@ export async function readDisplayAuthority(hints?: {
   ]);
 
   if (probes) {
+    const tickNewest = newestTickLog(probes);
     a = maxAuthority(a, {
       day: probes.day || day,
       used: probes.day === day ? Number(probes.used) || 0 : 0,
       live_total: probes.live_active_snapshot?.total,
       live_mcp: probes.live_active_snapshot?.mcp,
       live_agents: probes.live_active_snapshot?.agents,
-      last_tick_at: probes.last_tick_at,
+      last_tick_at: maxIso(probes.last_tick_at, tickNewest),
     });
     // tick_log spend count as floor for used
     if (Array.isArray(probes.tick_log) && probes.day === day) {
@@ -195,7 +215,7 @@ export async function readDisplayAuthority(hints?: {
             live_total: j.live_active_snapshot?.total,
             live_mcp: j.live_active_snapshot?.mcp,
             live_agents: j.live_active_snapshot?.agents,
-            last_tick_at: j.last_tick_at,
+            last_tick_at: maxIso(j.last_tick_at, newestTickLog(j)),
           });
         } else if (name === "counter-floors.json") {
           a = maxAuthority(a, {

@@ -1579,13 +1579,19 @@ export async function getProbePublic() {
     probe_worker: probe_worker
       ? {
           status: probe_worker.status,
-          last_tick_at: probe_worker.last_tick_at,
-          next_tick_at: probe_worker.next_tick_at,
+          // Prefer high-water lastTickOut so worker never flaps behind display
+          last_tick_at: lastTickOut || probe_worker.last_tick_at,
+          next_tick_at: lastTickOut
+            ? nextProbeFromLast(lastTickOut)
+            : probe_worker.next_tick_at,
           last_probed: probe_worker.last_probed,
           last_reason: probe_worker.last_reason,
           last_result: probe_worker.last_result ?? null,
-          last_used: probe_worker.last_used ?? null,
-          ticks: probe_worker.ticks,
+          last_used: Math.max(
+            Number(probe_worker.last_used) || 0,
+            usedOut,
+          ),
+          ticks: Math.max(Number(probe_worker.ticks) || 0, usedOut),
           pid: probe_worker.pid,
         }
       : null,

@@ -1,4 +1,10 @@
 {
   "buildCommand": "npm run build",
-  "framework": null
+  "framework": null,
+  "crons": [
+    {
+      "path": "/api/cron/probe",
+      "schedule": "*/6 * * * *"
+    }
+  ]
 }

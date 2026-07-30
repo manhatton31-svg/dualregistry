@@ -26,27 +26,67 @@ jobs:
       - name: Pull production high-water
         run: |
           set -euo pipefail
+          # Use www (apex 308s); -L still follows if DNS flips
+          BASE="https://www.dualregistry.dev"
           curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
-            "https://dualregistry.dev/api/probes?t=$(date +%s)" -o /tmp/probes-api.json
+            "${BASE}/api/probes?t=$(date +%s)" -o /tmp/probes-api.json
           curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
-            "https://dualregistry.dev/api/dashboard?refresh=1&t=$(date +%s)" -o /tmp/dash-api.json
+            "${BASE}/api/dashboard?refresh=1&t=$(date +%s)" -o /tmp/dash-api.json
           curl -sS -m 30 -L -A "DualRegistryHarvest/1.0" \
-            "https://dualregistry.dev/api/counters?t=$(date +%s)" -o /tmp/counters-api.json || echo '{}' > /tmp/counters-api.json
+            "${BASE}/api/counters?t=$(date +%s)" -o /tmp/counters-api.json || echo '{}' > /tmp/counters-api.json
+          # multi-sample max (3 GETs 1.5s apart) to beat instance lag
+          sleep 1
+          curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
+            "${BASE}/api/probes?t=$(date +%s)b" -o /tmp/probes-api-b.json || true
+          sleep 1
+          curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
+            "${BASE}/api/probes?t=$(date +%s)c" -o /tmp/probes-api-c.json || true
           python3 - <<'PY'
           import json, pathlib
           from datetime import datetime, timezone
-          p = json.loads(pathlib.Path("/tmp/probes-api.json").read_text())
-          d = json.loads(pathlib.Path("/tmp/dash-api.json").read_text())
-          try:
-              c = json.loads(pathlib.Path("/tmp/counters-api.json").read_text())
-          except Exception:
-              c = {}
-          pr = p.get("probes") or {}
-          used = int(pr.get("used") or 0)
-          live = pr.get("live_active") or {}
-          last = pr.get("last_tick_at") or ""
+
+          def loadj(path):
+              try:
+                  return json.loads(pathlib.Path(path).read_text())
+              except Exception:
+                  return {}
+
+          samples = [loadj(p) for p in (
+              "/tmp/probes-api.json",
+              "/tmp/probes-api-b.json",
+              "/tmp/probes-api-c.json",
+          ) if pathlib.Path(p).exists()]
+          d = loadj("/tmp/dash-api.json")
+          c = loadj("/tmp/counters-api.json")
+
+          used = 0
+          last = ""
+          live = {"total": 0, "mcp": 0, "agents": 0, "at": ""}
+          recent = []
+          for p in samples:
+              pr = p.get("probes") or {}
+              used = max(used, int(pr.get("used") or 0))
+              lt = pr.get("last_tick_at") or ""
+              if lt >= last:
+                  last = lt
+              lv = pr.get("live_active") or {}
+              live = {
+                  "total": max(int(live.get("total") or 0), int(lv.get("total") or 0)),
+                  "mcp": max(int(live.get("mcp") or 0), int(lv.get("mcp") or 0)),
+                  "agents": max(int(live.get("agents") or 0), int(lv.get("agents") or 0)),
+                  "at": max(live.get("at") or "", lv.get("at") or ""),
+              }
+              for r in (p.get("recent") or []):
+                  recent.append(r)
+          # counters endpoint high-water
+          cc = c.get("counters") or c
+          used = max(used, int(cc.get("probes_used") or 0))
+          live["total"] = max(int(live["total"] or 0), int(cc.get("live_ok") or 0))
+          live["mcp"] = max(int(live["mcp"] or 0), int(cc.get("live_mcp") or 0))
+          live["agents"] = max(int(live["agents"] or 0), int(cc.get("live_agents") or 0))
+
           day = (last or datetime.now(timezone.utc).isoformat())[:10]
-          print("harvest used", used, "last", last, "live", live.get("total"))
+          print("harvest used", used, "last", last, "live", live.get("total"), "samples", len(samples))
 
           def load(path):
               path = pathlib.Path(path)
@@ -71,8 +111,7 @@ jobs:
               "at": max(fl.get("at") or "", live.get("at") or ""),
           }
           delist = (d.get("delist") or {}).get("delisted_total") or 0
-          floors["delisted_floor"] = max(int(floors.get("delisted_floor") or 0), int(delist))
-          # store floors from display totals + delisted
+          floors["delisted_floor"] = max(int(floors.get("delisted_floor") or 0), int(delist), int(cc.get("delisted_count") or 0))
           mcp_in = int((d.get("mcp") or {}).get("total") or 0)
           ag_in = int((d.get("agents") or {}).get("total") or 0)
           dm = int((d.get("delist") or {}).get("delisted_mcp") or 0)
@@ -86,12 +125,11 @@ jobs:
           if last and last >= (probes.get("last_tick_at") or ""):
               probes["last_tick_at"] = last
           probes["live_active_snapshot"] = floors["live_floor"]
-          # merge recent into tick_log
           by = {}
           for t in (probes.get("tick_log") or []):
               tid = t.get("tick_id") or f"{t.get('probed_at')}|{t.get('id')}"
               by[tid] = t
-          for r in (p.get("recent") or []):
+          for r in recent:
               if not r.get("probed_at"):
                   continue
               tid = f"{r['probed_at']}|{r.get('id')}|{r.get('handshake')}"

@@ -3,6 +3,7 @@
  *
  * GET/POST /api/cron/probe
  * Optional: Authorization: Bearer $CRON_SECRET or ?secret=
+ * Vercel Cron sends `x-vercel-cron: 1` (always allowed).
  *
  * Returns full durable probe snapshot so Actions can commit data/prod/probes.json
  * without needing a write token on Vercel.
@@ -14,6 +15,8 @@ import { dataRoot } from "@/lib/data-root";
 import { durableConfigPublic, readDurableRaw } from "@/lib/agents1/durable-json";
 
 function authorized(request: Request): boolean {
+  // Vercel Cron invocations are trusted (production schedule only)
+  if (request.headers.get("x-vercel-cron") === "1") return true;
   const secret = process.env.CRON_SECRET?.trim();
   if (!secret) return true; // open tick (budget-capped at 240/day)
   const url = new URL(request.url);
@@ -42,7 +45,7 @@ async function stampWorker(patch: Record<string, unknown>) {
       ...prev,
       ...patch,
       mode: "production-cron",
-      origin: "https://dualregistry.dev",
+      origin: "https://www.dualregistry.dev",
       tick_ms: 6 * 60_000,
       updated_at: new Date().toISOString(),
     };
@@ -76,8 +79,13 @@ async function runTick() {
           mcp: 0,
           agents: 0,
         };
+        const usedHi = Math.max(state0.used, auth.used || 0);
         const probesRaw = JSON.stringify(
-          { ...state0, used: Math.max(state0.used, auth.used || 0) },
+          {
+            ...state0,
+            used: usedHi,
+            last_tick_at: lastIso,
+          },
           null,
           2,
         );
@@ -85,7 +93,7 @@ async function runTick() {
           ok: true,
           action: "probe_tick_skipped_cadence",
           probed: 0,
-          used_today: Math.max(state0.used, auth.used || 0),
+          used_today: usedHi,
           budget: state0.budget,
           live_active_probe_ok: live.total,
           skipped: true,
@@ -105,7 +113,6 @@ async function runTick() {
   try {
     const { getLiveSnapshot } = await import("@/lib/agents1/fetch-live");
     await getLiveSnapshot({ forceLive: true });
-
   } catch {
     try {
       const { loadStoreCache } = await import("@/lib/agents1/store-cache");
@@ -154,11 +161,39 @@ async function runTick() {
   } catch {
     /* */
   }
+  // Raise shared floors so multi-instance GET never sees a lower used/last
+  try {
+    const { raiseUsedFloor, raiseLiveFloor } = await import(
+      "@/lib/agents1/counter-floors"
+    );
+    await raiseUsedFloor(state.used);
+    await raiseLiveFloor({
+      total: live.total,
+      mcp: live.mcp,
+      agents: live.agents,
+    });
+  } catch {
+    /* */
+  }
+  try {
+    const { observeDisplayAuthority } = await import(
+      "@/lib/agents1/display-authority"
+    );
+    observeDisplayAuthority({
+      used: state.used,
+      live_total: live.total,
+      live_mcp: live.mcp,
+      live_agents: live.agents,
+      last_tick_at: lastIso,
+    });
+  } catch {
+    /* */
+  }
 
   const worker = await stampWorker({
     status: "ok",
     mode: "production-cron",
-    scheduler: "github-actions-every-6m",
+    scheduler: "vercel-cron+github-actions-every-6m",
     last_tick_at: lastIso,
     next_tick_at: nextIso,
     last_result: result.last_result || null,
@@ -216,6 +251,7 @@ async function runTick() {
     live_active_probe_ok: oks,
     last_result: result.last_result,
     last_handshake: state.last_handshake || null,
+    last_tick_at: lastIso,
     notes: result.notes,
     worker,
     durable: durableConfigPublic(),

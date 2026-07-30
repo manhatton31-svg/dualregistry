@@ -1,5 +1,5 @@
 # Production probe scheduler — every 6 minutes.
-# 1) Hits dualregistry.dev probe tick
+# 1) Hits dualregistry.dev probe tick (Vercel Cron is primary; this is backup + durable commit)
 # 2) Commits durable state with MAX-merge so used/live/delist never regress
 name: Production probe tick
 
@@ -27,16 +27,18 @@ jobs:
         id: tick
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
-          PROBE_URL: https://dualregistry.dev/api/cron/probe
+          # Prefer www to avoid apex 308; -L follows redirects either way
+          PROBE_URL: https://www.dualregistry.dev/api/cron/probe
         run: |
           set -euo pipefail
           HDR=()
           if [ -n "${CRON_SECRET:-}" ]; then
             HDR=(-H "Authorization: Bearer ${CRON_SECRET}" -H "x-cron-secret: ${CRON_SECRET}")
           fi
-          curl -sS -m 90 -X POST "${PROBE_URL}" \
+          curl -sS -L -m 90 -X POST "${PROBE_URL}" \
             -H "accept: application/json" \
             -H "content-type: application/json" \
+            -H "user-agent: DualRegistryActionsProbe/1.0" \
             "${HDR[@]}" \
             -d '{}' \
             -o /tmp/probe-tick.json \
@@ -47,8 +49,8 @@ jobs:
           p = pathlib.Path("/tmp/probe-tick.json")
           d = json.loads(p.read_text())
           if not d.get("ok"):
-            print("tick failed", d)
-            sys.exit(0)
+              print("tick failed", d)
+              sys.exit(0)
           commit = d.get("commit") or {}
 
           def max_merge_probes(existing, incoming):
@@ -93,6 +95,10 @@ jobs:
               for key in ("last_tick_at", "last_ok_tick_at", "updated_at"):
                   a, b = existing.get(key) or "", incoming.get(key) or ""
                   out[key] = a if a >= b else b
+              # Prefer API last_tick if newer
+              api_last = d.get("last_tick_at") or ""
+              if api_last and api_last >= (out.get("last_tick_at") or ""):
+                  out["last_tick_at"] = api_last
               return out
 
           def max_merge_floors(existing, incoming):
@@ -216,6 +222,10 @@ jobs:
               floors_path.parent.mkdir(parents=True, exist_ok=True)
               floors_path.write_text(json.dumps(floors, indent=2))
               probes["used"] = max_used
+              # last_tick high-water from API + existing
+              api_last = d.get("last_tick_at") or ""
+              if api_last and api_last >= (probes.get("last_tick_at") or ""):
+                  probes["last_tick_at"] = api_last
               probes_path.write_text(json.dumps(probes, indent=2))
               livec["day"] = day
               livec["probes_used"] = max_used
@@ -224,7 +234,7 @@ jobs:
               livec["live_agents"] = max(int(livec.get("live_agents") or 0), int(floors["live_floor"]["agents"]))
               live_path.parent.mkdir(parents=True, exist_ok=True)
               live_path.write_text(json.dumps(livec, indent=2))
-              print("locked used", max_used, "live", livec["live_ok"])
+              print("locked used", max_used, "live", livec["live_ok"], "last", probes.get("last_tick_at"))
           print("probed", d.get("probed"), "used", d.get("used_today"), "live_ok", d.get("live_active_probe_ok"))
           PY
 

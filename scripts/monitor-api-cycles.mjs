@@ -1,4 +1,4 @@
-const BASE = "https://dualregistry.dev";
+const BASE = "https://www.dualregistry.dev";
 const durationMs = Number(process.env.MONITOR_MS || 15 * 60 * 1000);
 const intervalMs = 20_000;
 const samples = [];
