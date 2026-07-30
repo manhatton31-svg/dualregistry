@@ -542,10 +542,13 @@ export async function runGrowthCycle(opts?: {
     // Discover when store reads are still allowed (isReadSafe = exhausted / hard-stop)
     if (!isReadSafe(ft)) {
       try {
+        // Even-rate discovery: grow clean list with mixed agents + MCPs
+        // (store index gaps must not starve either side of the public clean registry)
         const disc = await discoverCandidates({
-          agentPriority: index.agent_total + BALANCE_GAP < index.mcp_total,
-          mcpPriority: index.mcp_total + BALANCE_GAP < index.agent_total,
+          agentPriority: false,
+          mcpPriority: false,
         });
+
         let skippedNoUrl = 0;
         for (const c of disc.candidates || []) {
           if (!hasProbeableSource(c)) {
