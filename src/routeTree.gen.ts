@@ -55,6 +55,7 @@ import { Route as ApiProductsDemoNudgeRouteImport } from './routes/api/products/
 import { Route as ApiProductsExportRouteImport } from './routes/api/products/export'
 import { Route as ApiProductsFeedbackRouteImport } from './routes/api/products/feedback'
 import { Route as ApiProductsFeedbackDriveRouteImport } from './routes/api/products/feedback-drive'
+import { Route as ApiProductsGoHarderRouteImport } from './routes/api/products/go-harder'
 import { Route as ApiProductsImprovementLogRouteImport } from './routes/api/products/improvement-log'
 import { Route as ApiProductsLearningRouteImport } from './routes/api/products/learning'
 import { Route as ApiProductsLifecycleRouteImport } from './routes/api/products/lifecycle'
@@ -303,6 +304,11 @@ const ApiProductsFeedbackDriveRoute =
     path: '/api/products/feedback-drive',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiProductsGoHarderRoute = ApiProductsGoHarderRouteImport.update({
+  id: '/api/products/go-harder',
+  path: '/api/products/go-harder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsImprovementLogRoute =
   ApiProductsImprovementLogRouteImport.update({
     id: '/api/products/improvement-log',
@@ -420,6 +426,7 @@ export interface FileRoutesByFullPath {
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
+  '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
   '/api/products/learning': typeof ApiProductsLearningRoute
   '/api/products/lifecycle': typeof ApiProductsLifecycleRoute
@@ -482,6 +489,7 @@ export interface FileRoutesByTo {
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
+  '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
   '/api/products/learning': typeof ApiProductsLearningRoute
   '/api/products/lifecycle': typeof ApiProductsLifecycleRoute
@@ -545,6 +553,7 @@ export interface FileRoutesById {
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
+  '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
   '/api/products/learning': typeof ApiProductsLearningRoute
   '/api/products/lifecycle': typeof ApiProductsLifecycleRoute
@@ -609,6 +618,7 @@ export interface FileRouteTypes {
     | '/api/products/export'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
+    | '/api/products/go-harder'
     | '/api/products/improvement-log'
     | '/api/products/learning'
     | '/api/products/lifecycle'
@@ -671,6 +681,7 @@ export interface FileRouteTypes {
     | '/api/products/export'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
+    | '/api/products/go-harder'
     | '/api/products/improvement-log'
     | '/api/products/learning'
     | '/api/products/lifecycle'
@@ -733,6 +744,7 @@ export interface FileRouteTypes {
     | '/api/products/export'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
+    | '/api/products/go-harder'
     | '/api/products/improvement-log'
     | '/api/products/learning'
     | '/api/products/lifecycle'
@@ -795,6 +807,7 @@ export interface RootRouteChildren {
   ApiProductsExportRoute: typeof ApiProductsExportRoute
   ApiProductsFeedbackRoute: typeof ApiProductsFeedbackRoute
   ApiProductsFeedbackDriveRoute: typeof ApiProductsFeedbackDriveRoute
+  ApiProductsGoHarderRoute: typeof ApiProductsGoHarderRoute
   ApiProductsImprovementLogRoute: typeof ApiProductsImprovementLogRoute
   ApiProductsLearningRoute: typeof ApiProductsLearningRoute
   ApiProductsLifecycleRoute: typeof ApiProductsLifecycleRoute
@@ -1137,6 +1150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsFeedbackDriveRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/go-harder': {
+      id: '/api/products/go-harder'
+      path: '/api/products/go-harder'
+      fullPath: '/api/products/go-harder'
+      preLoaderRoute: typeof ApiProductsGoHarderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/improvement-log': {
       id: '/api/products/improvement-log'
       path: '/api/products/improvement-log'
@@ -1292,6 +1312,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsExportRoute: ApiProductsExportRoute,
   ApiProductsFeedbackRoute: ApiProductsFeedbackRoute,
   ApiProductsFeedbackDriveRoute: ApiProductsFeedbackDriveRoute,
+  ApiProductsGoHarderRoute: ApiProductsGoHarderRoute,
   ApiProductsImprovementLogRoute: ApiProductsImprovementLogRoute,
   ApiProductsLearningRoute: ApiProductsLearningRoute,
   ApiProductsLifecycleRoute: ApiProductsLifecycleRoute,
