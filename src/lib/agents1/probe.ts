@@ -808,6 +808,9 @@ export async function runProbeBudgeted(
   max = 1,
 ): Promise<ProbeResult[]> {
   const state = await loadProbeState();
+  const priorLastTick = state.last_tick_at;
+  const priorLastOk = state.last_ok_tick_at;
+  const priorHandshake = state.last_handshake;
 
   // GLOBAL CADENCE GATE — never probe if any instance already ticked < 6m ago
   // Prevents multi-instance double-ticks (22s gaps) that race used counters.
@@ -1138,18 +1141,28 @@ export async function runProbeBudgeted(
     out.push(result);
     appendTickLog(state, result, true, { name: item.name });
   }
-  state.last_tick_at = new Date().toISOString();
-  state.updated_at = state.last_tick_at;
-  const lastOut = out[out.length - 1];
-  if (lastOut) {
-    state.last_handshake = lastOut.handshake || "fail";
-  }
-  if (gotCleanOk) {
-    state.last_ok_tick_at = state.last_tick_at;
-  } else if (out.some((r) => r.handshake === "fail" || r.handshake === "partial")) {
-    // Full fail spent budget — enforce 6m wait so we don't hammer
-    state.hourly_used = Math.max(state.hourly_used, 1);
-    state.last_handshake = lastOut?.handshake || "fail";
+  // Only advance last_tick when a full budget probe ran
+  if (fullProbes > 0) {
+    state.last_tick_at = new Date().toISOString();
+    state.updated_at = state.last_tick_at;
+    const lastOut = out[out.length - 1];
+    if (lastOut) {
+      state.last_handshake = lastOut.handshake || "fail";
+    }
+    if (gotCleanOk) {
+      state.last_ok_tick_at = state.last_tick_at;
+    } else if (
+      out.some((r) => r.handshake === "fail" || r.handshake === "partial")
+    ) {
+      state.hourly_used = Math.max(state.hourly_used, 1);
+      state.last_handshake = lastOut?.handshake || "fail";
+    }
+  } else {
+    // Preflight-only: restore prior cadence markers (do not fake a tick)
+    state.last_tick_at = priorLastTick;
+    state.last_ok_tick_at = priorLastOk;
+    state.last_handshake = priorHandshake;
+    state.updated_at = new Date().toISOString();
   }
 
   // High-water Live from results + floors

@@ -1,0 +1,139 @@
+# Harvest production high-water counters every 2 minutes (no probe).
+# Keeps GitHub data/prod/* ahead of multi-instance Vercel /tmp races so
+# used/last_tick/live never regress when instances disagree.
+name: Production counter harvest
+
+on:
+  schedule:
+    - cron: "*/2 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prod-harvest
+  cancel-in-progress: false
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Pull production high-water
+        run: |
+          set -euo pipefail
+          curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
+            "https://dualregistry.dev/api/probes?t=$(date +%s)" -o /tmp/probes-api.json
+          curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
+            "https://dualregistry.dev/api/dashboard?refresh=1&t=$(date +%s)" -o /tmp/dash-api.json
+          curl -sS -m 30 -L -A "DualRegistryHarvest/1.0" \
+            "https://dualregistry.dev/api/counters?t=$(date +%s)" -o /tmp/counters-api.json || echo '{}' > /tmp/counters-api.json
+          python3 - <<'PY'
+          import json, pathlib
+          from datetime import datetime, timezone
+          p = json.loads(pathlib.Path("/tmp/probes-api.json").read_text())
+          d = json.loads(pathlib.Path("/tmp/dash-api.json").read_text())
+          try:
+              c = json.loads(pathlib.Path("/tmp/counters-api.json").read_text())
+          except Exception:
+              c = {}
+          pr = p.get("probes") or {}
+          used = int(pr.get("used") or 0)
+          live = pr.get("live_active") or {}
+          last = pr.get("last_tick_at") or ""
+          day = (last or datetime.now(timezone.utc).isoformat())[:10]
+          print("harvest used", used, "last", last, "live", live.get("total"))
+
+          def load(path):
+              path = pathlib.Path(path)
+              if path.exists():
+                  try:
+                      return json.loads(path.read_text())
+                  except Exception:
+                      return {}
+              return {}
+
+          floors = load("data/prod/counter-floors.json")
+          probes = load("data/prod/probes.json")
+          livec = load("data/prod/live-counters.json")
+
+          floors["day"] = day
+          floors["used_floor"] = max(int(floors.get("used_floor") or 0), used)
+          fl = floors.get("live_floor") or {}
+          floors["live_floor"] = {
+              "total": max(int(fl.get("total") or 0), int(live.get("total") or 0)),
+              "mcp": max(int(fl.get("mcp") or 0), int(live.get("mcp") or 0)),
+              "agents": max(int(fl.get("agents") or 0), int(live.get("agents") or 0)),
+              "at": max(fl.get("at") or "", live.get("at") or ""),
+          }
+          delist = (d.get("delist") or {}).get("delisted_total") or 0
+          floors["delisted_floor"] = max(int(floors.get("delisted_floor") or 0), int(delist))
+          # store floors from display totals + delisted
+          mcp_in = int((d.get("mcp") or {}).get("total") or 0)
+          ag_in = int((d.get("agents") or {}).get("total") or 0)
+          dm = int((d.get("delist") or {}).get("delisted_mcp") or 0)
+          da = int((d.get("delist") or {}).get("delisted_agents") or 0)
+          floors["store_mcp_floor"] = max(int(floors.get("store_mcp_floor") or 0), mcp_in + dm)
+          floors["store_agents_floor"] = max(int(floors.get("store_agents_floor") or 0), ag_in + da)
+          floors["updated_at"] = datetime.now(timezone.utc).isoformat()
+
+          probes["day"] = day
+          probes["used"] = max(int(probes.get("used") or 0), used, floors["used_floor"])
+          if last and last >= (probes.get("last_tick_at") or ""):
+              probes["last_tick_at"] = last
+          probes["live_active_snapshot"] = floors["live_floor"]
+          # merge recent into tick_log
+          by = {}
+          for t in (probes.get("tick_log") or []):
+              tid = t.get("tick_id") or f"{t.get('probed_at')}|{t.get('id')}"
+              by[tid] = t
+          for r in (p.get("recent") or []):
+              if not r.get("probed_at"):
+                  continue
+              tid = f"{r['probed_at']}|{r.get('id')}|{r.get('handshake')}"
+              by[tid] = {
+                  "tick_id": tid,
+                  "id": r.get("id"),
+                  "kind": r.get("kind"),
+                  "handshake": r.get("handshake"),
+                  "ok": r.get("ok"),
+                  "target": r.get("target"),
+                  "signals": (r.get("signals") or [])[:6],
+                  "probed_at": r["probed_at"],
+                  "spent_budget": True,
+              }
+          probes["tick_log"] = sorted(by.values(), key=lambda x: x.get("probed_at") or "", reverse=True)[:400]
+
+          livec["day"] = day
+          livec["probes_used"] = max(int(livec.get("probes_used") or 0), used, floors["used_floor"])
+          livec["live_ok"] = floors["live_floor"]["total"]
+          livec["live_mcp"] = floors["live_floor"]["mcp"]
+          livec["live_agents"] = floors["live_floor"]["agents"]
+          livec["delisted_count"] = max(int(livec.get("delisted_count") or 0), floors["delisted_floor"])
+          livec["updated_at"] = floors["updated_at"]
+          livec["backend"] = "harvest"
+
+          pathlib.Path("data/prod").mkdir(parents=True, exist_ok=True)
+          pathlib.Path("data/prod/counter-floors.json").write_text(json.dumps(floors, indent=2))
+          pathlib.Path("data/prod/probes.json").write_text(json.dumps(probes, indent=2))
+          pathlib.Path("data/prod/live-counters.json").write_text(json.dumps(livec, indent=2))
+          print("wrote floors used", floors["used_floor"], "last", probes.get("last_tick_at"))
+          PY
+
+      - name: Commit
+        run: |
+          set -euo pipefail
+          git config user.name "dualregistry-harvest[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/prod/counter-floors.json data/prod/probes.json data/prod/live-counters.json || true
+          if git diff --staged --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "chore(prod): harvest high-water $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase origin main || true
+          git push
