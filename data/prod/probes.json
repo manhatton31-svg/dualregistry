@@ -1,9 +1,9 @@
 {
   "day": "2026-07-30",
-  "used": 0,
+  "used": 1,
   "budget": 240,
-  "hour_bucket": "2026-07-30T01",
-  "hourly_used": 0,
+  "hour_bucket": "2026-07-30T02:00",
+  "hourly_used": 1,
   "hourly_cap": 1,
   "results": {
     "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai": {
@@ -4010,9 +4010,75 @@
       "namespace_verified": false,
       "has_license": false,
       "probed_at": "2026-07-30T01:54:01.528Z"
+    },
+    "agtpub_93a55a245189e3403932": {
+      "id": "agtpub_93a55a245189e3403932",
+      "kind": "agent",
+      "target": "https://registry.inference-gateway.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 14,
+      "score": 16,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 1",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 1,
+      "has_license": true,
+      "probed_at": "2026-07-30T02:03:07.322Z"
+    },
+    "name:agent:mock-agent": {
+      "id": "agtpub_93a55a245189e3403932",
+      "kind": "agent",
+      "target": "https://registry.inference-gateway.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 14,
+      "score": 16,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 1",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 1,
+      "has_license": true,
+      "probed_at": "2026-07-30T02:03:07.322Z"
+    },
+    "url:https://registry.inference-gateway.com/.well-known/agent.json": {
+      "id": "agtpub_93a55a245189e3403932",
+      "kind": "agent",
+      "target": "https://registry.inference-gateway.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 14,
+      "score": 16,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 1",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 1,
+      "has_license": true,
+      "probed_at": "2026-07-30T02:03:07.322Z"
     }
   },
-  "last_tick_at": null,
-  "updated_at": "2026-07-30T01:59:43.634170Z",
+  "updated_at": "2026-07-30T02:03:25.080Z",
+  "last_tick_at": "2026-07-30T02:03:25.080Z",
   "seeded_from": "sandbox-cutover"
 }

@@ -1,14 +1,18 @@
 {
   "version": 3,
-  "updated_at": "2026-07-30T01:59:43.634170Z",
+  "updated_at": "2026-07-30T02:03:25.080Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
-    "running": false
+    "running": false,
+    "next_run_at": "2026-07-30T02:08:56.735Z"
   },
-  "candidates": [],
-  "runs": [],
-  "seen_keys": [],
+  "kv": {
+    "day": "2026-07-30",
+    "budget": 2500,
+    "used": 0,
+    "hard_stop": false
+  },
   "totals": {
     "discovered": 0,
     "submitted": 0,
@@ -16,5 +20,8 @@
     "duplicates": 0,
     "deferred": 0,
     "failed": 0
-  }
+  },
+  "candidates": [],
+  "runs": [],
+  "seen_keys": []
 }
