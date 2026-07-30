@@ -864,6 +864,7 @@ export async function runProbeBudgeted(
             pf.status ? `status ${pf.status}` : "pattern",
           ],
           handshake: "fail",
+          protocol_hints: [],
           probed_at: new Date().toISOString(),
         };
         state.results[item.id] = fake;
