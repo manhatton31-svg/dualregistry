@@ -1,9 +1,9 @@
 {
   "day": "2026-07-30",
-  "used": 2,
+  "used": 30,
   "budget": 240,
-  "hour_bucket": "2026-07-30T02:06",
-  "hourly_used": 1,
+  "hour_bucket": "2026-07-30T03:30",
+  "hourly_used": 0,
   "hourly_cap": 1,
   "results": {
     "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai": {
@@ -4133,9 +4133,259 @@
       "github_stars": 4,
       "has_license": true,
       "probed_at": "2026-07-30T02:10:16.262Z"
+    },
+    "mcp_52ffb4a7a55c30f8ffed": {
+      "id": "mcp_52ffb4a7a55c30f8ffed",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@bhushangitfull/file-mcp-smith/mcp",
+      "ok": false,
+      "latency_ms": 178,
+      "score": 10,
+      "signals": [
+        "remote fail 404",
+        "stars 0",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T03:27:34.328Z"
+    },
+    "name:mcp:bhushangitfull-file-mcp-smith": {
+      "id": "mcp_52ffb4a7a55c30f8ffed",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@bhushangitfull/file-mcp-smith/mcp",
+      "ok": false,
+      "latency_ms": 178,
+      "score": 10,
+      "signals": [
+        "remote fail 404",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T03:27:34.328Z"
+    },
+    "url:https://server.smithery.ai/@bhushangitfull/file-mcp-smith/mcp": {
+      "id": "mcp_52ffb4a7a55c30f8ffed",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@bhushangitfull/file-mcp-smith/mcp",
+      "ok": false,
+      "latency_ms": 178,
+      "score": 10,
+      "signals": [
+        "remote fail 404",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T03:27:34.328Z"
+    },
+    "mcp_f289aeb8b70427104eb6": {
+      "id": "mcp_f289aeb8b70427104eb6",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@bergeramit/bergeramit-hw3-tech/mcp",
+      "ok": false,
+      "latency_ms": 153,
+      "score": 10,
+      "signals": [
+        "remote fail 404",
+        "stars 0",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T03:27:35.638Z"
+    },
+    "name:mcp:bergeramit-bergeramit-hw3-tech": {
+      "id": "mcp_f289aeb8b70427104eb6",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@bergeramit/bergeramit-hw3-tech/mcp",
+      "ok": false,
+      "latency_ms": 153,
+      "score": 10,
+      "signals": [
+        "remote fail 404",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T03:27:35.638Z"
+    },
+    "url:https://server.smithery.ai/@bergeramit/bergeramit-hw3-tech/mcp": {
+      "id": "mcp_f289aeb8b70427104eb6",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@bergeramit/bergeramit-hw3-tech/mcp",
+      "ok": false,
+      "latency_ms": 153,
+      "score": 10,
+      "signals": [
+        "remote fail 404",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T03:27:35.638Z"
+    },
+    "agtpub_ce0cd362f4d521662080": {
+      "id": "agtpub_ce0cd362f4d521662080",
+      "kind": "agent",
+      "target": "https://a2a-workbench.allsrc.dev/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 8,
+      "score": 25,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 0",
+        "license",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T03:29:57.236Z"
+    },
+    "name:agent:a2a-workbench": {
+      "id": "agtpub_ce0cd362f4d521662080",
+      "kind": "agent",
+      "target": "https://a2a-workbench.allsrc.dev/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 8,
+      "score": 25,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T03:29:57.236Z"
+    },
+    "url:https://a2a-workbench.allsrc.dev/.well-known/agent.json": {
+      "id": "agtpub_ce0cd362f4d521662080",
+      "kind": "agent",
+      "target": "https://a2a-workbench.allsrc.dev/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 8,
+      "score": 25,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T03:29:57.236Z"
+    },
+    "mcp_389c41920721e9bd6631": {
+      "id": "mcp_389c41920721e9bd6631",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@aryankeluskar/poke-video-mcp/mcp",
+      "ok": false,
+      "latency_ms": 174,
+      "score": 10,
+      "signals": [
+        "remote fail 404",
+        "stars 0",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T03:30:30.788Z"
+    },
+    "name:mcp:aryankeluskar-poke-video-mcp": {
+      "id": "mcp_389c41920721e9bd6631",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@aryankeluskar/poke-video-mcp/mcp",
+      "ok": false,
+      "latency_ms": 174,
+      "score": 10,
+      "signals": [
+        "remote fail 404",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T03:30:30.788Z"
+    },
+    "url:https://server.smithery.ai/@aryankeluskar/poke-video-mcp/mcp": {
+      "id": "mcp_389c41920721e9bd6631",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@aryankeluskar/poke-video-mcp/mcp",
+      "ok": false,
+      "latency_ms": 174,
+      "score": 10,
+      "signals": [
+        "remote fail 404",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T03:30:30.788Z"
     }
   },
-  "updated_at": "2026-07-30T02:10:33.233Z",
-  "last_tick_at": "2026-07-30T02:10:33.233Z",
-  "seeded_from": "sandbox-cutover"
+  "updated_at": "2026-07-30T03:30:30.820Z",
+  "last_tick_at": "2026-07-30T03:30:30.788Z",
+  "wasted_probes_discarded": 0,
+  "live_active_snapshot": {
+    "total": 38,
+    "mcp": 19,
+    "agents": 19,
+    "at": "2026-07-30T03:30:30.841Z"
+  },
+  "last_handshake": "fail"
 }
