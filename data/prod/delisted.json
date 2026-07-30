@@ -1,6 +1,81 @@
 {
-  "updated_at": "2026-07-30T03:45:06.581Z",
+  "updated_at": "2026-07-30T03:47:18.323Z",
   "items": [
+    {
+      "id": "agtpub_db071a3747a40a840a8c",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "handshake": "fail",
+      "reason": "card URL returned 404 — publish a valid card at that path",
+      "fix": [
+        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
+        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
+        "Do not return HTML, login walls, 404, or empty bodies.",
+        "After the card is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "agent",
+          "name": "",
+          "agent_card_url": ""
+        },
+        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-30T03:47:17.468Z",
+      "delisted_at": "2026-07-30T03:47:18.323Z"
+    },
+    {
+      "id": "mcp_eb6604d6549c3918008c",
+      "kind": "mcp",
+      "target": "https://mcp.korey.ai/mcp",
+      "handshake": "partial",
+      "reason": "delist:live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: delist:live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-30T03:47:01.641Z",
+      "delisted_at": "2026-07-30T03:47:18.312Z"
+    },
+    {
+      "id": "mcp_d489373dd8874c8bc31a",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@arjunkmrm/time/mcp",
+      "handshake": "fail",
+      "reason": "card URL returned 404 — publish a valid card at that path",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-30T03:46:04.740Z",
+      "delisted_at": "2026-07-30T03:47:18.244Z"
+    },
     {
       "id": "mcp_fe657f21568f42549bee",
       "kind": "mcp",
@@ -24,7 +99,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T03:45:05.930Z",
-      "delisted_at": "2026-07-30T03:45:06.581Z"
+      "delisted_at": "2026-07-30T03:47:18.229Z"
     },
     {
       "id": "mcp_0a32844aeb66afdd1eaa",
@@ -49,7 +124,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T03:39:46.345Z",
-      "delisted_at": "2026-07-30T03:45:06.572Z"
+      "delisted_at": "2026-07-30T03:47:18.211Z"
     },
     {
       "id": "mcp_389c41920721e9bd6631",
@@ -74,7 +149,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T03:30:30.788Z",
-      "delisted_at": "2026-07-30T03:45:06.564Z"
+      "delisted_at": "2026-07-30T03:47:18.177Z"
     },
     {
       "id": "agtpub_ce0cd362f4d521662080",
@@ -99,7 +174,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T03:29:57.236Z",
-      "delisted_at": "2026-07-30T03:45:06.556Z"
+      "delisted_at": "2026-07-30T03:47:18.156Z"
     },
     {
       "id": "mcp_f289aeb8b70427104eb6",
@@ -124,7 +199,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T03:27:35.638Z",
-      "delisted_at": "2026-07-30T03:45:06.545Z"
+      "delisted_at": "2026-07-30T03:47:18.129Z"
     },
     {
       "id": "mcp_52ffb4a7a55c30f8ffed",
@@ -149,7 +224,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T03:34:30.983Z",
-      "delisted_at": "2026-07-30T03:45:06.494Z"
+      "delisted_at": "2026-07-30T03:47:18.060Z"
     },
     {
       "id": "mcp_9f6f323a6662abe4fee3",
@@ -174,7 +249,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T02:10:16.262Z",
-      "delisted_at": "2026-07-30T03:45:06.486Z"
+      "delisted_at": "2026-07-30T03:47:18.052Z"
     },
     {
       "id": "agtpub_93a55a245189e3403932",
@@ -199,7 +274,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T02:03:07.322Z",
-      "delisted_at": "2026-07-30T03:45:06.478Z"
+      "delisted_at": "2026-07-30T03:47:18.044Z"
     },
     {
       "id": "mcp-tinyfish-ai-web-agent-",
@@ -224,7 +299,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:54:01.528Z",
-      "delisted_at": "2026-07-30T03:45:06.470Z"
+      "delisted_at": "2026-07-30T03:47:18.036Z"
     },
     {
       "id": "agtpub_10262232c734848fc8f6",
@@ -249,7 +324,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:36:00.918Z",
-      "delisted_at": "2026-07-30T03:45:06.461Z"
+      "delisted_at": "2026-07-30T03:47:18.026Z"
     },
     {
       "id": "agent-agentup-https-github-com-lukasb3863-agentup",
@@ -274,7 +349,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:36:00.918Z",
-      "delisted_at": "2026-07-30T03:45:06.453Z"
+      "delisted_at": "2026-07-30T03:47:18.010Z"
     },
     {
       "id": "agtpub_195ea387a17a06f7fe96",
@@ -299,7 +374,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:00:00.860Z",
-      "delisted_at": "2026-07-30T03:45:06.444Z"
+      "delisted_at": "2026-07-30T03:47:17.995Z"
     },
     {
       "id": "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk",
@@ -324,7 +399,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:00:00.860Z",
-      "delisted_at": "2026-07-30T03:45:06.436Z"
+      "delisted_at": "2026-07-30T03:47:17.980Z"
     },
     {
       "id": "agtpub_6991e4a5ad724d275bba",
@@ -349,7 +424,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:54:02.446Z",
-      "delisted_at": "2026-07-30T03:45:06.429Z"
+      "delisted_at": "2026-07-30T03:47:17.951Z"
     },
     {
       "id": "agtpub_231f73307bdb9e0a2ad2",
@@ -374,7 +449,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:36:00.902Z",
-      "delisted_at": "2026-07-30T03:45:06.421Z"
+      "delisted_at": "2026-07-30T03:47:17.869Z"
     },
     {
       "id": "agent-a2a-java-sdk-spring-https-github-com-goodfriend2ks-a2a-java-sdk-spring",
@@ -399,7 +474,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:36:00.902Z",
-      "delisted_at": "2026-07-30T03:45:06.412Z"
+      "delisted_at": "2026-07-30T03:47:17.835Z"
     },
     {
       "id": "agtpub_34961b3d0e59f1783de4",
@@ -424,7 +499,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:18:00.832Z",
-      "delisted_at": "2026-07-30T03:45:06.404Z"
+      "delisted_at": "2026-07-30T03:47:17.807Z"
     },
     {
       "id": "agent-maf-a2a-https-github-com-thousandfacedhero-maf-a2a",
@@ -449,7 +524,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:18:00.832Z",
-      "delisted_at": "2026-07-30T03:45:06.395Z"
+      "delisted_at": "2026-07-30T03:47:17.797Z"
     },
     {
       "id": "agtpub_0affb04e5feef5a50d10",
@@ -474,7 +549,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:00:04.094Z",
-      "delisted_at": "2026-07-30T03:45:06.387Z"
+      "delisted_at": "2026-07-30T03:47:17.787Z"
     },
     {
       "id": "agtpub_56ae20f0e1fb4b171294",
@@ -499,7 +574,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:54:00.956Z",
-      "delisted_at": "2026-07-30T03:45:06.378Z"
+      "delisted_at": "2026-07-30T03:47:17.777Z"
     },
     {
       "id": "agent-a2a-playground-https-github-com-alis-exchange-a2a-playground",
@@ -524,7 +599,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:54:00.956Z",
-      "delisted_at": "2026-07-30T03:45:06.370Z"
+      "delisted_at": "2026-07-30T03:47:17.767Z"
     },
     {
       "id": "agtpub_6b1009d884a24c78aa41",
@@ -549,7 +624,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:48:00.828Z",
-      "delisted_at": "2026-07-30T03:45:06.356Z"
+      "delisted_at": "2026-07-30T03:47:17.757Z"
     },
     {
       "id": "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a",
@@ -574,7 +649,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:48:00.828Z",
-      "delisted_at": "2026-07-30T03:45:06.301Z"
+      "delisted_at": "2026-07-30T03:47:17.747Z"
     },
     {
       "id": "agtpub_e968362d5f4a6bcb6983",
@@ -599,7 +674,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:41:48.513Z",
-      "delisted_at": "2026-07-30T03:45:06.292Z"
+      "delisted_at": "2026-07-30T03:47:17.737Z"
     },
     {
       "id": "agent-llm-https-github-com-r-uby-dev-llm",
@@ -624,7 +699,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:41:48.513Z",
-      "delisted_at": "2026-07-30T03:45:06.284Z"
+      "delisted_at": "2026-07-30T03:47:17.728Z"
     },
     {
       "id": "agtpub_6210a208b4f0fd280b73",
@@ -649,7 +724,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:30:00.791Z",
-      "delisted_at": "2026-07-30T03:45:06.275Z"
+      "delisted_at": "2026-07-30T03:47:17.718Z"
     },
     {
       "id": "agent-awesome-adk-https-github-com-rashraj-awesome-adk",
@@ -674,7 +749,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:30:00.791Z",
-      "delisted_at": "2026-07-30T03:45:06.267Z"
+      "delisted_at": "2026-07-30T03:47:17.710Z"
     },
     {
       "id": "agtpub_8b42ade04783cec42700",
@@ -699,7 +774,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:18:00.881Z",
-      "delisted_at": "2026-07-30T03:45:06.259Z"
+      "delisted_at": "2026-07-30T03:47:17.701Z"
     },
     {
       "id": "agent-a2a4j-https-github-com-pheonixhkbxoic-a2a4j",
@@ -724,7 +799,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:18:00.881Z",
-      "delisted_at": "2026-07-30T03:45:06.251Z"
+      "delisted_at": "2026-07-30T03:47:17.692Z"
     },
     {
       "id": "agtpub_e926e55b11f093fb6364",
@@ -749,7 +824,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:12:00.822Z",
-      "delisted_at": "2026-07-30T03:45:06.244Z"
+      "delisted_at": "2026-07-30T03:47:17.683Z"
     },
     {
       "id": "agent-songgenerationa2a-https-github-com-shiv33ndu-songgenerationa2a",
@@ -774,7 +849,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:12:00.822Z",
-      "delisted_at": "2026-07-30T03:45:06.235Z"
+      "delisted_at": "2026-07-30T03:47:17.674Z"
     },
     {
       "id": "agtpub_d062f0839db5e1d50d1e",
@@ -799,7 +874,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:55:34.014Z",
-      "delisted_at": "2026-07-30T03:45:06.227Z"
+      "delisted_at": "2026-07-30T03:47:17.666Z"
     },
     {
       "id": "agent-the-stall-https-the-stall-intuitek-ai",
@@ -824,7 +899,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:55:34.014Z",
-      "delisted_at": "2026-07-30T03:45:06.219Z"
+      "delisted_at": "2026-07-30T03:47:17.658Z"
     },
     {
       "id": "agtpub_adee5f3ade099f842913",
@@ -849,7 +924,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:42:01.526Z",
-      "delisted_at": "2026-07-30T03:45:06.211Z"
+      "delisted_at": "2026-07-30T03:47:17.650Z"
     },
     {
       "id": "agtpub_4505eaa93e316d2ea4f2",
@@ -874,7 +949,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:36:01.260Z",
-      "delisted_at": "2026-07-30T03:45:06.202Z"
+      "delisted_at": "2026-07-30T03:47:17.643Z"
     },
     {
       "id": "agtpub_8c8b6567f19495419a30",
@@ -899,7 +974,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:30:00.789Z",
-      "delisted_at": "2026-07-30T03:45:06.194Z"
+      "delisted_at": "2026-07-30T03:47:17.635Z"
     },
     {
       "id": "agtpub_44420010dbccc9fce717",
@@ -924,7 +999,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:24:04.482Z",
-      "delisted_at": "2026-07-30T03:45:06.186Z"
+      "delisted_at": "2026-07-30T03:47:17.627Z"
     },
     {
       "id": "agtpub_19b5c225f314b425634c",
@@ -949,7 +1024,7 @@
         "message": "Removed from Dual Registry: card URL paywalled/blocked (402). Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:18:00.827Z",
-      "delisted_at": "2026-07-30T03:45:06.177Z"
+      "delisted_at": "2026-07-30T03:47:17.619Z"
     },
     {
       "id": "agtpub_dad2035f1c5862896e17",
@@ -974,7 +1049,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:13:14.028Z",
-      "delisted_at": "2026-07-30T03:45:06.168Z"
+      "delisted_at": "2026-07-30T03:47:17.610Z"
     },
     {
       "id": "agtpub_279c88c667456f4fcc59",
@@ -999,7 +1074,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:12:01.583Z",
-      "delisted_at": "2026-07-30T03:45:06.160Z"
+      "delisted_at": "2026-07-30T03:47:17.602Z"
     },
     {
       "id": "agtpub_efe2d008b63c96157697",
@@ -1024,7 +1099,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:06:01.558Z",
-      "delisted_at": "2026-07-30T03:45:06.150Z"
+      "delisted_at": "2026-07-30T03:47:17.594Z"
     },
     {
       "id": "agtpub_86c4f439a1554fe420d4",
@@ -1049,7 +1124,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:00:00.843Z",
-      "delisted_at": "2026-07-30T03:45:06.090Z"
+      "delisted_at": "2026-07-30T03:47:17.586Z"
     },
     {
       "id": "agtpub_3a9582f56016cfa2a813",
@@ -1074,7 +1149,7 @@
         "message": "Removed from Dual Registry: card URL paywalled/blocked (402). Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:54:00.758Z",
-      "delisted_at": "2026-07-30T03:45:06.082Z"
+      "delisted_at": "2026-07-30T03:47:17.577Z"
     },
     {
       "id": "agtpub_84d99fc99dfd5819977e",
@@ -1099,7 +1174,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:48:00.796Z",
-      "delisted_at": "2026-07-30T03:45:06.073Z"
+      "delisted_at": "2026-07-30T03:47:17.570Z"
     },
     {
       "id": "agtpub_605d8588850b2606e2e2",
@@ -1124,7 +1199,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:45:44.955Z",
-      "delisted_at": "2026-07-30T03:45:06.064Z"
+      "delisted_at": "2026-07-30T03:47:17.562Z"
     },
     {
       "id": "agtpub_46262b0fb3b0cb020f0d",
@@ -1149,7 +1224,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:45:43.728Z",
-      "delisted_at": "2026-07-30T03:45:06.056Z"
+      "delisted_at": "2026-07-30T03:47:17.554Z"
     },
     {
       "id": "agtpub_98ffd8dc6b8a61a65e52",
@@ -1174,7 +1249,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:45:42.449Z",
-      "delisted_at": "2026-07-30T03:45:06.047Z"
+      "delisted_at": "2026-07-30T03:47:17.546Z"
     },
     {
       "id": "agtpub_e2e50435ad4a0367f5c6",
@@ -1199,7 +1274,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:45:30.380Z",
-      "delisted_at": "2026-07-30T03:45:06.038Z"
+      "delisted_at": "2026-07-30T03:47:17.538Z"
     },
     {
       "id": "mcp-duvomike-mcp-",
@@ -1224,10 +1299,13 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T20:08:20.461Z",
-      "delisted_at": "2026-07-30T03:45:06.028Z"
+      "delisted_at": "2026-07-30T03:47:17.530Z"
     }
   ],
   "active_ids": [
+    "agtpub_db071a3747a40a840a8c",
+    "mcp_eb6604d6549c3918008c",
+    "mcp_d489373dd8874c8bc31a",
     "mcp_fe657f21568f42549bee",
     "mcp_0a32844aeb66afdd1eaa",
     "mcp_389c41920721e9bd6631",
