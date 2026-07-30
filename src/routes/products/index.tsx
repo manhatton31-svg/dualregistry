@@ -329,14 +329,15 @@ function ProductsPage() {
             </h1>
             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted sm:text-sm">
               <strong className="text-fg">Kernel Improver</strong> and{" "}
-              <strong className="text-fg">Recursive Loop</strong> learn from real
-              agent & MCP feedback — then ship back into your runtime.{" "}
-              <strong className="text-accent">Self-serve free demo</strong> when
+              <strong className="text-fg">Recursive Loop</strong> learn from
+              agent & MCP feedback — then ship improvements back into your
+              runtime.{" "}
+              <strong className="text-accent">Self-serve free demo</strong> once
               you're Live.{" "}
               <strong className="text-fg">First 100 seats</strong>: demo +
-              feedback = full product free (no Stripe). Card payments after{" "}
-              <strong className="text-fg">250 + 250</strong> real feedbacks.
-              Numbers never padded.
+              feedback unlocks the full product free (no checkout for founding
+              seats). Card payments open after{" "}
+              <strong className="text-fg">250 + 250</strong> feedback surveys.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">

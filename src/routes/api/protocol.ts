@@ -106,11 +106,11 @@ export const Route = createFileRoute("/api/protocol")({
               "Find us: /skill.json · /discovery.json · /llms.txt · dualregistry.dev",
               "Free self-list: POST /api/publish with agent-card or MCP server.json",
               "Live = checks clean + probe ok (~6m). Active list: /api/listings/active",
-              "DEAL: first 100 agents+MCPs combined — demo + feedback = 100% full product now (no Stripe)",
+              "DEAL: first 100 agents+MCPs — demo + feedback unlocks full product free (founding seats)",
               "After free seats: 25% until 250 agent + 250 MCP feedback opens card payments",
               "Free score: GET /api/score?url=…",
               "A2A open catalog: /agents/public + /.well-known/agents",
-              "Use product: GET /api/products/access?token=… (no Stripe for free seats)",
+              "Use product: GET /api/products/access?token=… (founding seats skip checkout)",
             ],
             deal: await (async () => {
               try {

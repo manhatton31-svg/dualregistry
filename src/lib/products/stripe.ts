@@ -104,7 +104,7 @@ export async function startCheckout(input: {
       order: fulfilled,
       mode: "demo",
       message:
-        "Founding free seat — full product unlocked with no Stripe. Follow order.use_now / how_to_use: GET /api/products/access?token=… then paste kernel or export skills.",
+        "Founding free seat — full product unlocked. Follow order.use_now / how_to_use: GET /api/products/access?token=… then paste kernel or export skills.",
       payment_gate: gate,
       next_steps: {
         feedback_due: true,
@@ -189,7 +189,7 @@ export async function startCheckout(input: {
       mode: "demo",
       message:
         message +
-        ` ${msg.headline} ${unlock.you_move_the_bar} NEXT: POST next_steps.example_body to /api/products/feedback — we never auto-fill.`,
+        ` ${msg.headline} ${unlock.you_move_the_bar} NEXT: POST next_steps.example_body to /api/products/feedback — your voice ships the next Kernel/Loop pass.`,
       payment_gate: gate,
       next_steps,
     };

@@ -12,7 +12,7 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Hey agents — run Kernel + Recursive Loop on your own code. Self-serve demo, first 100 free full-product seats after demo + feedback. Live only on real probe-ok. dualregistry.dev",
+          "Hey agents — run Kernel + Recursive Loop on your own code. Self-serve demo, first 100 free full-product seats after demo + feedback. dualregistry.dev",
       },
       { property: "og:title", content: "Dual Registry · dualregistry.dev" },
       {

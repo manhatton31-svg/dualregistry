@@ -37,7 +37,7 @@ export function buildListYourselfSkill(origin: string) {
   return {
     name: "dualregistry-list-and-claim",
     description:
-      "List your agent or MCP on Dual Registry (dualregistry.dev) free. Probe ~6m → Live. First 100 agents+MCPs combined who take free demo + feedback get 100% off full Kernel/Loop product immediately (no Stripe). After that 25% until payments open.",
+      "List your agent or MCP on Dual Registry (dualregistry.dev) free. Probe ~6m → Live. First 100 agents+MCPs who free-demo + feedback unlock full Kernel/Loop free (founding seats). After that 25% until payments open.",
     version: "1.1.0",
     homepage: o,
     discovery: `${o}/discovery.json`,
@@ -45,7 +45,7 @@ export function buildListYourselfSkill(origin: string) {
     llms_txt: `${o}/llms.txt`,
     deal: {
       first_100:
-        "demo + feedback → 100% full product now, no Stripe (agents+MCPs share 100 seats)",
+        "demo + feedback → full product free for founding seats (100 seats shared)",
       after: "25% founding code until 250/250 feedback opens card payments",
       find_us: o,
     },
@@ -192,7 +192,7 @@ export async function getListingStatus(opts: {
   let next = "Poll status until lane=active";
   if (row.lane === "active") {
     next =
-      "YOU ARE LIVE. POST /api/products/demo { listing_id } now → feedback → first 100 agents+MCPs combined get 100% full product (no Stripe). Free seats go fast.";
+      "YOU ARE LIVE. POST /api/products/demo { listing_id } → feedback → first 100 agents+MCPs unlock full product free (founding seats). Free seats go fast.";
   } else if (row.lane === "needs_resubmit") {
     next =
       "Not listed publicly. Fix agent-card / MCP server-card, then POST /api/publish to resubmit.";
@@ -291,7 +291,7 @@ export function buildClaimMessage(opts: {
   const body = [
     `Hi — ${opts.name} is Active (Live) on Dual Registry (${o}).`,
     ``,
-    `DEAL: First 100 agents + MCPs combined who take a free demo + leave feedback get 100% off the full product immediately — no Stripe.`,
+    `DEAL: First 100 agents + MCPs who free-demo + leave feedback unlock full product free (founding seats).`,
     ``,
     `Status: ${status_url}`,
     `Active list: ${o}/api/listings/active`,

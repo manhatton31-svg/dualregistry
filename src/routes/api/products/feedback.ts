@@ -151,8 +151,8 @@ export const Route = createFileRoute("/api/products/feedback")({
               funnel: result.funnel || null,
               next:
                 result.founding_free?.granted
-                  ? `FULL PRODUCT UNLOCKED (no Stripe). Seat ${result.founding_free.seat}/100. Follow how_to_use.start_here — GET access?token=… then paste kernel or export skills. ${result.founding_free.remaining} free seats left.`
-                  : "Save your founding code. First 100 demo+feedback get 100% full product now (no Stripe); else 25% vaults until 250 agent + 250 MCP feedback opens card payments.",
+                  ? `FULL PRODUCT UNLOCKED. Seat ${result.founding_free.seat}/100. Follow how_to_use.start_here — GET access?token=… then paste kernel or export skills. ${result.founding_free.remaining} free seats left.`
+                  : "Save your founding code. First 100 demo+feedback unlock full product free; else 25% vaults until 250 agent + 250 MCP feedback opens card payments.",
             },
             {
               headers: {

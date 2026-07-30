@@ -79,7 +79,7 @@ export const Route = createFileRoute("/discovery.json")({
           version: "1.9.0",
           role: "sub-registry",
           tagline:
-            "Dual Registry — free self-list, probe ~6m, Live on ok. First 100 agents+MCPs combined: free demo + feedback = 100% full product now (no Stripe).",
+            "Dual Registry — free self-list, probe ~6m, go Live, free demo. First 100 agents+MCPs: demo + feedback unlocks full product free (founding seats).",
 
           /** Primary inbound path for independent discovery */
           list_yourself,
@@ -125,7 +125,7 @@ export const Route = createFileRoute("/discovery.json")({
             } catch {
               return {
                 short:
-                  "First 100 agents+MCPs combined: demo+feedback = 100% full product, no Stripe",
+                  "First 100 agents+MCPs: demo+feedback unlocks full product free (founding seats)",
               };
             }
           })(),

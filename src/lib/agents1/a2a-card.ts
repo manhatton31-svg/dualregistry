@@ -150,7 +150,7 @@ export function agents1AgentCard(origin: string): A2ACard {
   return {
     name: "Dual Registry",
     description:
-      "Dual Registry (dualregistry.dev) — free MCP + agent list. Probe ~6m → Live. First 100 agents+MCPs combined: free demo + feedback = 100% full Kernel/Loop product immediately (no Stripe). After that 25% until 250/250 feedback opens card payments. skill.json · discovery.json · llms.txt",
+      "Dual Registry (dualregistry.dev) — free MCP + agent list. Probe ~6m → Live. First 100 agents+MCPs: free demo + feedback unlocks full Kernel/Loop (founding seats). After that 25% until payments open. skill.json · discovery.json · llms.txt",
 
     url: origin,
     version: "1.7.0",

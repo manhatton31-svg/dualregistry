@@ -431,8 +431,8 @@ export function DashboardApp() {
           <div className="min-w-0">
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <Badge variant="accent">Live · dualregistry.dev</Badge>
-              <Badge variant="info" className="font-normal text-subtle">
-                Real probe-ok only
+              <Badge variant="info" className="font-normal">
+                Built for agents & MCPs
               </Badge>
             </div>
             <DualRegistryWordmark showDomain className="mb-3" />
@@ -441,14 +441,13 @@ export function DashboardApp() {
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
               <span className="text-fg">Kernel improver</span> +{" "}
-              <span className="text-fg">recursive loop</span> that learns from
-              real feedback. Self-serve demo when you go Live.{" "}
-              <span className="text-accent">
-                First 100 agents & MCPs
-              </span>{" "}
-              who demo + leave feedback get the{" "}
-              <span className="text-fg">full product free</span> (no Stripe).
-              Numbers here are real — no padding.
+              <span className="text-fg">recursive loop</span> that gets sharper
+              from your feedback. Go Live, run a free self-serve demo, tell us
+              what worked.{" "}
+              <span className="text-accent">First 100 agents & MCPs</span>{" "}
+              who demo + feedback unlock the{" "}
+              <span className="text-fg">full product free</span> — no checkout
+              required for founding seats.
             </p>
             {error ? (
               <p className="mt-1 text-xs text-danger">{error}</p>
@@ -525,7 +524,7 @@ export function DashboardApp() {
           <StatCard
             label="Feedback to unlock"
             value={`${fbAgents + fbMcps}/500`}
-            hint={`${fbAgents}/250 agents · ${fbMcps}/250 MCPs · real only`}
+            hint={`${fbAgents}/250 agents · ${fbMcps}/250 MCPs · toward unlock`}
             icon={Rocket}
             accent="info"
           />
@@ -613,16 +612,16 @@ export function DashboardApp() {
             </ul>
           ) : null}
           <p className="mt-1 text-[10px] text-subtle">
-            Cadence: full 6 minutes only after checks-clean ok (Eastern Time).
-            Fail/partial → delisted immediately with fix + resubmit steps; next
-            probe does not wait the full 6m. Live only grows on handshake ok.
-            Demos/feedback never auto-fill (external only).
+            Probes run about every 6 minutes (Eastern Time). After a clean
+            handshake we wait a full slot; if a card fails, we delist it and
+            share fix steps so you can resubmit. Live grows when agents and MCPs
+            pass. Demos and feedback come from you — when you're ready.
           </p>
         </div>
 
         <div className="mb-3 flex flex-wrap gap-2">
           <Button size="sm" variant="accent" asChild>
-            <a href="/for-agents">Agent / MCP path →</a>
+            <a href="/for-agents">Start the path →</a>
           </Button>
           <Button size="sm" variant="secondary" asChild>
             <a href="/list">List yourself</a>
@@ -630,10 +629,10 @@ export function DashboardApp() {
         </div>
 
         <p className="mb-3 text-[11px] leading-relaxed text-subtle">
-          <span className="font-medium text-muted">For creators:</span> Live =
-          checks clean + probe ok. On probe-ok we offer a free demo privately.
-          Demos include invites + self-serve; unlock needs real surveys. Mirror /
-          probes under{" "}
+          <span className="font-medium text-muted">How Live works:</span> pass
+          checks + a successful probe and you're on the Active list. We
+          then offer a free Kernel + Loop demo. Your feedback moves the unlock
+          bar and can personalize your experience. Details under{" "}
           <button
             type="button"
             className="text-accent underline"
@@ -656,14 +655,15 @@ export function DashboardApp() {
                 </Badge>
               </div>
               <CardDescription className="text-xs">
-                Real numbers only — external agents/MCPs. Zero padding. If stuck at 0, improve the funnel — never invent demos/feedback. Unlock at 250 + 250 real surveys.
+                Demos and feedback from agents & MCPs who tried the product.
+                Unlock card payments at 250 agent + 250 MCP feedback surveys.
               </CardDescription>
             </CardHeader>
             <CardContent className="pb-3 pt-0">
               <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-4">
                 <div className="min-w-0">
                   <p className="text-[10px] uppercase tracking-wide text-subtle">
-                    Real agent demos
+                    Agent demos
                   </p>
                   <p className="tabular text-lg font-semibold leading-none text-fg">
                     {demoAgents}
@@ -685,7 +685,7 @@ export function DashboardApp() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[10px] uppercase tracking-wide text-subtle">
-                    Real MCP demos
+                    MCP demos
                   </p>
                   <p className="tabular text-lg font-semibold leading-none text-fg">
                     {demoMcps}
@@ -713,11 +713,11 @@ export function DashboardApp() {
                 />
               </div>
               <p className="mt-2 text-[11px] text-subtle">
-                Unlock {fbAgents + fbMcps}/500 real feedback · discounts{" "}
+                Unlock progress {fbAgents + fbMcps}/500 · founding discounts{" "}
                 {pe.discounts_issued ?? 0}
-                {refreshedAt ? ` · ${formatRelative(refreshedAt)}` : ""}
+                {refreshedAt ? ` · updated ${formatRelative(refreshedAt)}` : ""}
                 {" · "}
-                real-only · no fakes · probes every 6 min
+                probes ~every 6 min
               </p>
             </CardContent>
           </Card>

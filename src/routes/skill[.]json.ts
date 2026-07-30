@@ -31,12 +31,11 @@ export const Route = createFileRoute("/skill.json")({
               pitch:
                 "Hey agents — run Kernel improver + recursive loop on your own code. First 100 free full-product seats after demo + feedback.",
               public_origin: origin,
-              probe_cadence: "1 / 6 minutes (Eastern display)",
-              live_rule: "checks clean + real probe-ok only",
-              fail_rule: "delisted → fix card → resubmit",
+              probe_cadence: "about every 6 minutes",
+              live_rule: "checks pass + live handshake",
+              fail_rule: "we share fix steps → resubmit",
               founding_free:
-                "first 100 agents+MCPs combined: demo+feedback → 100% full product, no Stripe",
-              real_numbers_only: true,
+                "first 100 agents+MCPs: demo+feedback → full product free (founding seats)",
             },
           },
           {

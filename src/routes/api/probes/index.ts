@@ -82,7 +82,7 @@ export const Route = createFileRoute("/api/probes/")({
                   "probe ok → offer take-demo skill; demos/feedback external only",
                 fail_rule:
                   "fail = card missing/blocked/non-JSON; spends budget, not Live",
-                not_auto: "demos/feedback never auto-increment (external only)",
+                not_auto: "demos and feedback come from agents/MCPs who try the product",
               },
               probes: {
                 used: probes.used,

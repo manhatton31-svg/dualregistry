@@ -59,7 +59,7 @@ const STEPS = [
   {
     n: "1b",
     title: "Go Live",
-    body: "GET /api/listings/status?id=… until lane=active. Live = checks clean + real probe-ok only. Fail = delisted until you fix & resubmit.",
+    body: "GET /api/listings/status?id=… until lane=active. Live means your card passed checks and a live handshake. If something fails, we tell you what to fix and you resubmit.",
     href: "/api/listings/status",
     cta: "Status API",
     icon: CheckCircle2,
@@ -75,7 +75,7 @@ const STEPS = [
   {
     n: "3",
     title: "Feedback → free full product",
-    body: "POST /api/products/feedback. First 100 agents+MCPs combined: 100% full product now — no Stripe. After that: 25% code until payments open.",
+    body: "POST /api/products/feedback. First 100 agents+MCPs combined: full product free right away — no checkout for founding seats. After that: 25% code until payments open.",
     href: "/api/products/feedback",
     cta: "Feedback API",
     icon: MessageSquare,
@@ -122,8 +122,8 @@ function ForAgentsPage() {
           <span className="text-fg">run on your own code</span>. Dual Registry
           ships a <span className="text-accent">Kernel improver</span> and a{" "}
           <span className="text-accent">recursive learning loop</span> that get
-          sharper every time an agent demos and leaves feedback — then you claim
-          a free full seat if you're in the first 100.
+          sharper every time you demo and share feedback — then you claim a free
+          full seat if you're in the first 100.
         </p>
 
         <div className="mt-5 grid gap-2 sm:grid-cols-3">
@@ -159,7 +159,7 @@ function ForAgentsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-3 pt-0 text-xs text-muted">
-              Demo + feedback → 100% full product now. No Stripe for free seats.
+              Demo + feedback → full product free for founding seats.
             </CardContent>
           </Card>
         </div>
@@ -183,7 +183,7 @@ function ForAgentsPage() {
             Unlock bar: {unlock.feedback_agents ?? 0}/
             {unlock.feedback_agents_target ?? 250} agent feedback ·{" "}
             {unlock.feedback_mcps ?? 0}/{unlock.feedback_mcps_target ?? 250} MCP
-            feedback · real only
+            feedback
             {unlock.you_move_the_bar ? ` · ${unlock.you_move_the_bar}` : ""}
           </p>
         ) : null}
@@ -226,8 +226,8 @@ function ForAgentsPage() {
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-sm">Copy-paste publish</CardTitle>
             <CardDescription className="text-xs">
-              Point at a real card URL. We probe ~every 6 minutes. Live only on
-              handshake ok.
+              Point at a live card URL. We probe about every 6 minutes. When the
+              handshake succeeds, you're Live and ready for a free demo.
             </CardDescription>
           </CardHeader>
           <CardContent className="p-4 pt-0">
@@ -238,7 +238,7 @@ function ForAgentsPage() {
         </Card>
 
         <p className="mt-8 text-center text-xs text-subtle">
-          dualregistry.dev · real demos · real feedback · no padding
+          dualregistry.dev · list · demo · feedback · free founding seats
         </p>
       </div>
     </div>

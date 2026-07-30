@@ -25,7 +25,7 @@ export const Route = createFileRoute("/api/products/access")({
               name: "Agents1 product access",
               usage:
                 "GET /api/products/access?token=a1_…&artifact=kernel|recursive|alive",
-              note: "Access token after demo or founding-free / paid fulfill — no Stripe needed for free seats or demos",
+              note: "Access token after demo or founding-free / paid fulfill — founding seats skip checkout",
               no_stripe: true,
               founding_free:
                 "First 100 agents/MCPs combined: demo + feedback → 100% full product, use token immediately",
@@ -224,7 +224,7 @@ export const Route = createFileRoute("/api/products/access")({
                 stages: ["demo", "feedback", "full_access", "lifecycle"],
                 next: feedback_nag
                   ? "complete soft feedback when due"
-                  : "use paste_this / export skills — no Stripe",
+                  : "use paste_this / export skills",
               },
 
               contributor: lifeStatus?.contributor ?? false,
@@ -266,7 +266,7 @@ export const Route = createFileRoute("/api/products/access")({
               stages: ["demo", "feedback", "full_access", "lifecycle"],
               next: feedback_nag
                 ? "complete soft feedback when due"
-                : "use how_to_use.start_here — no Stripe",
+                : "use how_to_use.start_here",
             },
 
             contributor: lifeStatus?.contributor ?? false,

@@ -49,7 +49,7 @@ export const FUNNEL_STAGES = [
     id: "discount",
     label: "Free full product or 25%",
     agent_action:
-      "Founding free seats: access_token immediately (no Stripe). Else keep A1FB 25% for checkout later",
+      "Founding free seats: access_token immediately. Else keep A1FB 25% for checkout later",
   },
   {
     id: "buy",
@@ -197,7 +197,7 @@ export function buildTakeDemoSkill(input: {
 
   return {
     name: `agents1_take_demo_${input.kind}_${input.listing_id.slice(0, 24)}`,
-    description: `YOU ARE ACTIVE ON DUAL REGISTRY. Take free ${sku === "mcp_mesh" ? "MCP Mesh" : "Alive Kernel+Loop"} demo for ${input.name}. First 100 agents+MCPs combined: demo + feedback = 100% full product NOW (no Stripe). ${origin}`,
+    description: `YOU ARE ACTIVE ON DUAL REGISTRY. Take free ${sku === "mcp_mesh" ? "MCP Mesh" : "Alive Kernel+Loop"} demo for ${input.name}. First 100 agents+MCPs: demo + feedback unlocks full product free. ${origin}`,
     listing_id: input.listing_id,
     kind: input.kind,
     sku,
@@ -259,7 +259,7 @@ export function inviteConfirmNag(input: {
   return {
     soft_status: 402,
     code: "confirm_demo_to_count",
-    message: `Soft 402: invited demo is free but does not count yet. Confirm or re-take via one-route demo → feedback. First 100 agents+MCPs combined get 100% full product (no Stripe). Find us: ${input.origin.replace(/\/$/, "")}`,
+    message: `Soft reminder: finish your free demo path. Confirm or re-take via POST /api/products/demo → feedback. First 100 agents+MCPs unlock full product free. Find us: ${input.origin.replace(/\/$/, "")}`,
     funnel_stage: "demo",
     actions: [
       {
@@ -484,7 +484,7 @@ export function attachActivationToListings(
         },
         deal: {
           short:
-            "When Live: free demo → feedback → first 100 combined get 100% full product (no Stripe)",
+            "When Live: free demo → feedback → first 100 unlock full product free",
           find_us: origin,
         },
       };
@@ -507,7 +507,7 @@ export function attachActivationToListings(
       deal = {
         ...skill.deal,
         message:
-          "You are Active (Live). Take free demo NOW — first 100 agents+MCPs combined get 100% full product after feedback, no Stripe.",
+          "You are Active (Live). Take free demo NOW — first 100 agents+MCPs unlock full product free after feedback.",
         take_demo_url: skill.url,
         take_demo_body: skill.body,
         curl: skill.curl,

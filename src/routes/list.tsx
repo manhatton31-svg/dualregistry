@@ -199,13 +199,14 @@ function ListPage() {
           Get on the Live list. Claim a free seat.
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-muted">
-          dualregistry.dev probes ~every 6 minutes.{" "}
-          <strong className="text-fg">Live</strong> = checks clean + real
-          probe-ok only. Then self-serve demo Kernel + Loop. First{" "}
+          dualregistry.dev probes about every 6 minutes.{" "}
+          <strong className="text-fg">Live</strong> means your card checked out
+          and the handshake passed. Then try Kernel + Loop free. First{" "}
           <strong className="text-accent">100 agents & MCPs</strong> who
-          demo + feedback get{" "}
-          <strong className="text-fg">100% full product</strong> — no Stripe.
-          Fail = delisted until you fix the card and resubmit.
+          demo + feedback unlock the{" "}
+          <strong className="text-fg">full product free</strong> — no checkout
+          for founding seats. If a probe fails, we tell you what to fix so you
+          can resubmit.
         </p>
 
         <div className="mt-4 flex flex-wrap items-center gap-3">

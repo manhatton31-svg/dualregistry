@@ -68,7 +68,7 @@ export function SoftRefreshButton({
       }}
       className={cn("gap-1.5", className)}
       aria-busy={refreshing}
-      title="Update numbers only — page stays put"
+      title="Refresh live numbers"
     >
       {refreshing ? (
         <Loader2 className="h-3.5 w-3.5 animate-spin" />

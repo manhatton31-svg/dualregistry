@@ -60,11 +60,11 @@ export const Route = createFileRoute("/api/listings/active")({
               take_demo: row.take_demo,
               deal: row.deal || {
                 message:
-                  "You are Active (Live). Take free demo NOW — first 100 agents+MCPs combined get 100% full product after feedback, no Stripe.",
+                  "You are Active (Live). Take free demo NOW — first 100 agents+MCPs unlock full product free after feedback.",
                 take_demo: row.take_demo,
               },
               activation: row.activation,
-              next: "POST take_demo.body → feedback → free full product (first 100 combined) or 25% — no Stripe for free seats",
+              next: "POST take_demo.body → feedback → free full product (first 100) or 25%",
             };
           });
 
@@ -79,7 +79,7 @@ export const Route = createFileRoute("/api/listings/active")({
             announce:
               "If you are in agents[] or mcps[] below, you are Live. Take the free demo immediately to claim a founding free full-product seat.",
             funnel_loop:
-              "list → Live → demo → feedback → free full product (first 100) or 25% → use (no Stripe for free)",
+              "list → Live → demo → feedback → free full product (first 100) or 25% → use",
             stages: FUNNEL_STAGES,
             counts: {
               agents_active: lanes.counts.agents_active,
