@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-07-30T13:57:49.479Z",
+  "updated_at": "2026-07-30T15:48:34.698Z",
   "source": "https://grok-agent-store.manhatton31.workers.dev",
   "live": true,
-  "mcp_approved": 307,
-  "agents_approved": 349,
+  "mcp_approved": 299,
+  "agents_approved": 362,
   "mcp_target": 0,
   "agents_target": 0,
   "milestones": {
@@ -13,7 +13,7 @@
       "agents_approved": 0
     },
     "mcp": {
-      "approved": 307,
+      "approved": 299,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -21,7 +21,7 @@
       "unlimited": true
     },
     "agents": {
-      "approved": 349,
+      "approved": 362,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -41,7 +41,7 @@
         "https://grok-agent-store.manhatton31.workers.dev/registry.json"
       ]
     },
-    "updated_at": "2026-07-30T13:57:46.161Z"
+    "updated_at": "2026-07-30T15:48:31.109Z"
   },
   "mcp_items": [
     {
@@ -479,102 +479,6 @@
       "updated_at": "2026-07-29T06:40:27.350Z"
     },
     {
-      "id": "mcp_443ea08901eb7ca2358a",
-      "slug": "firecrawl-mcp-server",
-      "name": "firecrawl-mcp-server",
-      "description": "\ud83d\udd25 Official Firecrawl MCP Server - Adds powerful web scraping and search to Cursor, Claude and any other LLM clients.",
-      "repository": "https://github.com/firecrawl/firecrawl-mcp-server",
-      "website": "https://firecrawl.dev",
-      "author": "firecrawl",
-      "status": "approved",
-      "safety_score": 100,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T06:40:25.749Z",
-      "created_at": "2026-07-29T06:40:25.749Z",
-      "updated_at": "2026-07-29T06:40:25.749Z"
-    },
-    {
-      "id": "mcp_b523c11b2903333fc433",
-      "slug": "cursor-talk-to-figma-mcp",
-      "name": "cursor-talk-to-figma-mcp",
-      "description": "TalkToFigma: MCP integration between AI Agent (Cursor, Claude Code, Codex) and Figma, allowing Agentic AI to communicate with Figma for reading designs and modifying them programmatically.",
-      "repository": "https://github.com/grab/cursor-talk-to-figma-mcp",
-      "website": "https://www.figma.com/community/plugin/1485687494525374295/cursor-talk-to-figma-mcp-plugin",
-      "author": "grab",
-      "status": "approved",
-      "safety_score": 100,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T06:40:24.276Z",
-      "created_at": "2026-07-29T06:40:24.276Z",
-      "updated_at": "2026-07-29T06:40:24.276Z"
-    },
-    {
-      "id": "mcp_23f174ed07e0e289615a",
-      "slug": "xcodebuildmcp",
-      "name": "XcodeBuildMCP",
-      "description": "A Model Context Protocol (MCP) server and CLI that provides tools for agent use when working on iOS and macOS projects.",
-      "repository": "https://github.com/getsentry/XcodeBuildMCP",
-      "website": "https://www.xcodebuildmcp.com",
-      "author": "getsentry",
-      "status": "approved",
-      "safety_score": 100,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T06:40:22.718Z",
-      "created_at": "2026-07-29T06:40:22.718Z",
-      "updated_at": "2026-07-29T06:40:22.718Z"
-    },
-    {
-      "id": "mcp_a9ec7b581ab40d6a4fa1",
-      "slug": "magic-mcp",
-      "name": "magic-mcp",
-      "description": "It's like v0, but in your Cursor / Claude Code / Windsurf: search 10,000+ React/Tailwind components, generate new UI with AI, and publish your own \u2014 right from your editor. Magic MCP is now the 21st MCP; this package keeps old configs working. Setup: 21st.dev/mcp",
-      "repository": "https://github.com/21st-dev/magic-mcp",
-      "website": "https://21st.dev/mcp",
-      "author": "21st-dev",
-      "status": "approved",
-      "safety_score": 100,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T06:40:21.125Z",
-      "created_at": "2026-07-29T06:40:21.125Z",
-      "updated_at": "2026-07-29T06:40:21.125Z"
-    },
-    {
-      "id": "mcp_34260c22f24c3bbc17be",
-      "slug": "holaos",
-      "name": "holaOS",
-      "description": "Open-source All in One AI agent workspace. Run any agent \u2014 Claude Code, Codex \u2014 across your tools (100+ integrations + MCP), apps, browser, and files, with shared memory. Built-in models or BYOK.",
-      "repository": "https://github.com/holaboss-ai/holaOS",
-      "website": "https://holaos.ai",
-      "author": "holaboss-ai",
-      "status": "approved",
-      "safety_score": 100,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T06:40:19.520Z",
-      "created_at": "2026-07-29T06:40:19.520Z",
-      "updated_at": "2026-07-29T06:40:19.520Z"
-    },
-    {
-      "id": "mcp_4e121dfcf5a14bc55820",
-      "slug": "openagent",
-      "name": "openagent",
-      "description": "\u26a1\ufe0fnext-generation personal AI assistant powered by LLM, RAG and agent loops, supporting computer-use, browser-use and coding agent, demo: https://demo.openagentai.org",
-      "repository": "https://github.com/the-open-agent/openagent",
-      "website": "https://www.openagentai.org/",
-      "author": "the-open-agent",
-      "status": "approved",
-      "safety_score": 100,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T06:40:18.031Z",
-      "created_at": "2026-07-29T06:40:18.031Z",
-      "updated_at": "2026-07-29T06:40:18.031Z"
-    },
-    {
       "id": "mcp_c5b1aa14dfa7c33ff7a2",
       "slug": "5ire",
       "name": "5ire",
@@ -861,22 +765,6 @@
       "approved_at": "2026-07-29T05:58:18.065Z",
       "created_at": "2026-07-29T05:58:18.065Z",
       "updated_at": "2026-07-29T05:58:18.065Z"
-    },
-    {
-      "id": "mcp_15c810990b9da274949b",
-      "slug": "awesome-mcp-servers",
-      "name": "awesome-mcp-servers",
-      "description": "Awesome MCP Servers - A curated list of Model Context Protocol servers",
-      "repository": "https://github.com/appcypher/awesome-mcp-servers",
-      "website": "https://github.com/appcypher/awesome-mcp-servers",
-      "author": "appcypher",
-      "status": "approved",
-      "safety_score": 100,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T05:58:16.446Z",
-      "created_at": "2026-07-29T05:58:16.446Z",
-      "updated_at": "2026-07-29T05:58:16.446Z"
     },
     {
       "id": "mcp_8b7991d6112518039e02",
@@ -13813,10 +13701,10 @@
         "unlimited": false
       },
       "agents": {
-        "approved": 397,
+        "approved": 410,
         "target": 500,
-        "remaining": 103,
-        "pct": 79.4,
+        "remaining": 90,
+        "pct": 82,
         "ready": false,
         "unlimited": false
       },
@@ -13833,16 +13721,16 @@
           "https://grok-agent-store.manhatton31.workers.dev/registry.json"
         ]
       },
-      "updated_at": "2026-07-30T13:57:46.161Z"
+      "updated_at": "2026-07-30T15:48:31.109Z"
     },
     "agent_registry": {
       "accepting_submissions": true,
       "submit": "https://grok-agent-store.manhatton31.workers.dev/v1/agents/submit",
       "list": "https://grok-agent-store.manhatton31.workers.dev/agents.json",
       "well_known": "https://grok-agent-store.manhatton31.workers.dev/.well-known/agents.json",
-      "approved_count": 397,
+      "approved_count": 410,
       "auto_approve_threshold": 70,
-      "approved": 397
+      "approved": 410
     },
     "registry": {
       "accepting_submissions": true,
@@ -13861,10 +13749,10 @@
         "cursor": {
           "github_last_comment_id": 5107319336,
           "gmail_last_internal_date": 1785261414604,
-          "updated_at": "2026-07-30T13:30:16.453Z"
+          "updated_at": "2026-07-30T15:30:16.261Z"
         },
         "last_run": {
-          "ran_at": "2026-07-30T13:30:15.875Z",
+          "ran_at": "2026-07-30T15:30:15.891Z",
           "github_new": 0,
           "gmail_new": 0,
           "approved": 0,
@@ -13872,19 +13760,19 @@
           "rejected": 0
         },
         "agents_last_run": {
-          "ran_at": "2026-07-30T13:30:16.899Z",
+          "ran_at": "2026-07-30T15:30:16.756Z",
           "github_new": 0,
           "repos_new": 8,
-          "refreshed": 6,
-          "approved": 8,
-          "needs_review": 6,
+          "refreshed": 10,
+          "approved": 15,
+          "needs_review": 3,
           "rejected": 0
         },
         "agents_cursor": {
           "github_last_comment_id": 0,
-          "search_offset": 87,
-          "last_refresh_at": "2026-07-30T13:30:16.899Z",
-          "updated_at": "2026-07-30T13:31:05.743Z"
+          "search_offset": 91,
+          "last_refresh_at": "2026-07-30T15:30:16.756Z",
+          "updated_at": "2026-07-30T15:30:48.891Z"
         }
       },
       "approved": 332
