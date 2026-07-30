@@ -776,6 +776,11 @@ function probePriority(
   }
 
   // --- Discovery lane: grow Active ---
+  const age = prev ? now - Date.parse(prev.probed_at || "0") : 0;
+  // Already clean / still-ok: never burn discovery budget re-proving them
+  if (prev && prev.handshake === "ok" && prev.ok && age < ACTIVE_REPROBE_MS) {
+    return -10000;
+  }
   if (!prev) {
     // Never-probed with a reachable URL first (skip-only wastes 6-min slots)
     const hasUrl = Boolean(
@@ -786,9 +791,6 @@ function probePriority(
     );
     return p + (hasUrl ? 8000 : 3500);
   }
-  const age = now - Date.parse(prev.probed_at || "0");
-  // Still-ok under weekly window: do not burn discovery budget (weekly lane handles later)
-  if (prev.handshake === "ok" && prev.ok && age < ACTIVE_REPROBE_MS) return -10000;
   // Was ok but past 7d without weekly tag — leave for weekly lane
   if (prev.handshake === "ok" && prev.ok && age >= ACTIVE_REPROBE_MS) return -5000;
   // FAIL / PARTIAL: short cool-down then re-try (need volume toward 333/day)

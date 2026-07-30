@@ -124,6 +124,16 @@ async function applyHandshakeProbes(
 ) {
   try {
     type PT = Parameters<typeof runProbeBudgeted>[0][number];
+    // IDs already on clean registry — never spend discovery budget re-proving them
+    let cleanIds = new Set<string>();
+    try {
+      const { loadCleanRegistry } = await import("../clean-registry");
+      const reg = await loadCleanRegistry();
+      cleanIds = new Set(Object.keys(reg?.items || {}));
+    } catch {
+      /* */
+    }
+
     // Probe candidates only when we have a real card/endpoint at the source we found.
     const probeTargets: PT[] = state.candidates
       .filter((c) =>
@@ -132,6 +142,7 @@ async function applyHandshakeProbes(
         ),
       )
       .filter((c) => hasProbeableSource(c))
+      .filter((c) => !cleanIds.has(c.id) && !(c.store_id && cleanIds.has(c.store_id)))
       .map((c) => {
         const dirty =
           c.status === "failed" ||
@@ -151,7 +162,8 @@ async function applyHandshakeProbes(
               dirty,
               priority_boost:
                 (c.status === "queued" ? 30 : c.status === "enriched" ? 20 : 0) +
-                (c.agent_card_url || c.endpoint_url ? 500 : 0),
+                (c.agent_card_url || c.endpoint_url ? 500 : 0) +
+                2000, // discovery never-clean first
               store_id: c.store_id,
               purpose: "discovery" as const,
             }
@@ -164,11 +176,16 @@ async function applyHandshakeProbes(
               repository: c.repository,
               dirty,
               priority_boost:
-                c.status === "queued" ? 30 : c.status === "enriched" ? 20 : 0,
+                (c.status === "queued" ? 30 : c.status === "enriched" ? 20 : 0) +
+                2000,
               store_id: c.store_id,
               purpose: "discovery" as const,
             };
       });
+
+    run.notes.push(
+      `discovery targets (not yet clean): ${probeTargets.length} · clean floor ${cleanIds.size}`,
+    );
 
     try {
       const { loadStoreCache } = await import("../store-cache");
