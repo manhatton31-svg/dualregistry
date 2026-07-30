@@ -1,7 +1,7 @@
 /**
  * Registry lanes — PUBLIC SURFACE IS CLEAN ONLY.
  *
- * active         — checks-clean + recent probe handshake ok (THE public list)
+ * active         — checks-clean + recent probe ok + Talk presence (or onboarding grace)
  * discovered     — internal only; never returned on public APIs (empty)
  * needs_resubmit — internal only; never returned on public APIs (empty)
  *
@@ -9,11 +9,17 @@
  *  1. Never list without probing first at the source card/URL we found.
  *  2. Only add when handshake ok.
  *  3. Failures are discarded — not a public "delisted" dump.
+ *  4. Stay Active only with Talk presence (heartbeat) or onboarding grace.
  */
 import { loadStoreCache } from "./store-cache";
 import { loadState } from "./growth/persist";
 import type { AgentListing, FailedCheck, McpListing } from "./types";
 import type { ProbeResult } from "./probe";
+import {
+  evaluateTalkEligibility,
+  loadTalkActivity,
+  type TalkPresence,
+} from "./talk-activity";
 
 /**
  * Probe must be this fresh to stay Active.
@@ -60,6 +66,13 @@ export type LanedListing = {
   capabilities?: string[];
   tags?: string[];
   framework?: string;
+  talk?: {
+    required: true;
+    active: boolean;
+    mode: "present" | "grace" | "inactive" | "unknown";
+    last_at?: string;
+    reason: string;
+  };
   resubmit?: {
     required: true;
     fix: string;
@@ -122,7 +135,13 @@ function classify(
     status?: string;
   },
   probe: ProbeResult | undefined,
-): { lane: ListingLane; reason: string; checks_clean: boolean } {
+  talkPresence?: TalkPresence,
+): {
+  lane: ListingLane;
+  reason: string;
+  checks_clean: boolean;
+  talk?: LanedListing["talk"];
+} {
   const clean = checksClean(item.failed_checks);
   if (item.status === "rejected") {
     return {
@@ -146,31 +165,56 @@ function classify(
     };
   }
   const age = Date.now() - Date.parse(probe.probed_at);
-  if (probe.handshake === "ok" && probe.ok && age <= ACTIVE_PROBE_MAX_AGE_MS) {
+  if (!(probe.handshake === "ok" && probe.ok)) {
+    if (probe.handshake === "partial") {
+      return {
+        lane: "needs_resubmit",
+        reason: `Not listed (partial) — ${failWhy(probe)}. Fix card and resubmit.`,
+        checks_clean: false,
+      };
+    }
     return {
-      lane: "active",
-      reason: "Active — checks clean + recent probe ok",
-      checks_clean: true,
+      lane: "needs_resubmit",
+      reason: `Not listed (probe fail) — ${failWhy(probe)}. Fix card and resubmit.`,
+      checks_clean: false,
     };
   }
-  if (probe.handshake === "ok" && probe.ok && age > ACTIVE_PROBE_MAX_AGE_MS) {
+  if (age > ACTIVE_PROBE_MAX_AGE_MS) {
     return {
       lane: "discovered",
       reason: "Was probe-ok but stale — re-probe to return to active",
       checks_clean: true,
     };
   }
-  if (probe.handshake === "partial") {
+
+  const talk = evaluateTalkEligibility(
+    item.id,
+    probe.probed_at,
+    talkPresence,
+  );
+  const talkMeta: LanedListing["talk"] = {
+    required: true,
+    active: talk.active,
+    mode: talk.mode,
+    last_at: talk.last_at,
+    reason: talk.reason,
+  };
+  if (!talk.active) {
     return {
       lane: "needs_resubmit",
-      reason: `Not listed (partial) — ${failWhy(probe)}. Fix card and resubmit.`,
+      reason: talk.reason,
       checks_clean: false,
+      talk: talkMeta,
     };
   }
   return {
-    lane: "needs_resubmit",
-    reason: `Not listed (probe fail) — ${failWhy(probe)}. Fix card and resubmit.`,
-    checks_clean: false,
+    lane: "active",
+    reason:
+      talk.mode === "grace"
+        ? `Active — probe ok · ${talk.reason}`
+        : "Active — checks clean + probe ok + Talk present",
+    checks_clean: true,
+    talk: talkMeta,
   };
 }
 
@@ -223,9 +267,14 @@ function enrichMcp(
   m: McpListing,
   probes: Map<string, ProbeResult>,
   source: "store" | "growth" | "mirror",
+  talkMap?: Record<string, TalkPresence>,
 ): LanedListing {
   const probe = findProbe(probes, [m.id, m.remote_url, m.website], m.name);
-  const { lane, reason, checks_clean } = classify(m, probe);
+  const { lane, reason, checks_clean, talk } = classify(
+    m,
+    probe,
+    talkMap?.[m.id],
+  );
   const age = probe
     ? (Date.now() - Date.parse(probe.probed_at)) / 3600_000
     : undefined;
@@ -245,6 +294,7 @@ function enrichMcp(
     lane,
     lane_reason: reason,
     checks_clean,
+    talk,
     probe: probe
       ? {
           ok: Boolean(probe.ok),
@@ -270,13 +320,18 @@ function enrichAgent(
   a: AgentListing,
   probes: Map<string, ProbeResult>,
   source: "store" | "growth" | "mirror",
+  talkMap?: Record<string, TalkPresence>,
 ): LanedListing {
   const probe = findProbe(
     probes,
     [a.id, a.agent_card_url, a.endpoint_url, a.website],
     a.name,
   );
-  const { lane, reason, checks_clean } = classify(a, probe);
+  const { lane, reason, checks_clean, talk } = classify(
+    a,
+    probe,
+    talkMap?.[a.id],
+  );
   const age = probe
     ? (Date.now() - Date.parse(probe.probed_at)) / 3600_000
     : undefined;
@@ -297,6 +352,7 @@ function enrichAgent(
     lane,
     lane_reason: reason,
     checks_clean,
+    talk,
     probe: probe
       ? {
           ok: Boolean(probe.ok),
@@ -360,6 +416,9 @@ export async function getLanedListings(): Promise<{
     probe_fresh_hours: number;
     weekly_recheck_days?: number;
     weekly_recheck?: string;
+    talk_required?: boolean;
+    talk_window_days?: number;
+    talk_onboarding_grace_days?: number;
     note: string;
     fail_policy: string;
   };
@@ -412,11 +471,19 @@ export async function getLanedListings(): Promise<{
     (cache.agent_items || []).map((a) => a.name.toLowerCase()),
   );
 
+  let talkMap: Record<string, TalkPresence> = {};
+  try {
+    const act = await loadTalkActivity();
+    talkMap = act.presence || {};
+  } catch {
+    talkMap = {};
+  }
+
   const mcps: LanedListing[] = (cache.mcp_items || []).map((m) =>
-    enrichMcp(m, probes, "store"),
+    enrichMcp(m, probes, "store", talkMap),
   );
   const agents: LanedListing[] = (cache.agent_items || []).map((a) =>
-    enrichAgent(a, probes, "store"),
+    enrichAgent(a, probes, "store", talkMap),
   );
 
   try {
@@ -446,7 +513,7 @@ export async function getLanedListings(): Promise<{
           failed_checks: [],
           updated_at: c.updated_at,
         };
-        mcps.push(enrichMcp(pseudo, probes, "growth"));
+        mcps.push(enrichMcp(pseudo, probes, "growth", talkMap));
       } else if (c.kind === "agent") {
         if (agentByName.has(key)) continue;
         agentByName.add(key);
@@ -471,7 +538,7 @@ export async function getLanedListings(): Promise<{
           failed_checks: [],
           updated_at: c.updated_at,
         };
-        agents.push(enrichAgent(pseudo, probes, "growth"));
+        agents.push(enrichAgent(pseudo, probes, "growth", talkMap));
       }
     }
   } catch {
@@ -553,6 +620,12 @@ export async function getLanedListings(): Promise<{
       const age = Date.now() - Date.parse(r.probed_at || "");
       if (!Number.isFinite(age) || age > ACTIVE_PROBE_MAX_AGE_MS) continue;
       const kind = (r.kind === "agent" ? "agent" : "mcp") as "agent" | "mcp";
+      const talk = evaluateTalkEligibility(
+        r.id,
+        r.probed_at,
+        talkMap[r.id],
+      );
+      if (!talk.active) continue;
       const row: LanedListing = {
         id: r.id,
         kind,
@@ -562,8 +635,18 @@ export async function getLanedListings(): Promise<{
         remote_url: kind === "mcp" ? target : undefined,
         agent_card_url: kind === "agent" ? target : undefined,
         lane: "active",
-        lane_reason: "Active — probe ok at source URL",
+        lane_reason:
+          talk.mode === "grace"
+            ? `Active — probe ok · ${talk.reason}`
+            : "Active — probe ok + Talk present",
         checks_clean: true,
+        talk: {
+          required: true,
+          active: true,
+          mode: talk.mode,
+          last_at: talk.last_at,
+          reason: talk.reason,
+        },
         probe: {
           ok: true,
           handshake: "ok",
@@ -727,13 +810,17 @@ export async function getLanedListings(): Promise<{
         "failed_checks empty (checks clean)",
         "live probe handshake ok at source card/URL",
         `probe fresher than ${ACTIVE_PROBE_MAX_AGE_MS / 3600_000}h`,
+        "Talk presence within 7d (heartbeat) OR onboarding grace from first probe-ok",
       ],
       probe_fresh_hours: ACTIVE_PROBE_MAX_AGE_MS / 3600_000,
       weekly_recheck_days: 7,
       weekly_recheck: "every Active re-probed 7d after last ok",
-      note: "CLEAN ONLY. Find on the internet → probe at that URL → list only if handshake ok. No store dump. No delisted wall. No unprobed names.",
+      talk_required: true,
+      talk_window_days: 7,
+      talk_onboarding_grace_days: 7,
+      note: "CLEAN ONLY. Probe ok + Talk presence (or 7d onboarding grace). Heartbeat keeps checks clean. Social Talk: site owners ↔ agents ↔ MCPs. No store dump. Failures discarded.",
       fail_policy:
-        "Probe fail/partial = discarded, never listed. Fix card, resubmit via /list — we probe again before listing.",
+        "Probe fail/partial = discarded. Talk inactive after grace = not Active until /talk check-in. Resubmit via /list after card fix.",
     },
     categories,
   };

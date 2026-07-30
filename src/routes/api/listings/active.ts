@@ -52,6 +52,10 @@ export const Route = createFileRoute("/api/listings/active")({
               category_label: row.category_label,
               checks_clean: row.checks_clean,
               probe: row.probe,
+              talk: row.talk || {
+                required: true,
+                note: "Stay Active with /talk presence (heartbeat ≤280 chars / 7d)",
+              },
               agent_card_url: row.agent_card_url,
               remote_url: row.remote_url,
               website: row.website,

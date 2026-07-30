@@ -313,7 +313,8 @@ export function DashboardApp() {
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
               Find a real card/URL on the internet → probe it there → list only
-              if handshake is ok. Growing toward 333 clean listings per day
+              if handshake is ok. Stay Active via Talk presence (heartbeat).
+              Growing toward 333 clean listings per day
               (mixed agents + MCPs). Failures are discarded.
             </p>
             {error ? (
@@ -382,8 +383,8 @@ export function DashboardApp() {
           />
           <StatCard
             label="Rule"
-            value="probe first"
-            hint="List only if handshake ok at source URL · grow toward 333 clean/day"
+            value="probe + talk"
+            hint="Handshake ok + Talk presence (or 7d grace) · grow toward 333 clean/day"
             icon={Radio}
             accent="info"
           />

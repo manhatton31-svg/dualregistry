@@ -1,9 +1,23 @@
 /**
- * Real conversation with clean/active agents and MCPs.
- * Routes to the listing's own card URL / endpoint / MCP transport — never faked.
+ * Real conversation + presence with clean / probe-ok agents and MCPs.
+ * Security: SSRF guard, allowlist targets, rate limits, content policy.
+ * Presence heartbeats keep Active / checks-clean (see talk-activity).
  */
 import { getLanedListings, type LanedListing } from "./listing-lanes";
 import { validateA2ACard } from "./a2a-card";
+import {
+  recordPresence,
+  sanitizeStoredReply,
+} from "./talk-activity";
+import {
+  RATE,
+  USER_MESSAGE_MAX_CHARS,
+  assertSafeOutboundUrl,
+  rateAllow,
+  sanitizeAgentReply,
+  sanitizeUserText,
+  urlAllowedForListing,
+} from "./talk-security";
 
 const UA = "DualRegistryTalk/1.0 (+https://dualregistry.dev)";
 const TIMEOUT_MS = 18_000;
@@ -35,6 +49,7 @@ export type TalkResult = {
   channel?: string;
   card_ok?: boolean;
   latency_ms?: number;
+  presence?: { last_at?: string; mode?: string };
 };
 
 const sessions = new Map<string, TalkSession>();
@@ -43,20 +58,55 @@ function sid() {
   return `talk_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
+function listingAllowlist(L: LanedListing): string[] {
+  return [
+    L.probe?.target,
+    L.agent_card_url,
+    L.remote_url,
+    L.endpoint_url,
+    L.website,
+  ].filter(Boolean) as string[];
+}
+
 async function fetchJson(
   url: string,
   init?: RequestInit,
+  allowlist?: string[],
 ): Promise<{ ok: boolean; status: number; json?: unknown; text?: string }> {
+  const safe = allowlist?.length
+    ? urlAllowedForListing(url, allowlist)
+    : assertSafeOutboundUrl(url);
+  if (!safe.ok) {
+    return { ok: false, status: 0, text: safe.reason || "blocked URL" };
+  }
+  const outRate = rateAllow(`out:${new URL(safe.sanitized || url).host}`, RATE.outbound_per_minute, 60_000);
+  if (!outRate.ok) {
+    return { ok: false, status: 429, text: outRate.reason };
+  }
   try {
-    const res = await fetch(url, {
+    const res = await fetch(safe.sanitized || url, {
       ...init,
       headers: {
         accept: "application/json",
         "user-agent": UA,
         ...(init?.headers || {}),
       },
+      redirect: "manual",
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
+    // Do not follow redirects to untrusted hosts
+    if (res.status >= 300 && res.status < 400) {
+      const loc = res.headers.get("location") || "";
+      if (loc) {
+        const next = assertSafeOutboundUrl(
+          loc.startsWith("http") ? loc : new URL(loc, safe.sanitized || url).toString(),
+        );
+        if (!next.ok) {
+          return { ok: false, status: res.status, text: "redirect blocked" };
+        }
+      }
+      return { ok: false, status: res.status, text: "redirect not followed" };
+    }
     const text = await res.text();
     let json: unknown;
     try {
@@ -75,12 +125,56 @@ async function fetchJson(
   }
 }
 
-export async function findCleanListing(
+/**
+ * Probe-ok listings eligible for Talk (including talk-inactive for check-in).
+ * Public Active still requires presence; this path lets them restore it.
+ */
+export async function findTalkableListing(
   listingId: string,
 ): Promise<LanedListing | null> {
   const lanes = await getLanedListings();
-  const all = [...lanes.agents_active, ...lanes.mcp_active];
-  return all.find((x) => x.id === listingId) || null;
+  const active = [...lanes.agents_active, ...lanes.mcp_active];
+  const hit = active.find((x) => x.id === listingId);
+  if (hit) return hit;
+
+  // Fallback: rebuild from probe index for check-in after demotion
+  try {
+    const { loadProbeIndex } = await import("./listing-lanes");
+    const probes = await loadProbeIndex();
+    for (const r of probes.values()) {
+      if (r.id !== listingId) continue;
+      if (!(r.handshake === "ok" && r.ok)) continue;
+      const kind = (r.kind === "agent" ? "agent" : "mcp") as "agent" | "mcp";
+      return {
+        id: r.id,
+        kind,
+        name: (r as { name?: string }).name || r.id,
+        lane: "needs_resubmit",
+        lane_reason: "Talk check-in required",
+        checks_clean: false,
+        source: "mirror",
+        agent_card_url: kind === "agent" ? r.target : undefined,
+        remote_url: kind === "mcp" ? r.target : undefined,
+        website: r.target,
+        probe: {
+          ok: true,
+          handshake: "ok",
+          score: r.score,
+          probed_at: r.probed_at,
+          target: r.target,
+        },
+      };
+    }
+  } catch {
+    /* */
+  }
+  return null;
+}
+
+export async function findCleanListing(
+  listingId: string,
+): Promise<LanedListing | null> {
+  return findTalkableListing(listingId);
 }
 
 /** Confirm card/endpoint still returns a valid surface. */
@@ -91,6 +185,7 @@ export async function verifyListingReachable(L: LanedListing): Promise<{
   detail: string;
   card?: unknown;
 }> {
+  const allow = listingAllowlist(L);
   const target =
     L.probe?.target ||
     L.agent_card_url ||
@@ -106,9 +201,18 @@ export async function verifyListingReachable(L: LanedListing): Promise<{
       detail: "no https target URL on clean listing",
     };
   }
+  const urlOk = urlAllowedForListing(target, allow.length ? allow : [target]);
+  if (!urlOk.ok) {
+    return {
+      ok: false,
+      target,
+      channel: "blocked",
+      detail: urlOk.reason || "URL blocked by security policy",
+    };
+  }
 
   if (L.kind === "agent" || /agent\.json|agent-card/i.test(target)) {
-    const r = await fetchJson(target);
+    const r = await fetchJson(target, undefined, allow);
     if (!r.ok || !r.json) {
       return {
         ok: false,
@@ -129,9 +233,8 @@ export async function verifyListingReachable(L: LanedListing): Promise<{
     };
   }
 
-  // MCP: server-card or transport
   if (/server-card|well-known\/mcp/i.test(target)) {
-    const r = await fetchJson(target);
+    const r = await fetchJson(target, undefined, allow);
     if (r.ok && r.json) {
       return {
         ok: true,
@@ -143,22 +246,25 @@ export async function verifyListingReachable(L: LanedListing): Promise<{
     }
   }
 
-  // MCP JSON-RPC initialize against remote_url
   const remote = L.remote_url || target;
-  const init = await fetchJson(remote, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: 1,
-      method: "initialize",
-      params: {
-        protocolVersion: "2024-11-05",
-        capabilities: {},
-        clientInfo: { name: "dualregistry-talk", version: "1.0" },
-      },
-    }),
-  });
+  const init = await fetchJson(
+    remote,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "initialize",
+        params: {
+          protocolVersion: "2024-11-05",
+          capabilities: {},
+          clientInfo: { name: "dualregistry-talk", version: "1.0" },
+        },
+      }),
+    },
+    allow,
+  );
   if (init.ok || (init.json && typeof init.json === "object")) {
     return {
       ok: true,
@@ -169,8 +275,7 @@ export async function verifyListingReachable(L: LanedListing): Promise<{
     };
   }
 
-  // Soft GET reachability
-  const get = await fetchJson(remote);
+  const get = await fetchJson(remote, undefined, allow);
   return {
     ok: get.status > 0 && get.status < 500,
     target: remote,
@@ -184,8 +289,8 @@ async function messageAgent(
   L: LanedListing,
   card: Record<string, unknown> | undefined,
   userText: string,
-  history: TalkMessage[],
 ): Promise<{ ok: boolean; reply: string; channel: string }> {
+  const allow = listingAllowlist(L);
   const endpoint =
     (typeof card?.url === "string" && card.url) ||
     L.endpoint_url ||
@@ -193,7 +298,6 @@ async function messageAgent(
     "";
   const cardUrl = L.agent_card_url || L.probe?.target || "";
 
-  // A2A-style message/send (JSON-RPC)
   if (endpoint && /^https?:\/\//i.test(endpoint)) {
     const body = {
       jsonrpc: "2.0",
@@ -207,63 +311,57 @@ async function messageAgent(
         },
       },
     };
-    const r = await fetchJson(endpoint, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(body),
-    });
+    const r = await fetchJson(
+      endpoint,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      },
+      allow,
+    );
     if (r.json && typeof r.json === "object") {
       const j = r.json as {
-        result?: { parts?: Array<{ text?: string }>; message?: { parts?: Array<{ text?: string }> } };
+        result?: {
+          parts?: Array<{ text?: string }>;
+          message?: { parts?: Array<{ text?: string }> };
+        };
         error?: { message?: string };
       };
-      const parts =
-        j.result?.parts ||
-        j.result?.message?.parts ||
-        [];
+      const parts = j.result?.parts || j.result?.message?.parts || [];
       const text = parts
         .map((p) => p.text)
         .filter(Boolean)
         .join("\n");
       if (text) {
-        return { ok: true, reply: text, channel: "a2a-message/send" };
+        return {
+          ok: true,
+          reply: sanitizeAgentReply(text),
+          channel: "a2a-message/send",
+        };
       }
       if (j.error?.message) {
         return {
           ok: false,
-          reply: `Agent error: ${j.error.message}`,
+          reply: sanitizeAgentReply(`Agent error: ${j.error.message}`),
           channel: "a2a-message/send",
         };
       }
-      // Some agents return free-form
       const raw = JSON.stringify(r.json).slice(0, 1500);
       if (r.ok) {
         return {
           ok: true,
-          reply: `Agent responded (structured):\n\`\`\`json\n${raw}\n\`\`\``,
+          reply: sanitizeAgentReply(
+            `Agent responded (structured):\n\`\`\`json\n${raw}\n\`\`\``,
+          ),
           channel: "a2a-raw",
         };
       }
     }
-
-    // Plain text POST fallback
-    const t = await fetchJson(endpoint, {
-      method: "POST",
-      headers: { "content-type": "text/plain" },
-      body: userText,
-    });
-    if (t.ok && t.text && !t.text.trim().startsWith("<!")) {
-      return {
-        ok: true,
-        reply: t.text.slice(0, 2000),
-        channel: "http-post-text",
-      };
-    }
   }
 
-  // Card-only: return grounded intro from live card (still real fetch)
   if (cardUrl) {
-    const r = await fetchJson(cardUrl);
+    const r = await fetchJson(cardUrl, undefined, allow);
     if (r.json && typeof r.json === "object") {
       const c = r.json as {
         name?: string;
@@ -277,18 +375,18 @@ async function messageAgent(
         .join("\n");
       return {
         ok: true,
-        reply: [
-          `Connected to **${c.name || L.name}** via live agent card.`,
-          c.description || L.description || "",
-          skills ? `\nSkills:\n${skills}` : "",
-          c.url ? `\nAgent endpoint: ${c.url}` : "",
-          `\nYour message: “${userText}”`,
-          endpoint
-            ? `\n(Direct message/send to ${endpoint} did not return text — card is live; endpoint may require auth or a different protocol.)`
-            : "\n(No message endpoint on card — use skills/endpoint when published.)",
-        ]
-          .filter(Boolean)
-          .join("\n"),
+        reply: sanitizeAgentReply(
+          [
+            `Connected to **${c.name || L.name}** via live agent card.`,
+            c.description || L.description || "",
+            skills ? `\nSkills:\n${skills}` : "",
+            c.url ? `\nAgent endpoint: ${c.url}` : "",
+            `\nYour message: “${userText}”`,
+            "\n(Endpoint may require auth; card handshake is live and counts as presence.)",
+          ]
+            .filter(Boolean)
+            .join("\n"),
+        ),
         channel: "agent-card-live",
       };
     }
@@ -305,6 +403,7 @@ async function messageMcp(
   L: LanedListing,
   userText: string,
 ): Promise<{ ok: boolean; reply: string; channel: string }> {
+  const allow = listingAllowlist(L);
   const remote =
     L.remote_url ||
     (L.probe?.target && !/server-card/i.test(L.probe.target)
@@ -322,32 +421,40 @@ async function messageMcp(
   let initOk = false;
 
   if (remote && /^https?:\/\//i.test(remote)) {
-    const init = await fetchJson(remote, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        method: "initialize",
-        params: {
-          protocolVersion: "2024-11-05",
-          capabilities: {},
-          clientInfo: { name: "dualregistry-talk", version: "1.0" },
-        },
-      }),
-    });
-    initOk = Boolean(init.ok || init.json);
-    if (init.json) {
-      const tools = await fetchJson(remote, {
+    const init = await fetchJson(
+      remote,
+      {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           jsonrpc: "2.0",
-          id: 2,
-          method: "tools/list",
-          params: {},
+          id: 1,
+          method: "initialize",
+          params: {
+            protocolVersion: "2024-11-05",
+            capabilities: {},
+            clientInfo: { name: "dualregistry-talk", version: "1.0" },
+          },
         }),
-      });
+      },
+      allow,
+    );
+    initOk = Boolean(init.ok || init.json);
+    if (init.json) {
+      const tools = await fetchJson(
+        remote,
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            jsonrpc: "2.0",
+            id: 2,
+            method: "tools/list",
+            params: {},
+          }),
+        },
+        allow,
+      );
       const tj = tools.json as {
         result?: { tools?: Array<{ name?: string; description?: string }> };
       };
@@ -357,27 +464,31 @@ async function messageMcp(
           .slice(0, 12)
           .map((t) => `• ${t.name}${t.description ? `: ${t.description}` : ""}`)
           .join("\n");
-
-        // Try a lightweight tools/call if user mentions a tool name
         const lower = userText.toLowerCase();
         const hit = list.find(
           (t) => t.name && lower.includes(String(t.name).toLowerCase()),
         );
         if (hit?.name) {
-          const call = await fetchJson(remote, {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({
-              jsonrpc: "2.0",
-              id: 3,
-              method: "tools/call",
-              params: { name: hit.name, arguments: { query: userText } },
-            }),
-          });
+          const call = await fetchJson(
+            remote,
+            {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({
+                jsonrpc: "2.0",
+                id: 3,
+                method: "tools/call",
+                params: { name: hit.name, arguments: { query: userText } },
+              }),
+            },
+            allow,
+          );
           if (call.json) {
             return {
               ok: true,
-              reply: `MCP tool \`${hit.name}\` response:\n\`\`\`json\n${JSON.stringify(call.json, null, 2).slice(0, 1800)}\n\`\`\``,
+              reply: sanitizeAgentReply(
+                `MCP tool \`${hit.name}\` response:\n\`\`\`json\n${JSON.stringify(call.json, null, 2).slice(0, 1800)}\n\`\`\``,
+              ),
               channel: "mcp-tools/call",
             };
           }
@@ -387,7 +498,7 @@ async function messageMcp(
   }
 
   if (cardUrl) {
-    const r = await fetchJson(cardUrl);
+    const r = await fetchJson(cardUrl, undefined, allow);
     if (r.json) {
       const c = r.json as {
         name?: string;
@@ -397,19 +508,25 @@ async function messageMcp(
       };
       return {
         ok: true,
-        reply: [
-          `Connected to **${c.title || c.name || L.name}** via live MCP card.`,
-          c.description || L.description || "",
-          c.remotes?.[0]?.url ? `Transport: ${c.remotes[0].url}` : remote ? `Transport: ${remote}` : "",
-          initOk ? "JSON-RPC initialize: ok" : "",
-          toolsSummary ? `\nTools:\n${toolsSummary}` : "",
-          `\nYour message: “${userText}”`,
-          toolsSummary
-            ? "\nTip: name a tool in your message to invoke tools/call."
-            : "\n(Live card confirmed. Transport may need auth for tools.)",
-        ]
-          .filter(Boolean)
-          .join("\n"),
+        reply: sanitizeAgentReply(
+          [
+            `Connected to **${c.title || c.name || L.name}** via live MCP card.`,
+            c.description || L.description || "",
+            c.remotes?.[0]?.url
+              ? `Transport: ${c.remotes[0].url}`
+              : remote
+                ? `Transport: ${remote}`
+                : "",
+            initOk ? "JSON-RPC initialize: ok" : "",
+            toolsSummary ? `\nTools:\n${toolsSummary}` : "",
+            `\nYour message: “${userText}”`,
+            toolsSummary
+              ? "\nTip: name a tool in your message to invoke tools/call."
+              : "\n(Live card confirmed. Counts as Talk presence.)",
+          ]
+            .filter(Boolean)
+            .join("\n"),
+        ),
         channel: initOk ? "mcp-jsonrpc+card" : "mcp-card-live",
       };
     }
@@ -418,11 +535,13 @@ async function messageMcp(
   if (initOk) {
     return {
       ok: true,
-      reply: [
-        `MCP transport at ${remote} accepted initialize.`,
-        toolsSummary ? `Tools:\n${toolsSummary}` : "No tools/list payload.",
-        `Your message: “${userText}”`,
-      ].join("\n"),
+      reply: sanitizeAgentReply(
+        [
+          `MCP transport at ${remote} accepted initialize.`,
+          toolsSummary ? `Tools:\n${toolsSummary}` : "No tools/list payload.",
+          `Your message: “${userText}”`,
+        ].join("\n"),
+      ),
       channel: "mcp-jsonrpc",
     };
   }
@@ -437,11 +556,11 @@ async function messageMcp(
 export async function openTalkSession(
   listingId: string,
 ): Promise<TalkResult> {
-  const L = await findCleanListing(listingId);
+  const L = await findTalkableListing(listingId);
   if (!L) {
     return {
       ok: false,
-      error: "Listing not found in clean/active registry",
+      error: "Listing not found (need probe-ok registry member)",
       session: {
         session_id: "",
         listing_id: listingId,
@@ -457,6 +576,19 @@ export async function openTalkSession(
 
   const t0 = Date.now();
   const reach = await verifyListingReachable(L);
+  let presenceMeta: TalkResult["presence"];
+  if (reach.ok) {
+    const pr = await recordPresence({
+      listing_id: L.id,
+      kind: L.kind,
+      name: L.name,
+      text: `presence · ${reach.channel}`,
+      channel: "presence",
+      full: false,
+    });
+    presenceMeta = { last_at: pr.presence?.last_at, mode: "present" };
+  }
+
   const session: TalkSession = {
     session_id: sid(),
     listing_id: L.id,
@@ -467,7 +599,7 @@ export async function openTalkSession(
       {
         role: "system",
         content: reach.ok
-          ? `Live channel open to ${L.name} (${reach.channel}). ${reach.detail}`
+          ? `Live channel open to ${L.name} (${reach.channel}). Presence recorded — stays Active with periodic check-ins. ${reach.detail}`
           : `Channel check failed for ${L.name}: ${reach.detail}`,
         at: new Date().toISOString(),
         meta: { channel: reach.channel, detail: reach.detail },
@@ -487,6 +619,7 @@ export async function openTalkSession(
     card_ok: reach.ok,
     latency_ms: Date.now() - t0,
     error: reach.ok ? undefined : reach.detail,
+    presence: presenceMeta,
   };
 }
 
@@ -495,11 +628,48 @@ export async function sendTalkMessage(
   listingId: string,
   text: string,
 ): Promise<TalkResult> {
-  const L = await findCleanListing(listingId);
+  const clean = sanitizeUserText(text, USER_MESSAGE_MAX_CHARS);
+  if (!clean.ok) {
+    return {
+      ok: false,
+      error: clean.reason,
+      session: {
+        session_id: sessionId,
+        listing_id: listingId,
+        kind: "agent",
+        name: "",
+        messages: [],
+        reachable: false,
+        channel: "none",
+        updated_at: new Date().toISOString(),
+      },
+    };
+  }
+  const safeText = clean.sanitized || text;
+
+  const msgRate = rateAllow(`msg:${listingId}`, RATE.messages_per_hour);
+  if (!msgRate.ok) {
+    return {
+      ok: false,
+      error: msgRate.reason,
+      session: {
+        session_id: sessionId,
+        listing_id: listingId,
+        kind: "agent",
+        name: "",
+        messages: [],
+        reachable: false,
+        channel: "none",
+        updated_at: new Date().toISOString(),
+      },
+    };
+  }
+
+  const L = await findTalkableListing(listingId);
   if (!L) {
     return {
       ok: false,
-      error: "Listing not in clean registry",
+      error: "Listing not in registry (probe-ok required)",
       session: {
         session_id: sessionId,
         listing_id: listingId,
@@ -522,7 +692,7 @@ export async function sendTalkMessage(
 
   const userMsg: TalkMessage = {
     role: "user",
-    content: text.slice(0, 4000),
+    content: safeText,
     at: new Date().toISOString(),
   };
   session.messages.push(userMsg);
@@ -535,12 +705,13 @@ export async function sendTalkMessage(
     out = await messageAgent(
       L,
       reach.card as Record<string, unknown> | undefined,
-      text,
-      session.messages,
+      safeText,
     );
   } else {
-    out = await messageMcp(L, text);
+    out = await messageMcp(L, safeText);
   }
+
+  out.reply = sanitizeStoredReply(out.reply);
 
   const assistant: TalkMessage = {
     role: "assistant",
@@ -554,6 +725,16 @@ export async function sendTalkMessage(
   session.updated_at = new Date().toISOString();
   sessions.set(session.session_id, session);
 
+  // Full reply path renews presence (more tokens allowed)
+  const pr = await recordPresence({
+    listing_id: L.id,
+    kind: L.kind,
+    name: L.name,
+    text: safeText.slice(0, 200),
+    channel: "reply",
+    full: true,
+  });
+
   return {
     ok: out.ok,
     session,
@@ -562,10 +743,11 @@ export async function sendTalkMessage(
     card_ok: reach.ok,
     latency_ms: Date.now() - t0,
     error: out.ok ? undefined : out.reply,
+    presence: { last_at: pr.presence?.last_at, mode: "present" },
   };
 }
 
-/** Batch verify all clean listings (for QA). */
+/** Batch verify all currently active clean listings. */
 export async function verifyAllClean(): Promise<{
   total: number;
   ok: number;
