@@ -505,8 +505,8 @@ export async function getLanedListings(): Promise<{
     (b.safety_score ?? 0) - (a.safety_score ?? 0) ||
     a.name.localeCompare(b.name);
 
-  const mcp_active = mcps.filter((x) => x.lane === "active").sort(sortFn);
-  const agents_active = agents.filter((x) => x.lane === "active").sort(sortFn);
+  let mcp_active = mcps.filter((x) => x.lane === "active").sort(sortFn);
+  let agents_active = agents.filter((x) => x.lane === "active").sort(sortFn);
   // PRODUCT: public registry = CLEAN ONLY. Never expose unprobed store dump.
   const mcp_discovered: LanedListing[] = [];
   const agents_discovered: LanedListing[] = [];
@@ -518,6 +518,54 @@ export async function getLanedListings(): Promise<{
     .filter((x) => x.lane === "needs_resubmit")
     .sort(sortFn)
     .slice(0, 40);
+
+  // CLEAN REGISTRY SOURCE OF TRUTH = probe-ok results (not store membership).
+  // Cold starts with thin store cache still keep every confirmed-clean target.
+  {
+    const have = new Set(
+      [...mcp_active, ...agents_active].flatMap((r) =>
+        [r.id, r.agent_card_url, r.remote_url, r.website].filter(Boolean) as string[],
+      ),
+    );
+    for (const r of probes.values()) {
+      if (!(r.handshake === "ok" && r.ok)) continue;
+      if ((r.id || "").startsWith("name:") || (r.id || "").startsWith("url:")) continue;
+      const target = r.target || "";
+      if (have.has(r.id) || (target && have.has(target))) continue;
+      const age = Date.now() - Date.parse(r.probed_at || "");
+      if (!Number.isFinite(age) || age > ACTIVE_PROBE_MAX_AGE_MS) continue;
+      const kind = (r.kind === "agent" ? "agent" : "mcp") as "agent" | "mcp";
+      const row: LanedListing = {
+        id: r.id,
+        kind,
+        name: (r as { name?: string }).name || r.id,
+        description: undefined,
+        website: target || undefined,
+        remote_url: kind === "mcp" ? target : undefined,
+        agent_card_url: kind === "agent" ? target : undefined,
+        lane: "active",
+        lane_reason: "Active — probe ok at source URL",
+        checks_clean: true,
+        probe: {
+          ok: true,
+          handshake: "ok",
+          score: r.score || 0,
+          probed_at: r.probed_at,
+          target,
+          age_hours: age / 3600_000,
+          signals: (r.signals || []).slice(0, 6),
+        },
+        source: "mirror",
+        safety_score: r.score || 50,
+      };
+      if (kind === "mcp") mcp_active.push(row);
+      else agents_active.push(row);
+      have.add(r.id);
+      if (target) have.add(target);
+    }
+    mcp_active.sort(sortFn);
+    agents_active.sort(sortFn);
+  }
 
   let categories: {
     mcp: Array<{ id: string; label: string; count: number; live?: boolean }>;
