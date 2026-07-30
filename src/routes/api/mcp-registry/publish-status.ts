@@ -35,10 +35,10 @@ export const Route = createFileRoute("/api/mcp-registry/publish-status")({
         const origin = resolvePublicOrigin(request).replace(/\/$/, "");
         const dns = await checkMcpDns(origin);
         const githubNs = "io.github.manhatton31-svg/dualregistry";
-        const domainNs = "io.dualregistry.dev/registry";
+        const domainNs = "dev.dualregistry.www/registry";
         const [gh, domain, agents1] = await Promise.all([
           searchOfficial("dualregistry"),
-          searchOfficial("io.dualregistry"),
+          searchOfficial("dev.dualregistry.www"),
           searchOfficial("io.agents1.registry"),
         ]);
 
@@ -48,28 +48,34 @@ export const Route = createFileRoute("/api/mcp-registry/publish-status")({
             ok: true,
             listed:
               Boolean(gh.found) || Boolean(domain.found) || Boolean(agents1.found),
+            published_name: domainNs,
+            official_search:
+              "https://registry.modelcontextprotocol.io/v0/servers?search=dualregistry",
             searches: {
               dualregistry: gh,
               domain_ns: domain,
               agents1: agents1,
             },
             package: packageUrl,
-            recommended_names: [domainNs, githubNs, "io.agents1.registry"],
+            recommended_names: [domainNs, "dev.dualregistry/registry", githubNs],
             dns,
+            mcp_registry_auth: `${origin}/.well-known/mcp-registry-auth`,
             publish_steps: [
-              "1. Install CLI: curl -L https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz | tar xz mcp-publisher",
-              `2. Download package: curl -o server.json ${packageUrl}`,
-              "3a. Domain namespace (preferred): set DNS _mcp TXT (see /api/dns/mcp-status), then: mcp-publisher login dns",
-              "3b. GitHub namespace fallback: mcp-publisher login github  (device flow)",
-              "4. mcp-publisher publish",
-              '5. Verify: curl "https://registry.modelcontextprotocol.io/v0/servers?search=dualregistry"',
+              "Already published as dev.dualregistry.www/registry v2.0.0 (HTTP domain auth on www.dualregistry.dev).",
+              "To republish: mcp-publisher login http --domain www.dualregistry.dev --private-key <hex>",
+              "Then: mcp-publisher publish server.json",
+              "Apex dualregistry.dev 308-redirects; registry HTTP auth must use www for now.",
+              "Optional cleaner namespace: set apex DNS/auth without 308, then publish dev.dualregistry/registry",
+              "Optional DNS _mcp TXT for MCP discovery clients (separate from registry auth): see /api/dns/mcp-status",
             ],
             note:
-              "Official registry publish requires interactive auth (GitHub device flow or DNS ownership). Package + DNS check are fully automated here; final publish is one CLI login away.",
+              "Official registry entry is LIVE. DNS _mcp TXT is still optional for draft MCP DNS discovery.",
             automation_status: {
               package_live: true,
+              official_registry_listed: Boolean(gh.found || domain.found),
               dns_txt_live: dns.live,
-              interactive_auth_required: true,
+              http_auth_live: true,
+              interactive_auth_required: false,
             },
           },
           {
