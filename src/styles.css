@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-bg: #0b0d10;
+  --color-bg-elevated: #12161c;
+  --color-bg-subtle: #1a2029;
+  --color-fg: #e8edf4;
+  --color-muted: #9aa6b5;
+  --color-subtle: #6b7685;
+  --color-border: #243040;
+  --color-accent: #2dd4bf;
+  --color-accent-dim: #14b8a6;
+  --color-info: #60a5fa;
+  --color-success: #34d399;
+  --color-warn: #fbbf24;
+  --color-danger: #f87171;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  margin: 0;
+  min-height: 100%;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  min-height: 100%;
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  overflow-x: clip;
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  @media (pointer: coarse) {
+    button:not(:disabled),
+    [role="button"]:not(:disabled),
+    a.inline-flex {
+      min-height: 2.75rem;
+    }
+  }
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+  pre,
+  code {
+    max-width: 100%;
+    overflow-x: auto;
+    word-break: break-word;
+  }
+  table {
+    max-width: 100%;
+  }
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+.mesh-bg {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #2dd4bf1f, transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, #60a5fa1a, transparent 50%),
+    var(--color-bg);
+}
+.grid-fade {
+  background-image:
+    linear-gradient(90deg, #24304059 1px, #0000 1px),
+    linear-gradient(#24304059 1px, #0000 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(#000 20%, #0000 75%);
+  mask-image: radial-gradient(#000 20%, #0000 75%);
+}
+.page-shell {
+  width: 100%;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  /* No enter animation — data patches must not flash the shell */
+  animation: none;
+}
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  max-width: 100%;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Update indicator only — never a full-page flash */
+.soft-refresh-bar {
+  animation: soft-refresh-slide 0.85s ease-in-out infinite;
+  width: 40%;
+}
+@keyframes soft-refresh-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .soft-refresh-bar {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,66 @@
+# Dual-publish to Agents1 after (or without) official mcp-publisher.
+# Copy into your repo as .github/workflows/agents1-list.yml
+#
+# Before you have a custom domain, set AGENTS1_URL to your live preview / deploy URL.
+# After domain: AGENTS1_URL=https://your.domain
+
+name: agents1-list
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "server.json"
+      - ".mcp/server.json"
+      - "**/server.json"
+
+jobs:
+  dual-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Locate server.json
+        id: find
+        run: |
+          for f in server.json .mcp/server.json; do
+            if [ -f "$f" ]; then
+              echo "file=$f" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          # fallback: first server.json under repo
+          f=$(find . -name 'server.json' -not -path './.git/*' | head -1)
+          if [ -n "$f" ]; then
+            echo "file=$f" >> "$GITHUB_OUTPUT"
+          else
+            echo "file=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Dual-publish to Agents1
+        if: steps.find.outputs.file != ''
+        env:
+          AGENTS1_URL: ${{ vars.AGENTS1_URL || secrets.AGENTS1_URL }}
+        run: |
+          BASE="${AGENTS1_URL:-https://REPLACE_WITH_YOUR_AGENTS1_ORIGIN}"
+          BASE="${BASE%/}"
+          echo "Publishing ${{ steps.find.outputs.file }} → $BASE/api/publish"
+          curl -sS -X POST "$BASE/api/publish" \
+            -H "content-type: application/json" \
+            --data-binary @"${{ steps.find.outputs.file }}" \
+            | tee /tmp/agents1-publish.json
+          # Non-fatal if free-tier deferred
+          grep -q '"ok":true' /tmp/agents1-publish.json \
+            || grep -q 'Deferred\|duplicate\|Already' /tmp/agents1-publish.json \
+            || echo "Publish returned non-ok (check free-tier or quality gate)"
+
+      - name: Optional agent card URL
+        if: env.AGENT_CARD_URL != ''
+        env:
+          AGENT_CARD_URL: ${{ vars.AGENT_CARD_URL }}
+          AGENTS1_URL: ${{ vars.AGENTS1_URL || secrets.AGENTS1_URL }}
+        run: |
+          BASE="${AGENTS1_URL:-https://REPLACE_WITH_YOUR_AGENTS1_ORIGIN}"
+          curl -sS -X POST "${BASE%/}/api/publish" \
+            -H "content-type: application/json" \
+            -d "{\"agent_card_url\":\"$AGENT_CARD_URL\",\"source\":\"github-action\"}"
