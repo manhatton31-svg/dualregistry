@@ -26,23 +26,30 @@ import {
 const DURABLE_NAME = "demo-nudge.json";
 
 /** Share of *never-contacted* eligible per cycle */
-export const NUDGE_ACTIVE_SHARE = 0.15;
-export const MIN_NUDGES_PER_CYCLE = 0; // 0 ok — better silence than spam
-export const MAX_NUDGES_PER_CYCLE_CAP = 15;
+export const NUDGE_ACTIVE_SHARE = 0.1;
+export const MIN_NUDGES_PER_CYCLE = 0;
+export const MAX_NUDGES_PER_CYCLE_CAP = 8;
+/** Hard cap: first-touches per UTC day (whole list) — quiet professionalism */
+export const MAX_FIRST_TOUCHES_PER_DAY = 12;
 /** @deprecated */
-export const MAX_NUDGES_PER_CYCLE = 10;
+export const MAX_NUDGES_PER_CYCLE = 8;
 
 /** Absolute minimum silence after any soft invite */
 export const NUDGE_COOLDOWN_MS = 30 * 24 * 3600_000; // 30 days
 const HISTORY_MAX = 5000;
 
-export function capForActive(activeClean: number, neverContacted: number): number {
-  const pool = Math.max(0, Math.min(activeClean, neverContacted));
+export function capForActive(
+  activeClean: number,
+  neverContacted: number,
+  alreadyToday = 0,
+): number {
+  const dayRoom = Math.max(0, MAX_FIRST_TOUCHES_PER_DAY - alreadyToday);
+  const pool = Math.max(0, Math.min(activeClean, neverContacted, dayRoom));
   if (pool <= 0) return 0;
   const proportional = Math.ceil(activeClean * NUDGE_ACTIVE_SHARE);
   return Math.min(
     MAX_NUDGES_PER_CYCLE_CAP,
-    Math.max(MIN_NUDGES_PER_CYCLE, proportional),
+    proportional,
     pool,
   );
 }
@@ -420,21 +427,28 @@ export async function runDemoNudge(opts?: {
     return true;
   });
 
-  const propCap = capForActive(pool.length, eligible.length);
+  const propCap = capForActive(pool.length, eligible.length, state.day_unique);
   const max = Math.min(
     Math.max(0, opts?.max ?? propCap),
     propCap,
     eligible.length,
     pool.length,
+    Math.max(0, MAX_FIRST_TOUCHES_PER_DAY - state.day_unique),
   );
 
   if (max === 0) {
     const cooling = Object.keys(state.nudged).filter((id) =>
       isDoNotContact(state.nudged[id], now),
     ).length;
-    notes.push(
-      `no new nudges — anti-spam: ${cooling} already contacted (30d silence) · ${pool.length} active clean · unique ${state.totals.unique_listings}`,
-    );
+    if (state.day_unique >= MAX_FIRST_TOUCHES_PER_DAY) {
+      notes.push(
+        `quiet day cap reached (${MAX_FIRST_TOUCHES_PER_DAY} first-touches) — no more invites today · ${cooling} under 30d silence`,
+      );
+    } else {
+      notes.push(
+        `no new nudges — anti-spam: ${cooling} already contacted (30d silence) · ${pool.length} active clean · unique ${state.totals.unique_listings}`,
+      );
+    }
     state.last_run_at = new Date().toISOString();
     state.last_notes = notes.slice(0, 8);
     await persist(state);
@@ -674,13 +688,14 @@ export async function getDemoNudgeStatus() {
         priority: h.priority,
       })),
     policy: {
-      max_per_cycle: capForActive(active_clean, never_contacted),
+      max_per_cycle: capForActive(active_clean, never_contacted, s.day_unique),
+      max_first_touches_per_day: MAX_FIRST_TOUCHES_PER_DAY,
       active_share: NUDGE_ACTIVE_SHARE,
       cooldown_days: NUDGE_COOLDOWN_MS / 86400_000,
       only: "Active clean never-contacted listings",
       metrics: "unique contacted · never re-DM within 30 days",
       anti_spam:
-        "Talk owner-DM history + durable map max-merged; cold start cannot forget",
+        "Talk+durable max-merge · 30d silence · max 12 first-touches/day · no re-contact",
       channel: "Talk owner DM + soft HTTPS (one time)",
       tone: "soft · no pressure · never salesy",
       does_not:
