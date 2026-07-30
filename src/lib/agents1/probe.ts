@@ -1263,12 +1263,13 @@ export async function getProbePublic() {
     last_tick_at: s.last_tick_at,
     last_ok_tick_at: s.last_ok_tick_at,
     last_handshake: s.last_handshake || null,
-    // Full 6m wait only after checks-clean ok; after fail/partial next is immediate
+    // Full 6m wait only after checks-clean ok; after fail/partial next is due now
+    // Use last_tick_at (not Date.now) so sandbox mirror and phone share one ISO
     next_tick_at:
       s.last_handshake === "ok" || (!s.last_handshake && s.last_ok_tick_at)
         ? nextProbeFromLast(s.last_ok_tick_at || s.last_tick_at)
         : s.last_handshake === "fail" || s.last_handshake === "partial"
-          ? new Date().toISOString()
+          ? s.last_tick_at || new Date().toISOString()
           : nextProbeFromLast(s.last_tick_at),
     cadence_rule:
       "Full 6 minutes only after checks-clean ok. Fail/partial delists immediately and next probe can run without waiting.",
