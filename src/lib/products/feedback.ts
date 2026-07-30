@@ -116,7 +116,10 @@ function newId() {
   return `fb_${Date.now().toString(36)}_${randomBytes(3).toString("hex")}`;
 }
 
-function mintCode() {
+function mintCode(percent = 25) {
+  if (percent >= 100) {
+    return `A1FREE-${randomBytes(3).toString("hex").toUpperCase()}`;
+  }
   return `A1FB-${randomBytes(3).toString("hex").toUpperCase()}`;
 }
 
@@ -421,6 +424,14 @@ export async function submitFeedback(input: {
   discount_code?: string;
   discount?: DiscountRecord;
   percent_off?: number;
+  founding_free?: {
+    granted: boolean;
+    seat?: number;
+    remaining?: number;
+    order_id?: string;
+    access_token?: string;
+    message?: string;
+  };
   message?: string;
   thanks?: string;
   theme_progress?: null;
@@ -486,10 +497,36 @@ export async function submitFeedback(input: {
     agent_name,
     input.contact,
   );
+
+  // Prefer 100% founding free if demo taken + seats remain
+  let freeGrant: Awaited<
+    ReturnType<
+      typeof import("./founding-free").grantFullProductAfterFoundingFeedback
+    >
+  > | null = null;
+  let targetPercent = 25 as number;
+  try {
+    const { getFoundingFreePublic, hasDemoForAgent } = await import(
+      "./founding-free"
+    );
+    const ff = await getFoundingFreePublic();
+    const demo = await hasDemoForAgent(agent_name);
+    const orderId =
+      input.order_id ||
+      (input.meta?.order_id ? String(input.meta.order_id) : undefined);
+    if (ff.open && (demo.ok || orderId) && !discount) {
+      targetPercent = 100;
+    } else if (discount?.percent_off === 100) {
+      targetPercent = 100;
+    }
+  } catch {
+    /* */
+  }
+
   if (!discount) {
     discount = {
-      code: mintCode(),
-      percent_off: FEEDBACK_DISCOUNT.percent_off || 25,
+      code: mintCode(targetPercent),
+      percent_off: targetPercent,
       agent_name,
       feedback_id: candidate.id,
       created_at: new Date().toISOString(),
@@ -500,6 +537,58 @@ export async function submitFeedback(input: {
   s.items.unshift(candidate);
   recompute(s);
   await persist(s);
+
+  // If eligible, claim free seat + full product immediately
+  if (discount.percent_off >= 100 || targetPercent >= 100) {
+    try {
+      const { grantFullProductAfterFoundingFeedback } = await import(
+        "./founding-free"
+      );
+      freeGrant = await grantFullProductAfterFoundingFeedback({
+        agent_name,
+        audience: input.audience,
+        feedback_id: candidate.id,
+        discount_code: discount.code,
+        sku: input.sku,
+        goals: input.body,
+        contact: input.contact,
+        agent_card_url: input.agent_card_url,
+        demo_order_id:
+          input.order_id ||
+          (input.meta?.order_id ? String(input.meta.order_id) : undefined),
+      });
+      if (freeGrant.granted && freeGrant.percent_off === 100) {
+        // ensure discount is 100 on record
+        discount.percent_off = 100;
+        const s2 = await load();
+        const d2 = s2.discounts.find((x) => x.code === discount!.code);
+        if (d2) d2.percent_off = 100;
+        await persist(s2);
+      } else if (!freeGrant.granted && discount.percent_off >= 100) {
+        // downgrade code to 25% if no seat / no demo
+        discount.percent_off = 25;
+        if (discount.code.startsWith("A1FREE-")) {
+          discount.code = mintCode(25);
+          candidate.discount_code = discount.code;
+        }
+        const s2 = await load();
+        const d2 = s2.discounts.find(
+          (x) =>
+            x.feedback_id === candidate.id ||
+            x.code.startsWith("A1FREE-") &&
+              normalizeName(x.agent_name) === normalizeName(agent_name),
+        );
+        if (d2) {
+          d2.percent_off = 25;
+          d2.code = discount.code;
+        }
+        candidate.discount_code = discount.code;
+        await persist(s2);
+      }
+    } catch {
+      /* */
+    }
+  }
 
   // learning hooks (non-blocking)
   try {
@@ -517,17 +606,32 @@ export async function submitFeedback(input: {
     /* */
   }
 
+  const isFree = freeGrant?.granted && freeGrant.percent_off === 100;
   return {
     ok: true,
     item: candidate,
     feedback: candidate,
     discount_code: discount.code,
     discount: discount,
-    percent_off: discount.percent_off,
+    percent_off: isFree ? 100 : discount.percent_off,
+    founding_free: freeGrant
+      ? {
+          granted: freeGrant.granted,
+          seat: freeGrant.claim?.seat,
+          remaining: freeGrant.remaining,
+          order_id: freeGrant.order_id,
+          access_token: freeGrant.access_token,
+          message: freeGrant.message,
+        }
+      : undefined,
     funnel: {
-      stage: "discount",
-      loop: "demo → feedback → discount → buy",
-      next: "Save code; POST /api/products/checkout with discount_code when payments open",
+      stage: isFree ? "full_product_free" : "discount",
+      loop: isFree
+        ? "demo → feedback → 100% free full product → lifecycle feedback"
+        : "demo → feedback → discount → buy",
+      next: isFree
+        ? "Use access_token / order artifacts — post-setup feedback is due"
+        : "Save code; POST /api/products/checkout with discount_code when payments open (or redeem 100% free if seats remain)",
       buy_when_open: {
         method: "POST",
         url: "/api/products/checkout",
@@ -538,8 +642,12 @@ export async function submitFeedback(input: {
         },
       },
     },
-    message: `Thanks — ${discount.percent_off}% founding code ${discount.code} vaulted. Real feedback only. Redeem at checkout when payments open.`,
-    thanks: `Thanks — ${discount.percent_off}% founding code vaulted.`,
+    message: isFree
+      ? freeGrant!.message
+      : `Thanks — ${discount.percent_off}% founding code ${discount.code} vaulted. Real feedback only. First 100 demo+feedback participants get 100% off full product immediately.`,
+    thanks: isFree
+      ? `100% free full product — seat claimed.`
+      : `Thanks — ${discount.percent_off}% founding code vaulted.`,
     theme_progress: null as null,
   };
 }

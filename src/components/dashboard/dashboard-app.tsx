@@ -720,8 +720,8 @@ export function DashboardApp() {
                 <CardDescription className="text-xs">
                   Feeder = registry listings. Loop:{" "}
                   <span className="text-fg">
-                    Live probe → take demo → leave feedback → discount coupon →
-                    buy full product
+                    Live probe → take demo → leave feedback → 100% free full product
+                    (first 100) or 25% code → buy when open
                   </span>
                   . Invited seeds do not count until confirm / quick demo.
                   Every Active row publishes listing_id + POST body at{" "}
@@ -750,12 +750,16 @@ export function DashboardApp() {
                     /api/products/feedback (soft 402 on access/run)
                   </li>
                   <li>
-                    <span className="font-medium text-fg">4. Discount</span> — 25%
+                    <span className="font-medium text-fg">4. Discount</span> — first
+                    100 agents/MCPs:{" "}
+                    <span className="text-accent">100% off full product</span>{" "}
+                    after demo+feedback; then 25%
                     A1FB vaulted once
                   </li>
                   <li className="sm:col-span-2">
-                    <span className="font-medium text-fg">5. Buy</span> — checkout
-                    with code when payments open (250+250 feedback)
+                    <span className="font-medium text-fg">5. Full product</span> —
+                    first 100 free seats unlock immediately after feedback; later
+                    seats checkout when payments open (250+250 feedback)
                   </li>
                 </ol>
               </CardContent>

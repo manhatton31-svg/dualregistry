@@ -1,8 +1,8 @@
 /**
- * Live payments stay closed until we have enough real product feedback:
+ * Live card payments stay closed until we have enough real product feedback:
  *   250 feedback agents + 250 feedback MCPs
- * Demos, free preview, and feedback surveys stay open. Founding 25% codes
- * vault until unlock. Agents/MCPs are told this on every entry surface.
+ * Demos + feedback stay open. First 100 agents/MCPs (combined) who demo+feedback
+ * get 100% off full product immediately. After that, 25% codes vault until unlock.
  */
 import { getProductEngagement } from "./engagement";
 
@@ -43,8 +43,18 @@ export type PaymentGate = {
   agent_directive: string;
   founding_discount: {
     percent_off: number;
+    free_seats: number;
+    free_remaining?: number;
     requires: string;
     redeem_when: string;
+  };
+  founding_free?: {
+    seats: number;
+    claimed: number;
+    remaining: number;
+    percent_off: number;
+    open: boolean;
+    rule: string;
   };
 };
 
@@ -73,6 +83,21 @@ export async function getPaymentGate(): Promise<PaymentGate> {
 
   const unlock_rule = `${agentsT} feedback agents + ${mcpT} feedback MCPs`;
 
+  let founding_free: PaymentGate["founding_free"];
+  try {
+    const { getFoundingFreePublic } = await import("./founding-free");
+    founding_free = await getFoundingFreePublic();
+  } catch {
+    founding_free = {
+      seats: 100,
+      claimed: 0,
+      remaining: 100,
+      percent_off: 100,
+      open: true,
+      rule: "First 100 demo+feedback → 100% off full product",
+    };
+  }
+
   return {
     payments_open,
     demo_open: true,
@@ -84,7 +109,6 @@ export async function getPaymentGate(): Promise<PaymentGate> {
     feedback_mcps_target: mcpT,
     feedback_agents_remaining,
     feedback_mcps_remaining,
-    // aliases → feedback progress (so old fields still drive the gate UI)
     mcp_approved: feedback_mcps,
     agents_approved: feedback_agents,
     mcp_target: mcpT,
@@ -96,21 +120,26 @@ export async function getPaymentGate(): Promise<PaymentGate> {
       ? "feedback_milestones_met"
       : "waiting_for_250_feedback_agents_and_250_feedback_mcps",
     message: payments_open
-      ? `Payments open — ${feedback_agents} feedback agents / ${feedback_mcps} feedback MCPs (target ${agentsT}/${mcpT}). Founding prices for first 1,000 paid seats; then each level lasts 1,000 seats. 25% codes redeemable at checkout.`
-      : `Payments locked until ${agentsT} feedback agents + ${mcpT} feedback MCPs. Now ${feedback_agents}/${agentsT} agent feedback · ${feedback_mcps}/${mcpT} MCP feedback. Demos unlimited · give feedback → 25% founding code vaulted until unlock. Founding prices for first 1,000 paid seats; next levels last 1,000 seats each.`,
+      ? `Payments open — ${feedback_agents} feedback agents / ${feedback_mcps} feedback MCPs (target ${agentsT}/${mcpT}). Founding prices for first 1,000 paid seats.`
+      : `Card payments locked until ${agentsT} feedback agents + ${mcpT} feedback MCPs (now ${feedback_agents}/${agentsT} · ${feedback_mcps}/${mcpT}). First ${founding_free?.seats ?? 100} agents/MCPs combined who demo + feedback get 100% off full product now (${founding_free?.remaining ?? 100} free seats left). After that, 25% codes vault until unlock.`,
     policy:
-      "Only real agent/MCP product surveys count toward unlock (synthetic registry_drive auto-feedback is disabled). Demo first, improve Kernel/Loop from real feedback, then sell founding seats (first 1,000 at launch prices; each later price level lasts 1,000 paid seats).",
+      "Demo free → real feedback. First 100 combined agents/MCPs: 100% off full product immediately + lifecycle surveys. Then 25% until 250/250 opens card payments. No synthetic feedback.",
     unlock_rule,
     agent_directive: payments_open
-      ? "payments_open — buy_product with goals; redeem vaulted 25% discount_code if you gave feedback"
-      : `payments_locked — demo_alive or demo_mcp free now → submit_feedback → vault 25% code. Unlock at ${unlock_rule}. Your feedback improves Kernel Improver + Recursive Loop before anyone pays.`,
+      ? "payments_open — buy_product with goals; redeem discount_code if you have one"
+      : `demo_alive or demo_mcp free → submit_feedback. First 100 combined get 100% full product now (${founding_free?.remaining ?? 100} left). Else 25% vault until ${unlock_rule}.`,
     founding_discount: {
-      percent_off: 25,
-      requires: "complete demo feedback survey",
-      redeem_when: payments_open
-        ? "now_at_checkout"
-        : "when_payments_open_after_feedback_milestones",
+      percent_off: founding_free?.open ? 100 : 25,
+      free_seats: founding_free?.seats ?? 100,
+      free_remaining: founding_free?.remaining,
+      requires: "complete demo then real feedback survey",
+      redeem_when: founding_free?.open
+        ? "immediately_100_percent_full_product"
+        : payments_open
+          ? "now_at_checkout_25_percent"
+          : "when_payments_open_after_feedback_milestones",
     },
+    founding_free,
   };
 }
 
@@ -121,7 +150,8 @@ export async function paymentsOpen(): Promise<boolean> {
 /** One-line copy for agent cards, discovery, tools, list receipts */
 export function paymentGateOneLiner(gate?: PaymentGate | null): string {
   if (gate?.payments_open) {
-    return "Payments open. Founding 25% codes redeemable. Kernel $14.99 · Loop $19.99 · Alive $29.99.";
+    return "Payments open. Kernel $14.99 · Loop $19.99 · Alive $29.99. Redeem feedback codes at checkout.";
   }
-  return "Payments locked until 250 feedback agents + 250 feedback MCPs. Demos free now — feedback unlocks a 25% founding discount.";
+  const left = gate?.founding_free?.remaining ?? 100;
+  return `First 100 agents/MCPs combined: demo + feedback = 100% off full product (${left} free seats left). Card payments later at 250/250 feedback.`;
 }

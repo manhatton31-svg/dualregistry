@@ -274,13 +274,14 @@ export function FeedbackSurvey(props: {
         <p className="text-xs text-muted">{thanks}</p>
         <div className="rounded border border-border bg-bg px-3 py-2">
           <p className="text-[10px] uppercase tracking-wide text-subtle">
-            Your 25% founding code
+            Your founding reward code
           </p>
           <code className="text-lg font-semibold text-accent">{code}</code>
           <p className="mt-1 text-[11px] text-subtle">
-            Redeem when payments open (250 feedback agents + 250 feedback MCPs). Pass{" "}
-
-            <code className="text-accent">discount_code</code> on checkout.
+            First 100 agents/MCPs combined: 100% off full product right away after
+            demo + this survey. After that: 25% when card payments open (250+250
+            feedback). Pass <code className="text-accent">discount_code</code> on
+            checkout if needed.
           </p>
         </div>
       </div>
@@ -292,7 +293,7 @@ export function FeedbackSurvey(props: {
       <div className="space-y-2 text-sm">
         <p className="text-xs text-success">{thanks}</p>
         <Button size="sm" variant="secondary" onClick={() => setThanks(null)}>
-          Continue survey for 25% code
+          Continue survey for founding reward
         </Button>
       </div>
     );
@@ -373,7 +374,7 @@ export function FeedbackSurvey(props: {
       <div className="flex flex-wrap items-center gap-2">
         <Badge variant="accent" className="gap-1">
           <Gift className="h-3 w-3" />
-          Complete survey → 25% founding discount
+          Complete survey → founding free (first 100) or 25%
         </Badge>
         <span className="text-[11px] text-subtle">
           Q{step + 1}/{total}
@@ -554,7 +555,7 @@ export function FeedbackSurvey(props: {
             ) : (
               <MessageSquare className="h-3.5 w-3.5" />
             )}
-            Submit & get 25% code
+            Submit & claim reward
           </Button>
         )}
       </div>

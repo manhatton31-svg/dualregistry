@@ -265,6 +265,21 @@ export async function getOrder(id: string): Promise<ProductOrder | null> {
   return (await load()).orders[id] || null;
 }
 
+/** Merge fields into an existing order and persist. */
+export async function patchOrder(
+  id: string,
+  patch: Partial<ProductOrder>,
+): Promise<ProductOrder | null> {
+  const s = await load();
+  const order = s.orders[id];
+  if (!order) return null;
+  const next = { ...order, ...patch, id: order.id, access_token: order.access_token };
+  s.orders[id] = next;
+  s.updated_at = new Date().toISOString();
+  await persist(s);
+  return next;
+}
+
 export async function getOrderByToken(
   token: string,
 ): Promise<ProductOrder | null> {

@@ -23,10 +23,10 @@ export type SurveyQuestion = {
 export const FEEDBACK_DISCOUNT = {
   percent_off: 25,
   code_prefix: "A1FB",
-  label: "25% founding discount for complete product feedback",
-  applies_when: "payments_open",
-  note: "Redeemable on first paid Kernel / Loop / Alive seat after payments unlock (250 feedback agents + 250 feedback MCPs).",
-
+  label:
+    "First 100 agents/MCPs (combined): 100% off full product after demo + feedback. Then 25% founding code.",
+  applies_when: "immediately_if_free_seat_else_when_payments_open",
+  note: "First 100 combined demo+feedback participants unlock full Kernel/Loop/Alive at $0 immediately. After seats fill, 25% codes redeem when payments open (250 feedback agents + 250 feedback MCPs).",
 } as const;
 
 export const SURVEY_QUESTIONS: SurveyQuestion[] = [

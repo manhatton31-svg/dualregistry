@@ -72,6 +72,43 @@ export async function startCheckout(input: {
   const product = PRODUCTS[order.sku];
   const origin = input.origin.replace(/\/$/, "");
 
+  // 100% founding free (or $0 with code) → full product even when payments locked
+  const isFreeFull =
+    input.demo !== true &&
+    ((order.discount_percent != null && order.discount_percent >= 100) ||
+      (order.amount_cents === 0 && Boolean(order.discount_code)));
+
+  if (isFreeFull) {
+    let fulfilled = await fulfillOrder(order.id, { demo: false });
+    try {
+      const { patchOrder, getOrder } = await import("./orders");
+      fulfilled =
+        (await patchOrder(fulfilled.id, {
+          amount_cents: 0,
+          note:
+            fulfilled.note ||
+            "Founding free 100% — full product unlocked after demo + feedback",
+          meta: { ...(fulfilled.meta || {}), founding_free: true },
+        })) || fulfilled;
+      fulfilled = (await getOrder(fulfilled.id)) || fulfilled;
+    } catch {
+      /* */
+    }
+    try {
+      const { enrollLifecycle } = await import("./feedback-lifecycle");
+      await enrollLifecycle(fulfilled);
+    } catch {
+      /* */
+    }
+    return {
+      order: fulfilled,
+      mode: "demo",
+      message:
+        "Founding free seat — 100% off full product unlocked. Post-setup lifecycle feedback is due.",
+      payment_gate: gate,
+    };
+  }
+
   // Explicit demo, missing Stripe key, OR payments still locked → demo only
   const forceDemo =
     input.demo === true || !stripeConfigured() || !gate.payments_open;
@@ -82,7 +119,7 @@ export async function startCheckout(input: {
     if (input.demo === true) {
       message = gate.payments_open
         ? "Demo fulfillment requested"
-        : `Demo fulfillment — live payments open after ${gate.feedback_agents_target} feedback agents + ${gate.feedback_mcps_target} feedback MCPs (now ${gate.feedback_agents}/${gate.feedback_mcps}). Please leave feedback for a 25% founding code.`;
+        : `Demo fulfillment — live card payments open after ${gate.feedback_agents_target} feedback agents + ${gate.feedback_mcps_target} feedback MCPs (now ${gate.feedback_agents}/${gate.feedback_mcps}). Leave feedback after this demo: first 100 agents/MCPs combined get 100% off the full product immediately.`;
     } else if (!gate.payments_open) {
       message = `${gate.message} Full artifacts unlocked as demo — send feedback via POST /api/products/feedback (or submit_feedback tool).`;
       fulfilled.note = message;
@@ -134,7 +171,7 @@ export async function startCheckout(input: {
         "5 questions in example_body — fill overall, kernel_clarity, confusing, improvements, would_buy_at_founding",
       soft_status: 402,
       founding_discount:
-        "25% A1FB vault after real survey (once per participant; redeems at unlock)",
+        "First 100 agents/MCPs combined: demo + feedback = 100% off full product now. After that: 25% A1FB vault until payments open.",
       unlock,
       messaging: msg,
       example_body,

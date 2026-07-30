@@ -127,8 +127,12 @@ export const Route = createFileRoute("/api/products/feedback")({
               thanks: result.thanks || result.message,
               theme_progress: result.theme_progress || [],
               improvement_log: "/api/products/improvement-log",
+              founding_free: result.founding_free || null,
+              funnel: result.funnel || null,
               next:
-                "Save your founding code. Payments open at 250 agent + 250 MCP real feedback.",
+                result.founding_free?.granted
+                  ? `100% free full product unlocked (seat ${result.founding_free.seat}/100). Use access_token on the order; post-setup lifecycle feedback is due. ${result.founding_free.remaining} free seats left.`
+                  : "Save your founding code. First 100 demo+feedback get 100% full product now; else 25% vaults until 250 agent + 250 MCP feedback opens card payments.",
             },
             {
               headers: {
