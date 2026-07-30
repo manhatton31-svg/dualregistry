@@ -6,6 +6,10 @@
  * Promising / unknown → full probe
  */
 import type { ProbeTarget } from "./probe";
+import { dataRoot } from "@/lib/data-root";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+import { loadDurableJson } from "./durable-json";
 
 export type PreflightVerdict = {
   /** true = run full probe; false = do not spend budget */
@@ -19,7 +23,6 @@ export type PreflightVerdict = {
 };
 
 const DEAD_HOST_PATHS: Array<{ host: RegExp; path: RegExp; why: string }> = [
-  // Bare github.com well-known — never a real agent card
   {
     host: /^github\.com$/i,
     path: /^\/\.well-known\//i,
@@ -35,7 +38,52 @@ const DEAD_HOST_PATHS: Array<{ host: RegExp; path: RegExp; why: string }> = [
     path: /^\/\.well-known\//i,
     why: "www.github.com/.well-known is not a publishable agent card",
   },
+  {
+    host: /^(localhost|127\.0\.0\.1)$/i,
+    path: /.*/,
+    why: "localhost/127.0.0.1 is not publicly probeable",
+  },
 ];
+
+let delistedIdCache: { at: number; ids: Set<string> } | null = null;
+
+/** IDs already delisted — never re-probe until resubmit */
+export async function loadDelistedIdSet(): Promise<Set<string>> {
+  if (delistedIdCache && Date.now() - delistedIdCache.at < 30_000) {
+    return delistedIdCache.ids;
+  }
+  const ids = new Set<string>();
+  try {
+    const remote = await loadDurableJson<{
+      items?: Array<{ id?: string }>;
+      active_ids?: string[];
+    }>("delisted.json", () => ({ items: [], active_ids: [] }));
+    for (const id of remote.active_ids || []) if (id) ids.add(id);
+    for (const it of remote.items || []) if (it?.id) ids.add(it.id);
+  } catch {
+    /* */
+  }
+  try {
+    const raw = await readFile(
+      join(dataRoot(), "products", "delisted.json"),
+      "utf8",
+    );
+    const j = JSON.parse(raw) as {
+      items?: Array<{ id?: string }>;
+      active_ids?: string[];
+    };
+    for (const id of j.active_ids || []) if (id) ids.add(id);
+    for (const it of j.items || []) if (it?.id) ids.add(it.id);
+  } catch {
+    /* */
+  }
+  delistedIdCache = { at: Date.now(), ids };
+  return ids;
+}
+
+export function invalidateDelistedCache() {
+  delistedIdCache = null;
+}
 
 function candidateUrls(item: ProbeTarget): string[] {
   const out: string[] = [];
@@ -71,9 +119,11 @@ function patternFail(url: string): string | null {
         return rule.why;
       }
     }
-    // Empty / bare host homepage as only candidate for agents is weak but not auto-fail
     if (u.hostname === "github.com" && /^\/?$/.test(u.pathname)) {
       return "github.com root is not an agent card URL";
+    }
+    if (u.protocol !== "http:" && u.protocol !== "https:") {
+      return "non-http URL";
     }
   } catch {
     return "invalid URL";
@@ -85,6 +135,24 @@ function patternFail(url: string): string | null {
  * Pattern-only check (0 network). Use to rank / filter queue.
  */
 export function preflightPatterns(item: ProbeTarget): PreflightVerdict {
+  // Already delisted — never select
+  if (item.id && delistedIdCache?.ids.has(item.id)) {
+    return {
+      proceed: false,
+      confidence: "high",
+      reason: "already delisted — resubmit required",
+      predict_fail: true,
+    };
+  }
+  if (item.store_id && delistedIdCache?.ids.has(item.store_id)) {
+    return {
+      proceed: false,
+      confidence: "high",
+      reason: "already delisted — resubmit required",
+      predict_fail: true,
+    };
+  }
+
   const urls = candidateUrls(item);
   if (!urls.length) {
     return {
@@ -94,7 +162,6 @@ export function preflightPatterns(item: ProbeTarget): PreflightVerdict {
       predict_fail: true,
     };
   }
-  // If EVERY candidate is a known-dead pattern → fail early
   const reasons = urls.map((u) => patternFail(u));
   if (reasons.every(Boolean)) {
     return {
@@ -105,7 +172,6 @@ export function preflightPatterns(item: ProbeTarget): PreflightVerdict {
       primary_url: urls[0],
     };
   }
-  // Prefer first non-dead URL
   const primary = urls.find((u) => !patternFail(u)) || urls[0]!;
   return {
     proceed: true,
@@ -124,6 +190,12 @@ export async function preflightLive(
   item: ProbeTarget,
   opts?: { timeoutMs?: number },
 ): Promise<PreflightVerdict> {
+  // Refresh delisted set
+  try {
+    await loadDelistedIdSet();
+  } catch {
+    /* */
+  }
   const pat = preflightPatterns(item);
   if (!pat.proceed) return pat;
 
@@ -143,7 +215,6 @@ export async function preflightLive(
     });
     clearTimeout(t);
     const status = res.status;
-    // Hard dead
     if (status === 404 || status === 410) {
       return {
         proceed: false,
@@ -154,7 +225,6 @@ export async function preflightLive(
         status,
       };
     }
-    // Paywall / forbidden — might still be a real service; full probe can mark partial/fail
     if (status === 401 || status === 403 || status === 402) {
       return {
         proceed: true,
@@ -167,9 +237,7 @@ export async function preflightLive(
     }
     if (status >= 200 && status < 400) {
       const ct = (res.headers.get("content-type") || "").toLowerCase();
-      // HTML marketing page as only response is usually fail for agent cards
       if (ct.includes("text/html") && !ct.includes("json")) {
-        // Peek body start if small
         try {
           const text = (await res.text()).slice(0, 200).trim();
           if (text.startsWith("<") || /^<!doctype/i.test(text)) {
@@ -214,7 +282,6 @@ export async function preflightLive(
         primary_url: url,
       };
     }
-    // Network error — still try full probe once (could be transient)
     return {
       proceed: true,
       confidence: "low",

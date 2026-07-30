@@ -66,7 +66,9 @@ async function applyProductionMirror<T extends Record<string, unknown>>(
     } = await import("@/lib/agents1/canonical-metrics");
     // Avoid infinite loop if production is called with mirror=1 from itself
     const u = new URL(requestUrl);
-    if (u.searchParams.get("mirror") === "1") return payload;
+    if (u.searchParams.get("mirror") === "1") {
+      return { ...payload, metrics_source: "production-local" };
+    }
     if (!shouldMirrorProductionMetrics()) {
       return { ...payload, metrics_source: "production-local" };
     }
@@ -74,6 +76,8 @@ async function applyProductionMirror<T extends Record<string, unknown>>(
     if (!slice) {
       return { ...payload, metrics_source: "local-mirror-failed" };
     }
+    const baseMcp = payload.mcp as { total?: number } | undefined;
+    const baseAgents = payload.agents as { total?: number } | undefined;
     return {
       ...payload,
       product_engagement:
@@ -84,7 +88,21 @@ async function applyProductionMirror<T extends Record<string, unknown>>(
           slice.protocol?.probes ??
           (payload.protocol as { probes?: unknown })?.probes,
       },
-      // Keep lane counts aligned when production has them
+      // In Registry + milestones from production so cards match phone
+      mcp:
+        slice.mcp?.total != null && baseMcp
+          ? { ...baseMcp, total: slice.mcp.total }
+          : slice.mcp?.total != null
+            ? { total: slice.mcp.total }
+            : payload.mcp,
+      agents:
+        slice.agents?.total != null && baseAgents
+          ? { ...baseAgents, total: slice.agents.total }
+          : slice.agents?.total != null
+            ? { total: slice.agents.total }
+            : payload.agents,
+      milestones: slice.milestones ?? payload.milestones,
+      delist: slice.delist ?? payload.delist,
       listing_lanes: payload.listing_lanes
         ? {
             ...(payload.listing_lanes as object),

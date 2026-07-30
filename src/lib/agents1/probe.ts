@@ -742,6 +742,25 @@ export async function runProbeBudgeted(
     }))
     .sort((a, b) => b.pri - a.pri);
 
+  // Drop already-delisted IDs from queue (never waste a full probe)
+  try {
+    const { loadDelistedIdSet } = await import("./probe-preflight");
+    const delisted = await loadDelistedIdSet();
+    if (delisted.size) {
+      for (const x of ranked) {
+        if (
+          delisted.has(x.item.id) ||
+          (x.item.store_id && delisted.has(x.item.store_id))
+        ) {
+          x.pri = -30000;
+        }
+      }
+      ranked.sort((a, b) => b.pri - a.pri);
+    }
+  } catch {
+    /* */
+  }
+
   // Unique primary probes only (skip name:/url: aliases that triple-count MCPs)
   let agentToday = 0;
   let mcpToday = 0;
