@@ -151,6 +151,11 @@ export type DashboardPayload = LiveSnapshot & {
   cache_mode?: "live" | "cached" | "partial";
   cache_updated_at?: string;
   free_tier?: ReturnType<typeof publicBudgetView>;
+  delist?: {
+    delisted_mcp: number;
+    delisted_agents: number;
+    delisted_total: number;
+  } | null;
 };
 
 async function snapshotFromCache(

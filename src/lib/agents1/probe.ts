@@ -277,6 +277,12 @@ export async function loadProbeState(): Promise<ProbeState> {
     results: (merged.results || {}) as Record<string, ProbeResult>,
     used: Number(merged.used) || 0,
     last_tick_at: merged.last_tick_at,
+    last_ok_tick_at: merged.last_ok_tick_at,
+    last_handshake: (["ok", "partial", "fail", "skip"] as const).includes(
+      merged.last_handshake as "ok",
+    )
+      ? (merged.last_handshake as ProbeState["last_handshake"])
+      : undefined,
     live_active_snapshot: merged.live_active_snapshot,
     weekly: merged.weekly as ProbeState["weekly"],
     updated_at: merged.updated_at || new Date().toISOString(),
@@ -294,7 +300,7 @@ export async function loadProbeState(): Promise<ProbeState> {
     /* */
   }
 
-  return mem;
+  return mem!;
 }
 
 async function persist(s: ProbeState) {
