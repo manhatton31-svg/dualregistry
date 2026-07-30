@@ -563,8 +563,31 @@ export async function getLanedListings(): Promise<{
       have.add(r.id);
       if (target) have.add(target);
     }
-    mcp_active.sort(sortFn);
-    agents_active.sort(sortFn);
+    const dedupe = (rows: LanedListing[]) => {
+      const by = new Map<string, LanedListing>();
+      for (const r of rows) {
+        const key = (
+          r.agent_card_url ||
+          r.remote_url ||
+          r.endpoint_url ||
+          r.website ||
+          r.id
+        )
+          .toLowerCase()
+          .replace(/\/$/, "");
+        const prev = by.get(key);
+        if (!prev) {
+          by.set(key, r);
+          continue;
+        }
+        const pa = prev.probe?.probed_at || "";
+        const ra = r.probe?.probed_at || "";
+        if (ra >= pa) by.set(key, r);
+      }
+      return [...by.values()].sort(sortFn);
+    };
+    mcp_active = dedupe(mcp_active);
+    agents_active = dedupe(agents_active);
   }
 
   let categories: {
