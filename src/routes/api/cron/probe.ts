@@ -14,6 +14,9 @@ import { join } from "node:path";
 import { dataRoot } from "@/lib/data-root";
 import { durableConfigPublic, readDurableRaw } from "@/lib/agents1/durable-json";
 
+/** Allow long multi-probe ticks toward 333/day */
+export const maxDuration = 300;
+
 function authorized(request: Request): boolean {
   // Vercel Cron invocations are trusted (production schedule only)
   if (request.headers.get("x-vercel-cron") === "1") return true;

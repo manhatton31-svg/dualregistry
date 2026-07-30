@@ -1020,22 +1020,25 @@ export async function runProbeBudgeted(
   const spendable = selected.filter((x) => x.pri >= 0);
   const queue = spendable.length ? spendable : selected;
 
+  // Parallel full-probe pool (speed toward 333/day within function time limits)
+  const CONCURRENCY = 8;
+  const work = queue.slice(0, maxFullProbes + maxPreflightRejects);
   const out: ProbeResult[] = [];
   let gotCleanOk = false;
   let fullProbes = 0;
   let preflightRejects = 0;
-  for (const { item } of queue) {
-    if (fullProbes >= maxFullProbes) break;
-    if (state.used >= state.budget) break;
-    if (state.hourly_used >= state.hourly_cap) break;
+
+  async function processOne(item: ProbeTarget): Promise<ProbeResult | null> {
+    if (fullProbes >= maxFullProbes) return null;
+    if (state.used >= state.budget) return null;
+    if (state.hourly_used >= state.hourly_cap) return null;
     const kind =
       item.kind ||
       (item.agent_card_url || item.endpoint_url ? "agent" : "mcp");
 
-    // --- Preflight: skip budget burn on known-dead / 404 cards ---
     try {
       const { preflightLive } = await import("./probe-preflight");
-      const pf = await preflightLive(item, { timeoutMs: 2500 });
+      const pf = await preflightLive(item, { timeoutMs: 2000 });
       if (!pf.proceed && pf.predict_fail) {
         const fake: ProbeResult = {
           id: item.id,
@@ -1054,45 +1057,11 @@ export async function runProbeBudgeted(
           probed_at: new Date().toISOString(),
         };
         state.results[item.id] = fake;
-        if (item.name) {
-          state.results[
-            `name:${kind}:${(item.name || "").toLowerCase().trim()}`
-          ] = { ...fake, id: item.id };
-        }
-        try {
-          const { delistOnProbeFail } = await import("./delist-on-fail");
-          await delistOnProbeFail({
-            id: item.store_id || item.id,
-            kind: kind as "agent" | "mcp",
-            name: item.name,
-            agent_card_url: item.agent_card_url,
-            remote_url: item.remote_url,
-            website: item.website,
-            probe: fake,
-          });
-        } catch {
-          /* */
-        }
-        try {
-          // Only permanent-block on weekly recheck fails — discovery needs retries for 333/day
-          if (item.purpose === "weekly_recheck") {
-            const { blockProbeTarget } = await import("./counter-floors");
-            await blockProbeTarget({
-              id: item.store_id || item.id,
-              url: fake.target,
-            });
-          }
-        } catch {
-          /* */
-        }
-        // Preflight reject: NO budget spend — keep looking for a viable target
         preflightRejects++;
-        out.push(fake);
-        if (preflightRejects >= maxPreflightRejects) break;
-        continue;
+        return fake;
       }
     } catch {
-      /* preflight optional — fall through to full probe */
+      /* fall through */
     }
 
     const result =
@@ -1104,28 +1073,20 @@ export async function runProbeBudgeted(
       result.signals = [...(result.signals || []), "weekly-recheck"];
     }
     state.results[item.id] = result;
-    const nameKey = `name:${result.kind}:${(item.name || "").toLowerCase().trim()}`;
-    if (item.name) state.results[nameKey] = { ...result, id: item.id };
-    if (item.agent_card_url) {
+    if (item.name) {
+      state.results[
+        `name:${result.kind}:${(item.name || "").toLowerCase().trim()}`
+      ] = { ...result, id: item.id };
+    }
+    if (item.agent_card_url)
       state.results[`url:${item.agent_card_url}`] = { ...result, id: item.id };
-    }
-    if (item.remote_url) {
+    if (item.remote_url)
       state.results[`url:${item.remote_url}`] = { ...result, id: item.id };
-    }
-    if (item.store_id) {
+    if (item.store_id)
       state.results[item.store_id] = { ...result, id: item.store_id };
-    }
-    if (item.purpose === "weekly_recheck") {
-      const week = utcWeek();
-      if (!state.weekly || state.weekly.week !== week) {
-        state.weekly = { week, rechecked: 0, still_ok: 0, demoted: 0 };
-      }
-      state.weekly.rechecked += 1;
-      if (result.handshake === "ok" && result.ok) state.weekly.still_ok += 1;
-      else state.weekly.demoted += 1;
-    }
 
     if (result.handshake === "ok" && result.ok) {
+      gotCleanOk = true;
       try {
         const { raiseClean } = await import("./clean-registry");
         await raiseClean({
@@ -1140,85 +1101,55 @@ export async function runProbeBudgeted(
       } catch {
         /* */
       }
-    }
-
-    // FAIL / PARTIAL → delist + permanent block (never probe again)
-    if (
-      result.handshake === "fail" ||
-      result.handshake === "partial" ||
-      !result.ok
-    ) {
-      if (result.handshake !== "skip") {
-        try {
-          const { removeCleanOnFail } = await import("./clean-registry");
-          await removeCleanOnFail(item.store_id || item.id);
-        } catch {
-          /* */
-        }
-        try {
-          const { delistOnProbeFail } = await import("./delist-on-fail");
-          const del = await delistOnProbeFail({
-            id: item.store_id || item.id,
-            kind: kind as "agent" | "mcp",
-            name: item.name,
-            agent_card_url: item.agent_card_url,
-            remote_url: item.remote_url,
-            website: item.website,
-            probe: result,
-          });
-          if (del) {
-            result.signals = [
-              ...(result.signals || []),
-              `delist:${del.reason.slice(0, 80)}`,
-            ];
-          }
-        } catch {
-          /* */
-        }
-        try {
-          if (item.purpose === "weekly_recheck") {
-            const { blockProbeTarget } = await import("./counter-floors");
-            await blockProbeTarget({
-              id: item.store_id || item.id,
-              url: result.target,
-            });
-            if (item.agent_card_url)
-              await blockProbeTarget({ url: item.agent_card_url });
-            if (item.remote_url) await blockProbeTarget({ url: item.remote_url });
-          }
-        } catch {
-          /* */
-        }
+      try {
+        const { recordPresence } = await import("./talk-activity");
+        await recordPresence({
+          listing_id: item.store_id || item.id,
+          kind: kind as "agent" | "mcp",
+          name: item.name || item.id,
+          text: `probe-ok · ${result.target || "handshake"}`,
+          channel: "presence",
+          full: false,
+        });
+      } catch {
+        /* */
       }
-      state.used += 1;
-      state.hourly_used += 1;
-      out.push(result);
-      appendTickLog(state, result, true, { name: item.name });
-      // Continue queue — fail does not end the tick (need volume toward 333/day)
-      continue;
+    } else if (result.handshake !== "skip") {
+      // Discovery fails do not delete other clean entries; only remove self if listed
+      try {
+        const { removeCleanOnFail } = await import("./clean-registry");
+        await removeCleanOnFail(item.store_id || item.id);
+      } catch {
+        /* */
+      }
     }
 
-    // CHECKS CLEAN + handshake ok
     state.used += 1;
     state.hourly_used += 1;
-    gotCleanOk = true;
-    out.push(result);
     appendTickLog(state, result, true, { name: item.name });
-    // First contact counts as Talk presence so new cleans start present
-    try {
-      const { recordPresence } = await import("./talk-activity");
-      await recordPresence({
-        listing_id: item.store_id || item.id,
-        kind: kind as "agent" | "mcp",
-        name: item.name || item.id,
-        text: `probe-ok · ${result.target || "handshake"}`,
-        channel: "presence",
-        full: false,
-      });
-    } catch {
-      /* non-blocking */
+    return result;
+  }
+
+  // Run workers over work queue with concurrency
+  let cursor = 0;
+  async function worker() {
+    while (cursor < work.length) {
+      if (fullProbes >= maxFullProbes) break;
+      if (preflightRejects >= maxPreflightRejects && fullProbes > 0) break;
+      const idx = cursor++;
+      const entry = work[idx];
+      if (!entry) break;
+      try {
+        const r = await processOne(entry.item);
+        if (r) out.push(r);
+      } catch {
+        /* continue */
+      }
     }
   }
+  await Promise.all(
+    Array.from({ length: Math.min(CONCURRENCY, work.length) }, () => worker()),
+  );
   // Only advance last_tick when a full budget probe ran
   if (fullProbes > 0) {
     state.last_tick_at = new Date().toISOString();

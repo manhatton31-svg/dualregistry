@@ -35,7 +35,7 @@ jobs:
           if [ -n "${CRON_SECRET:-}" ]; then
             HDR=(-H "Authorization: Bearer ${CRON_SECRET}" -H "x-cron-secret: ${CRON_SECRET}")
           fi
-          curl -sS -L -m 90 -X POST "${PROBE_URL}" \
+          curl -sS -L -m 180 -X POST "${PROBE_URL}" \
             -H "accept: application/json" \
             -H "content-type: application/json" \
             -H "user-agent: DualRegistryActionsProbe/1.0" \
