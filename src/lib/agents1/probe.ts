@@ -1544,23 +1544,39 @@ export async function getProbePublic() {
     if (lastTickOut && (!s.last_tick_at || lastTickOut > s.last_tick_at)) {
       s.last_tick_at = lastTickOut;
     }
-    s.live_active_snapshot = liveOut;
+    // Do NOT freeze inflated live_active_snapshot from floors here —
+    // public Live must equal Active lane (checks clean + probe ok now).
     counterBackend = "display-authority(max-of-all-sources)";
   } catch {
     try {
       const { loadCounterFloors } = await import("./counter-floors");
       const floors = await loadCounterFloors();
       usedOut = Math.max(s.used, floors.used_floor || 0);
-      liveOut = {
-        total: Math.max(liveOut.total || 0, floors.live_floor?.total || 0),
-        mcp: Math.max(liveOut.mcp || 0, floors.live_floor?.mcp || 0),
-        agents: Math.max(liveOut.agents || 0, floors.live_floor?.agents || 0),
-        at: liveOut.at || floors.live_floor?.at || new Date().toISOString(),
-      };
       counterBackend = "counter-floors-readonly";
     } catch {
       /* */
     }
+  }
+
+  // PRODUCT TRUTH: Live card = Active listings only (not historical ok high-water)
+  try {
+    const { getLanedListings } = await import("./listing-lanes");
+    const lanes = await getLanedListings();
+    const mcpA = Number(
+      lanes.mcp_active?.length ?? lanes.counts?.mcp_active ?? 0,
+    );
+    const agA = Number(
+      lanes.agents_active?.length ?? lanes.counts?.agents_active ?? 0,
+    );
+    liveOut = {
+      total: mcpA + agA,
+      mcp: mcpA,
+      agents: agA,
+      at: new Date().toISOString(),
+    };
+    s.live_active_snapshot = liveOut;
+  } catch {
+    /* keep liveOut from results */
   }
 
   return {
