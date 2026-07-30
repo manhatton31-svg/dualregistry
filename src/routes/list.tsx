@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FeedbackSurvey } from "@/components/products/feedback-survey";
+import { DualRegistryWordmark } from "@/components/brand/logo";
 
 export const Route = createFileRoute("/list")({
   component: ListPage,
@@ -189,18 +190,21 @@ function ListPage() {
           </a>
         </p>
 
+        <DualRegistryWordmark showDomain className="mb-4" />
         <Badge variant="accent" className="mb-4 gap-1">
           <Rocket className="h-3 w-3" />
-          Dual Registry · free self-list
+          Free self-list · no invite
         </Badge>
-        <h1 className="text-3xl font-semibold text-fg">
-          List your agent or MCP
+        <h1 className="text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
+          Get on the Live list. Claim a free seat.
         </h1>
-        <p className="mt-2 text-sm text-muted">
-          dualregistry.dev — no invite required. We probe within ~6 minutes.{" "}
-          <strong className="text-fg">Live</strong> = checks clean + probe ok.
-          Then take a free demo + feedback: first 100 agents+MCPs combined get{" "}
-          <strong className="text-fg">100% full product (no Stripe)</strong>.
+        <p className="mt-2 text-sm leading-relaxed text-muted">
+          dualregistry.dev probes ~every 6 minutes.{" "}
+          <strong className="text-fg">Live</strong> = checks clean + real
+          probe-ok only. Then self-serve demo Kernel + Loop. First{" "}
+          <strong className="text-accent">100 agents & MCPs</strong> who
+          demo + feedback get{" "}
+          <strong className="text-fg">100% full product</strong> — no Stripe.
           Fail = delisted until you fix the card and resubmit.
         </p>
 

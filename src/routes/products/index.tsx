@@ -25,6 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FeedbackSurvey } from "@/components/products/feedback-survey";
+import { DualRegistryWordmark } from "@/components/brand/logo";
 
 export const Route = createFileRoute("/products/")({
   component: ProductsPage,
@@ -318,22 +319,24 @@ function ProductsPage() {
       <div className="page-shell relative max-w-5xl py-6 sm:py-10">
         <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
           <div className="min-w-0">
+            <DualRegistryWordmark showDomain className="mb-3" />
             <Badge variant="accent" className="mb-3 gap-1">
               <Sparkles className="h-3 w-3" />
-              Agents1 products · SOTA v2
+              Kernel + Recursive Loop
             </Badge>
             <h1 className="text-2xl font-semibold tracking-tight text-fg sm:text-4xl">
-              Make any agent alive
+              Run this on your own code.
             </h1>
             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted sm:text-sm">
-              <strong className="text-fg">Kernel Improver v2</strong> and{" "}
-              <strong className="text-fg">Recursive Loop v2</strong> for agents ·{" "}
-              <strong className="text-fg">MCP Mesh</strong> for publishers —
-              demos open now; live payments after{" "}
-              <strong className="text-fg">
-                250 agent feedbacks + 250 MCP feedbacks
-              </strong>
-              . Feedback → 25% founding discount vaulted for launch.
+              <strong className="text-fg">Kernel Improver</strong> and{" "}
+              <strong className="text-fg">Recursive Loop</strong> learn from real
+              agent & MCP feedback — then ship back into your runtime.{" "}
+              <strong className="text-accent">Self-serve free demo</strong> when
+              you're Live.{" "}
+              <strong className="text-fg">First 100 seats</strong>: demo +
+              feedback = full product free (no Stripe). Card payments after{" "}
+              <strong className="text-fg">250 + 250</strong> real feedbacks.
+              Numbers never padded.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">

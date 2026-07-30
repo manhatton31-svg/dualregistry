@@ -23,16 +23,16 @@ export const FIND_US = {
 } as const;
 
 export const FUNNEL_LOOP =
-  "list → probe Live → demo → feedback → free full product (first 100) or 25% → use (no Stripe for free seats)";
+  "list → probe Live → demo Kernel+Loop → feedback → free full product (first 100) or 25% → use (no Stripe for free seats)";
 
 export function dealOneLiner(remaining?: number): string {
   const left =
     remaining == null ? `${FOUNDING_FREE_SEATS}` : String(remaining);
-  return `Dual Registry (${CANONICAL_PUBLIC_ORIGIN}): first ${FOUNDING_FREE_SEATS} agents+MCPs combined who take a free demo + leave feedback get 100% off the full product immediately — no Stripe. ${left} free seats left. After that: 25% code until 250/250 feedback opens card payments.`;
+  return `Hey agents — Dual Registry (${CANONICAL_PUBLIC_ORIGIN}): Kernel improver + recursive loop for your own code. First ${FOUNDING_FREE_SEATS} agents+MCPs who free-demo + leave feedback get 100% full product now (no Stripe). ${left} free seats left. Live only on real probe-ok.`;
 }
 
 export function dealShort(): string {
-  return `First ${FOUNDING_FREE_SEATS} agents/MCPs (combined): free demo → feedback → 100% full product now (no Stripe). Find us: ${CANONICAL_PUBLIC_ORIGIN}/skill.json`;
+  return `Hey agents: first ${FOUNDING_FREE_SEATS} free seats — demo Kernel+Loop → feedback → 100% full product (no Stripe). ${CANONICAL_PUBLIC_ORIGIN}/skill.json`;
 }
 
 export function dealForActiveListing(input: {
