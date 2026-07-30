@@ -167,13 +167,8 @@ function probeMap(results: ProbeResult[]): Map<string, ProbeResult> {
 
 export async function loadProbeIndex(): Promise<Map<string, ProbeResult>> {
   try {
-    const { readFile } = await import("node:fs/promises");
-    const { join } = await import("node:path");
-    const raw = await readFile(
-      join(dataRoot(), "probes.json"),
-      "utf8",
-    );
-    const s = JSON.parse(raw) as { results?: Record<string, ProbeResult> };
+    const { loadProbeState } = await import("./probe");
+    const s = await loadProbeState();
     const map = new Map<string, ProbeResult>();
     for (const [key, r] of Object.entries(s.results || {})) {
       if (key.startsWith("name:") || key.startsWith("url:")) continue;
@@ -182,17 +177,20 @@ export async function loadProbeIndex(): Promise<Map<string, ProbeResult>> {
       if (!prev || (r.probed_at || "") > (prev.probed_at || "")) {
         map.set(uid, r);
       }
-      // Also index by name alias if present on result
       if (r.id && r.id !== uid) map.set(r.id, r);
+    }
+    // also index name: and url: aliases for matching
+    for (const [key, r] of Object.entries(s.results || {})) {
+      if (key.startsWith("name:") || key.startsWith("url:")) {
+        const prev = map.get(key);
+        if (!prev || (r.probed_at || "") > (prev.probed_at || "")) {
+          map.set(key, r);
+        }
+      }
     }
     return map;
   } catch {
-    try {
-      const pub = await getProbePublic();
-      return probeMap(pub.recent || []);
-    } catch {
-      return new Map();
-    }
+    return new Map();
   }
 }
 

@@ -117,6 +117,13 @@ type DashboardData = {
       last_tick_at?: string;
       next_tick_at?: string | null;
       by_kind_today?: { agents?: number; mcps?: number };
+      live_active?: { total?: number; mcp?: number; agents?: number };
+      live_active_snapshot?: {
+        total?: number;
+        mcp?: number;
+        agents?: number;
+        at?: string;
+      } | null;
       probe_worker?: {
         status?: string;
         last_tick_at?: string;
@@ -353,6 +360,23 @@ export function DashboardApp() {
   const lastEtFull = cadence.last?.et_full ?? "—";
   const nextEtFull = cadence.next.et_full;
 
+  const liveSnap =
+    proto?.probes?.live_active_snapshot || proto?.probes?.live_active || null;
+  const liveTotal =
+    liveSnap && typeof liveSnap.total === "number"
+      ? liveSnap.total
+      : lanes?.counts
+        ? lanes.counts.mcp_active + lanes.counts.agents_active
+        : null;
+  const liveMcp =
+    liveSnap && typeof liveSnap.mcp === "number"
+      ? liveSnap.mcp
+      : (lanes?.counts?.mcp_active ?? null);
+  const liveAgents =
+    liveSnap && typeof liveSnap.agents === "number"
+      ? liveSnap.agents
+      : (lanes?.counts?.agents_active ?? null);
+
   const mcpActiveRows = useMemo(
     () =>
       filterRows(
@@ -455,14 +479,10 @@ export function DashboardApp() {
           />
           <StatCard
             label="Live (probe ok)"
-            value={
-              lanes?.counts
-                ? lanes.counts.mcp_active + lanes.counts.agents_active
-                : "—"
-            }
+            value={liveTotal != null ? liveTotal : "—"}
             hint={
-              lanes?.counts
-                ? `${lanes.counts.mcp_active} MCP · ${lanes.counts.agents_active} agents`
+              liveMcp != null && liveAgents != null
+                ? `${liveMcp} MCP · ${liveAgents} agents · durable`
                 : "awaiting probes"
             }
             icon={CheckCircle2}

@@ -15,6 +15,12 @@ import {
   durableFileMtime,
 } from "./durable-json";
 import { nextProbeFromLast } from "./time-et";
+import {
+  mergeProbeStates,
+  countLiveFromResults,
+  type MergeableProbeState,
+} from "./probe-merge";
+import { durableRemoteRawUrl } from "./durable-json";
 
 const PATH = join(dataRoot(), "probes.json");
 const DURABLE_NAME = "probes.json";
@@ -84,6 +90,13 @@ type ProbeState = {
     rechecked: number;
     still_ok: number;
     demoted: number;
+  };
+  /** Stable Live card — updated on ticks, monotonic-friendly */
+  live_active_snapshot?: {
+    total: number;
+    mcp: number;
+    agents: number;
+    at: string;
   };
 };
 
@@ -166,65 +179,139 @@ export function invalidateProbeCache(): void {
   memMtime = 0;
 }
 
-export async function loadProbeState(): Promise<ProbeState> {
-
-  const day = utcDay();
-  const hour = utcHourBucket();
-  const mt = await fileMtime();
-  if (mem && mem.day === day && mt && memMtime && mt <= memMtime) {
-    if (mem.hour_bucket !== hour) {
-      mem.hour_bucket = hour;
-      mem.hourly_used = 0;
-    }
-    mem.budget = MAX_PROBES_PER_DAY;
-    mem.hourly_cap = MAX_PROBES_PER_WINDOW;
-    return mem;
-  }
+/** Always fetch GitHub durable probes (cache-busted) for merge. */
+async function fetchRemoteProbeState(): Promise<MergeableProbeState | null> {
+  const url = `${durableRemoteRawUrl(DURABLE_NAME)}?t=${Date.now()}`;
   try {
-    // Durable: local /tmp → GitHub raw data/prod/probes.json
-    const p = await loadDurableJson<Partial<ProbeState>>(DURABLE_NAME, () => ({}));
-    if (!p || !Object.keys(p).length) {
-      // fallback classic path
-      try {
-        const raw = await readFile(PATH, "utf8");
-        Object.assign(p, JSON.parse(raw));
-      } catch {
-        /* */
-      }
-    }
-    if (!p.day && !p.results) {
-      mem = empty();
-      await persist(mem);
-      return mem;
-    }
-    if (p.day !== day) {
-      const prevResults = p.results || {};
-      mem = empty();
-      mem.results = prevResults;
-      await persist(mem);
-      return mem;
-    }
-    mem = {
-      ...empty(),
-      ...p,
-      day,
-      budget: MAX_PROBES_PER_DAY,
-      hourly_cap: MAX_PROBES_PER_WINDOW,
-      hour_bucket: p.hour_bucket === hour ? (p.hour_bucket as string) : hour,
-      hourly_used: p.hour_bucket === hour ? p.hourly_used || 0 : 0,
-      results: p.results || {},
-      used: p.used || 0,
-    };
-    memMtime = mt || (await fileMtime());
-    return mem;
+    const res = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "DualRegistryProbeMerge/1.0",
+        "cache-control": "no-cache",
+      },
+      cache: "no-store",
+      signal: AbortSignal.timeout(12_000),
+    });
+    if (!res.ok) return null;
+    const text = await res.text();
+    if (!text.trim() || text.trim().startsWith("<!")) return null;
+    return JSON.parse(text) as MergeableProbeState;
   } catch {
-    mem = empty();
-    await persist(mem);
-    return mem;
+    return null;
   }
 }
 
+export async function loadProbeState(): Promise<ProbeState> {
+  const day = utcDay();
+  const hour = utcHourBucket();
+
+  // Always read local + remote and merge (source of truth for multi-instance)
+  let local: MergeableProbeState | null = null;
+  try {
+    const raw = await loadDurableJson<MergeableProbeState>(DURABLE_NAME, () => ({}));
+    if (raw && Object.keys(raw).length) local = raw;
+  } catch {
+    /* */
+  }
+  // loadDurableJson only hydrates when local missing — also force remote merge
+  const remote = await fetchRemoteProbeState();
+
+  // Include in-memory if same day (this instance may be ahead of disk)
+  const memPart: MergeableProbeState | null =
+    mem && mem.day === day ? (mem as MergeableProbeState) : null;
+
+  let merged = mergeProbeStates(local, remote, day);
+  merged = mergeProbeStates(merged, memPart, day);
+
+  // Day rollover: keep results, reset used counters for new day
+  if (merged.day && merged.day !== day) {
+    const prevResults = merged.results || {};
+    merged = {
+      ...empty(),
+      results: prevResults,
+      day,
+      // carry live snapshot forward (still valid until re-probed)
+      live_active_snapshot: merged.live_active_snapshot,
+    };
+  }
+
+  // Live count from results — never below prior snapshot total for same day
+  const liveNow = countLiveFromResults(merged.results);
+  const prevSnap = merged.live_active_snapshot;
+  if (
+    prevSnap &&
+    prevSnap.at &&
+    // within 24h and higher total — keep higher until results justify (avoid flap down on partial hydrate)
+    Date.now() - Date.parse(prevSnap.at) < 24 * 3600_000 &&
+    prevSnap.total > liveNow.total &&
+    liveNow.total === 0
+  ) {
+    // empty results hydrate bug — keep snapshot
+  } else if (
+    prevSnap &&
+    prevSnap.total > liveNow.total &&
+    Object.keys(merged.results || {}).length < 10
+  ) {
+    // partial results — keep higher snapshot
+  } else {
+    merged.live_active_snapshot = {
+      total: liveNow.total,
+      mcp: liveNow.mcp,
+      agents: liveNow.agents,
+      at: new Date().toISOString(),
+    };
+  }
+
+  mem = {
+    ...empty(),
+    ...merged,
+    day,
+    budget: MAX_PROBES_PER_DAY,
+    hourly_cap: MAX_PROBES_PER_WINDOW,
+    hour_bucket: merged.hour_bucket === hour ? (merged.hour_bucket as string) : hour,
+    hourly_used:
+      merged.hour_bucket === hour ? Number(merged.hourly_used) || 0 : 0,
+    results: (merged.results || {}) as Record<string, ProbeResult>,
+    used: Number(merged.used) || 0,
+    last_tick_at: merged.last_tick_at,
+    live_active_snapshot: merged.live_active_snapshot,
+    weekly: merged.weekly as ProbeState["weekly"],
+    updated_at: merged.updated_at || new Date().toISOString(),
+  };
+
+  // Write merged local so this instance is consistent (don't push every read)
+  try {
+    const { writeFile, mkdir } = await import("node:fs/promises");
+    const { dirname, join } = await import("node:path");
+    const path = join(dataRoot(), DURABLE_NAME);
+    await mkdir(dirname(path), { recursive: true });
+    await writeFile(path, JSON.stringify(mem, null, 2), "utf8");
+    memMtime = Date.now();
+  } catch {
+    /* */
+  }
+
+  return mem;
+}
+
 async function persist(s: ProbeState) {
+  // Monotonic: never persist a lower used than remote/local same day
+  try {
+    const remote = await fetchRemoteProbeState();
+    if (remote && remote.day === s.day) {
+      const merged = mergeProbeStates(s as MergeableProbeState, remote, s.day);
+      s.used = Math.max(s.used, Number(merged.used) || 0);
+      s.results = (merged.results || s.results) as Record<string, ProbeResult>;
+      s.last_tick_at = merged.last_tick_at || s.last_tick_at;
+      if (merged.live_active_snapshot) {
+        const a = s.live_active_snapshot;
+        const b = merged.live_active_snapshot;
+        if (!a || (b.total >= (a.total || 0))) s.live_active_snapshot = b;
+      }
+    }
+  } catch {
+    /* */
+  }
   mem = s;
   s.updated_at = new Date().toISOString();
   chain = chain.then(async () => {
@@ -989,6 +1076,9 @@ export async function getProbePublic() {
     last_tick_at: s.last_tick_at,
     // Next = last tick + exactly 6 minutes (cadence contract).
     next_tick_at: nextProbeFromLast(s.last_tick_at),
+    live_active: s.live_active_snapshot || countLiveFromResults(s.results),
+    live_active_snapshot: s.live_active_snapshot || null,
+    source_of_truth: "merged local+/tmp + GitHub data/prod/probes.json (monotonic used)",
     probe_worker: probe_worker
       ? {
           status: probe_worker.status,

@@ -81,6 +81,24 @@ async function runTick() {
   const nextIso = new Date(
     (Number.isFinite(lastMs) ? lastMs : Date.now()) + 6 * 60_000,
   ).toISOString();
+
+  // Refresh stable live snapshot after tick (from results — durable)
+  const { countLiveFromResults } = await import("@/lib/agents1/probe-merge");
+  const live = countLiveFromResults(state.results);
+  state.live_active_snapshot = {
+    total: live.total,
+    mcp: live.mcp,
+    agents: live.agents,
+    at: new Date().toISOString(),
+  };
+  // re-persist with snapshot (monotonic persist path)
+  try {
+    const { saveDurableJson } = await import("@/lib/agents1/durable-json");
+    await saveDurableJson("probes.json", state);
+  } catch {
+    /* */
+  }
+
   const worker = await stampWorker({
     status: "ok",
     mode: "production-cron",
@@ -89,24 +107,18 @@ async function runTick() {
     next_tick_at: nextIso,
     last_result: result.last_result || null,
     probed: result.probed,
-    used: result.used,
+    used: state.used,
     ticks: Number(state.used || 0),
+    live_active: live.total,
     notes: result.notes?.slice(0, 8),
   });
 
-  const probesRaw = await readDurableRaw("probes.json");
+  // Always serialize full merged state for Actions commit (never rely on /tmp alone)
+  const probesRaw = JSON.stringify(state, null, 2);
   const growthRaw = await readDurableRaw("growth-state.json");
   const cacheRaw = await readDurableRaw("store-cache.json");
 
-  // Count live active from probe oks
-  const oks = Object.entries(state.results || {}).filter(
-    ([k, r]) =>
-      !k.startsWith("name:") &&
-      !k.startsWith("url:") &&
-      r &&
-      r.ok &&
-      r.handshake === "ok",
-  ).length;
+  const oks = live.total;
 
   return {
     ok: true,
