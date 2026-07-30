@@ -351,10 +351,24 @@ export async function getLanedListings(): Promise<{
     policy: { exclusive: boolean; grows_on: string; no_overlap: string };
   };
 }> {
-  const [cache, probes] = await Promise.all([
+  const [cache0, probes] = await Promise.all([
     loadStoreCache(),
     loadProbeIndex(),
   ]);
+  let cache = cache0;
+  // Production cold start: hydrate store listings so Active lanes aren't empty
+  if (
+    !(cache.mcp_items || []).length &&
+    !(cache.agent_items || []).length
+  ) {
+    try {
+      const { getLiveSnapshot } = await import("./fetch-live");
+      await getLiveSnapshot({ forceLive: true });
+      cache = await loadStoreCache();
+    } catch {
+      /* keep empty cache */
+    }
+  }
 
   const mcpByName = new Set(
     (cache.mcp_items || []).map((m) => m.name.toLowerCase()),
