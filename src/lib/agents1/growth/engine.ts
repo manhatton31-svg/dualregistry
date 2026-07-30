@@ -42,8 +42,10 @@ import type {
   GrowthState,
   SubmitByUrlResult,
 } from "./types";
+import { hasProbeableSource } from "../listing-lanes";
 
-const MAX_CANDIDATES = 600;
+/** Small queue — probe-first, no junk hoard */
+const MAX_CANDIDATES = 120;
 const MAX_RUNS = 40;
 
 function alreadyListed(
@@ -87,6 +89,34 @@ function rememberSubmitted(
   }
 }
 
+/**
+ * PRODUCT LAW: drop garbage from the queue.
+ * No card/URL at source found → never probe, never list.
+ * rejected / duplicate → discard.
+ */
+function purgeUnprobeable(state: GrowthState, notes: string[]): number {
+  const before = state.candidates.length;
+  const keep: GrowthCandidate[] = [];
+  for (const c of state.candidates || []) {
+    if (c.status === "rejected" || c.status === "duplicate") continue;
+    if (!hasProbeableSource(c)) continue;
+    keep.push(c);
+  }
+  keep.sort((a, b) => {
+    const ap = a.status === "queued" || a.status === "enriched" ? 0 : 1;
+    const bp = b.status === "queued" || b.status === "enriched" ? 0 : 1;
+    return ap - bp || (a.updated_at < b.updated_at ? 1 : -1);
+  });
+  state.candidates = keep.slice(0, MAX_CANDIDATES);
+  const dropped = before - state.candidates.length;
+  if (dropped > 0) {
+    notes.push(
+      `purge: dropped ${dropped} unprobeable/rejected (kept ${state.candidates.length} with real card/URL)`,
+    );
+  }
+  return dropped;
+}
+
 async function applyHandshakeProbes(
   state: GrowthState,
   run: { notes: string[] },
@@ -95,21 +125,13 @@ async function applyHandshakeProbes(
   try {
     type PT = Parameters<typeof runProbeBudgeted>[0][number];
     // Probe candidates only when we have a real card/endpoint at the source we found.
-    // Never list them publicly until handshake ok (listing-lanes active filter).
     const probeTargets: PT[] = state.candidates
       .filter((c) =>
         ["queued", "enriched", "deferred", "failed", "approved", "submitted"].includes(
           c.status,
         ),
       )
-      .filter((c) =>
-        Boolean(
-          c.agent_card_url ||
-            c.endpoint_url ||
-            c.remote_url ||
-            (c.website && /well-known|agent\.json|mcp/i.test(c.website)),
-        ),
-      )
+      .filter((c) => hasProbeableSource(c))
       .map((c) => {
         const dirty =
           c.status === "failed" ||
@@ -152,7 +174,6 @@ async function applyHandshakeProbes(
       const { loadStoreCache } = await import("../store-cache");
       const cache = await loadStoreCache();
       const seen = new Set(probeTargets.map((t) => t.id));
-      // Prefer store listings that have never been probe-ok (grow Active list)
       let probeState: Awaited<ReturnType<typeof loadProbeState>> | null = null;
       try {
         probeState = await loadProbeState();
@@ -166,18 +187,10 @@ async function applyHandshakeProbes(
           results[`name:${kind}:${name.toLowerCase().trim()}`]
         );
       };
-      /** Still Active-grade and not yet due for weekly recheck — skip discovery */
-      const isActiveNotDue = (id: string, name: string, kind: "agent" | "mcp") => {
-        const r = lookup(id, name, kind);
-        if (!r || !(r.handshake === "ok" && r.ok)) return false;
-        return !isWeeklyRecheckDue(r);
-      };
       const weeklyTargets: PT[] = [];
 
       // PRODUCT: never probe-list the entire store dump.
       // Only weekly-recheck listings that already probe-ok (clean registry).
-      // New listings enter only via growth candidates discovered with a real URL,
-      // probed at that URL first — then listed if handshake ok.
       for (const a of cache.agent_items || []) {
         if (seen.has(a.id)) continue;
         const prev = lookup(a.id, a.name, "agent");
@@ -218,11 +231,13 @@ async function applyHandshakeProbes(
         }
       }
 
-      // Growth candidates that are Active-grade and due for weekly recheck
       for (const c of state.candidates) {
-        const prev = results[c.id] || results[`name:${c.kind}:${(c.name||"").toLowerCase().trim()}`];
+        const prev =
+          results[c.id] ||
+          results[`name:${c.kind}:${(c.name || "").toLowerCase().trim()}`];
         if (!prev || !isWeeklyRecheckDue(prev)) continue;
         if (seen.has(c.id) || (c.store_id && seen.has(c.store_id))) continue;
+        if (!hasProbeableSource(c)) continue;
         weeklyTargets.push(
           c.kind === "agent"
             ? {
@@ -251,38 +266,34 @@ async function applyHandshakeProbes(
         );
       }
 
-      // Discovery first in list order, then weekly (priority still ranks never-probed higher)
       const discoveryCount = probeTargets.length;
       probeTargets.push(...weeklyTargets);
       run.notes.push(
-        `probe-queue: ${discoveryCount} discovery · ${weeklyTargets.length} weekly-due (unlimited)`,
+        `probe-queue: ${discoveryCount} discovery · ${weeklyTargets.length} weekly-due (probeable only)`,
       );
     } catch {
       /* cache optional */
     }
 
-    // Balanced queue: never slice agents away (candidates are MCP-heavy at front).
-    // Prefer never-probed + lagging kind; cap size but keep both lanes.
     const agentsQ = probeTargets.filter((t) => t.kind === "agent");
     const mcpsQ = probeTargets.filter((t) => t.kind !== "agent");
     const weeklyQ = probeTargets.filter((t) => t.purpose === "weekly_recheck");
     const discAgents = agentsQ.filter((t) => t.purpose !== "weekly_recheck");
     const discMcps = mcpsQ.filter((t) => t.purpose !== "weekly_recheck");
     const balancedQueue: typeof probeTargets = [];
-    const maxEach = 80;
+    const maxEach = 40;
     const aSlice = discAgents.slice(0, maxEach);
     const mSlice = discMcps.slice(0, maxEach);
-    // Interleave agent/mcp so lagging kind is always present in the budgeted ranker
     const n = Math.max(aSlice.length, mSlice.length);
     for (let i = 0; i < n; i++) {
       if (i < aSlice.length) balancedQueue.push(aSlice[i]!);
       if (i < mSlice.length) balancedQueue.push(mSlice[i]!);
     }
-    for (const w of weeklyQ.slice(0, 40)) {
+    for (const w of weeklyQ.slice(0, 20)) {
       if (!balancedQueue.some((x) => x.id === w.id)) balancedQueue.push(w);
     }
     run.notes.push(
-      `probe-balance-queue: ${aSlice.length} agents · ${mSlice.length} mcps · ${Math.min(40, weeklyQ.length)} weekly (interleaved)`,
+      `probe-balance-queue: ${aSlice.length} agents · ${mSlice.length} mcps · ${Math.min(20, weeklyQ.length)} weekly`,
     );
     const probes = await runProbeBudgeted(balancedQueue, max);
     const byId = Object.fromEntries(probes.map((r) => [r.id, r]));
@@ -294,8 +305,14 @@ async function applyHandshakeProbes(
       for (const s of pr.protocol_hints) hints.add(`proto:${s}`);
       if (pr.namespace_verified) hints.add("ns:verified");
       if (pr.handshake === "ok") hints.add("handshake:ok");
-      if (pr.handshake === "fail") hints.add("handshake:fail");
-      if (pr.handshake === "partial") hints.add("handshake:partial");
+      if (pr.handshake === "fail") {
+        hints.add("handshake:fail");
+        c.status = "rejected";
+      }
+      if (pr.handshake === "partial") {
+        hints.add("handshake:partial");
+        c.status = "rejected";
+      }
       c.quality_hints = [...hints];
     }
     const weeklyN = probes.filter((p) =>
@@ -346,7 +363,7 @@ async function applyHandshakeProbes(
   }
 }
 
-/** 6-minute probe-only tick — always spends budget window when available */
+/** 6-minute probe-only tick */
 export async function runProbeTick(opts?: { max?: number }): Promise<{
   ok: boolean;
   probed: number;
@@ -364,11 +381,12 @@ export async function runProbeTick(opts?: { max?: number }): Promise<{
 }> {
   const state = await loadState();
   const notes: string[] = [];
+  purgeUnprobeable(state, notes);
   const before = await loadProbeState();
   const usedBefore = before.used || 0;
   await applyHandshakeProbes(state, { notes }, opts?.max ?? 1);
+  purgeUnprobeable(state, notes);
   await saveState(state);
-  // Always stamp last_tick so dashboards/worker know the cadence fired
   try {
     const { stampProbeTick } = await import("@/lib/agents1/probe");
     if (typeof stampProbeTick === "function") await stampProbeTick();
@@ -377,7 +395,6 @@ export async function runProbeTick(opts?: { max?: number }): Promise<{
   }
   const after = await loadProbeState();
   const probed = Math.max(0, (after.used || 0) - usedBefore);
-  // Newest primary result (skip aliases)
   let last_result: {
     id?: string;
     kind?: string;
@@ -411,7 +428,10 @@ export async function runProbeTick(opts?: { max?: number }): Promise<{
     probed,
     notes,
     used: after.used,
-    window_remaining: Math.max(0, (after.hourly_cap || 1) - (after.hourly_used || 0)),
+    window_remaining: Math.max(
+      0,
+      (after.hourly_cap || 1) - (after.hourly_used || 0),
+    ),
     last_result,
   };
 }
@@ -506,29 +526,40 @@ export async function runGrowthCycle(opts?: {
       `Free-tier UTC ${view.day}: put ${view.put.used}/${view.put.budget} · get ${view.get.used}/${view.get.budget} (Agents1 share)`,
     );
     run.notes.push(
-      "Policy: protect reads · even-rate MCP↔agent · protocol probes every 6m",
+      "Policy: probe-first clean registry · only probeable source URLs · never list store dump",
     );
+
+    purgeUnprobeable(state, run.notes);
 
     state.kv = await syncKvFromFreeTier(state.kv);
 
     let index = await fetchStoreIndex();
     run.notes.push(
-      `store: ${index.mcp_total} mcp / ${index.agent_total} agents (live)`,
+      `store index (internal): ${index.mcp_total} mcp / ${index.agent_total} agents — public list is clean-only`,
     );
 
-    // Discover
     if (isReadSafe(ft)) {
       try {
         const disc = await discoverCandidates({
           agentPriority: index.agent_total + BALANCE_GAP < index.mcp_total,
           mcpPriority: index.mcp_total + BALANCE_GAP < index.agent_total,
         });
+        let skippedNoUrl = 0;
         for (const c of disc.candidates || []) {
+          if (!hasProbeableSource(c)) {
+            skippedNoUrl++;
+            continue;
+          }
           const k = candidateKey(c);
           if (state.seen_keys.includes(k)) continue;
           state.seen_keys.push(k);
           state.candidates.unshift(c);
           run.discovered++;
+        }
+        if (skippedNoUrl) {
+          run.notes.push(
+            `discover-skip: ${skippedNoUrl} without probeable card/URL (never queued)`,
+          );
         }
         state.totals.discovered += run.discovered;
         for (const n of disc.notes || []) run.notes.push(n);
@@ -539,10 +570,9 @@ export async function runGrowthCycle(opts?: {
       }
     }
 
-    // Probes every growth cycle too
+    purgeUnprobeable(state, run.notes);
     await applyHandshakeProbes(state, run, 1);
 
-    // Submit puts
     const dailyOpsSnap = await loadDailyOps();
     const midnightBurst = shouldDoMidnightBurst(dailyOpsSnap);
     let putCap = opts?.maxSubmit ?? cyclePutCap(ft, midnightBurst);
@@ -558,8 +588,15 @@ export async function runGrowthCycle(opts?: {
       );
     }
 
+    // Only submit after probe handshake ok at source URL
     const ranked = state.candidates
-      .filter((c) => ["queued", "enriched", "deferred", "failed"].includes(c.status))
+      .filter((c) =>
+        ["queued", "enriched", "deferred", "failed"].includes(c.status),
+      )
+      .filter((c) => hasProbeableSource(c))
+      .filter((c) =>
+        (c.quality_hints || []).some((h) => h === "handshake:ok"),
+      )
       .map((c) => ({
         c,
         rank: rankCandidate(c, {
@@ -594,7 +631,6 @@ export async function runGrowthCycle(opts?: {
         continue;
       }
 
-      // Balance gate
       const wantAgentShare = pureAgentCatchup
         ? 1
         : preferAgent
@@ -605,7 +641,6 @@ export async function runGrowthCycle(opts?: {
       const agentShare =
         putCount === 0 ? 0 : agentPuts / Math.max(1, putCount);
       if (working.kind === "mcp" && agentShare < wantAgentShare - 0.05) {
-        // need more agents first
         const hasAgent = ranked.some(
           (r) =>
             r.kind === "agent" &&
@@ -621,6 +656,15 @@ export async function runGrowthCycle(opts?: {
         working = await enrichCandidate(working);
       } catch {
         /* keep */
+      }
+
+      if (!hasProbeableSource(working)) {
+        working.status = "deferred";
+        working.last_error = "no probeable source URL";
+        working.updated_at = new Date().toISOString();
+        state.candidates[idx] = working;
+        skippedQuality++;
+        continue;
       }
 
       const gate = preflightQualityGate(working);
@@ -686,13 +730,7 @@ export async function runGrowthCycle(opts?: {
       `writes this cycle: ${agentPuts} agent + ${mcpPuts} mcp = ${putCount}`,
     );
 
-    // Trim candidates
-    if (state.candidates.length > MAX_CANDIDATES) {
-      state.candidates = state.candidates
-        .slice()
-        .sort((a, b) => (a.updated_at < b.updated_at ? 1 : -1))
-        .slice(0, MAX_CANDIDATES);
-    }
+    purgeUnprobeable(state, run.notes);
 
     const ftEnd = publicBudgetView(await loadFreeTier());
     run.budget_remaining = ftEnd.put.remaining;
@@ -728,6 +766,9 @@ export async function runGrowthCycle(opts?: {
 
     state.kv = await syncKvFromFreeTier(state.kv);
     await runProductFeedbackDrive(run.notes);
+    if (state.seen_keys.length > 2000) {
+      state.seen_keys = state.seen_keys.slice(-1500);
+    }
     await saveState(state);
 
     const status = toPublicStatus(state, run.notes, {
@@ -760,6 +801,14 @@ export async function runGrowthCycle(opts?: {
 export async function getGrowthStatus(): Promise<GrowthPublicStatus> {
   const state = await loadState();
   const notes: string[] = [];
+  purgeUnprobeable(state, notes);
+  if (notes.length) {
+    try {
+      await saveState(state);
+    } catch {
+      /* */
+    }
+  }
   let store: { mcp: number; agents: number } | undefined;
   try {
     const index = await fetchStoreIndex();
@@ -801,30 +850,64 @@ export async function submitByUrl(url: string): Promise<SubmitByUrlResult> {
     website: url.startsWith("http") ? new URL(url).origin : undefined,
     agent_card_url: isAgent ? url : undefined,
     remote_url: !isAgent ? url : undefined,
+    endpoint_url: isAgent ? url : undefined,
     source: "submit_url",
     status: "queued",
     attempts: 0,
     discovered_at: ts,
     updated_at: ts,
+    quality_hints: ["manual", "probe-first"],
   };
-  state.candidates.unshift(c);
-  await saveState(state);
-  try {
-    const enriched = await enrichCandidate(c);
-    const sub = await submitCandidate(enriched);
-    return {
-      ok: Boolean(sub.ok || sub.approved || sub.duplicate),
-      kind: c.kind,
-      candidate: enriched,
-      message: sub.message || sub.error || (sub.ok ? "submitted" : "done"),
-      store_response_json: JSON.stringify(sub.raw || {}).slice(0, 2000),
-    };
-  } catch (e) {
+  if (!hasProbeableSource(c)) {
     return {
       ok: false,
       kind: c.kind,
       candidate: c,
-      message: e instanceof Error ? e.message : String(e),
+      message: "URL is not a probeable agent-card or MCP endpoint",
     };
   }
+  state.candidates.unshift(c);
+  purgeUnprobeable(state, []);
+  await saveState(state);
+  // Probe at this URL first — never list without handshake
+  try {
+    await applyHandshakeProbes(state, { notes: [] }, 1);
+    await saveState(state);
+  } catch {
+    /* */
+  }
+  const refreshed = state.candidates.find((x) => x.id === c.id) || c;
+  if ((refreshed.quality_hints || []).includes("handshake:ok")) {
+    try {
+      const enriched = await enrichCandidate(refreshed);
+      const sub = await submitCandidate(enriched);
+      return {
+        ok: Boolean(sub.ok || sub.approved || sub.duplicate),
+        kind: c.kind,
+        candidate: enriched,
+        message:
+          sub.message ||
+          sub.error ||
+          (sub.ok ? "probe ok — submitted" : "probe ok"),
+        store_response_json: JSON.stringify(sub.raw || {}).slice(0, 2000),
+      };
+    } catch (e) {
+      return {
+        ok: true,
+        kind: c.kind,
+        candidate: refreshed,
+        message: `probe ok; submit later: ${e instanceof Error ? e.message : String(e)}`,
+      };
+    }
+  }
+  return {
+    ok: false,
+    kind: c.kind,
+    candidate: refreshed,
+    message:
+      "Probed at source URL — handshake not ok. Fix the card and resubmit. Nothing is listed until probe ok.",
+  };
 }
+
+// silence unused import if ACTIVE_REPROBE_MS only referenced elsewhere
+void ACTIVE_REPROBE_MS;

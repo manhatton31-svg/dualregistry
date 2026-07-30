@@ -1,5 +1,6 @@
 /**
  * Dual Registry dashboard — clean targets first, real numbers only.
+ * Never show store dump, discovered queue, or delisted wall.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -8,11 +9,8 @@ import {
   CheckCircle2,
   Copy,
   Cpu,
-  Layers,
   Radio,
-  Rocket,
   Search,
-  Server,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,9 +25,9 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { DualRegistryWordmark } from "@/components/brand/logo";
 import { ListingTable, type ListingRow } from "./listing-table";
+import { StatCard } from "./stat-card";
 import {
   formatEtClock,
-  formatProbeRelative,
   probeCadencePair,
 } from "@/lib/agents1/time-et";
 
@@ -84,18 +82,10 @@ type DashboardData = {
   product_engagement?: ProductEngagement | null;
   listing_lanes?: {
     mcp_active?: ListingRowRaw[];
-    mcp_discovered?: ListingRowRaw[];
     agents_active?: ListingRowRaw[];
-    agents_discovered?: ListingRowRaw[];
-    mcp_needs_resubmit?: ListingRowRaw[];
-    agents_needs_resubmit?: ListingRowRaw[];
     counts?: {
       mcp_active: number;
-      mcp_discovered: number;
       agents_active: number;
-      agents_discovered: number;
-      mcp_needs_resubmit?: number;
-      agents_needs_resubmit?: number;
       public_listed?: number;
     };
     policy?: {
@@ -112,11 +102,6 @@ type DashboardData = {
       }>;
     };
   } | null;
-  delist?: {
-    delisted_total?: number;
-    delisted_mcp?: number;
-    delisted_agents?: number;
-  };
   protocol?: {
     probes?: {
       used?: number;
@@ -128,11 +113,6 @@ type DashboardData = {
       next_tick_at?: string;
       by_kind_today?: { agents?: number; mcps?: number };
       live_active?: { total?: number; mcp?: number; agents?: number };
-      live_active_snapshot?: {
-        total?: number;
-        mcp?: number;
-        agents?: number;
-      };
       probe_worker?: { status?: string };
       recent?: Array<{
         id?: string;
@@ -149,7 +129,6 @@ type DashboardData = {
         rechecked_this_week?: number;
       };
     };
-    mirror?: { total_seen?: number };
   } | null;
 };
 
@@ -201,61 +180,27 @@ function toListingRow(m: ListingRowRaw): ListingRow {
 
 function filterRows(
   rows: ListingRow[],
-  q: string,
-  categoryId?: string | null,
+  query: string,
+  categoryFilter: string | null,
 ): ListingRow[] {
-  const n = q.trim().toLowerCase();
+  const q = query.trim().toLowerCase();
   return rows.filter((r) => {
-    if (categoryId && r.category_id !== categoryId) return false;
-    if (!n) return true;
-    return (
-      r.name.toLowerCase().includes(n) ||
-      (r.description || "").toLowerCase().includes(n) ||
-      (r.author || "").toLowerCase().includes(n) ||
-      (r.category_label || "").toLowerCase().includes(n) ||
-      (r.target_url || "").toLowerCase().includes(n)
-    );
+    if (categoryFilter && r.category_id !== categoryFilter) return false;
+    if (!q) return true;
+    return [r.name, r.description, r.author, r.target_url, r.website]
+      .filter(Boolean)
+      .some((s) => String(s).toLowerCase().includes(q));
   });
 }
 
-function formatRelative(iso: string) {
+function formatRelative(iso: string): string {
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return "—";
-  const ms = Date.now() - t;
-  if (ms < 0) return "just now";
-  if (ms < 45_000) return "just now";
-  if (ms < 3600_000) return `${Math.max(1, Math.floor(ms / 60_000))}m ago`;
-  return `${Math.floor(ms / 3600_000)}h ago`;
-}
-
-function StatCard(props: {
-  label: string;
-  value: string | number;
-  hint?: string;
-  icon: typeof Server;
-  accent?: "accent" | "info" | "success" | "warn";
-}) {
-  const Icon = props.icon;
-  return (
-    <Card className="min-w-0">
-      <CardContent className="flex items-start gap-3 p-3 sm:p-4">
-        <div className="rounded-[var(--radius-sm)] bg-accent/10 p-2 text-accent">
-          <Icon className="h-4 w-4" />
-        </div>
-        <div className="min-w-0">
-          <p className="text-[10px] uppercase tracking-wide text-subtle">
-            {props.label}
-          </p>
-          <p className="tabular text-xl font-semibold leading-tight text-fg">
-            {props.value}
-          </p>
-          {props.hint ? (
-            <p className="mt-0.5 text-[11px] text-muted">{props.hint}</p>
-          ) : null}
-        </div>
-      </CardContent>
-    </Card>
-  );
+  const sec = Math.round((Date.now() - t) / 1000);
+  if (sec < 60) return `${sec}s ago`;
+  if (sec < 3600) return `${Math.floor(sec / 60)}m ago`;
+  if (sec < 86400) return `${Math.floor(sec / 3600)}h ago`;
+  return `${Math.floor(sec / 86400)}d ago`;
 }
 
 function useLiveData() {
@@ -265,15 +210,14 @@ function useLiveData() {
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async (soft = false) => {
-    if (!soft) setRefreshing(true);
+    setRefreshing(true);
     setError(null);
     try {
-      const r = await fetch(`/api/dashboard?refresh=1&t=${Date.now()}`, {
-        cache: "no-store",
-      });
-      if (!r.ok) throw new Error(`dashboard ${r.status}`);
-      const j = (await r.json()) as DashboardData;
-      setData(j);
+      const url = soft ? "/api/dashboard" : "/api/dashboard?refresh=1";
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) throw new Error(`dashboard ${res.status}`);
+      const json = (await res.json()) as DashboardData;
+      setData(json);
       setRefreshedAt(new Date().toISOString());
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -302,10 +246,6 @@ export function DashboardApp() {
   const pe = data?.product_engagement;
   const proto = data?.protocol;
 
-  const mcpTotal = data?.mcp?.total ?? 0;
-  const agentTotal = data?.agents?.total ?? 0;
-  const delistedTotal = data?.delist?.delisted_total ?? 0;
-
   const fbAgents = pe?.feedback_agent_only ?? 0;
   const fbMcps = pe?.feedback_mcps ?? 0;
   const unlockAgents = 250;
@@ -323,7 +263,6 @@ export function DashboardApp() {
   const lastEtFull = cadence.last?.et_full ?? "—";
   const nextEtFull = cadence.next.et_full;
 
-  // Product truth: Live = Active lane (checks clean + probe ok), not inflated snapshot
   const liveMcp = lanes?.counts?.mcp_active ?? null;
   const liveAgents = lanes?.counts?.agents_active ?? null;
   const liveTotal =
@@ -338,28 +277,10 @@ export function DashboardApp() {
       ),
     [lanes, query, categoryFilter],
   );
-  const mcpDiscoveredRows = useMemo(
-    () =>
-      filterRows(
-        (lanes?.mcp_discovered || []).map(toListingRow),
-        query,
-        categoryFilter,
-      ),
-    [lanes, query, categoryFilter],
-  );
   const agentActiveRows = useMemo(
     () =>
       filterRows(
         (lanes?.agents_active || []).map(toListingRow),
-        query,
-        categoryFilter,
-      ),
-    [lanes, query, categoryFilter],
-  );
-  const agentDiscoveredRows = useMemo(
-    () =>
-      filterRows(
-        (lanes?.agents_discovered || []).map(toListingRow),
         query,
         categoryFilter,
       ),
@@ -393,7 +314,7 @@ export function DashboardApp() {
     return {
       ok: true,
       product: "dualregistry-clean-targets",
-      rule: "checks_clean + live probe handshake ok",
+      rule: "checks_clean + live probe handshake ok at source URL",
       counts: { agents: agents.length, mcps: mcps.length },
       agents,
       mcps,
@@ -415,10 +336,6 @@ export function DashboardApp() {
   const probeHourLeft = proto?.probes?.hourly_remaining;
   const probeHourCap = proto?.probes?.hourly_cap;
   const weekly = proto?.probes?.weekly_recheck;
-  const mirrorTotal = proto?.mirror?.total_seen;
-  const discovered =
-    (lanes?.counts?.mcp_discovered || 0) +
-    (lanes?.counts?.agents_discovered || 0);
 
   return (
     <div className="mesh-bg min-h-dvh">
@@ -438,9 +355,9 @@ export function DashboardApp() {
               Only clean agents & MCPs. Nothing else.
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-              We probe at the card/URL we found — then list only if handshake is
-              ok. No store dump. No unprobed junk. No delisted wall of shame on
-              the home page. If it is not clean, it is not here.
+              Find a real card/URL on the internet → probe it there → list only
+              if handshake is ok. Nothing is added before a probe. Failures are
+              discarded — not a delisted wall of junk.
             </p>
             {error ? (
               <p className="mt-1 text-xs text-danger">{error}</p>
@@ -615,6 +532,12 @@ export function DashboardApp() {
               {t.id === "clean" && liveTotal != null ? (
                 <span className="ml-1 tabular text-subtle">{liveTotal}</span>
               ) : null}
+              {t.id === "mcp" && liveMcp != null ? (
+                <span className="ml-1 tabular text-subtle">{liveMcp}</span>
+              ) : null}
+              {t.id === "agents" && liveAgents != null ? (
+                <span className="ml-1 tabular text-subtle">{liveAgents}</span>
+              ) : null}
             </button>
           ))}
         </nav>
@@ -657,7 +580,7 @@ export function DashboardApp() {
                   <ListingTable
                     rows={agentActiveRows}
                     showDemoCta
-                    emptyLabel="No clean agents yet — probes promote here when handshake is ok"
+                    emptyLabel="No clean agents yet — we only list after probe ok at the source URL"
                   />
                 </div>
                 <div>
@@ -667,7 +590,7 @@ export function DashboardApp() {
                   <ListingTable
                     rows={mcpActiveRows}
                     showDemoCta
-                    emptyLabel="No clean MCPs yet — probes promote here when handshake is ok"
+                    emptyLabel="No clean MCPs yet — we only list after probe ok at the source URL"
                   />
                 </div>
                 {allCleanRows.length === 0 ? (
@@ -697,8 +620,8 @@ export function DashboardApp() {
                   handshake is ok — then it appears here with the target URL.
                 </p>
                 <p>
-                  Failures stay off the registry. Resubmit via /list after fixing
-                  the card.
+                  Failures are discarded. Resubmit via /list after fixing the
+                  card — we probe again before listing.
                 </p>
                 {refreshedAt ? (
                   <p className="text-subtle">
@@ -808,10 +731,14 @@ export function DashboardApp() {
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-2">
               <StatCard
-                label="Mirror catalog"
-                value={mirrorTotal ?? "—"}
-                hint="external feed"
-                icon={Layers}
+                label="Clean registry"
+                value={liveTotal ?? "—"}
+                hint={
+                  liveMcp != null && liveAgents != null
+                    ? `${liveMcp} MCP · ${liveAgents} agents`
+                    : "active only"
+                }
+                icon={CheckCircle2}
                 accent="success"
               />
               <StatCard
@@ -823,7 +750,7 @@ export function DashboardApp() {
                 }
                 hint={
                   probeBudget != null
-                    ? `${probeRemaining ?? 0} left · ${probeHourLeft ?? "—"}/${probeHourCap ?? 1} window · weekly recheck`
+                    ? `${probeRemaining ?? 0} left · ${probeHourLeft ?? "—"}/${probeHourCap ?? 1} window`
                     : "6m discovery"
                 }
                 icon={Radio}
@@ -839,41 +766,21 @@ export function DashboardApp() {
             ) : null}
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm">
-                  Recent fails (not listed — private pipeline)
-                </CardTitle>
+                <CardTitle className="text-sm">Pipeline (private)</CardTitle>
                 <CardDescription className="text-xs">
-                  {lanes?.policy?.fail_policy ||
-                    "Fix agent-card / MCP server-card and resubmit via /list."}
+                  Failures are discarded and never listed. No public delisted
+                  dump. Resubmit fixed cards via /list — we probe before listing.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-2 pb-3 pt-0 text-[11px]">
-                <p className="text-muted">
-                  Agents: {lanes?.counts?.agents_needs_resubmit ?? 0} · MCPs:{" "}
-                  {lanes?.counts?.mcp_needs_resubmit ?? 0}
+              <CardContent className="space-y-1.5 pb-3 pt-0 text-[11px] text-muted">
+                <p>
+                  <span className="font-medium text-fg">Rule:</span> find →
+                  probe at source URL → list only if handshake ok.
                 </p>
-                <ul className="max-h-48 space-y-1.5 overflow-y-auto">
-                  {[
-                    ...(lanes?.agents_needs_resubmit || []),
-                    ...(lanes?.mcp_needs_resubmit || []),
-                  ]
-                    .slice(0, 30)
-                    .map((r) => (
-                      <li
-                        key={r.id}
-                        className="rounded border border-border/60 px-2 py-1.5"
-                      >
-                        <span className="font-medium text-fg">
-                          {r.kind}: {r.name}
-                        </span>
-                        <p className="text-subtle">{r.lane_reason}</p>
-                      </li>
-                    ))}
-                </ul>
-                {!((lanes?.counts?.agents_needs_resubmit || 0) +
-                  (lanes?.counts?.mcp_needs_resubmit || 0)) ? (
-                  <p className="text-subtle">None right now.</p>
-                ) : null}
+                <p>
+                  {lanes?.policy?.note ||
+                    "Clean only. No store dump. No unprobed junk."}
+                </p>
               </CardContent>
             </Card>
             <Card>

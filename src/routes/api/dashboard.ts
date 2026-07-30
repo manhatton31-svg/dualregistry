@@ -3,42 +3,129 @@
  * Soft poll (default): cache + disk probes, target <2s, never 504.
  * ?refresh=1 / ?live=1: recompute verified numbers (harder timeout).
  *
- * Grok sandbox / local: mirror dualregistry.dev public metrics so phone
- * production and sandbox always show the same demos/feedback/probes/times.
+ * PRODUCT: public totals + items are CLEAN ACTIVE ONLY (probe-first).
+ * Store dump / delisted / discovered never leave this API.
  */
 import { createFileRoute } from "@tanstack/react-router";
 
-
 function cleanOnlyTotals(body: Record<string, unknown>) {
-  const lanes = body.listing_lanes as
+  const lanesIn = body.listing_lanes as
     | {
-        counts?: { mcp_active?: number; agents_active?: number };
-        mcp_active?: unknown[];
-        agents_active?: unknown[];
+        counts?: {
+          mcp_active?: number;
+          agents_active?: number;
+          public_listed?: number;
+        };
+        mcp_active?: Array<Record<string, unknown>>;
+        agents_active?: Array<Record<string, unknown>>;
+        policy?: unknown;
+        categories?: unknown;
       }
     | null
     | undefined;
-  const mcpN =
-    lanes?.counts?.mcp_active ??
-    (Array.isArray(lanes?.mcp_active) ? lanes!.mcp_active!.length : null);
-  const agN =
-    lanes?.counts?.agents_active ??
-    (Array.isArray(lanes?.agents_active) ? lanes!.agents_active!.length : null);
-  if (mcpN == null && agN == null) return body;
-  const mcp = (body.mcp as Record<string, unknown>) || {};
-  const agents = (body.agents as Record<string, unknown>) || {};
+
+  // Arrays are the source of truth — never trust mirrored store counts
+  const mcpActive = Array.isArray(lanesIn?.mcp_active)
+    ? lanesIn!.mcp_active!
+    : [];
+  const agentsActive = Array.isArray(lanesIn?.agents_active)
+    ? lanesIn!.agents_active!
+    : [];
+  const mcpN = mcpActive.length;
+  const agN = agentsActive.length;
+
+  const toItem = (row: Record<string, unknown>) => {
+    const probe = (row.probe as Record<string, unknown> | null) || null;
+    return {
+      id: row.id,
+      name: row.name,
+      description: row.description,
+      author: row.author,
+      status: "approved",
+      safety_score: row.safety_score,
+      safety_flags: [],
+      failed_checks: [],
+      repository: row.repository,
+      website: row.website,
+      remote_url: row.remote_url,
+      endpoint_url: row.endpoint_url,
+      agent_card_url: row.agent_card_url,
+      target: probe?.target || row.agent_card_url || row.remote_url,
+      lane: "active",
+      checks_clean: true,
+      probe_ok: true,
+      category_id: row.category_id,
+      category_label: row.category_label,
+    };
+  };
+
+  const listing_lanes = {
+    mcp_active: mcpActive,
+    agents_active: agentsActive,
+    mcp_discovered: [],
+    agents_discovered: [],
+    mcp_needs_resubmit: [],
+    agents_needs_resubmit: [],
+    counts: {
+      mcp_active: mcpN,
+      agents_active: agN,
+      mcp_discovered: 0,
+      agents_discovered: 0,
+      mcp_needs_resubmit: 0,
+      agents_needs_resubmit: 0,
+      public_listed: mcpN + agN,
+    },
+    policy: lanesIn?.policy,
+    categories: lanesIn?.categories,
+  };
+
+  const prevMilestones =
+    (body.milestones as Record<string, unknown> | undefined) || {};
+  const prevMcp = (prevMilestones.mcp as Record<string, unknown>) || {};
+  const prevAg = (prevMilestones.agents as Record<string, unknown>) || {};
+
   return {
     ...body,
-    // Public "in registry" = clean only
-    mcp: { ...mcp, total: mcpN ?? 0, clean_only: true },
-    agents: { ...agents, total: agN ?? 0, clean_only: true },
+    mcp: {
+      ok: true,
+      service: "dualregistry-clean",
+      accepting: true,
+      total: mcpN,
+      clean_only: true,
+      status: "live",
+      items: mcpActive.map(toItem),
+    },
+    agents: {
+      ok: true,
+      service: "dualregistry-clean",
+      accepting: true,
+      total: agN,
+      clean_only: true,
+      status: "live",
+      items: agentsActive.map(toItem),
+    },
+    milestones: {
+      ...prevMilestones,
+      ok: true,
+      mcp: { ...prevMcp, approved: mcpN, unlimited: true, target: 0 },
+      agents: { ...prevAg, approved: agN, unlimited: true, target: 0 },
+      clean_only: true,
+    },
+    health: body.health
+      ? {
+          ...(body.health as object),
+          registry: { accepting_submissions: true, approved: mcpN },
+          agent_registry: { accepting_submissions: true, approved: agN },
+        }
+      : body.health,
     delist: {
       delisted_total: 0,
       delisted_mcp: 0,
       delisted_agents: 0,
       hidden: true,
-      note: "Fails are never listed — not shown as a public delisted dump",
+      note: "Fails are never listed — discarded, not a public delisted dump",
     },
+    listing_lanes,
     registry_policy: "clean_only_probe_first",
   };
 }
@@ -89,7 +176,10 @@ async function attachSidePanels(timeoutMs: number) {
   return { product_engagement, listing_lanes, metrics_truth, protocol };
 }
 
-/** Overlay production metrics onto local payload (sandbox match). */
+/**
+ * Mirror product engagement + probe cadence from production so sandbox
+ * matches phone. Never mirror store-dump registry totals/items.
+ */
 async function applyProductionMirror<T extends Record<string, unknown>>(
   payload: T,
   requestUrl: string,
@@ -99,7 +189,6 @@ async function applyProductionMirror<T extends Record<string, unknown>>(
       shouldMirrorProductionMetrics,
       fetchProductionDashboardSlice,
     } = await import("@/lib/agents1/canonical-metrics");
-    // Avoid infinite loop if production is called with mirror=1 from itself
     const u = new URL(requestUrl);
     if (u.searchParams.get("mirror") === "1") {
       return { ...payload, metrics_source: "production-local" };
@@ -111,8 +200,6 @@ async function applyProductionMirror<T extends Record<string, unknown>>(
     if (!slice) {
       return { ...payload, metrics_source: "local-mirror-failed" };
     }
-    const baseMcp = payload.mcp as { total?: number } | undefined;
-    const baseAgents = payload.agents as { total?: number } | undefined;
     return {
       ...payload,
       product_engagement:
@@ -123,30 +210,9 @@ async function applyProductionMirror<T extends Record<string, unknown>>(
           slice.protocol?.probes ??
           (payload.protocol as { probes?: unknown })?.probes,
       },
-      // In Registry + milestones from production so cards match phone
-      mcp:
-        slice.mcp?.total != null && baseMcp
-          ? { ...baseMcp, total: slice.mcp.total }
-          : slice.mcp?.total != null
-            ? { total: slice.mcp.total }
-            : payload.mcp,
-      agents:
-        slice.agents?.total != null && baseAgents
-          ? { ...baseAgents, total: slice.agents.total }
-          : slice.agents?.total != null
-            ? { total: slice.agents.total }
-            : payload.agents,
-      milestones: slice.milestones ?? payload.milestones,
-      delist: slice.delist ?? payload.delist,
-      listing_lanes: payload.listing_lanes
-        ? {
-            ...(payload.listing_lanes as object),
-            counts:
-              slice.listing_lanes?.counts ||
-              (payload.listing_lanes as { counts?: unknown })?.counts,
-          }
-        : payload.listing_lanes,
-      metrics_source: "mirrored-production",
+      // Do NOT mirror mcp/agents/milestones/listing_lanes from production
+      // when those still carry store-dump totals — cleanOnlyTotals owns them.
+      metrics_source: "mirrored-production-engagement-only",
       mirrored_from: slice.mirrored_from,
       mirrored_at: slice.mirrored_at,
     };
@@ -198,22 +264,23 @@ export const Route = createFileRoute("/api/dashboard")({
             }
           }
 
-          // Soft poll: cache only, never wait on live store crawls
           if (!userRefresh) {
             const snap =
               (await withTimeout(
                 getLiveSnapshot({ revalidate: false, forceLive: false }),
                 3_000,
               )) || {};
-            const side = await attachSidePanels(2_000);
+            const side = await attachSidePanels(4_000);
             const body = await applyProductionMirror(
               { ok: true, ...snap, ...side, soft: true },
               request.url,
             );
-            return Response.json(cleanOnlyTotals(body as Record<string, unknown>), { headers });
+            return Response.json(
+              cleanOnlyTotals(body as Record<string, unknown>),
+              { headers },
+            );
           }
 
-          // Hard refresh: allow live revalidate with hard ceiling
           const snap = await withTimeout(
             getLiveSnapshot({ revalidate: true, forceLive: true }),
             10_000,
@@ -224,22 +291,27 @@ export const Route = createFileRoute("/api/dashboard")({
                 getLiveSnapshot({ revalidate: false, forceLive: false }),
                 3_000,
               )) || {};
-            const side = await attachSidePanels(2_500);
+            const side = await attachSidePanels(4_000);
             const body = await applyProductionMirror(
               { ok: true, ...cached, ...side, degraded: true },
               request.url,
             );
-            return Response.json(cleanOnlyTotals(body as Record<string, unknown>), { headers });
+            return Response.json(
+              cleanOnlyTotals(body as Record<string, unknown>),
+              { headers },
+            );
           }
 
-          const side = await attachSidePanels(3_000);
+          const side = await attachSidePanels(5_000);
           const body = await applyProductionMirror(
             { ok: true, ...snap, ...side },
             request.url,
           );
-          return Response.json(cleanOnlyTotals(body as Record<string, unknown>), { headers });
+          return Response.json(
+            cleanOnlyTotals(body as Record<string, unknown>),
+            { headers },
+          );
         } catch (e) {
-          // Last resort: probes-only so Overview never goes blank
           let protocol = null;
           try {
             const { getProbePublic, invalidateProbeCache } = await import(
@@ -260,7 +332,10 @@ export const Route = createFileRoute("/api/dashboard")({
             },
             request.url,
           );
-          return Response.json(cleanOnlyTotals(body as Record<string, unknown>), { headers });
+          return Response.json(
+            cleanOnlyTotals(body as Record<string, unknown>),
+            { headers },
+          );
         }
       },
     },

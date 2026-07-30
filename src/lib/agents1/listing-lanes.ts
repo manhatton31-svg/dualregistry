@@ -1,17 +1,19 @@
 /**
- * Registry lanes:
- *   active         — checks-clean + recent probe handshake ok (public Active list)
- *   discovered     — picked up, awaiting first successful probe (public “incoming”)
- *   needs_resubmit — probe failed / rejected / failed checks: NOT on public lists.
- *                    Creator must fix card and resubmit for approval.
+ * Registry lanes — PUBLIC SURFACE IS CLEAN ONLY.
  *
- * Categories: exclusive primary tags collected only when ACTIVE.
+ * active         — checks-clean + recent probe handshake ok (THE public list)
+ * discovered     — internal only; never returned on public APIs (empty)
+ * needs_resubmit — internal only; never returned on public APIs (empty)
+ *
+ * Product rule (user law):
+ *  1. Never list without probing first at the source card/URL we found.
+ *  2. Only add when handshake ok.
+ *  3. Failures are discarded — not a public "delisted" dump.
  */
 import { loadStoreCache } from "./store-cache";
 import { loadState } from "./growth/persist";
 import type { AgentListing, FailedCheck, McpListing } from "./types";
-import { getProbePublic, type ProbeResult } from "./probe";
-import { dataRoot } from "@/lib/data-root";
+import type { ProbeResult } from "./probe";
 
 /**
  * Probe must be this fresh to stay Active.
@@ -108,7 +110,7 @@ function resubmitHint(kind: "agent" | "mcp", probe?: ProbeResult) {
           ],
     endpoint:
       "POST https://dualregistry.dev/api/publish — resubmit after the card returns 200 JSON",
-    message: `Delisted from Dual Registry: ${failWhy(probe)}. Fix the card, then resubmit for approval probing. Partial and fail never stay listed.`,
+    message: `Not listed: ${failWhy(probe)}. Fix the card, then resubmit. We only list after probe ok.`,
   };
 }
 
@@ -161,22 +163,15 @@ function classify(
   if (probe.handshake === "partial") {
     return {
       lane: "needs_resubmit",
-      reason: `Delisted (partial) — ${failWhy(probe)}. Fix card and resubmit for approval probing.`,
+      reason: `Not listed (partial) — ${failWhy(probe)}. Fix card and resubmit.`,
       checks_clean: false,
     };
   }
-  // FAIL: removed from registry — must resubmit
   return {
     lane: "needs_resubmit",
-    reason: `Delisted (probe fail) — ${failWhy(probe)}. Fix card and resubmit for approval probing.`,
+    reason: `Not listed (probe fail) — ${failWhy(probe)}. Fix card and resubmit.`,
     checks_clean: false,
   };
-}
-
-function probeMap(results: ProbeResult[]): Map<string, ProbeResult> {
-  const m = new Map<string, ProbeResult>();
-  for (const r of results) m.set(r.id, r);
-  return m;
 }
 
 export async function loadProbeIndex(): Promise<Map<string, ProbeResult>> {
@@ -193,7 +188,6 @@ export async function loadProbeIndex(): Promise<Map<string, ProbeResult>> {
       }
       if (r.id && r.id !== uid) map.set(r.id, r);
     }
-    // also index name: and url: aliases for matching
     for (const [key, r] of Object.entries(s.results || {})) {
       if (key.startsWith("name:") || key.startsWith("url:")) {
         const prev = map.get(key);
@@ -230,11 +224,7 @@ function enrichMcp(
   probes: Map<string, ProbeResult>,
   source: "store" | "growth" | "mirror",
 ): LanedListing {
-  const probe = findProbe(
-    probes,
-    [m.id, m.remote_url, m.website],
-    m.name,
-  );
+  const probe = findProbe(probes, [m.id, m.remote_url, m.website], m.name);
   const { lane, reason, checks_clean } = classify(m, probe);
   const age = probe
     ? (Date.now() - Date.parse(probe.probed_at)) / 3600_000
@@ -331,6 +321,24 @@ function enrichAgent(
   return row;
 }
 
+/** True if candidate has a real probe target at the source we found. */
+export function hasProbeableSource(c: {
+  agent_card_url?: string;
+  endpoint_url?: string;
+  remote_url?: string;
+  website?: string;
+  mcp_url?: string;
+}): boolean {
+  if (c.agent_card_url || c.remote_url || c.mcp_url) return true;
+  if (c.endpoint_url && /^https?:\/\//i.test(c.endpoint_url)) return true;
+  if (
+    c.website &&
+    /well-known|agent\.json|server-card|mcp/i.test(c.website)
+  )
+    return true;
+  return false;
+}
+
 export async function getLanedListings(): Promise<{
   mcp_active: LanedListing[];
   mcp_discovered: LanedListing[];
@@ -368,11 +376,7 @@ export async function getLanedListings(): Promise<{
     loadProbeIndex(),
   ]);
   let cache = cache0;
-  // Production cold start: hydrate store listings so Active lanes aren't empty
-  if (
-    !(cache.mcp_items || []).length &&
-    !(cache.agent_items || []).length
-  ) {
+  if (!(cache.mcp_items || []).length && !(cache.agent_items || []).length) {
     try {
       const { getLiveSnapshot } = await import("./fetch-live");
       await getLiveSnapshot({ forceLive: true });
@@ -401,6 +405,7 @@ export async function getLanedListings(): Promise<{
     for (const c of state.candidates || []) {
       const key = (c.name || "").toLowerCase();
       if (!key) continue;
+      if (!hasProbeableSource(c) && c.status !== "approved") continue;
       if (c.kind === "mcp") {
         if (mcpByName.has(key)) continue;
         mcpByName.add(key);
@@ -454,7 +459,6 @@ export async function getLanedListings(): Promise<{
     /* */
   }
 
-  // Persist rejection on growth candidates when probe failed (so they don't re-appear as approved)
   try {
     const { loadState: ls, saveState } = await import("./growth/persist");
     const state = await ls();
@@ -482,7 +486,6 @@ export async function getLanedListings(): Promise<{
         c.updated_at = new Date().toISOString();
         dirty = true;
       }
-      // Clear reject if later ok
       if (
         probe &&
         probe.handshake === "ok" &&
@@ -507,29 +510,25 @@ export async function getLanedListings(): Promise<{
 
   let mcp_active = mcps.filter((x) => x.lane === "active").sort(sortFn);
   let agents_active = agents.filter((x) => x.lane === "active").sort(sortFn);
-  // PRODUCT: public registry = CLEAN ONLY. Never expose unprobed store dump.
+
+  // PUBLIC REGISTRY = CLEAN ONLY
   const mcp_discovered: LanedListing[] = [];
   const agents_discovered: LanedListing[] = [];
-  const mcp_needs_resubmit = mcps
-    .filter((x) => x.lane === "needs_resubmit")
-    .sort(sortFn)
-    .slice(0, 40);
-  const agents_needs_resubmit = agents
-    .filter((x) => x.lane === "needs_resubmit")
-    .sort(sortFn)
-    .slice(0, 40);
+  const mcp_needs_resubmit: LanedListing[] = [];
+  const agents_needs_resubmit: LanedListing[] = [];
 
-  // CLEAN REGISTRY SOURCE OF TRUTH = probe-ok results (not store membership).
-  // Cold starts with thin store cache still keep every confirmed-clean target.
   {
     const have = new Set(
       [...mcp_active, ...agents_active].flatMap((r) =>
-        [r.id, r.agent_card_url, r.remote_url, r.website].filter(Boolean) as string[],
+        [r.id, r.agent_card_url, r.remote_url, r.website].filter(
+          Boolean,
+        ) as string[],
       ),
     );
     for (const r of probes.values()) {
       if (!(r.handshake === "ok" && r.ok)) continue;
-      if ((r.id || "").startsWith("name:") || (r.id || "").startsWith("url:")) continue;
+      if ((r.id || "").startsWith("name:") || (r.id || "").startsWith("url:"))
+        continue;
       const target = r.target || "";
       if (have.has(r.id) || (target && have.has(target))) continue;
       const age = Date.now() - Date.parse(r.probed_at || "");
@@ -610,7 +609,6 @@ export async function getLanedListings(): Promise<{
     const { syncCategoriesFromListings, getLiveCategoryCatalog } = await import(
       "./categories"
     );
-    // Categories only from Active
     const allForSync = [...mcp_active, ...agents_active].map((L) => ({
       id: L.id,
       kind: L.kind,
@@ -631,12 +629,7 @@ export async function getLanedListings(): Promise<{
       agents_live: cat.agents_live,
       policy: cat.policy,
     };
-    for (const row of [
-      ...mcp_active,
-      ...mcp_discovered,
-      ...agents_active,
-      ...agents_discovered,
-    ]) {
+    for (const row of [...mcp_active, ...agents_active]) {
       const a = store.assignments[`${row.kind}:${row.id}`];
       if (a) {
         row.category_id = a.category_id;
@@ -681,7 +674,6 @@ export async function getLanedListings(): Promise<{
     const { attachActivationToListings, publicOriginFromEnv } = await import(
       "@/lib/products/activation-funnel"
     );
-    // Always dualregistry.dev (or AGENTS1_PUBLIC_ORIGIN) for agent-facing take_demo URLs
     const origin = publicOriginFromEnv();
     mcp_active_out = attachActivationToListings(
       mcp_active,
@@ -704,25 +696,25 @@ export async function getLanedListings(): Promise<{
     agents_needs_resubmit,
     counts: {
       mcp_active: mcp_active.length,
-      mcp_discovered: mcp_discovered.length,
+      mcp_discovered: 0,
       agents_active: agents_active.length,
-      agents_discovered: agents_discovered.length,
-      mcp_needs_resubmit: mcp_needs_resubmit.length,
-      agents_needs_resubmit: agents_needs_resubmit.length,
+      agents_discovered: 0,
+      mcp_needs_resubmit: 0,
+      agents_needs_resubmit: 0,
       public_listed: mcp_active.length + agents_active.length,
     },
     policy: {
       active_requires: [
         "failed_checks empty (checks clean)",
-        "live probe handshake ok",
+        "live probe handshake ok at source card/URL",
         `probe fresher than ${ACTIVE_PROBE_MAX_AGE_MS / 3600_000}h`,
       ],
       probe_fresh_hours: ACTIVE_PROBE_MAX_AGE_MS / 3600_000,
       weekly_recheck_days: 7,
-      weekly_recheck: "unlimited — every Active re-probed 7d after last ok",
-      note: "Public registry = CLEAN ONLY. A listing appears only after probe ok at its own card/URL. Unprobed store junk is never listed.",
+      weekly_recheck: "every Active re-probed 7d after last ok",
+      note: "CLEAN ONLY. Find on the internet → probe at that URL → list only if handshake ok. No store dump. No delisted wall. No unprobed names.",
       fail_policy:
-        "Probe fail/partial = never listed. Fix card, resubmit via /list, then we probe again before listing.",
+        "Probe fail/partial = discarded, never listed. Fix card, resubmit via /list — we probe again before listing.",
     },
     categories,
   };
