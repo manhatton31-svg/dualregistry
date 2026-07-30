@@ -500,13 +500,17 @@ export function DashboardApp() {
               Probe worker
               <Badge
                 variant={
-                  proto?.probes?.probe_worker?.status === "running"
+                  ["running", "ok", "active"].includes(
+                    String(proto?.probes?.probe_worker?.status || ""),
+                  )
                     ? "success"
-                    : "warn"
+                    : String(proto?.probes?.probe_worker?.status) === "idle"
+                      ? "info"
+                      : "warn"
                 }
                 className="text-[10px]"
               >
-                {proto?.probes?.probe_worker?.status || "unknown"}
+                {proto?.probes?.probe_worker?.status || "waiting"}
               </Badge>
             </div>
             <a

@@ -815,7 +815,38 @@ export async function getProbePublic() {
       await readFile(join(dataRoot(), "growth", "probe-worker.json"), "utf8"),
     ) as Record<string, unknown>;
   } catch {
-    probe_worker = { status: "missing" };
+    probe_worker = null;
+  }
+  // Production serverless: worker file is ephemeral. Derive health from last_tick.
+  {
+    const lastIso = s.last_tick_at || (probe_worker?.last_tick_at as string | undefined);
+    const lastMs = lastIso ? Date.parse(String(lastIso)) : NaN;
+    const ageMs = Number.isFinite(lastMs) ? Date.now() - lastMs : Infinity;
+    // Healthy if a tick landed within ~2 slots (12m). Stale after that.
+    const derivedStatus =
+      ageMs <= 12 * 60_000
+        ? "running"
+        : ageMs <= 30 * 60_000
+          ? "idle"
+          : s.used > 0
+            ? "stale"
+            : "waiting";
+    const nextIso = nextProbeFromLast(lastIso || null);
+    probe_worker = {
+      status: derivedStatus,
+      mode: (probe_worker?.mode as string) || "production-cron",
+      scheduler:
+        (probe_worker?.scheduler as string) || "github-actions-every-6m",
+      last_tick_at: lastIso || null,
+      next_tick_at: nextIso,
+      last_probed: probe_worker?.last_probed ?? probe_worker?.probed ?? null,
+      last_result: probe_worker?.last_result ?? s.last_result ?? null,
+      last_used: probe_worker?.last_used ?? s.used,
+      ticks: probe_worker?.ticks ?? s.used,
+      pid: probe_worker?.pid ?? null,
+      derived: true,
+      age_ms: Number.isFinite(ageMs) ? ageMs : null,
+    };
   }
   let agents_today = 0;
   let mcps_today = 0;
