@@ -111,7 +111,7 @@ type DashboardData = {
 };
 
 const TABS = [
-  { id: "engage", label: "Product engagement" },
+  { id: "engage", label: "Engagement" },
   { id: "mcp", label: "MCPs" },
   { id: "agents", label: "Agents" },
 ] as const;
