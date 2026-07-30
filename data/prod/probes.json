@@ -5040,9 +5040,41 @@
     "total": 42,
     "mcp": 22,
     "agents": 20,
-    "at": "2026-07-30T05:58:53.596Z"
+    "at": "2026-07-30T06:00:46.341Z"
   },
   "tick_log": [
+    {
+      "tick_id": "2026-07-30T05:54:40.506Z|mcp_811b895a5481cf4a13eb|partial",
+      "id": "mcp_811b895a5481cf4a13eb",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://mcp.buywhere.ai/mcp",
+      "signals": [
+        "remote 200",
+        "stars 0",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T05:54:40.506Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T05:46:33.656Z|mcp_abbe3ef39eb92e47d26c|partial",
+      "id": "mcp_abbe3ef39eb92e47d26c",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://bunzee.ai/mcp-server",
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T05:46:33.656Z",
+      "spent_budget": true
+    },
     {
       "tick_id": "2026-07-30T03:47:17.468Z|agtpub_db071a3747a40a840a8c|fail",
       "id": "agtpub_db071a3747a40a840a8c",
@@ -5054,9 +5086,7 @@
         "card fail 404",
         "card fail 404",
         "card fail 404",
-        "card fail 410",
-        "card fail 404",
-        "stars 13"
+        "card fail 410"
       ],
       "probed_at": "2026-07-30T03:47:17.468Z",
       "spent_budget": true
@@ -5072,9 +5102,7 @@
         "remote 200",
         "ns:name~host",
         "delisted-from-registry",
-        "needs-resubmit",
-        "delist:live probe handshake failed",
-        "delisted-from-registry"
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:47:01.641Z",
       "spent_budget": true
@@ -5090,9 +5118,7 @@
         "remote fail 404",
         "delisted-from-registry",
         "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path",
-        "delisted-from-registry",
-        "needs-resubmit"
+        "delist:card URL returned 404 \u2014 publish a valid card at that path"
       ],
       "probed_at": "2026-07-30T03:46:04.740Z",
       "spent_budget": true
@@ -5108,9 +5134,7 @@
         "remote fail 404",
         "delisted-from-registry",
         "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path",
-        "delisted-from-registry",
-        "needs-resubmit"
+        "delist:card URL returned 404 \u2014 publish a valid card at that path"
       ],
       "probed_at": "2026-07-30T03:45:05.930Z",
       "spent_budget": true
@@ -5142,9 +5166,7 @@
         "remote fail 404",
         "delisted-from-registry",
         "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path",
-        "delisted-from-registry",
-        "needs-resubmit"
+        "delist:card URL returned 404 \u2014 publish a valid card at that path"
       ],
       "probed_at": "2026-07-30T03:39:46.345Z",
       "spent_budget": true
@@ -5160,9 +5182,7 @@
         "remote fail 404",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path",
-        "delisted-from-registry"
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:34:30.983Z",
       "spent_budget": true
@@ -5178,9 +5198,7 @@
         "remote fail 404",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path",
-        "delisted-from-registry"
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:30:30.788Z",
       "spent_budget": true
@@ -5196,9 +5214,7 @@
         "card fail 404",
         "card fail 404",
         "card fail 404",
-        "card fail 404",
-        "stars 0",
-        "license"
+        "card fail 404"
       ],
       "probed_at": "2026-07-30T03:29:57.236Z",
       "spent_budget": true
@@ -5214,9 +5230,7 @@
         "remote fail 404",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path",
-        "delisted-from-registry"
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:27:35.638Z",
       "spent_budget": true
@@ -5232,8 +5246,6 @@
         "remote fail 404",
         "stars 4",
         "license",
-        "delisted-from-registry",
-        "needs-resubmit",
         "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T02:10:16.262Z",
@@ -5250,9 +5262,7 @@
         "card fail 404",
         "card fail 404",
         "card fail 404",
-        "card fail 404",
-        "stars 1",
-        "license"
+        "card fail 404"
       ],
       "probed_at": "2026-07-30T02:03:07.322Z",
       "spent_budget": true
@@ -5266,8 +5276,6 @@
       "target": "https://agent.tinyfish.ai/mcp",
       "signals": [
         "remote 401",
-        "delisted-from-registry",
-        "needs-resubmit",
         "delisted-from-registry",
         "needs-resubmit",
         "delisted-from-registry"
@@ -5315,9 +5323,7 @@
         "card fail 404",
         "card fail 404",
         "card fail 410",
-        "card fail 404",
-        "stars 1",
-        "delisted-from-registry"
+        "card fail 404"
       ],
       "probed_at": "2026-07-30T01:36:00.918Z",
       "spent_budget": true
@@ -5333,9 +5339,7 @@
         "card fail 404",
         "card fail 404",
         "card fail 410",
-        "card fail 404",
-        "stars 1",
-        "delisted-from-registry"
+        "card fail 404"
       ],
       "probed_at": "2026-07-30T01:36:00.918Z",
       "spent_budget": true
