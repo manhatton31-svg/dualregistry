@@ -43,10 +43,14 @@ type ProductEngagement = {
   communication?: {
     day_nudges: number;
     day_label: string;
+    day_budget?: number;
+    day_room?: number;
     total_nudges: number;
     total_broadcasts: number;
     cooling: number;
     nudged_known: number;
+    never_contacted?: number;
+    active_clean?: number;
     last_run_at?: string;
     last_notes: string[];
     talk_posts_total: number;
@@ -69,6 +73,25 @@ type ProductEngagement = {
       cooldown_days: number;
       channel: string;
       tone: string;
+      day_budget?: number;
+      day_room?: number;
+      day_sent?: number;
+      tier_id?: string;
+      tier_label?: string;
+      next_tier_at?: number | null;
+      next_tier_label?: string | null;
+      next_tier_budget?: number | null;
+      governor?: string | null;
+      replies_7d?: number;
+      cycle_cap?: number;
+      active_share?: number;
+      tiers?: Array<{
+        id: string;
+        label: string;
+        min_active: number;
+        max_active: number | null;
+        day_budget: number;
+      }>;
     };
   };
 };
@@ -580,11 +603,94 @@ export function DashboardApp() {
                   Communication
                 </CardTitle>
                 <CardDescription className="text-xs">
-                  Soft Talk outreach to Active clean listings and any real
-                  replies. Nudges never demote clean status.
+                  Soft Talk outreach to Active clean listings only. Daily volume
+                  scales with list size via tiers — never spam. Nudges never
+                  demote clean status.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 pb-4 pt-0">
+                <div className="rounded-[var(--radius-md)] border border-accent/30 bg-accent/5 px-3 py-3">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div>
+                      <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                        Nudge tier (from active clean)
+                      </p>
+                      <p className="mt-1 text-base font-semibold text-fg">
+                        {comm?.policy?.tier_label || "—"}
+                        {comm?.policy?.tier_id ? (
+                          <span className="ml-2 text-xs font-normal text-muted">
+                            {comm.policy.tier_id}
+                          </span>
+                        ) : null}
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-muted">
+                        Active clean {comm?.active_clean ?? "—"} · never-contacted{" "}
+                        {comm?.never_contacted ?? "—"} · replies 7d{" "}
+                        {comm?.policy?.replies_7d ?? 0}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[10px] uppercase tracking-wide text-subtle">
+                        Day budget
+                      </p>
+                      <p className="mt-1 text-xl font-semibold tabular text-fg">
+                        {comm?.day_nudges ?? 0}
+                        <span className="text-sm font-normal text-muted">
+                          {" "}
+                          /{" "}
+                          {comm?.day_budget ??
+                            comm?.policy?.day_budget ??
+                            "—"}
+                        </span>
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-muted">
+                        {(comm?.day_room ?? comm?.policy?.day_room) != null
+                          ? `${comm?.day_room ?? comm?.policy?.day_room} room left today`
+                          : "—"}{" "}
+                        · up to {comm?.policy?.max_per_cycle ?? "—"}/cycle
+                      </p>
+                    </div>
+                  </div>
+                  {comm?.policy?.next_tier_at != null ? (
+                    <p className="mt-2 text-[11px] text-subtle">
+                      Next unlock at{" "}
+                      <span className="font-medium text-fg">
+                        {comm.policy.next_tier_at} active
+                      </span>
+                      {comm.policy.next_tier_label
+                        ? ` (${comm.policy.next_tier_label})`
+                        : ""}
+                      {comm.policy.next_tier_budget != null
+                        ? ` → ${comm.policy.next_tier_budget}/day`
+                        : ""}
+                      . Higher tiers need real replies (silent list held at
+                      16/day).
+                    </p>
+                  ) : null}
+                  {comm?.policy?.governor ? (
+                    <p className="mt-1 text-[11px] text-amber-600 dark:text-amber-400">
+                      {comm.policy.governor}
+                    </p>
+                  ) : null}
+                  {comm?.policy?.tiers?.length ? (
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {comm.policy.tiers.map((t) => (
+                        <span
+                          key={t.id}
+                          className={cn(
+                            "rounded-full border px-2 py-0.5 text-[10px] tabular",
+                            t.id === comm?.policy?.tier_id
+                              ? "border-accent bg-accent/15 text-fg"
+                              : "border-border/60 text-muted",
+                          )}
+                        >
+                          {t.label}: {t.day_budget}/d
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                   <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
                     <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
@@ -592,6 +698,14 @@ export function DashboardApp() {
                     </p>
                     <p className="mt-1 text-xl font-semibold tabular text-fg">
                       {comm?.day_nudges ?? 0}
+                      {(comm?.day_budget ?? comm?.policy?.day_budget) !=
+                      null ? (
+                        <span className="text-sm font-normal text-muted">
+                          {" "}
+                          /{" "}
+                          {comm?.day_budget ?? comm?.policy?.day_budget}
+                        </span>
+                      ) : null}
                     </p>
                     <p className="mt-0.5 text-[11px] text-muted">
                       unique first-touch · {comm?.day_label || "UTC day"}
@@ -629,7 +743,7 @@ export function DashboardApp() {
                       {comm?.cooling ?? 0}
                     </p>
                     <p className="mt-0.5 text-[11px] text-muted">
-                      {comm?.policy?.cooldown_days ?? 7}d · HTTP push{" "}
+                      {comm?.policy?.cooldown_days ?? 30}d · HTTP push{" "}
                       {comm?.http_ok ?? 0}/{comm?.http_attempted ?? 0}
                     </p>
                   </div>
@@ -671,7 +785,9 @@ export function DashboardApp() {
                     {comm?.policy ? (
                       <>
                         {" "}
-                        · up to {comm.policy.max_per_cycle}/cycle ·{" "}
+                        · tier {comm.policy.tier_id || "—"} ·{" "}
+                        {comm.policy.day_budget ?? "—"}/day · up to{" "}
+                        {comm.policy.max_per_cycle}/cycle ·{" "}
                         {comm.policy.cooldown_days}d cooldown
                       </>
                     ) : null}

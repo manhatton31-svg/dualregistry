@@ -7,6 +7,7 @@
  * - State is MAX-MERGED durable + Talk owner-DM history (cannot forget who we nudged)
  * - Metrics = unique listings; never event spam counts
  * - force=false always (feedback-drive); ops force still respects Talk evidence of prior DM today
+ * - Day first-touch budget is TIERED from active-clean size (not a fixed 48)
  */
 import {
   forceHydrateDurable,
@@ -25,33 +26,153 @@ import {
 
 const DURABLE_NAME = "demo-nudge.json";
 
-/** Share of *never-contacted* eligible per cycle */
+/** Share of eligible (never-contacted) per cycle */
 export const NUDGE_ACTIVE_SHARE = 0.1;
+/** Hard ceiling on a single cycle send (after day room) */
+export const MAX_NUDGES_PER_CYCLE_CAP = 12;
+/**
+ * Absolute ceiling across all tiers (333+ proportional clamps here).
+ * @deprecated prefer dayBudgetForActive(active).day_budget
+ */
+export const MAX_FIRST_TOUCHES_PER_DAY = 80;
+/** @deprecated — use MAX_NUDGES_PER_CYCLE_CAP */
+export const MAX_NUDGES_PER_CYCLE = 12;
 export const MIN_NUDGES_PER_CYCLE = 0;
-export const MAX_NUDGES_PER_CYCLE_CAP = 8;
-/** Hard cap: first-touches per UTC day (whole list) — quiet professionalism */
-export const MAX_FIRST_TOUCHES_PER_DAY = 48; // go-harder: was 12; presence online, need conversion
-/** @deprecated */
-export const MAX_NUDGES_PER_CYCLE = 8;
 
 /** Absolute minimum silence after any soft invite */
 export const NUDGE_COOLDOWN_MS = 30 * 24 * 3600_000; // 30 days
 const HISTORY_MAX = 5000;
 
+/** Active-clean size → daily first-touch budget (honest, stepped). */
+export type NudgeTierDef = {
+  id: string;
+  label: string;
+  min_active: number;
+  /** Inclusive upper bound; null = open */
+  max_active: number | null;
+  /** Fixed day budget, or null for proportional formula */
+  day_budget: number | null;
+};
+
+export const NUDGE_TIERS: readonly NudgeTierDef[] = [
+  { id: "t1", label: "1–49 active", min_active: 0, max_active: 49, day_budget: 8 },
+  { id: "t2", label: "50–99 active", min_active: 50, max_active: 99, day_budget: 16 },
+  { id: "t3", label: "100–199 active", min_active: 100, max_active: 199, day_budget: 32 },
+  { id: "t4", label: "200–332 active", min_active: 200, max_active: 332, day_budget: 48 },
+  { id: "t5", label: "333+ active", min_active: 333, max_active: null, day_budget: null },
+] as const;
+
+/** Quiet floor when no real replies yet — never blast a silent list */
+export const SILENT_REPLY_DAY_CAP = 16;
+
+export type NudgeDayPlan = {
+  active_clean: number;
+  day_budget: number;
+  day_room: number;
+  already_today: number;
+  tier_id: string;
+  tier_label: string;
+  min_active: number;
+  max_active: number | null;
+  next_tier_at: number | null;
+  next_tier_label: string | null;
+  next_tier_budget: number | null;
+  cycle_cap: number;
+  active_share: number;
+  governor: string | null;
+  replies_7d: number;
+};
+
+function rawDayBudgetForTier(active: number, tier: NudgeTierDef): number {
+  if (tier.day_budget != null) return tier.day_budget;
+  // 333+: ~12% of list / day, hard-clamped
+  return Math.min(MAX_FIRST_TOUCHES_PER_DAY, Math.max(48, Math.ceil(active * 0.12)));
+}
+
+export function pickNudgeTier(activeClean: number): NudgeTierDef {
+  const n = Math.max(0, Math.floor(activeClean));
+  let picked: NudgeTierDef = NUDGE_TIERS[0]!;
+  for (const t of NUDGE_TIERS) {
+    if (n >= t.min_active) picked = t;
+  }
+  return picked;
+}
+
+/**
+ * Resolve daily first-touch budget + cycle plan from active-clean size.
+ * Governor: zero real replies in 7d → stay at SILENT_REPLY_DAY_CAP (t2)
+ * so we never "go hard" on a silent pool just because the list grew.
+ */
+export function dayBudgetForActive(
+  activeClean: number,
+  alreadyToday = 0,
+  opts?: { replies_7d?: number },
+): NudgeDayPlan {
+  const active = Math.max(0, Math.floor(activeClean));
+  const replies_7d = Math.max(0, Math.floor(opts?.replies_7d ?? 0));
+  const tier = pickNudgeTier(active);
+  let day_budget = rawDayBudgetForTier(active, tier);
+  let governor: string | null = null;
+
+  if (replies_7d === 0 && day_budget > SILENT_REPLY_DAY_CAP) {
+    day_budget = SILENT_REPLY_DAY_CAP;
+    governor =
+      "no real Talk replies in 7d — day budget held at 16 (unlock higher tiers after first reply)";
+  }
+
+  // Absolute safety: never schedule more first-touches than the list
+  day_budget = Math.min(day_budget, Math.max(0, active), MAX_FIRST_TOUCHES_PER_DAY);
+
+  const already = Math.max(0, Math.floor(alreadyToday));
+  const day_room = Math.max(0, day_budget - already);
+
+  const idx = NUDGE_TIERS.findIndex((t) => t.id === tier.id);
+  const next = idx >= 0 && idx < NUDGE_TIERS.length - 1 ? NUDGE_TIERS[idx + 1]! : null;
+  const next_tier_at = next ? next.min_active : null;
+  const next_tier_budget = next
+    ? next.day_budget ??
+      Math.min(MAX_FIRST_TOUCHES_PER_DAY, Math.max(48, Math.ceil(next.min_active * 0.12)))
+    : null;
+
+  return {
+    active_clean: active,
+    day_budget,
+    day_room,
+    already_today: already,
+    tier_id: tier.id,
+    tier_label: tier.label,
+    min_active: tier.min_active,
+    max_active: tier.max_active,
+    next_tier_at,
+    next_tier_label: next?.label ?? null,
+    next_tier_budget,
+    cycle_cap: MAX_NUDGES_PER_CYCLE_CAP,
+    active_share: NUDGE_ACTIVE_SHARE,
+    governor,
+    replies_7d,
+  };
+}
+
+/**
+ * How many soft first-touches this cycle.
+ * min(10% of eligible, cycle cap 12, day room, eligible pool)
+ */
 export function capForActive(
   activeClean: number,
   neverContacted: number,
   alreadyToday = 0,
+  opts?: { replies_7d?: number },
 ): number {
-  const dayRoom = Math.max(0, MAX_FIRST_TOUCHES_PER_DAY - alreadyToday);
-  const pool = Math.max(0, Math.min(activeClean, neverContacted, dayRoom));
-  if (pool <= 0) return 0;
-  const proportional = Math.ceil(activeClean * NUDGE_ACTIVE_SHARE);
-  return Math.min(
-    MAX_NUDGES_PER_CYCLE_CAP,
-    proportional,
-    pool,
+  const plan = dayBudgetForActive(activeClean, alreadyToday, opts);
+  const pool = Math.max(
+    0,
+    Math.min(activeClean, neverContacted, plan.day_room),
   );
+  if (pool <= 0) return 0;
+  const proportional = Math.ceil(
+    Math.min(activeClean, neverContacted) * NUDGE_ACTIVE_SHARE,
+  );
+  return Math.min(MAX_NUDGES_PER_CYCLE_CAP, proportional, pool);
 }
 
 export type NudgeRecord = {
@@ -90,7 +211,7 @@ type NudgeState = {
 };
 
 let mem: NudgeState | null = null;
-const POLICY_VERSION = 3; // never-spam 30d + talk seed
+const POLICY_VERSION = 4; // tiered day budgets from active-clean size
 
 function utcDay() {
   return new Date().toISOString().slice(0, 10);
@@ -218,6 +339,34 @@ async function seedFromTalk(state: NudgeState): Promise<NudgeState> {
     });
   } catch {
     return state;
+  }
+}
+
+/** Count real inbound Talk replies in the last 7 days (not presence). */
+async function countReplies7d(): Promise<number> {
+  try {
+    const { getSocialFeed, SITE_OWNER_ID } = await import(
+      "@/lib/agents1/talk-activity"
+    );
+    const feed = await getSocialFeed(200);
+    const cutoff = Date.now() - 7 * 24 * 3600_000;
+    let n = 0;
+    for (const p of feed.posts || []) {
+      if (!p || p.from_id === SITE_OWNER_ID) continue;
+      if (p.from_kind === "site") continue;
+      if (p.channel === "presence") continue;
+      const isReply =
+        p.channel === "reply" ||
+        p.channel === "dm" ||
+        p.channel === "social" ||
+        p.tokens_hint === "full";
+      if (!isReply) continue;
+      const t = Date.parse(p.at || "");
+      if (Number.isFinite(t) && t >= cutoff) n++;
+    }
+    return n;
+  } catch {
+    return 0;
   }
 }
 
@@ -389,6 +538,8 @@ export async function runDemoNudge(opts?: {
     http_ok?: boolean;
   }>;
   day_unique: number;
+  day_budget: number;
+  tier_id: string;
   totals: NudgeState["totals"];
 }> {
   const notes: string[] = [];
@@ -397,6 +548,7 @@ export async function runDemoNudge(opts?: {
   const state = await load();
   const origin = publicOriginFromEnv(opts?.origin);
   const now = Date.now();
+  const replies_7d = await countReplies7d();
 
   let pool: LanedListing[] = [];
   let activeIds = new Set<string>();
@@ -424,6 +576,8 @@ export async function runDemoNudge(opts?: {
       notes,
       samples: [],
       day_unique: state.day_unique,
+      day_budget: 0,
+      tier_id: "t1",
       totals: state.totals,
     };
   }
@@ -439,26 +593,34 @@ export async function runDemoNudge(opts?: {
     return true;
   });
 
-  const propCap = capForActive(pool.length, eligible.length, state.day_unique);
+  const plan = dayBudgetForActive(pool.length, state.day_unique, { replies_7d });
+  const propCap = capForActive(
+    pool.length,
+    eligible.length,
+    state.day_unique,
+    { replies_7d },
+  );
   const max = Math.min(
     Math.max(0, opts?.max ?? propCap),
     propCap,
     eligible.length,
     pool.length,
-    Math.max(0, MAX_FIRST_TOUCHES_PER_DAY - state.day_unique),
+    plan.day_room,
   );
+
+  if (plan.governor) notes.push(plan.governor);
 
   if (max === 0) {
     const cooling = Object.keys(state.nudged).filter((id) =>
       isDoNotContact(state.nudged[id], now),
     ).length;
-    if (state.day_unique >= MAX_FIRST_TOUCHES_PER_DAY) {
+    if (state.day_unique >= plan.day_budget) {
       notes.push(
-        `quiet day cap reached (${MAX_FIRST_TOUCHES_PER_DAY} first-touches) — no more invites today · ${cooling} under 30d silence`,
+        `tier ${plan.tier_id} day cap reached (${plan.day_budget} first-touches for ${plan.tier_label}) — no more invites today · ${cooling} under 30d silence`,
       );
     } else {
       notes.push(
-        `no new nudges — anti-spam: ${cooling} already contacted (30d silence) · ${pool.length} active clean · unique ${state.totals.unique_listings}`,
+        `no new nudges — anti-spam: ${cooling} already contacted (30d silence) · ${pool.length} active clean · unique ${state.totals.unique_listings} · tier ${plan.tier_id} budget ${plan.day_budget}/day`,
       );
     }
     state.last_run_at = new Date().toISOString();
@@ -476,6 +638,8 @@ export async function runDemoNudge(opts?: {
       notes,
       samples: [],
       day_unique: state.day_unique,
+      day_budget: plan.day_budget,
+      tier_id: plan.tier_id,
       totals: state.totals,
     };
   }
@@ -496,6 +660,9 @@ export async function runDemoNudge(opts?: {
   }> = [];
 
   for (const L of queue) {
+    // Stop if we hit the tier day budget mid-cycle
+    if (state.day_unique >= plan.day_budget) break;
+
     // Double-check right before send (race / concurrent drive)
     if (isDoNotContact(state.nudged[L.id], now)) {
       skipped++;
@@ -624,7 +791,7 @@ export async function runDemoNudge(opts?: {
   state.last_run_at = new Date().toISOString();
   if (nudged > 0) {
     notes.unshift(
-      `soft-nudged ${nudged} never-contacted (of ${pool.length} active · ${unique} total contacted · 30d silence)`,
+      `soft-nudged ${nudged} never-contacted (of ${pool.length} active · ${unique} total contacted · tier ${plan.tier_id} ${state.day_unique}/${plan.day_budget} today · 30d silence)`,
     );
   } else if (!notes.length) {
     notes.push("no new nudges — all active clean already contacted (anti-spam)");
@@ -644,6 +811,8 @@ export async function runDemoNudge(opts?: {
     notes,
     samples,
     day_unique: state.day_unique,
+    day_budget: plan.day_budget,
+    tier_id: plan.tier_id,
     totals: state.totals,
   };
 }
@@ -817,6 +986,7 @@ export async function runMultiPathBackfill(opts?: {
  * Go harder: owner-DM listings that checked Talk presence today.
  * Bypasses 30d silence once for present actors only (still no spam: max once / 24h).
  * Uses recordOwnerPost so messages land in their owner inbox (human POST does not).
+ * Still respects tier day budget for first-touches.
  */
 export async function runPresenceHarder(opts?: {
   origin?: string;
@@ -832,6 +1002,7 @@ export async function runPresenceHarder(opts?: {
   const max = Math.min(40, Math.max(1, opts?.max ?? 24));
   mem = null;
   const state = await load();
+  const replies_7d = await countReplies7d();
   const { recordOwnerPost, getSocialFeed } = await import(
     "@/lib/agents1/talk-activity"
   );
@@ -865,9 +1036,11 @@ export async function runPresenceHarder(opts?: {
     );
   }
 
-  // Also include Active clean never-contacted (day room now larger)
+  // Also include Active clean never-contacted (day room from tier)
+  let activeClean = state.last_active_clean || 0;
   try {
     const { pool } = await loadActiveCleanPool();
+    activeClean = pool.length;
     for (const L of pool) {
       if (!state.nudged[L.id]) {
         present.set(L.id, { name: L.name, kind: L.kind });
@@ -877,6 +1050,9 @@ export async function runPresenceHarder(opts?: {
     /* */
   }
 
+  const plan = dayBudgetForActive(activeClean, state.day_unique, { replies_7d });
+  if (plan.governor) notes.push(plan.governor);
+
   let nudged = 0;
   const samples: Array<{ listing_id: string; name: string }> = [];
   const now = Date.now();
@@ -884,6 +1060,9 @@ export async function runPresenceHarder(opts?: {
 
   for (const [id, meta] of present) {
     if (nudged >= max) break;
+    // First-touches still burn day budget
+    const isFirst = !state.nudged[id];
+    if (isFirst && state.day_unique >= plan.day_budget) continue;
     const last = state.nudged[id];
     if (last) {
       const t = Date.parse(last);
@@ -933,7 +1112,6 @@ export async function runPresenceHarder(opts?: {
         /* */
       }
       const at = new Date().toISOString();
-      const isFirst = !state.nudged[id];
       state.nudged[id] = at;
       if (isFirst) state.day_unique++;
       state.history.unshift({
@@ -960,7 +1138,7 @@ export async function runPresenceHarder(opts?: {
   }
 
   notes.unshift(
-    `presence-harder owner-DMs ${nudged} (cap ${max}) · present pool ${present.size}`,
+    `presence-harder owner-DMs ${nudged} (cap ${max}) · present pool ${present.size} · tier ${plan.tier_id} ${state.day_unique}/${plan.day_budget} today`,
   );
   state.last_run_at = new Date().toISOString();
   state.last_notes = notes.slice(0, 8);
@@ -995,6 +1173,14 @@ export async function getDemoNudgeStatus() {
     ([id, at]) => !id.startsWith("site:") && isDoNotContact(at),
   ).length;
   const never_contacted = Math.max(0, active_clean - cooling);
+  const replies_7d = await countReplies7d();
+  const plan = dayBudgetForActive(active_clean, s.day_unique, { replies_7d });
+  const max_per_cycle = capForActive(
+    active_clean,
+    never_contacted,
+    s.day_unique,
+    { replies_7d },
+  );
 
   return {
     ok: true as const,
@@ -1004,6 +1190,8 @@ export async function getDemoNudgeStatus() {
       unique: s.day_unique,
       nudges: s.day_unique,
       http_ok: s.day_http_ok || 0,
+      budget: plan.day_budget,
+      room: plan.day_room,
     },
     active_clean,
     never_contacted,
@@ -1029,21 +1217,49 @@ export async function getDemoNudgeStatus() {
         http_ok: h.http_ok,
         priority: h.priority,
       })),
+    plan,
     policy: {
-      max_per_cycle: capForActive(active_clean, never_contacted, s.day_unique),
-      max_first_touches_per_day: MAX_FIRST_TOUCHES_PER_DAY,
+      max_per_cycle,
+      max_first_touches_per_day: plan.day_budget,
+      day_budget: plan.day_budget,
+      day_room: plan.day_room,
+      day_sent: s.day_unique,
       active_share: NUDGE_ACTIVE_SHARE,
+      cycle_cap: MAX_NUDGES_PER_CYCLE_CAP,
+      tier_id: plan.tier_id,
+      tier_label: plan.tier_label,
+      tier_min_active: plan.min_active,
+      tier_max_active: plan.max_active,
+      next_tier_at: plan.next_tier_at,
+      next_tier_label: plan.next_tier_label,
+      next_tier_budget: plan.next_tier_budget,
+      governor: plan.governor,
+      replies_7d,
+      tiers: NUDGE_TIERS.map((t) => ({
+        id: t.id,
+        label: t.label,
+        min_active: t.min_active,
+        max_active: t.max_active,
+        day_budget:
+          t.day_budget ??
+          Math.min(
+            MAX_FIRST_TOUCHES_PER_DAY,
+            Math.max(48, Math.ceil(Math.max(t.min_active, 333) * 0.12)),
+          ),
+      })),
       cooldown_days: NUDGE_COOLDOWN_MS / 86400_000,
       only: "Active clean never-contacted listings",
       metrics: "unique contacted · never re-DM within 30 days",
       anti_spam:
-        "Talk+durable max-merge · 30d silence · max 12 first-touches/day · no re-contact",
+        "Talk+durable max-merge · 30d silence · tiered day budget from active size · no re-contact",
       channel: "Talk owner DM + soft HTTPS (one time)",
       tone: "soft · no pressure · never salesy",
       does_not:
         "never re-nudge contacted listings · never demote clean · never spam",
       demo_get: "GET /api/products/demo?listing_id=ID",
       talk_inbox: "GET /api/talk?listing_id=ID",
+      delivery: "Talk owner DM + soft HTTPS",
+      priority: "agent card / Talk presence / repo score",
     },
   };
 }

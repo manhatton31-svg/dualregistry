@@ -61,10 +61,14 @@ export type ProductEngagement = {
   communication?: {
     day_nudges: number;
     day_label: string;
+    day_budget?: number;
+    day_room?: number;
     total_nudges: number;
     total_broadcasts: number;
     cooling: number;
     nudged_known: number;
+    never_contacted?: number;
+    active_clean?: number;
     last_run_at?: string;
     last_notes: string[];
     talk_posts_total: number;
@@ -81,6 +85,25 @@ export type ProductEngagement = {
       tone: string;
       priority?: string;
       delivery?: string;
+      day_budget?: number;
+      day_room?: number;
+      day_sent?: number;
+      tier_id?: string;
+      tier_label?: string;
+      next_tier_at?: number | null;
+      next_tier_label?: string | null;
+      next_tier_budget?: number | null;
+      governor?: string | null;
+      replies_7d?: number;
+      cycle_cap?: number;
+      active_share?: number;
+      tiers?: Array<{
+        id: string;
+        label: string;
+        min_active: number;
+        max_active: number | null;
+        day_budget: number;
+      }>;
     };
   };
   demo_metrics_epoch?: string;
@@ -185,6 +208,8 @@ async function loadCommunicationBlock(): Promise<
   const empty: NonNullable<ProductEngagement["communication"]> = {
     day_nudges: 0,
     day_label: new Date().toISOString().slice(0, 10),
+    day_budget: 0,
+    day_room: 0,
     total_nudges: 0,
     total_broadcasts: 0,
     cooling: 0,
@@ -255,9 +280,13 @@ async function loadCommunicationBlock(): Promise<
   // Merge recent: inbound first (responses), then outbound nudges
   const recent = [...recentInbound, ...recentFromNudge].slice(0, 16);
 
+  const pol = nudge?.policy;
+
   return {
     day_nudges: nudge?.day?.unique ?? nudge?.day?.nudges ?? 0,
     day_label: nudge?.day?.day ?? empty.day_label,
+    day_budget: nudge?.day?.budget ?? pol?.day_budget ?? 0,
+    day_room: nudge?.day?.room ?? pol?.day_room ?? 0,
     total_nudges:
       nudge?.unique_listings ??
       nudge?.totals?.unique_listings ??
@@ -266,6 +295,8 @@ async function loadCommunicationBlock(): Promise<
     total_broadcasts: nudge?.totals?.broadcasts ?? 0,
     cooling: nudge?.cooling ?? 0,
     nudged_known: nudge?.nudged_known ?? nudge?.unique_listings ?? 0,
+    never_contacted: nudge?.never_contacted,
+    active_clean: nudge?.active_clean,
     last_run_at: nudge?.last_run_at,
     last_notes: nudge?.last_notes || [],
     talk_posts_total: posts.length,
@@ -275,14 +306,27 @@ async function loadCommunicationBlock(): Promise<
     http_ok: nudge?.totals?.http_ok ?? 0,
     http_attempted: nudge?.totals?.http_attempted ?? 0,
     recent,
-    policy: nudge?.policy
+    policy: pol
       ? {
-          max_per_cycle: nudge.policy.max_per_cycle,
-          cooldown_days: nudge.policy.cooldown_days,
-          channel: nudge.policy.channel,
-          tone: nudge.policy.tone,
-          priority: (nudge.policy as { priority?: string }).priority,
-          delivery: (nudge.policy as { delivery?: string }).delivery,
+          max_per_cycle: pol.max_per_cycle,
+          cooldown_days: pol.cooldown_days,
+          channel: pol.channel,
+          tone: pol.tone,
+          priority: pol.priority,
+          delivery: pol.delivery,
+          day_budget: pol.day_budget,
+          day_room: pol.day_room,
+          day_sent: pol.day_sent,
+          tier_id: pol.tier_id,
+          tier_label: pol.tier_label,
+          next_tier_at: pol.next_tier_at,
+          next_tier_label: pol.next_tier_label,
+          next_tier_budget: pol.next_tier_budget,
+          governor: pol.governor,
+          replies_7d: pol.replies_7d,
+          cycle_cap: pol.cycle_cap,
+          active_share: pol.active_share,
+          tiers: pol.tiers,
         }
       : undefined,
   };
@@ -330,10 +374,10 @@ export async function recomputeInsights(): Promise<ProductEngagement> {
     }
   }
 
-  const fbAgentKeys = new Set<string>();
-  const fbMcpKeys = new Set<string>();
   let fbAgentEvents = 0;
   let fbMcpEvents = 0;
+  const fbAgentKeys = new Set<string>();
+  const fbMcpKeys = new Set<string>();
   let feedback_without_demo = 0;
   const discountKeys = new Set<string>();
 
