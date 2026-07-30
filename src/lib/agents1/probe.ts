@@ -941,6 +941,24 @@ export async function runProbeBudgeted(
     );
   }
   await persist(state);
+  // Final floor: used never below unique primary probes for the day
+  {
+    const day = state.day;
+    const seen = new Set<string>();
+    let today = 0;
+    for (const [k, r] of Object.entries(state.results || {})) {
+      if (k.startsWith("name:") || k.startsWith("url:")) continue;
+      if (!(r.probed_at || "").startsWith(day)) continue;
+      const uid = String(r.id || k);
+      if (seen.has(uid)) continue;
+      seen.add(uid);
+      today++;
+    }
+    if (today > state.used) {
+      state.used = today;
+      await persist(state);
+    }
+  }
   return out;
 }
 

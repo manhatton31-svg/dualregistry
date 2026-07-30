@@ -163,26 +163,39 @@ async function snapshotFromCache(
     cache.milestones?.mcp?.approved ?? cache.mcp_approved;
   const agentCount =
     cache.milestones?.agents?.approved ?? cache.agents_approved;
+  let mcpAdj = mcpCount;
+  let agentAdj = agentCount;
+  try {
+    const { registryCountsAfterDelist } = await import("./delist-on-fail");
+    const adj = await registryCountsAfterDelist({
+      mcp: mcpCount,
+      agents: agentCount,
+    });
+    mcpAdj = adj.mcp;
+    agentAdj = adj.agents;
+  } catch {
+    /* */
+  }
   const milestones =
     cache.milestones ||
-    buildMilestones(mcpCount, agentCount);
+    buildMilestones(mcpAdj, agentAdj);
   // Align top-level counts with milestones (authoritative when present)
   const aligned = {
     ...cache,
-    mcp_approved: mcpCount,
-    agents_approved: agentCount,
+    mcp_approved: mcpAdj,
+    agents_approved: agentAdj,
     milestones: {
       ...milestones,
-      mcp: { ...milestones.mcp, approved: mcpCount },
-      agents: { ...milestones.agents, approved: agentCount },
+      mcp: { ...milestones.mcp, approved: mcpAdj },
+      agents: { ...milestones.agents, approved: agentAdj },
     },
   };
   const mcpPage = pageFromCache<McpListing>("mcp", aligned);
   const agentsPage = pageFromCache<AgentListing>("agent", aligned);
   const mcpSan = sanitizeListings("mcp", mcpPage.items);
   const agentsSan = sanitizeListings("agent", agentsPage.items);
-  const mcp = { ...mcpPage, items: mcpSan.items, total: mcpCount };
-  const agents = { ...agentsPage, items: agentsSan.items, total: agentCount };
+  const mcp = { ...mcpPage, items: mcpSan.items, total: mcpAdj };
+  const agents = { ...agentsPage, items: agentsSan.items, total: agentAdj };
   // Persist cleaned checks so yellow pills never return from cache alone
   if (mcpSan.clearedCount + agentsSan.clearedCount > 0) {
     void mergeLiveIntoCache({
@@ -197,14 +210,14 @@ async function snapshotFromCache(
     ok: true,
     service: "grok-agent-store",
     grok_configured: false,
-    milestones,
+    milestones: aligned.milestones,
     registry: {
       accepting_submissions: true,
-      approved: mcpCount,
+      approved: mcpAdj,
     },
     agent_registry: {
       accepting_submissions: true,
-      approved: agentCount,
+      approved: agentAdj,
     },
     discovery: `${STORE_BASE}/discovery.json`,
   };
@@ -213,9 +226,9 @@ async function snapshotFromCache(
     live: false,
     source: STORE_BASE,
     health,
-    milestones,
-    mcp: { ...mcp, total: mcpCount },
-    agents: { ...agents, total: agentCount },
+    milestones: aligned.milestones,
+    mcp: { ...mcp, total: mcpAdj },
+    agents: { ...agents, total: agentAdj },
     skills: seedSkills as SkillsGraph,
     poll: seedPoll as PollStatus,
     errors: [...errors, note],
@@ -373,9 +386,31 @@ export async function getLiveSnapshot(opts?: {
     merged.milestones ||
     buildMilestones(merged.mcp_approved, merged.agents_approved);
 
-  // Display totals always follow merged (milestones-authoritative) counts
-  const mcpTotal = milestones.mcp?.approved ?? merged.mcp_approved;
-  const agentsTotal = milestones.agents?.approved ?? merged.agents_approved;
+  // Display totals always follow merged (milestones-authoritative) counts,
+  // then durable delists (fail/partial) are subtracted so In Registry drops.
+  let mcpTotal = milestones.mcp?.approved ?? merged.mcp_approved;
+  let agentsTotal = milestones.agents?.approved ?? merged.agents_approved;
+  let delistMeta: {
+    delisted_mcp: number;
+    delisted_agents: number;
+    delisted_total: number;
+  } | null = null;
+  try {
+    const { registryCountsAfterDelist } = await import("./delist-on-fail");
+    const adj = await registryCountsAfterDelist({
+      mcp: mcpTotal,
+      agents: agentsTotal,
+    });
+    mcpTotal = adj.mcp;
+    agentsTotal = adj.agents;
+    delistMeta = {
+      delisted_mcp: adj.delisted_mcp,
+      delisted_agents: adj.delisted_agents,
+      delisted_total: adj.delisted_total,
+    };
+  } catch {
+    /* */
+  }
 
   let mcp: RegistryPage<McpListing> = isUsablePage(liveMcp)
     ? { ...liveMcp!, total: mcpTotal }
@@ -527,9 +562,13 @@ export async function getLiveSnapshot(opts?: {
     live: anyRegistryLive,
     source: STORE_BASE,
     health,
-    milestones,
-    mcp,
-    agents,
+    milestones: {
+      ...milestones,
+      mcp: { ...milestones.mcp, approved: mcpTotal },
+      agents: { ...milestones.agents, approved: agentsTotal },
+    },
+    mcp: { ...mcp, total: mcpTotal },
+    agents: { ...agents, total: agentsTotal },
     skills: skillsR?.data ?? (seedSkills as SkillsGraph),
     poll: seedPoll as PollStatus,
     errors,
@@ -538,5 +577,6 @@ export async function getLiveSnapshot(opts?: {
     cache_mode,
     cache_updated_at: merged.updated_at,
     free_tier: ft,
+    delist: delistMeta,
   };
 }

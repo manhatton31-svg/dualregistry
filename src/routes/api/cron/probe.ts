@@ -91,6 +91,15 @@ async function runTick() {
     agents: live.agents,
     at: new Date().toISOString(),
   };
+  // Backfill delists for any historical fail/partial so In Registry drops
+  try {
+    const { backfillDelistsFromProbeResults } = await import(
+      "@/lib/agents1/delist-on-fail"
+    );
+    await backfillDelistsFromProbeResults(state.results || {});
+  } catch {
+    /* */
+  }
   // re-persist with snapshot (monotonic persist path)
   try {
     const { saveDurableJson } = await import("@/lib/agents1/durable-json");
@@ -117,6 +126,12 @@ async function runTick() {
   const probesRaw = JSON.stringify(state, null, 2);
   const growthRaw = await readDurableRaw("growth-state.json");
   const cacheRaw = await readDurableRaw("store-cache.json");
+  let delistRaw: string | null = null;
+  try {
+    delistRaw = await readDurableRaw("delisted.json");
+  } catch {
+    delistRaw = null;
+  }
 
   const oks = live.total;
 
@@ -128,6 +143,7 @@ async function runTick() {
     budget: state.budget,
     live_active_probe_ok: oks,
     last_result: result.last_result,
+    last_handshake: state.last_handshake || null,
     notes: result.notes,
     worker,
     durable: durableConfigPublic(),
@@ -135,6 +151,7 @@ async function runTick() {
     commit: {
       "data/prod/probes.json": probesRaw,
       "data/prod/growth-state.json": growthRaw,
+      "data/prod/delisted.json": delistRaw,
       "data/prod/store-cache.json": cacheRaw
         ? // trim huge caches for commit size — keep counts + recent items
           (() => {

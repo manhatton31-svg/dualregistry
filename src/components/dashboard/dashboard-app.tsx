@@ -341,6 +341,9 @@ export function DashboardApp() {
   const proto = data?.protocol;
   const mcpTotal = data?.mcp?.total ?? 0;
   const agentTotal = data?.agents?.total ?? 0;
+  const delistedTotal =
+    (data as { delist?: { delisted_total?: number } } | null)?.delist
+      ?.delisted_total ?? 0;
   const demoAgents = pe?.demo_agent_only ?? 0;
   const demoMcps = pe?.demo_mcps ?? 0;
   const fbAgents = pe?.feedback_agent_only ?? 0;
@@ -472,7 +475,11 @@ export function DashboardApp() {
             label="In registry"
             value={data ? mcpTotal + agentTotal : "—"}
             hint={
-              data ? `${mcpTotal} MCP · ${agentTotal} agents (store)` : "store"
+              data
+                ? delistedTotal > 0
+                  ? `${mcpTotal} MCP · ${agentTotal} agents · −${delistedTotal} delisted`
+                  : `${mcpTotal} MCP · ${agentTotal} agents (store)`
+                : "store"
             }
             icon={Server}
             accent="accent"

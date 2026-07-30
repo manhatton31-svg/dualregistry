@@ -12,6 +12,8 @@ export type MergeableProbeState = {
   results?: Record<string, any>;
   updated_at?: string;
   last_tick_at?: string;
+  last_ok_tick_at?: string;
+  last_handshake?: string;
   baseline_note?: string;
   wasted_probes_discarded?: number;
   real_active_only?: boolean;
@@ -74,8 +76,34 @@ export function mergeProbeStates(
   if (Rday && !Lday) return { ...R, day };
 
   const results = mergeResults(L.results || {}, R.results || {});
-  const used = Math.max(Number(L.used) || 0, Number(R.used) || 0);
+  // Floor used to unique primary probes recorded for this day (never go backwards)
+  let todayPrimaries = 0;
+  const seen = new Set<string>();
+  for (const [k, r] of Object.entries(results)) {
+    if (!r) continue;
+    if (k.startsWith("name:") || k.startsWith("url:")) continue;
+    if (!(r.probed_at || "").startsWith(day)) continue;
+    const uid = String(r.id || k);
+    if (seen.has(uid)) continue;
+    seen.add(uid);
+    todayPrimaries++;
+  }
+  const used = Math.max(
+    Number(L.used) || 0,
+    Number(R.used) || 0,
+    todayPrimaries,
+  );
   const last_tick_at = newerIso(L.last_tick_at, R.last_tick_at);
+  const last_ok_tick_at = newerIso(L.last_ok_tick_at, R.last_ok_tick_at);
+  const last_handshake =
+    (last_tick_at &&
+      (L.last_tick_at === last_tick_at
+        ? L.last_handshake
+        : R.last_tick_at === last_tick_at
+          ? R.last_handshake
+          : L.last_handshake || R.last_handshake)) ||
+    L.last_handshake ||
+    R.last_handshake;
   const updated_at = newerIso(L.updated_at, R.updated_at) || new Date().toISOString();
 
   // hour bucket: if same, max hourly_used; else prefer the one matching current bucket later
@@ -130,6 +158,8 @@ export function mergeProbeStates(
     results,
     updated_at,
     last_tick_at,
+    last_ok_tick_at,
+    last_handshake,
     baseline_note: L.baseline_note || R.baseline_note,
     wasted_probes_discarded: Math.max(
       Number(L.wasted_probes_discarded) || 0,
