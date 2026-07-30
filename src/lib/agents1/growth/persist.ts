@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { dataRoot } from "@/lib/data-root";
+import { loadDurableJson, saveDurableJson } from "../durable-json";
 import {
   CF_PUT_SOFT,
   GROWTH_INTERVAL_MS,
@@ -77,10 +78,23 @@ let writeChain: Promise<void> = Promise.resolve();
 
 export async function loadState(): Promise<GrowthState> {
   try {
-    const raw = await readFile(STATE_PATH, "utf8");
-    const parsed = JSON.parse(raw) as Partial<GrowthState> & {
-      version?: number;
-    };
+    let parsed = await loadDurableJson<Partial<GrowthState> & { version?: number }>(
+      "growth-state.json",
+      () => ({} as any),
+    );
+    if (!parsed || !Object.keys(parsed).length) {
+      try {
+        const raw = await readFile(STATE_PATH, "utf8");
+        parsed = JSON.parse(raw);
+      } catch {
+        parsed = {};
+      }
+    }
+    if (!parsed || !Object.keys(parsed).length) {
+      const e = emptyState();
+      await saveState(e);
+      return e;
+    }
     const base = emptyState();
     const state: GrowthState = {
       ...base,
@@ -113,10 +127,15 @@ export async function saveState(state: GrowthState): Promise<void> {
     kv: await syncKvFromFreeTier(state.kv),
   };
   writeChain = writeChain.then(async () => {
-    await mkdir(dirname(STATE_PATH), { recursive: true });
-    const tmp = `${STATE_PATH}.${process.pid}.tmp`;
-    await writeFile(tmp, JSON.stringify(next, null, 2), "utf8");
-    await rename(tmp, STATE_PATH);
+    await saveDurableJson("growth-state.json", next);
+    try {
+      await mkdir(dirname(STATE_PATH), { recursive: true });
+      const tmp = `${STATE_PATH}.${process.pid}.tmp`;
+      await writeFile(tmp, JSON.stringify(next, null, 2), "utf8");
+      await rename(tmp, STATE_PATH);
+    } catch {
+      /* */
+    }
   });
   await writeChain;
 }

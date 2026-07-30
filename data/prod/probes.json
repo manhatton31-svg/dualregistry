@@ -1,0 +1,4018 @@
+{
+  "day": "2026-07-30",
+  "used": 0,
+  "budget": 240,
+  "hour_bucket": "2026-07-30T01",
+  "hourly_used": 0,
+  "hourly_cap": 1,
+  "results": {
+    "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai": {
+      "id": "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai",
+      "kind": "mcp",
+      "target": "https://corduroy-labs.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 15,
+      "score": 45,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "mcp",
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "probed_at": "2026-07-29T12:49:43.943Z"
+    },
+    "mcp-https-hirey-ai-https-hirey-ai": {
+      "id": "mcp-https-hirey-ai-https-hirey-ai",
+      "kind": "mcp",
+      "target": "https://hirey.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 11,
+      "score": 45,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "mcp",
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "probed_at": "2026-07-29T13:53:44.010Z"
+    },
+    "agtpub_ae427eacf129a7ad16a0": {
+      "id": "agtpub_ae427eacf129a7ad16a0",
+      "kind": "agent",
+      "target": "https://agoragentic.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 100,
+      "score": 80,
+      "signals": [
+        "real-active"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a"
+      ],
+      "probed_at": "2026-07-29T20:00:59.880358Z"
+    },
+    "agent-tensorfeed-https-tensorfeed-ai": {
+      "id": "agent-tensorfeed-https-tensorfeed-ai",
+      "kind": "agent",
+      "target": "https://tensorfeed.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 101,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:45:08.853Z"
+    },
+    "mcp-duvomike-mcp-": {
+      "id": "mcp-duvomike-mcp-",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@duvomike/mcp/mcp",
+      "ok": false,
+      "latency_ms": 170,
+      "score": 20,
+      "signals": [
+        "try-404",
+        "no-live-remote"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "probed_at": "2026-07-29T20:08:20.461Z"
+    },
+    "mcp-cristianoaredes-mcp-dadosbr-https-github-com-cristianoaredes-mcp-dadosbr": {
+      "id": "mcp-cristianoaredes-mcp-dadosbr-https-github-com-cristianoaredes-mcp-dadosbr",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@cristianoaredes/mcp-dadosbr/mcp",
+      "ok": false,
+      "latency_ms": 33,
+      "score": 30,
+      "signals": [
+        "try-404",
+        "try-404",
+        "try-404",
+        "repo-only",
+        "gh-stars:4",
+        "has-license"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 4,
+      "has_license": true,
+      "probed_at": "2026-07-29T20:08:20.941Z"
+    },
+    "mcp-ctaylor86-mcp-video-download-server-https-github-com-ctaylor86-mcp-video-dow": {
+      "id": "mcp-ctaylor86-mcp-video-download-server-https-github-com-ctaylor86-mcp-video-dow",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@ctaylor86/mcp-video-download-server/mcp",
+      "ok": false,
+      "latency_ms": 27,
+      "score": 30,
+      "signals": [
+        "try-404",
+        "try-404",
+        "try-404",
+        "repo-only",
+        "gh-stars:0",
+        "has-license"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-29T20:08:21.420Z"
+    },
+    "mcp-cuongpo-coti-mcp-https-github-com-cuongpo-coti-mcp": {
+      "id": "mcp-cuongpo-coti-mcp-https-github-com-cuongpo-coti-mcp",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@cuongpo/coti-mcp/mcp",
+      "ok": false,
+      "latency_ms": 37,
+      "score": 30,
+      "signals": [
+        "try-404",
+        "try-404",
+        "try-404",
+        "repo-only",
+        "gh-stars:0",
+        "has-license"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-29T20:08:21.819Z"
+    },
+    "agent-sitepulsar-https-www-sitepulsar-ai": {
+      "id": "agent-sitepulsar-https-www-sitepulsar-ai",
+      "kind": "agent",
+      "target": "https://www.sitepulsar.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 164,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 88,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:16.569Z"
+    },
+    "name:agent:sitepulsar": {
+      "id": "agent-sitepulsar-https-www-sitepulsar-ai",
+      "kind": "agent",
+      "target": "https://www.sitepulsar.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 164,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 88,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:16.569Z"
+    },
+    "url:https://www.sitepulsar.ai/.well-known/agent.json": {
+      "id": "agent-sitepulsar-https-www-sitepulsar-ai",
+      "kind": "agent",
+      "target": "https://www.sitepulsar.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 164,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 88,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:16.569Z"
+    },
+    "mcp-ai-tool-directory-https-tooldirectory-ai": {
+      "id": "mcp-ai-tool-directory-https-tooldirectory-ai",
+      "kind": "mcp",
+      "target": "https://tooldirectory.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 79,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:17.794Z"
+    },
+    "name:mcp:ai tool directory": {
+      "id": "mcp-ai-tool-directory-https-tooldirectory-ai",
+      "kind": "mcp",
+      "target": "https://tooldirectory.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 79,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:17.794Z"
+    },
+    "url:https://tooldirectory.ai/api/mcp": {
+      "id": "mcp-ai-tool-directory-https-tooldirectory-ai",
+      "kind": "mcp",
+      "target": "https://tooldirectory.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 79,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:17.794Z"
+    },
+    "mcp-npm-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-npm-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 193,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:18.807Z"
+    },
+    "name:mcp:npm trends mcp": {
+      "id": "mcp-npm-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 193,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:18.807Z"
+    },
+    "url:https://npm.api.trendsmcp.ai/mcp": {
+      "id": "mcp-npm-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 193,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:18.807Z"
+    },
+    "mcp-reddit-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-reddit-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 33,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:19.664Z"
+    },
+    "name:mcp:reddit trends mcp": {
+      "id": "mcp-reddit-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 33,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:19.664Z"
+    },
+    "url:https://reddit.api.trendsmcp.ai/mcp": {
+      "id": "mcp-reddit-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 33,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:19.664Z"
+    },
+    "mcp-news-volume-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-news-volume-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 31,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:20.485Z"
+    },
+    "name:mcp:news volume trends mcp": {
+      "id": "mcp-news-volume-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 31,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:20.485Z"
+    },
+    "url:https://news-volume.api.trendsmcp.ai/mcp": {
+      "id": "mcp-news-volume-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 31,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:20.485Z"
+    },
+    "name:agent:tensorfeed": {
+      "id": "agent-tensorfeed-https-tensorfeed-ai",
+      "kind": "agent",
+      "target": "https://tensorfeed.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 101,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:45:08.853Z"
+    },
+    "url:https://tensorfeed.ai/.well-known/agent.json": {
+      "id": "agent-tensorfeed-https-tensorfeed-ai",
+      "kind": "agent",
+      "target": "https://tensorfeed.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 101,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:45:08.853Z"
+    },
+    "agtpub_34e576be34211c1defc0": {
+      "id": "agtpub_34e576be34211c1defc0",
+      "kind": "agent",
+      "target": "https://tensorfeed.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 101,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:45:08.853Z"
+    },
+    "agtpub_db3cbbaa4357ee7b5c95": {
+      "id": "agtpub_db3cbbaa4357ee7b5c95",
+      "kind": "agent",
+      "target": "https://www.sitepulsar.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 164,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 88,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T20:47:16.569Z"
+    },
+    "mcp-news-sentiment-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-news-sentiment-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 151,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:14:05.124Z"
+    },
+    "name:mcp:news sentiment trends mcp": {
+      "id": "mcp-news-sentiment-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 151,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:14:05.124Z"
+    },
+    "url:https://news-sentiment.api.trendsmcp.ai/mcp": {
+      "id": "mcp-news-sentiment-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 151,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:14:05.124Z"
+    },
+    "mcp-market-research-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-market-research-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 81,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:15:22.232Z"
+    },
+    "name:mcp:market research trends mcp": {
+      "id": "mcp-market-research-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 81,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:15:22.232Z"
+    },
+    "url:https://market-research.api.trendsmcp.ai/mcp": {
+      "id": "mcp-market-research-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 81,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:15:22.232Z"
+    },
+    "mcp-google-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-google-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 142,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:18:00.659Z"
+    },
+    "name:mcp:google trends mcp": {
+      "id": "mcp-google-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 142,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:18:00.659Z"
+    },
+    "url:https://google-trends.api.trendsmcp.ai/mcp": {
+      "id": "mcp-google-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 142,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:18:00.659Z"
+    },
+    "mcp-ecommerce-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-ecommerce-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 143,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:24:00.740Z"
+    },
+    "name:mcp:ecommerce trends mcp": {
+      "id": "mcp-ecommerce-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 143,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:24:00.740Z"
+    },
+    "url:https://ecommerce.api.trendsmcp.ai/mcp": {
+      "id": "mcp-ecommerce-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 143,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:24:00.740Z"
+    },
+    "mcp-crypto-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-crypto-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 133,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:30:00.697Z"
+    },
+    "name:mcp:crypto trends mcp": {
+      "id": "mcp-crypto-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 133,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:30:00.697Z"
+    },
+    "url:https://crypto.api.trendsmcp.ai/mcp": {
+      "id": "mcp-crypto-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 133,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:30:00.697Z"
+    },
+    "mcp-content-strategy-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-content-strategy-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 141,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:36:00.725Z"
+    },
+    "name:mcp:content strategy trends mcp": {
+      "id": "mcp-content-strategy-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 141,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:36:00.725Z"
+    },
+    "url:https://content-strategy.api.trendsmcp.ai/mcp": {
+      "id": "mcp-content-strategy-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 141,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:36:00.725Z"
+    },
+    "mcp-competitor-tracking-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-competitor-tracking-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 124,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:42:00.648Z"
+    },
+    "name:mcp:competitor tracking trends mcp": {
+      "id": "mcp-competitor-tracking-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 124,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:42:00.648Z"
+    },
+    "url:https://competitor-tracking.api.trendsmcp.ai/mcp": {
+      "id": "mcp-competitor-tracking-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 124,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:42:00.648Z"
+    },
+    "agtpub_426275eb4bc92da62f4f": {
+      "id": "agtpub_426275eb4bc92da62f4f",
+      "kind": "agent",
+      "target": "",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 13,
+      "signals": [
+        "stars 3"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 3,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:45:13.040Z"
+    },
+    "name:agent:swarmery": {
+      "id": "agtpub_426275eb4bc92da62f4f",
+      "kind": "agent",
+      "target": "",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 13,
+      "signals": [
+        "stars 3"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 3,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:45:13.040Z"
+    },
+    "agtpub_e2e50435ad4a0367f5c6": {
+      "id": "agtpub_e2e50435ad4a0367f5c6",
+      "kind": "agent",
+      "target": "https://khive.ai/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 125,
+      "score": 30,
+      "signals": [
+        "card fail 404",
+        "stars 401",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 401,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:45:30.380Z"
+    },
+    "name:agent:lionagi": {
+      "id": "agtpub_e2e50435ad4a0367f5c6",
+      "kind": "agent",
+      "target": "https://khive.ai/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 125,
+      "score": 30,
+      "signals": [
+        "card fail 404",
+        "stars 401",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 401,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:45:30.380Z"
+    },
+    "url:https://khive.ai/.well-known/agent.json": {
+      "id": "agtpub_e2e50435ad4a0367f5c6",
+      "kind": "agent",
+      "target": "https://khive.ai/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 125,
+      "score": 30,
+      "signals": [
+        "card fail 404",
+        "stars 401",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 401,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:45:30.380Z"
+    },
+    "agtpub_06811106b3c136e3973b": {
+      "id": "agtpub_06811106b3c136e3973b",
+      "kind": "agent",
+      "target": "https://www.scriptmasterlabs.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 67,
+      "score": 55,
+      "signals": [
+        "a2a-card",
+        "stars 0",
+        "license"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:45:39.252Z"
+    },
+    "name:agent:squeezeos": {
+      "id": "agtpub_06811106b3c136e3973b",
+      "kind": "agent",
+      "target": "https://www.scriptmasterlabs.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 67,
+      "score": 55,
+      "signals": [
+        "a2a-card",
+        "stars 0",
+        "license"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:45:39.252Z"
+    },
+    "url:https://www.scriptmasterlabs.com/.well-known/agent.json": {
+      "id": "agtpub_06811106b3c136e3973b",
+      "kind": "agent",
+      "target": "https://www.scriptmasterlabs.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 67,
+      "score": 55,
+      "signals": [
+        "a2a-card",
+        "stars 0",
+        "license"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:45:39.252Z"
+    },
+    "agtpub_98ffd8dc6b8a61a65e52": {
+      "id": "agtpub_98ffd8dc6b8a61a65e52",
+      "kind": "agent",
+      "target": "https://github.com/linny006?utm_source=github&utm_medium=about&utm_campaign=trending-claude-skills/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 577,
+      "score": 17,
+      "signals": [
+        "card fail 200",
+        "stars 18"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 18,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:45:42.449Z"
+    },
+    "name:agent:trending-claude-skills": {
+      "id": "agtpub_98ffd8dc6b8a61a65e52",
+      "kind": "agent",
+      "target": "https://github.com/linny006?utm_source=github&utm_medium=about&utm_campaign=trending-claude-skills/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 577,
+      "score": 17,
+      "signals": [
+        "card fail 200",
+        "stars 18"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 18,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:45:42.449Z"
+    },
+    "url:https://github.com/linny006?utm_source=github&utm_medium=about&utm_campaign=trending-claude-skills/.well-known/agent.json": {
+      "id": "agtpub_98ffd8dc6b8a61a65e52",
+      "kind": "agent",
+      "target": "https://github.com/linny006?utm_source=github&utm_medium=about&utm_campaign=trending-claude-skills/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 577,
+      "score": 17,
+      "signals": [
+        "card fail 200",
+        "stars 18"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 18,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:45:42.449Z"
+    },
+    "agtpub_46262b0fb3b0cb020f0d": {
+      "id": "agtpub_46262b0fb3b0cb020f0d",
+      "kind": "agent",
+      "target": "https://ptsoagent.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 106,
+      "score": 20,
+      "signals": [
+        "card fail 404",
+        "stars 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:45:43.728Z"
+    },
+    "name:agent:ptso_agent": {
+      "id": "agtpub_46262b0fb3b0cb020f0d",
+      "kind": "agent",
+      "target": "https://ptsoagent.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 106,
+      "score": 20,
+      "signals": [
+        "card fail 404",
+        "stars 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:45:43.728Z"
+    },
+    "url:https://ptsoagent.vercel.app/.well-known/agent.json": {
+      "id": "agtpub_46262b0fb3b0cb020f0d",
+      "kind": "agent",
+      "target": "https://ptsoagent.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 106,
+      "score": 20,
+      "signals": [
+        "card fail 404",
+        "stars 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:45:43.728Z"
+    },
+    "agtpub_605d8588850b2606e2e2": {
+      "id": "agtpub_605d8588850b2606e2e2",
+      "kind": "agent",
+      "target": "https://phenobarbital.github.io/ai-parrot/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 51,
+      "score": 23,
+      "signals": [
+        "card fail 404",
+        "stars 28",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 28,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:45:44.955Z"
+    },
+    "name:agent:ai-parrot": {
+      "id": "agtpub_605d8588850b2606e2e2",
+      "kind": "agent",
+      "target": "https://phenobarbital.github.io/ai-parrot/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 51,
+      "score": 23,
+      "signals": [
+        "card fail 404",
+        "stars 28",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 28,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:45:44.955Z"
+    },
+    "url:https://phenobarbital.github.io/ai-parrot/.well-known/agent.json": {
+      "id": "agtpub_605d8588850b2606e2e2",
+      "kind": "agent",
+      "target": "https://phenobarbital.github.io/ai-parrot/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 51,
+      "score": 23,
+      "signals": [
+        "card fail 404",
+        "stars 28",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 28,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:45:44.955Z"
+    },
+    "agtpub_84d99fc99dfd5819977e": {
+      "id": "agtpub_84d99fc99dfd5819977e",
+      "kind": "agent",
+      "target": "https://lar.md/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 122,
+      "score": 26,
+      "signals": [
+        "card fail 404",
+        "stars 1",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 1,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:48:00.796Z"
+    },
+    "name:agent:lar": {
+      "id": "agtpub_84d99fc99dfd5819977e",
+      "kind": "agent",
+      "target": "https://lar.md/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 122,
+      "score": 26,
+      "signals": [
+        "card fail 404",
+        "stars 1",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 1,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:48:00.796Z"
+    },
+    "url:https://lar.md/.well-known/agent.json": {
+      "id": "agtpub_84d99fc99dfd5819977e",
+      "kind": "agent",
+      "target": "https://lar.md/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 122,
+      "score": 26,
+      "signals": [
+        "card fail 404",
+        "stars 1",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 1,
+      "has_license": true,
+      "probed_at": "2026-07-29T21:48:00.796Z"
+    },
+    "agtpub_3a9582f56016cfa2a813": {
+      "id": "agtpub_3a9582f56016cfa2a813",
+      "kind": "agent",
+      "target": "https://github-to-mcp.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 35,
+      "score": 29,
+      "signals": [
+        "card fail 402",
+        "stars 31",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 31,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:54:00.758Z"
+    },
+    "name:agent:github-to-mcp": {
+      "id": "agtpub_3a9582f56016cfa2a813",
+      "kind": "agent",
+      "target": "https://github-to-mcp.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 35,
+      "score": 29,
+      "signals": [
+        "card fail 402",
+        "stars 31",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 31,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:54:00.758Z"
+    },
+    "url:https://github-to-mcp.vercel.app/.well-known/agent.json": {
+      "id": "agtpub_3a9582f56016cfa2a813",
+      "kind": "agent",
+      "target": "https://github-to-mcp.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 35,
+      "score": 29,
+      "signals": [
+        "card fail 402",
+        "stars 31",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 31,
+      "has_license": false,
+      "probed_at": "2026-07-29T21:54:00.758Z"
+    },
+    "agtpub_86c4f439a1554fe420d4": {
+      "id": "agtpub_86c4f439a1554fe420d4",
+      "kind": "agent",
+      "target": "https://leasing-api.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 167,
+      "score": 20,
+      "signals": [
+        "card fail 404",
+        "stars 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:00:00.843Z"
+    },
+    "name:agent:leasing-api": {
+      "id": "agtpub_86c4f439a1554fe420d4",
+      "kind": "agent",
+      "target": "https://leasing-api.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 167,
+      "score": 20,
+      "signals": [
+        "card fail 404",
+        "stars 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:00:00.843Z"
+    },
+    "url:https://leasing-api.vercel.app/.well-known/agent.json": {
+      "id": "agtpub_86c4f439a1554fe420d4",
+      "kind": "agent",
+      "target": "https://leasing-api.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 167,
+      "score": 20,
+      "signals": [
+        "card fail 404",
+        "stars 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:00:00.843Z"
+    },
+    "agtpub_efe2d008b63c96157697": {
+      "id": "agtpub_efe2d008b63c96157697",
+      "kind": "agent",
+      "target": "https://zyraxonai.lovable.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 915,
+      "score": 25,
+      "signals": [
+        "card fail 404",
+        "stars 6",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 6,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:06:01.558Z"
+    },
+    "name:agent:zyraxon-ai": {
+      "id": "agtpub_efe2d008b63c96157697",
+      "kind": "agent",
+      "target": "https://zyraxonai.lovable.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 915,
+      "score": 25,
+      "signals": [
+        "card fail 404",
+        "stars 6",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 6,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:06:01.558Z"
+    },
+    "url:https://zyraxonai.lovable.app/.well-known/agent.json": {
+      "id": "agtpub_efe2d008b63c96157697",
+      "kind": "agent",
+      "target": "https://zyraxonai.lovable.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 915,
+      "score": 25,
+      "signals": [
+        "card fail 404",
+        "stars 6",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 6,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:06:01.558Z"
+    },
+    "agtpub_279c88c667456f4fcc59": {
+      "id": "agtpub_279c88c667456f4fcc59",
+      "kind": "agent",
+      "target": "https://itinai.com/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 894,
+      "score": 28,
+      "signals": [
+        "card fail 200",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:12:01.583Z"
+    },
+    "name:agent:itinai": {
+      "id": "agtpub_279c88c667456f4fcc59",
+      "kind": "agent",
+      "target": "https://itinai.com/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 894,
+      "score": 28,
+      "signals": [
+        "card fail 200",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:12:01.583Z"
+    },
+    "url:https://itinai.com/.well-known/agent.json": {
+      "id": "agtpub_279c88c667456f4fcc59",
+      "kind": "agent",
+      "target": "https://itinai.com/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 894,
+      "score": 28,
+      "signals": [
+        "card fail 200",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:12:01.583Z"
+    },
+    "agtpub_dad2035f1c5862896e17": {
+      "id": "agtpub_dad2035f1c5862896e17",
+      "kind": "agent",
+      "target": "https://foxbook.dev/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 7,
+      "score": 28,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:13:14.028Z"
+    },
+    "name:agent:foxbook": {
+      "id": "agtpub_dad2035f1c5862896e17",
+      "kind": "agent",
+      "target": "https://foxbook.dev/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 7,
+      "score": 28,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:13:14.028Z"
+    },
+    "url:https://foxbook.dev/.well-known/agent.json": {
+      "id": "agtpub_dad2035f1c5862896e17",
+      "kind": "agent",
+      "target": "https://foxbook.dev/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 7,
+      "score": 28,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:13:14.028Z"
+    },
+    "agtpub_19b5c225f314b425634c": {
+      "id": "agtpub_19b5c225f314b425634c",
+      "kind": "agent",
+      "target": "https://bnbchainmcp.vercel.app/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 39,
+      "score": 29,
+      "signals": [
+        "card fail 402",
+        "card fail 402",
+        "card fail 402",
+        "card fail 402",
+        "stars 31",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 31,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:18:00.827Z"
+    },
+    "name:agent:bnbchain-mcp": {
+      "id": "agtpub_19b5c225f314b425634c",
+      "kind": "agent",
+      "target": "https://bnbchainmcp.vercel.app/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 39,
+      "score": 29,
+      "signals": [
+        "card fail 402",
+        "card fail 402",
+        "card fail 402",
+        "card fail 402",
+        "stars 31",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 31,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:18:00.827Z"
+    },
+    "url:https://bnbchainmcp.vercel.app/.well-known/agent.json": {
+      "id": "agtpub_19b5c225f314b425634c",
+      "kind": "agent",
+      "target": "https://bnbchainmcp.vercel.app/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 39,
+      "score": 29,
+      "signals": [
+        "card fail 402",
+        "card fail 402",
+        "card fail 402",
+        "card fail 402",
+        "stars 31",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 31,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:18:00.827Z"
+    },
+    "agtpub_44420010dbccc9fce717": {
+      "id": "agtpub_44420010dbccc9fce717",
+      "kind": "agent",
+      "target": "https://openlinker.ai/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 273,
+      "score": 28,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:24:04.482Z"
+    },
+    "name:agent:openlinker-core": {
+      "id": "agtpub_44420010dbccc9fce717",
+      "kind": "agent",
+      "target": "https://openlinker.ai/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 273,
+      "score": 28,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:24:04.482Z"
+    },
+    "url:https://openlinker.ai/.well-known/agent.json": {
+      "id": "agtpub_44420010dbccc9fce717",
+      "kind": "agent",
+      "target": "https://openlinker.ai/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 273,
+      "score": 28,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:24:04.482Z"
+    },
+    "agtpub_8c8b6567f19495419a30": {
+      "id": "agtpub_8c8b6567f19495419a30",
+      "kind": "agent",
+      "target": "https://kamiazya-whiteboard.pages.dev/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 21,
+      "score": 28,
+      "signals": [
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:30:00.789Z"
+    },
+    "name:agent:whiteboard": {
+      "id": "agtpub_8c8b6567f19495419a30",
+      "kind": "agent",
+      "target": "https://kamiazya-whiteboard.pages.dev/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 21,
+      "score": 28,
+      "signals": [
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:30:00.789Z"
+    },
+    "url:https://kamiazya-whiteboard.pages.dev/.well-known/agent.json": {
+      "id": "agtpub_8c8b6567f19495419a30",
+      "kind": "agent",
+      "target": "https://kamiazya-whiteboard.pages.dev/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 21,
+      "score": 28,
+      "signals": [
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "stars 3",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:30:00.789Z"
+    },
+    "mcp-app-store-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-app-store-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 127,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:31:44.027Z"
+    },
+    "name:mcp:app store trends mcp": {
+      "id": "mcp-app-store-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 127,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:31:44.027Z"
+    },
+    "url:https://app-store.api.trendsmcp.ai/mcp": {
+      "id": "mcp-app-store-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 127,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:31:44.027Z"
+    },
+    "agtpub_4505eaa93e316d2ea4f2": {
+      "id": "agtpub_4505eaa93e316d2ea4f2",
+      "kind": "agent",
+      "target": "https://sys.uxprojects-jok.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 98,
+      "score": 27,
+      "signals": [
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "stars 2",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 2,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:36:01.260Z"
+    },
+    "name:agent:personal-sys-vps": {
+      "id": "agtpub_4505eaa93e316d2ea4f2",
+      "kind": "agent",
+      "target": "https://sys.uxprojects-jok.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 98,
+      "score": 27,
+      "signals": [
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "stars 2",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 2,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:36:01.260Z"
+    },
+    "url:https://sys.uxprojects-jok.com/.well-known/agent.json": {
+      "id": "agtpub_4505eaa93e316d2ea4f2",
+      "kind": "agent",
+      "target": "https://sys.uxprojects-jok.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 98,
+      "score": 27,
+      "signals": [
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "card fail 200",
+        "stars 2",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 2,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:36:01.260Z"
+    },
+    "agtpub_adee5f3ade099f842913": {
+      "id": "agtpub_adee5f3ade099f842913",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 68,
+      "score": 19,
+      "signals": [
+        "card fail 200",
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 4",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 4,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:42:01.526Z"
+    },
+    "name:agent:burnbar": {
+      "id": "agtpub_adee5f3ade099f842913",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 68,
+      "score": 19,
+      "signals": [
+        "card fail 200",
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 4",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 4,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:42:01.526Z"
+    },
+    "url:https://github.com/Ajnunezg/BurnBar#readme/.well-known/agent.json": {
+      "id": "agtpub_adee5f3ade099f842913",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 68,
+      "score": 19,
+      "signals": [
+        "card fail 200",
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 4",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 4,
+      "has_license": true,
+      "probed_at": "2026-07-29T22:42:01.526Z"
+    },
+    "agent-not-human-search-https-nothumansearch-ai": {
+      "id": "agent-not-human-search-https-nothumansearch-ai",
+      "kind": "agent",
+      "target": "https://nothumansearch.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 199,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 70,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:48:00.755Z"
+    },
+    "name:agent:not human search": {
+      "id": "agent-not-human-search-https-nothumansearch-ai",
+      "kind": "agent",
+      "target": "https://nothumansearch.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 199,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 70,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:48:00.755Z"
+    },
+    "url:https://nothumansearch.ai/.well-known/agent.json": {
+      "id": "agent-not-human-search-https-nothumansearch-ai",
+      "kind": "agent",
+      "target": "https://nothumansearch.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 199,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 70,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:48:00.755Z"
+    },
+    "agtpub_4bb2f54b68b2093269dd": {
+      "id": "agtpub_4bb2f54b68b2093269dd",
+      "kind": "agent",
+      "target": "https://nothumansearch.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 199,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 70,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:48:00.755Z"
+    },
+    "agent-nexez-https-nexez-ai-": {
+      "id": "agent-nexez-https-nexez-ai-",
+      "kind": "agent",
+      "target": "https://nexez.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 239,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 75,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:50:01.304Z"
+    },
+    "name:agent:nexez": {
+      "id": "agent-nexez-https-nexez-ai-",
+      "kind": "agent",
+      "target": "https://nexez.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 239,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 75,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:50:01.304Z"
+    },
+    "url:https://nexez.ai/.well-known/agent.json": {
+      "id": "agent-nexez-https-nexez-ai-",
+      "kind": "agent",
+      "target": "https://nexez.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 239,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 75,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:50:01.304Z"
+    },
+    "agtpub_00f3ba4fc443a690c152": {
+      "id": "agtpub_00f3ba4fc443a690c152",
+      "kind": "agent",
+      "target": "https://nexez.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 239,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 75,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:50:01.304Z"
+    },
+    "agent-meacheal-supply-chain-agent-https-api-meacheal-ai": {
+      "id": "agent-meacheal-supply-chain-agent-https-api-meacheal-ai",
+      "kind": "agent",
+      "target": "https://api.meacheal.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 292,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:54:00.812Z"
+    },
+    "name:agent:meacheal supply chain agent": {
+      "id": "agent-meacheal-supply-chain-agent-https-api-meacheal-ai",
+      "kind": "agent",
+      "target": "https://api.meacheal.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 292,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:54:00.812Z"
+    },
+    "url:https://api.meacheal.ai/.well-known/agent.json": {
+      "id": "agent-meacheal-supply-chain-agent-https-api-meacheal-ai",
+      "kind": "agent",
+      "target": "https://api.meacheal.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 292,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:54:00.812Z"
+    },
+    "agtpub_290c692ad6bcd5efbe11": {
+      "id": "agtpub_290c692ad6bcd5efbe11",
+      "kind": "agent",
+      "target": "https://api.meacheal.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 292,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:54:00.812Z"
+    },
+    "agent-the-stall-https-the-stall-intuitek-ai": {
+      "id": "agent-the-stall-https-the-stall-intuitek-ai",
+      "kind": "agent",
+      "target": "https://the-stall.intuitek.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 242,
+      "score": 35,
+      "signals": [
+        "card-json-parse",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:55:34.014Z"
+    },
+    "name:agent:the stall": {
+      "id": "agent-the-stall-https-the-stall-intuitek-ai",
+      "kind": "agent",
+      "target": "https://the-stall.intuitek.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 242,
+      "score": 35,
+      "signals": [
+        "card-json-parse",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:55:34.014Z"
+    },
+    "url:https://the-stall.intuitek.ai/.well-known/agent.json": {
+      "id": "agent-the-stall-https-the-stall-intuitek-ai",
+      "kind": "agent",
+      "target": "https://the-stall.intuitek.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 242,
+      "score": 35,
+      "signals": [
+        "card-json-parse",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:55:34.014Z"
+    },
+    "agtpub_d062f0839db5e1d50d1e": {
+      "id": "agtpub_d062f0839db5e1d50d1e",
+      "kind": "agent",
+      "target": "https://the-stall.intuitek.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 242,
+      "score": 35,
+      "signals": [
+        "card-json-parse",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T22:55:34.014Z"
+    },
+    "agent-corduroy-labs-https-corduroy-labs-ai": {
+      "id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "kind": "agent",
+      "target": "https://corduroy-labs.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 110,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 94,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:00:00.667Z"
+    },
+    "name:agent:corduroy labs": {
+      "id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "kind": "agent",
+      "target": "https://corduroy-labs.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 110,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 94,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:00:00.667Z"
+    },
+    "url:https://corduroy-labs.ai/.well-known/agent.json": {
+      "id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "kind": "agent",
+      "target": "https://corduroy-labs.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 110,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 94,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:00:00.667Z"
+    },
+    "agtpub_838f097c66bd7b8926ca": {
+      "id": "agtpub_838f097c66bd7b8926ca",
+      "kind": "agent",
+      "target": "https://corduroy-labs.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 110,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 94,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:00:00.667Z"
+    },
+    "mcp-amazon-trends-mcp-https-trendsmcp-ai": {
+      "id": "mcp-amazon-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 126,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:07:10.632Z"
+    },
+    "name:mcp:amazon trends mcp": {
+      "id": "mcp-amazon-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 126,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:07:10.632Z"
+    },
+    "url:https://amazon.api.trendsmcp.ai/mcp": {
+      "id": "mcp-amazon-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 126,
+      "score": 40,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:07:10.632Z"
+    },
+    "agent-songgenerationa2a-https-github-com-shiv33ndu-songgenerationa2a": {
+      "id": "agent-songgenerationa2a-https-github-com-shiv33ndu-songgenerationa2a",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 10,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:12:00.822Z"
+    },
+    "name:agent:songgenerationa2a": {
+      "id": "agent-songgenerationa2a-https-github-com-shiv33ndu-songgenerationa2a",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 10,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:12:00.822Z"
+    },
+    "agtpub_e926e55b11f093fb6364": {
+      "id": "agtpub_e926e55b11f093fb6364",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 10,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:12:00.822Z"
+    },
+    "agent-a2a4j-https-github-com-pheonixhkbxoic-a2a4j": {
+      "id": "agent-a2a4j-https-github-com-pheonixhkbxoic-a2a4j",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 59,
+      "score": 22,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 19",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 19,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:18:00.881Z"
+    },
+    "name:agent:a2a4j": {
+      "id": "agent-a2a4j-https-github-com-pheonixhkbxoic-a2a4j",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 59,
+      "score": 22,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 19",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 19,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:18:00.881Z"
+    },
+    "agtpub_8b42ade04783cec42700": {
+      "id": "agtpub_8b42ade04783cec42700",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 59,
+      "score": 22,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 19",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 19,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:18:00.881Z"
+    },
+    "mcp-travelmindsai-concierge-https-travelminds-ai": {
+      "id": "mcp-travelmindsai-concierge-https-travelminds-ai",
+      "kind": "mcp",
+      "target": "https://travelminds.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 486,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:24:01.101Z"
+    },
+    "name:mcp:travelmindsai concierge": {
+      "id": "mcp-travelmindsai-concierge-https-travelminds-ai",
+      "kind": "mcp",
+      "target": "https://travelminds.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 486,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:24:01.101Z"
+    },
+    "url:https://mcp.travelminds.ai/mcp": {
+      "id": "mcp-travelmindsai-concierge-https-travelminds-ai",
+      "kind": "mcp",
+      "target": "https://travelminds.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 486,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:24:01.101Z"
+    },
+    "agent-awesome-adk-https-github-com-rashraj-awesome-adk": {
+      "id": "agent-awesome-adk-https-github-com-rashraj-awesome-adk",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 25,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 49",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 49,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:30:00.791Z"
+    },
+    "name:agent:awesome-adk": {
+      "id": "agent-awesome-adk-https-github-com-rashraj-awesome-adk",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 25,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 49",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 49,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:30:00.791Z"
+    },
+    "agtpub_6210a208b4f0fd280b73": {
+      "id": "agtpub_6210a208b4f0fd280b73",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 25,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 49",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 49,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:30:00.791Z"
+    },
+    "agent-llm-https-github-com-r-uby-dev-llm": {
+      "id": "agent-llm-https-github-com-r-uby-dev-llm",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 54,
+      "score": 27,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 136",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 136,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:41:48.513Z"
+    },
+    "name:agent:llm": {
+      "id": "agent-llm-https-github-com-r-uby-dev-llm",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 54,
+      "score": 27,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 136",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 136,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:41:48.513Z"
+    },
+    "agtpub_e968362d5f4a6bcb6983": {
+      "id": "agtpub_e968362d5f4a6bcb6983",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 54,
+      "score": 27,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 136",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 136,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:41:48.513Z"
+    },
+    "mcp-https-syntheticbrew-ai-https-syntheticbrew-ai": {
+      "id": "mcp-https-syntheticbrew-ai-https-syntheticbrew-ai",
+      "kind": "mcp",
+      "target": "https://syntheticbrew.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 465,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:42:25.054Z"
+    },
+    "name:mcp:https://syntheticbrew.ai": {
+      "id": "mcp-https-syntheticbrew-ai-https-syntheticbrew-ai",
+      "kind": "mcp",
+      "target": "https://syntheticbrew.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 465,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-29T23:42:25.054Z"
+    },
+    "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a": {
+      "id": "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 35,
+      "score": 28,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 179",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 179,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:48:00.828Z"
+    },
+    "name:agent:awesome-a2a": {
+      "id": "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 35,
+      "score": 28,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 179",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 179,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:48:00.828Z"
+    },
+    "agtpub_6b1009d884a24c78aa41": {
+      "id": "agtpub_6b1009d884a24c78aa41",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 35,
+      "score": 28,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 179",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 179,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:48:00.828Z"
+    },
+    "agent-a2a-playground-https-github-com-alis-exchange-a2a-playground": {
+      "id": "agent-a2a-playground-https-github-com-alis-exchange-a2a-playground",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 78,
+      "score": 15,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:54:00.956Z"
+    },
+    "name:agent:a2a-playground": {
+      "id": "agent-a2a-playground-https-github-com-alis-exchange-a2a-playground",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 78,
+      "score": 15,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:54:00.956Z"
+    },
+    "agtpub_56ae20f0e1fb4b171294": {
+      "id": "agtpub_56ae20f0e1fb4b171294",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 78,
+      "score": 15,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-29T23:54:00.956Z"
+    },
+    "agtpub_0affb04e5feef5a50d10": {
+      "id": "agtpub_0affb04e5feef5a50d10",
+      "kind": "agent",
+      "target": "https://motus.phanthy.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 538,
+      "score": 31,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 12",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 12,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:00:04.094Z"
+    },
+    "name:agent:phanthymotus": {
+      "id": "agtpub_0affb04e5feef5a50d10",
+      "kind": "agent",
+      "target": "https://motus.phanthy.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 538,
+      "score": 31,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 12",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 12,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:00:04.094Z"
+    },
+    "url:https://motus.phanthy.com/.well-known/agent.json": {
+      "id": "agtpub_0affb04e5feef5a50d10",
+      "kind": "agent",
+      "target": "https://motus.phanthy.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 538,
+      "score": 31,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "card fail 404",
+        "stars 12",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 12,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:00:04.094Z"
+    },
+    "agtpub_1fa4c154fce33c420b97": {
+      "id": "agtpub_1fa4c154fce33c420b97",
+      "kind": "agent",
+      "target": "https://africanmarketos.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 20,
+      "score": 50,
+      "signals": [
+        "card fail 404",
+        "a2a-card",
+        "alt .well-known/agent.json",
+        "stars 0"
+      ],
+      "a2a_score": 81,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:06:01.559Z"
+    },
+    "name:agent:mvr-framework": {
+      "id": "agtpub_1fa4c154fce33c420b97",
+      "kind": "agent",
+      "target": "https://africanmarketos.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 20,
+      "score": 50,
+      "signals": [
+        "card fail 404",
+        "a2a-card",
+        "alt .well-known/agent.json",
+        "stars 0"
+      ],
+      "a2a_score": 81,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:06:01.559Z"
+    },
+    "url:https://africanmarketos.com/get-api-key/.well-known/agent.json": {
+      "id": "agtpub_1fa4c154fce33c420b97",
+      "kind": "agent",
+      "target": "https://africanmarketos.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 20,
+      "score": 50,
+      "signals": [
+        "card fail 404",
+        "a2a-card",
+        "alt .well-known/agent.json",
+        "stars 0"
+      ],
+      "a2a_score": 81,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:06:01.559Z"
+    },
+    "agtpub_31c620076f963c1add9e": {
+      "id": "agtpub_31c620076f963c1add9e",
+      "kind": "agent",
+      "target": "https://gouvernance.ai/.well-known/agent-card.json",
+      "ok": true,
+      "latency_ms": 141,
+      "score": 60,
+      "signals": [
+        "card fail 200",
+        "a2a-card",
+        "alt .well-known/agent-card.json",
+        "stars 6",
+        "license"
+      ],
+      "a2a_score": 73,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 6,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:12:00.978Z"
+    },
+    "name:agent:agent-decision-protocol": {
+      "id": "agtpub_31c620076f963c1add9e",
+      "kind": "agent",
+      "target": "https://gouvernance.ai/.well-known/agent-card.json",
+      "ok": true,
+      "latency_ms": 141,
+      "score": 60,
+      "signals": [
+        "card fail 200",
+        "a2a-card",
+        "alt .well-known/agent-card.json",
+        "stars 6",
+        "license"
+      ],
+      "a2a_score": 73,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 6,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:12:00.978Z"
+    },
+    "url:https://gouvernance.ai/.well-known/agent.json": {
+      "id": "agtpub_31c620076f963c1add9e",
+      "kind": "agent",
+      "target": "https://gouvernance.ai/.well-known/agent-card.json",
+      "ok": true,
+      "latency_ms": 141,
+      "score": 60,
+      "signals": [
+        "card fail 200",
+        "a2a-card",
+        "alt .well-known/agent-card.json",
+        "stars 6",
+        "license"
+      ],
+      "a2a_score": 73,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 6,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:12:00.978Z"
+    },
+    "agent-maf-a2a-https-github-com-thousandfacedhero-maf-a2a": {
+      "id": "agent-maf-a2a-https-github-com-thousandfacedhero-maf-a2a",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 15,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:18:00.832Z"
+    },
+    "name:agent:maf-a2a": {
+      "id": "agent-maf-a2a-https-github-com-thousandfacedhero-maf-a2a",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 15,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:18:00.832Z"
+    },
+    "agtpub_34961b3d0e59f1783de4": {
+      "id": "agtpub_34961b3d0e59f1783de4",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 15,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:18:00.832Z"
+    },
+    "agtpub_b9f0d8828d83cb7ac364": {
+      "id": "agtpub_b9f0d8828d83cb7ac364",
+      "kind": "agent",
+      "target": "https://aibtc.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 65,
+      "score": 53,
+      "signals": [
+        "a2a-card",
+        "stars 3"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 3,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:24:00.798Z"
+    },
+    "name:agent:landing-page": {
+      "id": "agtpub_b9f0d8828d83cb7ac364",
+      "kind": "agent",
+      "target": "https://aibtc.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 65,
+      "score": 53,
+      "signals": [
+        "a2a-card",
+        "stars 3"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 3,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:24:00.798Z"
+    },
+    "url:https://aibtc.com/.well-known/agent.json": {
+      "id": "agtpub_b9f0d8828d83cb7ac364",
+      "kind": "agent",
+      "target": "https://aibtc.com/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 65,
+      "score": 53,
+      "signals": [
+        "a2a-card",
+        "stars 3"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": false,
+      "github_stars": 3,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:24:00.798Z"
+    },
+    "mcp-https-api-synlake-ai-https-api-synlake-ai": {
+      "id": "mcp-https-api-synlake-ai-https-api-synlake-ai",
+      "kind": "mcp",
+      "target": "https://api.synlake.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 161,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:30:00.756Z"
+    },
+    "name:mcp:https://api.synlake.ai": {
+      "id": "mcp-https-api-synlake-ai-https-api-synlake-ai",
+      "kind": "mcp",
+      "target": "https://api.synlake.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 161,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:30:00.756Z"
+    },
+    "agent-a2a-java-sdk-spring-https-github-com-goodfriend2ks-a2a-java-sdk-spring": {
+      "id": "agent-a2a-java-sdk-spring-https-github-com-goodfriend2ks-a2a-java-sdk-spring",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 73,
+      "score": 15,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:36:00.902Z"
+    },
+    "name:agent:a2a-java-sdk-spring": {
+      "id": "agent-a2a-java-sdk-spring-https-github-com-goodfriend2ks-a2a-java-sdk-spring",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 73,
+      "score": 15,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:36:00.902Z"
+    },
+    "agtpub_231f73307bdb9e0a2ad2": {
+      "id": "agtpub_231f73307bdb9e0a2ad2",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 73,
+      "score": 15,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 0",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:36:00.902Z"
+    },
+    "agtpub_a9572e664c3fe69d2294": {
+      "id": "agtpub_a9572e664c3fe69d2294",
+      "kind": "agent",
+      "target": "https://api.pictomancer.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 274,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:42:00.871Z"
+    },
+    "name:agent:pictomancer.ai": {
+      "id": "agtpub_a9572e664c3fe69d2294",
+      "kind": "agent",
+      "target": "https://api.pictomancer.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 274,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:42:00.871Z"
+    },
+    "url:https://api.pictomancer.ai/.well-known/agent.json": {
+      "id": "agtpub_a9572e664c3fe69d2294",
+      "kind": "agent",
+      "target": "https://api.pictomancer.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 274,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 100,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:42:00.871Z"
+    },
+    "mcp-syntheticbrew-https-app-syntheticbrew-ai": {
+      "id": "mcp-syntheticbrew-https-app-syntheticbrew-ai",
+      "kind": "mcp",
+      "target": "https://app.syntheticbrew.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 441,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:48:01.010Z"
+    },
+    "name:mcp:syntheticbrew": {
+      "id": "mcp-syntheticbrew-https-app-syntheticbrew-ai",
+      "kind": "mcp",
+      "target": "https://app.syntheticbrew.ai/.well-known/mcp/server-card.json",
+      "ok": true,
+      "latency_ms": 441,
+      "score": 50,
+      "signals": [
+        "mcp-card /.well-known/mcp/server-card.json",
+        "ns:name~host"
+      ],
+      "handshake": "ok",
+      "protocol_hints": [
+        "server-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T00:48:01.010Z"
+    },
+    "agtpub_6991e4a5ad724d275bba": {
+      "id": "agtpub_6991e4a5ad724d275bba",
+      "kind": "agent",
+      "target": "https://meshmail.ai/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 250,
+      "score": 27,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 200",
+        "card fail 404",
+        "stars 108",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 108,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:54:02.446Z"
+    },
+    "name:agent:aamp": {
+      "id": "agtpub_6991e4a5ad724d275bba",
+      "kind": "agent",
+      "target": "https://meshmail.ai/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 250,
+      "score": 27,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 200",
+        "card fail 404",
+        "stars 108",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 108,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:54:02.446Z"
+    },
+    "url:https://meshmail.ai/.well-known/agent.json": {
+      "id": "agtpub_6991e4a5ad724d275bba",
+      "kind": "agent",
+      "target": "https://meshmail.ai/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 250,
+      "score": 27,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 200",
+        "card fail 404",
+        "stars 108",
+        "license"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 108,
+      "has_license": true,
+      "probed_at": "2026-07-30T00:54:02.446Z"
+    },
+    "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk": {
+      "id": "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 40,
+      "score": 11,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 1,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:00:00.860Z"
+    },
+    "name:agent:bfa-sdk": {
+      "id": "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 40,
+      "score": 11,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 1,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:00:00.860Z"
+    },
+    "agtpub_195ea387a17a06f7fe96": {
+      "id": "agtpub_195ea387a17a06f7fe96",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 40,
+      "score": 11,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 1,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:00:00.860Z"
+    },
+    "mcp-spotlight-https-spotlight-thrain-ai": {
+      "id": "mcp-spotlight-https-spotlight-thrain-ai",
+      "kind": "mcp",
+      "target": "https://spotlight.thrain.ai",
+      "ok": false,
+      "latency_ms": 20,
+      "score": 20,
+      "signals": [
+        "ns:name~host"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:06:00.772Z"
+    },
+    "name:mcp:spotlight": {
+      "id": "mcp-spotlight-https-spotlight-thrain-ai",
+      "kind": "mcp",
+      "target": "https://spotlight.thrain.ai",
+      "ok": false,
+      "latency_ms": 20,
+      "score": 20,
+      "signals": [
+        "ns:name~host"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:06:00.772Z"
+    },
+    "agtpub_1d3583031bd03b157c3c": {
+      "id": "agtpub_1d3583031bd03b157c3c",
+      "kind": "agent",
+      "target": "https://mcp.law.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 297,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 45,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:12:00.869Z"
+    },
+    "name:agent:law-ai": {
+      "id": "agtpub_1d3583031bd03b157c3c",
+      "kind": "agent",
+      "target": "https://mcp.law.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 297,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 45,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:12:00.869Z"
+    },
+    "url:https://mcp.law.ai/.well-known/agent.json": {
+      "id": "agtpub_1d3583031bd03b157c3c",
+      "kind": "agent",
+      "target": "https://mcp.law.ai/.well-known/agent.json",
+      "ok": true,
+      "latency_ms": 297,
+      "score": 60,
+      "signals": [
+        "a2a-card",
+        "ns:name~host"
+      ],
+      "a2a_score": 45,
+      "handshake": "ok",
+      "protocol_hints": [
+        "a2a",
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:12:00.869Z"
+    },
+    "mcp-hypertool-mcp-https-github-com-toolprint-hypertool-mcp": {
+      "id": "mcp-hypertool-mcp-https-github-com-toolprint-hypertool-mcp",
+      "kind": "mcp",
+      "target": "https://github.com/toolprint/hypertool-mcp",
+      "ok": false,
+      "latency_ms": 155,
+      "score": 23,
+      "signals": [
+        "stars 155"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 155,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:18:01.051Z"
+    },
+    "name:mcp:hypertool-mcp": {
+      "id": "mcp-hypertool-mcp-https-github-com-toolprint-hypertool-mcp",
+      "kind": "mcp",
+      "target": "https://github.com/toolprint/hypertool-mcp",
+      "ok": false,
+      "latency_ms": 155,
+      "score": 23,
+      "signals": [
+        "stars 155"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 155,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:18:01.051Z"
+    },
+    "mcp-trade-router-mcp-https-github-com-traderouter-trade-router-mcp": {
+      "id": "mcp-trade-router-mcp-https-github-com-traderouter-trade-router-mcp",
+      "kind": "mcp",
+      "target": "https://github.com/TradeRouter/trade-router-mcp",
+      "ok": false,
+      "latency_ms": 136,
+      "score": 18,
+      "signals": [
+        "stars 3",
+        "license"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-30T01:24:00.882Z"
+    },
+    "name:mcp:trade-router-mcp": {
+      "id": "mcp-trade-router-mcp-https-github-com-traderouter-trade-router-mcp",
+      "kind": "mcp",
+      "target": "https://github.com/TradeRouter/trade-router-mcp",
+      "ok": false,
+      "latency_ms": 136,
+      "score": 18,
+      "signals": [
+        "stars 3",
+        "license"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 3,
+      "has_license": true,
+      "probed_at": "2026-07-30T01:24:00.882Z"
+    },
+    "mcp-askhuman-https-github-com-thrain-ai-askhuman": {
+      "id": "mcp-askhuman-https-github-com-thrain-ai-askhuman",
+      "kind": "mcp",
+      "target": "https://askhuman.thrain.ai",
+      "ok": false,
+      "latency_ms": 18,
+      "score": 25,
+      "signals": [
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T01:30:00.782Z"
+    },
+    "name:mcp:askhuman": {
+      "id": "mcp-askhuman-https-github-com-thrain-ai-askhuman",
+      "kind": "mcp",
+      "target": "https://askhuman.thrain.ai",
+      "ok": false,
+      "latency_ms": 18,
+      "score": 25,
+      "signals": [
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T01:30:00.782Z"
+    },
+    "agent-agentup-https-github-com-lukasb3863-agentup": {
+      "id": "agent-agentup-https-github-com-lukasb3863-agentup",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 11,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 1,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:36:00.918Z"
+    },
+    "name:agent:agentup": {
+      "id": "agent-agentup-https-github-com-lukasb3863-agentup",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 11,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 1,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:36:00.918Z"
+    },
+    "agtpub_10262232c734848fc8f6": {
+      "id": "agtpub_10262232c734848fc8f6",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "ok": false,
+      "latency_ms": 29,
+      "score": 11,
+      "signals": [
+        "card fail 404",
+        "card fail 404",
+        "card fail 410",
+        "card fail 404",
+        "stars 1"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 1,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:36:00.918Z"
+    },
+    "mcp-blackout-https-github-com-thrain-ai-blackout-pdf": {
+      "id": "mcp-blackout-https-github-com-thrain-ai-blackout-pdf",
+      "kind": "mcp",
+      "target": "https://blackout.thrain.ai",
+      "ok": false,
+      "latency_ms": 46,
+      "score": 20,
+      "signals": [
+        "stars 0",
+        "ns:name~host"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:42:00.928Z"
+    },
+    "name:mcp:blackout": {
+      "id": "mcp-blackout-https-github-com-thrain-ai-blackout-pdf",
+      "kind": "mcp",
+      "target": "https://blackout.thrain.ai",
+      "ok": false,
+      "latency_ms": 46,
+      "score": 20,
+      "signals": [
+        "stars 0",
+        "ns:name~host"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:42:00.928Z"
+    },
+    "mcp-tokonomix-council-https-github-com-tokonomix-tokonomix-council-mcp": {
+      "id": "mcp-tokonomix-council-https-github-com-tokonomix-tokonomix-council-mcp",
+      "kind": "mcp",
+      "target": "https://tokonomix.ai",
+      "ok": false,
+      "latency_ms": 95,
+      "score": 25,
+      "signals": [
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T01:48:01.415Z"
+    },
+    "name:mcp:tokonomix council": {
+      "id": "mcp-tokonomix-council-https-github-com-tokonomix-tokonomix-council-mcp",
+      "kind": "mcp",
+      "target": "https://tokonomix.ai",
+      "ok": false,
+      "latency_ms": 95,
+      "score": 25,
+      "signals": [
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "handshake": "skip",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T01:48:01.415Z"
+    },
+    "mcp-tinyfish-ai-web-agent-": {
+      "id": "mcp-tinyfish-ai-web-agent-",
+      "kind": "mcp",
+      "target": "https://agent.tinyfish.ai/mcp",
+      "ok": true,
+      "latency_ms": 71,
+      "score": 30,
+      "signals": [
+        "remote 401"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:54:01.528Z"
+    },
+    "name:mcp:tinyfish ai web agent": {
+      "id": "mcp-tinyfish-ai-web-agent-",
+      "kind": "mcp",
+      "target": "https://agent.tinyfish.ai/mcp",
+      "ok": true,
+      "latency_ms": 71,
+      "score": 30,
+      "signals": [
+        "remote 401"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:54:01.528Z"
+    },
+    "url:https://agent.tinyfish.ai/mcp": {
+      "id": "mcp-tinyfish-ai-web-agent-",
+      "kind": "mcp",
+      "target": "https://agent.tinyfish.ai/mcp",
+      "ok": true,
+      "latency_ms": 71,
+      "score": 30,
+      "signals": [
+        "remote 401"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T01:54:01.528Z"
+    }
+  },
+  "last_tick_at": null,
+  "updated_at": "2026-07-30T01:59:43.634170Z",
+  "seeded_from": "sandbox-cutover"
+}

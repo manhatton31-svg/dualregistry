@@ -35,6 +35,7 @@ import { Route as ProductsImprovementLogRouteImport } from './routes/products/im
 import { Route as ProductsRoadmapRouteImport } from './routes/products/roadmap'
 import { Route as ProductsSuccessRouteImport } from './routes/products/success'
 import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[.]well-known/mcp/server-card[.]json'
+import { Route as ApiCronProbeRouteImport } from './routes/api/cron/probe'
 import { Route as ApiFunnelIndexRouteImport } from './routes/api/funnel/index'
 import { Route as ApiListingsActiveRouteImport } from './routes/api/listings/active'
 import { Route as ApiListingsStatusRouteImport } from './routes/api/listings/status'
@@ -196,6 +197,11 @@ const DotwellKnownMcpServerCardDotjsonRoute =
     path: '/.well-known/mcp/server-card.json',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiCronProbeRoute = ApiCronProbeRouteImport.update({
+  id: '/api/cron/probe',
+  path: '/api/cron/probe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiFunnelIndexRoute = ApiFunnelIndexRouteImport.update({
   id: '/api/funnel/',
   path: '/api/funnel/',
@@ -366,6 +372,7 @@ export interface FileRoutesByFullPath {
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
+  '/api/cron/probe': typeof ApiCronProbeRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/products/access': typeof ApiProductsAccessRoute
@@ -422,6 +429,7 @@ export interface FileRoutesByTo {
   '/for-agents': typeof ForAgentsIndexRoute
   '/products': typeof ProductsIndexRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
+  '/api/cron/probe': typeof ApiCronProbeRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/products/access': typeof ApiProductsAccessRoute
@@ -479,6 +487,7 @@ export interface FileRoutesById {
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
+  '/api/cron/probe': typeof ApiCronProbeRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/products/access': typeof ApiProductsAccessRoute
@@ -537,6 +546,7 @@ export interface FileRouteTypes {
     | '/for-agents/'
     | '/products/'
     | '/.well-known/mcp/server-card.json'
+    | '/api/cron/probe'
     | '/api/listings/active'
     | '/api/listings/status'
     | '/api/products/access'
@@ -593,6 +603,7 @@ export interface FileRouteTypes {
     | '/for-agents'
     | '/products'
     | '/.well-known/mcp/server-card.json'
+    | '/api/cron/probe'
     | '/api/listings/active'
     | '/api/listings/status'
     | '/api/products/access'
@@ -649,6 +660,7 @@ export interface FileRouteTypes {
     | '/for-agents/'
     | '/products/'
     | '/.well-known/mcp/server-card.json'
+    | '/api/cron/probe'
     | '/api/listings/active'
     | '/api/listings/status'
     | '/api/products/access'
@@ -705,6 +717,7 @@ export interface RootRouteChildren {
   ForAgentsIndexRoute: typeof ForAgentsIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   DotwellKnownMcpServerCardDotjsonRoute: typeof DotwellKnownMcpServerCardDotjsonRoute
+  ApiCronProbeRoute: typeof ApiCronProbeRoute
   ApiListingsActiveRoute: typeof ApiListingsActiveRoute
   ApiListingsStatusRoute: typeof ApiListingsStatusRoute
   ApiProductsAccessRoute: typeof ApiProductsAccessRoute
@@ -917,6 +930,13 @@ declare module '@tanstack/react-router' {
       path: '/.well-known/mcp/server-card.json'
       fullPath: '/.well-known/mcp/server-card.json'
       preLoaderRoute: typeof DotwellKnownMcpServerCardDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/cron/probe': {
+      id: '/api/cron/probe'
+      path: '/api/cron/probe'
+      fullPath: '/api/cron/probe'
+      preLoaderRoute: typeof ApiCronProbeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/funnel/': {
@@ -1154,6 +1174,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForAgentsIndexRoute: ForAgentsIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   DotwellKnownMcpServerCardDotjsonRoute: DotwellKnownMcpServerCardDotjsonRoute,
+  ApiCronProbeRoute: ApiCronProbeRoute,
   ApiListingsActiveRoute: ApiListingsActiveRoute,
   ApiListingsStatusRoute: ApiListingsStatusRoute,
   ApiProductsAccessRoute: ApiProductsAccessRoute,

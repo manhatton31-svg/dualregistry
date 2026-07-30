@@ -1,0 +1,76 @@
+# Production probe scheduler — every 6 minutes.
+# 1) Hits dualregistry.dev probe tick (warms cache, runs 1 handshake)
+# 2) Commits returned durable state to data/prod/* so Vercel can rehydrate /tmp
+name: Production probe tick
+
+on:
+  schedule:
+    # GitHub may delay a few minutes; still far better than no production probes
+    - cron: "*/6 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prod-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run production probe tick
+        id: tick
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          PROBE_URL: https://dualregistry.dev/api/cron/probe
+        run: |
+          set -euo pipefail
+          HDR=()
+          if [ -n "${CRON_SECRET:-}" ]; then
+            HDR=(-H "Authorization: Bearer ${CRON_SECRET}" -H "x-cron-secret: ${CRON_SECRET}")
+          fi
+          curl -sS -m 90 -X POST "${PROBE_URL}" \
+            -H "accept: application/json" \
+            -H "content-type: application/json" \
+            "${HDR[@]}" \
+            -d '{}' \
+            -o /tmp/probe-tick.json \
+            -w "http=%{http_code}\n"
+          head -c 400 /tmp/probe-tick.json; echo
+          python3 - <<'PY'
+          import json, os, pathlib, sys
+          p = pathlib.Path("/tmp/probe-tick.json")
+          d = json.loads(p.read_text())
+          if not d.get("ok"):
+            print("tick failed", d)
+            # still try to write nothing; fail soft so we don't spam red X every delay
+            sys.exit(0)
+          commit = d.get("commit") or {}
+          for rel, content in commit.items():
+            if not content:
+              continue
+            path = pathlib.Path(rel)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content if isinstance(content, str) else json.dumps(content, indent=2))
+            print("wrote", rel, "bytes", path.stat().st_size)
+          print("probed", d.get("probed"), "used", d.get("used_today"), "live_ok", d.get("live_active_probe_ok"))
+          PY
+
+      - name: Commit durable probe state
+        run: |
+          set -euo pipefail
+          git config user.name "dualregistry-probe[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/prod || true
+          if git diff --staged --quiet; then
+            echo "No durable state changes"
+            exit 0
+          fi
+          git commit -m "chore(prod): durable probe state $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push

@@ -6,6 +6,8 @@
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { dataRoot } from "@/lib/data-root";
+import { loadDurableJson, saveDurableJson } from "./durable-json";
+
 import type {
   AgentListing,
   Health,
@@ -125,9 +127,19 @@ let mem: StoreCache | null = null;
 let writeChain: Promise<void> = Promise.resolve();
 
 export async function loadStoreCache(): Promise<StoreCache> {
-  // Re-read disk if another process updated the file (or we wrote via scripts)
+  // Re-read disk / durable if another process updated the file
   try {
-    const raw = await readFile(CACHE_PATH, "utf8");
+    let raw: string | null = null;
+    try {
+      raw = await readFile(CACHE_PATH, "utf8");
+    } catch {
+      const hydrated = await loadDurableJson<StoreCache | null>(
+        "store-cache.json",
+        () => null,
+      );
+      if (hydrated) raw = JSON.stringify(hydrated);
+    }
+    if (!raw) throw new Error("no cache");
     const parsed = JSON.parse(raw) as StoreCache;
     const disk = normalizeCache(parsed);
     if (
@@ -147,6 +159,7 @@ export async function loadStoreCache(): Promise<StoreCache> {
   }
   if (mem && needsHydrate(mem)) {
     mem = await hydrateLocalListings(mem);
+
   }
   return mem!;
 }
@@ -213,10 +226,15 @@ export async function saveStoreCache(next: StoreCache): Promise<void> {
   const normalized = normalizeCache(next);
   mem = normalized;
   writeChain = writeChain.then(async () => {
-    await mkdir(dirname(CACHE_PATH), { recursive: true });
-    const tmp = `${CACHE_PATH}.${process.pid}.tmp`;
-    await writeFile(tmp, JSON.stringify(normalized, null, 2), "utf8");
-    await rename(tmp, CACHE_PATH);
+    await saveDurableJson("store-cache.json", normalized);
+    try {
+      await mkdir(dirname(CACHE_PATH), { recursive: true });
+      const tmp = `${CACHE_PATH}.${process.pid}.tmp`;
+      await writeFile(tmp, JSON.stringify(normalized, null, 2), "utf8");
+      await rename(tmp, CACHE_PATH);
+    } catch {
+      /* */
+    }
   });
   await writeChain;
 }

@@ -9,8 +9,14 @@ import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { validateA2ACard } from "./a2a-card";
 import { dataRoot } from "@/lib/data-root";
+import {
+  loadDurableJson,
+  saveDurableJson,
+  durableFileMtime,
+} from "./durable-json";
 
 const PATH = join(dataRoot(), "probes.json");
+const DURABLE_NAME = "probes.json";
 const UA = "Agents1Probe/1.2 (+registry; reliability; balanced)";
 
 export const MAX_PROBES_PER_DAY = 240;
@@ -143,6 +149,8 @@ let chain: Promise<void> = Promise.resolve();
 let memMtime = 0;
 
 async function fileMtime(): Promise<number> {
+  const mt = await durableFileMtime(DURABLE_NAME);
+  if (mt) return mt;
   try {
     const { stat } = await import("node:fs/promises");
     return (await stat(PATH)).mtimeMs || 0;
@@ -172,8 +180,22 @@ export async function loadProbeState(): Promise<ProbeState> {
     return mem;
   }
   try {
-    const raw = await readFile(PATH, "utf8");
-    const p = JSON.parse(raw) as Partial<ProbeState>;
+    // Durable: local /tmp → GitHub raw data/prod/probes.json
+    const p = await loadDurableJson<Partial<ProbeState>>(DURABLE_NAME, () => ({}));
+    if (!p || !Object.keys(p).length) {
+      // fallback classic path
+      try {
+        const raw = await readFile(PATH, "utf8");
+        Object.assign(p, JSON.parse(raw));
+      } catch {
+        /* */
+      }
+    }
+    if (!p.day && !p.results) {
+      mem = empty();
+      await persist(mem);
+      return mem;
+    }
     if (p.day !== day) {
       const prevResults = p.results || {};
       mem = empty();
@@ -203,17 +225,18 @@ export async function loadProbeState(): Promise<ProbeState> {
 
 async function persist(s: ProbeState) {
   mem = s;
+  s.updated_at = new Date().toISOString();
   chain = chain.then(async () => {
-    await mkdir(dirname(PATH), { recursive: true });
-    const tmp = `${PATH}.${process.pid}.tmp`;
-    await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
-    await rename(tmp, PATH);
+    await saveDurableJson(DURABLE_NAME, s);
     try {
-      const { stat } = await import("node:fs/promises");
-      memMtime = (await stat(PATH)).mtimeMs || Date.now();
+      await mkdir(dirname(PATH), { recursive: true });
+      const tmp = `${PATH}.${process.pid}.tmp`;
+      await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
+      await rename(tmp, PATH);
     } catch {
-      memMtime = Date.now();
+      /* durable local write already attempted */
     }
+    memMtime = (await fileMtime()) || Date.now();
   });
   await chain;
 }
