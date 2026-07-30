@@ -26,13 +26,27 @@ const FEEDBACK_DRIVE_MS = 6 * 60 * 1000;
 const SHIP_CADENCE_MS = 30 * 60 * 1000;
 const SELF_LOOP_MS = 20 * 60 * 1000;
 
+/**
+ * Production (Vercel): probes ONLY via GitHub Actions → POST /api/cron/probe.
+ * In-process boot/interval probes on every cold start caused 20–70s double-ticks.
+ */
+function actionsOnlyProbes(): boolean {
+  if (process.env.AGENTS1_PROBE_MODE === "actions-only") return true;
+  if (process.env.AGENTS1_PROBE_MODE === "local") return false;
+  if (process.env.VERCEL === "1") return true;
+  if (process.env.VERCEL_ENV === "production" || process.env.VERCEL_ENV === "preview")
+    return true;
+  return false;
+}
+
 export function ensureGrowthScheduler(): void {
+  const probeLocally = !actionsOnlyProbes();
+
   // Always rebind when cadence changes
   if (
     g.__agents1GrowthStarted__ &&
-    g.__agents1ProbeIntervalMs__ === PROBE_TICK_MS &&
-    g.__agents1ProbeTimer__ &&
-    g.__agents1ProbePoll__
+    g.__agents1ProbeIntervalMs__ === (probeLocally ? PROBE_TICK_MS : 0) &&
+    (probeLocally ? Boolean(g.__agents1ProbeTimer__ && g.__agents1ProbePoll__) : true)
   ) {
     return;
   }
@@ -45,10 +59,14 @@ export function ensureGrowthScheduler(): void {
   if (g.__agents1SelfLoopTimer__) clearInterval(g.__agents1SelfLoopTimer__);
 
   g.__agents1GrowthStarted__ = true;
-  g.__agents1ProbeIntervalMs__ = PROBE_TICK_MS;
+  g.__agents1ProbeIntervalMs__ = probeLocally ? PROBE_TICK_MS : 0;
   g.__agents1LastProbeAt__ = 0;
 
   const fireProbe = async (reason: string) => {
+    if (!probeLocally) {
+      console.info(`[agents1-probe] skip ${reason} — Actions-only production probes`);
+      return;
+    }
     try {
       const r = await runProbeTick({ max: 1 });
       g.__agents1LastProbeAt__ = Date.now();
@@ -71,7 +89,7 @@ export function ensureGrowthScheduler(): void {
   // Boot: probe + feedback immediately so numbers move without waiting
   setTimeout(() => {
     void (async () => {
-      await fireProbe("boot");
+      if (probeLocally) await fireProbe("boot");
       try {
         const ft = await loadFreeTier();
         if (!isFullyThrottled(ft)) {
@@ -108,18 +126,22 @@ export function ensureGrowthScheduler(): void {
     })();
   }, 30_000);
 
-  // Primary 6-minute probe timer (REF'd — do not unref)
-  g.__agents1ProbeTimer__ = setInterval(() => {
-    void fireProbe("tick-6m");
-  }, PROBE_TICK_MS);
+  if (probeLocally) {
+    // Primary 6-minute probe timer (local/dev only)
+    g.__agents1ProbeTimer__ = setInterval(() => {
+      void fireProbe("tick-6m");
+    }, PROBE_TICK_MS);
 
-  // Catch-up poll every 30s — if 6 min elapsed since last probe, fire now
-  g.__agents1ProbePoll__ = setInterval(() => {
-    const last = g.__agents1LastProbeAt__ || 0;
-    if (Date.now() - last >= PROBE_TICK_MS - 2000) {
-      void fireProbe("poll-catchup");
-    }
-  }, 30_000);
+    // Catch-up poll every 30s
+    g.__agents1ProbePoll__ = setInterval(() => {
+      const last = g.__agents1LastProbeAt__ || 0;
+      if (Date.now() - last >= PROBE_TICK_MS - 2000) {
+        void fireProbe("poll-catchup");
+      }
+    }, 30_000);
+  } else {
+    console.info("[agents1-probe] production: probes only via GitHub Actions → /api/cron/probe");
+  }
 
   g.__agents1FeedbackTimer__ = setInterval(() => {
     void (async () => {
