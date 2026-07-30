@@ -15,8 +15,8 @@ const UA = "DualRegistryNudge/1.0 (+https://dualregistry.dev; soft-invite)";
 const TIMEOUT_MS = 8_000;
 
 export type NudgePayload = {
-  type: "dualregistry.soft_demo_invite";
-  tone: "soft";
+  type: "dualregistry.soft_demo_invite" | "dualregistry.hard_demo_invite";
+  tone: "soft" | "direct";
   listing_id: string;
   name: string;
   kind: "agent" | "mcp";

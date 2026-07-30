@@ -567,6 +567,23 @@ export async function runFeedbackDrive(opts?: {
       // Anti-spam: never force; only never-contacted actives; 30d silence
       const nr = await runDemoNudge({ force: false, broadcast: false });
       demo_nudges = nr.nudged || 0;
+      // When soft day-cap / all cooling: still multipath+A2A harder delivery (no Talk re-DM)
+      if (demo_nudges === 0) {
+        try {
+          const { runMultiPathBackfill } = await import("./demo-nudge");
+          const mp = await runMultiPathBackfill({
+            max: 12,
+            harder_message: true,
+          });
+          if (mp.attempted) {
+            notes.push(
+              `go-harder multipath: ${mp.http_ok}/${mp.attempted} http ok (no Talk re-DM)`,
+            );
+          }
+        } catch {
+          /* */
+        }
+      }
       if (nr.notes?.length) notes.push(...nr.notes.slice(0, 4));
       state.day_nudges = (state.day_nudges || 0) + demo_nudges;
       state.totals.demo_nudges =

@@ -210,6 +210,15 @@ async function enqueue(partial: Omit<MailMessage, "id" | "created_at" | "status"
   return msg;
 }
 
+/** Public enqueue for go-harder / claim soft mails */
+export async function queueMail(
+  partial: Omit<MailMessage, "id" | "created_at" | "status"> & {
+    status?: MailMessage["status"];
+  },
+): Promise<MailMessage> {
+  return enqueue(partial);
+}
+
 function scopeExplainer(scope?: string) {
   const s = (scope || "individualize").toLowerCase();
   if (s === "system" || s === "system_wide") {
