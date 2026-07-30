@@ -547,10 +547,10 @@ export function DashboardApp() {
                       Soft demo nudges
                     </p>
                     <p className="mt-1 text-lg font-semibold tabular">
-                      {pe?.demo_invited ?? comm?.total_nudges ?? 0}
+                      {pe?.demo_invited ?? comm?.nudged_known ?? 0}
                     </p>
                     <p className="mt-0.5 text-[11px] text-muted">
-                      Talk invites · all time
+                      unique clean listings · not spam events
                     </p>
                   </div>
                   <div className="rounded-[var(--radius-md)] border border-border/60 p-3 col-span-2 sm:col-span-1">
@@ -586,17 +586,18 @@ export function DashboardApp() {
                       {comm?.day_nudges ?? 0}
                     </p>
                     <p className="mt-0.5 text-[11px] text-muted">
-                      {comm?.day_label || "UTC day"}
+                      unique first-touch · {comm?.day_label || "UTC day"}
                     </p>
                   </div>
                   <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
                     <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
-                      Total nudges
+                      Unique listings nudged
                     </p>
                     <p className="mt-1 text-xl font-semibold tabular text-fg">
-                      {comm?.total_nudges ?? pe?.demo_invited ?? 0}
+                      {comm?.nudged_known ?? pe?.demo_invited ?? 0}
                     </p>
                     <p className="mt-0.5 text-[11px] text-muted">
+                      of active clean only ·{" "}
                       {comm?.total_broadcasts ?? 0} broadcast
                       {(comm?.total_broadcasts ?? 0) === 1 ? "" : "s"}
                     </p>

@@ -256,12 +256,16 @@ async function loadCommunicationBlock(): Promise<
   const recent = [...recentInbound, ...recentFromNudge].slice(0, 16);
 
   return {
-    day_nudges: nudge?.day?.nudges ?? 0,
+    day_nudges: nudge?.day?.unique ?? nudge?.day?.nudges ?? 0,
     day_label: nudge?.day?.day ?? empty.day_label,
-    total_nudges: nudge?.totals?.nudges ?? 0,
+    total_nudges:
+      nudge?.unique_listings ??
+      nudge?.totals?.unique_listings ??
+      nudge?.totals?.nudges ??
+      0,
     total_broadcasts: nudge?.totals?.broadcasts ?? 0,
     cooling: nudge?.cooling ?? 0,
-    nudged_known: nudge?.nudged_known ?? 0,
+    nudged_known: nudge?.nudged_known ?? nudge?.unique_listings ?? 0,
     last_run_at: nudge?.last_run_at,
     last_notes: nudge?.last_notes || [],
     talk_posts_total: posts.length,
@@ -444,7 +448,10 @@ export async function recomputeInsights(): Promise<ProductEngagement> {
     mcp_target: cache?.mcp_target ?? 0,
     agents_target: cache?.agents_target ?? 0,
     discounts_issued: discountsFinal,
-    demo_invited: communication.total_nudges,
+    demo_invited:
+      communication.nudged_known ||
+      communication.total_nudges ||
+      0,
     demo_self_serve: selfServeSet.size,
     communication,
     demo_metrics_epoch: epoch,
