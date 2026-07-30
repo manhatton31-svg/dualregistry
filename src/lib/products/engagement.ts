@@ -2,6 +2,7 @@
  * Product engagement metrics.
  * Public demos = REAL only (self_serve | organic) created after metrics-reset epoch.
  * System invited seeds never count. Unlock: 250 agent + 250 MCP real feedback.
+ * Communication block = soft demo nudges + Talk replies (never padded).
  */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -11,6 +12,7 @@ import { listFulfilledOrders, reloadOrdersFromDisk } from "./orders";
 import { listFeedback } from "./feedback";
 import { loadStoreCache } from "@/lib/agents1/store-cache";
 import { dataRoot } from "@/lib/data-root";
+import { SITE_OWNER_ID } from "@/lib/agents1/talk-activity";
 
 const METRICS_RESET_PATH = join(
   process.cwd(),
@@ -18,6 +20,16 @@ const METRICS_RESET_PATH = join(
   "products",
   "metrics-reset.json",
 );
+
+export type EngagementCommItem = {
+  listing_id: string;
+  name: string;
+  kind?: string;
+  at: string;
+  channel?: string;
+  direction?: "outbound" | "inbound";
+  text_preview?: string;
+};
 
 export type ProductEngagement = {
   demo_agents: number;
@@ -42,8 +54,31 @@ export type ProductEngagement = {
   mcp_target: number;
   agents_target: number;
   discounts_issued: number;
+  /** Total soft Talk demo nudges (all time) */
   demo_invited: number;
   demo_self_serve: number;
+  /** Communication / webmaster outreach (real) */
+  communication?: {
+    day_nudges: number;
+    day_label: string;
+    total_nudges: number;
+    total_broadcasts: number;
+    cooling: number;
+    nudged_known: number;
+    last_run_at?: string;
+    last_notes: string[];
+    talk_posts_total: number;
+    talk_outbound_owner: number;
+    talk_inbound_replies: number;
+    talk_presence_actors: number;
+    recent: EngagementCommItem[];
+    policy?: {
+      max_per_cycle: number;
+      cooldown_days: number;
+      channel: string;
+      tone: string;
+    };
+  };
   demo_metrics_epoch?: string;
   real_numbers_only?: boolean;
   real_numbers_policy?: string;
@@ -140,11 +175,113 @@ function rate(num: number, den: number): number | null {
   return Math.min(100, Math.round((num / den) * 1000) / 10);
 }
 
+async function loadCommunicationBlock(): Promise<
+  NonNullable<ProductEngagement["communication"]>
+> {
+  const empty: NonNullable<ProductEngagement["communication"]> = {
+    day_nudges: 0,
+    day_label: new Date().toISOString().slice(0, 10),
+    total_nudges: 0,
+    total_broadcasts: 0,
+    cooling: 0,
+    nudged_known: 0,
+    last_notes: [],
+    talk_posts_total: 0,
+    talk_outbound_owner: 0,
+    talk_inbound_replies: 0,
+    talk_presence_actors: 0,
+    recent: [],
+  };
+
+  let nudge: Awaited<
+    ReturnType<typeof import("./demo-nudge").getDemoNudgeStatus>
+  > | null = null;
+  try {
+    const { getDemoNudgeStatus } = await import("./demo-nudge");
+    nudge = await getDemoNudgeStatus();
+  } catch {
+    /* */
+  }
+
+  let feed: Awaited<
+    ReturnType<typeof import("@/lib/agents1/talk-activity").getSocialFeed>
+  > | null = null;
+  try {
+    const { getSocialFeed } = await import("@/lib/agents1/talk-activity");
+    feed = await getSocialFeed(120);
+  } catch {
+    /* */
+  }
+
+  const posts = feed?.posts || [];
+  const outbound = posts.filter((p) => p.from_id === SITE_OWNER_ID);
+  // Inbound = real listing traffic (not site owner): full replies, DMs, social (not pure presence heartbeats)
+  const inbound = posts.filter(
+    (p) =>
+      p.from_id !== SITE_OWNER_ID &&
+      p.from_kind !== "site" &&
+      p.channel !== "presence" &&
+      (p.tokens_hint === "full" ||
+        p.channel === "reply" ||
+        p.channel === "dm" ||
+        p.channel === "social"),
+  );
+
+  const recentFromNudge: EngagementCommItem[] = (nudge?.recent || []).map(
+    (h) => ({
+      listing_id: h.listing_id,
+      name: h.name,
+      kind: h.kind,
+      at: h.at,
+      channel: h.channel,
+      direction: "outbound" as const,
+    }),
+  );
+
+  const recentInbound: EngagementCommItem[] = inbound.slice(0, 8).map((p) => ({
+    listing_id: p.from_id,
+    name: p.from_name,
+    kind: p.from_kind,
+    at: p.at,
+    channel: p.channel,
+    direction: "inbound" as const,
+    text_preview: (p.text || "").slice(0, 120),
+  }));
+
+  // Merge recent: inbound first (responses), then outbound nudges
+  const recent = [...recentInbound, ...recentFromNudge].slice(0, 16);
+
+  return {
+    day_nudges: nudge?.day?.nudges ?? 0,
+    day_label: nudge?.day?.day ?? empty.day_label,
+    total_nudges: nudge?.totals?.nudges ?? 0,
+    total_broadcasts: nudge?.totals?.broadcasts ?? 0,
+    cooling: nudge?.cooling ?? 0,
+    nudged_known: nudge?.nudged_known ?? 0,
+    last_run_at: nudge?.last_run_at,
+    last_notes: nudge?.last_notes || [],
+    talk_posts_total: posts.length,
+    talk_outbound_owner: outbound.length,
+    talk_inbound_replies: inbound.length,
+    talk_presence_actors: feed?.presence_count ?? 0,
+    recent,
+    policy: nudge?.policy
+      ? {
+          max_per_cycle: nudge.policy.max_per_cycle,
+          cooldown_days: nudge.policy.cooldown_days,
+          channel: nudge.policy.channel,
+          tone: nudge.policy.tone,
+        }
+      : undefined,
+  };
+}
+
 export async function recomputeInsights(): Promise<ProductEngagement> {
   await reloadOrdersFromDisk().catch(() => undefined);
   const orders = await listFulfilledOrders();
   const fb = await listFeedback(500);
   const epoch = await loadDemoMetricsEpoch();
+  const communication = await loadCommunicationBlock();
 
   const demoAgentKeys = new Set<string>();
   const demoMcpKeys = new Set<string>();
@@ -299,8 +436,9 @@ export async function recomputeInsights(): Promise<ProductEngagement> {
     mcp_target: cache?.mcp_target ?? 0,
     agents_target: cache?.agents_target ?? 0,
     discounts_issued: discountsFinal,
-    demo_invited: 0,
+    demo_invited: communication.total_nudges,
     demo_self_serve: selfServeSet.size,
+    communication,
     demo_metrics_epoch: epoch,
     real_numbers_only: true,
     real_numbers_policy: REAL_NUMBERS_POLICY.rule,

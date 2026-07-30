@@ -40,6 +40,35 @@ type ProductEngagement = {
   discounts_issued?: number;
   demo_invited?: number;
   demo_self_serve?: number;
+  communication?: {
+    day_nudges: number;
+    day_label: string;
+    total_nudges: number;
+    total_broadcasts: number;
+    cooling: number;
+    nudged_known: number;
+    last_run_at?: string;
+    last_notes: string[];
+    talk_posts_total: number;
+    talk_outbound_owner: number;
+    talk_inbound_replies: number;
+    talk_presence_actors: number;
+    recent: Array<{
+      listing_id: string;
+      name: string;
+      kind?: string;
+      at: string;
+      channel?: string;
+      direction?: "outbound" | "inbound";
+      text_preview?: string;
+    }>;
+    policy?: {
+      max_per_cycle: number;
+      cooldown_days: number;
+      channel: string;
+      tone: string;
+    };
+  };
 };
 
 type ListingRowRaw = {
@@ -214,6 +243,7 @@ export function DashboardApp() {
 
   const lanes = data?.listing_lanes;
   const pe = data?.product_engagement;
+  const comm = pe?.communication;
 
   const fbAgents = pe?.feedback_agent_only ?? 0;
   const fbMcps = pe?.feedback_mcps ?? 0;
@@ -515,10 +545,10 @@ export function DashboardApp() {
                       Soft demo nudges
                     </p>
                     <p className="mt-1 text-lg font-semibold tabular">
-                      {pe?.demo_invited ?? 0}
+                      {pe?.demo_invited ?? comm?.total_nudges ?? 0}
                     </p>
                     <p className="mt-0.5 text-[11px] text-muted">
-                      Talk invites · not salesy
+                      Talk invites · all time
                     </p>
                   </div>
                   <div className="rounded-[var(--radius-md)] border border-border/60 p-3 col-span-2 sm:col-span-1">
@@ -529,6 +559,183 @@ export function DashboardApp() {
                       {pe?.demo_self_serve ?? 0}
                     </p>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-border/80">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 text-sm">
+                  <MessageSquare className="h-4 w-4 text-accent" />
+                  Communication
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Soft Talk outreach to Active clean listings and any real
+                  replies. Nudges never demote clean status.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4 pb-4 pt-0">
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                      Nudges today
+                    </p>
+                    <p className="mt-1 text-xl font-semibold tabular text-fg">
+                      {comm?.day_nudges ?? 0}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-muted">
+                      {comm?.day_label || "UTC day"}
+                    </p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                      Total nudges
+                    </p>
+                    <p className="mt-1 text-xl font-semibold tabular text-fg">
+                      {comm?.total_nudges ?? pe?.demo_invited ?? 0}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-muted">
+                      {comm?.total_broadcasts ?? 0} broadcast
+                      {(comm?.total_broadcasts ?? 0) === 1 ? "" : "s"}
+                    </p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                      Replies received
+                    </p>
+                    <p className="mt-1 text-xl font-semibold tabular text-fg">
+                      {comm?.talk_inbound_replies ?? 0}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-muted">
+                      Talk inbound (not heartbeat)
+                    </p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                    <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                      Cooling
+                    </p>
+                    <p className="mt-1 text-xl font-semibold tabular text-fg">
+                      {comm?.cooling ?? 0}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-muted">
+                      {comm?.policy?.cooldown_days ?? 7}d per listing
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  <div className="rounded-[var(--radius-md)] border border-border/60 p-3">
+                    <p className="text-[10px] uppercase tracking-wide text-subtle">
+                      Listings nudged
+                    </p>
+                    <p className="mt-1 text-lg font-semibold tabular">
+                      {comm?.nudged_known ?? 0}
+                    </p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/60 p-3">
+                    <p className="text-[10px] uppercase tracking-wide text-subtle">
+                      Owner Talk posts
+                    </p>
+                    <p className="mt-1 text-lg font-semibold tabular">
+                      {comm?.talk_outbound_owner ?? 0}
+                    </p>
+                  </div>
+                  <div className="rounded-[var(--radius-md)] border border-border/60 p-3 col-span-2 sm:col-span-1">
+                    <p className="text-[10px] uppercase tracking-wide text-subtle">
+                      Talk presence actors
+                    </p>
+                    <p className="mt-1 text-lg font-semibold tabular">
+                      {comm?.talk_presence_actors ?? 0}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="rounded-[var(--radius-md)] border border-border/60 bg-bg-elevated/30 px-3 py-2 text-[11px] text-muted">
+                  <p>
+                    <span className="font-medium text-fg">Last run:</span>{" "}
+                    {comm?.last_run_at
+                      ? new Date(comm.last_run_at).toLocaleString()
+                      : "—"}
+                    {comm?.policy ? (
+                      <>
+                        {" "}
+                        · up to {comm.policy.max_per_cycle}/cycle ·{" "}
+                        {comm.policy.cooldown_days}d cooldown
+                      </>
+                    ) : null}
+                  </p>
+                  {comm?.last_notes?.length ? (
+                    <p className="mt-1 text-subtle">
+                      {comm.last_notes.slice(0, 2).join(" · ")}
+                    </p>
+                  ) : null}
+                  {comm?.policy?.tone ? (
+                    <p className="mt-1 text-subtle">{comm.policy.tone}</p>
+                  ) : null}
+                </div>
+
+                <div>
+                  <p className="mb-2 text-[10px] font-medium uppercase tracking-wide text-subtle">
+                    Recent communication
+                  </p>
+                  {(comm?.recent || []).length === 0 ? (
+                    <p className="text-xs text-muted">
+                      No Talk activity yet — outbound nudges and inbound replies
+                      will show here.
+                    </p>
+                  ) : (
+                    <ul className="divide-y divide-border/60 rounded-[var(--radius-md)] border border-border/60">
+                      {(comm?.recent || []).slice(0, 12).map((row, i) => (
+                        <li
+                          key={`${row.listing_id}-${row.at}-${i}`}
+                          className="flex flex-col gap-0.5 px-3 py-2 text-xs sm:flex-row sm:items-start sm:justify-between sm:gap-3"
+                        >
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <Badge
+                                variant={
+                                  row.direction === "inbound"
+                                    ? "accent"
+                                    : "info"
+                                }
+                                className="text-[10px]"
+                              >
+                                {row.direction === "inbound"
+                                  ? "reply"
+                                  : "nudge out"}
+                              </Badge>
+                              <span className="truncate font-medium text-fg">
+                                {row.name}
+                              </span>
+                              {row.kind ? (
+                                <span className="text-subtle">{row.kind}</span>
+                              ) : null}
+                              {row.channel ? (
+                                <span className="text-subtle">
+                                  · {row.channel}
+                                </span>
+                              ) : null}
+                            </div>
+                            {row.text_preview ? (
+                              <p className="mt-0.5 line-clamp-2 text-muted">
+                                {row.text_preview}
+                              </p>
+                            ) : null}
+                          </div>
+                          <span className="shrink-0 tabular text-[11px] text-subtle">
+                            {row.at
+                              ? new Date(row.at).toLocaleString(undefined, {
+                                  month: "short",
+                                  day: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })
+                              : "—"}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </CardContent>
             </Card>
