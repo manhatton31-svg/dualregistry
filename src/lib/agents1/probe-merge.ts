@@ -120,13 +120,27 @@ export function mergeProbeStates(
     hourly_used = Number(R.hourly_used) || 0;
   }
 
-  // live snapshot: prefer newer at
+  // live snapshot: HIGH-WATER — never take a lower total (prevents Live flap down)
   let live = L.live_active_snapshot || R.live_active_snapshot;
   if (L.live_active_snapshot && R.live_active_snapshot) {
-    live =
-      (L.live_active_snapshot.at || "") >= (R.live_active_snapshot.at || "")
-        ? L.live_active_snapshot
-        : R.live_active_snapshot;
+    live = {
+      total: Math.max(
+        L.live_active_snapshot.total || 0,
+        R.live_active_snapshot.total || 0,
+      ),
+      mcp: Math.max(
+        L.live_active_snapshot.mcp || 0,
+        R.live_active_snapshot.mcp || 0,
+      ),
+      agents: Math.max(
+        L.live_active_snapshot.agents || 0,
+        R.live_active_snapshot.agents || 0,
+      ),
+      at:
+        (L.live_active_snapshot.at || "") >= (R.live_active_snapshot.at || "")
+          ? L.live_active_snapshot.at
+          : R.live_active_snapshot.at,
+    };
   }
 
   const weekly =

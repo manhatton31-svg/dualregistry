@@ -239,32 +239,33 @@ export async function loadProbeState(): Promise<ProbeState> {
     };
   }
 
-  // Live count from results — never below prior snapshot total for same day
+  // Live count: HIGH-WATER mark — never decrease once Live has grown
   const liveNow = countLiveFromResults(merged.results);
   const prevSnap = merged.live_active_snapshot;
-  if (
-    prevSnap &&
-    prevSnap.at &&
-    // within 24h and higher total — keep higher until results justify (avoid flap down on partial hydrate)
-    Date.now() - Date.parse(prevSnap.at) < 24 * 3600_000 &&
-    prevSnap.total > liveNow.total &&
-    liveNow.total === 0
-  ) {
-    // empty results hydrate bug — keep snapshot
-  } else if (
-    prevSnap &&
-    prevSnap.total > liveNow.total &&
-    Object.keys(merged.results || {}).length < 10
-  ) {
-    // partial results — keep higher snapshot
-  } else {
-    merged.live_active_snapshot = {
-      total: liveNow.total,
-      mcp: liveNow.mcp,
-      agents: liveNow.agents,
-      at: new Date().toISOString(),
-    };
+  const liveMerged = {
+    total: Math.max(prevSnap?.total || 0, liveNow.total),
+    mcp: Math.max(prevSnap?.mcp || 0, liveNow.mcp),
+    agents: Math.max(prevSnap?.agents || 0, liveNow.agents),
+    at: new Date().toISOString(),
+  };
+  // Prefer floor from durable counters if higher
+  try {
+    const { loadCounterFloors } = await import("./counter-floors");
+    const floors = await loadCounterFloors();
+    liveMerged.total = Math.max(liveMerged.total, floors.live_floor?.total || 0);
+    liveMerged.mcp = Math.max(liveMerged.mcp, floors.live_floor?.mcp || 0);
+    liveMerged.agents = Math.max(
+      liveMerged.agents,
+      floors.live_floor?.agents || 0,
+    );
+    // used floor
+    if (floors.day === day) {
+      merged.used = Math.max(Number(merged.used) || 0, floors.used_floor || 0);
+    }
+  } catch {
+    /* */
   }
+  merged.live_active_snapshot = liveMerged;
 
   mem = {
     ...empty(),
@@ -702,12 +703,13 @@ function probePriority(
   if (prev.handshake === "ok" && prev.ok && age < ACTIVE_REPROBE_MS) return -10000;
   // Was ok but past 7d without weekly tag — leave for weekly lane
   if (prev.handshake === "ok" && prev.ok && age >= ACTIVE_REPROBE_MS) return -5000;
-  // Recent fails: cool down 12h — dead agent cards were eating every 6-min slot
-  if (prev.handshake === "fail" || item.dirty) {
-    if (age < 12 * 3600_000) return -500;
-    return p + 800 + Math.min(200, age / 60000);
+  // FAIL / PARTIAL: NEVER re-probe for discovery — wastes budget. Resubmit starts fresh id.
+  if (prev.handshake === "fail" || prev.handshake === "partial") {
+    return -30000;
   }
-  if (prev.handshake === "partial") return p + 600 + Math.min(100, age / 60000);
+  if (item.dirty) {
+    return -30000;
+  }
   if (prev.handshake === "skip") {
     const hasUrl = Boolean(
       item.agent_card_url ||
@@ -715,8 +717,7 @@ function probePriority(
         item.remote_url ||
         item.website,
     );
-    // Skip with no URL: almost never re-burn discovery budget
-    if (!hasUrl) return p - 50; // still >=0 only if boost high; effectively low
+    if (!hasUrl) return p - 50;
     return p + 400;
   }
   if (age > RETRY_DIRTY_MS) return p + 400;
@@ -742,21 +743,38 @@ export async function runProbeBudgeted(
     }))
     .sort((a, b) => b.pri - a.pri);
 
-  // Drop already-delisted IDs from queue (never waste a full probe)
+  // Drop already-delisted + durable-blocked IDs/URLs from queue
   try {
     const { loadDelistedIdSet } = await import("./probe-preflight");
+    const { loadCounterFloors, isBlockedSync } = await import("./counter-floors");
     const delisted = await loadDelistedIdSet();
-    if (delisted.size) {
-      for (const x of ranked) {
-        if (
-          delisted.has(x.item.id) ||
-          (x.item.store_id && delisted.has(x.item.store_id))
-        ) {
-          x.pri = -30000;
-        }
+    const floors = await loadCounterFloors();
+    for (const x of ranked) {
+      if (
+        delisted.has(x.item.id) ||
+        (x.item.store_id && delisted.has(x.item.store_id))
+      ) {
+        x.pri = -30000;
+        continue;
       }
-      ranked.sort((a, b) => b.pri - a.pri);
+      const urls = [
+        x.item.agent_card_url,
+        x.item.remote_url,
+        x.item.endpoint_url,
+        x.item.website,
+      ].filter(Boolean) as string[];
+      if (
+        isBlockedSync(floors, {
+          id: x.item.id,
+          urls,
+        }) ||
+        (x.item.store_id &&
+          isBlockedSync(floors, { id: x.item.store_id, urls }))
+      ) {
+        x.pri = -30000;
+      }
     }
+    ranked.sort((a, b) => b.pri - a.pri);
   } catch {
     /* */
   }
@@ -793,9 +811,10 @@ export async function runProbeBudgeted(
   mcps.sort((a, b) => b.pri - a.pri);
 
   const take = Math.min(max, remaining, rankedLive.length);
-  // On fail/partial we chain more probes in this tick (do not burn full 6m on a dead card).
-  // Full 6-minute cadence applies only after checks-clean handshake ok.
-  const maxChain = Math.min(5, remaining, rankedLive.length);
+  // At most ONE full probe per tick after preflight. Never chain full fails.
+  // Preflight rejects do not spend budget and do not extend the chain.
+  const maxFullProbes = 1;
+  const maxPreflightRejects = 8; // cheap filters before finding a viable target
   const selected: typeof ranked = [];
   let ai = 0;
   let mi = 0;
@@ -817,7 +836,7 @@ export async function runProbeBudgeted(
 
   // Grow Live lists at same rate: lagging Active wins; then lagging day probes.
   // Break pure fail streaks of either kind so the other lane can promote Live.
-  while (selected.length < maxChain && (ai < agents.length || mi < mcps.length)) {
+  while (selected.length < Math.min(maxPreflightRejects + maxFullProbes, rankedLive.length) && (ai < agents.length || mi < mcps.length)) {
     const activeGap = agentActiveOk - mcpActiveOk;
     const dayGap = agentToday - mcpToday;
     let preferAgent: boolean;
@@ -856,10 +875,11 @@ export async function runProbeBudgeted(
 
   const out: ProbeResult[] = [];
   let gotCleanOk = false;
+  let fullProbes = 0;
+  let preflightRejects = 0;
   for (const { item } of queue) {
-    if (out.length >= maxChain) break;
-    // Stop chaining once we got a checks-clean ok (then wait full 6 min)
     if (gotCleanOk) break;
+    if (fullProbes >= maxFullProbes) break;
     if (state.used >= state.budget) break;
     const kind =
       item.kind ||
@@ -906,9 +926,19 @@ export async function runProbeBudgeted(
         } catch {
           /* */
         }
-        // Preflight reject: delist + log, but do NOT spend daily budget
-        // (we already know it fails — save slots for promising targets)
+        try {
+          const { blockProbeTarget } = await import("./counter-floors");
+          await blockProbeTarget({
+            id: item.store_id || item.id,
+            url: fake.target,
+          });
+        } catch {
+          /* */
+        }
+        // Preflight reject: NO budget spend — keep looking for a viable target
+        preflightRejects++;
         out.push(fake);
+        if (preflightRejects >= maxPreflightRejects) break;
         continue;
       }
     } catch {
@@ -919,11 +949,11 @@ export async function runProbeBudgeted(
       kind === "agent"
         ? await probeAgent({ ...item, kind: "agent" })
         : await probeMcp({ ...item, kind: "mcp" });
+    fullProbes += 1;
     if (item.purpose === "weekly_recheck") {
       result.signals = [...(result.signals || []), "weekly-recheck"];
     }
     state.results[item.id] = result;
-    // Alias keys so listing-lanes can match store ids / names
     const nameKey = `name:${result.kind}:${(item.name || "").toLowerCase().trim()}`;
     if (item.name) state.results[nameKey] = { ...result, id: item.id };
     if (item.agent_card_url) {
@@ -935,7 +965,6 @@ export async function runProbeBudgeted(
     if (item.store_id) {
       state.results[item.store_id] = { ...result, id: item.store_id };
     }
-    // Unlimited weekly recheck accounting (no cap — scales with Active)
     if (item.purpose === "weekly_recheck") {
       const week = utcWeek();
       if (!state.weekly || state.weekly.week !== week) {
@@ -946,8 +975,12 @@ export async function runProbeBudgeted(
       else state.weekly.demoted += 1;
     }
 
-    // FAIL / PARTIAL → delist from registry immediately + fix instructions
-    if (result.handshake === "fail" || result.handshake === "partial" || !result.ok) {
+    // FAIL / PARTIAL → delist + permanent block (never probe again)
+    if (
+      result.handshake === "fail" ||
+      result.handshake === "partial" ||
+      !result.ok
+    ) {
       if (result.handshake !== "skip") {
         try {
           const { delistOnProbeFail } = await import("./delist-on-fail");
@@ -967,16 +1000,28 @@ export async function runProbeBudgeted(
             ];
           }
         } catch {
-          /* best-effort delist */
+          /* */
+        }
+        try {
+          const { blockProbeTarget } = await import("./counter-floors");
+          await blockProbeTarget({
+            id: item.store_id || item.id,
+            url: result.target,
+          });
+          if (item.agent_card_url)
+            await blockProbeTarget({ url: item.agent_card_url });
+          if (item.remote_url) await blockProbeTarget({ url: item.remote_url });
+        } catch {
+          /* */
         }
       }
-      // Daily budget still counts; 6-min window does NOT (chain next)
       state.used += 1;
       out.push(result);
-      continue;
+      // ONE full probe only — stop (even on fail)
+      break;
     }
 
-    // CHECKS CLEAN + handshake ok → burn 6-min slot, stop chain
+    // CHECKS CLEAN + handshake ok
     state.used += 1;
     state.hourly_used += 1;
     gotCleanOk = true;
@@ -990,16 +1035,25 @@ export async function runProbeBudgeted(
   }
   if (gotCleanOk) {
     state.last_ok_tick_at = state.last_tick_at;
-    // hourly_used already set
-  } else if (out.length > 0) {
-    // Fail/partial only: do not enforce 6m wait
-    state.hourly_used = 0;
+  } else if (out.some((r) => r.handshake === "fail" || r.handshake === "partial")) {
+    // Full fail spent budget — enforce 6m wait so we don't hammer
+    state.hourly_used = Math.max(state.hourly_used, 1);
     state.last_handshake = lastOut?.handshake || "fail";
   }
+
+  // High-water Live from results + floors
+  const liveNow = countLiveFromResults(state.results);
+  const prev = state.live_active_snapshot;
+  state.live_active_snapshot = {
+    total: Math.max(prev?.total || 0, liveNow.total),
+    mcp: Math.max(prev?.mcp || 0, liveNow.mcp),
+    agents: Math.max(prev?.agents || 0, liveNow.agents),
+    at: new Date().toISOString(),
+  };
+
   // Cap result map size
   const ids = Object.keys(state.results);
   if (ids.length > 2500) {
-    // Prefer primary ids over name:/url: aliases when trimming
     const primaries = ids.filter((id) => !id.startsWith("name:") && !id.startsWith("url:"));
     const aliases = ids.filter((id) => id.startsWith("name:") || id.startsWith("url:"));
     const keepIds = [
@@ -1019,23 +1073,44 @@ export async function runProbeBudgeted(
     );
   }
   await persist(state);
-  // Final floor: used never below unique primary probes for the day
-  {
+
+  // Raise durable floors (source of truth for dashboard)
+  try {
+    const { raiseUsedFloor, raiseLiveFloor, raiseDelistedFloor } = await import(
+      "./counter-floors"
+    );
     const day = state.day;
     const seen = new Set<string>();
     let today = 0;
     for (const [k, r] of Object.entries(state.results || {})) {
       if (k.startsWith("name:") || k.startsWith("url:")) continue;
       if (!(r.probed_at || "").startsWith(day)) continue;
+      // only count budget-spending outcomes (not pure preflight)
+      const pre = (r.signals || []).some((s) => String(s).includes("preflight-reject"));
+      if (pre) continue;
       const uid = String(r.id || k);
       if (seen.has(uid)) continue;
       seen.add(uid);
       today++;
     }
-    if (today > state.used) {
-      state.used = today;
-      await persist(state);
+    state.used = await raiseUsedFloor(Math.max(state.used, today));
+    const liveFloor = await raiseLiveFloor(state.live_active_snapshot);
+    state.live_active_snapshot = {
+      total: liveFloor.total,
+      mcp: liveFloor.mcp,
+      agents: liveFloor.agents,
+      at: liveFloor.at,
+    };
+    try {
+      const { delistStats } = await import("./delist-on-fail");
+      const ds = await delistStats();
+      await raiseDelistedFloor(ds.total);
+    } catch {
+      /* */
     }
+    await persist(state);
+  } catch {
+    /* */
   }
   return out;
 }
@@ -1246,12 +1321,40 @@ export async function getProbePublic() {
     .slice(0, 10)
     .map(([reason, count]) => ({ reason, count }));
 
+  // Apply durable high-water floors so UI never flaps down
+  let usedOut = s.used;
+  let liveOut = s.live_active_snapshot || countLiveFromResults(s.results);
+  try {
+    const { loadCounterFloors, raiseUsedFloor, raiseLiveFloor } = await import(
+      "./counter-floors"
+    );
+    const floors = await loadCounterFloors();
+    usedOut = Math.max(s.used, floors.used_floor || 0);
+    if (usedOut > s.used) await raiseUsedFloor(usedOut);
+    liveOut = {
+      total: Math.max(liveOut.total || 0, floors.live_floor?.total || 0),
+      mcp: Math.max(liveOut.mcp || 0, floors.live_floor?.mcp || 0),
+      agents: Math.max(liveOut.agents || 0, floors.live_floor?.agents || 0),
+      at:
+        (liveOut as { at?: string }).at ||
+        floors.live_floor?.at ||
+        new Date().toISOString(),
+    };
+    await raiseLiveFloor({
+      total: liveOut.total,
+      mcp: liveOut.mcp,
+      agents: liveOut.agents,
+    });
+  } catch {
+    /* */
+  }
+
   return {
     day: s.day,
-    used: s.used,
+    used: usedOut,
     budget: s.budget,
-    remaining: day_remaining,
-    day_remaining,
+    remaining: Math.max(0, s.budget - usedOut),
+    day_remaining: Math.max(0, s.budget - usedOut),
     hourly_used: s.hourly_used,
     hourly_cap: s.hourly_cap,
     hourly_remaining,
@@ -1263,19 +1366,16 @@ export async function getProbePublic() {
     last_tick_at: s.last_tick_at,
     last_ok_tick_at: s.last_ok_tick_at,
     last_handshake: s.last_handshake || null,
-    // Full 6m wait only after checks-clean ok; after fail/partial next is due now
-    // Use last_tick_at (not Date.now) so sandbox mirror and phone share one ISO
     next_tick_at:
       s.last_handshake === "ok" || (!s.last_handshake && s.last_ok_tick_at)
         ? nextProbeFromLast(s.last_ok_tick_at || s.last_tick_at)
-        : s.last_handshake === "fail" || s.last_handshake === "partial"
-          ? s.last_tick_at || new Date().toISOString()
-          : nextProbeFromLast(s.last_tick_at),
+        : nextProbeFromLast(s.last_tick_at),
     cadence_rule:
-      "Full 6 minutes only after checks-clean ok. Fail/partial delists immediately and next probe can run without waiting.",
-    live_active: s.live_active_snapshot || countLiveFromResults(s.results),
-    live_active_snapshot: s.live_active_snapshot || null,
-    source_of_truth: "merged local+/tmp + GitHub data/prod/probes.json (monotonic used)",
+      "One full probe per 6 minutes. Preflight skips known-dead cards without spending budget. Live counts never decrease.",
+    live_active: liveOut,
+    live_active_snapshot: liveOut,
+    source_of_truth:
+      "durable counter-floors (high-water) + data/prod/probes.json",
     probe_worker: probe_worker
       ? {
           status: probe_worker.status,

@@ -132,6 +132,12 @@ async function runTick() {
   } catch {
     delistRaw = null;
   }
+  let floorsRaw: string | null = null;
+  try {
+    floorsRaw = await readDurableRaw("counter-floors.json");
+  } catch {
+    floorsRaw = null;
+  }
 
   const oks = live.total;
 
@@ -152,6 +158,7 @@ async function runTick() {
       "data/prod/probes.json": probesRaw,
       "data/prod/growth-state.json": growthRaw,
       "data/prod/delisted.json": delistRaw,
+      "data/prod/counter-floors.json": floorsRaw,
       "data/prod/store-cache.json": cacheRaw
         ? // trim huge caches for commit size — keep counts + recent items
           (() => {

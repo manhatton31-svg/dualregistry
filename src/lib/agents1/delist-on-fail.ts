@@ -168,13 +168,25 @@ export async function registryCountsAfterDelist(base: {
   }
   const mcp = Math.max(0, base.mcp - dm);
   const agents = Math.max(0, base.agents - da);
+  // High-water: delisted_total never reports below durable floor
+  let delisted_total = dm + da;
+  try {
+    const { loadCounterFloors, raiseDelistedFloor } = await import(
+      "./counter-floors"
+    );
+    const floors = await loadCounterFloors();
+    delisted_total = Math.max(delisted_total, floors.delisted_floor || 0);
+    await raiseDelistedFloor(delisted_total);
+  } catch {
+    /* */
+  }
   return {
     mcp,
     agents,
     total: mcp + agents,
     delisted_mcp: dm,
     delisted_agents: da,
-    delisted_total: dm + da,
+    delisted_total,
   };
 }
 
