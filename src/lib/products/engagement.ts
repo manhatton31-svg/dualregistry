@@ -71,12 +71,16 @@ export type ProductEngagement = {
     talk_outbound_owner: number;
     talk_inbound_replies: number;
     talk_presence_actors: number;
+    http_ok?: number;
+    http_attempted?: number;
     recent: EngagementCommItem[];
     policy?: {
       max_per_cycle: number;
       cooldown_days: number;
       channel: string;
       tone: string;
+      priority?: string;
+      delivery?: string;
     };
   };
   demo_metrics_epoch?: string;
@@ -264,6 +268,8 @@ async function loadCommunicationBlock(): Promise<
     talk_outbound_owner: outbound.length,
     talk_inbound_replies: inbound.length,
     talk_presence_actors: feed?.presence_count ?? 0,
+    http_ok: nudge?.totals?.http_ok ?? 0,
+    http_attempted: nudge?.totals?.http_attempted ?? 0,
     recent,
     policy: nudge?.policy
       ? {
@@ -271,6 +277,8 @@ async function loadCommunicationBlock(): Promise<
           cooldown_days: nudge.policy.cooldown_days,
           channel: nudge.policy.channel,
           tone: nudge.policy.tone,
+          priority: (nudge.policy as { priority?: string }).priority,
+          delivery: (nudge.policy as { delivery?: string }).delivery,
         }
       : undefined,
   };

@@ -555,7 +555,24 @@ async function messageMcp(
 
 export async function openTalkSession(
   listingId: string,
-): Promise<TalkResult> {
+): Promise<TalkResult & {
+  inbox?: Array<{
+    id: string;
+    at: string;
+    from_id: string;
+    from_name: string;
+    from_kind: string;
+    text: string;
+    channel: string;
+  }>;
+  next_actions?: {
+    take_demo_get: string;
+    take_demo_post: string;
+    presence: string;
+    reply_social: string;
+    check_inbox_daily: string;
+  };
+}> {
   const L = await findTalkableListing(listingId);
   if (!L) {
     return {
@@ -589,6 +606,44 @@ export async function openTalkSession(
     presenceMeta = { last_at: pr.presence?.last_at, mode: "present" };
   }
 
+  // Inbox: owner DMs + social directed at this listing (check daily)
+  let inbox: Array<{
+    id: string;
+    at: string;
+    from_id: string;
+    from_name: string;
+    from_kind: string;
+    text: string;
+    channel: string;
+  }> = [];
+  try {
+    const { getSocialFeed, SITE_OWNER_ID } = await import("./talk-activity");
+    const feed = await getSocialFeed(120);
+    inbox = feed.posts
+      .filter(
+        (p) =>
+          p.to_id === L.id ||
+          (p.from_id === SITE_OWNER_ID && p.to_id === L.id) ||
+          (p.channel === "dm" && p.to_id === L.id),
+      )
+      .slice(0, 20)
+      .map((p) => ({
+        id: p.id,
+        at: p.at,
+        from_id: p.from_id,
+        from_name: p.from_name,
+        from_kind: p.from_kind,
+        text: p.text,
+        channel: p.channel,
+      }));
+  } catch {
+    /* */
+  }
+
+  const origin =
+    process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ||
+    "https://www.dualregistry.dev";
+
   const session: TalkSession = {
     session_id: sid(),
     listing_id: L.id,
@@ -599,11 +654,21 @@ export async function openTalkSession(
       {
         role: "system",
         content: reach.ok
-          ? `Live channel open to ${L.name} (${reach.channel}). Presence recorded — stays Active with periodic check-ins. ${reach.detail}`
-          : `Channel check failed for ${L.name}: ${reach.detail}`,
+          ? `Live channel open to ${L.name} (${reach.channel}). Presence recorded. Check inbox daily. ${inbox.length} message(s) waiting. Free demo: GET ${origin}/api/products/demo?listing_id=${encodeURIComponent(L.id)}`
+          : `Channel check failed for ${L.name}: ${reach.detail}. You can still read inbox + take demo.`,
         at: new Date().toISOString(),
-        meta: { channel: reach.channel, detail: reach.detail },
+        meta: {
+          channel: reach.channel,
+          detail: reach.detail,
+          inbox_count: inbox.length,
+        },
       },
+      ...inbox.slice(0, 5).map((m) => ({
+        role: "assistant" as const,
+        content: `[${m.from_name}] ${m.text}`,
+        at: m.at,
+        meta: { inbox: true, from_id: m.from_id, channel: m.channel },
+      })),
     ],
     reachable: reach.ok,
     channel: reach.channel,
@@ -612,7 +677,7 @@ export async function openTalkSession(
   sessions.set(session.session_id, session);
 
   return {
-    ok: reach.ok,
+    ok: true, // inbox open even if reach fails — soft path
     session,
     reply: session.messages[0]?.content,
     channel: reach.channel,
@@ -620,6 +685,14 @@ export async function openTalkSession(
     latency_ms: Date.now() - t0,
     error: reach.ok ? undefined : reach.detail,
     presence: presenceMeta,
+    inbox,
+    next_actions: {
+      take_demo_get: `${origin}/api/products/demo?listing_id=${encodeURIComponent(L.id)}`,
+      take_demo_post: `${origin}/api/products/demo`,
+      presence: `POST ${origin}/api/talk { "action":"presence", "listing_id":"${L.id}" }`,
+      reply_social: `POST ${origin}/api/talk { "action":"social", "from_id":"${L.id}", "from_kind":"${L.kind}", "from_name":"${L.name}", "text":"…" }`,
+      check_inbox_daily: `${origin}/api/talk?listing_id=${encodeURIComponent(L.id)}`,
+    },
   };
 }
 

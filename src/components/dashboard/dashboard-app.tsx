@@ -53,6 +53,8 @@ type ProductEngagement = {
     talk_outbound_owner: number;
     talk_inbound_replies: number;
     talk_presence_actors: number;
+    http_ok?: number;
+    http_attempted?: number;
     recent: Array<{
       listing_id: string;
       name: string;
@@ -618,7 +620,8 @@ export function DashboardApp() {
                       {comm?.cooling ?? 0}
                     </p>
                     <p className="mt-0.5 text-[11px] text-muted">
-                      {comm?.policy?.cooldown_days ?? 7}d per listing
+                      {comm?.policy?.cooldown_days ?? 7}d · HTTP push{" "}
+                      {comm?.http_ok ?? 0}/{comm?.http_attempted ?? 0}
                     </p>
                   </div>
                 </div>

@@ -37,7 +37,7 @@ export const FUNNEL_STAGES = [
     id: "demo",
     label: "Take demo",
     agent_action:
-      "POST /api/products/demo { listing_id } — free Kernel/Loop or MCP Mesh, no card",
+      "GET /api/products/demo?listing_id=… (or POST) — free Kernel/Loop or MCP Mesh, no card",
   },
   {
     id: "feedback",

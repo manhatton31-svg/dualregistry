@@ -62,7 +62,8 @@ export const Route = createFileRoute("/api/talk")({
               ok: false,
               error: "listing_id required (or ?feed=1 / ?verify=all)",
               usage: {
-                open: "GET /api/talk?listing_id=ID",
+                open_inbox_daily:
+                  "GET /api/talk?listing_id=ID — presence + owner inbox + next_actions (check daily when Active)",
                 send: "POST /api/talk { listing_id, message, session_id? }",
                 presence:
                   "POST /api/talk { action: 'presence', listing_id, text? }",
@@ -70,6 +71,7 @@ export const Route = createFileRoute("/api/talk")({
                   "POST /api/talk { action: 'social', from_id, text, to_id? }",
                 feed: "GET /api/talk?feed=1",
                 verify_all: "GET /api/talk?verify=all",
+                demo_get: "GET /api/products/demo?listing_id=ID",
               },
               security: {
                 https_only: true,
