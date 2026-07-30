@@ -506,20 +506,18 @@ export async function getLanedListings(): Promise<{
     a.name.localeCompare(b.name);
 
   const mcp_active = mcps.filter((x) => x.lane === "active").sort(sortFn);
-  // Discovered = only awaiting first probe / stale ok — NOT fails
-  const mcp_discovered = mcps
-    .filter((x) => x.lane === "discovered")
-    .sort(sortFn);
   const agents_active = agents.filter((x) => x.lane === "active").sort(sortFn);
-  const agents_discovered = agents
-    .filter((x) => x.lane === "discovered")
-    .sort(sortFn);
+  // PRODUCT: public registry = CLEAN ONLY. Never expose unprobed store dump.
+  const mcp_discovered: LanedListing[] = [];
+  const agents_discovered: LanedListing[] = [];
   const mcp_needs_resubmit = mcps
     .filter((x) => x.lane === "needs_resubmit")
-    .sort(sortFn);
+    .sort(sortFn)
+    .slice(0, 40);
   const agents_needs_resubmit = agents
     .filter((x) => x.lane === "needs_resubmit")
-    .sort(sortFn);
+    .sort(sortFn)
+    .slice(0, 40);
 
   let categories: {
     mcp: Array<{ id: string; label: string; count: number; live?: boolean }>;
@@ -640,11 +638,7 @@ export async function getLanedListings(): Promise<{
       agents_discovered: agents_discovered.length,
       mcp_needs_resubmit: mcp_needs_resubmit.length,
       agents_needs_resubmit: agents_needs_resubmit.length,
-      public_listed:
-        mcp_active.length +
-        agents_active.length +
-        mcp_discovered.length +
-        agents_discovered.length,
+      public_listed: mcp_active.length + agents_active.length,
     },
     policy: {
       active_requires: [
@@ -655,9 +649,9 @@ export async function getLanedListings(): Promise<{
       probe_fresh_hours: ACTIVE_PROBE_MAX_AGE_MS / 3600_000,
       weekly_recheck_days: 7,
       weekly_recheck: "unlimited — every Active re-probed 7d after last ok",
-      note: "Active = public Live. Discovered = awaiting first ok probe. Fail = delisted → needs resubmit.",
+      note: "Public registry = CLEAN ONLY. A listing appears only after probe ok at its own card/URL. Unprobed store junk is never listed.",
       fail_policy:
-        "Probe fail/partial → needs_resubmit (not on public MCP/Agent lists). Fix card, resubmit via /list.",
+        "Probe fail/partial = never listed. Fix card, resubmit via /list, then we probe again before listing.",
     },
     categories,
   };

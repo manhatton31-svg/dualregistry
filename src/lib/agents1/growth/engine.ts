@@ -94,10 +94,20 @@ async function applyHandshakeProbes(
 ) {
   try {
     type PT = Parameters<typeof runProbeBudgeted>[0][number];
+    // Probe candidates only when we have a real card/endpoint at the source we found.
+    // Never list them publicly until handshake ok (listing-lanes active filter).
     const probeTargets: PT[] = state.candidates
       .filter((c) =>
         ["queued", "enriched", "deferred", "failed", "approved", "submitted"].includes(
           c.status,
+        ),
+      )
+      .filter((c) =>
+        Boolean(
+          c.agent_card_url ||
+            c.endpoint_url ||
+            c.remote_url ||
+            (c.website && /well-known|agent\.json|mcp/i.test(c.website)),
         ),
       )
       .map((c) => {
@@ -164,11 +174,15 @@ async function applyHandshakeProbes(
       };
       const weeklyTargets: PT[] = [];
 
+      // PRODUCT: never probe-list the entire store dump.
+      // Only weekly-recheck listings that already probe-ok (clean registry).
+      // New listings enter only via growth candidates discovered with a real URL,
+      // probed at that URL first — then listed if handshake ok.
       for (const a of cache.agent_items || []) {
         if (seen.has(a.id)) continue;
-        seen.add(a.id);
         const prev = lookup(a.id, a.name, "agent");
-        // Unlimited weekly recheck queue (scales with Active)
+        if (!(prev && prev.handshake === "ok" && prev.ok)) continue;
+        seen.add(a.id);
         if (prev && isWeeklyRecheckDue(prev)) {
           weeklyTargets.push({
             kind: "agent",
@@ -182,28 +196,13 @@ async function applyHandshakeProbes(
             priority_boost: 100,
             store_id: a.id,
           });
-          continue;
         }
-        if (isActiveNotDue(a.id, a.name, "agent")) continue;
-        const never = !prev;
-        probeTargets.push({
-          kind: "agent",
-          id: a.id,
-          name: a.name,
-          agent_card_url: a.agent_card_url,
-          endpoint_url: a.endpoint_url,
-          website: a.website,
-          repository: a.repository,
-          purpose: "discovery",
-          priority_boost:
-            (never ? 2000 : 100) +
-            (a.agent_card_url || a.endpoint_url ? 500 : 0),
-        });
       }
       for (const m of cache.mcp_items || []) {
         if (seen.has(m.id)) continue;
-        seen.add(m.id);
         const prev = lookup(m.id, m.name, "mcp");
+        if (!(prev && prev.handshake === "ok" && prev.ok)) continue;
+        seen.add(m.id);
         if (prev && isWeeklyRecheckDue(prev)) {
           weeklyTargets.push({
             kind: "mcp",
@@ -216,20 +215,7 @@ async function applyHandshakeProbes(
             priority_boost: 100,
             store_id: m.id,
           });
-          continue;
         }
-        if (isActiveNotDue(m.id, m.name, "mcp")) continue;
-        const never = !prev;
-        probeTargets.push({
-          kind: "mcp",
-          id: m.id,
-          name: m.name,
-          remote_url: m.remote_url,
-          website: m.website,
-          repository: m.repository,
-          purpose: "discovery",
-          priority_boost: never ? 2000 : 100,
-        });
       }
 
       // Growth candidates that are Active-grade and due for weekly recheck

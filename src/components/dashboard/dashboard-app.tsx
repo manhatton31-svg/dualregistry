@@ -428,18 +428,19 @@ export function DashboardApp() {
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <Badge variant="accent">Live · dualregistry.dev</Badge>
               <Badge variant="success" className="font-normal">
-                {liveTotal != null ? `${liveTotal} clean targets` : "probing…"}
+                {liveTotal != null
+                  ? `${liveTotal} clean · probe-first registry`
+                  : "probing…"}
               </Badge>
             </div>
             <DualRegistryWordmark showDomain className="mb-3" />
             <h1 className="max-w-2xl text-xl font-semibold tracking-tight text-fg sm:text-2xl">
-              Agents & MCPs that actually check clean.
+              Only clean agents & MCPs. Nothing else.
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-              This is not a dump of every store listing.{" "}
-              <span className="text-fg">Clean targets</span> = card serves real
-              JSON + live handshake ok. Use them. Everything else is still
-              waiting on a first good probe or already delisted.
+              We probe at the card/URL we found — then list only if handshake is
+              ok. No store dump. No unprobed junk. No delisted wall of shame on
+              the home page. If it is not clean, it is not here.
             </p>
             {error ? (
               <p className="mt-1 text-xs text-danger">{error}</p>
@@ -487,35 +488,17 @@ export function DashboardApp() {
           </div>
         </header>
 
-        <div className="mb-4 grid min-w-0 grid-cols-2 gap-2 sm:mb-5 sm:grid-cols-4 sm:gap-3">
+        <div className="mb-4 grid min-w-0 grid-cols-2 gap-2 sm:mb-5 sm:grid-cols-3 sm:gap-3">
           <StatCard
-            label="Clean targets"
+            label="Clean registry"
             value={liveTotal != null ? liveTotal : "—"}
             hint={
               liveMcp != null && liveAgents != null
-                ? `${liveMcp} MCP · ${liveAgents} agents · probe ok`
-                : "loading Active list"
+                ? `${liveMcp} MCP · ${liveAgents} agents · listed only if probe ok`
+                : "loading"
             }
             icon={CheckCircle2}
             accent="success"
-          />
-          <StatCard
-            label="Awaiting first ok"
-            value={discovered || "—"}
-            hint="discovered · not clean yet"
-            icon={Layers}
-            accent="info"
-          />
-          <StatCard
-            label="In store / delisted"
-            value={data ? mcpTotal + agentTotal : "—"}
-            hint={
-              data
-                ? `${mcpTotal} MCP · ${agentTotal} agents · −${delistedTotal} delisted`
-                : "store"
-            }
-            icon={Server}
-            accent="accent"
           />
           <StatCard
             label="Probes today"
@@ -526,11 +509,18 @@ export function DashboardApp() {
             }
             hint={
               proto?.probes?.last_tick_at
-                ? `last ${lastEt} · next ${nextEt} · grows Clean`
-                : "every 6 min ET"
+                ? `last ${lastEt} · next ${nextEt} · probe before list`
+                : "every 6 min · probe at source URL first"
             }
             icon={Activity}
             accent="warn"
+          />
+          <StatCard
+            label="Rule"
+            value="probe first"
+            hint="Nothing is listed until handshake ok at its own card/URL"
+            icon={Radio}
+            accent="info"
           />
         </div>
 
@@ -682,9 +672,8 @@ export function DashboardApp() {
                 </div>
                 {allCleanRows.length === 0 ? (
                   <p className="text-sm text-muted">
-                    Empty clean list means probes have not confirmed any live
-                    cards yet. Discovered queue: {discovered}. Failures are
-                    delisted under Ops.
+                    Empty registry — nothing has passed a live probe yet. We only
+                    add after handshake ok at the source URL.
                   </p>
                 ) : null}
               </CardContent>
@@ -692,25 +681,24 @@ export function DashboardApp() {
 
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm">What the numbers mean</CardTitle>
+                <CardTitle className="text-sm">How this registry works</CardTitle>
               </CardHeader>
               <CardContent className="space-y-1.5 text-[11px] text-muted pb-3 pt-0">
                 <p>
-                  <span className="font-medium text-fg">Clean targets</span> —
-                  only these. Target their card/endpoint URLs.
+                  <span className="font-medium text-fg">1. Find</span> a real
+                  agent card or MCP endpoint on the internet.
                 </p>
                 <p>
-                  <span className="font-medium text-fg">Awaiting first ok</span> —
-                  store/discovered listings not yet probe-ok. Not targets yet.
+                  <span className="font-medium text-fg">2. Probe</span> that URL
+                  first (never list before probe).
                 </p>
                 <p>
-                  <span className="font-medium text-fg">Delisted</span> — failed
-                  probe; fix card and resubmit via /list.
+                  <span className="font-medium text-fg">3. List</span> only if
+                  handshake is ok — then it appears here with the target URL.
                 </p>
                 <p>
-                  Founding free seats still open for clean listings that demo +
-                  feedback ({fbAgents + fbMcps}/500 feedback toward payments
-                  unlock).
+                  Failures stay off the registry. Resubmit via /list after fixing
+                  the card.
                 </p>
                 {refreshedAt ? (
                   <p className="text-subtle">
@@ -809,26 +797,10 @@ export function DashboardApp() {
                 />
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="flex items-center gap-2 text-sm">
-                  <Layers className="h-4 w-4 text-accent" />
-                  Incoming · not clean yet
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ListingTable
-                  rows={
-                    tab === "mcp" ? mcpDiscoveredRows : agentDiscoveredRows
-                  }
-                  emptyLabel="No pending first-probe listings"
-                />
-                <p className="mt-2 text-[11px] text-subtle">
-                  These are not targets until handshake is ok. Fails go to Ops →
-                  needs resubmit.
-                </p>
-              </CardContent>
-            </Card>
+            <p className="text-[11px] text-subtle">
+              Unprobed and failed listings are never shown. We only add a name
+              after a clean probe at its own source URL.
+            </p>
           </div>
         )}
 
@@ -868,7 +840,7 @@ export function DashboardApp() {
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm">
-                  Needs resubmit (not clean — not listed as targets)
+                  Recent fails (not listed — private pipeline)
                 </CardTitle>
                 <CardDescription className="text-xs">
                   {lanes?.policy?.fail_policy ||

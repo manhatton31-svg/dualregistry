@@ -8,6 +8,41 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 
+
+function cleanOnlyTotals(body: Record<string, unknown>) {
+  const lanes = body.listing_lanes as
+    | {
+        counts?: { mcp_active?: number; agents_active?: number };
+        mcp_active?: unknown[];
+        agents_active?: unknown[];
+      }
+    | null
+    | undefined;
+  const mcpN =
+    lanes?.counts?.mcp_active ??
+    (Array.isArray(lanes?.mcp_active) ? lanes!.mcp_active!.length : null);
+  const agN =
+    lanes?.counts?.agents_active ??
+    (Array.isArray(lanes?.agents_active) ? lanes!.agents_active!.length : null);
+  if (mcpN == null && agN == null) return body;
+  const mcp = (body.mcp as Record<string, unknown>) || {};
+  const agents = (body.agents as Record<string, unknown>) || {};
+  return {
+    ...body,
+    // Public "in registry" = clean only
+    mcp: { ...mcp, total: mcpN ?? 0, clean_only: true },
+    agents: { ...agents, total: agN ?? 0, clean_only: true },
+    delist: {
+      delisted_total: 0,
+      delisted_mcp: 0,
+      delisted_agents: 0,
+      hidden: true,
+      note: "Fails are never listed — not shown as a public delisted dump",
+    },
+    registry_policy: "clean_only_probe_first",
+  };
+}
+
 async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T | null> {
   return Promise.race([
     p,
@@ -175,7 +210,7 @@ export const Route = createFileRoute("/api/dashboard")({
               { ok: true, ...snap, ...side, soft: true },
               request.url,
             );
-            return Response.json(body, { headers });
+            return Response.json(cleanOnlyTotals(body as Record<string, unknown>), { headers });
           }
 
           // Hard refresh: allow live revalidate with hard ceiling
@@ -194,7 +229,7 @@ export const Route = createFileRoute("/api/dashboard")({
               { ok: true, ...cached, ...side, degraded: true },
               request.url,
             );
-            return Response.json(body, { headers });
+            return Response.json(cleanOnlyTotals(body as Record<string, unknown>), { headers });
           }
 
           const side = await attachSidePanels(3_000);
@@ -202,7 +237,7 @@ export const Route = createFileRoute("/api/dashboard")({
             { ok: true, ...snap, ...side },
             request.url,
           );
-          return Response.json(body, { headers });
+          return Response.json(cleanOnlyTotals(body as Record<string, unknown>), { headers });
         } catch (e) {
           // Last resort: probes-only so Overview never goes blank
           let protocol = null;
@@ -225,7 +260,7 @@ export const Route = createFileRoute("/api/dashboard")({
             },
             request.url,
           );
-          return Response.json(body, { headers });
+          return Response.json(cleanOnlyTotals(body as Record<string, unknown>), { headers });
         }
       },
     },

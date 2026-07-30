@@ -266,7 +266,7 @@ export async function listPublicAgentsLaned(opts?: {
 }> {
   const { getLanedListings } = await import("./listing-lanes");
   const lanes = await getLanedListings();
-  const lane = opts?.lane || "all";
+  const lane = opts?.lane || "active";
   let rows = [
     ...(lane === "discovered" ? [] : lanes.agents_active),
     ...(lane === "active" ? [] : lanes.agents_discovered),
@@ -324,7 +324,7 @@ export async function listPublicMcpsLaned(opts?: {
 }> {
   const { getLanedListings } = await import("./listing-lanes");
   const lanes = await getLanedListings();
-  const lane = opts?.lane || "all";
+  const lane = opts?.lane || "active";
   let rows = [
     ...(lane === "discovered" ? [] : lanes.mcp_active),
     ...(lane === "active" ? [] : lanes.mcp_discovered),
