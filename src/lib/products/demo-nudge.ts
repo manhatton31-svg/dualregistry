@@ -6,13 +6,15 @@
  * - Mention real feedback is rewarded (founding free / early seats)
  * - Track who was nudged; cooldown so we do not re-nudge every tick
  * - Runs inside feedback-drive + optional manual POST /api/products/demo-nudge
+ * - State is durable (GitHub data/prod) so prod cards survive redeploys
  */
-import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { dataRoot } from "@/lib/data-root";
+import {
+  loadDurableJson,
+  saveDurableJson,
+} from "@/lib/agents1/durable-json";
 import { publicOriginFromEnv } from "./activation-funnel";
 
-const PATH = join(dataRoot(), "products", "demo-nudge.json");
+const DURABLE_NAME = "demo-nudge.json";
 
 /** Max soft Talk nudges per drive cycle */
 export const MAX_NUDGES_PER_CYCLE = 10;
@@ -60,6 +62,22 @@ function empty(): NudgeState {
   };
 }
 
+function normalize(s: NudgeState): NudgeState {
+  const out: NudgeState = {
+    ...empty(),
+    ...s,
+    nudged: s.nudged || {},
+    history: s.history || [],
+    last_notes: s.last_notes || [],
+    totals: { ...empty().totals, ...s.totals },
+  };
+  if (out.day !== utcDay()) {
+    out.day = utcDay();
+    out.day_nudges = 0;
+  }
+  return out;
+}
+
 async function load(): Promise<NudgeState> {
   if (mem) {
     if (mem.day !== utcDay()) {
@@ -69,16 +87,9 @@ async function load(): Promise<NudgeState> {
     return mem;
   }
   try {
-    const raw = await readFile(PATH, "utf8");
-    mem = { ...empty(), ...JSON.parse(raw) };
-    if (mem!.day !== utcDay()) {
-      mem!.day = utcDay();
-      mem!.day_nudges = 0;
-    }
-    mem!.nudged = mem!.nudged || {};
-    mem!.history = mem!.history || [];
-    mem!.totals = { ...empty().totals, ...mem!.totals };
-    return mem!;
+    const raw = await loadDurableJson<NudgeState>(DURABLE_NAME, empty);
+    mem = normalize(raw || empty());
+    return mem;
   } catch {
     mem = empty();
     return mem;
@@ -88,10 +99,7 @@ async function load(): Promise<NudgeState> {
 async function persist(s: NudgeState) {
   mem = s;
   s.updated_at = new Date().toISOString();
-  await mkdir(dirname(PATH), { recursive: true });
-  const tmp = `${PATH}.${process.pid}.tmp`;
-  await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
-  await rename(tmp, PATH);
+  await saveDurableJson(DURABLE_NAME, s);
 }
 
 function stillCooling(lastAt: string | undefined, now = Date.now()): boolean {
@@ -278,23 +286,19 @@ export async function runDemoNudge(opts?: {
         }
       }
     } catch {
-      /* non-blocking */
+      /* */
     }
   }
 
-  if (nudged)
-    notes.push(
+  state.last_run_at = new Date().toISOString();
+  if (nudged > 0) {
+    notes.unshift(
       `soft-nudged ${nudged} active clean listings via Talk (feedback rewarded · no pressure)`,
     );
-  else if (!notes.length)
-    notes.push(
-      skipped
-        ? `no new nudges — ${skipped} still in ${NUDGE_COOLDOWN_MS / 86400_000}d cooldown or pool empty`
-        : "no active clean listings to nudge",
-    );
-
-  state.last_run_at = new Date().toISOString();
-  state.last_notes = notes.slice(0, 20);
+  } else if (!notes.length) {
+    notes.push("no new nudges (cooldown or empty pool)");
+  }
+  state.last_notes = notes.slice(0, 8);
   await persist(state);
 
   try {
