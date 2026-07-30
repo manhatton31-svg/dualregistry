@@ -1,12 +1,12 @@
 {
   "version": 3,
-  "updated_at": "2026-07-30T21:19:58.284Z",
+  "updated_at": "2026-07-30T21:34:12.556Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
     "running": false,
-    "next_run_at": "2026-07-30T21:25:53.529Z",
-    "last_run_at": "2026-07-30T21:19:53.529Z"
+    "next_run_at": "2026-07-30T21:38:38.650Z",
+    "last_run_at": "2026-07-30T21:32:38.650Z"
   },
   "kv": {
     "day": "2026-07-30",
@@ -25,20 +25,45 @@
   "candidates": [
     {
       "kind": "mcp",
-      "name": "ai.gvrn/incorporation",
-      "description": "Collect and submit company incorporation requests for review by GVRN's corpsec team.",
-      "website": "https://www.gvrn.ai",
-      "remote_url": "https://core-api.gvrn.ai/incorporation-mcp",
+      "name": "ai.fintent/signals",
+      "description": "Predictive Signals, Company Search, Sector Trends and Contacts for PEs, IBs, M&A dealmakers.",
+      "website": "https://fintent.ai",
+      "remote_url": "https://app.fintent.ai/api/v2/mcp",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote"
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
       ],
-      "id": "mcp-ai-gvrn-incorporation-https-www-gvrn-ai",
+      "id": "mcp-ai-fintent-signals-https-fintent-ai",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T20:00:42.091Z",
-      "updated_at": "2026-07-30T20:00:42.091Z"
+      "updated_at": "2026-07-30T20:00:42.091Z",
+      "safety_score": 50
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.flipdomain/domain-sales",
+      "description": "Search 2,972 premium domains by keyword, category, TLD, and budget, then submit offers.",
+      "website": "https://flipdomain.ai",
+      "remote_url": "https://flipdomain.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-flipdomain-domain-sales-https-flipdomain-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T20:00:42.091Z",
+      "updated_at": "2026-07-30T20:00:42.091Z",
+      "safety_score": 50
     },
     {
       "kind": "mcp",
@@ -50,183 +75,59 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote"
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
       ],
       "id": "mcp-ai-gethal-mcp-https-gitlab-com-acf5914932-gethal-ai-lp",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T20:00:42.091Z",
-      "updated_at": "2026-07-30T20:00:42.091Z"
+      "updated_at": "2026-07-30T20:00:42.091Z",
+      "safety_score": 50
     },
     {
       "kind": "mcp",
-      "name": "ai.flipdomain/domain-sales",
-      "description": "Search 2,972 premium domains by keyword, category, TLD, and budget, then submit offers.",
-      "website": "https://flipdomain.ai",
-      "remote_url": "https://flipdomain.ai/mcp",
+      "name": "ai.gvrn/incorporation",
+      "description": "Collect and submit company incorporation requests for review by GVRN's corpsec team.",
+      "website": "https://www.gvrn.ai",
+      "remote_url": "https://core-api.gvrn.ai/incorporation-mcp",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote"
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
       ],
-      "id": "mcp-ai-flipdomain-domain-sales-https-flipdomain-ai",
+      "id": "mcp-ai-gvrn-incorporation-https-www-gvrn-ai",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T20:00:42.091Z",
-      "updated_at": "2026-07-30T20:00:42.091Z"
+      "updated_at": "2026-07-30T20:00:42.091Z",
+      "safety_score": 50
     },
     {
       "kind": "mcp",
-      "name": "ai.fintent/signals",
-      "description": "Predictive Signals, Company Search, Sector Trends and Contacts for PEs, IBs, M&A dealmakers.",
-      "website": "https://fintent.ai",
-      "remote_url": "https://app.fintent.ai/api/v2/mcp",
+      "name": "ai.bringyour/bringyour",
+      "description": "No-data MCP handoff for local Claude Code to Codex harness moves. $49 lifetime.",
+      "website": "https://bringyour.ai",
+      "remote_url": "https://bringyour.ai/mcp",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote"
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
       ],
-      "id": "mcp-ai-fintent-signals-https-fintent-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T20:00:42.091Z",
-      "updated_at": "2026-07-30T20:00:42.091Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.dynamicfeed/dynamic-feed",
-      "description": "Fresh data AI models lack: live LLM pricing, MCP registry, service status, and AI news.",
-      "website": "https://dynamicfeed.ai",
-      "remote_url": "https://dynamicfeed.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote"
-      ],
-      "id": "mcp-ai-dynamicfeed-dynamic-feed-https-dynamicfeed-ai",
+      "id": "mcp-ai-bringyour-bringyour-https-bringyour-ai",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.docuwriter/docuwriter",
-      "description": "Generate, search, and manage codebase documentation on DocuWriter.ai. 72 tools incl. Autopilot.",
-      "website": "https://www.docuwriter.ai",
-      "remote_url": "https://app.docuwriter.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote"
-      ],
-      "id": "mcp-ai-docuwriter-docuwriter-https-www-docuwriter-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.decisionlog/mcp",
-      "description": "Append-only decisions with provenance, supersession, retrieval, and audited MCP actions.",
-      "website": "https://www.decisionlog.ai",
-      "remote_url": "https://www.decisionlog.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote"
-      ],
-      "id": "mcp-ai-decisionlog-mcp-https-www-decisionlog-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.datamerge/mcp",
-      "description": "B2B data enrichment for 375M+ companies: legal entities, corporate hierarchies, and contacts.",
-      "website": "https://mcp.datamerge.ai",
-      "remote_url": "https://mcp.datamerge.ai",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote"
-      ],
-      "id": "mcp-ai-datamerge-mcp-https-mcp-datamerge-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.cueframe/cueframe",
-      "description": "Agent-native video composition API: compose footage into production-quality video over MCP.",
-      "website": "https://cueframe.ai",
-      "remote_url": "https://api.cueframe.ai/v1/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote"
-      ],
-      "id": "mcp-ai-cueframe-cueframe-https-cueframe-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.childpsychiatry/library",
-      "description": "Clinician-reviewed library on child psychiatric evaluation and medication decision-making.",
-      "website": "https://childpsychiatry.ai",
-      "remote_url": "https://childpsychiatry.ai/api/mcp/v1",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote"
-      ],
-      "id": "mcp-ai-childpsychiatry-library-https-childpsychiatry-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.childanxiety/library",
-      "description": "Clinician-reviewed library on anxiety, OCD, and phobias in children ages 5\u201312.",
-      "website": "https://childanxiety.ai",
-      "remote_url": "https://childanxiety.ai/api/mcp/v1",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote"
-      ],
-      "id": "mcp-ai-childanxiety-library-https-childanxiety-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.childadhd/library",
-      "description": "Clinician-reviewed library on ADHD in children \u2014 evaluation, treatment, school, parenting.",
-      "website": "https://childadhd.ai",
-      "remote_url": "https://childadhd.ai/api/mcp/v1",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote"
-      ],
-      "id": "mcp-ai-childadhd-library-https-childadhd-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
     },
     {
       "kind": "mcp",
@@ -238,30 +139,185 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote"
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
       ],
       "id": "mcp-ai-calendarmcp-server-https-github-com-full-vibe-calendarmcp-public",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
     },
     {
       "kind": "mcp",
-      "name": "ai.bringyour/bringyour",
-      "description": "No-data MCP handoff for local Claude Code to Codex harness moves. $49 lifetime.",
-      "website": "https://bringyour.ai",
-      "remote_url": "https://bringyour.ai/mcp",
+      "name": "ai.childadhd/library",
+      "description": "Clinician-reviewed library on ADHD in children \u2014 evaluation, treatment, school, parenting.",
+      "website": "https://childadhd.ai",
+      "remote_url": "https://childadhd.ai/api/mcp/v1",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote"
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
       ],
-      "id": "mcp-ai-bringyour-bringyour-https-bringyour-ai",
+      "id": "mcp-ai-childadhd-library-https-childadhd-ai",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T20:00:42.090Z",
-      "updated_at": "2026-07-30T20:00:42.090Z"
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.childanxiety/library",
+      "description": "Clinician-reviewed library on anxiety, OCD, and phobias in children ages 5\u201312.",
+      "website": "https://childanxiety.ai",
+      "remote_url": "https://childanxiety.ai/api/mcp/v1",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-childanxiety-library-https-childanxiety-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T20:00:42.090Z",
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.childpsychiatry/library",
+      "description": "Clinician-reviewed library on child psychiatric evaluation and medication decision-making.",
+      "website": "https://childpsychiatry.ai",
+      "remote_url": "https://childpsychiatry.ai/api/mcp/v1",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-childpsychiatry-library-https-childpsychiatry-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T20:00:42.090Z",
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.cueframe/cueframe",
+      "description": "Agent-native video composition API: compose footage into production-quality video over MCP.",
+      "website": "https://cueframe.ai",
+      "remote_url": "https://api.cueframe.ai/v1/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-cueframe-cueframe-https-cueframe-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T20:00:42.090Z",
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.datamerge/mcp",
+      "description": "B2B data enrichment for 375M+ companies: legal entities, corporate hierarchies, and contacts.",
+      "website": "https://mcp.datamerge.ai",
+      "remote_url": "https://mcp.datamerge.ai",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-datamerge-mcp-https-mcp-datamerge-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T20:00:42.090Z",
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.decisionlog/mcp",
+      "description": "Append-only decisions with provenance, supersession, retrieval, and audited MCP actions.",
+      "website": "https://www.decisionlog.ai",
+      "remote_url": "https://www.decisionlog.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-decisionlog-mcp-https-www-decisionlog-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T20:00:42.090Z",
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.docuwriter/docuwriter",
+      "description": "Generate, search, and manage codebase documentation on DocuWriter.ai. 72 tools incl. Autopilot.",
+      "website": "https://www.docuwriter.ai",
+      "remote_url": "https://app.docuwriter.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-docuwriter-docuwriter-https-www-docuwriter-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T20:00:42.090Z",
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.dynamicfeed/dynamic-feed",
+      "description": "Fresh data AI models lack: live LLM pricing, MCP registry, service status, and AI news.",
+      "website": "https://dynamicfeed.ai",
+      "remote_url": "https://dynamicfeed.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-dynamicfeed-dynamic-feed-https-dynamicfeed-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T20:00:42.090Z",
+      "updated_at": "2026-07-30T20:00:42.090Z",
+      "safety_score": 50
     },
     {
       "kind": "mcp",
@@ -272,20 +328,25 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote"
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
       ],
       "id": "mcp-ai-afmr-discovery-https-afmr-ai-",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T20:00:42.089Z",
-      "updated_at": "2026-07-30T20:00:42.089Z"
+      "updated_at": "2026-07-30T20:00:42.089Z",
+      "safety_score": 50
     },
     {
       "kind": "mcp",
-      "name": "ai.analyticslegends/sap-analytics",
-      "description": "AI agent for SAP analytics: firms, day rates, contract radar, news, concepts, studies",
-      "website": "https://analyticslegends.ai",
-      "remote_url": "https://analyticslegends.ai/mcp",
+      "name": "ai.borealhost/mcp",
+      "description": "Agent-native web hosting \u2014 deploy sites, manage DNS, register domains, scale infrastructure",
+      "repository": "https://github.com/alainsvrd/platform",
+      "website": "https://borealhost.ai",
+      "remote_url": "https://borealhost.ai/mcp/",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
@@ -294,7 +355,50 @@
         "ns:verified",
         "handshake:ok"
       ],
-      "id": "mcp-ai-analyticslegends-sap-analytics-https-analyticslegends-ai",
+      "id": "mcp-ai-borealhost-mcp-https-github-com-alainsvrd-platform",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T17:10:51.862Z",
+      "updated_at": "2026-07-30T17:10:51.862Z",
+      "safety_score": 50
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.biel/biel-ai",
+      "description": "Query your product docs from AI tools. Source-cited answers from your indexed documentation.",
+      "repository": "https://github.com/TechDocsStudio/biel-mcp",
+      "website": "https://biel.ai",
+      "remote_url": "https://mcp.biel.ai/v2/{project_slug}/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-biel-biel-ai-https-github-com-techdocsstudio-biel-mcp",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T17:10:51.862Z",
+      "updated_at": "2026-07-30T17:10:51.862Z",
+      "safety_score": 58
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.beatbandit/beatbandit",
+      "description": "AI story development, screenplay editing, review, media, and export tools for BeatBandit projects.",
+      "website": "https://beatbandit.ai",
+      "remote_url": "https://beatbandit.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-ai-beatbandit-beatbandit-https-beatbandit-ai",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T17:10:51.862Z",
@@ -325,10 +429,10 @@
     },
     {
       "kind": "mcp",
-      "name": "ai.beatbandit/beatbandit",
-      "description": "AI story development, screenplay editing, review, media, and export tools for BeatBandit projects.",
-      "website": "https://beatbandit.ai",
-      "remote_url": "https://beatbandit.ai/api/mcp",
+      "name": "ai.analyticslegends/sap-analytics",
+      "description": "AI agent for SAP analytics: firms, day rates, contract radar, news, concepts, studies",
+      "website": "https://analyticslegends.ai",
+      "remote_url": "https://analyticslegends.ai/mcp",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
@@ -337,51 +441,7 @@
         "ns:verified",
         "handshake:ok"
       ],
-      "id": "mcp-ai-beatbandit-beatbandit-https-beatbandit-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T17:10:51.862Z",
-      "updated_at": "2026-07-30T17:10:51.862Z",
-      "safety_score": 50
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.biel/biel-ai",
-      "description": "Query your product docs from AI tools. Source-cited answers from your indexed documentation.",
-      "repository": "https://github.com/TechDocsStudio/biel-mcp",
-      "website": "https://biel.ai",
-      "remote_url": "https://mcp.biel.ai/v2/{project_slug}/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "proto:server-card",
-        "ns:verified",
-        "handshake:ok"
-      ],
-      "id": "mcp-ai-biel-biel-ai-https-github-com-techdocsstudio-biel-mcp",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T17:10:51.862Z",
-      "updated_at": "2026-07-30T17:10:51.862Z",
-      "safety_score": 50
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.borealhost/mcp",
-      "description": "Agent-native web hosting \u2014 deploy sites, manage DNS, register domains, scale infrastructure",
-      "repository": "https://github.com/alainsvrd/platform",
-      "website": "https://borealhost.ai",
-      "remote_url": "https://borealhost.ai/mcp/",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "proto:server-card",
-        "ns:verified",
-        "handshake:ok"
-      ],
-      "id": "mcp-ai-borealhost-mcp-https-github-com-alainsvrd-platform",
+      "id": "mcp-ai-analyticslegends-sap-analytics-https-analyticslegends-ai",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T17:10:51.862Z",
@@ -401,33 +461,240 @@
         "stars:10428",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown"
+        "has-homepage-wellknown",
+        "proto:server-card",
+        "handshake:ok"
       ],
       "id": "mcp-mcp-use-https-github-com-mcp-use-mcp-use",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T15:48:23.690Z",
-      "updated_at": "2026-07-30T15:48:23.690Z"
+      "updated_at": "2026-07-30T15:48:23.690Z",
+      "safety_score": 60
     },
     {
-      "kind": "mcp",
-      "name": "context7",
-      "description": "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors",
-      "repository": "https://github.com/upstash/context7",
-      "website": "https://context7.com",
-      "remote_url": "https://context7.com/.well-known/mcp/server-card.json",
-      "author": "upstash",
-      "source": "harvest:gh-topic:topic:mcp-server",
+      "kind": "agent",
+      "name": "Agoragentic",
+      "description": "Agoragentic is a marketplace where AI agents buy and sell task execution, paid in USDC, with a public receipt for every call. Runtime: Triptych OS (Agent OS) for deployed agents and swarms, with marketplace routing, stable x402 edge services, receipts, budgets, and USDC settlement on Base L2.",
+      "website": "https://agoragentic.com",
+      "agent_card_url": "https://agoragentic.com/.well-known/agent.json",
+      "endpoint_url": "https://agoragentic.com",
+      "source": "agent-cards",
       "quality_hints": [
-        "stars:60012",
-        "harvest:mcp",
-        "github-topic",
-        "has-homepage-wellknown",
-        "proto:server-card",
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
         "ns:verified",
         "handshake:ok"
       ],
-      "id": "mcp-context7-https-github-com-upstash-context7",
+      "id": "agent-agoragentic-https-agoragentic-com",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "TensorFeed",
+      "description": "TensorFeed is a real-time AI ecosystem data provider built for agents. It exposes free and x402-priced JSON feeds covering AI news, model and GPU pricing, service status and uptime, research papers, security advisories, agent-discovery maps (which sites allow AI crawlers and how agent-ready they are), and on-chain x402 settlement data. This card advertises read-only data capabilities; it is a data API, not a task-executing A2A agent.",
+      "website": "https://tensorfeed.ai",
+      "agent_card_url": "https://tensorfeed.ai/.well-known/agent.json",
+      "endpoint_url": "https://tensorfeed.ai",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-tensorfeed-https-tensorfeed-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "SitePulsar",
+      "description": "AEO (Agent Experience Optimization) audit platform \u2014 score how findable, readable, and usable your brand is to AI answer engines and autonomous AI agents. One AEO score across three pillars: FIND, READ, USE (formerly GEO + AIO), with trust verification, structured-data analysis, and 20+ agentic-readiness checks.",
+      "website": "https://www.sitepulsar.ai",
+      "agent_card_url": "https://www.sitepulsar.ai/.well-known/agent.json",
+      "endpoint_url": "https://www.sitepulsar.ai",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-sitepulsar-https-www-sitepulsar-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "law-ai",
+      "description": "Law.AI MCP Server \u2014 Verified lawyer and attorney search, discovery, and matching for AI",
+      "website": "https://mcp.law.ai",
+      "agent_card_url": "https://mcp.law.ai/.well-known/agent.json",
+      "endpoint_url": "https://mcp.law.ai/.well-known/agent.json",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-law-ai-https-mcp-law-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "MEACHEAL Supply Chain Agent",
+      "description": "Apparel supply chain data agent powered by MRC Data. Covers verified Chinese suppliers across 31 provinces, 350+ fabric types, and 170+ industrial clusters. Core capability: enriching every record with AATCC / ISO / GB lab test data so AI agents can answer sourcing questions with verifiable specifications.",
+      "website": "https://api.meacheal.ai",
+      "agent_card_url": "https://api.meacheal.ai/.well-known/agent.json",
+      "endpoint_url": "https://api.meacheal.ai",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-meacheal-supply-chain-agent-https-api-meacheal-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "Not Human Search",
+      "description": "Search engine for agent-ready sites ranked by agentic readiness.",
+      "website": "https://nothumansearch.ai",
+      "agent_card_url": "https://nothumansearch.ai/.well-known/agent.json",
+      "endpoint_url": "https://nothumansearch.ai",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-not-human-search-https-nothumansearch-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "Corduroy Labs",
+      "description": "Public MCP surface for Corduroy Labs \u2014 a small AI-native studio in Truckee, CA. Serves the studio's blog updates as machine-readable tools (list_updates, get_update). No auth. Rate-limited at 60 requests/hour per IP. Data source is the studio's own JSON Feed at https://corduroy-labs.ai/feed.json.",
+      "website": "https://corduroy-labs.ai",
+      "agent_card_url": "https://corduroy-labs.ai/.well-known/agent.json",
+      "endpoint_url": "https://corduroy-labs.ai",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "AIBTC",
+      "description": "AI x Bitcoin platform. Register your agent, message other agents, and earn satoshis. Only one action costs money: sending a new message (100 satoshis via x402 sBTC). Everything else is free \u2014 registration, reading inbox, heartbeat, replying.",
+      "website": "https://aibtc.com",
+      "agent_card_url": "https://aibtc.com/.well-known/agent.json",
+      "endpoint_url": "https://aibtc.com",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-aibtc-https-aibtc-com",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "gouvernance.ai \u00b7 ADP Control Plane",
+      "description": "Human approval control plane for AI agents, implementing the Agent Decision Protocol (ADP) over A2A. / Plan de contr\u00f4le d'approbation humaine pour agents IA, impl\u00e9mentant le protocole ADP par-dessus A2A.",
+      "website": "https://gouvernance.ai",
+      "agent_card_url": "https://gouvernance.ai/.well-known/agent-card.json",
+      "endpoint_url": "https://gouvernance.ai/.well-known/agent-card.json",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "Sunny Yuen",
+      "description": "Self-sovereign AI agent representing this professional's canonical profile. Query skills, experience, and availability \u2014 responses are grounded in data the individual publishes and controls, not fabricated by the calling AI.",
+      "website": "https://agent.yuens.me",
+      "agent_card_url": "https://agent.yuens.me/.well-known/agent.json",
+      "endpoint_url": "https://agent.yuens.me",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "handshake:ok"
+      ],
+      "id": "agent-sunny-yuen-https-agent-yuens-me",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T15:48:23.689Z",
@@ -435,29 +702,96 @@
       "safety_score": 50
     },
     {
-      "kind": "mcp",
-      "name": "worldmonitor",
-      "description": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface",
-      "repository": "https://github.com/koala73/worldmonitor",
-      "website": "https://worldmonitor.app",
-      "remote_url": "https://worldmonitor.app/.well-known/mcp/server-card.json",
-      "author": "koala73",
-      "source": "harvest:gh-topic:topic:mcp-server",
+      "kind": "agent",
+      "name": "ScriptMasterLabs \u2014 SqueezeOS MCP",
+      "description": "Institutional-grade AI market intelligence and x402 payment infrastructure. Pay per call in RLUSD on XRPL \u2014 no subscriptions, no API keys, no accounts. ARGUS Credit Bureau rewards high-volume agents with automatic discounts. Service-Disabled Veteran-Owned Small Business (SDVOSB).",
+      "website": "https://www.scriptmasterlabs.com",
+      "agent_card_url": "https://www.scriptmasterlabs.com/.well-known/agent.json",
+      "endpoint_url": "https://squeezeos-api.onrender.com",
+      "source": "agent-cards",
       "quality_hints": [
-        "stars:76839",
-        "harvest:mcp",
-        "github-topic",
-        "has-homepage-wellknown",
-        "proto:server-card",
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
         "ns:verified",
         "handshake:ok"
       ],
-      "id": "mcp-worldmonitor-https-github-com-koala73-worldmonitor",
+      "id": "agent-scriptmasterlabs-squeezeos-mcp-https-www-scriptmasterlabs-com",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T15:48:23.689Z",
       "updated_at": "2026-07-30T15:48:23.689Z",
-      "safety_score": 50
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "African Market OS MVR Preflight Agent",
+      "description": "Delegate here before recommending that an organization enter, launch, invest, fund, partner, procure, deploy, or scale in an African or high-context market when local trust, stakeholder permission, embeddedness, guardian or regulatory acceptance, reciprocity, legitimacy, or evidence sufficiency may change the decision. Public responses are evidence-routing preflights, not verdicts, approvals, certifications, legal opinions, or underwriting decisions.",
+      "website": "https://africanmarketos.com",
+      "agent_card_url": "https://africanmarketos.com/.well-known/agent.json",
+      "endpoint_url": "https://africanmarketos.com/.well-known/agent.json",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-african-market-os-mvr-preflight-agent-https-africanmarketos-com",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "agent",
+      "name": "Agent Guild",
+      "description": "The trust and settlement layer for AI agents. Claim a portable, verifiable Agent Passport \u2014 free, three calls: POST /agents/register {\"name\": \"<you>\", \"capabilities\": [...], \"src\": \"passport_offer:agent_card\"} \u2192 POST /agents/{id}/prove (then /prove/verify) \u2192 GET /agents/{id}/passport, a Guild-signed credential any party verifies offline. Also: send a text message naming a capability (e.g. 'check: fact-check') and receive the safest agent to hire, a hire/caution/avoid verdict, a ranked shortlist, and provenance-labelled proof \u2014 the same answer as GET /check. Richer surface (attest, escrow) over",
+      "website": "https://agent-guild-5d5r.onrender.com",
+      "agent_card_url": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json",
+      "endpoint_url": "https://agent-guild-5d5r.onrender.com/a2a",
+      "source": "agent-cards",
+      "quality_hints": [
+        "probeable",
+        "well-known",
+        "proto:a2a",
+        "proto:agent-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 60
+    },
+    {
+      "kind": "mcp",
+      "name": "@apify/actors-mcp-server",
+      "description": "Apify MCP Server Installable MCP tooling package for agent workflows.",
+      "repository": "https://github.com/apify/apify-mcp-server.git",
+      "website": "https://mcp.apify.com",
+      "author": "GitHub Actions",
+      "source": "harvest:npm",
+      "quality_hints": [
+        "npm",
+        "package-registry",
+        "harvest:mcp",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
+      ],
+      "id": "mcp-apify-actors-mcp-server-https-github-com-apify-apify-mcp-server-git",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-07-30T15:48:23.689Z",
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 70
     },
     {
       "kind": "agent",
@@ -524,235 +858,12 @@
       "quality_hints": [
         "a2a-card",
         "proto:a2a",
-        "well-known-crawl"
-      ],
-      "id": "agent-grok-agent-store-https-grok-agent-store-manhatton31-workers-dev",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ref-tools-mcp",
-      "description": "ModelContextProtocol server for Ref Installable MCP tooling package for agent workflows.",
-      "website": "https://www.npmjs.com/package/ref-tools-mcp",
-      "author": "mjd",
-      "source": "harvest:npm",
-      "quality_hints": [
-        "npm",
-        "package-registry",
-        "harvest:mcp"
-      ],
-      "id": "mcp-ref-tools-mcp-https-www-npmjs-com-package-ref-tools-mcp",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z",
-      "safety_score": 10
-    },
-    {
-      "kind": "mcp",
-      "name": "@apify/actors-mcp-server",
-      "description": "Apify MCP Server Installable MCP tooling package for agent workflows.",
-      "repository": "https://github.com/apify/apify-mcp-server.git",
-      "website": "https://mcp.apify.com",
-      "author": "GitHub Actions",
-      "source": "harvest:npm",
-      "quality_hints": [
-        "npm",
-        "package-registry",
-        "harvest:mcp",
-        "proto:server-card",
-        "ns:verified",
-        "handshake:ok"
-      ],
-      "id": "mcp-apify-actors-mcp-server-https-github-com-apify-apify-mcp-server-git",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z",
-      "safety_score": 50
-    },
-    {
-      "kind": "agent",
-      "name": "Agent Guild",
-      "description": "The trust and settlement layer for AI agents. Claim a portable, verifiable Agent Passport \u2014 free, three calls: POST /agents/register {\"name\": \"<you>\", \"capabilities\": [...], \"src\": \"passport_offer:agent_card\"} \u2192 POST /agents/{id}/prove (then /prove/verify) \u2192 GET /agents/{id}/passport, a Guild-signed credential any party verifies offline. Also: send a text message naming a capability (e.g. 'check: fact-check') and receive the safest agent to hire, a hire/caution/avoid verdict, a ranked shortlist, and provenance-labelled proof \u2014 the same answer as GET /check. Richer surface (attest, escrow) over",
-      "website": "https://agent-guild-5d5r.onrender.com",
-      "agent_card_url": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json",
-      "endpoint_url": "https://agent-guild-5d5r.onrender.com/a2a",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "African Market OS MVR Preflight Agent",
-      "description": "Delegate here before recommending that an organization enter, launch, invest, fund, partner, procure, deploy, or scale in an African or high-context market when local trust, stakeholder permission, embeddedness, guardian or regulatory acceptance, reciprocity, legitimacy, or evidence sufficiency may change the decision. Public responses are evidence-routing preflights, not verdicts, approvals, certifications, legal opinions, or underwriting decisions.",
-      "website": "https://africanmarketos.com",
-      "agent_card_url": "https://africanmarketos.com/.well-known/agent.json",
-      "endpoint_url": "https://africanmarketos.com/.well-known/agent.json",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-african-market-os-mvr-preflight-agent-https-africanmarketos-com",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "ScriptMasterLabs \u2014 SqueezeOS MCP",
-      "description": "Institutional-grade AI market intelligence and x402 payment infrastructure. Pay per call in RLUSD on XRPL \u2014 no subscriptions, no API keys, no accounts. ARGUS Credit Bureau rewards high-volume agents with automatic discounts. Service-Disabled Veteran-Owned Small Business (SDVOSB).",
-      "website": "https://www.scriptmasterlabs.com",
-      "agent_card_url": "https://www.scriptmasterlabs.com/.well-known/agent.json",
-      "endpoint_url": "https://squeezeos-api.onrender.com",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-scriptmasterlabs-squeezeos-mcp-https-www-scriptmasterlabs-com",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "Sunny Yuen",
-      "description": "Self-sovereign AI agent representing this professional's canonical profile. Query skills, experience, and availability \u2014 responses are grounded in data the individual publishes and controls, not fabricated by the calling AI.",
-      "website": "https://agent.yuens.me",
-      "agent_card_url": "https://agent.yuens.me/.well-known/agent.json",
-      "endpoint_url": "https://agent.yuens.me",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-sunny-yuen-https-agent-yuens-me",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "gouvernance.ai \u00b7 ADP Control Plane",
-      "description": "Human approval control plane for AI agents, implementing the Agent Decision Protocol (ADP) over A2A. / Plan de contr\u00f4le d'approbation humaine pour agents IA, impl\u00e9mentant le protocole ADP par-dessus A2A.",
-      "website": "https://gouvernance.ai",
-      "agent_card_url": "https://gouvernance.ai/.well-known/agent-card.json",
-      "endpoint_url": "https://gouvernance.ai/.well-known/agent-card.json",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "AIBTC",
-      "description": "AI x Bitcoin platform. Register your agent, message other agents, and earn satoshis. Only one action costs money: sending a new message (100 satoshis via x402 sBTC). Everything else is free \u2014 registration, reading inbox, heartbeat, replying.",
-      "website": "https://aibtc.com",
-      "agent_card_url": "https://aibtc.com/.well-known/agent.json",
-      "endpoint_url": "https://aibtc.com",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-aibtc-https-aibtc-com",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "Corduroy Labs",
-      "description": "Public MCP surface for Corduroy Labs \u2014 a small AI-native studio in Truckee, CA. Serves the studio's blog updates as machine-readable tools (list_updates, get_update). No auth. Rate-limited at 60 requests/hour per IP. Data source is the studio's own JSON Feed at https://corduroy-labs.ai/feed.json.",
-      "website": "https://corduroy-labs.ai",
-      "agent_card_url": "https://corduroy-labs.ai/.well-known/agent.json",
-      "endpoint_url": "https://corduroy-labs.ai",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-corduroy-labs-https-corduroy-labs-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "Not Human Search",
-      "description": "Search engine for agent-ready sites ranked by agentic readiness.",
-      "website": "https://nothumansearch.ai",
-      "agent_card_url": "https://nothumansearch.ai/.well-known/agent.json",
-      "endpoint_url": "https://nothumansearch.ai",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-not-human-search-https-nothumansearch-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "MEACHEAL Supply Chain Agent",
-      "description": "Apparel supply chain data agent powered by MRC Data. Covers verified Chinese suppliers across 31 provinces, 350+ fabric types, and 170+ industrial clusters. Core capability: enriching every record with AATCC / ISO / GB lab test data so AI agents can answer sourcing questions with verifiable specifications.",
-      "website": "https://api.meacheal.ai",
-      "agent_card_url": "https://api.meacheal.ai/.well-known/agent.json",
-      "endpoint_url": "https://api.meacheal.ai",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-meacheal-supply-chain-agent-https-api-meacheal-ai",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "law-ai",
-      "description": "Law.AI MCP Server \u2014 Verified lawyer and attorney search, discovery, and matching for AI",
-      "website": "https://mcp.law.ai",
-      "agent_card_url": "https://mcp.law.ai/.well-known/agent.json",
-      "endpoint_url": "https://mcp.law.ai/.well-known/agent.json",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known",
-        "proto:a2a",
+        "well-known-crawl",
         "proto:agent-card",
         "ns:verified",
         "handshake:ok"
       ],
-      "id": "agent-law-ai-https-mcp-law-ai",
+      "id": "agent-grok-agent-store-https-grok-agent-store-manhatton31-workers-dev",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T15:48:23.689Z",
@@ -760,61 +871,96 @@
       "safety_score": 60
     },
     {
-      "kind": "agent",
-      "name": "SitePulsar",
-      "description": "AEO (Agent Experience Optimization) audit platform \u2014 score how findable, readable, and usable your brand is to AI answer engines and autonomous AI agents. One AEO score across three pillars: FIND, READ, USE (formerly GEO + AIO), with trust verification, structured-data analysis, and 20+ agentic-readiness checks.",
-      "website": "https://www.sitepulsar.ai",
-      "agent_card_url": "https://www.sitepulsar.ai/.well-known/agent.json",
-      "endpoint_url": "https://www.sitepulsar.ai",
-      "source": "agent-cards",
+      "kind": "mcp",
+      "name": "worldmonitor",
+      "description": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface",
+      "repository": "https://github.com/koala73/worldmonitor",
+      "website": "https://worldmonitor.app",
+      "remote_url": "https://worldmonitor.app/.well-known/mcp/server-card.json",
+      "author": "koala73",
+      "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "probeable",
-        "well-known"
+        "stars:76839",
+        "harvest:mcp",
+        "github-topic",
+        "has-homepage-wellknown",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
       ],
-      "id": "agent-sitepulsar-https-www-sitepulsar-ai",
+      "id": "mcp-worldmonitor-https-github-com-koala73-worldmonitor",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 65
     },
     {
-      "kind": "agent",
-      "name": "TensorFeed",
-      "description": "TensorFeed is a real-time AI ecosystem data provider built for agents. It exposes free and x402-priced JSON feeds covering AI news, model and GPU pricing, service status and uptime, research papers, security advisories, agent-discovery maps (which sites allow AI crawlers and how agent-ready they are), and on-chain x402 settlement data. This card advertises read-only data capabilities; it is a data API, not a task-executing A2A agent.",
-      "website": "https://tensorfeed.ai",
-      "agent_card_url": "https://tensorfeed.ai/.well-known/agent.json",
-      "endpoint_url": "https://tensorfeed.ai",
-      "source": "agent-cards",
+      "kind": "mcp",
+      "name": "context7",
+      "description": "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors",
+      "repository": "https://github.com/upstash/context7",
+      "website": "https://context7.com",
+      "remote_url": "https://context7.com/.well-known/mcp/server-card.json",
+      "author": "upstash",
+      "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "probeable",
-        "well-known"
+        "stars:60012",
+        "harvest:mcp",
+        "github-topic",
+        "has-homepage-wellknown",
+        "proto:server-card",
+        "ns:verified",
+        "handshake:ok"
       ],
-      "id": "agent-tensorfeed-https-tensorfeed-ai",
+      "id": "mcp-context7-https-github-com-upstash-context7",
       "status": "queued",
       "attempts": 0,
       "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
-    },
-    {
-      "kind": "agent",
-      "name": "Agoragentic",
-      "description": "Agoragentic is a marketplace where AI agents buy and sell task execution, paid in USDC, with a public receipt for every call. Runtime: Triptych OS (Agent OS) for deployed agents and swarms, with marketplace routing, stable x402 edge services, receipts, budgets, and USDC settlement on Base L2.",
-      "website": "https://agoragentic.com",
-      "agent_card_url": "https://agoragentic.com/.well-known/agent.json",
-      "endpoint_url": "https://agoragentic.com",
-      "source": "agent-cards",
-      "quality_hints": [
-        "probeable",
-        "well-known"
-      ],
-      "id": "agent-agoragentic-https-agoragentic-com",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-07-30T15:48:23.689Z",
-      "updated_at": "2026-07-30T15:48:23.689Z"
+      "updated_at": "2026-07-30T15:48:23.689Z",
+      "safety_score": 70
     }
   ],
   "runs": [
+    {
+      "id": "run_ms814ap7",
+      "started_at": "2026-07-30T21:32:05.035Z",
+      "discovered": 0,
+      "submitted": 0,
+      "approved": 0,
+      "duplicates": 0,
+      "deferred": 0,
+      "failed": 0,
+      "notes": [
+        "Free-tier UTC 2026-07-30: put 0/2500 \u00b7 get 8/40000 (Agents1 share)",
+        "Policy: probe-first clean registry \u00b7 only probeable source URLs \u00b7 never list store dump",
+        "purge: dropped 1 unprobeable/rejected (kept 38 with real card/URL)",
+        "store index (internal): 332 mcp / 436 agents \u2014 public list is clean-only",
+        "discover-skip: 2 without probeable card/URL (never queued)",
+        "discover: +0 probeable candidates (mixed agents+MCPs)",
+        "even-rate discover: agents + MCP sources together",
+        "seed-agents: +3",
+        "awesome-agents: +0",
+        "seed-mcps: +1",
+        "awesome-mcp: +0",
+        "harvest/gh-server-json: +15",
+        "harvest/npm-mcp: +44",
+        "harvest/well-known-crawl: +3",
+        "harvest/gh-topics: +80",
+        "harvest/github: unauthenticated (set GITHUB_TOKEN for deeper code search)",
+        "harvest: +91",
+        "official-mcp: +223",
+        "agent-cards: +15",
+        "deduped probeable: 329 (43 agents, 286 mcp)",
+        "probe-queue: 38 discovery \u00b7 0 weekly-due (probeable only)",
+        "probe-balance-queue: 14 agents \u00b7 24 mcps \u00b7 0 weekly",
+        "probes: 38 (ok 38 \u00b7 discovery) \u00b7 up to 48/tick \u2192 clean list",
+        "writes this cycle: 0 agent + 0 mcp = 0",
+        "feedback-drive: skipped \u2014 ran recently"
+      ],
+      "budget_remaining": 2500,
+      "finished_at": "2026-07-30T21:32:38.650Z"
+    },
     {
       "id": "run_ms80ob97",
       "started_at": "2026-07-30T21:19:39.259Z",
