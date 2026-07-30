@@ -43,8 +43,9 @@ export async function checkMcpDns(origin: string): Promise<DnsMcpStatus> {
   }
   const names = [`_mcp.${host}`, `_mcp.www.${host}`];
   const expected = agents1DnsMcpTxt(origin.startsWith("http") ? origin : `https://${host}`);
-  // Prefer dualregistry.dev non-www for TXT
-  const expectedNorm = agents1DnsMcpTxt(`https://${host}`);
+  // Prefer dualregistry.dev non-www for TXT host, www for URL target
+  const cardOrigin = `https://www.${host}`;
+  const expectedNorm = agents1DnsMcpTxt(cardOrigin);
   const all: string[] = [];
   for (const n of names) {
     const ans = await dohTxt(n);

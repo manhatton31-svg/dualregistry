@@ -17,6 +17,7 @@ import { Route as ListRouteImport } from './routes/list'
 import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as OpenapiDotjsonRouteImport } from './routes/openapi[.]json'
+import { Route as RobotsAgentDottxtRouteImport } from './routes/robots-agent[.]txt'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkillDotjsonRouteImport } from './routes/skill[.]json'
@@ -63,6 +64,7 @@ import { Route as ApiListingsActiveRouteImport } from './routes/api/listings/act
 import { Route as ApiListingsStatusRouteImport } from './routes/api/listings/status'
 import { Route as ApiMcpRegistryPublishStatusRouteImport } from './routes/api/mcp-registry/publish-status'
 import { Route as ApiMcpRegistryServerDotjsonRouteImport } from './routes/api/mcp-registry/server[.]json'
+import { Route as ApiOpsCloudflareApplyRouteImport } from './routes/api/ops/cloudflare-apply'
 import { Route as ApiProbesIndexRouteImport } from './routes/api/probes/index'
 import { Route as ApiProductsAccessRouteImport } from './routes/api/products/access'
 import { Route as ApiProductsAgentRouteImport } from './routes/api/products/agent'
@@ -130,6 +132,11 @@ const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
 const OpenapiDotjsonRoute = OpenapiDotjsonRouteImport.update({
   id: '/openapi.json',
   path: '/openapi.json',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsAgentDottxtRoute = RobotsAgentDottxtRouteImport.update({
+  id: '/robots-agent.txt',
+  path: '/robots-agent.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -372,6 +379,11 @@ const ApiMcpRegistryServerDotjsonRoute =
     path: '/api/mcp-registry/server.json',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiOpsCloudflareApplyRoute = ApiOpsCloudflareApplyRouteImport.update({
+  id: '/api/ops/cloudflare-apply',
+  path: '/api/ops/cloudflare-apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProbesIndexRoute = ApiProbesIndexRouteImport.update({
   id: '/api/probes/',
   path: '/api/probes/',
@@ -524,6 +536,7 @@ export interface FileRoutesByFullPath {
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/openapi.json': typeof OpenapiDotjsonRoute
+  '/robots-agent.txt': typeof RobotsAgentDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
@@ -569,6 +582,7 @@ export interface FileRoutesByFullPath {
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
+  '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
@@ -608,6 +622,7 @@ export interface FileRoutesByTo {
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/openapi.json': typeof OpenapiDotjsonRoute
+  '/robots-agent.txt': typeof RobotsAgentDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
@@ -653,6 +668,7 @@ export interface FileRoutesByTo {
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
+  '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
@@ -693,6 +709,7 @@ export interface FileRoutesById {
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/openapi.json': typeof OpenapiDotjsonRoute
+  '/robots-agent.txt': typeof RobotsAgentDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
@@ -738,6 +755,7 @@ export interface FileRoutesById {
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
+  '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
@@ -779,6 +797,7 @@ export interface FileRouteTypes {
     | '/llms-full.txt'
     | '/llms.txt'
     | '/openapi.json'
+    | '/robots-agent.txt'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/skill.json'
@@ -824,6 +843,7 @@ export interface FileRouteTypes {
     | '/api/listings/status'
     | '/api/mcp-registry/publish-status'
     | '/api/mcp-registry/server.json'
+    | '/api/ops/cloudflare-apply'
     | '/api/products/access'
     | '/api/products/agent'
     | '/api/products/checkout'
@@ -863,6 +883,7 @@ export interface FileRouteTypes {
     | '/llms-full.txt'
     | '/llms.txt'
     | '/openapi.json'
+    | '/robots-agent.txt'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/skill.json'
@@ -908,6 +929,7 @@ export interface FileRouteTypes {
     | '/api/listings/status'
     | '/api/mcp-registry/publish-status'
     | '/api/mcp-registry/server.json'
+    | '/api/ops/cloudflare-apply'
     | '/api/products/access'
     | '/api/products/agent'
     | '/api/products/checkout'
@@ -947,6 +969,7 @@ export interface FileRouteTypes {
     | '/llms-full.txt'
     | '/llms.txt'
     | '/openapi.json'
+    | '/robots-agent.txt'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/skill.json'
@@ -992,6 +1015,7 @@ export interface FileRouteTypes {
     | '/api/listings/status'
     | '/api/mcp-registry/publish-status'
     | '/api/mcp-registry/server.json'
+    | '/api/ops/cloudflare-apply'
     | '/api/products/access'
     | '/api/products/agent'
     | '/api/products/checkout'
@@ -1032,6 +1056,7 @@ export interface RootRouteChildren {
   LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   OpenapiDotjsonRoute: typeof OpenapiDotjsonRoute
+  RobotsAgentDottxtRoute: typeof RobotsAgentDottxtRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkillDotjsonRoute: typeof SkillDotjsonRoute
@@ -1076,6 +1101,7 @@ export interface RootRouteChildren {
   ApiListingsStatusRoute: typeof ApiListingsStatusRoute
   ApiMcpRegistryPublishStatusRoute: typeof ApiMcpRegistryPublishStatusRoute
   ApiMcpRegistryServerDotjsonRoute: typeof ApiMcpRegistryServerDotjsonRoute
+  ApiOpsCloudflareApplyRoute: typeof ApiOpsCloudflareApplyRoute
   ApiProductsAccessRoute: typeof ApiProductsAccessRoute
   ApiProductsAgentRoute: typeof ApiProductsAgentRoute
   ApiProductsCheckoutRoute: typeof ApiProductsCheckoutRoute
@@ -1163,6 +1189,13 @@ declare module '@tanstack/react-router' {
       path: '/openapi.json'
       fullPath: '/openapi.json'
       preLoaderRoute: typeof OpenapiDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots-agent.txt': {
+      id: '/robots-agent.txt'
+      path: '/robots-agent.txt'
+      fullPath: '/robots-agent.txt'
+      preLoaderRoute: typeof RobotsAgentDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -1487,6 +1520,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiMcpRegistryServerDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/ops/cloudflare-apply': {
+      id: '/api/ops/cloudflare-apply'
+      path: '/api/ops/cloudflare-apply'
+      fullPath: '/api/ops/cloudflare-apply'
+      preLoaderRoute: typeof ApiOpsCloudflareApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/probes/': {
       id: '/api/probes/'
       path: '/api/probes'
@@ -1705,6 +1745,7 @@ const rootRouteChildren: RootRouteChildren = {
   LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   OpenapiDotjsonRoute: OpenapiDotjsonRoute,
+  RobotsAgentDottxtRoute: RobotsAgentDottxtRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkillDotjsonRoute: SkillDotjsonRoute,
@@ -1749,6 +1790,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiListingsStatusRoute: ApiListingsStatusRoute,
   ApiMcpRegistryPublishStatusRoute: ApiMcpRegistryPublishStatusRoute,
   ApiMcpRegistryServerDotjsonRoute: ApiMcpRegistryServerDotjsonRoute,
+  ApiOpsCloudflareApplyRoute: ApiOpsCloudflareApplyRoute,
   ApiProductsAccessRoute: ApiProductsAccessRoute,
   ApiProductsAgentRoute: ApiProductsAgentRoute,
   ApiProductsCheckoutRoute: ApiProductsCheckoutRoute,

@@ -1,0 +1,44 @@
+# Apply Dual Registry Cloudflare DNS (_mcp TXT) when secrets are present.
+# Secrets: CLOUDFLARE_API_TOKEN (required), CLOUDFLARE_ZONE_ID (optional), CRON_SECRET (optional)
+name: cloudflare-discoverability
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/cloudflare-discoverability.yml"
+      - "src/lib/agents1/cloudflare-ops.ts"
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply via production API
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CF_TOKEN:-}" ]; then
+            echo "CLOUDFLARE_API_TOKEN secret not set — skipping apply"
+            echo "Create token: Zone DNS Edit for dualregistry.dev"
+            exit 0
+          fi
+          if [ -n "${CRON_SECRET:-}" ]; then
+            curl -fsS -X POST "https://www.dualregistry.dev/api/ops/cloudflare-apply" \
+              -H "Authorization: Bearer ${CRON_SECRET}" \
+              -H "Content-Type: application/json" \
+              -d "{\"token\":\"${CF_TOKEN}\",\"domain\":\"dualregistry.dev\"}" | tee /tmp/cf-apply.json
+          else
+            curl -fsS -X POST "https://www.dualregistry.dev/api/ops/cloudflare-apply" \
+              -H "Content-Type: application/json" \
+              -d "{\"token\":\"${CF_TOKEN}\",\"domain\":\"dualregistry.dev\"}" | tee /tmp/cf-apply.json
+          fi
+          curl -fsS "https://www.dualregistry.dev/api/dns/mcp-status" | tee /tmp/dns-status.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/dns-status.json'))
+          print('dns live', d.get('live'))
+          if not d.get('live'):
+            print('TXT not live yet (propagation) or apply failed — check /tmp/cf-apply.json')
+          PY
