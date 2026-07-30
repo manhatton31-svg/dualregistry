@@ -15,6 +15,7 @@ import {
   durableFileMtime,
 } from "./durable-json";
 import { nextProbeFromLast } from "./time-et";
+import { preflightPatterns } from "./probe-preflight";
 import {
   mergeProbeStates,
   countLiveFromResults,
@@ -667,6 +668,9 @@ function probePriority(
   prev: ProbeResult | undefined,
   now: number,
 ): number {
+  // Pattern preflight: never select known-dead URLs (github.com/.well-known etc.)
+  const pf = preflightPatterns(item);
+  if (!pf.proceed) return -20000;
   let p = item.priority_boost || 0;
   const purpose = item.purpose || "discovery";
 
@@ -837,12 +841,60 @@ export async function runProbeBudgeted(
     if (out.length >= maxChain) break;
     // Stop chaining once we got a checks-clean ok (then wait full 6 min)
     if (gotCleanOk) break;
-    // Window: only full ok burns the 6-min slot; fails can chain in same tick
-    if (gotCleanOk && state.hourly_used >= state.hourly_cap) break;
     if (state.used >= state.budget) break;
     const kind =
       item.kind ||
       (item.agent_card_url || item.endpoint_url ? "agent" : "mcp");
+
+    // --- Preflight: skip budget burn on known-dead / 404 cards ---
+    try {
+      const { preflightLive } = await import("./probe-preflight");
+      const pf = await preflightLive(item, { timeoutMs: 2500 });
+      if (!pf.proceed && pf.predict_fail) {
+        const fake: ProbeResult = {
+          id: item.id,
+          kind: kind as "agent" | "mcp",
+          target: pf.primary_url || item.agent_card_url || item.remote_url || "",
+          ok: false,
+          latency_ms: 0,
+          score: 0,
+          signals: [
+            "preflight-reject",
+            pf.reason.slice(0, 120),
+            pf.status ? `status ${pf.status}` : "pattern",
+          ],
+          handshake: "fail",
+          probed_at: new Date().toISOString(),
+        };
+        state.results[item.id] = fake;
+        if (item.name) {
+          state.results[
+            `name:${kind}:${(item.name || "").toLowerCase().trim()}`
+          ] = { ...fake, id: item.id };
+        }
+        try {
+          const { delistOnProbeFail } = await import("./delist-on-fail");
+          await delistOnProbeFail({
+            id: item.store_id || item.id,
+            kind: kind as "agent" | "mcp",
+            name: item.name,
+            agent_card_url: item.agent_card_url,
+            remote_url: item.remote_url,
+            website: item.website,
+            probe: fake,
+          });
+        } catch {
+          /* */
+        }
+        // Preflight reject: delist + log, but do NOT spend daily budget
+        // (we already know it fails — save slots for promising targets)
+        out.push(fake);
+        continue;
+      }
+    } catch {
+      /* preflight optional — fall through to full probe */
+    }
+
     const result =
       kind === "agent"
         ? await probeAgent({ ...item, kind: "agent" })
