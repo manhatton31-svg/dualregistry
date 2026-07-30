@@ -101,33 +101,48 @@ export function buildFixInstructions(
 }
 
 async function loadDelistStore(): Promise<DelistStore> {
+  const empty = (): DelistStore => ({
+    updated_at: new Date().toISOString(),
+    items: [],
+    active_ids: [],
+  });
+  const parts: DelistStore[] = [];
   try {
-    const remote = await loadDurableJson<DelistStore>(DURABLE_NAME, () => ({
-      updated_at: new Date().toISOString(),
-      items: [],
-      active_ids: [],
-    }));
-    if (remote && Array.isArray(remote.items)) {
-      return {
-        updated_at: remote.updated_at || new Date().toISOString(),
-        items: remote.items || [],
-        active_ids: remote.active_ids || remote.items.map((i) => i.id),
-      };
-    }
+    const remote = await loadDurableJson<DelistStore>(DURABLE_NAME, empty);
+    if (remote?.items?.length) parts.push(remote);
   } catch {
     /* */
   }
-  try {
-    const raw = await readFile(DELIST_PATH, "utf8");
-    const j = JSON.parse(raw) as DelistStore;
-    return {
-      updated_at: j.updated_at || new Date().toISOString(),
-      items: j.items || [],
-      active_ids: j.active_ids || (j.items || []).map((i) => i.id),
-    };
-  } catch {
-    return { updated_at: new Date().toISOString(), items: [], active_ids: [] };
+  for (const path of [
+    join(dataRoot(), "delisted.json"),
+    DELIST_PATH,
+  ]) {
+    try {
+      const raw = await readFile(path, "utf8");
+      const j = JSON.parse(raw) as DelistStore;
+      if (j?.items?.length) parts.push(j);
+    } catch {
+      /* */
+    }
   }
+  if (!parts.length) return empty();
+  // Union by id — keep highest item count
+  const byId = new Map<string, DelistRecord>();
+  for (const p of parts) {
+    for (const it of p.items || []) {
+      if (!it?.id) continue;
+      const prev = byId.get(it.id);
+      if (!prev || (it.delisted_at || "") >= (prev.delisted_at || "")) {
+        byId.set(it.id, it);
+      }
+    }
+  }
+  const items = [...byId.values()];
+  return {
+    updated_at: new Date().toISOString(),
+    items,
+    active_ids: items.map((i) => i.id),
+  };
 }
 
 async function saveDelistStore(s: DelistStore) {
@@ -168,7 +183,6 @@ export async function registryCountsAfterDelist(base: {
   }
   const mcp = Math.max(0, base.mcp - dm);
   const agents = Math.max(0, base.agents - da);
-  // High-water: delisted_total never reports below durable floor
   let delisted_total = dm + da;
   try {
     const { loadCounterFloors, raiseDelistedFloor } = await import(
@@ -176,14 +190,25 @@ export async function registryCountsAfterDelist(base: {
     );
     const floors = await loadCounterFloors();
     delisted_total = Math.max(delisted_total, floors.delisted_floor || 0);
+    // If floor is higher than counted items (partial hydrate), scale mcp/agent
+    // proportionally so In Registry still shrinks
+    if (delisted_total > dm + da && dm + da > 0) {
+      const scale = delisted_total / (dm + da);
+      dm = Math.round(dm * scale);
+      da = Math.round(da * scale);
+    } else if (delisted_total > dm + da) {
+      // no items yet — apply floor as total only
+      dm = Math.max(dm, Math.floor(delisted_total / 2));
+      da = Math.max(da, delisted_total - dm);
+    }
     await raiseDelistedFloor(delisted_total);
   } catch {
     /* */
   }
   return {
-    mcp,
-    agents,
-    total: mcp + agents,
+    mcp: Math.max(0, base.mcp - dm),
+    agents: Math.max(0, base.agents - da),
+    total: Math.max(0, base.mcp - dm) + Math.max(0, base.agents - da),
     delisted_mcp: dm,
     delisted_agents: da,
     delisted_total,
