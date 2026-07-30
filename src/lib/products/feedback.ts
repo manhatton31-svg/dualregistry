@@ -577,6 +577,24 @@ export async function submitFeedback(input: {
   recompute(s);
   await persist(s);
 
+  // Reply-capture funnel: mark feedback if we can resolve listing_id
+  try {
+    const rawLid = input.meta?.listing_id ?? input.answers?.listing_id;
+    const lid =
+      typeof rawLid === "string"
+        ? rawLid.trim()
+        : rawLid != null &&
+            (typeof rawLid === "number" || typeof rawLid === "boolean")
+          ? String(rawLid)
+          : "";
+    if (lid) {
+      const { markFeedback } = await import("./reply-capture");
+      await markFeedback(lid);
+    }
+  } catch {
+    /* */
+  }
+
   // If eligible, claim free seat + full product immediately
   if (discount.percent_off >= 100 || targetPercent >= 100) {
     try {

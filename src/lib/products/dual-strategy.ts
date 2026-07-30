@@ -9,7 +9,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "2.1.0";
+export const DUAL_STRATEGY_VERSION = "2.2.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {
@@ -45,6 +45,10 @@ export function inboundDiscoverySurfaces(origin: string) {
       dns_mcp_status: `${o}/api/dns/mcp-status`,
       agentmap: `${o}/agentmap.json`,
       jwks: `${o}/.well-known/jwks.json`,
+      signature_agent_card: `${o}/.well-known/signature-agent-card.json`,
+      http_message_signatures_directory: `${o}/.well-known/http-message-signatures-directory`,
+      agentfinder: `${o}/api/products/agentfinder`,
+      reply_capture: `${o}/api/products/reply-capture`,
       cloudflare_apply: `${o}/api/ops/cloudflare-apply`,
       for_agents: `${o}/for-agents`,
       list_web: `${o}/list`,

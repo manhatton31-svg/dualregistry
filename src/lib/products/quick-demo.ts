@@ -351,6 +351,16 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     });
   }
 
+  // Reply-capture funnel: mark demo taken for listing if known
+  if (listing?.id && !isQa) {
+    try {
+      const { markDemoTaken } = await import("./reply-capture");
+      await markDemoTaken(listing.id);
+    } catch {
+      /* */
+    }
+  }
+
   const unlock = await getUnlockMeter();
   const msg = messagingKit(kind, unlock);
   const changed = await whatChangedLines();

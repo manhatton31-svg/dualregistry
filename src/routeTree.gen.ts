@@ -28,8 +28,10 @@ import { Route as DotwellKnownAgentDotjsonRouteImport } from './routes/[.]well-k
 import { Route as DotwellKnownAgentmapDotjsonRouteImport } from './routes/[.]well-known/agentmap[.]json'
 import { Route as DotwellKnownAgentsRouteImport } from './routes/[.]well-known/agents'
 import { Route as DotwellKnownAiCatalogDotjsonRouteImport } from './routes/[.]well-known/ai-catalog[.]json'
+import { Route as DotwellKnownHttpMessageSignaturesDirectoryRouteImport } from './routes/[.]well-known/http-message-signatures-directory'
 import { Route as DotwellKnownJwksDotjsonRouteImport } from './routes/[.]well-known/jwks[.]json'
 import { Route as DotwellKnownMcpRegistryAuthRouteImport } from './routes/[.]well-known/mcp-registry-auth'
+import { Route as DotwellKnownSignatureAgentCardDotjsonRouteImport } from './routes/[.]well-known/signature-agent-card[.]json'
 import { Route as AgentsPublicRouteImport } from './routes/agents/public'
 import { Route as AgentsSearchRouteImport } from './routes/agents/search'
 import { Route as ApiA2aRouteImport } from './routes/api/a2a'
@@ -68,6 +70,7 @@ import { Route as ApiOpsCloudflareApplyRouteImport } from './routes/api/ops/clou
 import { Route as ApiProbesIndexRouteImport } from './routes/api/probes/index'
 import { Route as ApiProductsAccessRouteImport } from './routes/api/products/access'
 import { Route as ApiProductsAgentRouteImport } from './routes/api/products/agent'
+import { Route as ApiProductsAgentfinderRouteImport } from './routes/api/products/agentfinder'
 import { Route as ApiProductsCheckoutRouteImport } from './routes/api/products/checkout'
 import { Route as ApiProductsConfirmRouteImport } from './routes/api/products/confirm'
 import { Route as ApiProductsConversionRouteImport } from './routes/api/products/conversion'
@@ -85,6 +88,7 @@ import { Route as ApiProductsLifecycleRouteImport } from './routes/api/products/
 import { Route as ApiProductsMailRouteImport } from './routes/api/products/mail'
 import { Route as ApiProductsPreferencesRouteImport } from './routes/api/products/preferences'
 import { Route as ApiProductsPreviewRouteImport } from './routes/api/products/preview'
+import { Route as ApiProductsReplyCaptureRouteImport } from './routes/api/products/reply-capture'
 import { Route as ApiProductsReviewRouteImport } from './routes/api/products/review'
 import { Route as ApiProductsRoadmapRouteImport } from './routes/api/products/roadmap'
 import { Route as ApiProductsRunRouteImport } from './routes/api/products/run'
@@ -194,6 +198,12 @@ const DotwellKnownAiCatalogDotjsonRoute =
     path: '/.well-known/ai-catalog.json',
     getParentRoute: () => rootRouteImport,
   } as any)
+const DotwellKnownHttpMessageSignaturesDirectoryRoute =
+  DotwellKnownHttpMessageSignaturesDirectoryRouteImport.update({
+    id: '/.well-known/http-message-signatures-directory',
+    path: '/.well-known/http-message-signatures-directory',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DotwellKnownJwksDotjsonRoute = DotwellKnownJwksDotjsonRouteImport.update({
   id: '/.well-known/jwks.json',
   path: '/.well-known/jwks.json',
@@ -203,6 +213,12 @@ const DotwellKnownMcpRegistryAuthRoute =
   DotwellKnownMcpRegistryAuthRouteImport.update({
     id: '/.well-known/mcp-registry-auth',
     path: '/.well-known/mcp-registry-auth',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DotwellKnownSignatureAgentCardDotjsonRoute =
+  DotwellKnownSignatureAgentCardDotjsonRouteImport.update({
+    id: '/.well-known/signature-agent-card.json',
+    path: '/.well-known/signature-agent-card.json',
     getParentRoute: () => rootRouteImport,
   } as any)
 const AgentsPublicRoute = AgentsPublicRouteImport.update({
@@ -399,6 +415,11 @@ const ApiProductsAgentRoute = ApiProductsAgentRouteImport.update({
   path: '/api/products/agent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsAgentfinderRoute = ApiProductsAgentfinderRouteImport.update({
+  id: '/api/products/agentfinder',
+  path: '/api/products/agentfinder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsCheckoutRoute = ApiProductsCheckoutRouteImport.update({
   id: '/api/products/checkout',
   path: '/api/products/checkout',
@@ -486,6 +507,11 @@ const ApiProductsPreviewRoute = ApiProductsPreviewRouteImport.update({
   path: '/api/products/preview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsReplyCaptureRoute = ApiProductsReplyCaptureRouteImport.update({
+  id: '/api/products/reply-capture',
+  path: '/api/products/reply-capture',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsReviewRoute = ApiProductsReviewRouteImport.update({
   id: '/api/products/review',
   path: '/api/products/review',
@@ -547,8 +573,10 @@ export interface FileRoutesByFullPath {
   '/.well-known/agentmap.json': typeof DotwellKnownAgentmapDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/.well-known/ai-catalog.json': typeof DotwellKnownAiCatalogDotjsonRoute
+  '/.well-known/http-message-signatures-directory': typeof DotwellKnownHttpMessageSignaturesDirectoryRoute
   '/.well-known/jwks.json': typeof DotwellKnownJwksDotjsonRoute
   '/.well-known/mcp-registry-auth': typeof DotwellKnownMcpRegistryAuthRoute
+  '/.well-known/signature-agent-card.json': typeof DotwellKnownSignatureAgentCardDotjsonRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
   '/api/a2a': typeof ApiA2aRoute
@@ -585,6 +613,7 @@ export interface FileRoutesByFullPath {
   '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
+  '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -602,6 +631,7 @@ export interface FileRoutesByFullPath {
   '/api/products/mail': typeof ApiProductsMailRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
   '/api/products/review': typeof ApiProductsReviewRoute
   '/api/products/roadmap': typeof ApiProductsRoadmapRoute
   '/api/products/run': typeof ApiProductsRunRoute
@@ -633,8 +663,10 @@ export interface FileRoutesByTo {
   '/.well-known/agentmap.json': typeof DotwellKnownAgentmapDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/.well-known/ai-catalog.json': typeof DotwellKnownAiCatalogDotjsonRoute
+  '/.well-known/http-message-signatures-directory': typeof DotwellKnownHttpMessageSignaturesDirectoryRoute
   '/.well-known/jwks.json': typeof DotwellKnownJwksDotjsonRoute
   '/.well-known/mcp-registry-auth': typeof DotwellKnownMcpRegistryAuthRoute
+  '/.well-known/signature-agent-card.json': typeof DotwellKnownSignatureAgentCardDotjsonRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
   '/api/a2a': typeof ApiA2aRoute
@@ -671,6 +703,7 @@ export interface FileRoutesByTo {
   '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
+  '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -688,6 +721,7 @@ export interface FileRoutesByTo {
   '/api/products/mail': typeof ApiProductsMailRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
   '/api/products/review': typeof ApiProductsReviewRoute
   '/api/products/roadmap': typeof ApiProductsRoadmapRoute
   '/api/products/run': typeof ApiProductsRunRoute
@@ -720,8 +754,10 @@ export interface FileRoutesById {
   '/.well-known/agentmap.json': typeof DotwellKnownAgentmapDotjsonRoute
   '/.well-known/agents': typeof DotwellKnownAgentsRoute
   '/.well-known/ai-catalog.json': typeof DotwellKnownAiCatalogDotjsonRoute
+  '/.well-known/http-message-signatures-directory': typeof DotwellKnownHttpMessageSignaturesDirectoryRoute
   '/.well-known/jwks.json': typeof DotwellKnownJwksDotjsonRoute
   '/.well-known/mcp-registry-auth': typeof DotwellKnownMcpRegistryAuthRoute
+  '/.well-known/signature-agent-card.json': typeof DotwellKnownSignatureAgentCardDotjsonRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
   '/api/a2a': typeof ApiA2aRoute
@@ -758,6 +794,7 @@ export interface FileRoutesById {
   '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
+  '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -775,6 +812,7 @@ export interface FileRoutesById {
   '/api/products/mail': typeof ApiProductsMailRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
   '/api/products/review': typeof ApiProductsReviewRoute
   '/api/products/roadmap': typeof ApiProductsRoadmapRoute
   '/api/products/run': typeof ApiProductsRunRoute
@@ -808,8 +846,10 @@ export interface FileRouteTypes {
     | '/.well-known/agentmap.json'
     | '/.well-known/agents'
     | '/.well-known/ai-catalog.json'
+    | '/.well-known/http-message-signatures-directory'
     | '/.well-known/jwks.json'
     | '/.well-known/mcp-registry-auth'
+    | '/.well-known/signature-agent-card.json'
     | '/agents/public'
     | '/agents/search'
     | '/api/a2a'
@@ -846,6 +886,7 @@ export interface FileRouteTypes {
     | '/api/ops/cloudflare-apply'
     | '/api/products/access'
     | '/api/products/agent'
+    | '/api/products/agentfinder'
     | '/api/products/checkout'
     | '/api/products/confirm'
     | '/api/products/conversion'
@@ -863,6 +904,7 @@ export interface FileRouteTypes {
     | '/api/products/mail'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/reply-capture'
     | '/api/products/review'
     | '/api/products/roadmap'
     | '/api/products/run'
@@ -894,8 +936,10 @@ export interface FileRouteTypes {
     | '/.well-known/agentmap.json'
     | '/.well-known/agents'
     | '/.well-known/ai-catalog.json'
+    | '/.well-known/http-message-signatures-directory'
     | '/.well-known/jwks.json'
     | '/.well-known/mcp-registry-auth'
+    | '/.well-known/signature-agent-card.json'
     | '/agents/public'
     | '/agents/search'
     | '/api/a2a'
@@ -932,6 +976,7 @@ export interface FileRouteTypes {
     | '/api/ops/cloudflare-apply'
     | '/api/products/access'
     | '/api/products/agent'
+    | '/api/products/agentfinder'
     | '/api/products/checkout'
     | '/api/products/confirm'
     | '/api/products/conversion'
@@ -949,6 +994,7 @@ export interface FileRouteTypes {
     | '/api/products/mail'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/reply-capture'
     | '/api/products/review'
     | '/api/products/roadmap'
     | '/api/products/run'
@@ -980,8 +1026,10 @@ export interface FileRouteTypes {
     | '/.well-known/agentmap.json'
     | '/.well-known/agents'
     | '/.well-known/ai-catalog.json'
+    | '/.well-known/http-message-signatures-directory'
     | '/.well-known/jwks.json'
     | '/.well-known/mcp-registry-auth'
+    | '/.well-known/signature-agent-card.json'
     | '/agents/public'
     | '/agents/search'
     | '/api/a2a'
@@ -1018,6 +1066,7 @@ export interface FileRouteTypes {
     | '/api/ops/cloudflare-apply'
     | '/api/products/access'
     | '/api/products/agent'
+    | '/api/products/agentfinder'
     | '/api/products/checkout'
     | '/api/products/confirm'
     | '/api/products/conversion'
@@ -1035,6 +1084,7 @@ export interface FileRouteTypes {
     | '/api/products/mail'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/reply-capture'
     | '/api/products/review'
     | '/api/products/roadmap'
     | '/api/products/run'
@@ -1067,8 +1117,10 @@ export interface RootRouteChildren {
   DotwellKnownAgentmapDotjsonRoute: typeof DotwellKnownAgentmapDotjsonRoute
   DotwellKnownAgentsRoute: typeof DotwellKnownAgentsRoute
   DotwellKnownAiCatalogDotjsonRoute: typeof DotwellKnownAiCatalogDotjsonRoute
+  DotwellKnownHttpMessageSignaturesDirectoryRoute: typeof DotwellKnownHttpMessageSignaturesDirectoryRoute
   DotwellKnownJwksDotjsonRoute: typeof DotwellKnownJwksDotjsonRoute
   DotwellKnownMcpRegistryAuthRoute: typeof DotwellKnownMcpRegistryAuthRoute
+  DotwellKnownSignatureAgentCardDotjsonRoute: typeof DotwellKnownSignatureAgentCardDotjsonRoute
   AgentsPublicRoute: typeof AgentsPublicRoute
   AgentsSearchRoute: typeof AgentsSearchRoute
   ApiA2aRoute: typeof ApiA2aRoute
@@ -1104,6 +1156,7 @@ export interface RootRouteChildren {
   ApiOpsCloudflareApplyRoute: typeof ApiOpsCloudflareApplyRoute
   ApiProductsAccessRoute: typeof ApiProductsAccessRoute
   ApiProductsAgentRoute: typeof ApiProductsAgentRoute
+  ApiProductsAgentfinderRoute: typeof ApiProductsAgentfinderRoute
   ApiProductsCheckoutRoute: typeof ApiProductsCheckoutRoute
   ApiProductsConfirmRoute: typeof ApiProductsConfirmRoute
   ApiProductsConversionRoute: typeof ApiProductsConversionRoute
@@ -1121,6 +1174,7 @@ export interface RootRouteChildren {
   ApiProductsMailRoute: typeof ApiProductsMailRoute
   ApiProductsPreferencesRoute: typeof ApiProductsPreferencesRoute
   ApiProductsPreviewRoute: typeof ApiProductsPreviewRoute
+  ApiProductsReplyCaptureRoute: typeof ApiProductsReplyCaptureRoute
   ApiProductsReviewRoute: typeof ApiProductsReviewRoute
   ApiProductsRoadmapRoute: typeof ApiProductsRoadmapRoute
   ApiProductsRunRoute: typeof ApiProductsRunRoute
@@ -1268,6 +1322,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotwellKnownAiCatalogDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/http-message-signatures-directory': {
+      id: '/.well-known/http-message-signatures-directory'
+      path: '/.well-known/http-message-signatures-directory'
+      fullPath: '/.well-known/http-message-signatures-directory'
+      preLoaderRoute: typeof DotwellKnownHttpMessageSignaturesDirectoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/jwks.json': {
       id: '/.well-known/jwks.json'
       path: '/.well-known/jwks.json'
@@ -1280,6 +1341,13 @@ declare module '@tanstack/react-router' {
       path: '/.well-known/mcp-registry-auth'
       fullPath: '/.well-known/mcp-registry-auth'
       preLoaderRoute: typeof DotwellKnownMcpRegistryAuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/signature-agent-card.json': {
+      id: '/.well-known/signature-agent-card.json'
+      path: '/.well-known/signature-agent-card.json'
+      fullPath: '/.well-known/signature-agent-card.json'
+      preLoaderRoute: typeof DotwellKnownSignatureAgentCardDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agents/public': {
@@ -1548,6 +1616,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsAgentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/agentfinder': {
+      id: '/api/products/agentfinder'
+      path: '/api/products/agentfinder'
+      fullPath: '/api/products/agentfinder'
+      preLoaderRoute: typeof ApiProductsAgentfinderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/checkout': {
       id: '/api/products/checkout'
       path: '/api/products/checkout'
@@ -1667,6 +1742,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/reply-capture': {
+      id: '/api/products/reply-capture'
+      path: '/api/products/reply-capture'
+      fullPath: '/api/products/reply-capture'
+      preLoaderRoute: typeof ApiProductsReplyCaptureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/review': {
       id: '/api/products/review'
       path: '/api/products/review'
@@ -1756,8 +1838,12 @@ const rootRouteChildren: RootRouteChildren = {
   DotwellKnownAgentmapDotjsonRoute: DotwellKnownAgentmapDotjsonRoute,
   DotwellKnownAgentsRoute: DotwellKnownAgentsRoute,
   DotwellKnownAiCatalogDotjsonRoute: DotwellKnownAiCatalogDotjsonRoute,
+  DotwellKnownHttpMessageSignaturesDirectoryRoute:
+    DotwellKnownHttpMessageSignaturesDirectoryRoute,
   DotwellKnownJwksDotjsonRoute: DotwellKnownJwksDotjsonRoute,
   DotwellKnownMcpRegistryAuthRoute: DotwellKnownMcpRegistryAuthRoute,
+  DotwellKnownSignatureAgentCardDotjsonRoute:
+    DotwellKnownSignatureAgentCardDotjsonRoute,
   AgentsPublicRoute: AgentsPublicRoute,
   AgentsSearchRoute: AgentsSearchRoute,
   ApiA2aRoute: ApiA2aRoute,
@@ -1793,6 +1879,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiOpsCloudflareApplyRoute: ApiOpsCloudflareApplyRoute,
   ApiProductsAccessRoute: ApiProductsAccessRoute,
   ApiProductsAgentRoute: ApiProductsAgentRoute,
+  ApiProductsAgentfinderRoute: ApiProductsAgentfinderRoute,
   ApiProductsCheckoutRoute: ApiProductsCheckoutRoute,
   ApiProductsConfirmRoute: ApiProductsConfirmRoute,
   ApiProductsConversionRoute: ApiProductsConversionRoute,
@@ -1810,6 +1897,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsMailRoute: ApiProductsMailRoute,
   ApiProductsPreferencesRoute: ApiProductsPreferencesRoute,
   ApiProductsPreviewRoute: ApiProductsPreviewRoute,
+  ApiProductsReplyCaptureRoute: ApiProductsReplyCaptureRoute,
   ApiProductsReviewRoute: ApiProductsReviewRoute,
   ApiProductsRoadmapRoute: ApiProductsRoadmapRoute,
   ApiProductsRunRoute: ApiProductsRunRoute,

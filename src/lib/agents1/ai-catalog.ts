@@ -1,28 +1,39 @@
 /**
  * ARD — Agentic Resource Discovery catalog (/.well-known/ai-catalog.json)
  * Static Dual surfaces + dynamic Active clean listings projected as entries.
- * Federation: none | referrals | auto
+ * Federation: none | referrals | auto (bidirectional peer pull).
  */
 import { agents1AgentCard, agents1McpServerCard } from "./a2a-card";
 import { discoveryPack } from "@/lib/products/discovery-pack";
 
 const ACTIVE_CATALOG_CAP = 80;
+const PEER_FETCH_TIMEOUT_MS = 3_500;
+const PEER_ENTRY_CAP = 12;
 
-/** Peer catalogs for ARD federation referrals (static well-known). */
+/** Peer catalogs for ARD federation referrals + auto pull. */
 export const ARD_PEER_REFERRALS: Array<{
   displayName: string;
   catalog: string;
   note?: string;
+  pull?: boolean;
 }> = [
   {
     displayName: "Hugging Face ARD catalog",
     catalog: "https://huggingface.co/.well-known/ai-catalog.json",
     note: "Industry ARD publisher",
+    pull: true,
   },
   {
     displayName: "Official MCP Registry (search)",
     catalog: "https://registry.modelcontextprotocol.io/v0/servers?search=",
     note: "Metaregistry metadata search — append query",
+    pull: false,
+  },
+  {
+    displayName: "GitHub Agent Finder public catalog",
+    catalog: "https://github.com/github/agentfinder-catalog",
+    note: "Copilot Agent Finder community catalog (PR Dual entries under docs/agentfinder)",
+    pull: false,
   },
 ];
 
@@ -63,6 +74,7 @@ export function buildStaticCatalogEntries(origin: string): CatalogEntry[] {
         "kernel",
         "loop",
         "founding",
+        "agentfinder",
       ],
       capabilities: [
         "list_agent",
@@ -71,6 +83,8 @@ export function buildStaticCatalogEntries(origin: string): CatalogEntry[] {
         "demo",
         "feedback",
         "search_active",
+        "ard_search",
+        "federation",
       ],
       representativeQueries: [
         "list my agent free on a dual registry",
@@ -78,6 +92,7 @@ export function buildStaticCatalogEntries(origin: string): CatalogEntry[] {
         "free Kernel Improver demo after I go Live",
         "founding free full product after feedback",
         "A2A agent card dual registry dualregistry.dev",
+        "GitHub Copilot agent finder dual registry",
       ],
       version: card.version || "1.9.0",
       updatedAt: now,
@@ -87,6 +102,8 @@ export function buildStaticCatalogEntries(origin: string): CatalogEntry[] {
         a2a_rpc: pack.a2a_rpc,
         skill: pack.skill_json,
         jwks: pack.jwks,
+        agentfinder:
+          "https://github.com/manhatton31-svg/dualregistry/tree/main/docs/agentfinder",
       },
     },
     {
@@ -117,7 +134,7 @@ export function buildStaticCatalogEntries(origin: string): CatalogEntry[] {
       type: "application/vnd.dualregistry.skill+json",
       description:
         "One-shot skill: publish → status → Talk → one-GET demo → feedback → founding free seat.",
-      tags: ["skill", "self-list", "inbound", "portable"],
+      tags: ["skill", "self-list", "inbound", "portable", "agentfinder"],
       capabilities: ["list", "demo", "feedback"],
       representativeQueries: [
         "how does an agent list itself on Dual Registry",
@@ -126,7 +143,11 @@ export function buildStaticCatalogEntries(origin: string): CatalogEntry[] {
       version: "1.3.0",
       updatedAt: now,
       url: pack.skill_json,
-      metadata: { markdown: pack.skill_md },
+      metadata: {
+        markdown: pack.skill_md,
+        github_skill:
+          "https://github.com/manhatton31-svg/dualregistry/blob/main/skills/dualregistry/SKILL.md",
+      },
     },
     {
       identifier: "urn:ai:dualregistry:openapi:api",
@@ -179,7 +200,11 @@ export function buildAiCatalog(origin: string) {
     entries: buildStaticCatalogEntries(o),
     federation: {
       mode: "referrals" as const,
+      bidirectional: true,
+      point_agent_finder_at: `${o}/.well-known/ai-catalog.json`,
+      search: `${o}/api/ard/search`,
       referrals: ARD_PEER_REFERRALS,
+      note: "Peers may refer Dual; auto mode pulls peer catalogs into search hits",
     },
     dual_strategy: {
       mode: "outbound_plus_inbound",
@@ -279,11 +304,74 @@ export type ArdSearchHit = {
   score: number;
   tags?: string[];
   representativeQueries?: string[];
+  source?: "dual" | "peer";
+  peer?: string;
 };
 
 export type ArdFederationMode = "none" | "referrals" | "auto";
 
-/** Keyword / query match over ARD catalog (with Active projection) + optional federation. */
+async function pullPeerCatalog(
+  peerUrl: string,
+  query: string,
+): Promise<ArdSearchHit[]> {
+  if (!peerUrl.startsWith("https://") || peerUrl.includes("search=")) return [];
+  try {
+    const res = await fetch(peerUrl, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "DualRegistryARD/2.2 (+https://dualregistry.dev; federation)",
+      },
+      signal: AbortSignal.timeout(PEER_FETCH_TIMEOUT_MS),
+      redirect: "follow",
+    });
+    if (!res.ok) return [];
+    const j = (await res.json()) as {
+      entries?: Array<Record<string, unknown>>;
+      resources?: Array<Record<string, unknown>>;
+    };
+    const entries = j.entries || j.resources || [];
+    const q = query.toLowerCase();
+    const hits: ArdSearchHit[] = [];
+    for (const e of entries.slice(0, 40)) {
+      const displayName = String(e.displayName || e.name || e.title || "");
+      const description = String(e.description || "");
+      const identifier = String(
+        e.identifier || e.id || e.url || displayName || "peer",
+      );
+      const type = String(e.type || e.mediaType || "application/json");
+      const url = typeof e.url === "string" ? e.url : peerUrl;
+      const blob = `${displayName} ${description} ${identifier}`.toLowerCase();
+      let score = 0;
+      if (!q) score = 8;
+      else {
+        for (const t of q.split(/\s+/).filter(Boolean)) {
+          if (blob.includes(t)) score += 10;
+        }
+        if (displayName.toLowerCase().includes(q)) score += 12;
+      }
+      if (score <= 0) continue;
+      hits.push({
+        identifier: identifier.startsWith("urn:")
+          ? identifier
+          : `urn:ai:peer:${identifier}`,
+        displayName: displayName || identifier,
+        type,
+        description: description.slice(0, 280) || undefined,
+        url,
+        score: Math.min(35, score),
+        tags: ["peer", "federation"],
+        source: "peer",
+        peer: peerUrl,
+      });
+    }
+    hits.sort((a, b) => b.score - a.score);
+    return hits.slice(0, PEER_ENTRY_CAP);
+  } catch {
+    return [];
+  }
+}
+
+/** Keyword / query match over ARD catalog + optional bidirectional federation. */
 export async function ardSearch(
   origin: string,
   query: string,
@@ -295,6 +383,7 @@ export async function ardSearch(
   catalog: string;
   federation: ArdFederationMode;
   referrals?: typeof ARD_PEER_REFERRALS;
+  peers_pulled?: Array<{ catalog: string; hits: number; ok: boolean }>;
 }> {
   const q = (query || "").trim().toLowerCase();
   const limit = Math.min(50, Math.max(1, opts?.limit ?? 12));
@@ -324,7 +413,10 @@ export async function ardSearch(
         if (rq.toLowerCase().includes(q)) score += 25;
       }
       if (e.displayName.toLowerCase().includes(q)) score += 20;
-      if (e.identifier.includes(":listing:") && e.displayName.toLowerCase().includes(q))
+      if (
+        e.identifier.includes(":listing:") &&
+        e.displayName.toLowerCase().includes(q)
+      )
         score += 15;
     }
     if (score > 0) {
@@ -337,8 +429,28 @@ export async function ardSearch(
         score,
         tags: e.tags,
         representativeQueries: e.representativeQueries,
+        source: "dual",
       });
     }
+  }
+
+  const peers_pulled: Array<{ catalog: string; hits: number; ok: boolean }> =
+    [];
+
+  if (federation === "auto") {
+    const pullable = ARD_PEER_REFERRALS.filter((p) => p.pull);
+    const peerHits = await Promise.all(
+      pullable.map(async (p) => {
+        const ph = await pullPeerCatalog(p.catalog, query);
+        peers_pulled.push({
+          catalog: p.catalog,
+          hits: ph.length,
+          ok: ph.length > 0,
+        });
+        return ph;
+      }),
+    );
+    for (const ph of peerHits) hits.push(...ph);
   }
 
   hits.sort((a, b) => b.score - a.score);
@@ -351,6 +463,7 @@ export async function ardSearch(
     catalog: string;
     federation: ArdFederationMode;
     referrals?: typeof ARD_PEER_REFERRALS;
+    peers_pulled?: typeof peers_pulled;
   } = {
     query: query || "",
     total: hits.length,
@@ -366,11 +479,7 @@ export async function ardSearch(
         : r,
     );
   }
-
-  // auto: best-effort fetch peer catalog titles (no deep merge — referrals only to keep latency low)
-  if (federation === "auto" && q) {
-    /* referrals already attached; clients follow */
-  }
+  if (federation === "auto") out.peers_pulled = peers_pulled;
 
   return out;
 }

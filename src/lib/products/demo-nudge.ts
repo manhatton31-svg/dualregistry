@@ -190,6 +190,8 @@ export type NudgeRecord = {
   http_ok?: boolean;
   http_status?: number;
   http_target?: string;
+  http_method?: string;
+  http_path_label?: string;
   priority?: number;
 };
 
@@ -701,6 +703,8 @@ export async function runDemoNudge(opts?: {
       let httpOk = false;
       let httpStatus: number | undefined;
       let httpTarget: string | undefined;
+      let httpMethod: string | undefined;
+      let httpPathLabel: string | undefined;
       if (!opts?.talk_only) {
         const payload = buildNudgePayload({ listing: L, origin, message: text });
         const del = await deliverNudgeHttp(L, payload);
@@ -716,6 +720,8 @@ export async function runDemoNudge(opts?: {
         }
         httpStatus = del.status;
         httpTarget = del.target;
+        httpMethod = del.method;
+        httpPathLabel = del.path_label;
       }
 
       const at = new Date().toISOString();
@@ -733,6 +739,8 @@ export async function runDemoNudge(opts?: {
         http_ok: httpOk,
         http_status: httpStatus,
         http_target: httpTarget,
+        http_method: httpMethod,
+        http_path_label: httpPathLabel,
         priority,
       });
       state.history = state.history.slice(0, HISTORY_MAX);
@@ -919,6 +927,8 @@ export async function runMultiPathBackfill(opts?: {
     target?: string;
     http_ok: boolean;
     status?: number;
+    method?: string;
+    path_label?: string;
     error?: string;
   }> = [];
 
@@ -953,6 +963,8 @@ export async function runMultiPathBackfill(opts?: {
       http_ok: del.ok,
       http_status: del.status,
       http_target: del.target,
+      http_method: del.method,
+      http_path_label: del.path_label,
       priority: scoreNudgePriority(L),
     });
     state.history = state.history.slice(0, HISTORY_MAX);
@@ -965,6 +977,8 @@ export async function runMultiPathBackfill(opts?: {
       target: del.target,
       http_ok: del.ok,
       status: del.status,
+      method: del.method,
+      path_label: del.path_label,
       error: del.error,
     });
     await persist(state);

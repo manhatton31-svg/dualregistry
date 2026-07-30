@@ -10,6 +10,7 @@
  * POST /api/talk { action: "owner", text, secret? }          site owner
  */
 import { createFileRoute } from "@tanstack/react-router";
+import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
 const jsonHeaders = {
   "cache-control": "no-store",
@@ -152,12 +153,30 @@ export const Route = createFileRoute("/api/talk")({
             channel: "presence",
             full: false,
           });
+          // Capture reply loop if previously soft-nudged
+          let capture: unknown = null;
+          try {
+            const { captureInboundReply } = await import(
+              "@/lib/products/reply-capture"
+            );
+            capture = await captureInboundReply({
+              listing_id: L.id,
+              name: L.name,
+              kind: L.kind,
+              channel: "presence",
+              text: body.text || body.message,
+              origin: resolvePublicOrigin(request),
+            });
+          } catch {
+            /* */
+          }
           return Response.json(
             {
               ok: pr.ok,
               error: pr.error,
               presence: pr.presence,
               post: pr.post,
+              reply_capture: capture,
               note: "Heartbeat recorded — stays Active for 7 days. Full answers allowed when messaged.",
             },
             { headers: jsonHeaders },
@@ -209,7 +228,28 @@ export const Route = createFileRoute("/api/talk")({
             to_name,
             text: body.text || body.message || "",
           });
-          return Response.json(r, { headers: jsonHeaders });
+          let capture: unknown = null;
+          if (from_kind === "agent" || from_kind === "mcp") {
+            try {
+              const { captureInboundReply } = await import(
+                "@/lib/products/reply-capture"
+              );
+              capture = await captureInboundReply({
+                listing_id: fromId,
+                name: from_name,
+                kind: from_kind as "agent" | "mcp",
+                channel: "social",
+                text: body.text || body.message,
+                origin: resolvePublicOrigin(request),
+              });
+            } catch {
+              /* */
+            }
+          }
+          return Response.json(
+            { ...r, reply_capture: capture },
+            { headers: jsonHeaders },
+          );
         }
 
         if (action === "owner") {
@@ -262,7 +302,27 @@ export const Route = createFileRoute("/api/talk")({
           sessionId = opened.session.session_id;
         }
         const r = await sendTalkMessage(sessionId, listingId, message);
-        return Response.json(r, { headers: jsonHeaders });
+        let capture: unknown = null;
+        try {
+          const { loadReplyCapture } = await import(
+            "@/lib/products/reply-capture"
+          );
+          const cap = await loadReplyCapture();
+          if (cap.by_listing[listingId]) {
+            capture = {
+              ok: true,
+              already: true,
+              row: cap.by_listing[listingId],
+              demo_get: `${resolvePublicOrigin(request).replace(/\/$/, "")}/api/products/demo?listing_id=${encodeURIComponent(listingId)}`,
+            };
+          }
+        } catch {
+          /* */
+        }
+        return Response.json(
+          { ...r, reply_capture: capture },
+          { headers: jsonHeaders },
+        );
       },
     },
   },
