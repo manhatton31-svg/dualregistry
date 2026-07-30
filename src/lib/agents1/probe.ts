@@ -840,7 +840,7 @@ export async function getProbePublic() {
       last_tick_at: lastIso || null,
       next_tick_at: nextIso,
       last_probed: probe_worker?.last_probed ?? probe_worker?.probed ?? null,
-      last_result: probe_worker?.last_result ?? s.last_result ?? null,
+      last_result: probe_worker?.last_result ?? null,
       last_used: probe_worker?.last_used ?? s.used,
       ticks: probe_worker?.ticks ?? s.used,
       pid: probe_worker?.pid ?? null,
