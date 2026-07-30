@@ -42,7 +42,7 @@ export type CanonicalDashboardSlice = {
 };
 
 let mirrorCache: { at: number; data: CanonicalDashboardSlice } | null = null;
-const MIRROR_TTL_MS = 5_000;
+const MIRROR_TTL_MS = 3_000;
 
 export async function fetchProductionDashboardSlice(): Promise<CanonicalDashboardSlice | null> {
   if (mirrorCache && Date.now() - mirrorCache.at < MIRROR_TTL_MS) {

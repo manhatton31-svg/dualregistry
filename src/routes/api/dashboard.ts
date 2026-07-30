@@ -146,6 +146,14 @@ export const Route = createFileRoute("/api/dashboard")({
 
           if (userRefresh) {
             try {
+              const { invalidateMirrorCache } = await import(
+                "@/lib/agents1/canonical-metrics"
+              );
+              invalidateMirrorCache();
+            } catch {
+              /* */
+            }
+            try {
               const { reloadOrdersFromDisk } = await import(
                 "@/lib/products/orders"
               );
