@@ -1,11 +1,12 @@
 {
   "version": 3,
-  "updated_at": "2026-07-30T03:35:08.089Z",
+  "updated_at": "2026-07-30T03:45:05.979Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
     "running": false,
-    "next_run_at": "2026-07-30T03:40:25.351Z"
+    "next_run_at": "2026-07-30T03:46:36.894Z",
+    "last_run_at": "2026-07-30T03:40:36.894Z"
   },
   "kv": {
     "day": "2026-07-30",
@@ -22,6 +23,29 @@
     "failed": 0
   },
   "candidates": [],
-  "runs": [],
+  "runs": [
+    {
+      "id": "run_ms6ytb9y",
+      "started_at": "2026-07-30T03:39:47.158Z",
+      "discovered": 0,
+      "submitted": 0,
+      "approved": 0,
+      "duplicates": 0,
+      "deferred": 0,
+      "failed": 0,
+      "notes": [
+        "Free-tier UTC 2026-07-30: put 0/2500 · get 8/40000 (Agents1 share)",
+        "Policy: protect reads · even-rate MCP↔agent · protocol probes every 6m",
+        "store: 332 mcp / 350 agents (live)",
+        "probe-queue: 140 discovery · 0 weekly-due (unlimited)",
+        "probe-balance-queue: 40 agents · 80 mcps · 0 weekly (interleaved)",
+        "probes: 0 (ok 0 · discovery) · 1/6min",
+        "writes this cycle: 0 agent + 0 mcp = 0",
+        "feedback-drive: skipped — ran recently"
+      ],
+      "budget_remaining": 2500,
+      "finished_at": "2026-07-30T03:40:36.894Z"
+    }
+  ],
   "seen_keys": []
 }
