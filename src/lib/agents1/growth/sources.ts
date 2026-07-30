@@ -199,38 +199,65 @@ async function awesomeAgentsReadme(): Promise<Raw[]> {
 }
 
 async function officialMcp(): Promise<Raw[]> {
-  // Official MCP registry — ONLY entries with a real remote URL (probeable).
-  // Cap volume so we don't re-dump the universe; discovery is probe-first.
-  const data = await fetchJson<{
-    servers?: Array<{
-      name?: string;
-      description?: string;
-      repository?: { url?: string } | string;
-      websiteUrl?: string;
-      remotes?: Array<{ url?: string; type?: string }>;
-      packages?: Array<{ registryType?: string; identifier?: string }>;
-    }>;
-  }>("https://registry.modelcontextprotocol.io/v0/servers?limit=100");
+  // Official MCP registry — ONLY real remotes. Shape: { servers: [{ server: { remotes } }] }
   const out: Raw[] = [];
-  for (const s of data?.servers || []) {
-    const remote = (s.remotes || []).find((r) => r?.url)?.url;
-    if (!remote || !/^https?:\/\//i.test(remote)) continue;
-    const name = (s.name || remote).slice(0, 80);
-    const repo =
-      typeof s.repository === "string"
-        ? s.repository
-        : s.repository?.url;
-    out.push({
-      kind: "mcp",
-      name,
-      description: (s.description || `${name} remote MCP`).slice(0, 600),
-      repository: repo,
-      website: s.websiteUrl || remote,
-      remote_url: remote,
-      source: "official-mcp-registry",
-      quality_hints: ["probeable", "official-registry-remote"],
-    });
-    if (out.length >= 40) break;
+  const seen = new Set<string>();
+  let cursor: string | undefined;
+  for (let page = 0; page < 8 && out.length < 300; page++) {
+    const q = new URL("https://registry.modelcontextprotocol.io/v0/servers");
+    q.searchParams.set("limit", "100");
+    if (cursor) q.searchParams.set("cursor", cursor);
+    const data = await fetchJson<{
+      servers?: Array<{
+        server?: {
+          name?: string;
+          description?: string;
+          title?: string;
+          repository?: { url?: string } | string;
+          websiteUrl?: string;
+          remotes?: Array<{ url?: string; type?: string }>;
+        };
+        name?: string;
+        description?: string;
+        repository?: { url?: string } | string;
+        websiteUrl?: string;
+        remotes?: Array<{ url?: string; type?: string }>;
+      }>;
+      metadata?: { nextCursor?: string };
+      nextCursor?: string;
+    }>(q.toString());
+    for (const row of data?.servers || []) {
+      const s = (row.server || row) as {
+        name?: string;
+        description?: string;
+        title?: string;
+        repository?: { url?: string } | string;
+        websiteUrl?: string;
+        remotes?: Array<{ url?: string; type?: string }>;
+      };
+      const remote = (s.remotes || []).find((r) => r?.url)?.url;
+      if (!remote || !/^https?:\/\//i.test(remote)) continue;
+      if (seen.has(remote)) continue;
+      seen.add(remote);
+      const name = (s.name || s.title || remote).slice(0, 80);
+      const repo =
+        typeof s.repository === "string"
+          ? s.repository
+          : s.repository?.url;
+      out.push({
+        kind: "mcp",
+        name,
+        description: (s.description || `${name} remote MCP`).slice(0, 600),
+        repository: repo,
+        website: s.websiteUrl || remote,
+        remote_url: remote,
+        source: "official-mcp-registry",
+        quality_hints: ["probeable", "official-registry-remote"],
+      });
+      if (out.length >= 300) break;
+    }
+    cursor = data?.metadata?.nextCursor || data?.nextCursor || undefined;
+    if (!cursor || !(data?.servers || []).length) break;
   }
   return out;
 }

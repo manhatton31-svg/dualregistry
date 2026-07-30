@@ -45,7 +45,7 @@ import type {
 import { hasProbeableSource } from "../listing-lanes";
 
 /** Small queue — probe-first, no junk hoard */
-const MAX_CANDIDATES = 120;
+const MAX_CANDIDATES = 500;
 const MAX_RUNS = 40;
 
 function alreadyListed(
@@ -120,7 +120,7 @@ function purgeUnprobeable(state: GrowthState, notes: string[]): number {
 async function applyHandshakeProbes(
   state: GrowthState,
   run: { notes: string[] },
-  max = 8,
+  max = 48,
 ) {
   try {
     type PT = Parameters<typeof runProbeBudgeted>[0][number];
@@ -281,7 +281,7 @@ async function applyHandshakeProbes(
     const discAgents = agentsQ.filter((t) => t.purpose !== "weekly_recheck");
     const discMcps = mcpsQ.filter((t) => t.purpose !== "weekly_recheck");
     const balancedQueue: typeof probeTargets = [];
-    const maxEach = 40;
+    const maxEach = 120;
     const aSlice = discAgents.slice(0, maxEach);
     const mSlice = discMcps.slice(0, maxEach);
     const n = Math.max(aSlice.length, mSlice.length);
@@ -289,13 +289,15 @@ async function applyHandshakeProbes(
       if (i < aSlice.length) balancedQueue.push(aSlice[i]!);
       if (i < mSlice.length) balancedQueue.push(mSlice[i]!);
     }
-    for (const w of weeklyQ.slice(0, 20)) {
+    for (const w of weeklyQ.slice(0, 40)) {
       if (!balancedQueue.some((x) => x.id === w.id)) balancedQueue.push(w);
     }
     run.notes.push(
-      `probe-balance-queue: ${aSlice.length} agents · ${mSlice.length} mcps · ${Math.min(20, weeklyQ.length)} weekly`,
+      `probe-balance-queue: ${aSlice.length} agents · ${mSlice.length} mcps · ${Math.min(40, weeklyQ.length)} weekly`,
     );
-    const probes = await runProbeBudgeted(balancedQueue, max);
+    const probes = await runProbeBudgeted(balancedQueue, max, {
+      force: true,
+    });
     const byId = Object.fromEntries(probes.map((r) => [r.id, r]));
     for (const c of state.candidates) {
       const pr = byId[c.id];
@@ -318,10 +320,11 @@ async function applyHandshakeProbes(
     const weeklyN = probes.filter((p) =>
       (p.signals || []).includes("weekly-recheck"),
     ).length;
+    const okN = probes.filter((p) => p.ok && p.handshake === "ok").length;
     run.notes.push(
-      `probes: ${probes.length} (ok ${probes.filter((p) => p.ok).length}` +
+      `probes: ${probes.length} (ok ${okN}` +
         (weeklyN ? ` · weekly-recheck ${weeklyN}` : " · discovery") +
-        `) · 1/6min`,
+        `) · up to ${max}/tick → clean list`,
     );
 
     try {
@@ -363,7 +366,7 @@ async function applyHandshakeProbes(
   }
 }
 
-/** 6-minute probe-only tick */
+/** Probe-only tick — high volume toward CLEAN_GROWTH_TARGET_PER_DAY */
 export async function runProbeTick(opts?: { max?: number }): Promise<{
   ok: boolean;
   probed: number;
@@ -379,12 +382,13 @@ export async function runProbeTick(opts?: { max?: number }): Promise<{
     probed_at?: string;
   } | null;
 }> {
+  const { PROBES_PER_TICK } = await import("@/lib/agents1/probe");
   const state = await loadState();
   const notes: string[] = [];
   purgeUnprobeable(state, notes);
   const before = await loadProbeState();
   const usedBefore = before.used || 0;
-  await applyHandshakeProbes(state, { notes }, opts?.max ?? 8);
+  await applyHandshakeProbes(state, { notes }, opts?.max ?? PROBES_PER_TICK);
 
   purgeUnprobeable(state, notes);
   await saveState(state);
@@ -581,7 +585,8 @@ export async function runGrowthCycle(opts?: {
     }
 
     purgeUnprobeable(state, run.notes);
-    await applyHandshakeProbes(state, run, 8);
+    const { PROBES_PER_TICK } = await import("@/lib/agents1/probe");
+    await applyHandshakeProbes(state, run, PROBES_PER_TICK);
 
 
     const dailyOpsSnap = await loadDailyOps();

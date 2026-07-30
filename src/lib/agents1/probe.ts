@@ -38,14 +38,15 @@ const PATH = join(dataRoot(), "probes.json");
 const DURABLE_NAME = "probes.json";
 const UA = "Agents1Probe/1.2 (+registry; reliability; balanced)";
 
-/** Soft daily probe spend — high enough to grow clean list (not a public product card). */
-export const MAX_PROBES_PER_DAY = 2500;
+/** Soft daily probe spend — high enough for 333 clean/day (most probes fail). */
+export const MAX_PROBES_PER_DAY = 100_000;
 /** Target clean listings (agents + MCPs) added per UTC day. */
 export const CLEAN_GROWTH_TARGET_PER_DAY = 333;
-export const PROBE_WINDOW_MS = 6 * 60_000;
-/** Probes per 6m tick — mixed agents/MCPs; only ok → clean list. */
-export const MAX_PROBES_PER_WINDOW = 8;
-export const MAX_PROBES_PER_HOUR = MAX_PROBES_PER_WINDOW;
+/** Tick window — still serialize multi-instance via last_tick, but allow high volume per tick. */
+export const PROBE_WINDOW_MS = 2 * 60_000;
+/** Full handshake probes per tick (mixed agents+MCPs). Only ok → clean list. */
+export const MAX_PROBES_PER_WINDOW = 48;
+export const MAX_PROBES_PER_HOUR = MAX_PROBES_PER_WINDOW * 30;
 export const PROBES_PER_TICK = MAX_PROBES_PER_WINDOW;
 /** Short freshness window (hours) — discovery won't re-hit very recent oks */
 const FRESH_OK_MS = 6 * 3600_000;
@@ -177,7 +178,7 @@ function empty(): ProbeState {
     budget: MAX_PROBES_PER_DAY,
     hour_bucket: utcHourBucket(),
     hourly_used: 0,
-    hourly_cap: MAX_PROBES_PER_WINDOW,
+    hourly_cap: MAX_PROBES_PER_HOUR,
     results: {},
     updated_at: new Date().toISOString(),
   };
@@ -293,7 +294,8 @@ export async function loadProbeState(): Promise<ProbeState> {
     ...merged,
     day,
     budget: MAX_PROBES_PER_DAY,
-    hourly_cap: MAX_PROBES_PER_WINDOW,
+    hourly_cap: MAX_PROBES_PER_HOUR,
+
     hour_bucket: merged.hour_bucket === hour ? (merged.hour_bucket as string) : hour,
     hourly_used:
       merged.hour_bucket === hour ? Number(merged.hourly_used) || 0 : 0,
@@ -789,12 +791,15 @@ function probePriority(
   if (prev.handshake === "ok" && prev.ok && age < ACTIVE_REPROBE_MS) return -10000;
   // Was ok but past 7d without weekly tag — leave for weekly lane
   if (prev.handshake === "ok" && prev.ok && age >= ACTIVE_REPROBE_MS) return -5000;
-  // FAIL / PARTIAL: NEVER re-probe for discovery — wastes budget. Resubmit starts fresh id.
+  // FAIL / PARTIAL: cooldown then allow re-try (new remotes / flaky hosts).
+  // Permanent hard-block starved clean growth toward 333/day.
   if (prev.handshake === "fail" || prev.handshake === "partial") {
-    return -30000;
+    if (age < 6 * 3600_000) return -800; // 6h cool-down
+    return p + 200; // re-queue after cool-down
   }
   if (item.dirty) {
-    return -30000;
+    if (age < 6 * 3600_000) return -800;
+    return p + 150;
   }
   if (prev.handshake === "skip") {
     const hasUrl = Boolean(
@@ -812,15 +817,15 @@ function probePriority(
 
 export async function runProbeBudgeted(
   items: ProbeTarget[],
-  max = 1,
+  max = MAX_PROBES_PER_WINDOW,
+  opts?: { force?: boolean },
 ): Promise<ProbeResult[]> {
   const state = await loadProbeState();
   const priorLastTick = state.last_tick_at;
   const priorLastOk = state.last_ok_tick_at;
   const priorHandshake = state.last_handshake;
 
-  // GLOBAL CADENCE GATE — never probe if any instance already ticked < 6m ago
-  // Prevents multi-instance double-ticks (22s gaps) that race used counters.
+  // GLOBAL CADENCE GATE — skip only when not force-burst (behind 333/day target)
   try {
     const { readDisplayAuthority } = await import("./display-authority");
     const auth = await readDisplayAuthority({
@@ -832,12 +837,13 @@ export async function runProbeBudgeted(
     });
     // Align used to global high-water before anything else
     state.used = Math.max(state.used, auth.used || 0);
-    const lastIso = auth.last_tick_at || state.last_tick_at;
-    if (lastIso) {
-      const age = Date.now() - Date.parse(lastIso);
-      if (Number.isFinite(age) && age >= 0 && age < PROBE_WINDOW_MS - 5_000) {
-        // Too soon globally — no budget spend, no last_tick bump
-        return [];
+    if (!opts?.force) {
+      const lastIso = auth.last_tick_at || state.last_tick_at;
+      if (lastIso) {
+        const age = Date.now() - Date.parse(lastIso);
+        if (Number.isFinite(age) && age >= 0 && age < PROBE_WINDOW_MS - 5_000) {
+          return [];
+        }
       }
     }
     // Also honor local hour window if already spent
@@ -862,7 +868,7 @@ export async function runProbeBudgeted(
     }))
     .sort((a, b) => b.pri - a.pri);
 
-  // Drop already-delisted + durable-blocked IDs/URLs from queue
+  // Soft-deprioritize blocked targets (do NOT hard-exclude — that starved growth)
   try {
     const { loadDelistedIdSet } = await import("./probe-preflight");
     const { loadCounterFloors, isBlockedSync } = await import("./counter-floors");
@@ -873,7 +879,7 @@ export async function runProbeBudgeted(
         delisted.has(x.item.id) ||
         (x.item.store_id && delisted.has(x.item.store_id))
       ) {
-        x.pri = -30000;
+        x.pri = -500;
         continue;
       }
       const urls = [
@@ -890,7 +896,8 @@ export async function runProbeBudgeted(
         (x.item.store_id &&
           isBlockedSync(floors, { id: x.item.store_id, urls }))
       ) {
-        x.pri = -30000;
+        // Previously probed fail — retry later with lower priority (not permanent kill)
+        x.pri = Math.min(x.pri, -20);
       }
     }
     ranked.sort((a, b) => b.pri - a.pri);
@@ -918,7 +925,7 @@ export async function runProbeBudgeted(
     else if (r.kind === "mcp") mcpToday++;
   }
 
-  const rankedLive = ranked.filter((x) => x.pri >= 0);
+  const rankedLive = ranked.filter((x) => x.pri > -1000);
   const resolveKind = (item: ProbeTarget): "agent" | "mcp" => {
     if (item.kind === "agent" || item.kind === "mcp") return item.kind;
     if (item.agent_card_url || item.endpoint_url) return "agent";
@@ -930,10 +937,9 @@ export async function runProbeBudgeted(
   mcps.sort((a, b) => b.pri - a.pri);
 
   const take = Math.min(max, remaining, rankedLive.length);
-  // At most ONE full probe per tick after preflight. Never chain full fails.
-  // Preflight rejects do not spend budget and do not extend the chain.
-  const maxFullProbes = 1;
-  const maxPreflightRejects = 8; // cheap filters before finding a viable target
+  // Full probes per tick = budget take (was hard-capped at 1 — that blocked 333/day).
+  const maxFullProbes = Math.max(1, take);
+  const maxPreflightRejects = Math.max(32, maxFullProbes * 4);
   const selected: typeof ranked = [];
   let ai = 0;
   let mi = 0;
@@ -997,9 +1003,9 @@ export async function runProbeBudgeted(
   let fullProbes = 0;
   let preflightRejects = 0;
   for (const { item } of queue) {
-    if (gotCleanOk) break;
     if (fullProbes >= maxFullProbes) break;
     if (state.used >= state.budget) break;
+    if (state.hourly_used >= state.hourly_cap) break;
     const kind =
       item.kind ||
       (item.agent_card_url || item.endpoint_url ? "agent" : "mcp");
@@ -1046,11 +1052,14 @@ export async function runProbeBudgeted(
           /* */
         }
         try {
-          const { blockProbeTarget } = await import("./counter-floors");
-          await blockProbeTarget({
-            id: item.store_id || item.id,
-            url: fake.target,
-          });
+          // Only permanent-block on weekly recheck fails — discovery needs retries for 333/day
+          if (item.purpose === "weekly_recheck") {
+            const { blockProbeTarget } = await import("./counter-floors");
+            await blockProbeTarget({
+              id: item.store_id || item.id,
+              url: fake.target,
+            });
+          }
         } catch {
           /* */
         }
@@ -1122,23 +1131,26 @@ export async function runProbeBudgeted(
           /* */
         }
         try {
-          const { blockProbeTarget } = await import("./counter-floors");
-          await blockProbeTarget({
-            id: item.store_id || item.id,
-            url: result.target,
-          });
-          if (item.agent_card_url)
-            await blockProbeTarget({ url: item.agent_card_url });
-          if (item.remote_url) await blockProbeTarget({ url: item.remote_url });
+          if (item.purpose === "weekly_recheck") {
+            const { blockProbeTarget } = await import("./counter-floors");
+            await blockProbeTarget({
+              id: item.store_id || item.id,
+              url: result.target,
+            });
+            if (item.agent_card_url)
+              await blockProbeTarget({ url: item.agent_card_url });
+            if (item.remote_url) await blockProbeTarget({ url: item.remote_url });
+          }
         } catch {
           /* */
         }
       }
       state.used += 1;
+      state.hourly_used += 1;
       out.push(result);
       appendTickLog(state, result, true, { name: item.name });
-      // ONE full probe only — stop (even on fail)
-      break;
+      // Continue queue — fail does not end the tick (need volume toward 333/day)
+      continue;
     }
 
     // CHECKS CLEAN + handshake ok
@@ -1147,6 +1159,20 @@ export async function runProbeBudgeted(
     gotCleanOk = true;
     out.push(result);
     appendTickLog(state, result, true, { name: item.name });
+    // First contact counts as Talk presence so new cleans start present
+    try {
+      const { recordPresence } = await import("./talk-activity");
+      await recordPresence({
+        listing_id: item.store_id || item.id,
+        kind: kind as "agent" | "mcp",
+        name: item.name || item.id,
+        text: `probe-ok · ${result.target || "handshake"}`,
+        channel: "presence",
+        full: false,
+      });
+    } catch {
+      /* non-blocking */
+    }
   }
   // Only advance last_tick when a full budget probe ran
   if (fullProbes > 0) {
@@ -1649,15 +1675,13 @@ export async function getProbePublic() {
     policy: {
       max_per_day: MAX_PROBES_PER_DAY,
       max_per_window: MAX_PROBES_PER_WINDOW,
-      window_minutes: 6,
-      cadence:
-        "up to 8 probes / 6 min discovery-first (2500/day soft) · grow clean list toward 333/day · only ok listed",
-
+      window_minutes: PROBE_WINDOW_MS / 60_000,
+      cadence: `up to ${MAX_PROBES_PER_WINDOW} full probes / ${PROBE_WINDOW_MS / 60_000}m · ${MAX_PROBES_PER_DAY}/day soft · clean list target ${CLEAN_GROWTH_TARGET_PER_DAY}/day · only handshake-ok listed · no fakes`,
       balance:
-        "catch-up: 100% lagging kind until day counts within 1; then 50/50. Prefer never-probed.",
-      max_per_hour: 10,
+        "catch-up: lagging kind first; mix agents+MCPs. Prefer never-probed.",
+      max_per_hour: MAX_PROBES_PER_HOUR,
       priority:
-        "never_probed > weekly_due_active > dirty/fail > partial/stale > skip fresh ok",
+        "never_probed > weekly_due_active > cool-down retries > partial/stale > skip fresh ok",
       fresh_ok_hours: FRESH_OK_MS / 3600_000,
       weekly_recheck_days: 7,
       weekly_recheck_cap: "unlimited",

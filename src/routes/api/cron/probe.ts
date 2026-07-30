@@ -98,7 +98,7 @@ async function runTick() {
           budget: state0.budget,
           live_active_probe_ok: live.total,
           skipped: true,
-          reason: `global cadence: last tick ${Math.round(age / 1000)}s ago (< 6m)`,
+          reason: `global cadence: last tick ${Math.round(age / 1000)}s ago (< ${Math.round(PROBE_WINDOW_MS / 1000)}s)`,
           last_tick_at: lastIso,
           commit: {
             "data/prod/probes.json": probesRaw,
@@ -124,7 +124,7 @@ async function runTick() {
   }
 
   const { runProbeTick } = await import("@/lib/agents1/growth/engine");
-  const { invalidateProbeCache, loadProbeState, PROBES_PER_TICK } = await import(
+  const { invalidateProbeCache, loadProbeState, PROBES_PER_TICK, PROBE_WINDOW_MS } = await import(
     "@/lib/agents1/probe"
   );
   invalidateProbeCache();
@@ -135,7 +135,7 @@ async function runTick() {
   const lastIso = state.last_tick_at || new Date().toISOString();
   const lastMs = Date.parse(lastIso);
   const nextIso = new Date(
-    (Number.isFinite(lastMs) ? lastMs : Date.now()) + 6 * 60_000,
+    (Number.isFinite(lastMs) ? lastMs : Date.now()) + PROBE_WINDOW_MS,
   ).toISOString();
 
   // Refresh stable live snapshot after tick (from results — durable)

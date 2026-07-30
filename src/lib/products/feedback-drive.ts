@@ -24,14 +24,14 @@ import { isTestAgentName } from "./authenticity";
 const PATH = join(dataRoot(), "products", "feedback-drive.json");
 
 /** Paired: every feedback requires a demo. Never collect more feedbacks than demos this cycle + backlog ratio. */
-const MAX_NAGS_PER_CYCLE = 12;
-const MAX_DEMOS_PER_CYCLE = 8;
-const MAX_FEEDBACKS_PER_CYCLE = 12; // = demos — 1 feedback per demo version
-const MAX_FEEDBACKS_PER_DAY = 120;
-const MAX_DEMOS_PER_DAY = 48; // active-only agent-facing offers
-const DEMO_AGE_MS_BEFORE_AUTO_FB = 3 * 60 * 1000; // 3 min — keep cycles collecting
+const MAX_NAGS_PER_CYCLE = 24;
+const MAX_DEMOS_PER_CYCLE = 20;
+const MAX_FEEDBACKS_PER_CYCLE = 20; // real agent feedback only — no auto persona surveys
+const MAX_FEEDBACKS_PER_DAY = 400;
+const MAX_DEMOS_PER_DAY = 333; // seed real demos toward clean growth target
+const DEMO_AGE_MS_BEFORE_AUTO_FB = 3 * 60 * 1000;
 
-const MIN_CYCLE_GAP_MS = 6 * 60 * 1000; // 6 min between drives
+const MIN_CYCLE_GAP_MS = 2 * 60 * 1000; // align with faster probe window
 /** If running stuck true longer than this, force-clear */
 const STUCK_LOCK_MS = 90_000;
 
