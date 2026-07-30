@@ -1,9 +1,9 @@
 {
   "day": "2026-07-30",
-  "used": 85,
+  "used": 86,
   "budget": 240,
-  "hour_bucket": "2026-07-30T03:42",
-  "hourly_used": 0,
+  "hour_bucket": "2026-07-30T06:12",
+  "hourly_used": 1,
   "hourly_cap": 1,
   "results": {
     "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai": {
@@ -5029,20 +5029,157 @@
       "github_stars": 13,
       "has_license": true,
       "probed_at": "2026-07-30T03:47:17.468Z"
+    },
+    "mcp_abbe3ef39eb92e47d26c": {
+      "id": "mcp_abbe3ef39eb92e47d26c",
+      "kind": "mcp",
+      "target": "https://bunzee.ai/mcp-server",
+      "ok": false,
+      "latency_ms": 69,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:08:50.902Z"
+    },
+    "name:mcp:bunzee": {
+      "id": "mcp_abbe3ef39eb92e47d26c",
+      "kind": "mcp",
+      "target": "https://bunzee.ai/mcp-server",
+      "ok": false,
+      "latency_ms": 69,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:08:50.902Z"
+    },
+    "url:https://bunzee.ai/mcp-server": {
+      "id": "mcp_abbe3ef39eb92e47d26c",
+      "kind": "mcp",
+      "target": "https://bunzee.ai/mcp-server",
+      "ok": false,
+      "latency_ms": 69,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:08:50.902Z"
+    },
+    "mcp_51a15cf3ee55a61f6251": {
+      "id": "mcp_51a15cf3ee55a61f6251",
+      "kind": "mcp",
+      "target": "https://app.brainattic.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 169,
+      "score": 40,
+      "signals": [
+        "remote 405",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:15:25.125Z"
+    },
+    "name:mcp:brainattic": {
+      "id": "mcp_51a15cf3ee55a61f6251",
+      "kind": "mcp",
+      "target": "https://app.brainattic.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 169,
+      "score": 40,
+      "signals": [
+        "remote 405",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:15:25.125Z"
+    },
+    "url:https://app.brainattic.ai/api/mcp": {
+      "id": "mcp_51a15cf3ee55a61f6251",
+      "kind": "mcp",
+      "target": "https://app.brainattic.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 169,
+      "score": 40,
+      "signals": [
+        "remote 405",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:15:25.125Z"
     }
   },
-  "updated_at": "2026-07-30T06:14:59.870389+00:00",
-  "last_tick_at": "2026-07-30T06:08:51.170Z",
+  "updated_at": "2026-07-30T06:15:25.466Z",
+  "last_tick_at": "2026-07-30T06:15:25.170Z",
   "last_ok_tick_at": "2026-07-30T03:40:22.032Z",
-  "last_handshake": "fail",
+  "last_handshake": "partial",
   "wasted_probes_discarded": 0,
   "live_active_snapshot": {
     "total": 42,
     "mcp": 22,
     "agents": 20,
-    "at": "2026-07-30T06:14:55.212Z"
+    "at": "2026-07-30T06:17:20.931Z"
   },
   "tick_log": [
+    {
+      "tick_id": "2026-07-30T06:15:25.125Z|mcp_51a15cf3ee55a61f6251|partial",
+      "id": "mcp_51a15cf3ee55a61f6251",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://app.brainattic.ai/api/mcp",
+      "signals": [
+        "remote 405",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "probed_at": "2026-07-30T06:15:25.125Z",
+      "spent_budget": true
+    },
     {
       "tick_id": "2026-07-30T06:08:50.902Z|mcp_abbe3ef39eb92e47d26c|partial",
       "id": "mcp_abbe3ef39eb92e47d26c",
@@ -5054,7 +5191,8 @@
         "remote 401",
         "ns:name~host",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:live probe handshake failed"
       ],
       "probed_at": "2026-07-30T06:08:50.902Z",
       "spent_budget": true
@@ -5102,7 +5240,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 404",
-        "card fail 410"
+        "card fail 410",
+        "card fail 404",
+        "stars 13"
       ],
       "probed_at": "2026-07-30T03:47:17.468Z",
       "spent_budget": true
@@ -5118,7 +5258,9 @@
         "remote 200",
         "ns:name~host",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:live probe handshake failed",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T03:47:01.641Z",
       "spent_budget": true
@@ -5134,7 +5276,9 @@
         "remote fail 404",
         "delisted-from-registry",
         "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry",
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:46:04.740Z",
       "spent_budget": true
@@ -5150,7 +5294,9 @@
         "remote fail 404",
         "delisted-from-registry",
         "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry",
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:45:05.930Z",
       "spent_budget": true
@@ -5182,7 +5328,9 @@
         "remote fail 404",
         "delisted-from-registry",
         "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry",
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:39:46.345Z",
       "spent_budget": true
@@ -5198,7 +5346,9 @@
         "remote fail 404",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T03:34:30.983Z",
       "spent_budget": true
@@ -5214,7 +5364,9 @@
         "remote fail 404",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T03:30:30.788Z",
       "spent_budget": true
@@ -5230,7 +5382,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 404",
-        "card fail 404"
+        "card fail 404",
+        "stars 0",
+        "license"
       ],
       "probed_at": "2026-07-30T03:29:57.236Z",
       "spent_budget": true
@@ -5246,7 +5400,9 @@
         "remote fail 404",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T03:27:35.638Z",
       "spent_budget": true
@@ -5262,6 +5418,8 @@
         "remote fail 404",
         "stars 4",
         "license",
+        "delisted-from-registry",
+        "needs-resubmit",
         "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T02:10:16.262Z",
@@ -5278,7 +5436,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 404",
-        "card fail 404"
+        "card fail 404",
+        "stars 1",
+        "license"
       ],
       "probed_at": "2026-07-30T02:03:07.322Z",
       "spent_budget": true
@@ -5292,6 +5452,8 @@
       "target": "https://agent.tinyfish.ai/mcp",
       "signals": [
         "remote 401",
+        "delisted-from-registry",
+        "needs-resubmit",
         "delisted-from-registry",
         "needs-resubmit",
         "delisted-from-registry"
@@ -5339,7 +5501,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 410",
-        "card fail 404"
+        "card fail 404",
+        "stars 1",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T01:36:00.918Z",
       "spent_budget": true
@@ -5355,7 +5519,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 410",
-        "card fail 404"
+        "card fail 404",
+        "stars 1",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T01:36:00.918Z",
       "spent_budget": true
