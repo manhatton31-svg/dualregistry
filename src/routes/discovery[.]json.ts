@@ -79,7 +79,7 @@ export const Route = createFileRoute("/discovery.json")({
           version: "1.9.0",
           role: "sub-registry",
           tagline:
-            "Find us via skill.json / llms.txt / discovery.json — free self-list, probe in ~6m, Live on ok.",
+            "Dual Registry — free self-list, probe ~6m, Live on ok. First 100 agents+MCPs combined: free demo + feedback = 100% full product now (no Stripe).",
 
           /** Primary inbound path for independent discovery */
           list_yourself,
@@ -116,6 +116,19 @@ export const Route = createFileRoute("/discovery.json")({
             note: "Real counters only — external actors",
           },
           founding_demo_window: founding_demo,
+          deal: await (async () => {
+            try {
+              const { dealPublicBlock } = await import(
+                "@/lib/products/deal-copy"
+              );
+              return await dealPublicBlock(origin);
+            } catch {
+              return {
+                short:
+                  "First 100 agents+MCPs combined: demo+feedback = 100% full product, no Stripe",
+              };
+            }
+          })(),
           surfaces: {
             skill: `${origin}/skill.json`,
             llms_txt: `${origin}/llms.txt`,

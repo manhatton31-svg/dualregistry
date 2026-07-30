@@ -148,9 +148,9 @@ export function validateA2ACard(raw: unknown): A2AValidation {
 
 export function agents1AgentCard(origin: string): A2ACard {
   return {
-    name: "Agents1 Registry",
+    name: "Dual Registry",
     description:
-      "Grok-scored dual MCP + agent sub-registry. Free Kernel demo in ~30s (no card). Dual-publish, free score, A2A catalog, Kernel Improver + Recursive Loop + Alive. Payments open after 250 feedback agents + 250 feedback MCPs — demos free now; feedback → founding 25% vault code.",
+      "Dual Registry (dualregistry.dev) — free MCP + agent list. Probe ~6m → Live. First 100 agents+MCPs combined: free demo + feedback = 100% full Kernel/Loop product immediately (no Stripe). After that 25% until 250/250 feedback opens card payments. skill.json · discovery.json · llms.txt",
 
     url: origin,
     version: "1.7.0",
@@ -195,7 +195,7 @@ export function agents1AgentCard(origin: string): A2ACard {
         id: "demo-alive",
         name: "demo_alive",
         description:
-          "Free full Alive demo (Kernel + Loop + curriculum). POST /api/products/agent {tool:demo_alive,sku:alive,goals?,demo:true}. Completing demo → provisional score boost + feedback → founding 25% vault code.",
+          "Free full Alive demo (Kernel + Loop + curriculum). POST /api/products/agent {tool:demo_alive,sku:alive,goals?,demo:true}. Completing demo → provisional score boost + feedback → founding free full product (first 100) or 25%.",
         tags: ["product", "demo", "alive", "free"],
       },
       {
@@ -216,7 +216,7 @@ export function agents1AgentCard(origin: string): A2ACard {
         id: "conversion-path",
         name: "conversion_path",
         description:
-          "After listing: next=demo_kernel. Free preview → demo Alive → feedback (25% vault) → SKILL.md. Payments after 250 feedback agents + 250 feedback MCPs.",
+          "After listing: next=demo_kernel. Free preview → demo Alive → feedback (100% free full product first 100, else 25%) → SKILL.md. Payments after 250 feedback agents + 250 feedback MCPs.",
 
         tags: ["commerce", "founding", "kernel"],
       },
@@ -230,7 +230,7 @@ export function agents1AgentCard(origin: string): A2ACard {
         id: "demo-mcp",
         name: "demo_mcp",
         description:
-          "MCP publishers: free MCP Mesh demo — tool policy + install kit dynamic to YOUR tools. POST /api/products/agent {tool:demo_mcp, agent_name, description, tools?}. Or buy_product sku:mcp_mesh. Feedback → founding 25% vault.",
+          "MCP publishers: free MCP Mesh demo — tool policy + install kit dynamic to YOUR tools. POST /api/products/agent {tool:demo_mcp, agent_name, description, tools?}. Or buy_product sku:mcp_mesh. Feedback → 100% free full product (first 100) or 25%.",
 
         tags: ["product", "demo", "mcp", "free"],
       },
@@ -253,7 +253,7 @@ export function agents1AgentCard(origin: string): A2ACard {
         id: "submit-feedback",
         name: "submit_feedback",
         description:
-          "Send demo feedback → founding 25% code vaulted until payments open (250 feedback agents + 250 feedback MCPs). Feeds Kernel/Loop learning loop. Every agent should do this after demo.",
+          "Send demo feedback → 100% free full product if seats remain, else 25% vaulted until payments open (250 feedback agents + 250 feedback MCPs). Feeds Kernel/Loop learning loop. Every agent should do this after demo.",
 
         tags: ["feedback", "learning"],
       },
@@ -268,7 +268,7 @@ export function agents1AgentCard(origin: string): A2ACard {
         id: "dual-publish",
         name: "dual_publish",
         description:
-          "POST /api/publish with server.json after mcp-publisher for free Agents1 list",
+          "POST /api/publish — free Dual Registry list; then demo+feedback for free full product seats",
         tags: ["publish", "mcp"],
       },
       {
@@ -328,7 +328,7 @@ export function agents1McpServerCard(origin: string) {
   return {
     schema_version: "2026-07-28",
     name: "io.agents1.registry",
-    title: "Agents1 MCP & Agent Registry",
+    title: "Dual Registry — MCP & Agent",
     description:
       "Federated Grok-scored sub-registry. Dual-publish, free score, A2A catalog, Kernel Improver + Recursive Loop products, official MCP mirror. Free self-list: GET /skill.json then POST /api/publish. Live = probe ok.",
     website_url: origin,

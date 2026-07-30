@@ -103,13 +103,25 @@ export const Route = createFileRoute("/api/protocol")({
               })),
             },
             policy: [
-              "Dual-publish: POST /api/publish with server.json after mcp-publisher",
-              "Free score: GET /api/score?url=… (no store KV)",
+              "Find us: /skill.json · /discovery.json · /llms.txt · dualregistry.dev",
+              "Free self-list: POST /api/publish with agent-card or MCP server.json",
+              "Live = checks clean + probe ok (~6m). Active list: /api/listings/active",
+              "DEAL: first 100 agents+MCPs combined — demo + feedback = 100% full product now (no Stripe)",
+              "After free seats: 25% until 250 agent + 250 MCP feedback opens card payments",
+              "Free score: GET /api/score?url=…",
               "A2A open catalog: /agents/public + /.well-known/agents",
-              "Products: POST /api/products/checkout { sku, goals } — Kernel + Recursive Loop",
-              "Harvest: GitHub topics + npm + well-known crawl (no store KV)",
-              "Domain: set AGENTS1_PUBLIC_ORIGIN when you buy one",
+              "Use product: GET /api/products/access?token=… (no Stripe for free seats)",
             ],
+            deal: await (async () => {
+              try {
+                const { dealPublicBlock } = await import(
+                  "@/lib/products/deal-copy"
+                );
+                return await dealPublicBlock(origin);
+              } catch {
+                return null;
+              }
+            })(),
           },
           { headers: { "cache-control": "no-store" } },
         );

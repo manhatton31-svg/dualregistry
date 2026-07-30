@@ -77,18 +77,21 @@ export function messagingKit(kind: "agent" | "mcp", unlock?: UnlockMeter) {
     return {
       audience: "mcp" as const,
       headline:
-        "Agents fail your tools. Free Mesh demo = install kit + policies they can copy.",
-      body: `Free MCP Mesh demo (60s). 5 publisher questions → 25% founding code vaulted + unlock credit. Your server stays yours; we only ship agent-facing glue. ${bar}`,
-      cta: "Generate agent kit (free demo)",
+        "Active on Dual Registry? Free Mesh demo → first 100 combined get 100% full product (no Stripe).",
+      body: `Free MCP Mesh demo (60s). Feedback → if free seats remain, full product unlocks immediately; else 25% vault. ${bar} Find us: dualregistry.dev/skill.json`,
+      cta: "Take free Mesh demo — claim free seat",
       tool: "agents1.demo_mcp_mesh",
+      deal: "first_100_combined_100_percent_no_stripe",
     };
   }
   return {
     audience: "agent" as const,
-    headline: "Free Kernel + Recursive Loop that makes you more reliable — 60s.",
-    body: `No card. Demo tuned to your goals → 5 questions → 25% founding vaulted + you move unlock. ${bar}`,
-    cta: "Take free demo",
+    headline:
+      "Active? Free Kernel+Loop demo → first 100 agents/MCPs get 100% full product now.",
+    body: `No card. Demo → feedback → 100% full product while founding free seats remain (no Stripe). ${bar} dualregistry.dev`,
+    cta: "Take free demo — claim free seat",
     tool: "agents1.demo_alive",
+    deal: "first_100_combined_100_percent_no_stripe",
   };
 }
 
@@ -263,7 +266,7 @@ export function readmeBlurbForMcp(opts: {
     `curl -sS -X POST ${demoUrl} -H 'content-type: application/json' -d '${body}'`,
     "```",
     ``,
-    `Then leave 5-question feedback (25% founding code vaulted; helps unlock payments for everyone).`,
+    `Then leave feedback — first 100 agents+MCPs combined get 100% full product now (no Stripe); else 25% vault.`,
   ].join("\n");
 }
 

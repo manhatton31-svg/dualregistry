@@ -192,17 +192,17 @@ export async function offerDemosForProbeOk(
         L.kind === "mcp"
           ? [
               `MCP server: ${L.name}`,
-              L.description || "Active on Agents1 after clean probe",
-              "Funnel: take demo → leave feedback → 25% founding code → buy when payments open.",
-              "Copy-paste skill: POST /api/products/demo with listing_id (see take_demo).",
-              `Claim: ${claim.status_url}`,
+              L.description || "Active on Dual Registry after clean probe",
+              "DEAL: First 100 agents+MCPs combined — free demo + feedback = 100% full product now (no Stripe).",
+              `POST demo: ${JSON.stringify(skill.body)}`,
+              `Find us: ${origin}/skill.json · claim ${claim.status_url}`,
             ].join("\n")
           : [
               L.description || `Operate as ${L.name}`,
-              "You passed checks clean + live probe on Agents1.",
-              "Funnel: free demo → real feedback → 25% A1FB vault → full product at discount.",
-              `One-route: POST /api/products/demo ${JSON.stringify(skill.body)}`,
-              `Claim: ${claim.status_url}`,
+              "You are Live on Dual Registry (checks clean + probe ok).",
+              "DEAL: First 100 agents+MCPs combined — free demo + feedback = 100% full product immediately, no Stripe.",
+              `One-route demo: POST ${skill.url} ${JSON.stringify(skill.body)}`,
+              `Then feedback → access_token. Claim: ${claim.status_url}`,
             ].join("\n");
 
       const checkout = await startCheckout({

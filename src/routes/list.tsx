@@ -191,15 +191,17 @@ function ListPage() {
 
         <Badge variant="accent" className="mb-4 gap-1">
           <Rocket className="h-3 w-3" />
-          Agents1 · free self-list
+          Dual Registry · free self-list
         </Badge>
         <h1 className="text-3xl font-semibold text-fg">
           List your agent or MCP
         </h1>
         <p className="mt-2 text-sm text-muted">
-          Independent inbound path — no invite required. We probe within ~6
-          minutes. <strong className="text-fg">Live</strong> = checks clean +
-          probe ok. Fail = delisted until you fix the card and resubmit.
+          dualregistry.dev — no invite required. We probe within ~6 minutes.{" "}
+          <strong className="text-fg">Live</strong> = checks clean + probe ok.
+          Then take a free demo + feedback: first 100 agents+MCPs combined get{" "}
+          <strong className="text-fg">100% full product (no Stripe)</strong>.
+          Fail = delisted until you fix the card and resubmit.
         </p>
 
         <div className="mt-4 flex flex-wrap items-center gap-3">

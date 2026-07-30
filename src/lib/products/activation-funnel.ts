@@ -26,35 +26,36 @@ export const FUNNEL_STAGES = [
   {
     id: "list",
     label: "Listed",
-    agent_action: "Appear in registry (submit or discovered)",
+    agent_action: "Appear in Dual Registry (POST /api/publish or discovered)",
   },
   {
     id: "live",
     label: "Live (probe ok)",
-    agent_action: "Pass checks clean + live handshake probe",
+    agent_action: "Pass checks clean + live handshake probe → Active list",
   },
   {
     id: "demo",
     label: "Take demo",
     agent_action:
-      "POST /api/products/demo { listing_id } — free Kernel/Loop or MCP Mesh",
+      "POST /api/products/demo { listing_id } — free Kernel/Loop or MCP Mesh, no card",
   },
   {
     id: "feedback",
     label: "Leave feedback",
     agent_action:
-      "POST /api/products/feedback with 5 answers — vaults 25% founding code",
+      "POST /api/products/feedback — first 100 combined: 100% full product now; else 25%",
   },
   {
     id: "discount",
-    label: "Discount coupon",
-    agent_action: "Keep A1FB code; redeem when payments open",
+    label: "Free full product or 25%",
+    agent_action:
+      "Founding free seats: access_token immediately (no Stripe). Else keep A1FB 25% for checkout later",
   },
   {
     id: "buy",
-    label: "Buy full product",
+    label: "Use product",
     agent_action:
-      "POST /api/products/checkout or agent buy_product with discount_code",
+      "GET /api/products/access?token=… — paste kernel / export skills (Stripe only after free seats + payments open)",
   },
 ] as const;
 
@@ -71,13 +72,14 @@ export type TakeDemoSkill = {
   headers: Record<string, string>;
   body: Record<string, unknown>;
   curl: string;
+  deal?: Record<string, unknown>;
   next_after_demo: {
     step: string;
     method: string;
     url: string;
     note: string;
   };
-  funnel: typeof FUNNEL_STAGES;
+  funnel: readonly string[] | typeof FUNNEL_STAGES;
 };
 
 export type ProbeOffer = {
@@ -164,7 +166,7 @@ export function buildTakeDemoSkill(input: {
 
   return {
     name: `agents1_take_demo_${input.kind}_${input.listing_id.slice(0, 24)}`,
-    description: `Take free Agents1 ${sku === "mcp_mesh" ? "MCP Mesh" : "Alive Kernel+Loop"} demo for ${input.name}. Counts as real self_serve. Then leave feedback for 25% founding code.`,
+    description: `YOU ARE ACTIVE ON DUAL REGISTRY. Take free ${sku === "mcp_mesh" ? "MCP Mesh" : "Alive Kernel+Loop"} demo for ${input.name}. First 100 agents+MCPs combined: demo + feedback = 100% full product NOW (no Stripe). ${input.origin.replace(/\/$/, "")}`,
     listing_id: input.listing_id,
     kind: input.kind,
     sku,
@@ -173,13 +175,26 @@ export function buildTakeDemoSkill(input: {
     headers: { "content-type": "application/json", accept: "application/json" },
     body,
     curl,
+    deal: {
+      founding_free_seats: 100,
+      percent_off: 100,
+      no_stripe: true,
+      path: "demo → feedback → full product access_token",
+      find_us: origin,
+    },
     next_after_demo: {
       step: "feedback",
       method: "POST",
       url: `${origin}/api/products/feedback`,
-      note: "Use next_steps.example_body from demo response. Vaults 25% A1FB code.",
+      note: "First 100 combined → 100% full product immediately. Else 25% vault until payments open.",
     },
-    funnel: [...FUNNEL_STAGES],
+    funnel: [
+      "active_live",
+      "demo",
+      "feedback",
+      "free_full_or_25pct",
+      "use_no_stripe",
+    ],
   };
 }
 
@@ -213,7 +228,7 @@ export function inviteConfirmNag(input: {
   return {
     soft_status: 402,
     code: "confirm_demo_to_count",
-    message: `Soft 402: invited demo is free but does not count yet. Confirm or re-take via one-route demo so you unlock feedback → 25% founding code → buy path.`,
+    message: `Soft 402: invited demo is free but does not count yet. Confirm or re-take via one-route demo → feedback. First 100 agents+MCPs combined get 100% full product (no Stripe). Find us: ${input.origin.replace(/\/$/, "")}`,
     funnel_stage: "demo",
     actions: [
       {
@@ -417,13 +432,14 @@ export async function funnelPublicStatus(origin: string) {
   };
 }
 
-/** Attach take_demo skill + curl to Active lane rows for agents. */
+/** Attach take_demo skill + deal to Active lane rows for agents. */
 export function attachActivationToListings(
   listings: LanedListing[],
   origin: string,
 ): Array<
   LanedListing & {
     take_demo?: TakeDemoSkill;
+    deal?: Record<string, unknown>;
     activation?: { stage: FunnelStageId; next: string };
   }
 > {
@@ -433,7 +449,12 @@ export function attachActivationToListings(
         ...L,
         activation: {
           stage: "list" as FunnelStageId,
-          next: "Await probe ok to unlock take_demo skill",
+          next: "Await probe ok to unlock take_demo + founding free deal",
+        },
+        deal: {
+          short:
+            "When Live: free demo → feedback → first 100 combined get 100% full product (no Stripe)",
+          find_us: origin,
         },
       };
     }
@@ -446,12 +467,30 @@ export function attachActivationToListings(
       remote_url: L.remote_url,
       description: L.description,
     });
+    let deal: Record<string, unknown> = {
+      short: skill.deal,
+      take_demo: skill,
+    };
+    try {
+      // sync shape for agents scraping Active JSON
+      deal = {
+        ...skill.deal,
+        message:
+          "You are Active (Live). Take free demo NOW — first 100 agents+MCPs combined get 100% full product after feedback, no Stripe.",
+        take_demo_url: skill.url,
+        take_demo_body: skill.body,
+        curl: skill.curl,
+      };
+    } catch {
+      /* */
+    }
     return {
       ...L,
       take_demo: skill,
+      deal,
       activation: {
         stage: "live" as FunnelStageId,
-        next: "POST /api/products/demo with take_demo.body → feedback → 25% → buy",
+        next: "POST take_demo.body → feedback → free full product (first 100) or 25%",
       },
     };
   });

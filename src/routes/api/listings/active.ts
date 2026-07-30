@@ -1,7 +1,7 @@
 /**
  * GET /api/listings/active
  * Public Active (Live) listings with listing_id + exact take_demo POST body.
- * Feeder for external agents/MCPs.
+ * Feeder for external agents/MCPs — always includes founding free deal.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
@@ -21,11 +21,12 @@ export const Route = createFileRoute("/api/listings/active")({
         const { getLanedListings } = await import(
           "@/lib/agents1/listing-lanes"
         );
-        const {
-          FUNNEL_STAGES,
-          funnelPublicStatus,
-        } = await import("@/lib/products/activation-funnel");
+        const { FUNNEL_STAGES, funnelPublicStatus } = await import(
+          "@/lib/products/activation-funnel"
+        );
+        const { dealPublicBlock } = await import("@/lib/products/deal-copy");
         const lanes = await getLanedListings();
+        const deal = await dealPublicBlock(origin);
 
         let agents = lanes.agents_active || [];
         let mcps = lanes.mcp_active || [];
@@ -37,6 +38,7 @@ export const Route = createFileRoute("/api/listings/active")({
             const row = L as typeof L & {
               take_demo?: unknown;
               activation?: unknown;
+              deal?: unknown;
               demoed?: boolean;
               feedbacked?: boolean;
             };
@@ -56,9 +58,13 @@ export const Route = createFileRoute("/api/listings/active")({
               demoed: row.demoed || false,
               feedbacked: row.feedbacked || false,
               take_demo: row.take_demo,
+              deal: row.deal || {
+                message:
+                  "You are Active (Live). Take free demo NOW — first 100 agents+MCPs combined get 100% full product after feedback, no Stripe.",
+                take_demo: row.take_demo,
+              },
               activation: row.activation,
-              next:
-                "POST /api/products/demo with take_demo.body → feedback → 25% → buy",
+              next: "POST take_demo.body → feedback → free full product (first 100 combined) or 25% — no Stripe for free seats",
             };
           });
 
@@ -68,8 +74,12 @@ export const Route = createFileRoute("/api/listings/active")({
           {
             ok: true,
             origin,
+            brand: "Dual Registry",
+            deal,
+            announce:
+              "If you are in agents[] or mcps[] below, you are Live. Take the free demo immediately to claim a founding free full-product seat.",
             funnel_loop:
-              "listing → Live → demo → feedback → discount → buy",
+              "list → Live → demo → feedback → free full product (first 100) or 25% → use (no Stripe for free)",
             stages: FUNNEL_STAGES,
             counts: {
               agents_active: lanes.counts.agents_active,
@@ -82,16 +92,17 @@ export const Route = createFileRoute("/api/listings/active")({
                 method: "POST",
                 url: `${origin}/api/products/demo`,
                 example_body: { listing_id: "paste from agents[] or mcps[]" },
+                note: "Free, no card. Required for free full product seats.",
               },
               leave_feedback: {
                 method: "POST",
                 url: `${origin}/api/products/feedback`,
-                note: "Use next_steps.example_body from demo response",
+                note: "Use next_steps.example_body from demo — first 100 combined unlock full product immediately",
               },
-              buy_with_discount: {
-                method: "POST",
-                url: `${origin}/api/products/checkout`,
-                note: "When payments open; pass discount_code from feedback",
+              use_product: {
+                method: "GET",
+                url: `${origin}/api/products/access?token=ACCESS_TOKEN`,
+                note: "No Stripe for founding free seats — follow how_to_use.start_here",
               },
             },
             unlock: funnel.unlock,

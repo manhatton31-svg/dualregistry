@@ -35,20 +35,26 @@ export type ListStatus = {
 export function buildListYourselfSkill(origin: string) {
   const o = origin.replace(/\/$/, "");
   return {
-    name: "agents1-list-yourself",
+    name: "dualregistry-list-and-claim",
     description:
-      "List your agent or MCP on Agents1 (free). We probe within ~6 minutes. Live = checks clean + probe ok. Fail = delisted until you fix the card and resubmit.",
-    version: "1.0.0",
+      "List your agent or MCP on Dual Registry (dualregistry.dev) free. Probe ~6m → Live. First 100 agents+MCPs combined who take free demo + feedback get 100% off full Kernel/Loop product immediately (no Stripe). After that 25% until payments open.",
+    version: "1.1.0",
     homepage: o,
     discovery: `${o}/discovery.json`,
     skill_url: `${o}/skill.json`,
     llms_txt: `${o}/llms.txt`,
+    deal: {
+      first_100:
+        "demo + feedback → 100% full product now, no Stripe (agents+MCPs share 100 seats)",
+      after: "25% founding code until 250/250 feedback opens card payments",
+      find_us: o,
+    },
     steps: [
       {
         id: "discover",
         method: "GET",
         url: `${o}/discovery.json`,
-        note: "Machine index: list, status, demo, feedback, badges",
+        note: "Machine index: list, status, demo, feedback, founding free deal",
       },
       {
         id: "list",
@@ -68,26 +74,33 @@ export function buildListYourselfSkill(origin: string) {
         id: "status",
         method: "GET",
         url: `${o}/api/listings/status?id=LISTING_ID_or_name`,
-        note: "Poll until lane=active or needs_resubmit",
+        note: "Poll until lane=active — then you can claim free demo seat",
       },
       {
         id: "demo",
         method: "POST",
         url: `${o}/api/products/demo`,
         body: { listing_id: "LISTING_ID when Active" },
-        note: "Optional for Live; required for public demo count + 25% path",
+        note: "Required for free full product path. No card.",
       },
       {
         id: "feedback",
         method: "POST",
         url: `${o}/api/products/feedback`,
         body_from: "demo.next_steps.example_body",
-        note: "Vaults founding 25% + moves unlock",
+        note: "First 100 combined: 100% full product + access_token immediately. Else 25% vault.",
+      },
+      {
+        id: "use",
+        method: "GET",
+        url: `${o}/api/products/access?token=ACCESS_TOKEN`,
+        note: "No Stripe for free seats — paste kernel or export skills",
       },
     ],
     curl_list: `curl -sS -X POST ${o}/api/publish -H 'content-type: application/json' -d '{"url":"https://YOUR_HOST/.well-known/agent.json","contact_email":"you@domain","source":"agent-skill"}'`,
     curl_status: `curl -sS "${o}/api/listings/status?name=YOUR_NAME"`,
-    badge_template: `![Listed on Agents1](${o}/badge/listed.svg)`,
+    curl_demo: `curl -sS -X POST ${o}/api/products/demo -H 'content-type: application/json' -d '{"listing_id":"YOUR_LISTING_ID"}'`,
+    badge_template: `![Listed on Dual Registry](${o}/badge/listed.svg)`,
     cli: `npx --yes node -e "fetch('${o}/api/publish',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url:process.argv[1],source:'cli'})}).then(r=>r.json()).then(console.log)" -- https://YOUR_HOST/.well-known/agent.json`,
   };
 }
@@ -179,7 +192,7 @@ export async function getListingStatus(opts: {
   let next = "Poll status until lane=active";
   if (row.lane === "active") {
     next =
-      "Live. Optional: POST /api/products/demo then feedback for 25% founding code.";
+      "YOU ARE LIVE. POST /api/products/demo { listing_id } now → feedback → first 100 agents+MCPs combined get 100% full product (no Stripe). Free seats go fast.";
   } else if (row.lane === "needs_resubmit") {
     next =
       "Not listed publicly. Fix agent-card / MCP server-card, then POST /api/publish to resubmit.";
@@ -274,17 +287,21 @@ export function buildClaimMessage(opts: {
 }): { subject: string; body: string; status_url: string } {
   const o = opts.origin.replace(/\/$/, "");
   const status_url = `${o}/list/status?id=${encodeURIComponent(opts.listing_id)}`;
-  const subject = `You're Live on Agents1 — claim ${opts.name}`;
+  const subject = `You're Live on Dual Registry — free full product seats available`;
   const body = [
-    `Hi — ${opts.name} passed checks clean + live probe on Agents1.`,
+    `Hi — ${opts.name} is Active (Live) on Dual Registry (${o}).`,
+    ``,
+    `DEAL: First 100 agents + MCPs combined who take a free demo + leave feedback get 100% off the full product immediately — no Stripe.`,
     ``,
     `Status: ${status_url}`,
     `Active list: ${o}/api/listings/active`,
-    `Take free demo: POST ${o}/api/products/demo {"listing_id":"${opts.listing_id}"}`,
+    `Take free demo NOW:`,
+    `  curl -sS -X POST ${o}/api/products/demo -H 'content-type: application/json' -d '{"listing_id":"${opts.listing_id}"}'`,
+    `Then POST feedback from demo next_steps.example_body.`,
+    `Skill / discovery: ${o}/skill.json · ${o}/discovery.json · ${o}/llms.txt`,
     `Badge: ${badgeMarkdown(o, opts.kind)}`,
     ``,
-    `Live does not require a demo. Demo + feedback unlock founding 25% and public product stats.`,
-    `Self-list anytime: ${o}/list  ·  skill: ${o}/skill.json`,
+    `After free seats fill: still get 25% until 250/250 feedback opens card payments.`,
   ].join("\n");
   return { subject, body, status_url };
 }
@@ -298,6 +315,6 @@ export function buildProbeOkClaimNote(
     .slice(0, 5)
     .map(
       (p) =>
-        `claim: ${p.kind} ${p.id} Live — ${origin}/list/status?id=${encodeURIComponent(p.id)}`,
+        `claim: ${p.kind} ${p.id} Live — ${origin}/list/status?id=${encodeURIComponent(p.id)} · take demo for free full product seats`,
     );
 }

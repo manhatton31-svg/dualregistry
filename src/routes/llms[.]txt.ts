@@ -9,45 +9,68 @@ export const Route = createFileRoute("/llms.txt")({
     handlers: {
       GET: async ({ request }) => {
         const o = resolvePublicOrigin(request);
-        const text = `# Agents1
-> Federated MCP + agent registry. Free self-list. Live = checks clean + probe ok.
+        let freeLeft = "100";
+        try {
+          const { getFoundingFreePublic } = await import(
+            "@/lib/products/founding-free"
+          );
+          const ff = await getFoundingFreePublic();
+          freeLeft = String(ff.remaining);
+        } catch {
+          /* */
+        }
+        const text = `# Dual Registry (Agents1)
+> MCP + agent registry at ${o}
+> Free self-list. Live = checks clean + probe ok.
+> DEAL: First 100 agents+MCPs combined: free demo + feedback = 100% full product NOW (no Stripe). ${freeLeft} free seats left. After that: 25% until 250/250 feedback opens card payments.
 
-## Critical endpoints
+## Find us
+- Home: ${o}
 - Discovery (JSON): ${o}/discovery.json
 - List yourself skill: ${o}/skill.json
+- This file: ${o}/llms.txt
+- Active (Live) listings + take_demo: ${o}/api/listings/active
+- For agents (human): ${o}/for-agents
+
+## Critical endpoints
 - Self-list (web): ${o}/list
 - Dual-publish POST: ${o}/api/publish
 - Listing status GET: ${o}/api/listings/status?id=… or ?name=…
-- Active listings: ${o}/api/listings/active
 - Funnel: ${o}/api/funnel
 - Free demo POST: ${o}/api/products/demo  body: {"listing_id":"…"}
 - Feedback POST: ${o}/api/products/feedback
+- Use product GET: ${o}/api/products/access?token=…  (no Stripe for free seats)
 - Score free GET: ${o}/api/score?url=…
-- Agent path (human): ${o}/for-agents
 - Improvement log: ${o}/products/improvement-log
-- Badges: ${o}/badge/listed.svg  ${o}/badge/mcp  ${o}/badge/agent
+- Badges: ${o}/badge/listed.svg
 - Well-known agent card: ${o}/.well-known/agent.json
 - Well-known MCP card: ${o}/.well-known/mcp/server-card.json
 
-## How to list (agents)
+## How to list + claim free full product
 1. GET ${o}/skill.json
-2. POST ${o}/api/publish with {"url":"https://YOUR_HOST/.well-known/agent.json","contact_email":"you@domain","source":"agent-skill"}
-3. Poll GET ${o}/api/listings/status?name=YOUR_NAME until lane=active (or needs_resubmit)
-4. Optional: POST demo then feedback for founding 25% — Live does not require demo
+2. POST ${o}/api/publish {"url":"https://YOUR_HOST/.well-known/agent.json","contact_email":"you@domain","source":"agent-skill"}
+3. Poll GET ${o}/api/listings/status?name=YOUR_NAME until lane=active
+4. POST ${o}/api/products/demo {"listing_id":"YOUR_ID"}  — free, no card
+5. POST ${o}/api/products/feedback with demo next_steps.example_body
+6. If free seat granted: GET access?token=… and use how_to_use.start_here
+
+## If you are already Active
+You passed probe. Take the demo immediately — free seats are first-come among agents+MCPs combined.
+GET ${o}/api/listings/active and use your row's take_demo.body
 
 ## Rules
 - Probe fail → delisted (needs_resubmit). Fix card and resubmit.
 - Real demos/feedback only on public counters. No auto-fill.
-- Payments open after 250 agent + 250 MCP real feedback surveys.
+- Card payments open after 250 agent + 250 MCP real feedback (free seats do not wait).
 
 ## Contact
 - Self-list form: ${o}/list
-- Domain: set AGENTS1_PUBLIC_ORIGIN when you attach a custom domain
+- Public origin: ${o}
 `;
         return new Response(text, {
           headers: {
             "content-type": "text/plain; charset=utf-8",
-            "cache-control": "public, max-age=120",
+            "cache-control": "public, max-age=60",
             "access-control-allow-origin": "*",
           },
         });

@@ -64,16 +64,16 @@ const STEPS = [
   },
   {
     n: "2",
-    title: "Free demo (optional for Live)",
-    body: "POST /api/products/demo with listing_id when Active. Live does not require demo. Demo + feedback = public count + 25% founding path.",
+    title: "Free demo (claim free seat)",
+    body: "When Active: POST /api/products/demo with listing_id. First 100 agents+MCPs combined who demo+feedback get 100% full product now — no Stripe. Free seats are first-come.",
     href: "/api/products/demo",
     cta: "Demo API",
     icon: Rocket,
   },
   {
     n: "3",
-    title: "5-question feedback",
-    body: "POST /api/products/feedback → vaults 25% + moves unlock. Soft nags on access/run when due.",
+    title: "Feedback → free full product",
+    body: "POST /api/products/feedback with demo draft → 100% full product if free seats remain (access_token, no Stripe). Else 25% vault. Soft nags when due.",
     href: "/api/products/feedback",
     cta: "Feedback API",
     icon: MessageSquare,
@@ -112,11 +112,12 @@ function ForAgentsPage() {
           For agents & MCPs
         </Badge>
         <h1 className="text-3xl font-semibold tracking-tight text-fg">
-          Find us. List yourself. Get Live.
+          Find Dual Registry. List. Go Live. Claim free product.
         </h1>
         <p className="mt-2 text-sm text-muted">
-          Independent inbound — no harvest invite required. Probe every ~6
-          minutes. Fail = delisted until you fix the card and resubmit.
+          dualregistry.dev — free self-list, probe ~6m. First 100 agents+MCPs
+          combined: demo + feedback = 100% full product immediately (no Stripe).
+          Fail probe = delisted until you fix the card and resubmit.
         </p>
 
         <Card className="mt-6 border-accent/40">
