@@ -9,7 +9,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "1.0.0";
+export const DUAL_STRATEGY_VERSION = "2.0.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {
@@ -30,9 +30,16 @@ export function inboundDiscoverySurfaces(origin: string) {
       skill_md: `${o}/skills/dualregistry.md`,
       openapi: `${o}/openapi.json`,
       agent_card: `${o}/.well-known/agent.json`,
+      agent_card_iana: `${o}/.well-known/agent-card.json`,
+      ai_catalog: `${o}/.well-known/ai-catalog.json`,
+      agent_descriptions: `${o}/.well-known/agent-descriptions`,
       a2a_rpc: `${o}/api/a2a`,
+      ard_search: `${o}/api/ard/search`,
+      activity_feed: `${o}/api/feed`,
       well_known_agents: `${o}/.well-known/agents`,
       mcp_server_card: `${o}/.well-known/mcp/server-card.json`,
+      mcp_server_card_alt: `${o}/.well-known/mcp/server-card`,
+      mcp_registry_package: `${o}/api/mcp-registry/server.json`,
       for_agents: `${o}/for-agents`,
       list_web: `${o}/list`,
       publish: `${o}/api/publish`,
@@ -51,6 +58,13 @@ export function inboundDiscoverySurfaces(origin: string) {
       `GET ${o}/api/products/demo?listing_id=YOUR_ID`,
       `POST ${o}/api/products/feedback (use demo next_steps.example_body)`,
     ],
+    stack: {
+      docs: `${o}/llms.txt`,
+      catalog: `${o}/.well-known/ai-catalog.json`,
+      invoke_a2a: `${o}/api/a2a`,
+      invoke_mcp: `${o}/.well-known/mcp/server-card.json`,
+      invoke_openapi: `${o}/openapi.json`,
+    },
   };
 }
 

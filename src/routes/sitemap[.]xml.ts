@@ -26,12 +26,20 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/skills/dualregistry.md",
           "/openapi.json",
           "/.well-known/agent.json",
+          "/.well-known/agent-card.json",
+          "/.well-known/ai-catalog.json",
+          "/.well-known/agent-descriptions",
           "/.well-known/agents",
           "/.well-known/mcp/server-card.json",
+          "/.well-known/mcp/server-card",
           "/agents/public",
           "/api/listings/active",
           "/api/protocol",
           "/api/a2a",
+          "/api/ard/search",
+          "/api/feed",
+          "/api/mcp-registry/server.json",
+          "/api/products/dual-strategy",
         ];
         const urls = paths
           .map(

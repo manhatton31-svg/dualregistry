@@ -130,6 +130,43 @@ export const Route = createFileRoute("/openapi.json")({
                 responses: { "200": { description: "Info" } },
               },
             },
+            "/api/ard/search": {
+              get: {
+                operationId: "ardSearchGet",
+                summary: "ARD natural-language search over catalog + Active",
+                parameters: [
+                  { name: "q", in: "query", schema: { type: "string" } },
+                  { name: "limit", in: "query", schema: { type: "integer" } },
+                ],
+                responses: { "200": { description: "Ranked hits" } },
+              },
+              post: {
+                operationId: "ardSearchPost",
+                summary: "ARD search POST {q, limit?}",
+                responses: { "200": { description: "Ranked hits" } },
+              },
+            },
+            "/api/feed": {
+              get: {
+                operationId: "activityFeed",
+                summary: "Public activity feed (no PII)",
+                responses: { "200": { description: "Feed items" } },
+              },
+            },
+            "/.well-known/ai-catalog.json": {
+              get: {
+                operationId: "aiCatalog",
+                summary: "ARD capability catalog",
+                responses: { "200": { description: "ai-catalog.json" } },
+              },
+            },
+            "/.well-known/agent-card.json": {
+              get: {
+                operationId: "agentCardIana",
+                summary: "A2A agent card (IANA path)",
+                responses: { "200": { description: "Agent Card" } },
+              },
+            },
             "/skill.json": {
               get: {
                 operationId: "listYourselfSkill",

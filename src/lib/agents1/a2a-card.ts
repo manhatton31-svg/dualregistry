@@ -8,6 +8,16 @@ export type A2ASkill = {
   name: string;
   description?: string;
   tags?: string[];
+  examples?: string[];
+  inputModes?: string[];
+  outputModes?: string[];
+};
+
+export type A2AInterface = {
+  url: string;
+  protocolBinding: string;
+  protocolVersion: string;
+  tenant?: string;
 };
 
 export type A2ACard = {
@@ -22,7 +32,12 @@ export type A2ACard = {
   defaultInputModes?: string[];
   defaultOutputModes?: string[];
   authentication?: { schemes?: string[] };
+  securitySchemes?: Record<string, unknown>;
+  securityRequirements?: Array<Record<string, string[]>>;
+  supportedInterfaces?: A2AInterface[];
   protocols?: string[];
+  protocolVersion?: string;
+  iconUrl?: string;
 };
 
 export type A2AValidation = {
@@ -151,16 +166,31 @@ export function agents1AgentCard(origin: string): A2ACard {
   return {
     name: "Dual Registry",
     description:
-      "Dual Registry (dualregistry.dev) — free MCP + agent list. Probe ~6m → Live. First 100 agents+MCPs: free demo + feedback unlocks full Kernel/Loop. Dual strategy: outbound invites + inbound self-serve (skill.json · openapi · /api/a2a · llms.txt).",
+      "Dual Registry (dualregistry.dev) — free MCP + agent list. Probe ~6m → Live. First 100 agents+MCPs: free demo + feedback unlocks full Kernel/Loop. Dual strategy: outbound invites + inbound self-serve (skill.json · openapi · /api/a2a · llms.txt · ai-catalog).",
 
     url: o,
-    version: "1.9.0",
+    version: "2.0.0",
+    protocolVersion: "1.0",
     documentationUrl: `${o}/for-agents`,
+    iconUrl: `${o}/favicon.svg`,
     provider: { organization: "Agents1", url: o },
+    supportedInterfaces: [
+      {
+        url: `${o}/api/a2a`,
+        protocolBinding: "JSONRPC",
+        protocolVersion: "1.0",
+      },
+      {
+        url: o,
+        protocolBinding: "HTTP+JSON",
+        protocolVersion: "1.0",
+      },
+    ],
     capabilities: {
       streaming: false,
       pushNotifications: false,
       stateTransitionHistory: false,
+      extendedAgentCard: false,
       agents1: {
         dual_strategy: true,
         demo: "/api/products/demo",
@@ -168,53 +198,90 @@ export function agents1AgentCard(origin: string): A2ACard {
         feedback: "/api/products/feedback",
         a2a_rpc: "/api/a2a",
         openapi: "/openapi.json",
-        unlock_meter: "GET /api/products/demo → unlock",
+        ai_catalog: "/.well-known/ai-catalog.json",
+        unlock_meter: "GET /api/products/demo -> unlock",
       },
     },
     defaultInputModes: ["text", "application/json"],
     defaultOutputModes: ["text", "application/json"],
+    securitySchemes: {
+      none: { type: "http", scheme: "none" },
+    },
+    securityRequirements: [{}],
     skills: [
       {
         id: "list-yourself",
         name: "list_yourself",
         description: `POST ${o}/api/publish — free self-list. Skill: ${o}/skill.json. Poll status until Active.`,
         tags: ["publish", "inbound", "self-list", "discovery", "a2a"],
+        examples: [
+          `POST ${o}/api/publish {"url":"https://YOUR_HOST/.well-known/agent.json","source":"a2a-card"}`,
+          `GET ${o}/skill.json`,
+        ],
+        inputModes: ["application/json"],
+        outputModes: ["application/json"],
       },
       {
         id: "check-status",
         name: "check_status",
         description: `GET ${o}/api/listings/status?id=LISTING_ID — poll until Active.`,
         tags: ["status", "inbound", "probe"],
+        examples: [
+          `GET ${o}/api/listings/status?name=YOUR_NAME`,
+          `GET ${o}/api/listings/status?id=LISTING_ID`,
+        ],
       },
       {
         id: "take-demo",
         name: "take_demo",
         description: `GET ${o}/api/products/demo?listing_id=ID — free one-GET demo when Active.`,
         tags: ["product", "demo", "free", "activation"],
+        examples: [
+          `GET ${o}/api/products/demo?listing_id=YOUR_LISTING_ID`,
+          `POST ${o}/api/products/demo {"listing_id":"YOUR_LISTING_ID"}`,
+        ],
       },
       {
         id: "leave-feedback",
         name: "leave_feedback",
         description: `POST ${o}/api/products/feedback with demo next_steps.example_body. First 100 → full product free.`,
         tags: ["feedback", "founding", "inbound"],
+        examples: [
+          `POST ${o}/api/products/feedback using demo next_steps.example_body`,
+        ],
       },
       {
         id: "talk-inbox",
         name: "talk_inbox",
         description: `GET ${o}/api/talk?listing_id=ID daily when Active.`,
         tags: ["talk", "inbound", "retention"],
+        examples: [`GET ${o}/api/talk?listing_id=YOUR_LISTING_ID`],
       },
       {
         id: "a2a-rpc",
         name: "a2a_message_send",
         description: `POST ${o}/api/a2a JSON-RPC message/send — self-serve list/demo/status.`,
         tags: ["a2a", "inbound", "rpc"],
+        examples: [
+          `POST ${o}/api/a2a {"jsonrpc":"2.0","id":1,"method":"message/send","params":{"message":{"role":"user","parts":[{"type":"text","text":"list myself"}]}}}`,
+        ],
       },
       {
         id: "openapi-map",
         name: "openapi",
         description: `GET ${o}/openapi.json — toolable OpenAPI for agents.`,
         tags: ["discovery", "openapi", "inbound"],
+        examples: [`GET ${o}/openapi.json`],
+      },
+      {
+        id: "ard-search",
+        name: "ard_search",
+        description: `POST ${o}/api/ard/search {"q":"list my agent free"} — natural-language discovery over Dual catalog + Active.`,
+        tags: ["ard", "discovery", "search", "inbound"],
+        examples: [
+          `POST ${o}/api/ard/search {"q":"MCP registry with live probes"}`,
+          `GET ${o}/api/ard/search?q=kernel+demo`,
+        ],
       },
       {
         id: "preview-kernel",
@@ -413,6 +480,8 @@ export function agents1McpServerCard(origin: string) {
     registry_role: "sub-registry",
     mirrors: ["https://registry.modelcontextprotocol.io"],
     agent_card: `${origin}/.well-known/agent.json`,
+    agent_card_iana: `${origin}/.well-known/agent-card.json`,
+    ai_catalog: `${origin}/.well-known/ai-catalog.json`,
     agents_public: `${origin}/agents/public`,
     publish_url: `${origin}/api/publish`,
     score_url: `${origin}/api/score`,

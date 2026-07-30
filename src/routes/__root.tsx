@@ -52,6 +52,24 @@ export const Route = createRootRoute({
       },
       {
         rel: "alternate",
+        href: "/.well-known/agent-card.json",
+        type: "application/json",
+        title: "A2A agent-card.json (IANA)",
+      },
+      {
+        rel: "ai-catalog",
+        href: "/.well-known/ai-catalog.json",
+        type: "application/json",
+        title: "ARD ai-catalog",
+      },
+      {
+        rel: "alternate",
+        href: "/.well-known/mcp/server-card.json",
+        type: "application/json",
+        title: "MCP server card",
+      },
+      {
+        rel: "alternate",
         href: "/skill.json",
         type: "application/json",
         title: "List yourself skill",

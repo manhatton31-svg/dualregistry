@@ -1,14 +1,17 @@
+/**
+ * GET /.well-known/mcp/server-card — path alias (no .json) for MCP clients
+ */
 import { createFileRoute } from "@tanstack/react-router";
-import { agents1AgentCard } from "@/lib/agents1/a2a-card";
+import { agents1McpServerCard } from "@/lib/agents1/a2a-card";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
 
-export const Route = createFileRoute("/.well-known/agent.json")({
+export const Route = createFileRoute("/.well-known/mcp/server-card")({
   server: {
     handlers: {
       GET: async ({ request }) => {
         const origin = resolvePublicOrigin(request);
-        const card = agents1AgentCard(origin);
+        const card = agents1McpServerCard(origin);
         return Response.json(card, {
           headers: withDemoCtaHeaders(
             {

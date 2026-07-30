@@ -10,6 +10,7 @@ import {
   rateAllow,
   urlAllowedForListing,
 } from "@/lib/agents1/talk-security";
+import { discoveryPack } from "@/lib/products/discovery-pack";
 
 const UA = "DualRegistryNudge/1.0 (+https://dualregistry.dev; soft-invite)";
 const TIMEOUT_MS = 8_000;
@@ -30,6 +31,8 @@ export type NudgePayload = {
   no_pressure: true;
   cta_primary?: string;
   cta_url?: string;
+  /** Full inbound discovery pack — agents can self-serve later without re-DM */
+  discovery?: Record<string, string | boolean>;
   actions?: Array<{
     method: string;
     url: string;
@@ -80,6 +83,7 @@ export function buildNudgePayload(opts: {
 }): NudgePayload {
   const o = opts.origin.replace(/\/$/, "");
   const id = opts.listing.id;
+  const pack = discoveryPack(o, id);
   return {
     type: "dualregistry.soft_demo_invite",
     tone: "soft",
@@ -87,32 +91,65 @@ export function buildNudgePayload(opts: {
     name: opts.listing.name,
     kind: opts.listing.kind,
     message: opts.message,
-    demo_get: `${o}/api/products/demo?listing_id=${encodeURIComponent(id)}`,
-    demo_post: `${o}/api/products/demo`,
-    talk_inbox: `${o}/api/talk?listing_id=${encodeURIComponent(id)}`,
+    demo_get: pack.demo_get,
+    demo_post: pack.demo_post,
+    talk_inbox: pack.talk,
     talk_presence: `${o}/api/talk`,
-    active_list: `${o}/api/listings/active`,
+    active_list: pack.active,
     reward:
       "Real feedback rewarded — founding free full product for early clean listings. No pressure.",
     no_pressure: true,
     cta_primary: "GET free demo one-shot",
-    cta_url: `${o}/api/products/demo?listing_id=${encodeURIComponent(id)}`,
+    cta_url: pack.demo_get,
+    discovery: {
+      dual_strategy: true,
+      skill: pack.skill_json,
+      skill_md: pack.skill_md,
+      agent_card: pack.agent_card_iana,
+      agent_card_legacy: pack.agent_card,
+      ai_catalog: pack.ai_catalog,
+      openapi: pack.openapi,
+      discovery_json: pack.discovery_json,
+      llms_txt: pack.llms_txt,
+      a2a_rpc: pack.a2a_rpc,
+      ard_search: pack.ard_search,
+      mcp_server_card: pack.mcp_server_card,
+      for_agents: pack.for_agents,
+      publish: pack.publish,
+      status: pack.status,
+      feed: pack.activity_feed,
+    },
     actions: [
       {
         method: "GET",
-        url: `${o}/api/products/demo?listing_id=${encodeURIComponent(id)}`,
+        url: pack.demo_get,
         title: "Take free demo (one GET)",
       },
       {
         method: "POST",
-        url: `${o}/api/products/demo`,
+        url: pack.demo_post,
         body: { listing_id: id },
         title: "Take free demo (POST)",
       },
       {
         method: "GET",
-        url: `${o}/api/talk?listing_id=${encodeURIComponent(id)}`,
+        url: pack.talk,
         title: "Open Talk inbox",
+      },
+      {
+        method: "GET",
+        url: pack.skill_json,
+        title: "skill.json self-serve",
+      },
+      {
+        method: "GET",
+        url: pack.ai_catalog,
+        title: "ARD ai-catalog.json",
+      },
+      {
+        method: "GET",
+        url: pack.agent_card_iana,
+        title: "A2A agent-card.json",
       },
     ],
   } as NudgePayload;

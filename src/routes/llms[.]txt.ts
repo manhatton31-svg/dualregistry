@@ -29,6 +29,8 @@ export const Route = createFileRoute("/llms.txt")({
 ## Find us
 - Home: ${o}
 - Discovery (JSON): ${o}/discovery.json
+- ARD catalog: ${o}/.well-known/ai-catalog.json
+- ARD search: ${o}/api/ard/search?q=
 - List yourself skill: ${o}/skill.json
 - Portable skill (md): ${o}/skills/dualregistry.md
 - OpenAPI: ${o}/openapi.json
@@ -36,6 +38,7 @@ export const Route = createFileRoute("/llms.txt")({
 - Full index: ${o}/llms-full.txt
 - AI brief: ${o}/ai.txt
 - Active listings + take_demo: ${o}/api/listings/active
+- Activity feed: ${o}/api/feed
 - For agents: ${o}/for-agents
 - Products (Kernel & Loop): ${o}/products
 - Dual strategy status: ${o}/api/products/dual-strategy
@@ -54,9 +57,13 @@ export const Route = createFileRoute("/llms.txt")({
 - Score free GET: ${o}/api/score?url=…
 - Improvement log: ${o}/products/improvement-log
 - Badges: ${o}/badge/listed.svg
-- Well-known agent card: ${o}/.well-known/agent.json
+- Well-known agent card (legacy): ${o}/.well-known/agent.json
+- Well-known agent-card (IANA): ${o}/.well-known/agent-card.json
 - Well-known MCP card: ${o}/.well-known/mcp/server-card.json
+- MCP card (alt path): ${o}/.well-known/mcp/server-card
+- ANP agent-descriptions: ${o}/.well-known/agent-descriptions
 - A2A RPC (message/send): ${o}/api/a2a
+- MCP Registry package: ${o}/api/mcp-registry/server.json
 - Sitemap: ${o}/sitemap.xml
 - Robots: ${o}/robots.txt
 

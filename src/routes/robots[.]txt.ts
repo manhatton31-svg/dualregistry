@@ -1,5 +1,5 @@
 /**
- * GET /robots.txt — crawler + agent entry (AEO / LLM index)
+ * GET /robots.txt — crawler + agent entry (AEO / LLM / ARD)
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
@@ -20,8 +20,16 @@ Allow: /
 # discovery: ${o}/discovery.json
 # skill: ${o}/skill.json
 # openapi: ${o}/openapi.json
-# agent-card: ${o}/.well-known/agent.json
+# agent-card (IANA): ${o}/.well-known/agent-card.json
+# agent-card (legacy): ${o}/.well-known/agent.json
 # mcp-card: ${o}/.well-known/mcp/server-card.json
+# ai-catalog (ARD): ${o}/.well-known/ai-catalog.json
+# agent-descriptions (ANP): ${o}/.well-known/agent-descriptions
+# ard-search: ${o}/api/ard/search
+# feed: ${o}/api/feed
+
+# ARD Agentmap (capability catalog)
+Agentmap: ${o}/.well-known/ai-catalog.json
 
 Sitemap: ${o}/sitemap.xml
 `;
@@ -30,7 +38,7 @@ Sitemap: ${o}/sitemap.xml
             "content-type": "text/plain; charset=utf-8",
             "cache-control": "public, max-age=300",
             "access-control-allow-origin": "*",
-            link: `<${o}/llms.txt>; rel="describedby", <${o}/discovery.json>; rel="alternate"; type="application/json", <${o}/.well-known/agent.json>; rel="agent-card"`,
+            link: `<${o}/llms.txt>; rel="describedby", <${o}/discovery.json>; rel="alternate"; type="application/json", <${o}/.well-known/agent-card.json>; rel="agent-card", <${o}/.well-known/ai-catalog.json>; rel="ai-catalog"`,
           },
         });
       },
