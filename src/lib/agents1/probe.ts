@@ -81,6 +81,9 @@ type ProbeState = {
   results: Record<string, ProbeResult>;
   updated_at: string;
   last_tick_at?: string;
+  /** Only advanced on checks-clean ok — drives full 6-minute wait */
+  last_ok_tick_at?: string;
+  last_handshake?: "ok" | "partial" | "fail" | "skip";
   baseline_note?: string;
   wasted_probes_discarded?: number;
   real_active_only?: boolean;
@@ -543,7 +546,7 @@ export async function probeAgent(input: ProbeTarget): Promise<ProbeResult> {
     id: input.id,
     kind: "agent",
     target,
-    ok: handshake === "ok" || handshake === "partial",
+    ok: handshake === "ok",
     latency_ms,
     score,
     signals,
@@ -640,7 +643,7 @@ export async function probeMcp(input: ProbeTarget): Promise<ProbeResult> {
     id: input.id,
     kind: "mcp",
     target,
-    ok: handshake === "ok" || handshake === "partial",
+    ok: handshake === "ok",
     latency_ms,
     score,
     signals,
@@ -761,6 +764,9 @@ export async function runProbeBudgeted(
   mcps.sort((a, b) => b.pri - a.pri);
 
   const take = Math.min(max, remaining, rankedLive.length);
+  // On fail/partial we chain more probes in this tick (do not burn full 6m on a dead card).
+  // Full 6-minute cadence applies only after checks-clean handshake ok.
+  const maxChain = Math.min(5, remaining, rankedLive.length);
   const selected: typeof ranked = [];
   let ai = 0;
   let mi = 0;
@@ -782,7 +788,7 @@ export async function runProbeBudgeted(
 
   // Grow Live lists at same rate: lagging Active wins; then lagging day probes.
   // Break pure fail streaks of either kind so the other lane can promote Live.
-  while (selected.length < take && (ai < agents.length || mi < mcps.length)) {
+  while (selected.length < maxChain && (ai < agents.length || mi < mcps.length)) {
     const activeGap = agentActiveOk - mcpActiveOk;
     const dayGap = agentToday - mcpToday;
     let preferAgent: boolean;
@@ -820,10 +826,13 @@ export async function runProbeBudgeted(
   const queue = spendable.length ? spendable : selected;
 
   const out: ProbeResult[] = [];
+  let gotCleanOk = false;
   for (const { item } of queue) {
-    if (out.length >= take) break;
-    // Window/day budget still open?
-    if (state.hourly_used >= state.hourly_cap) break;
+    if (out.length >= maxChain) break;
+    // Stop chaining once we got a checks-clean ok (then wait full 6 min)
+    if (gotCleanOk) break;
+    // Window: only full ok burns the 6-min slot; fails can chain in same tick
+    if (gotCleanOk && state.hourly_used >= state.hourly_cap) break;
     if (state.used >= state.budget) break;
     const kind =
       item.kind ||
@@ -858,12 +867,57 @@ export async function runProbeBudgeted(
       if (result.handshake === "ok" && result.ok) state.weekly.still_ok += 1;
       else state.weekly.demoted += 1;
     }
+
+    // FAIL / PARTIAL → delist from registry immediately + fix instructions
+    if (result.handshake === "fail" || result.handshake === "partial" || !result.ok) {
+      if (result.handshake !== "skip") {
+        try {
+          const { delistOnProbeFail } = await import("./delist-on-fail");
+          const del = await delistOnProbeFail({
+            id: item.store_id || item.id,
+            kind: kind as "agent" | "mcp",
+            name: item.name,
+            agent_card_url: item.agent_card_url,
+            remote_url: item.remote_url,
+            website: item.website,
+            probe: result,
+          });
+          if (del) {
+            result.signals = [
+              ...(result.signals || []),
+              `delist:${del.reason.slice(0, 80)}`,
+            ];
+          }
+        } catch {
+          /* best-effort delist */
+        }
+      }
+      // Daily budget still counts; 6-min window does NOT (chain next)
+      state.used += 1;
+      out.push(result);
+      continue;
+    }
+
+    // CHECKS CLEAN + handshake ok → burn 6-min slot, stop chain
     state.used += 1;
     state.hourly_used += 1;
+    gotCleanOk = true;
     out.push(result);
   }
   state.last_tick_at = new Date().toISOString();
   state.updated_at = state.last_tick_at;
+  const lastOut = out[out.length - 1];
+  if (lastOut) {
+    state.last_handshake = lastOut.handshake || "fail";
+  }
+  if (gotCleanOk) {
+    state.last_ok_tick_at = state.last_tick_at;
+    // hourly_used already set
+  } else if (out.length > 0) {
+    // Fail/partial only: do not enforce 6m wait
+    state.hourly_used = 0;
+    state.last_handshake = lastOut?.handshake || "fail";
+  }
   // Cap result map size
   const ids = Object.keys(state.results);
   if (ids.length > 2500) {
@@ -1111,8 +1165,17 @@ export async function getProbePublic() {
     baseline_note: s.baseline_note,
     wasted_probes_discarded: s.wasted_probes_discarded,
     last_tick_at: s.last_tick_at,
-    // Next = last tick + exactly 6 minutes (cadence contract).
-    next_tick_at: nextProbeFromLast(s.last_tick_at),
+    last_ok_tick_at: s.last_ok_tick_at,
+    last_handshake: s.last_handshake || null,
+    // Full 6m wait only after checks-clean ok; after fail/partial next is immediate
+    next_tick_at:
+      s.last_handshake === "ok" || (!s.last_handshake && s.last_ok_tick_at)
+        ? nextProbeFromLast(s.last_ok_tick_at || s.last_tick_at)
+        : s.last_handshake === "fail" || s.last_handshake === "partial"
+          ? new Date().toISOString()
+          : nextProbeFromLast(s.last_tick_at),
+    cadence_rule:
+      "Full 6 minutes only after checks-clean ok. Fail/partial delists immediately and next probe can run without waiting.",
     live_active: s.live_active_snapshot || countLiveFromResults(s.results),
     live_active_snapshot: s.live_active_snapshot || null,
     source_of_truth: "merged local+/tmp + GitHub data/prod/probes.json (monotonic used)",

@@ -613,16 +613,23 @@ export function pageFromCache<T extends McpListing | AgentListing>(
   kind: "mcp" | "agent",
   cache: StoreCache,
 ): RegistryPage<T> {
-  const items = (
+  const raw = (
     kind === "mcp" ? cache.mcp_items || [] : cache.agent_items || []
   ) as T[];
+  // Fail/partial delists: never show rejected/delisted in registry lists
+  const items = raw.filter(
+    (x) =>
+      x.status !== "rejected" &&
+      x.status !== "delisted" &&
+      x.status !== "removed",
+  );
   const total =
     kind === "mcp" ? cache.mcp_approved : cache.agents_approved;
   return {
     ok: true,
     service: "agents1-cache",
     accepting: true,
-    total,
+    total: Math.min(total, Math.max(items.length, total)),
     status: cache.live ? "live" : "cached",
     items,
   };

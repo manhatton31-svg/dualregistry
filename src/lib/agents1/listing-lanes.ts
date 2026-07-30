@@ -87,14 +87,28 @@ function failWhy(probe?: ProbeResult): string {
 function resubmitHint(kind: "agent" | "mcp", probe?: ProbeResult) {
   const fix =
     kind === "agent"
-      ? "Host a valid Agent Card at /.well-known/agent.json (or your agent_card_url) with name, url, skills."
-      : "Host a valid MCP server card at /.well-known/mcp/server-card.json (or remote_url) with name + transport.";
+      ? "Host a valid Agent Card at /.well-known/agent.json (or your agent_card_url) with name, url, skills — HTTP 200 JSON only."
+      : "Host a valid MCP server card at /.well-known/mcp/server-card.json (or remote_url) with name + transport — HTTP 200, not HTML.";
   return {
     required: true as const,
     fix,
+    fix_steps:
+      kind === "agent"
+        ? [
+            "Publish Agent Card JSON at agent_card_url or /.well-known/agent.json",
+            "Must return 200 application/json (not HTML/login/404)",
+            "Include name, description, url/endpoint, skills[]",
+            "POST https://dualregistry.dev/api/publish to resubmit for approval probing",
+          ]
+        : [
+            "Publish MCP server-card or working remote_url",
+            "Must return 200 (JSON card or MCP transport), not marketing HTML",
+            "Include name + transport/url",
+            "POST https://dualregistry.dev/api/publish to resubmit for approval probing",
+          ],
     endpoint:
-      "POST /api/list or /list (web) — resubmit after the card returns 200 JSON",
-    message: `Not listed publicly: ${failWhy(probe)}. Fix the card, then resubmit for approval.`,
+      "POST https://dualregistry.dev/api/publish — resubmit after the card returns 200 JSON",
+    message: `Delisted from Dual Registry: ${failWhy(probe)}. Fix the card, then resubmit for approval probing. Partial and fail never stay listed.`,
   };
 }
 
@@ -147,15 +161,15 @@ function classify(
   if (probe.handshake === "partial") {
     return {
       lane: "needs_resubmit",
-      reason: `Partial probe — ${failWhy(probe)}. Fix card and resubmit.`,
-      checks_clean: true,
+      reason: `Delisted (partial) — ${failWhy(probe)}. Fix card and resubmit for approval probing.`,
+      checks_clean: false,
     };
   }
-  // FAIL: delist from public discovered
+  // FAIL: removed from registry — must resubmit
   return {
     lane: "needs_resubmit",
-    reason: `Probe failed — ${failWhy(probe)}. Fix card and resubmit for approval.`,
-    checks_clean: clean,
+    reason: `Delisted (probe fail) — ${failWhy(probe)}. Fix card and resubmit for approval probing.`,
+    checks_clean: false,
   };
 }
 

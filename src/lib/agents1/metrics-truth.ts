@@ -205,8 +205,8 @@ export async function getMetricsTruth() {
   try {
     const { getProbePublic } = await import("./probe");
     const p = await getProbePublic();
-    probeUsed = p.used;
-    probeBudget = p.budget;
+    probeUsed = p.used ?? null;
+    probeBudget = p.budget ?? null;
   } catch {
     /* */
   }
