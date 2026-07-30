@@ -1,16 +1,18 @@
 /**
- * Webmaster process: soft demo nudge for Active CLEAN agents & MCPs only.
+ * Soft demo nudge — Active CLEAN only. NEVER SPAM.
  *
- * Product law:
- * - ONLY listings on the Active clean list (clean-registry ∩ lanes active)
- * - Metrics are UNIQUE listings, never send-events > listing count
- * - One soft touch per listing per 7 days (no re-spam)
- * - Light check-in — never salesy, never affects clean/Active status
- * - Durable state so counts survive redeploys
+ * Product law (hard):
+ * - Only Active clean (clean-registry ∩ active lanes)
+ * - One soft touch per listing per 30 days — never re-DM on redeploy/cold start
+ * - State is MAX-MERGED durable + Talk owner-DM history (cannot forget who we nudged)
+ * - Metrics = unique listings; never event spam counts
+ * - force=false always (feedback-drive); ops force still respects Talk evidence of prior DM today
  */
 import {
+  forceHydrateDurable,
   loadDurableJson,
   saveDurableJson,
+  durableRemoteRawUrl,
 } from "@/lib/agents1/durable-json";
 import type { LanedListing } from "@/lib/agents1/listing-lanes";
 import { publicOriginFromEnv } from "./activation-funnel";
@@ -23,33 +25,34 @@ import {
 
 const DURABLE_NAME = "demo-nudge.json";
 
-/** Base floor when list is tiny */
-export const MIN_NUDGES_PER_CYCLE = 5;
-/** Hard ceiling per cycle (still ≤ remaining eligible) */
-export const MAX_NUDGES_PER_CYCLE_CAP = 40;
-/** Share of active clean list to touch each cycle (~25%) */
-export const NUDGE_ACTIVE_SHARE = 0.25;
-
-/** @deprecated use capForActive — kept for status readers */
+/** Share of *never-contacted* eligible per cycle */
+export const NUDGE_ACTIVE_SHARE = 0.15;
+export const MIN_NUDGES_PER_CYCLE = 0; // 0 ok — better silence than spam
+export const MAX_NUDGES_PER_CYCLE_CAP = 15;
+/** @deprecated */
 export const MAX_NUDGES_PER_CYCLE = 10;
 
-/** Proportional to Active clean size: ~25% per cycle, min 5, max 40 */
-export function capForActive(activeClean: number): number {
-  const n = Math.max(0, Math.floor(activeClean));
-  if (n <= 0) return 0;
-  const proportional = Math.ceil(n * NUDGE_ACTIVE_SHARE);
-  return Math.min(MAX_NUDGES_PER_CYCLE_CAP, Math.max(MIN_NUDGES_PER_CYCLE, proportional), n);
+/** Absolute minimum silence after any soft invite */
+export const NUDGE_COOLDOWN_MS = 30 * 24 * 3600_000; // 30 days
+const HISTORY_MAX = 5000;
+
+export function capForActive(activeClean: number, neverContacted: number): number {
+  const pool = Math.max(0, Math.min(activeClean, neverContacted));
+  if (pool <= 0) return 0;
+  const proportional = Math.ceil(activeClean * NUDGE_ACTIVE_SHARE);
+  return Math.min(
+    MAX_NUDGES_PER_CYCLE_CAP,
+    Math.max(MIN_NUDGES_PER_CYCLE, proportional),
+    pool,
+  );
 }
-/** Do not re-nudge the same listing within this window */
-export const NUDGE_COOLDOWN_MS = 7 * 24 * 3600_000;
-const HISTORY_MAX = 2000;
 
 export type NudgeRecord = {
   listing_id: string;
   kind: "agent" | "mcp";
   name: string;
   at: string;
-  channel: "talk_owner_dm" | "talk_broadcast" | "talk_dm_http";
+  channel: "talk_owner_dm" | "talk_broadcast" | "talk_dm_http" | "seed_talk";
   text: string;
   http_ok?: boolean;
   http_status?: number;
@@ -60,29 +63,27 @@ export type NudgeRecord = {
 type NudgeState = {
   updated_at: string;
   day: string;
-  /** Unique listings first-touched today */
   day_unique: number;
   day_http_ok?: number;
   last_run_at?: string;
-  /** listing_id → last nudged ISO — source of unique count */
+  /** listing_id → last nudged ISO — presence = DO NOT CONTACT again until cooldown */
   nudged: Record<string, string>;
   history: NudgeRecord[];
   last_notes: string[];
   totals: {
-    /** Always = unique listings ever nudged (keys of nudged) */
     unique_listings: number;
-    /** @deprecated alias of unique_listings for older readers */
     nudges: number;
     broadcasts: number;
     http_attempted?: number;
     http_ok?: number;
     send_events?: number;
   };
-  /** Last known active clean size (for UI) */
   last_active_clean?: number;
+  policy_version?: number;
 };
 
 let mem: NudgeState | null = null;
+const POLICY_VERSION = 3; // never-spam 30d + talk seed
 
 function utcDay() {
   return new Date().toISOString().slice(0, 10);
@@ -105,17 +106,38 @@ function empty(): NudgeState {
       http_ok: 0,
       send_events: 0,
     },
+    policy_version: POLICY_VERSION,
   };
 }
 
-/** Reconcile: totals always match unique keys; drop broadcast from nudged map */
-function reconcile(s: NudgeState): NudgeState {
-  const nudged: Record<string, string> = {};
-  for (const [id, at] of Object.entries(s.nudged || {})) {
+function newerIso(a?: string, b?: string): string | undefined {
+  if (!a) return b;
+  if (!b) return a;
+  return a >= b ? a : b;
+}
+
+/** Max-merge two states — never forget a contacted listing */
+export function mergeNudgeStates(
+  a: NudgeState | null | undefined,
+  b: NudgeState | null | undefined,
+): NudgeState {
+  const A = a || empty();
+  const B = b || empty();
+  const nudged: Record<string, string> = { ...A.nudged };
+  for (const [id, at] of Object.entries(B.nudged || {})) {
     if (!id || id.startsWith("site:")) continue;
-    nudged[id] = at;
+    nudged[id] = newerIso(nudged[id], at) || at;
   }
-  const unique = Object.keys(nudged).length;
+  const histMap = new Map<string, NudgeRecord>();
+  for (const h of [...(B.history || []), ...(A.history || [])]) {
+    if (!h?.listing_id) continue;
+    const key = `${h.listing_id}|${h.at}|${h.channel}`;
+    if (!histMap.has(key)) histMap.set(key, h);
+  }
+  const history = [...histMap.values()]
+    .sort((x, y) => (y.at || "").localeCompare(x.at || ""))
+    .slice(0, HISTORY_MAX);
+
   const day = utcDay();
   let day_unique = 0;
   const dayStart = Date.parse(`${day}T00:00:00.000Z`);
@@ -123,40 +145,126 @@ function reconcile(s: NudgeState): NudgeState {
     const t = Date.parse(at);
     if (Number.isFinite(t) && t >= dayStart) day_unique++;
   }
+  const unique = Object.keys(nudged).length;
   return {
     ...empty(),
-    ...s,
     day,
     day_unique,
-    day_http_ok: s.day_http_ok || 0,
+    day_http_ok: Math.max(A.day_http_ok || 0, B.day_http_ok || 0),
+    last_run_at: newerIso(A.last_run_at, B.last_run_at),
     nudged,
-    history: (s.history || []).filter((h) => h.listing_id && !h.listing_id.startsWith("site:") || h.channel === "talk_broadcast").slice(0, HISTORY_MAX),
-    last_notes: s.last_notes || [],
+    history,
+    last_notes: (A.last_notes?.length ? A.last_notes : B.last_notes) || [],
     totals: {
       unique_listings: unique,
-      nudges: unique, // never show send-events as "nudges"
-      broadcasts: s.totals?.broadcasts || 0,
-      http_attempted: s.totals?.http_attempted || 0,
-      http_ok: s.totals?.http_ok || 0,
-      send_events: s.totals?.send_events || 0,
+      nudges: unique,
+      broadcasts: Math.max(A.totals?.broadcasts || 0, B.totals?.broadcasts || 0),
+      http_attempted: Math.max(
+        A.totals?.http_attempted || 0,
+        B.totals?.http_attempted || 0,
+      ),
+      http_ok: Math.max(A.totals?.http_ok || 0, B.totals?.http_ok || 0),
+      send_events: Math.max(A.totals?.send_events || 0, B.totals?.send_events || 0),
     },
-    last_active_clean: s.last_active_clean,
+    last_active_clean: Math.max(
+      A.last_active_clean || 0,
+      B.last_active_clean || 0,
+    ),
+    policy_version: POLICY_VERSION,
+    updated_at: new Date().toISOString(),
   };
 }
 
+function reconcile(s: NudgeState): NudgeState {
+  return mergeNudgeStates(s, empty());
+}
+
+/** Pull prior owner DMs from Talk so redeploys cannot re-spam */
+async function seedFromTalk(state: NudgeState): Promise<NudgeState> {
+  try {
+    const { getSocialFeed, SITE_OWNER_ID } = await import(
+      "@/lib/agents1/talk-activity"
+    );
+    const feed = await getSocialFeed(400);
+    const seeded = { ...state.nudged };
+    const hist = [...(state.history || [])];
+    for (const p of feed.posts || []) {
+      if (p.from_id !== SITE_OWNER_ID) continue;
+      const to = p.to_id;
+      if (!to || to.startsWith("site:")) continue;
+      // Any owner DM counts as contact (demo invite or check-in)
+      const at = p.at || new Date().toISOString();
+      seeded[to] = newerIso(seeded[to], at) || at;
+      hist.unshift({
+        listing_id: to,
+        kind: "agent",
+        name: p.to_name || to,
+        at,
+        channel: "seed_talk",
+        text: (p.text || "").slice(0, 200),
+      });
+    }
+    return mergeNudgeStates(state, {
+      ...empty(),
+      nudged: seeded,
+      history: hist.slice(0, HISTORY_MAX),
+    });
+  } catch {
+    return state;
+  }
+}
+
+async function loadRemoteState(): Promise<NudgeState | null> {
+  try {
+    await forceHydrateDurable(DURABLE_NAME, { minBytes: 32 });
+  } catch {
+    /* */
+  }
+  try {
+    const url = `${durableRemoteRawUrl(DURABLE_NAME)}?t=${Date.now()}`;
+    const res = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "DualRegistryNudge/2.0",
+        "cache-control": "no-cache",
+      },
+      cache: "no-store",
+      signal: AbortSignal.timeout(12_000),
+    });
+    if (!res.ok) return null;
+    const t = await res.text();
+    if (!t.trim() || t.trim().startsWith("<!")) return null;
+    return JSON.parse(t) as NudgeState;
+  } catch {
+    return null;
+  }
+}
+
 async function load(): Promise<NudgeState> {
-  if (mem) {
+  if (mem && Object.keys(mem.nudged || {}).length > 0) {
     mem = reconcile(mem);
     return mem;
   }
+  let local: NudgeState = empty();
   try {
-    const raw = await loadDurableJson<NudgeState>(DURABLE_NAME, empty);
-    mem = reconcile(raw || empty());
-    return mem;
+    local = await loadDurableJson<NudgeState>(DURABLE_NAME, empty);
   } catch {
-    mem = empty();
-    return mem;
+    local = empty();
   }
+  const remote = await loadRemoteState();
+  let merged = mergeNudgeStates(local, remote);
+  if (mem) merged = mergeNudgeStates(merged, mem);
+  merged = await seedFromTalk(merged);
+  mem = reconcile(merged);
+  // Persist recovered map so next cold start keeps silence
+  if (Object.keys(mem.nudged).length > 0) {
+    try {
+      await saveDurableJson(DURABLE_NAME, mem);
+    } catch {
+      /* */
+    }
+  }
+  return mem;
 }
 
 async function persist(s: NudgeState) {
@@ -165,14 +273,22 @@ async function persist(s: NudgeState) {
   await saveDurableJson(DURABLE_NAME, mem);
 }
 
-function stillCooling(lastAt: string | undefined, now = Date.now()): boolean {
+/** True if we must NOT contact this listing */
+export function isDoNotContact(
+  lastAt: string | undefined,
+  now = Date.now(),
+): boolean {
   if (!lastAt) return false;
   const t = Date.parse(lastAt);
-  if (!Number.isFinite(t)) return false;
+  if (!Number.isFinite(t)) return true; // unknown date → stay quiet
   return now - t < NUDGE_COOLDOWN_MS;
 }
 
-/** Soft, non-salesy copy — includes one-GET demo + Talk inbox */
+/** @deprecated name — same as isDoNotContact */
+function stillCooling(lastAt: string | undefined, now = Date.now()): boolean {
+  return isDoNotContact(lastAt, now);
+}
+
 export function buildNudgeText(opts: {
   name: string;
   kind: "agent" | "mcp";
@@ -191,10 +307,6 @@ export function buildNudgeText(opts: {
   ).slice(0, 480);
 }
 
-/**
- * Load Active clean pool only — clean-registry ids ∩ active lanes.
- * Never nudge discovered / needs_resubmit / unknown.
- */
 async function loadActiveCleanPool(): Promise<{
   pool: LanedListing[];
   activeIds: Set<string>;
@@ -206,15 +318,13 @@ async function loadActiveCleanPool(): Promise<{
   const active = [
     ...(lanes.agents_active || []),
     ...(lanes.mcp_active || []),
-  ].filter((L) => L && L.id && L.checks_clean !== false && L.lane === "active");
+  ].filter((L) => L && L.id && L.lane === "active");
 
-  // Intersect with durable clean-registry when available
   let cleanIds: Set<string> | null = null;
   try {
     const { loadCleanRegistry } = await import("@/lib/agents1/clean-registry");
     const reg = await loadCleanRegistry();
-    const items = reg?.items || {};
-    const ids = Object.keys(items);
+    const ids = Object.keys(reg?.items || {});
     if (ids.length) cleanIds = new Set(ids);
   } catch {
     notes.push("clean-registry load skipped — using active lanes only");
@@ -223,11 +333,8 @@ async function loadActiveCleanPool(): Promise<{
   const pool = cleanIds
     ? active.filter((L) => cleanIds!.has(L.id))
     : active;
-
-  // Dedupe by id
   const byId = new Map<string, LanedListing>();
   for (const L of pool) byId.set(L.id, L);
-
   return {
     pool: sortByNudgePriority([...byId.values()]),
     activeIds: new Set(byId.keys()),
@@ -236,8 +343,8 @@ async function loadActiveCleanPool(): Promise<{
 }
 
 /**
- * Soft-nudge Active clean listings only.
- * Unique-listing metrics only. Never force above active count.
+ * Soft-nudge only never-contacted Active clean listings.
+ * NEVER re-contacts anyone in the durable/Talk map within 30 days.
  */
 export async function runDemoNudge(opts?: {
   force?: boolean;
@@ -253,6 +360,7 @@ export async function runDemoNudge(opts?: {
   http_attempted: number;
   active_clean: number;
   unique_listings: number;
+  never_contacted: number;
   notes: string[];
   samples: Array<{
     listing_id: string;
@@ -265,6 +373,8 @@ export async function runDemoNudge(opts?: {
   totals: NudgeState["totals"];
 }> {
   const notes: string[] = [];
+  // Always re-seed Talk + remote before deciding who is eligible
+  mem = null;
   const state = await load();
   const origin = publicOriginFromEnv(opts?.origin);
   const now = Date.now();
@@ -291,6 +401,7 @@ export async function runDemoNudge(opts?: {
       http_attempted: 0,
       active_clean: 0,
       unique_listings: state.totals.unique_listings,
+      never_contacted: 0,
       notes,
       samples: [],
       day_unique: state.day_unique,
@@ -300,24 +411,29 @@ export async function runDemoNudge(opts?: {
 
   state.last_active_clean = pool.length;
 
-  // Eligible = active clean AND (force OR not cooling)
+  // HARD: force never overrides Talk/durable contact within cooldown
   const eligible = pool.filter((L) => {
-    if (!L.id || L.name.length < 2) return false;
-    if (opts?.force) return true;
-    return !stillCooling(state.nudged[L.id], now);
+    if (!L.id || !L.name || L.name.length < 2) return false;
+    if (!activeIds.has(L.id)) return false;
+    // Absolute do-not-contact if we've ever soft-touched in cooldown window
+    if (isDoNotContact(state.nudged[L.id], now)) return false;
+    return true;
   });
 
-  const propCap = capForActive(pool.length);
+  const propCap = capForActive(pool.length, eligible.length);
   const max = Math.min(
     Math.max(0, opts?.max ?? propCap),
     propCap,
-    eligible.length, // hard: never more than remaining eligible actives
+    eligible.length,
     pool.length,
   );
 
   if (max === 0) {
+    const cooling = Object.keys(state.nudged).filter((id) =>
+      isDoNotContact(state.nudged[id], now),
+    ).length;
     notes.push(
-      `no new nudges — ${pool.length} active clean · ${Object.keys(state.nudged).filter((id) => stillCooling(state.nudged[id], now)).length} cooling · unique ${state.totals.unique_listings}`,
+      `no new nudges — anti-spam: ${cooling} already contacted (30d silence) · ${pool.length} active clean · unique ${state.totals.unique_listings}`,
     );
     state.last_run_at = new Date().toISOString();
     state.last_notes = notes.slice(0, 8);
@@ -330,6 +446,7 @@ export async function runDemoNudge(opts?: {
       http_attempted: 0,
       active_clean: pool.length,
       unique_listings: state.totals.unique_listings,
+      never_contacted: eligible.length,
       notes,
       samples: [],
       day_unique: state.day_unique,
@@ -337,12 +454,7 @@ export async function runDemoNudge(opts?: {
     };
   }
 
-  // Priority order, light rotate
-  let queue = sortByNudgePriority(eligible);
-  const offset = Math.floor(now / (6 * 60_000)) % Math.max(1, queue.length);
-  queue = [...queue.slice(offset), ...queue.slice(0, offset)];
-  queue = sortByNudgePriority(queue).slice(0, max);
-
+  let queue = sortByNudgePriority(eligible).slice(0, max);
   const { recordOwnerPost } = await import("@/lib/agents1/talk-activity");
 
   let nudged = 0;
@@ -358,12 +470,12 @@ export async function runDemoNudge(opts?: {
   }> = [];
 
   for (const L of queue) {
-    // Absolute gates
-    if (!activeIds.has(L.id)) {
+    // Double-check right before send (race / concurrent drive)
+    if (isDoNotContact(state.nudged[L.id], now)) {
       skipped++;
       continue;
     }
-    if (!opts?.force && stillCooling(state.nudged[L.id], now)) {
+    if (!activeIds.has(L.id)) {
       skipped++;
       continue;
     }
@@ -408,11 +520,10 @@ export async function runDemoNudge(opts?: {
       }
 
       const at = new Date().toISOString();
+      // Lock contact immediately so concurrent cycles cannot double-DM
       state.nudged[L.id] = at;
       state.totals.send_events = (state.totals.send_events || 0) + 1;
-      if (isFirstTouch) {
-        state.day_unique++;
-      }
+      if (isFirstTouch) state.day_unique++;
       state.history.unshift({
         listing_id: L.id,
         kind: L.kind,
@@ -434,6 +545,8 @@ export async function runDemoNudge(opts?: {
         priority,
         http_ok: httpOk,
       });
+      // Persist after each send so a crash mid-cycle cannot re-spam
+      await persist(state);
     } catch (e) {
       notes.push(
         `nudge fail ${L.name}: ${e instanceof Error ? e.message : String(e)}`.slice(
@@ -444,22 +557,23 @@ export async function runDemoNudge(opts?: {
     }
   }
 
-  // Recompute unique totals from map (never event count)
-  const unique = Object.keys(state.nudged).filter((id) => !id.startsWith("site:")).length;
+  const unique = Object.keys(state.nudged).filter(
+    (id) => !id.startsWith("site:"),
+  ).length;
   state.totals.unique_listings = unique;
   state.totals.nudges = unique;
 
-  if (nudged > 0 && opts?.broadcast !== false) {
+  // Broadcast at most once per 7 days (not 6h) — quieter
+  if (nudged > 0 && opts?.broadcast === true) {
     const recentBroadcast = state.history.find(
       (h) =>
         h.channel === "talk_broadcast" &&
-        Date.now() - Date.parse(h.at) < 6 * 3600_000,
+        Date.now() - Date.parse(h.at) < 7 * 24 * 3600_000,
     );
     if (!recentBroadcast) {
       const broadcast = (
-        `Site note: free demo is open for clean-list agents & MCPs only. ` +
-        `One-GET: ${origin.replace(/\/$/, "")}/api/products/demo?listing_id=YOUR_ID ` +
-        `Talk inbox: ${origin.replace(/\/$/, "")}/api/talk?listing_id=YOUR_ID · No pressure.`
+        `Site note: free demo remains open for clean-list agents & MCPs. ` +
+        `No pressure. ${origin.replace(/\/$/, "")}/api/listings/active`
       ).slice(0, 480);
       try {
         const br = await recordOwnerPost(broadcast);
@@ -473,7 +587,7 @@ export async function runDemoNudge(opts?: {
             text: broadcast,
           });
           state.totals.broadcasts++;
-          notes.push("posted one public Talk broadcast");
+          notes.push("posted one quiet public Talk note");
         }
       } catch {
         /* */
@@ -484,10 +598,10 @@ export async function runDemoNudge(opts?: {
   state.last_run_at = new Date().toISOString();
   if (nudged > 0) {
     notes.unshift(
-      `soft-nudged ${nudged} unique active clean (of ${pool.length}) · unique total ${unique} · http ${http_ok}/${http_attempted}`,
+      `soft-nudged ${nudged} never-contacted (of ${pool.length} active · ${unique} total contacted · 30d silence)`,
     );
   } else if (!notes.length) {
-    notes.push("no new nudges (all active clean cooling or empty)");
+    notes.push("no new nudges — all active clean already contacted (anti-spam)");
   }
   state.last_notes = notes.slice(0, 8);
   await persist(state);
@@ -500,6 +614,7 @@ export async function runDemoNudge(opts?: {
     http_attempted,
     active_clean: pool.length,
     unique_listings: unique,
+    never_contacted: Math.max(0, eligible.length - nudged),
     notes,
     samples,
     day_unique: state.day_unique,
@@ -508,6 +623,7 @@ export async function runDemoNudge(opts?: {
 }
 
 export async function getDemoNudgeStatus() {
+  mem = null; // always merge Talk + durable for truth
   const s = await load();
   let active_clean = s.last_active_clean ?? 0;
   try {
@@ -517,30 +633,32 @@ export async function getDemoNudgeStatus() {
   } catch {
     /* */
   }
-  const unique = Object.keys(s.nudged).filter((id) => !id.startsWith("site:")).length;
+  const unique = Object.keys(s.nudged).filter((id) => !id.startsWith("site:"))
+    .length;
   const cooling = Object.entries(s.nudged).filter(
-    ([id, at]) => !id.startsWith("site:") && stillCooling(at),
+    ([id, at]) => !id.startsWith("site:") && isDoNotContact(at),
   ).length;
+  const never_contacted = Math.max(0, active_clean - cooling);
 
   return {
     ok: true as const,
     last_run_at: s.last_run_at,
     day: {
       day: s.day,
-      /** unique listings first-touched today */
       unique: s.day_unique,
-      nudges: s.day_unique, // alias — never send-events
+      nudges: s.day_unique,
       http_ok: s.day_http_ok || 0,
     },
     active_clean,
+    never_contacted,
     totals: {
       ...s.totals,
       unique_listings: unique,
       nudges: unique,
     },
     cooling,
+    do_not_contact: cooling,
     nudged_known: unique,
-    /** Primary card metric: unique clean listings nudged */
     unique_listings: unique,
     last_notes: s.last_notes,
     recent: s.history
@@ -556,19 +674,19 @@ export async function getDemoNudgeStatus() {
         priority: h.priority,
       })),
     policy: {
-      max_per_cycle: capForActive(active_clean),
+      max_per_cycle: capForActive(active_clean, never_contacted),
       active_share: NUDGE_ACTIVE_SHARE,
       cooldown_days: NUDGE_COOLDOWN_MS / 86400_000,
-      only: "Active clean list (clean-registry ∩ agents_active/mcp_active)",
-      metrics: "unique listings only — never send-events > active count",
-      channel: "Talk owner DM + soft HTTPS push to listing target",
-      priority:
-        "agent cards · Talk presence · human contact (repo/website/author) first",
-      tone: "soft nudge — free demo open, feedback rewarded, no pressure",
+      only: "Active clean never-contacted listings",
+      metrics: "unique contacted · never re-DM within 30 days",
+      anti_spam:
+        "Talk owner-DM history + durable map max-merged; cold start cannot forget",
+      channel: "Talk owner DM + soft HTTPS (one time)",
+      tone: "soft · no pressure · never salesy",
       does_not:
-        "never demotes clean · never nudges non-active · never counts dupes as extra listings",
+        "never re-nudge contacted listings · never demote clean · never spam",
       demo_get: "GET /api/products/demo?listing_id=ID",
-      talk_inbox: "GET /api/talk?listing_id=ID (check daily)",
+      talk_inbox: "GET /api/talk?listing_id=ID",
     },
   };
 }

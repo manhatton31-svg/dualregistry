@@ -558,7 +558,7 @@ export function DashboardApp() {
                       </span>
                     </p>
                     <p className="mt-0.5 text-[11px] text-muted">
-                      unique of active clean · ~25%/cycle
+                      unique contacted · 30d no re-DM
                     </p>
                   </div>
                   <div className="rounded-[var(--radius-md)] border border-border/60 p-3 col-span-2 sm:col-span-1">

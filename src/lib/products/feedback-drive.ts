@@ -564,7 +564,8 @@ export async function runFeedbackDrive(opts?: {
     let demo_nudges = 0;
     try {
       const { runDemoNudge } = await import("./demo-nudge");
-      const nr = await runDemoNudge({ force: false });
+      // Anti-spam: never force; only never-contacted actives; 30d silence
+      const nr = await runDemoNudge({ force: false, broadcast: false });
       demo_nudges = nr.nudged || 0;
       if (nr.notes?.length) notes.push(...nr.notes.slice(0, 4));
       state.day_nudges = (state.day_nudges || 0) + demo_nudges;

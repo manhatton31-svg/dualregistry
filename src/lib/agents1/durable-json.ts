@@ -93,7 +93,9 @@ export async function forceHydrateDurable(
     name === "clean-registry.json" ||
     name === "counter-floors.json" ||
     name === "live-counters.json" ||
-    name === "probes.json"
+    name === "probes.json" ||
+    name === "demo-nudge.json" ||
+    name === "talk-activity.json"
   ) {
     const remote = await hydrateRemote(name);
     if (remote && local) {
