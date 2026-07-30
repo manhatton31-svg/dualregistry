@@ -12,6 +12,8 @@ export type ListingRow = {
   failed_checks?: FailedCheck[];
   repository?: string;
   website?: string;
+  /** Agent card or MCP endpoint URL — what you actually target */
+  target_url?: string;
   meta?: string;
   /** active | discovered */
   lane?: "active" | "discovered";
@@ -26,6 +28,23 @@ export type ListingRow = {
   feedbacked?: boolean;
   founder_n?: number;
 };
+
+function TargetLink({ url }: { url?: string }) {
+  if (!url) return null;
+  const short =
+    url.length > 56 ? `${url.slice(0, 28)}…${url.slice(-24)}` : url;
+  return (
+    <a
+      className="block max-w-full truncate font-mono text-[11px] text-accent hover:underline"
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+      title={url}
+    >
+      {short}
+    </a>
+  );
+}
 
 export function ListingTable({
   rows,
@@ -49,7 +68,6 @@ export function ListingTable({
           const fails = r.failed_checks || [];
           const clean =
             r.checks_clean !== undefined ? r.checks_clean : fails.length === 0;
-          const kind = r.kind || (r.lane ? undefined : undefined);
           return (
             <li
               key={r.id}
@@ -72,6 +90,11 @@ export function ListingTable({
                 <p className="mt-1.5 line-clamp-3 text-xs leading-relaxed text-muted">
                   {r.description}
                 </p>
+              ) : null}
+              {r.target_url ? (
+                <div className="mt-1.5">
+                  <TargetLink url={r.target_url} />
+                </div>
               ) : null}
               <div className="mt-2 flex flex-wrap items-center gap-1.5">
                 {showLane && r.lane === "active" ? (
@@ -133,6 +156,17 @@ export function ListingTable({
                     site
                   </a>
                 ) : null}
+                {r.target_url ? (
+                  <button
+                    type="button"
+                    className="text-accent hover:underline"
+                    onClick={() => {
+                      void navigator.clipboard?.writeText(r.target_url || "");
+                    }}
+                  >
+                    copy URL
+                  </button>
+                ) : null}
                 {showDemoCta && r.lane === "active" ? (
                   <a
                     className="font-medium text-accent hover:underline"
@@ -150,10 +184,11 @@ export function ListingTable({
       </ul>
 
       <div className="hidden overflow-x-auto md:block">
-        <table className="w-full min-w-[640px] text-left text-sm">
+        <table className="w-full min-w-[720px] text-left text-sm">
           <thead>
             <tr className="border-b border-border/60 text-[11px] uppercase tracking-wide text-subtle">
               <th className="pb-2 pr-3 font-medium">Name</th>
+              <th className="pb-2 pr-3 font-medium">Target</th>
               <th className="pb-2 pr-3 font-medium">Status</th>
               <th className="pb-2 pr-3 font-medium">Score</th>
               <th className="pb-2 font-medium">Actions</th>
@@ -174,7 +209,7 @@ export function ListingTable({
                   <td className="py-2.5 pr-3">
                     <p className="font-medium text-fg">{r.name}</p>
                     {r.description ? (
-                      <p className="mt-0.5 line-clamp-2 max-w-md text-xs text-muted">
+                      <p className="mt-0.5 line-clamp-2 max-w-xs text-xs text-muted">
                         {r.description}
                       </p>
                     ) : null}
@@ -183,6 +218,9 @@ export function ListingTable({
                         {r.category_label}
                       </p>
                     ) : null}
+                  </td>
+                  <td className="py-2.5 pr-3 max-w-[220px]">
+                    <TargetLink url={r.target_url} />
                   </td>
                   <td className="py-2.5 pr-3">
                     <div className="flex flex-wrap gap-1">
@@ -197,6 +235,9 @@ export function ListingTable({
                       ) : (
                         <Badge variant="warn">needs review</Badge>
                       )}
+                      {r.probe_ok === true ? (
+                        <Badge variant="success">probe ok</Badge>
+                      ) : null}
                       {r.demoed ? (
                         <Badge variant="accent">demoed</Badge>
                       ) : null}
@@ -210,6 +251,19 @@ export function ListingTable({
                   </td>
                   <td className="py-2.5">
                     <div className="flex flex-wrap gap-2 text-xs">
+                      {r.target_url ? (
+                        <button
+                          type="button"
+                          className="text-accent hover:underline"
+                          onClick={() => {
+                            void navigator.clipboard?.writeText(
+                              r.target_url || "",
+                            );
+                          }}
+                        >
+                          copy URL
+                        </button>
+                      ) : null}
                       {r.repository ? (
                         <a
                           className="text-accent hover:underline"
@@ -235,7 +289,7 @@ export function ListingTable({
                           className="font-medium text-accent hover:underline"
                           href={`/products?demo_listing=${encodeURIComponent(r.id)}&kind=${r.kind || "agent"}`}
                         >
-                          {r.kind === "mcp" ? "Agent kit" : "Free demo"}
+                          {r.kind === "mcp" ? "Agent kit" : "Demo"}
                         </a>
                       ) : null}
                     </div>

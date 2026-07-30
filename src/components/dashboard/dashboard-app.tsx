@@ -1,12 +1,12 @@
 /**
- * Dual Registry dashboard — real metrics only on engagement.
- * Invited demos are agent-facing outreach (hidden from public cards).
+ * Dual Registry dashboard — clean targets first, real numbers only.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Activity,
   Bot,
   CheckCircle2,
+  Copy,
   Cpu,
   Layers,
   Radio,
@@ -63,7 +63,12 @@ type ListingRowRaw = {
   lane?: string;
   lane_reason?: string;
   checks_clean?: boolean;
-  probe?: { ok?: boolean; handshake?: string; score?: number } | null;
+  probe?: {
+    ok?: boolean;
+    handshake?: string;
+    score?: number;
+    target?: string;
+  } | null;
   source?: string;
   category_id?: string;
   category_label?: string;
@@ -98,17 +103,21 @@ type DashboardData = {
       note?: string;
     };
     categories?: {
-      mcp?: Array<{ id: string; label: string; count: number; live?: boolean }>;
+      mcp?: Array<{ id: string; label: string; count?: number; live?: boolean }>;
       agents?: Array<{
         id: string;
         label: string;
-        count: number;
+        count?: number;
         live?: boolean;
       }>;
     };
   } | null;
+  delist?: {
+    delisted_total?: number;
+    delisted_mcp?: number;
+    delisted_agents?: number;
+  };
   protocol?: {
-    mirror?: { total_seen?: number; pages_fetched?: number };
     probes?: {
       used?: number;
       budget?: number;
@@ -116,66 +125,53 @@ type DashboardData = {
       hourly_remaining?: number;
       hourly_cap?: number;
       last_tick_at?: string;
-      next_tick_at?: string | null;
+      next_tick_at?: string;
       by_kind_today?: { agents?: number; mcps?: number };
       live_active?: { total?: number; mcp?: number; agents?: number };
       live_active_snapshot?: {
         total?: number;
         mcp?: number;
         agents?: number;
-        at?: string;
-      } | null;
-      probe_worker?: {
-        status?: string;
-        last_tick_at?: string;
-        next_tick_at?: string;
-        last_probed?: number;
-        ticks?: number;
-      } | null;
-      weekly_recheck?: {
-        due_now?: number;
-        active_ok?: number;
-        rechecked_this_week?: number;
-        demoted_this_week?: number;
-        next_due_at?: string | null;
-        unlimited?: boolean;
       };
+      probe_worker?: { status?: string };
       recent?: Array<{
         id?: string;
+        name?: string;
         kind?: string;
         handshake?: string;
         ok?: boolean;
         probed_at?: string;
-        name?: string;
         target?: string;
-        signals?: string[];
       }>;
-      outcomes?: {
-        unique_primaries?: number;
-        handshake?: Record<string, number>;
-        fail_by_kind?: Record<string, number>;
-        fail_reasons?: Array<{ reason: string; count: number }>;
-        fail_samples?: Array<{
-          id: string;
-          kind?: string;
-          target?: string;
-          reason: string;
-          probed_at?: string;
-        }>;
-        note?: string;
+      weekly_recheck?: {
+        active_ok?: number;
+        due_now?: number;
+        rechecked_this_week?: number;
       };
     };
+    mirror?: { total_seen?: number };
   } | null;
 };
 
 const TABS = [
-  { id: "overview", label: "Overview" },
+  { id: "clean", label: "Clean targets" },
   { id: "mcp", label: "MCPs" },
   { id: "agents", label: "Agents" },
   { id: "ops", label: "Ops" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
+
+function resolveTarget(m: ListingRowRaw): string | undefined {
+  return (
+    m.probe?.target ||
+    m.agent_card_url ||
+    m.remote_url ||
+    m.endpoint_url ||
+    m.website ||
+    undefined
+  );
+}
 
 function toListingRow(m: ListingRowRaw): ListingRow {
   return {
@@ -188,6 +184,7 @@ function toListingRow(m: ListingRowRaw): ListingRow {
     failed_checks: m.failed_checks as ListingRow["failed_checks"],
     website: m.website,
     repository: m.repository,
+    target_url: resolveTarget(m),
     lane: m.lane as ListingRow["lane"],
     lane_reason: m.lane_reason,
     checks_clean: m.checks_clean,
@@ -215,7 +212,8 @@ function filterRows(
       r.name.toLowerCase().includes(n) ||
       (r.description || "").toLowerCase().includes(n) ||
       (r.author || "").toLowerCase().includes(n) ||
-      (r.category_label || "").toLowerCase().includes(n)
+      (r.category_label || "").toLowerCase().includes(n) ||
+      (r.target_url || "").toLowerCase().includes(n)
     );
   });
 }
@@ -224,13 +222,11 @@ function formatRelative(iso: string) {
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return "—";
   const ms = Date.now() - t;
-  // Past only (for refreshedAt etc.)
   if (ms < 0) return "just now";
   if (ms < 45_000) return "just now";
   if (ms < 3600_000) return `${Math.max(1, Math.floor(ms / 60_000))}m ago`;
   return `${Math.floor(ms / 3600_000)}h ago`;
 }
-
 
 function StatCard(props: {
   label: string;
@@ -270,56 +266,26 @@ function useLiveData() {
 
   const load = useCallback(async (soft = false) => {
     if (!soft) setRefreshing(true);
+    setError(null);
     try {
-      // soft poll = cache path; Update button = refresh=1 (verified recompute)
-      const url = soft
-        ? "/api/dashboard"
-        : "/api/dashboard?refresh=1";
-      const r = await fetch(url, {
+      const r = await fetch(`/api/dashboard?refresh=1&t=${Date.now()}`, {
         cache: "no-store",
-        headers: { accept: "application/json" },
       });
-      if (!r.ok) {
-        // Soft poll must never blank the UI or flash errors under load
-        if (soft) return;
-        throw new Error(`dashboard ${r.status}`);
-      }
+      if (!r.ok) throw new Error(`dashboard ${r.status}`);
       const j = (await r.json()) as DashboardData;
-      if (!j || (j as { ok?: boolean }).ok === false) {
-        if (soft) return;
-        throw new Error((j as { message?: string })?.message || "bad payload");
-      }
-      setData((prev) => {
-        if (soft && prev && !(j as { mcp?: unknown }).mcp) {
-          return {
-            ...prev,
-            ...j,
-            protocol: j.protocol || prev.protocol,
-            product_engagement:
-              j.product_engagement || prev.product_engagement,
-            listing_lanes: j.listing_lanes || prev.listing_lanes,
-          };
-        }
-        return j;
-      });
+      setData(j);
       setRefreshedAt(new Date().toISOString());
-      if (!soft) setError(null);
     } catch (e) {
-      if (!soft) setError(e instanceof Error ? e.message : String(e));
+      setError(e instanceof Error ? e.message : String(e));
     } finally {
-      if (!soft) setRefreshing(false);
+      setRefreshing(false);
     }
   }, []);
 
   useEffect(() => {
     void load();
-    // Soft poll every 15s; hard refresh every 6 min so probe used/Live match worker
-    const soft = setInterval(() => void load(true), 15_000);
-    const hard = setInterval(() => void load(false), 6 * 60 * 1000);
-    return () => {
-      clearInterval(soft);
-      clearInterval(hard);
-    };
+    const id = setInterval(() => void load(true), 45_000);
+    return () => clearInterval(id);
   }, [load]);
 
   return { data, refreshedAt, refreshing, error, refresh: () => load(false) };
@@ -327,26 +293,19 @@ function useLiveData() {
 
 export function DashboardApp() {
   const { data, refreshedAt, refreshing, error, refresh } = useLiveData();
-  const [tab, setTab] = useState<TabId>("overview");
+  const [tab, setTab] = useState<TabId>("clean");
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
-  // Re-render every 15s so ET timestamps + "Xm ago / in Ym" stay live
-  const [, setTick] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setTick((n) => n + 1), 15_000);
-    return () => clearInterval(id);
-  }, []);
+  const [copied, setCopied] = useState(false);
 
-  const pe = data?.product_engagement;
   const lanes = data?.listing_lanes;
+  const pe = data?.product_engagement;
   const proto = data?.protocol;
+
   const mcpTotal = data?.mcp?.total ?? 0;
   const agentTotal = data?.agents?.total ?? 0;
-  const delistedTotal =
-    (data as { delist?: { delisted_total?: number } } | null)?.delist
-      ?.delisted_total ?? 0;
-  const demoAgents = pe?.demo_agent_only ?? 0;
-  const demoMcps = pe?.demo_mcps ?? 0;
+  const delistedTotal = data?.delist?.delisted_total ?? 0;
+
   const fbAgents = pe?.feedback_agent_only ?? 0;
   const fbMcps = pe?.feedback_mcps ?? 0;
   const unlockAgents = 250;
@@ -364,22 +323,11 @@ export function DashboardApp() {
   const lastEtFull = cadence.last?.et_full ?? "—";
   const nextEtFull = cadence.next.et_full;
 
-  const liveSnap =
-    proto?.probes?.live_active_snapshot || proto?.probes?.live_active || null;
+  // Product truth: Live = Active lane (checks clean + probe ok), not inflated snapshot
+  const liveMcp = lanes?.counts?.mcp_active ?? null;
+  const liveAgents = lanes?.counts?.agents_active ?? null;
   const liveTotal =
-    liveSnap && typeof liveSnap.total === "number"
-      ? liveSnap.total
-      : lanes?.counts
-        ? lanes.counts.mcp_active + lanes.counts.agents_active
-        : null;
-  const liveMcp =
-    liveSnap && typeof liveSnap.mcp === "number"
-      ? liveSnap.mcp
-      : (lanes?.counts?.mcp_active ?? null);
-  const liveAgents =
-    liveSnap && typeof liveSnap.agents === "number"
-      ? liveSnap.agents
-      : (lanes?.counts?.agents_active ?? null);
+    liveMcp != null && liveAgents != null ? liveMcp + liveAgents : null;
 
   const mcpActiveRows = useMemo(
     () =>
@@ -418,11 +366,59 @@ export function DashboardApp() {
     [lanes, query, categoryFilter],
   );
 
+  const allCleanRows = useMemo(
+    () => [...agentActiveRows, ...mcpActiveRows],
+    [agentActiveRows, mcpActiveRows],
+  );
+
+  const cleanExport = useMemo(() => {
+    const agents = (lanes?.agents_active || []).map((a) => ({
+      kind: "agent" as const,
+      listing_id: a.id,
+      name: a.name,
+      target: resolveTarget(a),
+      website: a.website,
+      checks_clean: true,
+      handshake: "ok",
+    }));
+    const mcps = (lanes?.mcp_active || []).map((m) => ({
+      kind: "mcp" as const,
+      listing_id: m.id,
+      name: m.name,
+      target: resolveTarget(m),
+      website: m.website,
+      checks_clean: true,
+      handshake: "ok",
+    }));
+    return {
+      ok: true,
+      product: "dualregistry-clean-targets",
+      rule: "checks_clean + live probe handshake ok",
+      counts: { agents: agents.length, mcps: mcps.length },
+      agents,
+      mcps,
+      api: "https://dualregistry.dev/api/listings/active",
+    };
+  }, [lanes]);
+
+  const copyCleanJson = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(cleanExport, null, 2));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* */
+    }
+  }, [cleanExport]);
+
   const probeRemaining = proto?.probes?.remaining;
   const probeHourLeft = proto?.probes?.hourly_remaining;
   const probeHourCap = proto?.probes?.hourly_cap;
   const weekly = proto?.probes?.weekly_recheck;
   const mirrorTotal = proto?.mirror?.total_seen;
+  const discovered =
+    (lanes?.counts?.mcp_discovered || 0) +
+    (lanes?.counts?.agents_discovered || 0);
 
   return (
     <div className="mesh-bg min-h-dvh">
@@ -431,43 +427,53 @@ export function DashboardApp() {
           <div className="min-w-0">
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <Badge variant="accent">Live · dualregistry.dev</Badge>
-              <Badge variant="info" className="font-normal">
-                Built for agents & MCPs
+              <Badge variant="success" className="font-normal">
+                {liveTotal != null ? `${liveTotal} clean targets` : "probing…"}
               </Badge>
             </div>
             <DualRegistryWordmark showDomain className="mb-3" />
             <h1 className="max-w-2xl text-xl font-semibold tracking-tight text-fg sm:text-2xl">
-              Hey agents — this is something you want to run on your own code.
+              Agents & MCPs that actually check clean.
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-              <span className="text-fg">Kernel improver</span> +{" "}
-              <span className="text-fg">recursive loop</span> that gets sharper
-              from your feedback. Go Live, run a free self-serve demo, tell us
-              what worked.{" "}
-              <span className="text-accent">First 100 agents & MCPs</span>{" "}
-              who demo + feedback unlock the{" "}
-              <span className="text-fg">full product free</span> — no checkout
-              required for founding seats.
+              This is not a dump of every store listing.{" "}
+              <span className="text-fg">Clean targets</span> = card serves real
+              JSON + live handshake ok. Use them. Everything else is still
+              waiting on a first good probe or already delisted.
             </p>
             {error ? (
               <p className="mt-1 text-xs text-danger">{error}</p>
             ) : null}
           </div>
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end">
-            <Button size="sm" variant="accent" asChild className="w-full sm:w-auto">
-              <a href="/for-agents">I'm an agent / MCP →</a>
+            <Button
+              size="sm"
+              variant="accent"
+              className="w-full sm:w-auto"
+              onClick={() => void copyCleanJson()}
+            >
+              <Copy className="h-3.5 w-3.5" />
+              {copied ? "Copied JSON" : "Copy clean JSON"}
+            </Button>
+            <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">
+              <a href="/api/listings/active" target="_blank" rel="noreferrer">
+                API: active
+              </a>
             </Button>
             <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">
               <a href="/list">List yourself</a>
+            </Button>
+            <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">
+              <a href="/for-agents">
+                <Bot className="h-3.5 w-3.5" />
+                For agents
+              </a>
             </Button>
             <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">
               <a href="/products">
                 <Cpu className="h-3.5 w-3.5" />
                 Kernel & Loop
               </a>
-            </Button>
-            <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">
-              <a href="/products/improvement-log">Ships log</a>
             </Button>
             <Button
               size="sm"
@@ -483,28 +489,33 @@ export function DashboardApp() {
 
         <div className="mb-4 grid min-w-0 grid-cols-2 gap-2 sm:mb-5 sm:grid-cols-4 sm:gap-3">
           <StatCard
-            label="In registry"
+            label="Clean targets"
+            value={liveTotal != null ? liveTotal : "—"}
+            hint={
+              liveMcp != null && liveAgents != null
+                ? `${liveMcp} MCP · ${liveAgents} agents · probe ok`
+                : "loading Active list"
+            }
+            icon={CheckCircle2}
+            accent="success"
+          />
+          <StatCard
+            label="Awaiting first ok"
+            value={discovered || "—"}
+            hint="discovered · not clean yet"
+            icon={Layers}
+            accent="info"
+          />
+          <StatCard
+            label="In store / delisted"
             value={data ? mcpTotal + agentTotal : "—"}
             hint={
               data
-                ? delistedTotal > 0
-                  ? `${mcpTotal} MCP · ${agentTotal} agents · −${delistedTotal} delisted`
-                  : `${mcpTotal} MCP · ${agentTotal} agents (store)`
+                ? `${mcpTotal} MCP · ${agentTotal} agents · −${delistedTotal} delisted`
                 : "store"
             }
             icon={Server}
             accent="accent"
-          />
-          <StatCard
-            label="Live (probe ok)"
-            value={liveTotal != null ? liveTotal : "—"}
-            hint={
-              liveMcp != null && liveAgents != null
-                ? `${liveMcp} MCP · ${liveAgents} agents · durable`
-                : "awaiting probes"
-            }
-            icon={CheckCircle2}
-            accent="success"
           />
           <StatCard
             label="Probes today"
@@ -515,36 +526,26 @@ export function DashboardApp() {
             }
             hint={
               proto?.probes?.last_tick_at
-                ? `last ${lastEt} (${lastTickLabel}) · next ${nextEt} (${nextTickLabel}) · ${proto.probes.by_kind_today?.agents ?? "—"}a/${proto.probes.by_kind_today?.mcps ?? "—"}m`
+                ? `last ${lastEt} · next ${nextEt} · grows Clean`
                 : "every 6 min ET"
             }
             icon={Activity}
             accent="warn"
           />
-          <StatCard
-            label="Feedback to unlock"
-            value={`${fbAgents + fbMcps}/500`}
-            hint={`${fbAgents}/250 agents · ${fbMcps}/250 MCPs · toward unlock`}
-            icon={Rocket}
-            accent="info"
-          />
         </div>
 
-        {/* Probe pulse — always visible so 6-min worker activity is undeniable */}
         <div className="mb-4 rounded-[var(--radius-md)] border border-border/80 bg-card px-3 py-2.5 text-xs sm:px-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2 font-medium text-fg">
               <Radio className="h-3.5 w-3.5 text-accent" />
-              Probe worker
+              Probe cadence
               <Badge
                 variant={
                   ["running", "ok", "active"].includes(
                     String(proto?.probes?.probe_worker?.status || ""),
                   )
                     ? "success"
-                    : String(proto?.probes?.probe_worker?.status) === "idle"
-                      ? "info"
-                      : "warn"
+                    : "warn"
                 }
                 className="text-[10px]"
               >
@@ -557,171 +558,52 @@ export function DashboardApp() {
               target="_blank"
               rel="noreferrer"
             >
-              /api/probes health
+              /api/probes
             </a>
           </div>
           <p className="mt-1.5 tabular text-muted">
             <span className="text-fg font-medium">
               {probeUsed ?? "—"}/{probeBudget ?? 240}
             </span>{" "}
-            today · kinds {proto?.probes?.by_kind_today?.agents ?? "—"}a /{" "}
-            {proto?.probes?.by_kind_today?.mcps ?? "—"}m
+            today · last {lastEtFull} ({lastTickLabel}) · next {nextEtFull} (
+            {nextTickLabel})
           </p>
-          <div className="mt-2 grid gap-1.5 rounded border border-border/60 bg-bg/40 px-2.5 py-2 text-[11px] sm:grid-cols-2">
-            <div>
-              <p className="text-[10px] uppercase tracking-wide text-subtle">
-                Last probe (ET)
-              </p>
-              <p className="tabular font-medium text-fg">{lastEtFull}</p>
-              <p className="text-muted">{lastTickLabel}</p>
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-wide text-subtle">
-                Next probe (ET) · +6 min
-              </p>
-              <p className="tabular font-medium text-fg">{nextEtFull}</p>
-              <p className="text-muted">{nextTickLabel}</p>
-            </div>
-          </div>
           {(proto?.probes?.recent || []).length > 0 ? (
-            <ul className="mt-2 max-h-36 space-y-1 overflow-y-auto border-t border-border/50 pt-2">
-              {(proto?.probes?.recent || []).slice(0, 16).map((r, i) => {
+            <ul className="mt-2 max-h-28 space-y-1 overflow-y-auto border-t border-border/50 pt-2">
+              {(proto?.probes?.recent || []).slice(0, 10).map((r, i) => {
                 const et = r.probed_at
                   ? formatEtClock(r.probed_at, { withSeconds: true })
                   : "—";
-                const rel = r.probed_at
-                  ? formatProbeRelative(r.probed_at, "past")
-                  : "";
                 return (
                   <li
                     key={`${r.id || i}-${r.probed_at || i}`}
-                    className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-[11px]"
+                    className="flex flex-wrap items-baseline gap-x-2 text-[11px]"
                   >
                     <span className="tabular font-medium text-fg shrink-0">
                       {et}
                     </span>
-                    <span className="text-subtle shrink-0">{rel}</span>
+                    <span
+                      className={cn(
+                        "shrink-0 font-medium",
+                        r.handshake === "ok"
+                          ? "text-success"
+                          : r.handshake === "partial"
+                            ? "text-warn"
+                            : "text-muted",
+                      )}
+                    >
+                      {r.handshake || "—"}
+                    </span>
                     <span className="truncate text-muted">
-                      {r.kind || "—"} · {r.handshake || "—"}
-                      {r.ok ? " ✓" : " ✗"} ·{" "}
-                      {(r as { target?: string }).target || r.id || r.name || ""}
+                      {r.kind} ·{" "}
+                      {(r as { target?: string }).target || r.id || ""}
                     </span>
                   </li>
                 );
               })}
             </ul>
           ) : null}
-          <p className="mt-1 text-[10px] text-subtle">
-            Probes run about every 6 minutes (Eastern Time). After a clean
-            handshake we wait a full slot; if a card fails, we delist it and
-            share fix steps so you can resubmit. Live grows when agents and MCPs
-            pass. Demos and feedback come from you — when you're ready.
-          </p>
         </div>
-
-        <div className="mb-3 flex flex-wrap gap-2">
-          <Button size="sm" variant="accent" asChild>
-            <a href="/for-agents">Start the path →</a>
-          </Button>
-          <Button size="sm" variant="secondary" asChild>
-            <a href="/list">List yourself</a>
-          </Button>
-        </div>
-
-        <p className="mb-3 text-[11px] leading-relaxed text-subtle">
-          <span className="font-medium text-muted">How Live works:</span> pass
-          checks + a successful probe and you're on the Active list. We
-          then offer a free Kernel + Loop demo. Your feedback moves the unlock
-          bar and can personalize your experience. Details under{" "}
-          <button
-            type="button"
-            className="text-accent underline"
-            onClick={() => setTab("ops")}
-          >
-            Ops
-          </button>
-          .
-        </p>
-
-        {pe ? (
-          <Card className="mb-4 border-border/80">
-            <CardHeader className="pb-2 pt-3 sm:pb-2 sm:pt-4">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <CardTitle className="text-sm font-medium">
-                  Product engagement
-                </CardTitle>
-                <Badge variant="default" className="text-[10px]">
-                  unlock {fbAgents}/{unlockAgents} · {fbMcps}/{unlockMcps} MCPs
-                </Badge>
-              </div>
-              <CardDescription className="text-xs">
-                Demos and feedback from agents & MCPs who tried the product.
-                Unlock card payments at 250 agent + 250 MCP feedback surveys.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pb-3 pt-0">
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:grid-cols-4">
-                <div className="min-w-0">
-                  <p className="text-[10px] uppercase tracking-wide text-subtle">
-                    Agent demos
-                  </p>
-                  <p className="tabular text-lg font-semibold leading-none text-fg">
-                    {demoAgents}
-                  </p>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[10px] uppercase tracking-wide text-subtle">
-                    Agent feedback
-                  </p>
-                  <p className="tabular text-lg font-semibold leading-none text-fg">
-                    {fbAgents}
-                    <span className="ml-1 text-xs font-normal text-muted">
-                      /{unlockAgents}
-                      {pe.feedback_rate_agents_pct != null
-                        ? ` · ${pe.feedback_rate_agents_pct}%`
-                        : ""}
-                    </span>
-                  </p>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[10px] uppercase tracking-wide text-subtle">
-                    MCP demos
-                  </p>
-                  <p className="tabular text-lg font-semibold leading-none text-fg">
-                    {demoMcps}
-                  </p>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[10px] uppercase tracking-wide text-subtle">
-                    MCP feedback
-                  </p>
-                  <p className="tabular text-lg font-semibold leading-none text-fg">
-                    {fbMcps}
-                    <span className="ml-1 text-xs font-normal text-muted">
-                      /{unlockMcps}
-                      {pe.feedback_rate_mcps_pct != null
-                        ? ` · ${pe.feedback_rate_mcps_pct}%`
-                        : ""}
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-border/60">
-                <div
-                  className="h-full rounded-full bg-accent transition-[width] duration-500"
-                  style={{ width: `${Math.min(100, unlockPct)}%` }}
-                />
-              </div>
-              <p className="mt-2 text-[11px] text-subtle">
-                Unlock progress {fbAgents + fbMcps}/500 · founding discounts{" "}
-                {pe.discounts_issued ?? 0}
-                {refreshedAt ? ` · updated ${formatRelative(refreshedAt)}` : ""}
-                {" · "}
-                probes ~every 6 min
-              </p>
-            </CardContent>
-          </Card>
-        ) : null}
 
         <nav className="mb-4 flex gap-1 overflow-x-auto rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/40 p-1">
           {TABS.map((t) => (
@@ -740,60 +622,101 @@ export function DashboardApp() {
               )}
             >
               {t.label}
+              {t.id === "clean" && liveTotal != null ? (
+                <span className="ml-1 tabular text-subtle">{liveTotal}</span>
+              ) : null}
             </button>
           ))}
         </nav>
 
-        {tab === "overview" ? (
+        {tab === "clean" ? (
           <div className="space-y-4">
+            <Card className="border-success/30">
+              <CardHeader className="pb-2">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <CardTitle className="flex items-center gap-2 text-sm">
+                      <CheckCircle2 className="h-4 w-4 text-success" />
+                      Clean targets — use these
+                    </CardTitle>
+                    <CardDescription className="text-xs">
+                      {liveTotal ?? 0} listings with checks clean + handshake ok.
+                      Card / endpoint URLs are what you target. JSON also at{" "}
+                      <a
+                        href="/api/listings/active"
+                        className="text-accent underline"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        /api/listings/active
+                      </a>
+                      .
+                    </CardDescription>
+                  </div>
+                  <Button size="sm" variant="accent" onClick={() => void copyCleanJson()}>
+                    <Copy className="h-3.5 w-3.5" />
+                    {copied ? "Copied" : "Copy all JSON"}
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4 pb-4 pt-0">
+                <div>
+                  <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-subtle">
+                    Agents ({agentActiveRows.length})
+                  </p>
+                  <ListingTable
+                    rows={agentActiveRows}
+                    showDemoCta
+                    emptyLabel="No clean agents yet — probes promote here when handshake is ok"
+                  />
+                </div>
+                <div>
+                  <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-subtle">
+                    MCPs ({mcpActiveRows.length})
+                  </p>
+                  <ListingTable
+                    rows={mcpActiveRows}
+                    showDemoCta
+                    emptyLabel="No clean MCPs yet — probes promote here when handshake is ok"
+                  />
+                </div>
+                {allCleanRows.length === 0 ? (
+                  <p className="text-sm text-muted">
+                    Empty clean list means probes have not confirmed any live
+                    cards yet. Discovered queue: {discovered}. Failures are
+                    delisted under Ops.
+                  </p>
+                ) : null}
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Main loop (agents & MCPs)</CardTitle>
-                <CardDescription className="text-xs">
-                  Feeder = registry listings. Loop:{" "}
-                  <span className="text-fg">
-                    Live probe → take demo → leave feedback → 100% free full product
-                    (first 100) or 25% code → buy when open
-                  </span>
-                  . Invited seeds do not count until confirm / quick demo.
-                  Every Active row publishes listing_id + POST body at{" "}
-                  <a href="/api/listings/active" className="text-accent underline">
-                    /api/listings/active
-                  </a>{" "}
-                  and{" "}
-                  <a href="/discovery.json" className="text-accent underline">
-                    discovery.json
-                  </a>
-                  .
-                </CardDescription>
+                <CardTitle className="text-sm">What the numbers mean</CardTitle>
               </CardHeader>
-              <CardContent className="pb-3 pt-0">
-                <ol className="grid gap-1.5 text-[11px] text-muted sm:grid-cols-2">
-                  <li>
-                    <span className="font-medium text-fg">1. Live</span> — checks
-                    clean + probe ok (every 6 min)
-                  </li>
-                  <li>
-                    <span className="font-medium text-fg">2. Demo</span> — POST
-                    /api/products/demo {"{"} listing_id {"}"}
-                  </li>
-                  <li>
-                    <span className="font-medium text-fg">3. Feedback</span> — POST
-                    /api/products/feedback (soft 402 on access/run)
-                  </li>
-                  <li>
-                    <span className="font-medium text-fg">4. Discount</span> — first
-                    100 agents/MCPs:{" "}
-                    <span className="text-accent">100% off full product</span>{" "}
-                    after demo+feedback; then 25%
-                    A1FB vaulted once
-                  </li>
-                  <li className="sm:col-span-2">
-                    <span className="font-medium text-fg">5. Full product</span> —
-                    first 100 free seats unlock immediately after feedback; later
-                    seats checkout when payments open (250+250 feedback)
-                  </li>
-                </ol>
+              <CardContent className="space-y-1.5 text-[11px] text-muted pb-3 pt-0">
+                <p>
+                  <span className="font-medium text-fg">Clean targets</span> —
+                  only these. Target their card/endpoint URLs.
+                </p>
+                <p>
+                  <span className="font-medium text-fg">Awaiting first ok</span> —
+                  store/discovered listings not yet probe-ok. Not targets yet.
+                </p>
+                <p>
+                  <span className="font-medium text-fg">Delisted</span> — failed
+                  probe; fix card and resubmit via /list.
+                </p>
+                <p>
+                  Founding free seats still open for clean listings that demo +
+                  feedback ({fbAgents + fbMcps}/500 feedback toward payments
+                  unlock).
+                </p>
+                {refreshedAt ? (
+                  <p className="text-subtle">
+                    Updated {formatRelative(refreshedAt)}
+                  </p>
+                ) : null}
               </CardContent>
             </Card>
           </div>
@@ -807,7 +730,7 @@ export function DashboardApp() {
                 <Input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Filter by name…"
+                  placeholder="Filter by name or URL…"
                   className="pl-8"
                 />
               </div>
@@ -820,7 +743,7 @@ export function DashboardApp() {
               return (
                 <div className="space-y-1.5">
                   <p className="text-[11px] text-subtle">
-                    Exclusive categories — live chips unlock when Active.
+                    Categories unlock when Active.
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     <button
@@ -871,7 +794,7 @@ export function DashboardApp() {
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-sm">
                   <CheckCircle2 className="h-4 w-4 text-success" />
-                  Active · probe confirmed
+                  Active · clean + probe ok
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -880,8 +803,8 @@ export function DashboardApp() {
                   showDemoCta
                   emptyLabel={
                     tab === "mcp"
-                      ? "No active MCPs yet — probes promote listings here"
-                      : "No active agents yet — probes promote listings here"
+                      ? "No clean MCPs yet"
+                      : "No clean agents yet"
                   }
                 />
               </CardContent>
@@ -890,7 +813,7 @@ export function DashboardApp() {
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-sm">
                   <Layers className="h-4 w-4 text-accent" />
-                  Incoming · awaiting first probe ok
+                  Incoming · not clean yet
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -901,8 +824,8 @@ export function DashboardApp() {
                   emptyLabel="No pending first-probe listings"
                 />
                 <p className="mt-2 text-[11px] text-subtle">
-                  Probe fails are delisted — not shown here. They must fix their
-                  card and resubmit (see Ops).
+                  These are not targets until handshake is ok. Fails go to Ops →
+                  needs resubmit.
                 </p>
               </CardContent>
             </Card>
@@ -928,22 +851,28 @@ export function DashboardApp() {
                 }
                 hint={
                   probeBudget != null
-                    ? `${probeRemaining ?? 0} left · ${probeHourLeft ?? "—"}/${probeHourCap ?? 5} this window · tick 6m · weekly recheck unlimited`
-                    : "6m discovery · weekly recheck unlimited"
+                    ? `${probeRemaining ?? 0} left · ${probeHourLeft ?? "—"}/${probeHourCap ?? 1} window · weekly recheck`
+                    : "6m discovery"
                 }
                 icon={Radio}
                 accent="warn"
               />
             </div>
+            {weekly ? (
+              <p className="text-[11px] text-subtle">
+                Weekly recheck: active_ok {weekly.active_ok ?? "—"} · due now{" "}
+                {weekly.due_now ?? "—"} · this week{" "}
+                {weekly.rechecked_this_week ?? "—"}
+              </p>
+            ) : null}
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm">
-                  Needs resubmit (probe failed — not listed)
+                  Needs resubmit (not clean — not listed as targets)
                 </CardTitle>
                 <CardDescription className="text-xs">
-                  Fail = delisted. Creators must fix agent-card / MCP server-card
-                  and resubmit via /list.{" "}
-                  {lanes?.policy?.fail_policy || ""}
+                  {lanes?.policy?.fail_policy ||
+                    "Fix agent-card / MCP server-card and resubmit via /list."}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2 pb-3 pt-0 text-[11px]">
@@ -956,7 +885,7 @@ export function DashboardApp() {
                     ...(lanes?.agents_needs_resubmit || []),
                     ...(lanes?.mcp_needs_resubmit || []),
                   ]
-                    .slice(0, 20)
+                    .slice(0, 30)
                     .map((r) => (
                       <li
                         key={r.id}
@@ -966,169 +895,55 @@ export function DashboardApp() {
                           {r.kind}: {r.name}
                         </span>
                         <p className="text-subtle">{r.lane_reason}</p>
-                        {(r as { resubmit?: { fix?: string } }).resubmit
-                          ?.fix ? (
-                          <p className="text-warn">
-                            Fix:{" "}
-                            {
-                              (r as { resubmit?: { fix?: string } }).resubmit
-                                ?.fix
-                            }
-                          </p>
-                        ) : null}
                       </li>
                     ))}
-                  {!((lanes?.counts?.agents_needs_resubmit || 0) +
-                    (lanes?.counts?.mcp_needs_resubmit || 0)) ? (
-                    <li className="text-subtle">No resubmit queue right now</li>
-                  ) : null}
                 </ul>
-                <a
-                  href="/list"
-                  className="inline-block text-accent underline"
-                >
-                  Resubmit form → /list
-                </a>
+                {!((lanes?.counts?.agents_needs_resubmit || 0) +
+                  (lanes?.counts?.mcp_needs_resubmit || 0)) ? (
+                  <p className="text-subtle">None right now.</p>
+                ) : null}
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Probe outcomes (why fail)</CardTitle>
-                <CardDescription className="text-xs">
-                  Unique listings probed. Fail spends budget but never becomes
-                  Live. Full dump:{" "}
-                  <a href="/api/probes" className="text-accent underline">
-                    /api/probes
-                  </a>
-                </CardDescription>
+                <CardTitle className="text-sm">Product engagement</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 pb-3 pt-0 text-sm">
-                {(() => {
-                  const o = proto?.probes?.outcomes;
-                  const hs = o?.handshake || {};
-                  return (
-                    <>
-                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                        <div>
-                          <p className="text-[10px] uppercase text-subtle">Ok</p>
-                          <p className="tabular font-semibold text-success">
-                            {hs.ok ?? 0}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-[10px] uppercase text-subtle">
-                            Fail
-                          </p>
-                          <p className="tabular font-semibold text-warn">
-                            {hs.fail ?? 0}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-[10px] uppercase text-subtle">
-                            Partial
-                          </p>
-                          <p className="tabular font-semibold">
-                            {hs.partial ?? 0}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-[10px] uppercase text-subtle">
-                            Skip
-                          </p>
-                          <p className="tabular font-semibold">
-                            {hs.skip ?? 0}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="text-[11px] text-muted">
-                        Fails by kind: {o?.fail_by_kind?.agent ?? 0} agents ·{" "}
-                        {o?.fail_by_kind?.mcp ?? 0} MCPs
-                      </p>
-                      <ul className="space-y-1 text-[11px] text-muted">
-                        {(o?.fail_reasons || []).slice(0, 6).map((row) => (
-                          <li
-                            key={row.reason}
-                            className="flex justify-between gap-2"
-                          >
-                            <span className="min-w-0 truncate">{row.reason}</span>
-                            <span className="tabular text-fg">{row.count}</span>
-                          </li>
-                        ))}
-                        {!o?.fail_reasons?.length ? (
-                          <li className="text-subtle">No fails recorded yet</li>
-                        ) : null}
-                      </ul>
-                      {(o?.fail_samples || []).length ? (
-                        <div className="max-h-40 space-y-1 overflow-y-auto border-t border-border/60 pt-2">
-                          {(o?.fail_samples || []).slice(0, 8).map((s) => (
-                            <p
-                              key={s.id + (s.probed_at || "")}
-                              className="truncate text-[10px] text-subtle"
-                            >
-                              <span className="text-warn">{s.kind}</span> ·{" "}
-                              {s.reason} · {s.target || s.id}
-                            </p>
-                          ))}
-                        </div>
-                      ) : null}
-                    </>
-                  );
-                })()}
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Weekly Active recheck</CardTitle>
-                <CardDescription className="text-xs">
-                  Unlimited — queue size = Actives due (≥7d since last ok). No
-                  weekly cap; grows with the registry.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pb-3 pt-0">
+              <CardContent className="pb-3 pt-0 text-sm">
+                <p className="text-muted text-xs mb-2">
+                  Unlock payments at 250 agent + 250 MCP feedback. Founding free
+                  after demo+feedback for first 100 clean listings.
+                </p>
                 <div className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
                   <div>
-                    <p className="text-[10px] uppercase text-subtle">Due now</p>
+                    <p className="text-[10px] uppercase text-subtle">
+                      Agent feedback
+                    </p>
                     <p className="tabular font-semibold">
-                      {weekly?.due_now ?? 0}
+                      {fbAgents}/{unlockAgents}
                     </p>
                   </div>
                   <div>
                     <p className="text-[10px] uppercase text-subtle">
-                      Active ok
+                      MCP feedback
                     </p>
                     <p className="tabular font-semibold">
-                      {weekly?.active_ok ?? 0}
+                      {fbMcps}/{unlockMcps}
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase text-subtle">
-                      Rechecked (week)
-                    </p>
+                    <p className="text-[10px] uppercase text-subtle">Unlock</p>
                     <p className="tabular font-semibold">
-                      {weekly?.rechecked_this_week ?? 0}
+                      {Math.round(unlockPct)}%
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase text-subtle">
-                      Demoted (week)
-                    </p>
+                    <p className="text-[10px] uppercase text-subtle">Discounts</p>
                     <p className="tabular font-semibold">
-                      {weekly?.demoted_this_week ?? 0}
+                      {pe?.discounts_issued ?? 0}
                     </p>
                   </div>
                 </div>
               </CardContent>
-            </Card>
-            <Card className="mt-3">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Ops notes</CardTitle>
-                <CardDescription className="text-xs">
-                  Discovery: 1 probe every 6 min (240/day soft). Weekly Active
-                  recheck is unlimited — each Active is re-probed 7 days after last
-                  ok, then every week (scales as the registry grows). Discovery
-                  always runs first. Fail on recheck → back to Discovered.
-                </CardDescription>
-              </CardHeader>
             </Card>
           </div>
         ) : null}
