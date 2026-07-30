@@ -26,10 +26,6 @@ import { cn } from "@/lib/utils";
 import { DualRegistryWordmark } from "@/components/brand/logo";
 import { ListingTable, type ListingRow } from "./listing-table";
 import { StatCard } from "./stat-card";
-import {
-  formatEtClock,
-  probeCadencePair,
-} from "@/lib/agents1/time-et";
 
 type ProductEngagement = {
   demo_agents?: number;
@@ -109,20 +105,8 @@ type DashboardData = {
       remaining?: number;
       hourly_remaining?: number;
       hourly_cap?: number;
-      last_tick_at?: string;
-      next_tick_at?: string;
       by_kind_today?: { agents?: number; mcps?: number };
       live_active?: { total?: number; mcp?: number; agents?: number };
-      probe_worker?: { status?: string };
-      recent?: Array<{
-        id?: string;
-        name?: string;
-        kind?: string;
-        handshake?: string;
-        ok?: boolean;
-        probed_at?: string;
-        target?: string;
-      }>;
       weekly_recheck?: {
         active_ok?: number;
         due_now?: number;
@@ -180,27 +164,20 @@ function toListingRow(m: ListingRowRaw): ListingRow {
 
 function filterRows(
   rows: ListingRow[],
-  query: string,
-  categoryFilter: string | null,
+  q: string,
+  categoryId: string | null,
 ): ListingRow[] {
-  const q = query.trim().toLowerCase();
-  return rows.filter((r) => {
-    if (categoryFilter && r.category_id !== categoryFilter) return false;
-    if (!q) return true;
-    return [r.name, r.description, r.author, r.target_url, r.website]
-      .filter(Boolean)
-      .some((s) => String(s).toLowerCase().includes(q));
-  });
-}
-
-function formatRelative(iso: string): string {
-  const t = Date.parse(iso);
-  if (!Number.isFinite(t)) return "—";
-  const sec = Math.round((Date.now() - t) / 1000);
-  if (sec < 60) return `${sec}s ago`;
-  if (sec < 3600) return `${Math.floor(sec / 60)}m ago`;
-  if (sec < 86400) return `${Math.floor(sec / 3600)}h ago`;
-  return `${Math.floor(sec / 86400)}d ago`;
+  let out = rows;
+  if (categoryId) out = out.filter((r) => r.category_id === categoryId);
+  const s = q.trim().toLowerCase();
+  if (!s) return out;
+  return out.filter(
+    (r) =>
+      r.name.toLowerCase().includes(s) ||
+      (r.description || "").toLowerCase().includes(s) ||
+      (r.author || "").toLowerCase().includes(s) ||
+      (r.target_url || "").toLowerCase().includes(s),
+  );
 }
 
 function useLiveData() {
@@ -255,13 +232,6 @@ export function DashboardApp() {
 
   const probeUsed = proto?.probes?.used;
   const probeBudget = proto?.probes?.budget ?? 240;
-  const cadence = probeCadencePair(proto?.probes?.last_tick_at);
-  const lastTickLabel = cadence.last?.relative ?? "—";
-  const nextTickLabel = cadence.next.relative;
-  const lastEt = cadence.last?.et ?? "—";
-  const nextEt = cadence.next.et;
-  const lastEtFull = cadence.last?.et_full ?? "—";
-  const nextEtFull = cadence.next.et_full;
 
   const liveMcp = lanes?.counts?.mcp_active ?? null;
   const liveAgents = lanes?.counts?.agents_active ?? null;
@@ -424,11 +394,7 @@ export function DashboardApp() {
                 ? `${probeUsed}/${probeBudget}`
                 : "—"
             }
-            hint={
-              proto?.probes?.last_tick_at
-                ? `last ${lastEt} · next ${nextEt} · probe before list`
-                : "every 6 min · probe at source URL first"
-            }
+            hint="budget used finding clean targets"
             icon={Activity}
             accent="warn"
           />
@@ -439,77 +405,6 @@ export function DashboardApp() {
             icon={Radio}
             accent="info"
           />
-        </div>
-
-        <div className="mb-4 rounded-[var(--radius-md)] border border-border/80 bg-card px-3 py-2.5 text-xs sm:px-4">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2 font-medium text-fg">
-              <Radio className="h-3.5 w-3.5 text-accent" />
-              Probe cadence
-              <Badge
-                variant={
-                  ["running", "ok", "active"].includes(
-                    String(proto?.probes?.probe_worker?.status || ""),
-                  )
-                    ? "success"
-                    : "warn"
-                }
-                className="text-[10px]"
-              >
-                {proto?.probes?.probe_worker?.status || "waiting"}
-              </Badge>
-            </div>
-            <a
-              href="/api/probes"
-              className="text-[11px] text-accent underline-offset-2 hover:underline"
-              target="_blank"
-              rel="noreferrer"
-            >
-              /api/probes
-            </a>
-          </div>
-          <p className="mt-1.5 tabular text-muted">
-            <span className="text-fg font-medium">
-              {probeUsed ?? "—"}/{probeBudget ?? 240}
-            </span>{" "}
-            today · last {lastEtFull} ({lastTickLabel}) · next {nextEtFull} (
-            {nextTickLabel})
-          </p>
-          {(proto?.probes?.recent || []).length > 0 ? (
-            <ul className="mt-2 max-h-28 space-y-1 overflow-y-auto border-t border-border/50 pt-2">
-              {(proto?.probes?.recent || []).slice(0, 10).map((r, i) => {
-                const et = r.probed_at
-                  ? formatEtClock(r.probed_at, { withSeconds: true })
-                  : "—";
-                return (
-                  <li
-                    key={`${r.id || i}-${r.probed_at || i}`}
-                    className="flex flex-wrap items-baseline gap-x-2 text-[11px]"
-                  >
-                    <span className="tabular font-medium text-fg shrink-0">
-                      {et}
-                    </span>
-                    <span
-                      className={cn(
-                        "shrink-0 font-medium",
-                        r.handshake === "ok"
-                          ? "text-success"
-                          : r.handshake === "partial"
-                            ? "text-warn"
-                            : "text-muted",
-                      )}
-                    >
-                      {r.handshake || "—"}
-                    </span>
-                    <span className="truncate text-muted">
-                      {r.kind} ·{" "}
-                      {(r as { target?: string }).target || r.id || ""}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : null}
         </div>
 
         <nav className="mb-4 flex gap-1 overflow-x-auto rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/40 p-1">
@@ -532,12 +427,6 @@ export function DashboardApp() {
               {t.id === "clean" && liveTotal != null ? (
                 <span className="ml-1 tabular text-subtle">{liveTotal}</span>
               ) : null}
-              {t.id === "mcp" && liveMcp != null ? (
-                <span className="ml-1 tabular text-subtle">{liveMcp}</span>
-              ) : null}
-              {t.id === "agents" && liveAgents != null ? (
-                <span className="ml-1 tabular text-subtle">{liveAgents}</span>
-              ) : null}
             </button>
           ))}
         </nav>
@@ -553,8 +442,8 @@ export function DashboardApp() {
                       Clean targets — use these
                     </CardTitle>
                     <CardDescription className="text-xs">
-                      {liveTotal ?? 0} listings with checks clean + handshake ok.
-                      Card / endpoint URLs are what you target. JSON also at{" "}
+                      {liveTotal ?? 0} listings with checks clean + handshake ok
+                      at source URL. JSON at{" "}
                       <a
                         href="/api/listings/active"
                         className="text-accent underline"
@@ -566,7 +455,11 @@ export function DashboardApp() {
                       .
                     </CardDescription>
                   </div>
-                  <Button size="sm" variant="accent" onClick={() => void copyCleanJson()}>
+                  <Button
+                    size="sm"
+                    variant="accent"
+                    onClick={() => void copyCleanJson()}
+                  >
                     <Copy className="h-3.5 w-3.5" />
                     {copied ? "Copied" : "Copy all JSON"}
                   </Button>
@@ -580,7 +473,7 @@ export function DashboardApp() {
                   <ListingTable
                     rows={agentActiveRows}
                     showDemoCta
-                    emptyLabel="No clean agents yet — we only list after probe ok at the source URL"
+                    emptyLabel="No clean agents yet — we only list after probe ok at source URL"
                   />
                 </div>
                 <div>
@@ -590,13 +483,12 @@ export function DashboardApp() {
                   <ListingTable
                     rows={mcpActiveRows}
                     showDemoCta
-                    emptyLabel="No clean MCPs yet — we only list after probe ok at the source URL"
+                    emptyLabel="No clean MCPs yet — we only list after probe ok at source URL"
                   />
                 </div>
                 {allCleanRows.length === 0 ? (
                   <p className="text-sm text-muted">
-                    Empty registry — nothing has passed a live probe yet. We only
-                    add after handshake ok at the source URL.
+                    Empty registry — nothing has passed a live probe yet.
                   </p>
                 ) : null}
               </CardContent>
@@ -620,12 +512,12 @@ export function DashboardApp() {
                   handshake is ok — then it appears here with the target URL.
                 </p>
                 <p>
-                  Failures are discarded. Resubmit via /list after fixing the
-                  card — we probe again before listing.
+                  Failures stay off the registry. Resubmit via /list after fixing
+                  the card.
                 </p>
                 {refreshedAt ? (
                   <p className="text-subtle">
-                    Updated {formatRelative(refreshedAt)}
+                    Updated {new Date(refreshedAt).toLocaleTimeString()}
                   </p>
                 ) : null}
               </CardContent>
@@ -713,34 +605,17 @@ export function DashboardApp() {
                   rows={tab === "mcp" ? mcpActiveRows : agentActiveRows}
                   showDemoCta
                   emptyLabel={
-                    tab === "mcp"
-                      ? "No clean MCPs yet"
-                      : "No clean agents yet"
+                    tab === "mcp" ? "No clean MCPs yet" : "No clean agents yet"
                   }
                 />
               </CardContent>
             </Card>
-            <p className="text-[11px] text-subtle">
-              Unprobed and failed listings are never shown. We only add a name
-              after a clean probe at its own source URL.
-            </p>
           </div>
         )}
 
         {tab === "ops" ? (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-2">
-              <StatCard
-                label="Clean registry"
-                value={liveTotal ?? "—"}
-                hint={
-                  liveMcp != null && liveAgents != null
-                    ? `${liveMcp} MCP · ${liveAgents} agents`
-                    : "active only"
-                }
-                icon={CheckCircle2}
-                accent="success"
-              />
               <StatCard
                 label="Probes today"
                 value={
@@ -751,10 +626,17 @@ export function DashboardApp() {
                 hint={
                   probeBudget != null
                     ? `${probeRemaining ?? 0} left · ${probeHourLeft ?? "—"}/${probeHourCap ?? 1} window`
-                    : "6m discovery"
+                    : "probe at source URL first"
                 }
                 icon={Radio}
                 accent="warn"
+              />
+              <StatCard
+                label="Clean listed"
+                value={liveTotal ?? "—"}
+                hint="only probe-ok targets"
+                icon={CheckCircle2}
+                accent="success"
               />
             </div>
             {weekly ? (
@@ -764,25 +646,6 @@ export function DashboardApp() {
                 {weekly.rechecked_this_week ?? "—"}
               </p>
             ) : null}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm">Pipeline (private)</CardTitle>
-                <CardDescription className="text-xs">
-                  Failures are discarded and never listed. No public delisted
-                  dump. Resubmit fixed cards via /list — we probe before listing.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-1.5 pb-3 pt-0 text-[11px] text-muted">
-                <p>
-                  <span className="font-medium text-fg">Rule:</span> find →
-                  probe at source URL → list only if handshake ok.
-                </p>
-                <p>
-                  {lanes?.policy?.note ||
-                    "Clean only. No store dump. No unprobed junk."}
-                </p>
-              </CardContent>
-            </Card>
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm">Product engagement</CardTitle>
