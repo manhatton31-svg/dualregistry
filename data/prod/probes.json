@@ -1,9 +1,9 @@
 {
   "day": "2026-07-30",
-  "used": 93,
+  "used": 99,
   "budget": 240,
-  "hour_bucket": "2026-07-30T06:12",
-  "hourly_used": 1,
+  "hour_bucket": "2026-07-30T07:42",
+  "hourly_used": 0,
   "hourly_cap": 1,
   "results": {
     "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai": {
@@ -5149,10 +5149,876 @@
       "namespace_verified": true,
       "has_license": false,
       "probed_at": "2026-07-30T06:15:25.125Z"
+    },
+    "mcp_1eb09fd555b37dd91789": {
+      "id": "mcp_1eb09fd555b37dd91789",
+      "kind": "mcp",
+      "target": "https://app.geodesiclabs.ai/mcp",
+      "ok": false,
+      "latency_ms": 81,
+      "score": 30,
+      "signals": [
+        "remote 406",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:31:19.787Z"
+    },
+    "name:mcp:governance-platform": {
+      "id": "mcp_1eb09fd555b37dd91789",
+      "kind": "mcp",
+      "target": "https://app.geodesiclabs.ai/mcp",
+      "ok": false,
+      "latency_ms": 81,
+      "score": 30,
+      "signals": [
+        "remote 406"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:31:19.787Z"
+    },
+    "url:https://app.geodesiclabs.ai/mcp": {
+      "id": "mcp_1eb09fd555b37dd91789",
+      "kind": "mcp",
+      "target": "https://app.geodesiclabs.ai/mcp",
+      "ok": false,
+      "latency_ms": 81,
+      "score": 30,
+      "signals": [
+        "remote 406"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:31:19.787Z"
+    },
+    "agtpub_1caa2aa3dd8119523a4a": {
+      "id": "agtpub_1caa2aa3dd8119523a4a",
+      "kind": "agent",
+      "target": "https://www.yuens.me/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight HTML body (not JSON card) at https://www.yuens.me/.well-known/agent.json",
+        "status 200",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:23.295Z"
+    },
+    "name:agent:resume-agent-web": {
+      "id": "agtpub_1caa2aa3dd8119523a4a",
+      "kind": "agent",
+      "target": "https://www.yuens.me/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight HTML body (not JSON card) at https://www.yuens.me/.well-known/agent.json",
+        "status 200"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:23.295Z"
+    },
+    "agtpub_c41648349199fcc08363": {
+      "id": "agtpub_c41648349199fcc08363",
+      "kind": "agent",
+      "target": "https://hotdocx.github.io/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://hotdocx.github.io/.well-known/agent.json \u2014 card missing",
+        "status 404",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:23.386Z"
+    },
+    "name:agent:arrowgram": {
+      "id": "agtpub_c41648349199fcc08363",
+      "kind": "agent",
+      "target": "https://hotdocx.github.io/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://hotdocx.github.io/.well-known/agent.json \u2014 card missing",
+        "status 404"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:23.386Z"
+    },
+    "agtpub_ee47c1931591609009cf": {
+      "id": "agtpub_ee47c1931591609009cf",
+      "kind": "agent",
+      "target": "https://ggui.ai/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://ggui.ai/.well-known/agent.json \u2014 card missing",
+        "status 404",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:25.195Z"
+    },
+    "name:agent:ggui": {
+      "id": "agtpub_ee47c1931591609009cf",
+      "kind": "agent",
+      "target": "https://ggui.ai/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://ggui.ai/.well-known/agent.json \u2014 card missing",
+        "status 404"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:25.195Z"
+    },
+    "agtpub_455ce42e2c9c2a7939d3": {
+      "id": "agtpub_455ce42e2c9c2a7939d3",
+      "kind": "agent",
+      "target": "https://frontend-seven-beta-46.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://frontend-seven-beta-46.vercel.app/.well-known/agent.json \u2014 card missing",
+        "status 404",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:25.255Z"
+    },
+    "name:agent:turingvault-core": {
+      "id": "agtpub_455ce42e2c9c2a7939d3",
+      "kind": "agent",
+      "target": "https://frontend-seven-beta-46.vercel.app/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://frontend-seven-beta-46.vercel.app/.well-known/agent.json \u2014 card missing",
+        "status 404"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:25.255Z"
+    },
+    "agtpub_dcea45b5985e0b3e4fab": {
+      "id": "agtpub_dcea45b5985e0b3e4fab",
+      "kind": "agent",
+      "target": "https://docs.adcontextprotocol.org/docs/media-buy/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://docs.adcontextprotocol.org/docs/media-buy/.well-known/agent.json \u2014 card missing",
+        "status 404",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:25.523Z"
+    },
+    "name:agent:salesagent": {
+      "id": "agtpub_dcea45b5985e0b3e4fab",
+      "kind": "agent",
+      "target": "https://docs.adcontextprotocol.org/docs/media-buy/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 0,
+      "score": 0,
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://docs.adcontextprotocol.org/docs/media-buy/.well-known/agent.json \u2014 card missing",
+        "status 404"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "probed_at": "2026-07-30T06:37:25.523Z"
+    },
+    "agtpub_e215818c3a6a96bf036f": {
+      "id": "agtpub_e215818c3a6a96bf036f",
+      "kind": "agent",
+      "target": "https://turva.dev/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 27,
+      "score": 45,
+      "signals": [
+        "card-partial",
+        "stars 0",
+        "license",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:partial card \u2014 incomplete agent-card or MCP server-card JSON"
+      ],
+      "a2a_score": 20,
+      "handshake": "partial",
+      "protocol_hints": [
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T06:37:25.798Z"
+    },
+    "name:agent:turva-worker": {
+      "id": "agtpub_e215818c3a6a96bf036f",
+      "kind": "agent",
+      "target": "https://turva.dev/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 27,
+      "score": 45,
+      "signals": [
+        "card-partial",
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "a2a_score": 20,
+      "handshake": "partial",
+      "protocol_hints": [
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T06:37:25.798Z"
+    },
+    "url:https://turva.dev/.well-known/agent.json": {
+      "id": "agtpub_e215818c3a6a96bf036f",
+      "kind": "agent",
+      "target": "https://turva.dev/.well-known/agent.json",
+      "ok": false,
+      "latency_ms": 27,
+      "score": 45,
+      "signals": [
+        "card-partial",
+        "stars 0",
+        "license",
+        "ns:name~host"
+      ],
+      "a2a_score": 20,
+      "handshake": "partial",
+      "protocol_hints": [
+        "agent-card"
+      ],
+      "namespace_verified": true,
+      "github_stars": 0,
+      "has_license": true,
+      "probed_at": "2026-07-30T06:37:25.798Z"
+    },
+    "mcp_20b0c8a9bbbf60538335": {
+      "id": "mcp_20b0c8a9bbbf60538335",
+      "kind": "mcp",
+      "target": "https://www.krtr.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 77,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:43:38.954Z"
+    },
+    "name:mcp:krtr": {
+      "id": "mcp_20b0c8a9bbbf60538335",
+      "kind": "mcp",
+      "target": "https://www.krtr.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 77,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:43:38.954Z"
+    },
+    "url:https://www.krtr.ai/api/mcp": {
+      "id": "mcp_20b0c8a9bbbf60538335",
+      "kind": "mcp",
+      "target": "https://www.krtr.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 77,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:43:38.954Z"
+    },
+    "mcp_993de53e72c83c2326c1": {
+      "id": "mcp_993de53e72c83c2326c1",
+      "kind": "mcp",
+      "target": "https://api.kontato.ai/mcp",
+      "ok": false,
+      "latency_ms": 8,
+      "score": 40,
+      "signals": [
+        "remote 406",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:49:40.210Z"
+    },
+    "name:mcp:kontato": {
+      "id": "mcp_993de53e72c83c2326c1",
+      "kind": "mcp",
+      "target": "https://api.kontato.ai/mcp",
+      "ok": false,
+      "latency_ms": 8,
+      "score": 40,
+      "signals": [
+        "remote 406",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:49:40.210Z"
+    },
+    "url:https://api.kontato.ai/mcp": {
+      "id": "mcp_993de53e72c83c2326c1",
+      "kind": "mcp",
+      "target": "https://api.kontato.ai/mcp",
+      "ok": false,
+      "latency_ms": 8,
+      "score": 40,
+      "signals": [
+        "remote 406",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:49:40.210Z"
+    },
+    "mcp_811b895a5481cf4a13eb": {
+      "id": "mcp_811b895a5481cf4a13eb",
+      "kind": "mcp",
+      "target": "https://mcp.buywhere.ai/mcp",
+      "ok": false,
+      "latency_ms": 9264,
+      "score": 10,
+      "signals": [
+        "remote fail 0",
+        "stars 0",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:remote fail 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:56:36.692Z"
+    },
+    "name:mcp:buywhere product catalog": {
+      "id": "mcp_811b895a5481cf4a13eb",
+      "kind": "mcp",
+      "target": "https://mcp.buywhere.ai/mcp",
+      "ok": false,
+      "latency_ms": 9264,
+      "score": 10,
+      "signals": [
+        "remote fail 0",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:56:36.692Z"
+    },
+    "url:https://mcp.buywhere.ai/mcp": {
+      "id": "mcp_811b895a5481cf4a13eb",
+      "kind": "mcp",
+      "target": "https://mcp.buywhere.ai/mcp",
+      "ok": false,
+      "latency_ms": 9264,
+      "score": 10,
+      "signals": [
+        "remote fail 0",
+        "stars 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "github_stars": 0,
+      "has_license": false,
+      "probed_at": "2026-07-30T06:56:36.692Z"
+    },
+    "mcp_a79e0b920eae4a357235": {
+      "id": "mcp_a79e0b920eae4a357235",
+      "kind": "mcp",
+      "target": "https://mcp.byteray.ai/mcp",
+      "ok": false,
+      "latency_ms": 15,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:02:53.611Z"
+    },
+    "name:mcp:byteray ai": {
+      "id": "mcp_a79e0b920eae4a357235",
+      "kind": "mcp",
+      "target": "https://mcp.byteray.ai/mcp",
+      "ok": false,
+      "latency_ms": 15,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:02:53.611Z"
+    },
+    "url:https://mcp.byteray.ai/mcp": {
+      "id": "mcp_a79e0b920eae4a357235",
+      "kind": "mcp",
+      "target": "https://mcp.byteray.ai/mcp",
+      "ok": false,
+      "latency_ms": 15,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:02:53.611Z"
+    },
+    "mcp_a84800d78fe0e5bc6539": {
+      "id": "mcp_a84800d78fe0e5bc6539",
+      "kind": "mcp",
+      "target": "https://app.buron.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 14190,
+      "score": 20,
+      "signals": [
+        "remote fail 0",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:remote fail 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:09:08.833Z"
+    },
+    "name:mcp:buron": {
+      "id": "mcp_a84800d78fe0e5bc6539",
+      "kind": "mcp",
+      "target": "https://app.buron.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 14190,
+      "score": 20,
+      "signals": [
+        "remote fail 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:09:08.833Z"
+    },
+    "url:https://app.buron.ai/api/mcp": {
+      "id": "mcp_a84800d78fe0e5bc6539",
+      "kind": "mcp",
+      "target": "https://app.buron.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 14190,
+      "score": 20,
+      "signals": [
+        "remote fail 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:09:08.833Z"
+    },
+    "mcp_b187d8bf714e530e1b5b": {
+      "id": "mcp_b187d8bf714e530e1b5b",
+      "kind": "mcp",
+      "target": "https://api.epanya.ai/mcp",
+      "ok": false,
+      "latency_ms": 14135,
+      "score": 20,
+      "signals": [
+        "remote fail 0",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:remote fail 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:15:54.605Z"
+    },
+    "name:mcp:epanya": {
+      "id": "mcp_b187d8bf714e530e1b5b",
+      "kind": "mcp",
+      "target": "https://api.epanya.ai/mcp",
+      "ok": false,
+      "latency_ms": 14135,
+      "score": 20,
+      "signals": [
+        "remote fail 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:15:54.605Z"
+    },
+    "url:https://api.epanya.ai/mcp": {
+      "id": "mcp_b187d8bf714e530e1b5b",
+      "kind": "mcp",
+      "target": "https://api.epanya.ai/mcp",
+      "ok": false,
+      "latency_ms": 14135,
+      "score": 20,
+      "signals": [
+        "remote fail 0",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:15:54.605Z"
+    },
+    "mcp_b9cdf09e96a5f33ab441": {
+      "id": "mcp_b9cdf09e96a5f33ab441",
+      "kind": "mcp",
+      "target": "https://mcp.enyal.ai/mcp",
+      "ok": false,
+      "latency_ms": 102,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:22:26.344Z"
+    },
+    "name:mcp:enyal by greenland ai": {
+      "id": "mcp_b9cdf09e96a5f33ab441",
+      "kind": "mcp",
+      "target": "https://mcp.enyal.ai/mcp",
+      "ok": false,
+      "latency_ms": 102,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:22:26.344Z"
+    },
+    "url:https://mcp.enyal.ai/mcp": {
+      "id": "mcp_b9cdf09e96a5f33ab441",
+      "kind": "mcp",
+      "target": "https://mcp.enyal.ai/mcp",
+      "ok": false,
+      "latency_ms": 102,
+      "score": 40,
+      "signals": [
+        "remote 401",
+        "ns:name~host"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:22:26.344Z"
+    },
+    "mcp_795ab33a77fb6a2ae08e": {
+      "id": "mcp_795ab33a77fb6a2ae08e",
+      "kind": "mcp",
+      "target": "https://mcp.eevy.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 17,
+      "score": 20,
+      "signals": [
+        "remote fail 403",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL forbidden (403)"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:28:55.449Z"
+    },
+    "name:mcp:eevy": {
+      "id": "mcp_795ab33a77fb6a2ae08e",
+      "kind": "mcp",
+      "target": "https://mcp.eevy.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 17,
+      "score": 20,
+      "signals": [
+        "remote fail 403",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:28:55.449Z"
+    },
+    "url:https://mcp.eevy.ai/api/mcp": {
+      "id": "mcp_795ab33a77fb6a2ae08e",
+      "kind": "mcp",
+      "target": "https://mcp.eevy.ai/api/mcp",
+      "ok": false,
+      "latency_ms": 17,
+      "score": 20,
+      "signals": [
+        "remote fail 403",
+        "ns:name~host"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": true,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:28:55.449Z"
+    },
+    "mcp_7693bd99a6c9ebfc9900": {
+      "id": "mcp_7693bd99a6c9ebfc9900",
+      "kind": "mcp",
+      "target": "https://api.echoloc.ai/mcp",
+      "ok": false,
+      "latency_ms": 11121,
+      "score": 10,
+      "signals": [
+        "remote fail 0",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:remote fail 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:35:37.338Z"
+    },
+    "name:mcp:company-technographics": {
+      "id": "mcp_7693bd99a6c9ebfc9900",
+      "kind": "mcp",
+      "target": "https://api.echoloc.ai/mcp",
+      "ok": false,
+      "latency_ms": 11121,
+      "score": 10,
+      "signals": [
+        "remote fail 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:35:37.338Z"
+    },
+    "url:https://api.echoloc.ai/mcp": {
+      "id": "mcp_7693bd99a6c9ebfc9900",
+      "kind": "mcp",
+      "target": "https://api.echoloc.ai/mcp",
+      "ok": false,
+      "latency_ms": 11121,
+      "score": 10,
+      "signals": [
+        "remote fail 0"
+      ],
+      "handshake": "fail",
+      "protocol_hints": [],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:35:37.338Z"
+    },
+    "mcp_e5aae261421c14d1bac6": {
+      "id": "mcp_e5aae261421c14d1bac6",
+      "kind": "mcp",
+      "target": "https://app.duvera.ai/mcp",
+      "ok": false,
+      "latency_ms": 9002,
+      "score": 30,
+      "signals": [
+        "remote 200",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:41:54.140Z"
+    },
+    "name:mcp:gateway": {
+      "id": "mcp_e5aae261421c14d1bac6",
+      "kind": "mcp",
+      "target": "https://app.duvera.ai/mcp",
+      "ok": false,
+      "latency_ms": 9002,
+      "score": 30,
+      "signals": [
+        "remote 200"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:41:54.140Z"
+    },
+    "url:https://app.duvera.ai/mcp": {
+      "id": "mcp_e5aae261421c14d1bac6",
+      "kind": "mcp",
+      "target": "https://app.duvera.ai/mcp",
+      "ok": false,
+      "latency_ms": 9002,
+      "score": 30,
+      "signals": [
+        "remote 200"
+      ],
+      "handshake": "partial",
+      "protocol_hints": [
+        "remote"
+      ],
+      "namespace_verified": false,
+      "has_license": false,
+      "probed_at": "2026-07-30T07:41:54.140Z"
     }
   },
-  "updated_at": "2026-07-30T06:48:13.685149+00:00",
-  "last_tick_at": "2026-07-30T07:02:53.654Z",
+  "updated_at": "2026-07-30T07:41:54.613Z",
+  "last_tick_at": "2026-07-30T07:41:54.190Z",
   "last_ok_tick_at": "2026-07-30T03:40:22.032Z",
   "last_handshake": "partial",
   "wasted_probes_discarded": 0,
@@ -5160,9 +6026,109 @@
     "total": 42,
     "mcp": 22,
     "agents": 20,
-    "at": "2026-07-30T07:03:06.443Z"
+    "at": "2026-07-30T07:42:58.860Z"
   },
   "tick_log": [
+    {
+      "tick_id": "2026-07-30T07:41:54.140Z|mcp_e5aae261421c14d1bac6|partial",
+      "id": "mcp_e5aae261421c14d1bac6",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://app.duvera.ai/mcp",
+      "signals": [
+        "remote 200",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "probed_at": "2026-07-30T07:41:54.140Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T07:35:37.338Z|mcp_7693bd99a6c9ebfc9900|fail",
+      "id": "mcp_7693bd99a6c9ebfc9900",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://api.echoloc.ai/mcp",
+      "signals": [
+        "remote fail 0",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:remote fail 0"
+      ],
+      "probed_at": "2026-07-30T07:35:37.338Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T07:28:55.449Z|mcp_795ab33a77fb6a2ae08e|fail",
+      "id": "mcp_795ab33a77fb6a2ae08e",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://mcp.eevy.ai/api/mcp",
+      "signals": [
+        "remote fail 403",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:card URL forbidden (403)"
+      ],
+      "probed_at": "2026-07-30T07:28:55.449Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T07:22:26.344Z|mcp_b9cdf09e96a5f33ab441|partial",
+      "id": "mcp_b9cdf09e96a5f33ab441",
+      "kind": "mcp",
+      "handshake": "partial",
+      "ok": false,
+      "target": "https://mcp.enyal.ai/mcp",
+      "signals": [
+        "remote 401",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:live probe handshake failed"
+      ],
+      "probed_at": "2026-07-30T07:22:26.344Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T07:15:54.605Z|mcp_b187d8bf714e530e1b5b|fail",
+      "id": "mcp_b187d8bf714e530e1b5b",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://api.epanya.ai/mcp",
+      "signals": [
+        "remote fail 0",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:remote fail 0"
+      ],
+      "probed_at": "2026-07-30T07:15:54.605Z",
+      "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T07:09:08.833Z|mcp_a84800d78fe0e5bc6539|fail",
+      "id": "mcp_a84800d78fe0e5bc6539",
+      "kind": "mcp",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://app.buron.ai/api/mcp",
+      "signals": [
+        "remote fail 0",
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit",
+        "delist:remote fail 0"
+      ],
+      "probed_at": "2026-07-30T07:09:08.833Z",
+      "spent_budget": true
+    },
     {
       "tick_id": "2026-07-30T07:02:53.611Z|mcp_a79e0b920eae4a357235|partial",
       "id": "mcp_a79e0b920eae4a357235",
@@ -5174,7 +6140,8 @@
         "remote 401",
         "ns:name~host",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:live probe handshake failed"
       ],
       "probed_at": "2026-07-30T07:02:53.611Z",
       "spent_budget": true
@@ -5190,7 +6157,8 @@
         "remote fail 0",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:remote fail 0"
       ],
       "probed_at": "2026-07-30T06:56:36.692Z",
       "spent_budget": true
@@ -5206,7 +6174,8 @@
         "remote 406",
         "ns:name~host",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:live probe handshake failed"
       ],
       "probed_at": "2026-07-30T06:49:40.210Z",
       "spent_budget": true
@@ -5222,7 +6191,8 @@
         "remote 401",
         "ns:name~host",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:live probe handshake failed"
       ],
       "probed_at": "2026-07-30T06:43:38.954Z",
       "spent_budget": true
@@ -5238,10 +6208,97 @@
         "card-partial",
         "stars 0",
         "license",
-        "ns:name~host"
+        "ns:name~host",
+        "delisted-from-registry",
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T06:37:25.798Z",
       "spent_budget": true
+    },
+    {
+      "tick_id": "2026-07-30T06:37:25.523Z|agtpub_dcea45b5985e0b3e4fab|fail",
+      "id": "agtpub_dcea45b5985e0b3e4fab",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://docs.adcontextprotocol.org/docs/media-buy/.well-known/agent.json",
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://docs.adcontextprotocol.org/docs/media-buy/.well-known/agent.json \u2014 card missing",
+        "status 404",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T06:37:25.523Z",
+      "spent_budget": false
+    },
+    {
+      "tick_id": "2026-07-30T06:37:25.255Z|agtpub_455ce42e2c9c2a7939d3|fail",
+      "id": "agtpub_455ce42e2c9c2a7939d3",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://frontend-seven-beta-46.vercel.app/.well-known/agent.json",
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://frontend-seven-beta-46.vercel.app/.well-known/agent.json \u2014 card missing",
+        "status 404",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T06:37:25.255Z",
+      "spent_budget": false
+    },
+    {
+      "tick_id": "2026-07-30T06:37:25.195Z|agtpub_ee47c1931591609009cf|fail",
+      "id": "agtpub_ee47c1931591609009cf",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://ggui.ai/.well-known/agent.json",
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://ggui.ai/.well-known/agent.json \u2014 card missing",
+        "status 404",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T06:37:25.195Z",
+      "spent_budget": false
+    },
+    {
+      "tick_id": "2026-07-30T06:37:23.386Z|agtpub_c41648349199fcc08363|fail",
+      "id": "agtpub_c41648349199fcc08363",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://hotdocx.github.io/.well-known/agent.json",
+      "signals": [
+        "preflight-reject",
+        "preflight 404 on https://hotdocx.github.io/.well-known/agent.json \u2014 card missing",
+        "status 404",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T06:37:23.386Z",
+      "spent_budget": false
+    },
+    {
+      "tick_id": "2026-07-30T06:37:23.295Z|agtpub_1caa2aa3dd8119523a4a|fail",
+      "id": "agtpub_1caa2aa3dd8119523a4a",
+      "kind": "agent",
+      "handshake": "fail",
+      "ok": false,
+      "target": "https://www.yuens.me/.well-known/agent.json",
+      "signals": [
+        "preflight-reject",
+        "preflight HTML body (not JSON card) at https://www.yuens.me/.well-known/agent.json",
+        "status 200",
+        "delisted-from-registry",
+        "needs-resubmit"
+      ],
+      "probed_at": "2026-07-30T06:37:23.295Z",
+      "spent_budget": false
     },
     {
       "tick_id": "2026-07-30T06:31:19.787Z|mcp_1eb09fd555b37dd91789|partial",
@@ -5286,7 +6343,8 @@
         "remote 405",
         "ns:name~host",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:live probe handshake failed"
       ],
       "probed_at": "2026-07-30T06:15:25.125Z",
       "spent_budget": true
@@ -5302,7 +6360,8 @@
         "remote 401",
         "ns:name~host",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:live probe handshake failed"
       ],
       "probed_at": "2026-07-30T06:08:50.902Z",
       "spent_budget": true
@@ -5350,7 +6409,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 404",
-        "card fail 410"
+        "card fail 410",
+        "card fail 404",
+        "stars 13"
       ],
       "probed_at": "2026-07-30T03:47:17.468Z",
       "spent_budget": true
@@ -5366,7 +6427,9 @@
         "remote 200",
         "ns:name~host",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:live probe handshake failed",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T03:47:01.641Z",
       "spent_budget": true
@@ -5382,7 +6445,9 @@
         "remote fail 404",
         "delisted-from-registry",
         "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry",
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:46:04.740Z",
       "spent_budget": true
@@ -5398,7 +6463,9 @@
         "remote fail 404",
         "delisted-from-registry",
         "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry",
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:45:05.930Z",
       "spent_budget": true
@@ -5430,7 +6497,9 @@
         "remote fail 404",
         "delisted-from-registry",
         "needs-resubmit",
-        "delist:card URL returned 404 \u2014 publish a valid card at that path"
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry",
+        "needs-resubmit"
       ],
       "probed_at": "2026-07-30T03:39:46.345Z",
       "spent_budget": true
@@ -5446,7 +6515,9 @@
         "remote fail 404",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T03:34:30.983Z",
       "spent_budget": true
@@ -5462,7 +6533,9 @@
         "remote fail 404",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T03:30:30.788Z",
       "spent_budget": true
@@ -5478,7 +6551,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 404",
-        "card fail 404"
+        "card fail 404",
+        "stars 0",
+        "license"
       ],
       "probed_at": "2026-07-30T03:29:57.236Z",
       "spent_budget": true
@@ -5494,7 +6569,9 @@
         "remote fail 404",
         "stars 0",
         "delisted-from-registry",
-        "needs-resubmit"
+        "needs-resubmit",
+        "delist:card URL returned 404 \u2014 publish a valid card at that path",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T03:27:35.638Z",
       "spent_budget": true
@@ -5510,6 +6587,8 @@
         "remote fail 404",
         "stars 4",
         "license",
+        "delisted-from-registry",
+        "needs-resubmit",
         "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T02:10:16.262Z",
@@ -5526,7 +6605,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 404",
-        "card fail 404"
+        "card fail 404",
+        "stars 1",
+        "license"
       ],
       "probed_at": "2026-07-30T02:03:07.322Z",
       "spent_budget": true
@@ -5540,6 +6621,8 @@
       "target": "https://agent.tinyfish.ai/mcp",
       "signals": [
         "remote 401",
+        "delisted-from-registry",
+        "needs-resubmit",
         "delisted-from-registry",
         "needs-resubmit",
         "delisted-from-registry"
@@ -5587,7 +6670,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 410",
-        "card fail 404"
+        "card fail 404",
+        "stars 1",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T01:36:00.918Z",
       "spent_budget": true
@@ -5603,7 +6688,9 @@
         "card fail 404",
         "card fail 404",
         "card fail 410",
-        "card fail 404"
+        "card fail 404",
+        "stars 1",
+        "delisted-from-registry"
       ],
       "probed_at": "2026-07-30T01:36:00.918Z",
       "spent_budget": true
