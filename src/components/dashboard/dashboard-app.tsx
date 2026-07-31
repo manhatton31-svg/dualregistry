@@ -214,6 +214,29 @@ type DashboardData = {
       usd_estimate?: number;
     }>;
   } | null;
+  growth_scout?: {
+    month?: string;
+    month_usd?: number;
+    month_budget_usd?: number;
+    budget_remaining_usd?: number;
+    budget_exhausted?: boolean;
+    month_invites?: number;
+    day_invites?: number;
+    max_invites_per_day?: number;
+    cooldown_days?: number;
+    last_run_at?: string;
+    last_status?: string;
+    last_error?: string;
+    last_notes?: string[];
+    invited_unique?: number;
+    allowlist?: {
+      shareabot_registered?: boolean;
+      shareabot_claim_url?: string | null;
+      moltbook_last_post?: string | null;
+    };
+    xai_configured?: boolean;
+    moltbook_configured?: boolean;
+  } | null;
 };
 
 const TABS = [
@@ -339,6 +362,7 @@ export function DashboardApp() {
 
   const platformCost = data?.platform_cost;
   const agentRuns = data?.agent_runs;
+  const growthScout = data?.growth_scout;
   const costToday = platformCost?.running_total?.today_usd;
   const costMonth = platformCost?.running_total?.month_usd_after_pro_credit
     ?? platformCost?.month?.usd_after_credit;
@@ -588,6 +612,109 @@ export function DashboardApp() {
                     Agent runs API
                   </a>
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : null}
+
+        {growthScout ? (
+          <Card className="mb-4 border-border/70">
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2 text-sm">
+                <Sparkles className="h-4 w-4 text-accent" />
+                Growth Scout · $
+                {Number(growthScout.month_budget_usd ?? 25).toFixed(0)}/mo
+                ceiling
+              </CardTitle>
+              <CardDescription className="text-xs">
+                Dual-native Live-only invites + allowlist (Shareabot / Moltbook).
+                Cron every 4h. No Discord/X bots. Last status:{" "}
+                <span className="text-fg">
+                  {growthScout.last_status || "—"}
+                </span>
+                {growthScout.last_run_at
+                  ? ` · ${new Date(growthScout.last_run_at).toLocaleString()}`
+                  : ""}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 gap-2 pb-4 pt-0 sm:grid-cols-4">
+              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                  Month used
+                </p>
+                <p className="mt-1 text-lg font-semibold tabular text-fg">
+                  ${Number(growthScout.month_usd ?? 0).toFixed(4)}
+                </p>
+              </div>
+              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                  Remaining
+                </p>
+                <p className="mt-1 text-lg font-semibold tabular text-fg">
+                  ${Number(growthScout.budget_remaining_usd ?? 0).toFixed(2)}
+                </p>
+              </div>
+              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                  Invites today
+                </p>
+                <p className="mt-1 text-lg font-semibold tabular text-fg">
+                  {growthScout.day_invites ?? 0}
+                  <span className="text-sm font-normal text-subtle">
+                    /{growthScout.max_invites_per_day ?? 20}
+                  </span>
+                </p>
+              </div>
+              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                  Unique invited
+                </p>
+                <p className="mt-1 text-lg font-semibold tabular text-fg">
+                  {growthScout.invited_unique ?? 0}
+                </p>
+              </div>
+              <div className="col-span-2 space-y-1 text-xs text-muted sm:col-span-4">
+                <p>
+                  Shareabot:{" "}
+                  {growthScout.allowlist?.shareabot_registered
+                    ? "registered"
+                    : "pending"}
+                  {growthScout.allowlist?.shareabot_claim_url
+                    ? " · claim URL saved"
+                    : ""}
+                  {" · "}
+                  Moltbook:{" "}
+                  {growthScout.moltbook_configured
+                    ? growthScout.allowlist?.moltbook_last_post
+                      ? "posted"
+                      : "key set"
+                    : "key not set"}
+                  {" · "}
+                  xAI draft:{" "}
+                  {growthScout.xai_configured ? "configured" : "template only"}
+                </p>
+                {growthScout.last_error ? (
+                  <p className="text-warn">Last error: {growthScout.last_error}</p>
+                ) : null}
+                {growthScout.budget_exhausted ? (
+                  <p className="text-warn">
+                    Budget exhausted this month — scout idles until reset.
+                  </p>
+                ) : null}
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <Button size="sm" variant="secondary" asChild>
+                    <a href="/grow">Founder playbook</a>
+                  </Button>
+                  <Button size="sm" variant="secondary" asChild>
+                    <a
+                      href="/api/cron/growth-scout?dry_run=1"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Dry-run API
+                    </a>
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>

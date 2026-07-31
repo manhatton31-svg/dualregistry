@@ -144,6 +144,7 @@ async function attachSidePanels(timeoutMs: number) {
   let protocol = null;
   let platform_cost = null;
   let agent_runs = null;
+  let growth_scout = null;
 
   try {
     const { getProductEngagement } = await import(
@@ -198,6 +199,17 @@ async function attachSidePanels(timeoutMs: number) {
   } catch {
     /* */
   }
+  try {
+    const { getGrowthScoutStatus } = await import(
+      "@/lib/agents1/growth/scout"
+    );
+    growth_scout = await withTimeout(
+      getGrowthScoutStatus(),
+      Math.min(timeoutMs, 1500),
+    );
+  } catch {
+    /* */
+  }
   return {
     product_engagement,
     listing_lanes,
@@ -205,6 +217,7 @@ async function attachSidePanels(timeoutMs: number) {
     protocol,
     platform_cost,
     agent_runs,
+    growth_scout,
   };
 }
 

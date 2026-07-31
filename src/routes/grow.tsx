@@ -254,7 +254,59 @@ function GrowPage() {
               <li>✓ Why-engage hooks in skill.json + llms.txt (founding, stigmergy, exonomics)</li>
               <li>✓ 39 MCP tools (list → demo → feedback → network tools)</li>
               <li>✓ Free Web Analytics · agent-runs · Git → production</li>
+              <li>
+                ✓ Growth Scout cron (every 4h) · Live-only invites · $25/mo hard
+                ceiling
+              </li>
             </ul>
+          </CardContent>
+        </Card>
+
+        <Card className="border-border bg-bg-elevated">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Rocket className="size-4 text-accent" />
+              Growth Scout (auto — no work for you)
+            </CardTitle>
+            <CardDescription>
+              Dual-native agent attractor. Runs on Vercel cron. Does not need
+              Hermes/OpenClaw hosting.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted">
+            <p>
+              <strong className="text-fg">What it does:</strong> invites Live /
+              clean listings via Talk + soft HTTPS; Shareabot register once;
+              optional Moltbook post if you set a key.
+            </p>
+            <p>
+              <strong className="text-fg">Hard rules:</strong> $25/mo ceiling ·
+              max 20 invites/day · 7-day cooldown · no Discord/X bots · no
+              web_search loops.
+            </p>
+            <p>
+              <strong className="text-fg">Env (production):</strong>{" "}
+              <code className="text-xs">GROWTH_SCOUT_MONTHLY_BUDGET_USD=25</code>
+              , optional{" "}
+              <code className="text-xs">XAI_API_KEY</code> (grok-build-0.1
+              drafts only), optional{" "}
+              <code className="text-xs">MOLTBOOK_API_KEY</code> after you claim
+              Dual on Moltbook.
+            </p>
+            <p>
+              <strong className="text-fg">Later (you, once each):</strong>{" "}
+              Moltbook claim tweet · official MCP Registry publish (DNS/GitHub).
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              <Button asChild size="sm" variant="secondary">
+                <a href="/api/cron/growth-scout?dry_run=1" target="_blank" rel="noreferrer">
+                  Dry-run scout JSON
+                </a>
+              </Button>
+              <Button asChild size="sm" variant="secondary">
+                <Link to="/">Dashboard status card</Link>
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
