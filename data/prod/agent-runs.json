@@ -2,6 +2,67 @@
   "day": "2026-07-31",
   "runs": [
     {
+      "id": "run_ms95a38j_u8nc6q",
+      "title": "probe_tick",
+      "tool": "probe_tick",
+      "trigger": "cron",
+      "status": "ok",
+      "started_at": "2026-07-31T16:16:19.939Z",
+      "ended_at": "2026-07-31T16:16:19.939Z",
+      "duration_ms": 221547,
+      "meta": {
+        "probed": 0
+      }
+    },
+    {
+      "id": "run_ms952szu_gndlnb",
+      "title": "probe_tick",
+      "tool": "probe_tick",
+      "trigger": "cron",
+      "status": "ok",
+      "started_at": "2026-07-31T16:10:40.074Z",
+      "ended_at": "2026-07-31T16:10:40.074Z",
+      "duration_ms": 241702,
+      "meta": {
+        "probed": 0
+      }
+    },
+    {
+      "id": "run_ms94uf4u_5t67mx",
+      "title": "probe_tick",
+      "tool": "probe_tick",
+      "trigger": "cron",
+      "status": "ok",
+      "started_at": "2026-07-31T16:04:08.862Z",
+      "ended_at": "2026-07-31T16:04:08.862Z",
+      "duration_ms": 210475,
+      "meta": {
+        "probed": 1
+      }
+    },
+    {
+      "id": "run_ms94sqfh_63w2oi",
+      "title": "growth_scout",
+      "tool": "growth_scout",
+      "trigger": "cron",
+      "status": "ok",
+      "started_at": "2026-07-31T16:02:50.189Z",
+      "ended_at": "2026-07-31T16:02:50.189Z",
+      "duration_ms": 149654,
+      "usd_estimate": 0.002742,
+      "meta": {
+        "invites_sent": 12,
+        "skipped": 5,
+        "budget_remaining_usd": 24.995335,
+        "month_usd": 0.004665,
+        "live_pool": 122,
+        "used_llm": false,
+        "allowlist": [
+          "allowlist"
+        ]
+      }
+    },
+    {
       "id": "run_ms92gla4_4fz0z8",
       "title": "probe_tick",
       "tool": "probe_tick",
@@ -23,7 +84,7 @@
       "started_at": "2026-07-31T14:53:04.422Z",
       "ended_at": "2026-07-31T14:53:04.422Z",
       "duration_ms": 3497,
-      "usd_estimate": 0.000062,
+      "usd_estimate": 6.2e-05,
       "meta": {
         "invites_sent": 0,
         "skipped": 5,
@@ -64,12 +125,12 @@
     }
   ],
   "totals": {
-    "n": 4,
-    "ok": 4,
+    "n": 8,
+    "ok": 8,
     "error": 0,
     "skipped": 0,
-    "duration_ms": 233734,
+    "duration_ms": 1057112,
     "token_usage": 0
   },
-  "updated_at": "2026-07-31T14:57:24.504Z"
+  "updated_at": "2026-07-31T16:16:19.983Z"
 }
