@@ -29,7 +29,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { DualRegistryWordmark } from "@/components/brand/logo";
-import { ListingTable, type ListingRow } from "./listing-table";
+import { CategoryGroupedListings } from "./category-listings";
+import type { ListingRow } from "./listing-table";
 import { StatCard } from "./stat-card";
 
 type ProductEngagement = {
@@ -933,7 +934,7 @@ export function DashboardApp() {
               return (
                 <div className="space-y-1.5">
                   <p className="text-[11px] text-subtle">
-                    Clean only · categories unlock when Active.
+                    Clean only · top 5 per category (expand for all).
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     <button
@@ -980,41 +981,27 @@ export function DashboardApp() {
                 </div>
               );
             })()}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="h-4 w-4 text-success" />
-                  {tab === "mcp" ? "MCPs" : "Agents"} · clean + probe ok
-                  <span className="ml-1 tabular text-muted font-normal">
-                    (
-                    {tab === "mcp"
-                      ? liveMcp ?? mcpActiveRows.length
-                      : liveAgents ?? agentActiveRows.length}
-                    )
-                  </span>
-                </CardTitle>
-                <CardDescription className="text-xs">
-                  Full clean registry for this kind. JSON:{" "}
-                  <a
-                    href="/api/listings/active"
-                    className="text-accent underline"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    /api/listings/active
-                  </a>
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ListingTable
-                  rows={tab === "mcp" ? mcpActiveRows : agentActiveRows}
-                  showDemoCta
-                  emptyLabel={
-                    tab === "mcp" ? "No clean MCPs yet" : "No clean agents yet"
-                  }
-                />
-              </CardContent>
-            </Card>
+            <div className="space-y-2">
+              <p className="text-[11px] text-subtle">
+                Top 5 per category · expand for full list (25/page). JSON:{" "}
+                <a
+                  href="/api/listings/active"
+                  className="text-accent underline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  /api/listings/active
+                </a>
+              </p>
+              <CategoryGroupedListings
+                rows={tab === "mcp" ? mcpActiveRows : agentActiveRows}
+                showDemoCta
+                filterCategoryId={categoryFilter}
+                emptyLabel={
+                  tab === "mcp" ? "No clean MCPs yet" : "No clean agents yet"
+                }
+              />
+            </div>
           </div>
         )}
       </div>
