@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:05:08.317Z",
+  "updated_at": "2026-07-31T13:05:09.110Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -55,11 +55,11 @@
     },
     "agtpub_4c34b0bf38d34d7e64ee": {
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
-      "attraction": 3.25,
+      "attraction": 4.5,
       "danger": 0,
       "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:05:07.016Z",
+      "last_reinforced_at": "2026-07-31T13:05:09.110Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -144,53 +144,81 @@
       "a": "agent-agoragentic-https-agoragentic-com",
       "b": "agtpub_ae427eacf129a7ad16a0",
       "count": 1,
-      "intensity": 3.99,
+      "intensity": 3.988,
       "last_at": "2026-07-31T13:01:50.636Z"
     },
     "agent-agent-guild-https-agent-guild-5d5r-onrender-com|agtpub_ae427eacf129a7ad16a0": {
       "a": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
       "b": "agtpub_ae427eacf129a7ad16a0",
       "count": 1,
-      "intensity": 3.99,
+      "intensity": 3.988,
       "last_at": "2026-07-31T13:01:52.300Z"
     },
     "agent-agent-guild-https-agent-guild-5d5r-onrender-com|agtpub_4c34b0bf38d34d7e64ee": {
       "a": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
       "b": "agtpub_4c34b0bf38d34d7e64ee",
       "count": 1,
-      "intensity": 3.99,
+      "intensity": 3.988,
       "last_at": "2026-07-31T13:01:53.338Z"
     },
     "agent-sunny-yuen-https-agent-yuens-me|agtpub_4c34b0bf38d34d7e64ee": {
       "a": "agent-sunny-yuen-https-agent-yuens-me",
       "b": "agtpub_4c34b0bf38d34d7e64ee",
       "count": 1,
-      "intensity": 3.99,
+      "intensity": 3.988,
       "last_at": "2026-07-31T13:01:54.809Z"
     },
     "agent-sunny-yuen-https-agent-yuens-me|agtpub_3c5075ba16667511f5f5": {
       "a": "agent-sunny-yuen-https-agent-yuens-me",
       "b": "agtpub_3c5075ba16667511f5f5",
       "count": 1,
-      "intensity": 3.99,
+      "intensity": 3.988,
       "last_at": "2026-07-31T13:01:56.257Z"
     },
     "agent-corduroy-labs-https-corduroy-labs-ai|agtpub_3c5075ba16667511f5f5": {
       "a": "agent-corduroy-labs-https-corduroy-labs-ai",
       "b": "agtpub_3c5075ba16667511f5f5",
       "count": 1,
-      "intensity": 3.99,
+      "intensity": 3.988,
       "last_at": "2026-07-31T13:01:57.916Z"
     },
     "agent-corduroy-labs-https-corduroy-labs-ai|agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai": {
       "a": "agent-corduroy-labs-https-corduroy-labs-ai",
       "b": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
       "count": 1,
-      "intensity": 3.99,
+      "intensity": 3.988,
       "last_at": "2026-07-31T13:01:59.449Z"
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yg8ae_8m7ww5",
+      "kind": "mark",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "intensity": 1,
+      "at": "2026-07-31T13:05:09.110Z",
+      "tags": [
+        "read_residue",
+        "sense",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yg7uf_4v2f7y",
+      "kind": "mark",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:05:08.535Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yg752_72lfzt",
       "kind": "mark",
@@ -804,6 +832,24 @@
   "feed_events": [
     {
       "type": "leave_trace",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "mark",
+      "amount": 1,
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "at": "2026-07-31T13:05:09.110Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:05:08.535Z"
+    },
+    {
+      "type": "leave_trace",
       "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
       "kind": "mark",
       "amount": 1.5,
@@ -1305,9 +1351,9 @@
   ],
   "totals": {
     "auto_deposits": 0,
-    "agent_deposits": 43,
-    "senses": 12,
-    "follows": 11,
+    "agent_deposits": 45,
+    "senses": 14,
+    "follows": 12,
     "evaporations": 0
   }
 }
