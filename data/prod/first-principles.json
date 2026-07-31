@@ -1,6 +1,6 @@
 {
   "version": "2.7.0",
-  "updated_at": "2026-07-31T13:09:25.185Z",
+  "updated_at": "2026-07-31T13:12:16.939Z",
   "capabilities": {
     "cap_9775402bba2bc8a46d2f7a71": {
       "cap_hash": "cap_9775402bba2bc8a46d2f7a71",
@@ -72,6 +72,46 @@
   ],
   "outcomes": [
     {
+      "id": "out_ms8ypdi0_iov6",
+      "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:15.768Z"
+    },
+    {
+      "id": "out_ms8ypdg3_o06w",
+      "listing_id": "mcp-ai-alpic-mcp-alpic-mcp-r1-https-alpic-ai",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:15.699Z"
+    },
+    {
+      "id": "out_ms8ypc51_ri5x",
+      "listing_id": "mcp-ai-intuitek-the-stall-the-stall-https-the-stall-intuitek-ai-mcp",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:14.005Z"
+    },
+    {
+      "id": "out_ms8ypc4m_3j09",
+      "listing_id": "mcp-ai-muffed-muffed-https-muffed-ai",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:13.990Z"
+    },
+    {
       "id": "out_ms8ygiex_t6s9",
       "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
       "ok": true,
@@ -119,14 +159,24 @@
       "last_signal_at": "2026-07-31T13:05:27.982Z",
       "source": "attestation:outcome",
       "score": 0.75
+    },
+    "mcp-ai-muffed-muffed-https-muffed-ai": {
+      "last_signal_at": "2026-07-31T13:12:16.835Z",
+      "source": "outcome",
+      "score": 0.3
+    },
+    "mcp-ai-intuitek-the-stall-the-stall-https-the-stall-intuitek-ai-mcp": {
+      "last_signal_at": "2026-07-31T13:12:16.939Z",
+      "source": "outcome",
+      "score": 0.3
     }
   },
   "totals": {
     "cap_hashes": 1,
     "attestations": 3,
-    "outcomes": 3,
+    "outcomes": 7,
     "identities": 0,
     "pipelines": 0,
-    "attractor_picks": 15
+    "attractor_picks": 2
   }
 }
