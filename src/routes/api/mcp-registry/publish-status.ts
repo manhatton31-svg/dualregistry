@@ -6,6 +6,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
 import { checkMcpDns } from "@/lib/agents1/dns-mcp";
+import { discoveryCacheHeaders } from "@/lib/agents1/discovery-cache";
 
 async function searchOfficial(q: string): Promise<{ total?: number; found?: boolean; sample?: unknown }> {
   try {
@@ -80,7 +81,7 @@ export const Route = createFileRoute("/api/mcp-registry/publish-status")({
           },
           {
             headers: withDemoCtaHeaders(
-              { "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600" },
+              discoveryCacheHeaders({ browser: 60 }),
               { origin },
             ),
           },

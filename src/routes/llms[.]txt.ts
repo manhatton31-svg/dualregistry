@@ -97,6 +97,8 @@ GET ${o}/api/listings/active and use your row's listing_id:
           headers: {
             "content-type": "text/plain; charset=utf-8",
             "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
+              "cdn-cache-control": "public, s-maxage=300, stale-while-revalidate=600",
+              "vercel-cdn-cache-control": "public, s-maxage=300, stale-while-revalidate=600",
             "access-control-allow-origin": "*",
           },
         });

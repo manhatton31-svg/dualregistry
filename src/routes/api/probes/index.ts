@@ -1,7 +1,7 @@
 /**
  * GET /api/probes — lightweight probe health for humans + agents.
  * Sandbox mirrors dualregistry.dev so numbers match production.
- * Timestamps: Eastern Time (America/New_York); next = last + 6 minutes.
+ * Timestamps: Eastern Time (America/New_York); next from adaptive window.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
@@ -25,6 +25,18 @@ export const Route = createFileRoute("/api/probes/")({
           invalidateProbeCache();
           const probes = await getProbePublic();
           const cadence = probeCadencePair(probes.last_tick_at as string | undefined);
+          const policy = (probes.policy || {}) as Record<string, unknown>;
+          const worker = (probes.probe_worker || {}) as Record<string, unknown>;
+          const adaptive =
+            (worker.adaptive as Record<string, unknown> | undefined) ||
+            ({
+              behind: true,
+              window_ms: 2 * 60_000,
+              probes_per_tick: 64,
+            } as Record<string, unknown>);
+          const windowMin =
+            Number(adaptive.window_ms || policy.window_minutes || 6) /
+            (Number(adaptive.window_ms) ? 60_000 : 1);
           const recent = ((probes.recent || []) as Array<{
             id?: string;
             kind?: string;
@@ -71,7 +83,8 @@ export const Route = createFileRoute("/api/probes/")({
               mirrored_from: (probes as { mirrored_from?: string }).mirrored_from,
               timezone: "America/New_York",
               cadence:
-                "1 probe every 6 minutes · next = last + 6m · Eastern Time",
+                (policy.cadence as string) ||
+                `adaptive · up to ${adaptive.probes_per_tick || 64} probes / ${windowMin}m · ET`,
               how_it_works: {
                 worker:
                   "Production: GitHub Actions every 6m → POST /api/cron/probe · Preview mirrors dualregistry.dev public stats",
@@ -79,13 +92,14 @@ export const Route = createFileRoute("/api/probes/")({
                 state: "data/prod/probes.json (durable) on production",
                 dashboard: "GET /api/dashboard?refresh=1 → protocol.probes",
                 timing:
-                  "next_tick_at = last_tick_at + exactly 6 minutes (Eastern display)",
+                  "next_tick_at = last_tick_at + adaptive window (2m behind / 10m on-pace)",
                 live_rule: "checks clean + handshake ok → Active list",
                 handoff:
                   "probe ok → offer take-demo skill; demos/feedback external only",
                 fail_rule:
                   "fail = card missing/blocked/non-JSON; spends budget, not Live",
                 not_auto: "demos and feedback come from agents/MCPs who try the product",
+                cost_mode: policy.cost_mode,
               },
               probes: {
                 used: probes.used,
@@ -97,17 +111,19 @@ export const Route = createFileRoute("/api/probes/")({
                 next_tick_at: cadence.next.iso,
                 next_tick_at_et: cadence.next.et_full,
                 next_tick_relative: cadence.next.relative,
-                gap_minutes: 6,
+                gap_minutes: windowMin,
                 by_kind_today: probes.by_kind_today,
                 live_active:
                   probes.live_active_snapshot || probes.live_active || null,
                 worker: probes.probe_worker,
+                adaptive,
+                policy,
                 window: {
                   used: probes.window_used ?? probes.hourly_used,
                   cap: probes.window_cap ?? probes.hourly_cap,
                   remaining:
                     probes.window_remaining ?? probes.hourly_remaining,
-                  minutes: 6,
+                  minutes: windowMin,
                 },
               },
               outcomes: probes.outcomes,

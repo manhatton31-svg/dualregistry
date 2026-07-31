@@ -4,6 +4,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
+import { discoveryCacheHeaders } from "@/lib/agents1/discovery-cache";
 
 export const Route = createFileRoute("/agentmap.json")({
   server: {
@@ -31,7 +32,7 @@ export const Route = createFileRoute("/agentmap.json")({
         };
         return Response.json(body, {
           headers: withDemoCtaHeaders(
-            { "cache-control": "public, max-age=120, s-maxage=300, stale-while-revalidate=600" },
+            discoveryCacheHeaders({ browser: 120 }),
             { origin: o },
           ),
         });

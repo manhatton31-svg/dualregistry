@@ -148,6 +148,10 @@ export type AdaptiveProbeBudget = {
   probesPerTick: number;
   concurrency: number;
   clean_total: number;
+  /** New clean listings approved today (UTC) */
+  clean_added_today: number;
+  /** Expected clean additions by now (pace = target × day fraction) */
+  expected_by_now: number;
   target: number;
 };
 
@@ -233,24 +237,50 @@ export function invalidateProbeCache(): void {
 
 /**
  * Adaptive budget: full volume only when clean registry is behind daily target.
+ * Pace uses today's new clean approvals vs time-of-day expected share of
+ * CLEAN_GROWTH_TARGET_PER_DAY (not total registry size).
  * On pace → longer window + smaller batch (saves Fluid Active CPU).
  */
 export async function resolveAdaptiveProbeBudget(): Promise<AdaptiveProbeBudget> {
   let clean_total = 0;
+  let clean_added_today = 0;
+  const day = utcDay();
   try {
     const { loadCleanRegistry } = await import("./clean-registry");
     const reg = await loadCleanRegistry();
-    clean_total = reg?.counts?.total || Object.keys(reg?.items || {}).length;
+    const items = reg?.items || {};
+    clean_total = reg?.counts?.total || Object.keys(items).length;
+    for (const it of Object.values(items)) {
+      const at = String(it.approved_at || it.probed_at || "");
+      if (at.startsWith(day)) clean_added_today++;
+    }
   } catch {
     clean_total = 0;
+    clean_added_today = 0;
   }
-  const behind = clean_total < CLEAN_GROWTH_TARGET_PER_DAY;
+  // Expected progress by now (UTC day fraction), 15% slack before "behind"
+  const now = new Date();
+  const dayFraction = Math.min(
+    1,
+    (now.getUTCHours() * 3600 +
+      now.getUTCMinutes() * 60 +
+      now.getUTCSeconds()) /
+      86_400,
+  );
+  // Floor expected so early morning isn't forever "behind" at zero
+  const expected_by_now = Math.max(
+    8,
+    Math.floor(CLEAN_GROWTH_TARGET_PER_DAY * dayFraction),
+  );
+  const behind = clean_added_today < expected_by_now * 0.85;
   return {
     behind,
     windowMs: behind ? PROBE_WINDOW_MS : PROBE_WINDOW_HEALTHY_MS,
     probesPerTick: behind ? MAX_PROBES_PER_WINDOW : MAX_PROBES_PER_WINDOW_HEALTHY,
     concurrency: PROBE_CONCURRENCY,
     clean_total,
+    clean_added_today,
+    expected_by_now,
     target: CLEAN_GROWTH_TARGET_PER_DAY,
   };
 }
@@ -1439,6 +1469,9 @@ export async function getProbePublic() {
         behind: adaptive.behind,
         window_ms: adaptive.windowMs,
         probes_per_tick: adaptive.probesPerTick,
+        clean_added_today: adaptive.clean_added_today,
+        expected_by_now: adaptive.expected_by_now,
+        target: adaptive.target,
       },
     };
   }
@@ -1716,7 +1749,8 @@ export async function getProbePublic() {
       max_per_day: MAX_PROBES_PER_DAY,
       max_per_window: adaptive.probesPerTick,
       window_minutes: adaptive.windowMs / 60_000,
-      cadence: `adaptive: up to ${adaptive.probesPerTick} full probes / ${adaptive.windowMs / 60_000}m (behind=${adaptive.behind}) · ${MAX_PROBES_PER_DAY}/day soft · clean target ${CLEAN_GROWTH_TARGET_PER_DAY}/day · concurrency ${PROBE_CONCURRENCY}`,
+      cadence: `adaptive: up to ${adaptive.probesPerTick} full probes / ${adaptive.windowMs / 60_000}m (behind=${adaptive.behind} · +${adaptive.clean_added_today}/${adaptive.target} clean today · expect≥${adaptive.expected_by_now}) · ${MAX_PROBES_PER_DAY}/day soft · concurrency ${PROBE_CONCURRENCY}`,
+
       balance:
         "catch-up: lagging kind first; mix agents+MCPs. Prefer never-probed.",
       max_per_hour: MAX_PROBES_PER_HOUR,

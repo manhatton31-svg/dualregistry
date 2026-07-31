@@ -41,6 +41,8 @@ export const Route = createFileRoute("/skill.json")({
           {
             headers: {
               "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
+              "cdn-cache-control": "public, s-maxage=300, stale-while-revalidate=600",
+              "vercel-cdn-cache-control": "public, s-maxage=300, stale-while-revalidate=600",
               "access-control-allow-origin": "*",
               "content-type": "application/json; charset=utf-8",
             },
