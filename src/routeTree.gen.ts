@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgentmapDotjsonRouteImport } from './routes/agentmap[.]json'
 import { Route as AiDottxtRouteImport } from './routes/ai[.]txt'
+import { Route as ConnectorsRouteImport } from './routes/connectors'
 import { Route as DiscoveryDotjsonRouteImport } from './routes/discovery[.]json'
 import { Route as GrowRouteImport } from './routes/grow'
 import { Route as InstallDotjsonRouteImport } from './routes/install[.]json'
@@ -122,6 +123,7 @@ import { Route as ApiProductsVerifyRouteImport } from './routes/api/products/ver
 import { Route as ApiProductsWebhookRouteImport } from './routes/api/products/webhook'
 import { Route as ApiProductsWtpRouteImport } from './routes/api/products/wtp'
 import { Route as ApiProductsConnectorsDailyRouteImport } from './routes/api/products/connectors.daily'
+import { Route as ApiProductsConnectorsDailyStatusRouteImport } from './routes/api/products/connectors.daily.status'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -136,6 +138,11 @@ const AgentmapDotjsonRoute = AgentmapDotjsonRouteImport.update({
 const AiDottxtRoute = AiDottxtRouteImport.update({
   id: '/ai.txt',
   path: '/ai.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConnectorsRoute = ConnectorsRouteImport.update({
+  id: '/connectors',
+  path: '/connectors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiscoveryDotjsonRoute = DiscoveryDotjsonRouteImport.update({
@@ -709,11 +716,18 @@ const ApiProductsConnectorsDailyRoute =
     path: '/daily',
     getParentRoute: () => ApiProductsConnectorsRoute,
   } as any)
+const ApiProductsConnectorsDailyStatusRoute =
+  ApiProductsConnectorsDailyStatusRouteImport.update({
+    id: '/status',
+    path: '/status',
+    getParentRoute: () => ApiProductsConnectorsDailyRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
+  '/connectors': typeof ConnectorsRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/grow': typeof GrowRoute
   '/install.json': typeof InstallDotjsonRoute
@@ -823,12 +837,14 @@ export interface FileRoutesByFullPath {
   '/api/products/wtp': typeof ApiProductsWtpRoute
   '/api/funnel/': typeof ApiFunnelIndexRoute
   '/api/probes/': typeof ApiProbesIndexRoute
-  '/api/products/connectors/daily': typeof ApiProductsConnectorsDailyRoute
+  '/api/products/connectors/daily': typeof ApiProductsConnectorsDailyRouteWithChildren
+  '/api/products/connectors/daily/status': typeof ApiProductsConnectorsDailyStatusRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
+  '/connectors': typeof ConnectorsRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/grow': typeof GrowRoute
   '/install.json': typeof InstallDotjsonRoute
@@ -938,13 +954,15 @@ export interface FileRoutesByTo {
   '/api/products/wtp': typeof ApiProductsWtpRoute
   '/api/funnel': typeof ApiFunnelIndexRoute
   '/api/probes': typeof ApiProbesIndexRoute
-  '/api/products/connectors/daily': typeof ApiProductsConnectorsDailyRoute
+  '/api/products/connectors/daily': typeof ApiProductsConnectorsDailyRouteWithChildren
+  '/api/products/connectors/daily/status': typeof ApiProductsConnectorsDailyStatusRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
+  '/connectors': typeof ConnectorsRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/grow': typeof GrowRoute
   '/install.json': typeof InstallDotjsonRoute
@@ -1054,7 +1072,8 @@ export interface FileRoutesById {
   '/api/products/wtp': typeof ApiProductsWtpRoute
   '/api/funnel/': typeof ApiFunnelIndexRoute
   '/api/probes/': typeof ApiProbesIndexRoute
-  '/api/products/connectors/daily': typeof ApiProductsConnectorsDailyRoute
+  '/api/products/connectors/daily': typeof ApiProductsConnectorsDailyRouteWithChildren
+  '/api/products/connectors/daily/status': typeof ApiProductsConnectorsDailyStatusRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1062,6 +1081,7 @@ export interface FileRouteTypes {
     | '/'
     | '/agentmap.json'
     | '/ai.txt'
+    | '/connectors'
     | '/discovery.json'
     | '/grow'
     | '/install.json'
@@ -1172,11 +1192,13 @@ export interface FileRouteTypes {
     | '/api/funnel/'
     | '/api/probes/'
     | '/api/products/connectors/daily'
+    | '/api/products/connectors/daily/status'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/agentmap.json'
     | '/ai.txt'
+    | '/connectors'
     | '/discovery.json'
     | '/grow'
     | '/install.json'
@@ -1287,11 +1309,13 @@ export interface FileRouteTypes {
     | '/api/funnel'
     | '/api/probes'
     | '/api/products/connectors/daily'
+    | '/api/products/connectors/daily/status'
   id:
     | '__root__'
     | '/'
     | '/agentmap.json'
     | '/ai.txt'
+    | '/connectors'
     | '/discovery.json'
     | '/grow'
     | '/install.json'
@@ -1402,12 +1426,14 @@ export interface FileRouteTypes {
     | '/api/funnel/'
     | '/api/probes/'
     | '/api/products/connectors/daily'
+    | '/api/products/connectors/daily/status'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgentmapDotjsonRoute: typeof AgentmapDotjsonRoute
   AiDottxtRoute: typeof AiDottxtRoute
+  ConnectorsRoute: typeof ConnectorsRoute
   DiscoveryDotjsonRoute: typeof DiscoveryDotjsonRoute
   GrowRoute: typeof GrowRoute
   InstallDotjsonRoute: typeof InstallDotjsonRoute
@@ -1539,6 +1565,13 @@ declare module '@tanstack/react-router' {
       path: '/ai.txt'
       fullPath: '/ai.txt'
       preLoaderRoute: typeof AiDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/connectors': {
+      id: '/connectors'
+      path: '/connectors'
+      fullPath: '/connectors'
+      preLoaderRoute: typeof ConnectorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/discovery.json': {
@@ -2311,6 +2344,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsConnectorsDailyRouteImport
       parentRoute: typeof ApiProductsConnectorsRoute
     }
+    '/api/products/connectors/daily/status': {
+      id: '/api/products/connectors/daily/status'
+      path: '/status'
+      fullPath: '/api/products/connectors/daily/status'
+      preLoaderRoute: typeof ApiProductsConnectorsDailyStatusRouteImport
+      parentRoute: typeof ApiProductsConnectorsDailyRoute
+    }
   }
 }
 
@@ -2324,12 +2364,27 @@ const ListRouteChildren: ListRouteChildren = {
 
 const ListRouteWithChildren = ListRoute._addFileChildren(ListRouteChildren)
 
+interface ApiProductsConnectorsDailyRouteChildren {
+  ApiProductsConnectorsDailyStatusRoute: typeof ApiProductsConnectorsDailyStatusRoute
+}
+
+const ApiProductsConnectorsDailyRouteChildren: ApiProductsConnectorsDailyRouteChildren =
+  {
+    ApiProductsConnectorsDailyStatusRoute:
+      ApiProductsConnectorsDailyStatusRoute,
+  }
+
+const ApiProductsConnectorsDailyRouteWithChildren =
+  ApiProductsConnectorsDailyRoute._addFileChildren(
+    ApiProductsConnectorsDailyRouteChildren,
+  )
+
 interface ApiProductsConnectorsRouteChildren {
-  ApiProductsConnectorsDailyRoute: typeof ApiProductsConnectorsDailyRoute
+  ApiProductsConnectorsDailyRoute: typeof ApiProductsConnectorsDailyRouteWithChildren
 }
 
 const ApiProductsConnectorsRouteChildren: ApiProductsConnectorsRouteChildren = {
-  ApiProductsConnectorsDailyRoute: ApiProductsConnectorsDailyRoute,
+  ApiProductsConnectorsDailyRoute: ApiProductsConnectorsDailyRouteWithChildren,
 }
 
 const ApiProductsConnectorsRouteWithChildren =
@@ -2341,6 +2396,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgentmapDotjsonRoute: AgentmapDotjsonRoute,
   AiDottxtRoute: AiDottxtRoute,
+  ConnectorsRoute: ConnectorsRoute,
   DiscoveryDotjsonRoute: DiscoveryDotjsonRoute,
   GrowRoute: GrowRoute,
   InstallDotjsonRoute: InstallDotjsonRoute,

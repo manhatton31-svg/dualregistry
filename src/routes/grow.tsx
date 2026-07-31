@@ -491,6 +491,9 @@ function GrowPage() {
             Or say in chat: “walk me through demo + feedback.”
           </p>
           <Button asChild size="sm" variant="secondary" className="gap-1.5">
+            <a href="/connectors">Connectors (1/day)</a>
+          </Button>
+          <Button asChild size="sm" variant="secondary" className="gap-1.5">
             <a href="/for-agents">For agents path</a>
           </Button>
         </Step>

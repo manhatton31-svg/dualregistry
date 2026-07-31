@@ -515,3 +515,65 @@ export async function getConnectorDailyStatus() {
     updated_at: state.updated_at,
   };
 }
+
+/** Operator marks today's (or a history day) outcome — never auto-sends. */
+export async function markConnectorDailyStatus(input: {
+  partner_id?: string;
+  day?: string;
+  status: ConnectorDailyLogEntry["status"];
+  notes?: string;
+}): Promise<{ ok: true; entry: ConnectorDailyLogEntry } | { ok: false; error: string }> {
+  const { loadDurableJson, saveDurableJson } = await import(
+    "@/lib/agents1/durable-json"
+  );
+  const state = await loadDurableJson<ConnectorDailyState>(DURABLE_NAME, emptyState);
+  const day = input.day || utcDay();
+  const partnerId =
+    input.partner_id ||
+    state.last_prep?.pick.partner.id ||
+    state.history?.[0]?.partner_id;
+  if (!partnerId) {
+    return { ok: false, error: "no partner to mark — run prep first" };
+  }
+  const allowed: ConnectorDailyLogEntry["status"][] = [
+    "prepped",
+    "sent_by_operator",
+    "replied",
+    "dead",
+    "skipped",
+  ];
+  if (!allowed.includes(input.status)) {
+    return { ok: false, error: "invalid status" };
+  }
+
+  let entry = (state.history || []).find(
+    (h) => h.day === day && h.partner_id === partnerId,
+  );
+  if (entry) {
+    entry = {
+      ...entry,
+      status: input.status,
+      notes: input.notes?.slice(0, 500) || entry.notes,
+    };
+    state.history = [
+      entry,
+      ...(state.history || []).filter(
+        (h) => !(h.day === day && h.partner_id === partnerId),
+      ),
+    ].slice(0, 90);
+  } else {
+    entry = {
+      day,
+      partner_id: partnerId,
+      partner_name: state.last_prep?.pick.partner.name || partnerId,
+      hirey_likeness: state.last_prep?.pick.hirey_likeness || 0,
+      status: input.status,
+      prepped_at: new Date().toISOString(),
+      notes: input.notes?.slice(0, 500),
+    };
+    state.history = [entry, ...(state.history || [])].slice(0, 90);
+  }
+  state.updated_at = new Date().toISOString();
+  await saveDurableJson(DURABLE_NAME, state);
+  return { ok: true, entry };
+}
