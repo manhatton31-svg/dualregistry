@@ -2,22 +2,41 @@
   "plan": "pro",
   "rates_version": "2026-07-fluid-pro-iad1-v1",
   "month": "2026-07",
-  "month_usd": 0.0144,
-  "month_invocations": 12,
-  "month_active_cpu_ms": 200000,
-  "month_provisioned_gb_hours": 0.6,
+  "month_usd": 0.016723072,
+  "month_invocations": 15,
+  "month_active_cpu_ms": 235305,
+  "month_provisioned_gb_hours": 0.7005644444444443,
   "month_cache_hits": 0,
   "today": {
     "day": "2026-07-31",
-    "invocations": 12,
-    "active_cpu_ms": 200000,
-    "wall_ms": 400000,
-    "provisioned_gb_hours": 0.6,
+    "invocations": 15,
+    "active_cpu_ms": 235305,
+    "wall_ms": 581016,
+    "provisioned_gb_hours": 0.7005644444444443,
     "response_bytes": 0,
     "cache_hits": 0,
-    "cache_misses": 12,
+    "cache_misses": 15,
     "skipped_cadence": 0,
-    "by_class": {},
+    "by_class": {
+      "product": {
+        "n": 1,
+        "wall_ms": 3497,
+        "active_cpu_ms": 1749,
+        "usd": 0.00008338011111111112
+      },
+      "cron_probe": {
+        "n": 1,
+        "wall_ms": 170237,
+        "active_cpu_ms": 30643,
+        "usd": 0.0020926356666666666
+      },
+      "api_read": {
+        "n": 1,
+        "wall_ms": 7282,
+        "active_cpu_ms": 2913,
+        "usd": 0.00014705622222222221
+      }
+    },
     "usd": {
       "active_cpu_hours": 0.055,
       "provisioned_gb_hours": 0.6,
@@ -25,17 +44,62 @@
       "bandwidth_gb": 0,
       "usd_active_cpu": 0.007,
       "usd_provisioned_memory": 0.00636,
-      "usd_invocations": 7.2e-06,
+      "usd_invocations": 0.0000072,
       "usd_bandwidth": 0,
       "usd_total": 0.0144,
       "rates_version": "2026-07-fluid-pro-iad1-v1"
     },
-    "events": []
+    "events": [
+      {
+        "at": "2026-07-31T15:00:06.019Z",
+        "class": "api_read",
+        "route": "/api/stats",
+        "label": "stats",
+        "wall_ms": 7282,
+        "active_cpu_ms": 2913,
+        "invocations": 1,
+        "usd": 0.00014705622222222221,
+        "skipped": false,
+        "vercel_cache": null
+      },
+      {
+        "at": "2026-07-31T14:57:23.487Z",
+        "class": "cron_probe",
+        "route": "/api/cron/probe",
+        "label": "probe_tick",
+        "wall_ms": 170237,
+        "active_cpu_ms": 30643,
+        "invocations": 1,
+        "usd": 0.0020926356666666666,
+        "skipped": false,
+        "vercel_cache": null
+      },
+      {
+        "at": "2026-07-31T14:53:04.075Z",
+        "class": "product",
+        "route": "/api/cron/growth-scout",
+        "label": "growth_scout",
+        "wall_ms": 3497,
+        "active_cpu_ms": 1749,
+        "invocations": 1,
+        "usd": 0.00008338011111111112,
+        "skipped": false,
+        "vercel_cache": null
+      }
+    ]
   },
-  "lifetime_usd": 0.0144,
-  "lifetime_invocations": 12,
-  "updated_at": "2026-07-31T14:49:57.000Z",
+  "lifetime_usd": 0.016723072,
+  "lifetime_invocations": 15,
+  "updated_at": "2026-07-31T15:00:06.019Z",
   "savings_notes": [
-    "High-water merge restored"
+    "Fluid Active CPU: I/O wait during probes is free",
+    "Probe de-dupe: Vercel Cron primary; GH Actions commits only when tick fresh or backup",
+    "Harvest every 12m soft GETs (was 2m) — fewer origin inv",
+    "CDN + ETag/304 on discovery (cards, pack, stats, A2A help)",
+    "waitUntil: cost ledger + durable writes off critical path",
+    "preferredRegion iad1 + short maxDuration on metadata routes",
+    "Dashboard soft poll 3m + private max-age; growth panel 3m",
+    "x-vercel-cache telemetry in ledger (HIT = origin avoided)",
+    "High-water merge: multi-instance never regresses today/month USD"
   ]
 }
