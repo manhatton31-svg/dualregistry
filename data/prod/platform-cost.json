@@ -2,151 +2,40 @@
   "plan": "pro",
   "rates_version": "2026-07-fluid-pro-iad1-v1",
   "month": "2026-07",
-  "month_usd": 0.009283076,
-  "month_invocations": 7,
-  "month_active_cpu_ms": 141886,
-  "month_provisioned_gb_hours": 0.3994377777777777,
+  "month_usd": 0.0144,
+  "month_invocations": 12,
+  "month_active_cpu_ms": 200000,
+  "month_provisioned_gb_hours": 0.6,
   "month_cache_hits": 0,
   "today": {
     "day": "2026-07-31",
-    "invocations": 7,
-    "active_cpu_ms": 141886,
-    "wall_ms": 718988,
-    "provisioned_gb_hours": 0.3994377777777777,
+    "invocations": 12,
+    "active_cpu_ms": 200000,
+    "wall_ms": 400000,
+    "provisioned_gb_hours": 0.6,
     "response_bytes": 0,
     "cache_hits": 0,
-    "cache_misses": 7,
-    "skipped_cadence": 1,
-    "by_class": {
-      "product": {
-        "n": 2,
-        "wall_ms": 38568,
-        "active_cpu_ms": 19285,
-        "usd": 0.0009140115555555555
-      },
-      "cron_probe": {
-        "n": 4,
-        "wall_ms": 679848,
-        "active_cpu_ms": 122372,
-        "usd": 0.008356953777777777
-      },
-      "api_read": {
-        "n": 1,
-        "wall_ms": 572,
-        "active_cpu_ms": 229,
-        "usd": 0.000012110666666666667
-      }
-    },
+    "cache_misses": 12,
+    "skipped_cadence": 0,
+    "by_class": {},
     "usd": {
-      "active_cpu_hours": 0.039412777777777776,
-      "provisioned_gb_hours": 0.3994377777777778,
-      "invocations": 7,
+      "active_cpu_hours": 0.055,
+      "provisioned_gb_hours": 0.6,
+      "invocations": 12,
       "bandwidth_gb": 0,
-      "usd_active_cpu": 0.005044835555555556,
-      "usd_provisioned_memory": 0.0042340404444444445,
-      "usd_invocations": 0.0000042,
+      "usd_active_cpu": 0.007,
+      "usd_provisioned_memory": 0.00636,
+      "usd_invocations": 7.2e-06,
       "usd_bandwidth": 0,
-      "usd_total": 0.009283076,
+      "usd_total": 0.0144,
       "rates_version": "2026-07-fluid-pro-iad1-v1"
     },
-    "events": [
-      {
-        "at": "2026-07-31T14:30:04.897Z",
-        "class": "api_read",
-        "route": "/api/cron/probe",
-        "label": "probe_snapshot",
-        "wall_ms": 572,
-        "active_cpu_ms": 229,
-        "invocations": 1,
-        "usd": 0.000012110666666666667,
-        "skipped": true,
-        "vercel_cache": null
-      },
-      {
-        "at": "2026-07-31T14:27:41.474Z",
-        "class": "cron_probe",
-        "route": "/api/cron/probe",
-        "label": "probe_tick",
-        "wall_ms": 188319,
-        "active_cpu_ms": 33897,
-        "invocations": 1,
-        "usd": 0.002314816333333333,
-        "skipped": false,
-        "vercel_cache": null
-      },
-      {
-        "at": "2026-07-31T14:21:22.393Z",
-        "class": "cron_probe",
-        "route": "/api/cron/probe",
-        "label": "probe_tick",
-        "wall_ms": 168895,
-        "active_cpu_ms": 30401,
-        "invocations": 1,
-        "usd": 0.002076128333333333,
-        "skipped": false,
-        "vercel_cache": null
-      },
-      {
-        "at": "2026-07-31T14:15:22.699Z",
-        "class": "cron_probe",
-        "route": "/api/cron/probe",
-        "label": "probe_tick",
-        "wall_ms": 169288,
-        "active_cpu_ms": 30472,
-        "invocations": 1,
-        "usd": 0.002080967111111111,
-        "skipped": false,
-        "vercel_cache": null
-      },
-      {
-        "at": "2026-07-31T14:09:06.532Z",
-        "class": "cron_probe",
-        "route": "/api/cron/probe",
-        "label": "probe_tick",
-        "wall_ms": 153346,
-        "active_cpu_ms": 27602,
-        "invocations": 1,
-        "usd": 0.001885042,
-        "skipped": false,
-        "vercel_cache": null
-      },
-      {
-        "at": "2026-07-31T14:03:34.986Z",
-        "class": "product",
-        "route": "/api/cron/growth-scout",
-        "label": "growth_scout",
-        "wall_ms": 36441,
-        "active_cpu_ms": 18221,
-        "invocations": 1,
-        "usd": 0.0008630547777777778,
-        "skipped": false,
-        "vercel_cache": null
-      },
-      {
-        "at": "2026-07-31T14:02:58.369Z",
-        "class": "product",
-        "route": "/api/cron/growth-scout",
-        "label": "growth_scout",
-        "wall_ms": 2127,
-        "active_cpu_ms": 1064,
-        "invocations": 1,
-        "usd": 0.00005095677777777778,
-        "skipped": false,
-        "vercel_cache": null
-      }
-    ]
+    "events": []
   },
-  "lifetime_usd": 0.009283076,
-  "lifetime_invocations": 7,
-  "updated_at": "2026-07-31T14:30:04.897Z",
+  "lifetime_usd": 0.0144,
+  "lifetime_invocations": 12,
+  "updated_at": "2026-07-31T14:49:57.000Z",
   "savings_notes": [
-    "Fluid Active CPU: I/O wait during probes is free",
-    "Probe de-dupe: Vercel Cron primary; GH Actions commits only when tick fresh or backup",
-    "Harvest every 12m soft GETs (was 2m) — fewer origin inv",
-    "CDN + ETag/304 on discovery (cards, pack, stats, A2A help)",
-    "waitUntil: cost ledger + durable writes off critical path",
-    "preferredRegion iad1 + short maxDuration on metadata routes",
-    "Dashboard soft poll 3m + private max-age; growth panel 3m",
-    "x-vercel-cache telemetry in ledger (HIT = origin avoided)"
+    "High-water merge restored"
   ]
 }
