@@ -14,7 +14,7 @@ export const Route = createFileRoute("/api/products/agentfinder")({
         return Response.json(
           {
             ok: true,
-            version: "2.2.0",
+            version: "2.3.0",
             title: "Dual Registry × GitHub Agent Finder",
             point_registry_at: {
               catalog: `${o}/.well-known/ai-catalog.json`,
@@ -24,7 +24,15 @@ export const Route = createFileRoute("/api/products/agentfinder")({
                 url: `${o}/api/ard/search`,
                 body: { q: "{task}", federation: "auto" },
               },
+              match: `${o}/api/match?q={task}`,
+              tools: `${o}/api/protocol`,
+              tools_list: {
+                method: "POST",
+                url: `${o}/api/protocol`,
+                body: { jsonrpc: "2.0", id: 1, method: "tools/list" },
+              },
             },
+            dual_as_tool: true,
             contribution_pack: {
               repo: "https://github.com/manhatton31-svg/dualregistry/tree/main/docs/agentfinder",
               skill_md:

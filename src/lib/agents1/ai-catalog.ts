@@ -204,7 +204,7 @@ export function buildAiCatalog(origin: string) {
       point_agent_finder_at: `${o}/.well-known/ai-catalog.json`,
       search: `${o}/api/ard/search`,
       referrals: ARD_PEER_REFERRALS,
-      note: "Peers may refer Dual; auto mode pulls peer catalogs into search hits",
+      note: "Peers may refer Dual; auto mode pulls HF + Active listing catalogs (bidirectional)",
     },
     dual_strategy: {
       mode: "outbound_plus_inbound",
@@ -420,6 +420,20 @@ export async function ardSearch(
         score += 15;
     }
     if (score > 0) {
+      // Reciprocity boost for listings that link Dual
+      if (e.identifier.includes(":listing:")) {
+        try {
+          const lid = e.identifier.split(":listing:")[1];
+          if (lid) {
+            const { reciprocityBoost } = await import(
+              "@/lib/products/reciprocity"
+            );
+            score += await reciprocityBoost(lid);
+          }
+        } catch {
+          /* */
+        }
+      }
       hits.push({
         identifier: e.identifier,
         displayName: e.displayName,
@@ -439,8 +453,65 @@ export async function ardSearch(
 
   if (federation === "auto") {
     const pullable = ARD_PEER_REFERRALS.filter((p) => p.pull);
+    // Adjacent possible: Active listings with their own ARD/catalog become peers
+    const activePeers: Array<{ catalog: string; displayName: string }> = [];
+    try {
+      const { getLanedListings } = await import("./listing-lanes");
+      const { loadCleanRegistry } = await import("./clean-registry");
+      const lanes = await getLanedListings();
+      const reg = await loadCleanRegistry();
+      const clean = reg.items || {};
+      const rows = [
+        ...(lanes.agents_active || []),
+        ...(lanes.mcp_active || []),
+      ].filter((L) => L?.id && clean[L.id]);
+      for (const L of rows) {
+        const candidates = [
+          L.agent_card_url,
+          // derive well-known catalog from website origin
+          L.website
+            ? (() => {
+                try {
+                  const u = new URL(L.website);
+                  return `${u.origin}/.well-known/ai-catalog.json`;
+                } catch {
+                  return null;
+                }
+              })()
+            : null,
+          L.agent_card_url
+            ? (() => {
+                try {
+                  const u = new URL(L.agent_card_url);
+                  return `${u.origin}/.well-known/ai-catalog.json`;
+                } catch {
+                  return null;
+                }
+              })()
+            : null,
+        ].filter(Boolean) as string[];
+        for (const c of candidates) {
+          if (!c.startsWith("https://")) continue;
+          if (c.includes("dualregistry")) continue;
+          if (activePeers.some((x) => x.catalog === c)) continue;
+          activePeers.push({
+            catalog: c,
+            displayName: L.name || "active-peer",
+          });
+          if (activePeers.length >= 8) break;
+        }
+        if (activePeers.length >= 8) break;
+      }
+    } catch {
+      /* cold */
+    }
+
+    const allPull = [
+      ...pullable.map((p) => ({ catalog: p.catalog, displayName: p.displayName })),
+      ...activePeers,
+    ];
     const peerHits = await Promise.all(
-      pullable.map(async (p) => {
+      allPull.map(async (p) => {
         const ph = await pullPeerCatalog(p.catalog, query);
         peers_pulled.push({
           catalog: p.catalog,

@@ -276,11 +276,58 @@ export function agents1AgentCard(origin: string): A2ACard {
       {
         id: "ard-search",
         name: "ard_search",
-        description: `POST ${o}/api/ard/search {"q":"list my agent free"} — natural-language discovery over Dual catalog + Active.`,
-        tags: ["ard", "discovery", "search", "inbound"],
+        description: `POST ${o}/api/ard/search or tools/call ard_search — natural-language discovery over Dual catalog + Active.`,
+        tags: ["ard", "discovery", "search", "inbound", "tool"],
         examples: [
+          `POST ${o}/api/protocol {"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"ard_search","arguments":{"q":"MCP registry"}}}`,
           `POST ${o}/api/ard/search {"q":"MCP registry with live probes"}`,
-          `GET ${o}/api/ard/search?q=kernel+demo`,
+        ],
+      },
+      {
+        id: "search-active",
+        name: "search_active",
+        description: `tools/call search_active — list Active clean agents+MCPs with take_demo links.`,
+        tags: ["registry", "active", "tool", "inbound"],
+        examples: [
+          `POST ${o}/api/protocol {"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"search_active","arguments":{"kind":"mcp","limit":20}}}`,
+        ],
+      },
+      {
+        id: "match-capability",
+        name: "match_capability",
+        description: `tools/call match_capability — marketplace ranking of Active clean for a natural-language need.`,
+        tags: ["matchmaking", "marketplace", "tool", "inbound"],
+        examples: [
+          `POST ${o}/api/protocol {"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"match_capability","arguments":{"q":"github issues"}}}`,
+          `GET ${o}/api/match?q=github+issues`,
+        ],
+      },
+      {
+        id: "get-founding-deal",
+        name: "get_founding_deal",
+        description: `tools/call get_founding_deal — founding free seat meter (first 100 demo+feedback).`,
+        tags: ["founding", "deal", "tool"],
+        examples: [
+          `POST ${o}/api/protocol {"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_founding_deal","arguments":{}}}`,
+        ],
+      },
+      {
+        id: "get-reciprocity",
+        name: "get_reciprocity",
+        description: `tools/call get_reciprocity — trust graph + portable clean/verified badge.`,
+        tags: ["trust", "badge", "tool"],
+        examples: [
+          `GET ${o}/api/products/reciprocity?id=LISTING_ID`,
+          `GET ${o}/badge/clean.svg?id=LISTING_ID`,
+        ],
+      },
+      {
+        id: "probe-clean",
+        name: "probe_clean",
+        description: `tools/call probe_clean — portable checks-clean signal for other registries.`,
+        tags: ["trust", "probe", "tool"],
+        examples: [
+          `POST ${o}/api/protocol {"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"probe_clean","arguments":{"listing_id":"ID"}}}`,
         ],
       },
       {
@@ -447,7 +494,7 @@ export function agents1McpServerCard(origin: string) {
       "Federated Grok-scored sub-registry. Dual-publish, free score, A2A catalog, Kernel Improver + Recursive Loop. Free self-list: GET /skill.json then POST /api/publish. Live = probe ok. Dual strategy: outbound invites + inbound self-serve.",
     website_url: o,
     documentation_url: `${o}/for-agents`,
-    version: "1.9.0",
+    version: "2.3.0",
     remotes: [
       {
         type: "streamable-http",
@@ -461,12 +508,24 @@ export function agents1McpServerCard(origin: string) {
       },
     ],
     tools_hint: [
-      { name: "list_on_dual_registry", description: `POST ${o}/api/publish` },
-      { name: "get_listing_status", description: `GET ${o}/api/listings/status` },
-      { name: "take_demo", description: `GET ${o}/api/products/demo?listing_id=` },
-      { name: "search_active", description: `GET ${o}/api/listings/active` },
-      { name: "get_founding_deal", description: `GET ${o}/discovery.json` },
+      { name: "search_active", description: `Active clean listings — tools/call on ${o}/api/protocol` },
+      { name: "match_capability", description: `NL capability matchmaking over Active clean` },
+      { name: "list_yourself", description: `Free self-list via tools/call or POST ${o}/api/publish` },
+      { name: "list_on_dual_registry", description: `Alias of list_yourself` },
+      { name: "check_status", description: `Poll lane until active` },
+      { name: "get_listing_status", description: `Alias of check_status` },
+      { name: "take_demo", description: `Free demo for listing_id` },
+      { name: "leave_feedback", description: `Feedback → founding free seat` },
+      { name: "ard_search", description: `ARD search + federation` },
+      { name: "get_founding_deal", description: `Founding free seat meter` },
+      { name: "get_reciprocity", description: `Trust graph + clean badge` },
+      { name: "probe_clean", description: `Portable checks-clean signal` },
     ],
+    tools_endpoint: `${o}/api/protocol`,
+    tools_transport: "streamable-http",
+    tools_methods: ["initialize", "tools/list", "tools/call", "ping"],
+    dual_as_tool: true,
+    dual_as_tool_version: "2.3.0",
     packages: [] as unknown[],
     transport_preference: "streamable-http",
     protocol_versions: ["2026-07-28", "2025-03-26"],
@@ -505,6 +564,10 @@ export function agents1McpServerCard(origin: string) {
     badges: {
       mcp: `${origin}/badge/mcp`,
       agent: `${origin}/badge/agent`,
+      listed: `${origin}/badge/listed`,
+      clean: `${origin}/badge/clean`,
+      verified: `${origin}/badge/verified`,
+      live: `${origin}/badge/live`,
     },
   };
 }

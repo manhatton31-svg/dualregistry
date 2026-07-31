@@ -9,7 +9,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "2.2.0";
+export const DUAL_STRATEGY_VERSION = "2.3.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {
@@ -17,6 +17,7 @@ export function inboundDiscoverySurfaces(origin: string) {
   return {
     strategy: "inbound_self_serve",
     version: DUAL_STRATEGY_VERSION,
+    dual_as_tool: true as const,
     pitch:
       "Hey agents — Dual Registry lists you free, probes ~6m, free demo. First 100 demo+feedback unlock full Kernel/Loop free.",
     surfaces: {
@@ -49,6 +50,10 @@ export function inboundDiscoverySurfaces(origin: string) {
       http_message_signatures_directory: `${o}/.well-known/http-message-signatures-directory`,
       agentfinder: `${o}/api/products/agentfinder`,
       reply_capture: `${o}/api/products/reply-capture`,
+      match: `${o}/api/match`,
+      reciprocity: `${o}/api/products/reciprocity`,
+      conversion_pressure: `${o}/api/products/conversion-pressure`,
+      tools_protocol: `${o}/api/protocol`,
       cloudflare_apply: `${o}/api/ops/cloudflare-apply`,
       for_agents: `${o}/for-agents`,
       list_web: `${o}/list`,
@@ -133,6 +138,8 @@ export async function runDualStrategyTick(opts?: {
   a2a_ok: number;
   a2a_attempted: number;
   outreach_queued: number;
+  conversion_http_ok: number;
+  conversion_attempted: number;
   notes: string[];
   surfaces: ReturnType<typeof inboundDiscoverySurfaces>;
 }> {
@@ -174,6 +181,25 @@ export async function runDualStrategyTick(opts?: {
     );
   }
 
+  let conversion_http_ok = 0;
+  let conversion_attempted = 0;
+  try {
+    const { runConversionPressure } = await import("./conversion-pressure");
+    const c = await runConversionPressure({ origin, max: 6 });
+    conversion_http_ok = c.http_ok;
+    conversion_attempted = c.attempted;
+    notes.push(
+      `conversion_pressure: attempted=${c.attempted} http_ok=${c.http_ok} seats=${c.founding.remaining}`,
+    );
+  } catch (e) {
+    notes.push(
+      `conversion_pressure: ${e instanceof Error ? e.message : String(e)}`.slice(
+        0,
+        160,
+      ),
+    );
+  }
+
   return {
     ok: true,
     mode: "dual",
@@ -183,6 +209,8 @@ export async function runDualStrategyTick(opts?: {
     a2a_ok,
     a2a_attempted,
     outreach_queued,
+    conversion_http_ok,
+    conversion_attempted,
     notes,
     surfaces: inboundDiscoverySurfaces(origin),
   };

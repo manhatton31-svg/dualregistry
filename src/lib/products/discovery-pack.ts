@@ -14,7 +14,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
   return {
     origin: o,
     dual_strategy: true,
-    version: "2.2.0",
+    version: "2.3.0",
     llms_txt: `${o}/llms.txt`,
     llms_full: `${o}/llms-full.txt`,
     ai_txt: `${o}/ai.txt`,
@@ -59,6 +59,9 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
     signature_agent_card: `${o}/.well-known/signature-agent-card.json`,
     http_message_signatures_directory: `${o}/.well-known/http-message-signatures-directory`,
     agentfinder: `${o}/api/products/agentfinder`,
+    match: `${o}/api/match`,
+    reciprocity: `${o}/api/products/reciprocity`,
+    conversion_pressure: `${o}/api/products/conversion-pressure`,
     reply_capture: `${o}/api/products/reply-capture`,
     robots_agent: `${o}/robots-agent.txt`,
     protocol: `${o}/api/protocol`,

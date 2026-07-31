@@ -42,6 +42,7 @@ import { Route as ApiDashboardRouteImport } from './routes/api/dashboard'
 import { Route as ApiFeedRouteImport } from './routes/api/feed'
 import { Route as ApiGrowthRouteImport } from './routes/api/growth'
 import { Route as ApiListingLanesRouteImport } from './routes/api/listing-lanes'
+import { Route as ApiMatchRouteImport } from './routes/api/match'
 import { Route as ApiProtocolRouteImport } from './routes/api/protocol'
 import { Route as ApiPublishRouteImport } from './routes/api/publish'
 import { Route as ApiScoreRouteImport } from './routes/api/score'
@@ -74,6 +75,7 @@ import { Route as ApiProductsAgentfinderRouteImport } from './routes/api/product
 import { Route as ApiProductsCheckoutRouteImport } from './routes/api/products/checkout'
 import { Route as ApiProductsConfirmRouteImport } from './routes/api/products/confirm'
 import { Route as ApiProductsConversionRouteImport } from './routes/api/products/conversion'
+import { Route as ApiProductsConversionPressureRouteImport } from './routes/api/products/conversion-pressure'
 import { Route as ApiProductsDemoRouteImport } from './routes/api/products/demo'
 import { Route as ApiProductsDemoConfirmRouteImport } from './routes/api/products/demo-confirm'
 import { Route as ApiProductsDemoNudgeRouteImport } from './routes/api/products/demo-nudge'
@@ -88,6 +90,7 @@ import { Route as ApiProductsLifecycleRouteImport } from './routes/api/products/
 import { Route as ApiProductsMailRouteImport } from './routes/api/products/mail'
 import { Route as ApiProductsPreferencesRouteImport } from './routes/api/products/preferences'
 import { Route as ApiProductsPreviewRouteImport } from './routes/api/products/preview'
+import { Route as ApiProductsReciprocityRouteImport } from './routes/api/products/reciprocity'
 import { Route as ApiProductsReplyCaptureRouteImport } from './routes/api/products/reply-capture'
 import { Route as ApiProductsReviewRouteImport } from './routes/api/products/review'
 import { Route as ApiProductsRoadmapRouteImport } from './routes/api/products/roadmap'
@@ -271,6 +274,11 @@ const ApiListingLanesRoute = ApiListingLanesRouteImport.update({
   path: '/api/listing-lanes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMatchRoute = ApiMatchRouteImport.update({
+  id: '/api/match',
+  path: '/api/match',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProtocolRoute = ApiProtocolRouteImport.update({
   id: '/api/protocol',
   path: '/api/protocol',
@@ -435,6 +443,12 @@ const ApiProductsConversionRoute = ApiProductsConversionRouteImport.update({
   path: '/api/products/conversion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsConversionPressureRoute =
+  ApiProductsConversionPressureRouteImport.update({
+    id: '/api/products/conversion-pressure',
+    path: '/api/products/conversion-pressure',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiProductsDemoRoute = ApiProductsDemoRouteImport.update({
   id: '/api/products/demo',
   path: '/api/products/demo',
@@ -505,6 +519,11 @@ const ApiProductsPreferencesRoute = ApiProductsPreferencesRouteImport.update({
 const ApiProductsPreviewRoute = ApiProductsPreviewRouteImport.update({
   id: '/api/products/preview',
   path: '/api/products/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiProductsReciprocityRoute = ApiProductsReciprocityRouteImport.update({
+  id: '/api/products/reciprocity',
+  path: '/api/products/reciprocity',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiProductsReplyCaptureRoute = ApiProductsReplyCaptureRouteImport.update({
@@ -587,6 +606,7 @@ export interface FileRoutesByFullPath {
   '/api/feed': typeof ApiFeedRoute
   '/api/growth': typeof ApiGrowthRoute
   '/api/listing-lanes': typeof ApiListingLanesRoute
+  '/api/match': typeof ApiMatchRoute
   '/api/protocol': typeof ApiProtocolRoute
   '/api/publish': typeof ApiPublishRoute
   '/api/score': typeof ApiScoreRoute
@@ -617,6 +637,7 @@ export interface FileRoutesByFullPath {
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
+  '/api/products/conversion-pressure': typeof ApiProductsConversionPressureRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
@@ -631,6 +652,7 @@ export interface FileRoutesByFullPath {
   '/api/products/mail': typeof ApiProductsMailRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/reciprocity': typeof ApiProductsReciprocityRoute
   '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
   '/api/products/review': typeof ApiProductsReviewRoute
   '/api/products/roadmap': typeof ApiProductsRoadmapRoute
@@ -677,6 +699,7 @@ export interface FileRoutesByTo {
   '/api/feed': typeof ApiFeedRoute
   '/api/growth': typeof ApiGrowthRoute
   '/api/listing-lanes': typeof ApiListingLanesRoute
+  '/api/match': typeof ApiMatchRoute
   '/api/protocol': typeof ApiProtocolRoute
   '/api/publish': typeof ApiPublishRoute
   '/api/score': typeof ApiScoreRoute
@@ -707,6 +730,7 @@ export interface FileRoutesByTo {
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
+  '/api/products/conversion-pressure': typeof ApiProductsConversionPressureRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
@@ -721,6 +745,7 @@ export interface FileRoutesByTo {
   '/api/products/mail': typeof ApiProductsMailRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/reciprocity': typeof ApiProductsReciprocityRoute
   '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
   '/api/products/review': typeof ApiProductsReviewRoute
   '/api/products/roadmap': typeof ApiProductsRoadmapRoute
@@ -768,6 +793,7 @@ export interface FileRoutesById {
   '/api/feed': typeof ApiFeedRoute
   '/api/growth': typeof ApiGrowthRoute
   '/api/listing-lanes': typeof ApiListingLanesRoute
+  '/api/match': typeof ApiMatchRoute
   '/api/protocol': typeof ApiProtocolRoute
   '/api/publish': typeof ApiPublishRoute
   '/api/score': typeof ApiScoreRoute
@@ -798,6 +824,7 @@ export interface FileRoutesById {
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
+  '/api/products/conversion-pressure': typeof ApiProductsConversionPressureRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
@@ -812,6 +839,7 @@ export interface FileRoutesById {
   '/api/products/mail': typeof ApiProductsMailRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/reciprocity': typeof ApiProductsReciprocityRoute
   '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
   '/api/products/review': typeof ApiProductsReviewRoute
   '/api/products/roadmap': typeof ApiProductsRoadmapRoute
@@ -860,6 +888,7 @@ export interface FileRouteTypes {
     | '/api/feed'
     | '/api/growth'
     | '/api/listing-lanes'
+    | '/api/match'
     | '/api/protocol'
     | '/api/publish'
     | '/api/score'
@@ -890,6 +919,7 @@ export interface FileRouteTypes {
     | '/api/products/checkout'
     | '/api/products/confirm'
     | '/api/products/conversion'
+    | '/api/products/conversion-pressure'
     | '/api/products/demo'
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
@@ -904,6 +934,7 @@ export interface FileRouteTypes {
     | '/api/products/mail'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/reciprocity'
     | '/api/products/reply-capture'
     | '/api/products/review'
     | '/api/products/roadmap'
@@ -950,6 +981,7 @@ export interface FileRouteTypes {
     | '/api/feed'
     | '/api/growth'
     | '/api/listing-lanes'
+    | '/api/match'
     | '/api/protocol'
     | '/api/publish'
     | '/api/score'
@@ -980,6 +1012,7 @@ export interface FileRouteTypes {
     | '/api/products/checkout'
     | '/api/products/confirm'
     | '/api/products/conversion'
+    | '/api/products/conversion-pressure'
     | '/api/products/demo'
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
@@ -994,6 +1027,7 @@ export interface FileRouteTypes {
     | '/api/products/mail'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/reciprocity'
     | '/api/products/reply-capture'
     | '/api/products/review'
     | '/api/products/roadmap'
@@ -1040,6 +1074,7 @@ export interface FileRouteTypes {
     | '/api/feed'
     | '/api/growth'
     | '/api/listing-lanes'
+    | '/api/match'
     | '/api/protocol'
     | '/api/publish'
     | '/api/score'
@@ -1070,6 +1105,7 @@ export interface FileRouteTypes {
     | '/api/products/checkout'
     | '/api/products/confirm'
     | '/api/products/conversion'
+    | '/api/products/conversion-pressure'
     | '/api/products/demo'
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
@@ -1084,6 +1120,7 @@ export interface FileRouteTypes {
     | '/api/products/mail'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/reciprocity'
     | '/api/products/reply-capture'
     | '/api/products/review'
     | '/api/products/roadmap'
@@ -1131,6 +1168,7 @@ export interface RootRouteChildren {
   ApiFeedRoute: typeof ApiFeedRoute
   ApiGrowthRoute: typeof ApiGrowthRoute
   ApiListingLanesRoute: typeof ApiListingLanesRoute
+  ApiMatchRoute: typeof ApiMatchRoute
   ApiProtocolRoute: typeof ApiProtocolRoute
   ApiPublishRoute: typeof ApiPublishRoute
   ApiScoreRoute: typeof ApiScoreRoute
@@ -1160,6 +1198,7 @@ export interface RootRouteChildren {
   ApiProductsCheckoutRoute: typeof ApiProductsCheckoutRoute
   ApiProductsConfirmRoute: typeof ApiProductsConfirmRoute
   ApiProductsConversionRoute: typeof ApiProductsConversionRoute
+  ApiProductsConversionPressureRoute: typeof ApiProductsConversionPressureRoute
   ApiProductsDemoRoute: typeof ApiProductsDemoRoute
   ApiProductsDemoConfirmRoute: typeof ApiProductsDemoConfirmRoute
   ApiProductsDemoNudgeRoute: typeof ApiProductsDemoNudgeRoute
@@ -1174,6 +1213,7 @@ export interface RootRouteChildren {
   ApiProductsMailRoute: typeof ApiProductsMailRoute
   ApiProductsPreferencesRoute: typeof ApiProductsPreferencesRoute
   ApiProductsPreviewRoute: typeof ApiProductsPreviewRoute
+  ApiProductsReciprocityRoute: typeof ApiProductsReciprocityRoute
   ApiProductsReplyCaptureRoute: typeof ApiProductsReplyCaptureRoute
   ApiProductsReviewRoute: typeof ApiProductsReviewRoute
   ApiProductsRoadmapRoute: typeof ApiProductsRoadmapRoute
@@ -1420,6 +1460,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiListingLanesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/match': {
+      id: '/api/match'
+      path: '/api/match'
+      fullPath: '/api/match'
+      preLoaderRoute: typeof ApiMatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/protocol': {
       id: '/api/protocol'
       path: '/api/protocol'
@@ -1644,6 +1691,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsConversionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/conversion-pressure': {
+      id: '/api/products/conversion-pressure'
+      path: '/api/products/conversion-pressure'
+      fullPath: '/api/products/conversion-pressure'
+      preLoaderRoute: typeof ApiProductsConversionPressureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/demo': {
       id: '/api/products/demo'
       path: '/api/products/demo'
@@ -1740,6 +1794,13 @@ declare module '@tanstack/react-router' {
       path: '/api/products/preview'
       fullPath: '/api/products/preview'
       preLoaderRoute: typeof ApiProductsPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/products/reciprocity': {
+      id: '/api/products/reciprocity'
+      path: '/api/products/reciprocity'
+      fullPath: '/api/products/reciprocity'
+      preLoaderRoute: typeof ApiProductsReciprocityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/products/reply-capture': {
@@ -1854,6 +1915,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiFeedRoute: ApiFeedRoute,
   ApiGrowthRoute: ApiGrowthRoute,
   ApiListingLanesRoute: ApiListingLanesRoute,
+  ApiMatchRoute: ApiMatchRoute,
   ApiProtocolRoute: ApiProtocolRoute,
   ApiPublishRoute: ApiPublishRoute,
   ApiScoreRoute: ApiScoreRoute,
@@ -1883,6 +1945,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsCheckoutRoute: ApiProductsCheckoutRoute,
   ApiProductsConfirmRoute: ApiProductsConfirmRoute,
   ApiProductsConversionRoute: ApiProductsConversionRoute,
+  ApiProductsConversionPressureRoute: ApiProductsConversionPressureRoute,
   ApiProductsDemoRoute: ApiProductsDemoRoute,
   ApiProductsDemoConfirmRoute: ApiProductsDemoConfirmRoute,
   ApiProductsDemoNudgeRoute: ApiProductsDemoNudgeRoute,
@@ -1897,6 +1960,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsMailRoute: ApiProductsMailRoute,
   ApiProductsPreferencesRoute: ApiProductsPreferencesRoute,
   ApiProductsPreviewRoute: ApiProductsPreviewRoute,
+  ApiProductsReciprocityRoute: ApiProductsReciprocityRoute,
   ApiProductsReplyCaptureRoute: ApiProductsReplyCaptureRoute,
   ApiProductsReviewRoute: ApiProductsReviewRoute,
   ApiProductsRoadmapRoute: ApiProductsRoadmapRoute,

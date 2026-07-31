@@ -57,7 +57,7 @@ export const Route = createFileRoute("/badge/$kind")({
 
         // Static claim badge for READMEs
         if (raw === "listed" || raw === "live") {
-          label = "agents1";
+          label = "dual";
           value = raw === "live" ? "live" : "listed";
           color = "#14b8a6";
           const svg = badgeSvg(label, value, color);
@@ -65,6 +65,46 @@ export const Route = createFileRoute("/badge/$kind")({
             headers: {
               "content-type": "image/svg+xml; charset=utf-8",
               "cache-control": "public, max-age=300",
+              "access-control-allow-origin": "*",
+            },
+          });
+        }
+
+        // Portable clean / verified badges (checks-clean + reciprocity)
+        if (raw === "clean" || raw === "verified" || raw === "checks-clean") {
+          const u = new URL(request.url);
+          const id = (u.searchParams.get("id") || u.searchParams.get("listing_id") || "").trim();
+          let isClean = false;
+          let isRecip = false;
+          let name = "";
+          if (id) {
+            try {
+              const { loadCleanRegistry } = await import("@/lib/agents1/clean-registry");
+              const reg = await loadCleanRegistry();
+              isClean = Boolean(reg.items?.[id]);
+            } catch { /* */ }
+            try {
+              const { getReciprocityFor } = await import("@/lib/products/reciprocity");
+              const r = await getReciprocityFor({ listing_id: id });
+              isRecip = Boolean((r as { links_dual?: boolean }).links_dual);
+              name = String((r as { name?: string }).name || "");
+            } catch { /* */ }
+          }
+          if (raw === "verified") {
+            label = "dual";
+            value = isClean && isRecip ? "verified" : isClean ? "clean" : "unverified";
+            color = isClean && isRecip ? "#22c55e" : isClean ? "#14b8a6" : "#6b7280";
+          } else {
+            label = "dual";
+            value = isClean ? "checks-clean" : id ? "pending" : "checks-clean";
+            color = isClean ? "#14b8a6" : "#6b7280";
+          }
+          if (name && isClean) value = name.slice(0, 16);
+          const svg = badgeSvg(label, value, color);
+          return new Response(svg, {
+            headers: {
+              "content-type": "image/svg+xml; charset=utf-8",
+              "cache-control": "public, max-age=120",
               "access-control-allow-origin": "*",
             },
           });
