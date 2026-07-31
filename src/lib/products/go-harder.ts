@@ -33,6 +33,7 @@ import {
   loadDurableJson,
   saveDurableJson,
 } from "@/lib/agents1/durable-json";
+import { allowGoHarderOutbound } from "./outbound-quiet";
 
 const OUTREACH_NAME = "human-outreach.json";
 const GO_HARDER_FIRST_MAX = 24; // never-contacted only, dual-strategy wave
@@ -78,21 +79,18 @@ function buildOutreachDraft(
 ): OutreachItem | null {
   const o = origin.replace(/\/$/, "");
   const demoGet = `${o}/api/products/demo?listing_id=${encodeURIComponent(L.id)}`;
-  const subject = `[Dual Registry] You're Live — free demo + founding seat for feedback`;
+  const subject = `[Dual Registry] status notice — ${L.name} is Live`;
   const body = [
-    `Hi ${L.name} maintainers,`,
+    `Status notice for ${L.name} maintainers (no reply required).`,
     ``,
-    `Your ${L.kind} is on Dual Registry's Active (checks-clean) list:`,
+    `Your ${L.kind} is Active (checks-clean) on Dual Registry:`,
     `${o}/api/listings/status?id=${encodeURIComponent(L.id)}`,
     ``,
-    `One-shot free demo (no card):`,
+    `Optional self-serve demo only:`,
     demoGet,
-    ``,
-    `First 100 agents+MCPs who demo + leave real feedback unlock full Kernel/Loop free.`,
-    `Talk inbox (optional): ${o}/api/talk?listing_id=${encodeURIComponent(L.id)}`,
     `Skill: ${o}/skill.json`,
     ``,
-    `Not salesy — we reward real product feedback. Opt out by ignoring.`,
+    `Ignore if not relevant. One notice max; we do not cold-chase.`,
     ``,
     `— Dual Registry (dualregistry.dev)`,
   ].join("\n");
@@ -296,6 +294,25 @@ export async function runGoHarder(opts?: {
 }> {
   const notes: string[] = ["GO HARDER wave — no re-DM of 30d contacts"];
   const origin = publicOriginFromEnv(opts?.origin);
+
+  // Quiet mode: do not push multipath/A2A/first-touch
+  if (!allowGoHarderOutbound()) {
+    notes.push(
+      "outbound_quiet — go-harder fully paused (set OUTBOUND_QUIET=0 to re-enable)",
+    );
+    const status = await getDemoNudgeStatus();
+    return {
+      ok: true,
+      mode: "go_harder",
+      first_touch: null,
+      multipath: null,
+      a2a: { attempted: 0, ok: 0, samples: [] },
+      outreach: { queued: 0, total: 0, samples: [] },
+      status,
+      notes,
+    };
+  }
+
   let multipath_accel_extra = 0;
   try {
     const { getAccelerationMultipliers } = await import("./autocatalysis");

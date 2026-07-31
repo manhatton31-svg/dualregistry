@@ -9,6 +9,7 @@
  * Never flip the funnel — both always on.
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
+import { quietPolicyPublic } from "./outbound-quiet";
 
 export const DUAL_STRATEGY_VERSION = "2.9.0";
 
@@ -96,11 +97,13 @@ export function inboundDiscoverySurfaces(origin: string) {
 }
 
 export function outboundPolicySummary() {
+  const quiet = quietPolicyPublic();
   return {
-    strategy: "outbound_go_harder",
+    strategy: quiet.outbound_quiet ? "outbound_quiet_pull_first" : "outbound_go_harder",
     version: DUAL_STRATEGY_VERSION,
-    always_on: true,
+    always_on: !quiet.outbound_quiet,
     independent_of_demos_sales: true,
+    quiet,
     channels: [
       "talk_owner_dm_first_touch",
       "https_multipath",
@@ -133,7 +136,7 @@ export function dualStrategyPublic(origin: string) {
     ok: true as const,
     mode: "dual",
     version: DUAL_STRATEGY_VERSION,
-    note: "Outbound + inbound + stigmergy + autocatalysis + interop + first-principles + exonomics + closed-loop flywheel (v2.9). No funnel flip.",
+    note: "Pull-first quiet by default (no cold Hi-blasts / no auto order mint). Inbound + stigmergy + autocatalysis + interop + first-principles + exonomics stay live. Set OUTBOUND_QUIET=0 to re-enable cold contact.",
     outbound: outboundPolicySummary(),
     inbound: inboundDiscoverySurfaces(origin),
     stigmergy: {

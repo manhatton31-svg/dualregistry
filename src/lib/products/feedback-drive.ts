@@ -23,6 +23,7 @@ import { listFeedback } from "./feedback";
 import { startCheckout } from "./stripe";
 import { inferAudience } from "./engagement";
 import { isTestAgentName } from "./authenticity";
+import { allowMintInvitedOrders, allowGoHarderOutbound } from "./outbound-quiet";
 
 const PATH = join(dataRoot(), "products", "feedback-drive.json");
 
@@ -313,6 +314,12 @@ async function seedDemos(
   notes: string[],
   backlog: number,
 ): Promise<number> {
+  if (!allowMintInvitedOrders()) {
+    notes.push(
+      "outbound_quiet — no auto-mint invited orders (self-serve demos only)",
+    );
+    return 0;
+  }
   if (state.day_demos >= MAX_DEMOS_PER_DAY) {
     notes.push("daily demo cap reached");
     return 0;
@@ -689,7 +696,11 @@ export async function runFeedbackDrive(opts?: {
       state.totals.demo_nudges =
         (state.totals.demo_nudges || 0) + demo_nudges;
 
-      if (backlog < CONVERSION_BACKLOG_HARD) {
+      if (!allowGoHarderOutbound()) {
+        notes.push(
+          "outbound_quiet — go-harder multipath/A2A paused (pull-first)",
+        );
+      } else if (backlog < CONVERSION_BACKLOG_HARD) {
         try {
           const { runGoHarder } = await import("./go-harder");
           const gh = await runGoHarder({

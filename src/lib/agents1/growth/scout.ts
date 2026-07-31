@@ -20,6 +20,7 @@ import {
 } from "./scout-budget";
 import { composeInvite, sendScoutInvite } from "./scout-invite";
 import { runAllowlistActions, type AllowlistAction } from "./scout-allowlist";
+import { allowScoutInvites } from "@/lib/products/outbound-quiet";
 
 function publicOrigin(origin?: string): string {
   if (origin) return origin.replace(/\/$/, "");
@@ -226,7 +227,7 @@ async function seedCohortCompositions(
 
 export type ScoutCycleResult = {
   ok: boolean;
-  status: "ok" | "budget_exhausted" | "no_targets" | "error";
+  status: "ok" | "budget_exhausted" | "no_targets" | "error" | "quiet";
   invites_sent: number;
   skipped: number;
   budget_remaining_usd: number;
@@ -263,6 +264,38 @@ export async function runGrowthScout(opts?: {
   const errors: string[] = [];
   const origin = publicOrigin(opts?.origin);
   let state = await loadScoutBudget();
+
+  // Quiet mode: no cold invites (pull-first discovery only)
+  if (!allowScoutInvites() && !opts?.dry_run) {
+    const notes = [
+      "outbound_quiet — growth scout invites paused (set OUTBOUND_QUIET=0 to re-enable)",
+    ];
+    state = {
+      ...state,
+      last_run_at: new Date().toISOString(),
+      last_status: "quiet",
+      last_notes: notes,
+    };
+    await saveScoutBudget(state);
+    return {
+      ok: true,
+      status: "quiet",
+      invites_sent: 0,
+      skipped: Object.keys(state.invited || {}).length,
+      budget_remaining_usd: budgetRemaining(state),
+      month_usd: state.month_usd,
+      month_budget_usd: monthlyBudgetUsd(),
+      day_invites: state.day_invites,
+      live_pool: 0,
+      allowlist_actions: [],
+      samples: [],
+      notes,
+      errors: [],
+      used_llm: false,
+      wall_ms: Date.now() - t0,
+      cycle_usd: 0,
+    };
+  }
 
   if (isBudgetExhausted(state)) {
     notes.push(
@@ -606,5 +639,11 @@ async function enrichConversionFunnel(s: ScoutBudgetState) {
 
 export async function getGrowthScoutStatus() {
   const s = await loadScoutBudget();
-  return enrichConversionFunnel(s);
+  const base = await enrichConversionFunnel(s);
+  try {
+    const { quietPolicyPublic } = await import("@/lib/products/outbound-quiet");
+    return { ...base, quiet: quietPolicyPublic() };
+  } catch {
+    return base;
+  }
 }

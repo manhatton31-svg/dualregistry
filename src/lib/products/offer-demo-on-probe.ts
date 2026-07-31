@@ -19,6 +19,7 @@ import {
   buildClaimMessage,
   recordInboundContact,
 } from "@/lib/agents1/inbound-discovery";
+import { allowMintInvitedOrders } from "./outbound-quiet";
 
 const offered = new Set<string>();
 
@@ -51,7 +52,7 @@ async function persistClaim(opts: {
     items.push({
       ...opts,
       created_at: new Date().toISOString(),
-      channel: opts.email ? "email_pending" : "log_only",
+      channel: opts.email && allowMintInvitedOrders() ? "email_pending" : "log_only",
     });
     await writeFile(
       path,
@@ -184,6 +185,34 @@ export async function offerDemosForProbeOk(
       description: L.description,
       email: contact?.email,
     });
+
+    // Quiet default: skill + claim only — do NOT mint a new invited order_id.
+    // Agents self-serve via GET/POST /api/products/demo?listing_id=…
+    if (!allowMintInvitedOrders()) {
+      try {
+        await recordProbeOffer({
+          listing_id: L.id,
+          kind: L.kind,
+          name: L.name,
+          probed_at: pr.probed_at,
+          offered_at: new Date().toISOString(),
+          demo_origin: "invited",
+          skill,
+          contact: contact || undefined,
+        });
+        offered.add(k);
+        n++;
+        skills.push(skill);
+        notes.push(
+          `probe-ok skill only → ${L.name} (no order mint · quiet) · claim ${claim.status_url}`,
+        );
+      } catch (e) {
+        notes.push(
+          `probe-ok offer failed → ${L.name}: ${e instanceof Error ? e.message : String(e)}`,
+        );
+      }
+      continue;
+    }
 
     const ver = L.kind === "mcp" ? "mcp_mesh" : "alive";
     const idem = `demo:probe-ok:${L.kind}:${L.id}`;

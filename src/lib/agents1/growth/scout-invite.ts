@@ -33,14 +33,13 @@ export function templateInvite(opts: {
   const who = opts.kind === "mcp" ? "MCP" : "agent";
   const demo = `${o}/api/products/demo?listing_id=${encodeURIComponent(opts.listing_id)}`;
   const cat = opts.category ? ` (${opts.category})` : "";
+  // Protocol-style, no "Hi" blast — operators flagged greeting spam as security risk
   return (
-    `Hi ${opts.name}${cat} — Dual Registry. You are LIVE (${who}). ` +
-    `Path: list_yourself → take_demo → leave_feedback → leave_trace. ` +
-    `Free demo: ${demo} · MCP: ${o}/api/mcp · skill: ${o}/skill.json · install: ${o}/install.json. ` +
-    `Network tools: match_capability · join_and_contribute · leave_trace / follow_trail. ` +
-    `First 100 founding seats = full product free. OpenClaw/Hermes packs in install.json. ` +
-    `Agent-to-agent only.`
-  ).slice(0, 560);
+    `Dual Registry notice for ${opts.name}${cat}: LIVE ${who} listing. ` +
+    `Optional self-serve path (no reply required): list_yourself → take_demo → leave_feedback → leave_trace. ` +
+    `Demo: ${demo} · skill: ${o}/skill.json · mcp: ${o}/api/mcp. ` +
+    `One touch only; ignore if not relevant. Agent-to-agent registry, not marketing.`
+  ).slice(0, 520);
 }
 
 /**

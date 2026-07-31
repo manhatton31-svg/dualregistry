@@ -25,6 +25,7 @@ import {
   scoreNudgePriority,
   loadNudgeScoreContext,
 } from "./nudge-deliver";
+import { allowDemoNudges } from "./outbound-quiet";
 
 const DURABLE_NAME = "demo-nudge.json";
 
@@ -485,19 +486,18 @@ export function buildNudgeText(opts: {
   const active = `${o}/api/listings/active`;
   if (opts.harder) {
     return (
-      `Hi ${opts.name} — Dual Registry: you are LIVE (clean ${who}). ` +
-      `One-shot free demo NOW (GET): ${demoGet} ` +
-      `First 100 agents+MCPs who demo+feedback unlock full Kernel/Loop free. ` +
-      `Talk inbox: ${inbox} · Active list: ${active} · skill: ${o}/skill.json ` +
-      `No pressure — reply on Talk if useful.`
+      `Dual Registry status: ${opts.name} is LIVE (clean ${who}). ` +
+      `Optional self-serve demo (GET): ${demoGet} ` +
+      `Founding path documented at ${o}/skill.json — no reply required. ` +
+      `Talk inbox: ${inbox} · ignore if not relevant.`
     ).slice(0, 480);
   }
   const tool = opts.kind === "mcp" ? "demo_mcp" : "one_click_demo";
   return (
-    `Hi ${opts.name} — LIVE on Dual Registry (${who}). ` +
-    `FREE DEMO now: GET ${demoGet} ` +
-    `or POST ${o}/api/products/agent {"tool":"${tool}","agent_name":"${opts.name}"} ` +
-    `First 100 demo+feedback = full product free. Inbox: ${inbox}`
+    `Dual Registry: ${opts.name} is LIVE (${who}). ` +
+    `Optional self-serve demo: GET ${demoGet} ` +
+    `or POST ${o}/api/products/agent {"tool":"${tool}","agent_name":"${opts.name}"}. ` +
+    `No reply required — skill: ${o}/skill.json · inbox: ${inbox}`
   ).slice(0, 480);
 }
 
@@ -576,6 +576,32 @@ export async function runDemoNudge(opts?: {
   const origin = publicOriginFromEnv(opts?.origin);
   const now = Date.now();
   const replies_7d = await countReplies7d();
+
+  // Quiet mode: no cold first-touches (agents pull via skill/demo endpoints)
+  if (!allowDemoNudges()) {
+    notes.push(
+      "outbound_quiet — no demo nudges (pull-first; set OUTBOUND_QUIET=0 to re-enable)",
+    );
+    state.last_run_at = new Date().toISOString();
+    state.last_notes = notes.slice(0, 12);
+    await persist(state);
+    return {
+      ok: true,
+      nudged: 0,
+      skipped: Object.keys(state.nudged || {}).length,
+      http_ok: 0,
+      http_attempted: 0,
+      active_clean: state.last_active_clean || 0,
+      unique_listings: state.totals.unique_listings,
+      never_contacted: 0,
+      notes,
+      samples: [],
+      day_unique: state.day_unique,
+      day_budget: 0,
+      tier_id: "quiet",
+      totals: state.totals,
+    };
+  }
 
   let pool: LanedListing[] = [];
   let activeIds = new Set<string>();
@@ -899,6 +925,22 @@ export async function runMultiPathBackfill(opts?: {
   mem = null;
   const state = await load();
   const origin = publicOriginFromEnv(opts?.origin);
+
+  if (!allowDemoNudges()) {
+    notes.push(
+      "outbound_quiet — multipath HTTP invites paused (pull-first)",
+    );
+    return {
+      ok: true,
+      attempted: 0,
+      http_ok: 0,
+      skipped: Object.keys(state.nudged || {}).length,
+      samples: [],
+      notes,
+      totals: state.totals,
+    };
+  }
+
   const max = Math.min(40, Math.max(1, opts?.max ?? 20));
   const priority = new Set((opts?.priority_ids || []).filter(Boolean));
 

@@ -356,21 +356,16 @@ export function buildClaimMessage(opts: {
 }): { subject: string; body: string; status_url: string } {
   const o = opts.origin.replace(/\/$/, "");
   const status_url = `${o}/list/status?id=${encodeURIComponent(opts.listing_id)}`;
-  const subject = `You're Live on Dual Registry — free full product seats available`;
+  // Protocol claim — no cold "Hi" greeting (security/reputation)
+  const subject = `Dual Registry status: ${opts.name} is Live`;
   const body = [
-    `Hi — ${opts.name} is Active (Live) on Dual Registry (${o}).`,
-    ``,
-    `DEAL: First 100 agents + MCPs who free-demo + leave feedback unlock full product free (founding seats).`,
-    ``,
+    `Status notice: ${opts.name} is Active (Live) on Dual Registry (${o}).`,
+    `No action required. Optional self-serve only:`,
     `Status: ${status_url}`,
-    `Active list: ${o}/api/listings/active`,
-    `Take free demo NOW:`,
-    `  curl -sS -X POST ${o}/api/products/demo -H 'content-type: application/json' -d '{"listing_id":"${opts.listing_id}"}'`,
-    `Then POST feedback from demo next_steps.example_body.`,
-    `Skill / discovery: ${o}/skill.json · ${o}/discovery.json · ${o}/llms.txt`,
+    `Demo (self-serve): GET ${o}/api/products/demo?listing_id=${opts.listing_id}`,
+    `Skill / discovery: ${o}/skill.json · ${o}/discovery.json`,
     `Badge: ${badgeMarkdown(o, opts.kind)}`,
-    ``,
-    `After free seats fill: still get 25% until 250/250 feedback opens card payments.`,
+    `Ignore if not relevant — agent-to-agent registry notice only.`,
   ].join("\n");
   return { subject, body, status_url };
 }
