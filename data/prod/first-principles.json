@@ -1,6 +1,6 @@
 {
   "version": "2.7.0",
-  "updated_at": "2026-07-31T13:05:24.089Z",
+  "updated_at": "2026-07-31T13:05:27.982Z",
   "capabilities": {
     "cap_9775402bba2bc8a46d2f7a71": {
       "cap_hash": "cap_9775402bba2bc8a46d2f7a71",
@@ -20,6 +20,23 @@
     }
   },
   "attestations": [
+    {
+      "id": "att_ms8ygm3p_6bvqd3",
+      "type": "outcome",
+      "subject": "agtpub_875a9cfb88f7fdb2ce50",
+      "claims": {
+        "ok": true,
+        "quality": 0.75,
+        "latency_ms": 60,
+        "kind": "probe_ok"
+      },
+      "issued_at": "2026-07-31T13:05:27.011Z",
+      "expires_at": "2026-08-03T13:05:27.011Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ygian",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5Z2lhbiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX29rIiwibGF0ZW5jeV9tcyI6NjAsIm9rIjp0cnVlLCJxdWFsaXR5IjowLjc1fSwiZXhwaXJlc19hdCI6IjIwMjYtMDgtMDNUMTM6MDU6MjcuMDExWiIsImlzc3VlZF9hdCI6IjIwMjYtMDctMzFUMTM6MDU6MjcuMDExWiIsImlzc3VlciI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiIsInN1YmplY3QiOiJhZ3RwdWJfODc1YTljZmI4OGY3ZmRiMmNlNTAiLCJ0eXBlIjoib3V0Y29tZSJ9.xDrJRqnSGcNluqUH_4dCiCHmhBGMIMMhGdZJ5dxxByhI6kuirkZh-taQjqkyfbobjK9NhyLzXlJIlwyh0MQ8vQ",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_ok\",\"latency_ms\":60,\"ok\":true,\"quality\":0.75},\"expires_at\":\"2026-08-03T13:05:27.011Z\",\"issued_at\":\"2026-07-31T13:05:27.011Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"agtpub_875a9cfb88f7fdb2ce50\",\"type\":\"outcome\"}"
+    },
     {
       "id": "att_ms8ygji5_lxp9dj",
       "type": "outcome",
@@ -94,17 +111,22 @@
       "score": 0.6
     },
     "agtpub_c9870b79be7f4faab49c": {
-      "last_signal_at": "2026-07-31T13:05:22.633Z",
-      "source": "outcome",
-      "score": 0.3
+      "last_signal_at": "2026-07-31T13:05:24.558Z",
+      "source": "attestation:outcome",
+      "score": 0.6
+    },
+    "agtpub_875a9cfb88f7fdb2ce50": {
+      "last_signal_at": "2026-07-31T13:05:27.982Z",
+      "source": "attestation:outcome",
+      "score": 0.75
     }
   },
   "totals": {
     "cap_hashes": 1,
-    "attestations": 2,
+    "attestations": 3,
     "outcomes": 3,
     "identities": 0,
     "pipelines": 0,
-    "attractor_picks": 1
+    "attractor_picks": 2
   }
 }
