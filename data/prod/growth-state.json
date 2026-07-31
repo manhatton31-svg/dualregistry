@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated_at": "2026-07-31T18:44:10.691Z",
+  "updated_at": "2026-07-31T19:55:38.733Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
@@ -958,13 +958,15 @@
       "source": "harvest:gh-server-json",
       "quality_hints": [
         "server.json",
-        "github-search"
+        "github-search",
+        "reject:probe_fail",
+        "reject_why:live probe handshake failed"
       ],
       "id": "mcp-ellmos-servercommander-mcp-https-github-com-ellmos-ai-ellmos-servercommander",
-      "status": "queued",
+      "status": "rejected",
       "attempts": 0,
       "discovered_at": "2026-07-31T18:30:55.588Z",
-      "updated_at": "2026-07-31T18:30:55.588Z"
+      "updated_at": "2026-07-31T19:55:38.732Z"
     },
     {
       "kind": "mcp",
@@ -976,13 +978,15 @@
       "source": "harvest:gh-server-json",
       "quality_hints": [
         "server.json",
-        "github-search"
+        "github-search",
+        "reject:probe_fail",
+        "reject_why:live probe handshake failed"
       ],
       "id": "mcp-ellmos-homebase-mcp-https-github-com-ellmos-ai-ellmos-homebase-mcp",
-      "status": "queued",
+      "status": "rejected",
       "attempts": 0,
       "discovered_at": "2026-07-31T18:30:55.588Z",
-      "updated_at": "2026-07-31T18:30:55.588Z"
+      "updated_at": "2026-07-31T19:55:38.732Z"
     },
     {
       "kind": "mcp",
@@ -994,13 +998,15 @@
       "source": "harvest:gh-server-json",
       "quality_hints": [
         "server.json",
-        "github-search"
+        "github-search",
+        "reject:probe_fail",
+        "reject_why:live probe handshake failed"
       ],
       "id": "mcp-ellmos-controlcenter-mcp-https-github-com-ellmos-ai-ellmos-controlcenter-mcp",
-      "status": "queued",
+      "status": "rejected",
       "attempts": 0,
       "discovered_at": "2026-07-31T18:30:55.588Z",
-      "updated_at": "2026-07-31T18:30:55.588Z"
+      "updated_at": "2026-07-31T19:55:38.732Z"
     },
     {
       "kind": "mcp",
@@ -1012,13 +1018,15 @@
       "source": "harvest:gh-server-json",
       "quality_hints": [
         "server.json",
-        "github-search"
+        "github-search",
+        "reject:probe_fail",
+        "reject_why:live probe handshake failed"
       ],
       "id": "mcp-ellmos-codecommander-mcp-https-github-com-ellmos-ai-ellmos-codecommander-mcp",
-      "status": "queued",
+      "status": "rejected",
       "attempts": 0,
       "discovered_at": "2026-07-31T18:30:55.588Z",
-      "updated_at": "2026-07-31T18:30:55.588Z"
+      "updated_at": "2026-07-31T19:55:38.732Z"
     },
     {
       "kind": "mcp",
@@ -1030,13 +1038,15 @@
       "source": "harvest:gh-server-json",
       "quality_hints": [
         "server.json",
-        "github-search"
+        "github-search",
+        "reject:probe_fail",
+        "reject_why:live probe handshake failed"
       ],
       "id": "mcp-ellmos-clatcher-mcp-https-github-com-ellmos-ai-ellmos-clatcher-mcp",
-      "status": "queued",
+      "status": "rejected",
       "attempts": 0,
       "discovered_at": "2026-07-31T18:30:55.588Z",
-      "updated_at": "2026-07-31T18:30:55.588Z"
+      "updated_at": "2026-07-31T19:55:38.732Z"
     },
     {
       "kind": "agent",
