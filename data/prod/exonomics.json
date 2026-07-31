@@ -1,7 +1,15 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:07:30.533Z",
+  "updated_at": "2026-07-31T13:08:58.935Z",
   "accel_samples": [
+    {
+      "at": "2026-07-31T13:08:58.934Z",
+      "index": 2.036
+    },
+    {
+      "at": "2026-07-31T13:08:18.561Z",
+      "index": 1.923
+    },
     {
       "at": "2026-07-31T13:07:30.533Z",
       "index": 1.845
@@ -44,6 +52,30 @@
     }
   ],
   "density_history": [
+    {
+      "at": "2026-07-31T13:08:58.934Z",
+      "N": 119,
+      "C": 0.0672,
+      "O": 0.0252,
+      "F": 2,
+      "trail_heat": 380.85,
+      "acceleration_index": 2.036,
+      "compositions": 8,
+      "outcomes": 3,
+      "identities": 0
+    },
+    {
+      "at": "2026-07-31T13:08:18.561Z",
+      "N": 119,
+      "C": 0.0672,
+      "O": 0.0252,
+      "F": 0,
+      "trail_heat": 350.35,
+      "acceleration_index": 1.923,
+      "compositions": 8,
+      "outcomes": 3,
+      "identities": 0
+    },
     {
       "at": "2026-07-31T13:07:30.533Z",
       "N": 119,
@@ -167,19 +199,24 @@
   ],
   "hyper_mode_history": [
     {
+      "at": "2026-07-31T13:08:58.934Z",
+      "hyper": true,
+      "gates_open": 4
+    },
+    {
       "at": "2026-07-31T13:05:45.263Z",
       "hyper": false,
       "gates_open": 3
     }
   ],
   "totals": {
-    "value_reads": 10,
-    "hyper_unlocks": 0,
+    "value_reads": 12,
+    "hyper_unlocks": 1,
     "federation_packs": 0,
     "abundance_ranks": 0,
     "budget_from_value": 0
   },
-  "last_hyper": false,
-  "last_value": 3729.39,
-  "last_hyper_index": 1.616
+  "last_hyper": true,
+  "last_value": 280580.61,
+  "last_hyper_index": 2.38
 }
