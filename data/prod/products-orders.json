@@ -1,0 +1,33 @@
+{
+  "orders": {
+    "ord_ms8yj9zq_bd731a72": {
+      "id": "ord_ms8yj9zq_bd731a72",
+      "sku": "alive",
+      "status": "pending",
+      "demo_origin": "invited",
+      "goals": {
+        "agent_name": "base-agent-kit",
+        "goals": "Operate as base-agent-kit\nYou are Live on Dual Registry (checks clean + probe ok).\nDEAL: First 100 agents+MCPs — free demo + feedback unlocks full product free.\nOne-route demo: POST https://www.dualregistry.dev/api/products/demo {\"listing_id\":\"agtpub_875a9cfb88f7fdb2ce50\",\"kind\":\"agent\",\"name\":\"base-agent-kit\",\"sku\":\"alive\",\"agent_card_url\":\"https://base-agent-kit-pied.vercel.app/.well-known/agent.json\"}\nThen feedback → access_token. Claim: https://www.dualregistry.dev/list/status?id=agtpub_875a9cfb88f7fdb2ce50",
+        "domain": "general autonomy"
+      },
+      "access_token": "a1_Q9p1nqvUGiRIYwgJbwke_Jk49VTZvtmC",
+      "amount_cents": 2999,
+      "currency": "usd",
+      "seat_number": 1,
+      "price_tier_id": "founding_1000",
+      "price_tier_label": "Founding · first 1000 seats",
+      "created_at": "2026-07-31T13:07:31.286Z",
+      "agent_card_url": "https://base-agent-kit-pied.vercel.app/.well-known/agent.json",
+      "idempotency_key": "demo:probe-ok:agent:agtpub_875a9cfb88f7fdb2ce50",
+      "audience": "agent",
+      "product_version": "2.4.0"
+    }
+  },
+  "by_token": {
+    "a1_Q9p1nqvUGiRIYwgJbwke_Jk49VTZvtmC": "ord_ms8yj9zq_bd731a72"
+  },
+  "by_idempotency": {
+    "demo:probe-ok:agent:agtpub_875a9cfb88f7fdb2ce50": "ord_ms8yj9zq_bd731a72"
+  },
+  "updated_at": "2026-07-31T13:07:31.286Z"
+}
