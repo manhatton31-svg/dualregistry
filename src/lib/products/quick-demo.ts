@@ -446,11 +446,12 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     audience: kind,
     demo_origin: isQa ? "platform_qa" : "self_serve",
     origin: input.origin,
+    // STABLE per listing+sku — never mint a new ord_* on every GET (security: one link per listing)
     idempotency_key: isQa
-      ? `demo:qa:${idemBase}:${sku}:${Date.now().toString(36).slice(-6)}`
+      ? `demo:qa:${idemBase}:${sku}`
       : input.confirm_invite
         ? `demo:confirm:${idemBase}:${sku}`
-        : `demo:quick:${idemBase}:${sku}:${Date.now().toString(36).slice(-6)}`,
+        : `demo:quick:${idemBase}:${sku}`,
   });
 
 

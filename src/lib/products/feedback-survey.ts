@@ -4,6 +4,10 @@
  *  1) Make the whole product better (Kernel / Loop / Mesh / Dual network)
  *  2) Improve agent + MCP publisher experience of using the product
  * Completing the survey earns founding discount / free-seat path.
+ *
+ * HiRey (2026-07-31) product lesson: agents that cannot open dualregistry.dev
+ * cannot honestly rate UX — hand the link to the human operator. Keep compact
+ * post-demo to 3 core asks first; WTP later. Never email access tokens.
  */
 
 export type SurveyQuestionType = "scale" | "text" | "multi" | "single" | "currency";
@@ -813,17 +817,28 @@ export const IMPROVEMENT_DIRECTIVES: Record<
  * High-signal core for post-demo close-rate.
  * Focus: product quality + agent/MCP UX + Network Edition + WTP.
  */
+/**
+ * Compact post-demo (HiRey lesson): 3 asks first —
+ * what did you try, where stuck, one ship next.
+ * Optional extras stay in full survey.
+ */
+export const POST_DEMO_THREE_IDS = [
+  "tried",
+  "ux_friction",
+  "product_one_ship",
+] as const;
+
+/** @deprecated use POST_DEMO_THREE_IDS — kept for API compat */
 export const POST_DEMO_FIVE_IDS = [
+  ...POST_DEMO_THREE_IDS,
   "overall",
   "agent_ux",
-  "ux_friction",
-  "network_clarity",
-  "product_one_ship",
   "would_buy_at_founding",
 ] as const;
 
-export function postDemoQuestions() {
-  return SURVEY_QUESTIONS.filter((q) =>
-    (POST_DEMO_FIVE_IDS as readonly string[]).includes(q.id),
-  );
+export function postDemoQuestions(opts?: { full?: boolean }) {
+  const ids = opts?.full
+    ? (POST_DEMO_FIVE_IDS as readonly string[])
+    : (POST_DEMO_THREE_IDS as readonly string[]);
+  return SURVEY_QUESTIONS.filter((q) => ids.includes(q.id));
 }

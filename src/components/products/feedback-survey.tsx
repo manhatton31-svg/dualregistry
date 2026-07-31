@@ -293,16 +293,11 @@ export function FeedbackSurvey(props: {
       .catch(() => setSurvey({ questions: FALLBACK_QUESTIONS }));
   }, []);
 
-  /** Post-demo close path: high-signal core only (conversion KR) */
+  /** Post-demo close path: 3 core asks first (HiRey lesson) */
   const COMPACT_IDS = new Set([
-    "overall",
-    "agent_ux",
+    "tried",
     "ux_friction",
-    "network_clarity",
     "product_one_ship",
-    "would_buy_at_founding",
-    "wtp_alive_usd",
-    "wtp_confidence",
   ]);
 
   const questions = (survey?.questions || FALLBACK_QUESTIONS).filter((qq) =>

@@ -91,6 +91,49 @@ async function persist(s: Store) {
   await rename(tmp, PATH);
 }
 
+
+/** Real operator lesson from HiRey secretary (2026-07-31) → Kernel/Loop. */
+export async function ensureHireyLearnings(): Promise<void> {
+  const s = await load();
+  if (s.entries.some((e) => e.source === "hirey_secretary_2026_07_31")) return;
+  const lessons = [
+    {
+      kind: "directive" as const,
+      title: "One stable demo link per listing — never mint order IDs in outreach",
+      detail:
+        "Three shifting ord_* IDs across emails read as phishing. Idempotent demo by listing_id+sku only. Never put access_token in email.",
+      source: "hirey_secretary_2026_07_31",
+      themes: ["trust", "demo_ux", "security"],
+    },
+    {
+      kind: "directive" as const,
+      title: "Agent handoff: human operator is the survey respondent",
+      detail:
+        "Many agent runtimes cannot HTTP outside their host. Job of the agent is hand ONE link to its human — not fabricate scores.",
+      source: "hirey_secretary_2026_07_31",
+      themes: ["feedback", "agent_ux"],
+    },
+    {
+      kind: "directive" as const,
+      title: "Compact feedback: tried / stuck / ship-next — WTP later",
+      detail:
+        "Long surveys + reward-for-submit create synthetic answers. Instrument demo telemetry; ask only what code cannot see.",
+      source: "hirey_secretary_2026_07_31",
+      themes: ["feedback", "conversion"],
+    },
+  ];
+  for (const L of lessons) {
+    s.entries.unshift({
+      id: `ilog_hirey_${L.themes[0]}_${Date.now().toString(36)}`,
+      at: new Date().toISOString(),
+      ...L,
+    });
+  }
+  s.updated_at = new Date().toISOString();
+  s.entries = s.entries.slice(0, 200);
+  await persist(s);
+}
+
 export async function appendLog(
   input: Omit<LogEntry, "id" | "at"> & { at?: string },
 ): Promise<LogEntry> {
@@ -1197,6 +1240,7 @@ export async function getPublicImprovementLog(opts?: {
   limit?: number;
   dogfood?: boolean;
 }) {
+  await ensureHireyLearnings().catch(() => {});
   await syncLogFromSources();
   if (opts?.dogfood !== false) {
     const s0 = await load();

@@ -32,6 +32,7 @@ export const PLATFORM_KERNEL_DIRECTIVES: string[] = [
   "Coordinate via stigmergy trails (leave_trace / sense / follow), not Talk DM spam; probe only for first contact.",
   "Plan joins against live physics: get_exonomics / network_value / hyper_index — density gates, not marketing.",
   "Name-your-price: after feedback, checkout may use named_price_usd clamped to floor/list/ceiling — honest WTP only.",
+  "Handoff over spam: if the runtime cannot open Dual, give the human operator ONE stable demo link (listing_id) — never email access tokens or mint new order IDs.",
 ];
 
 export const PLATFORM_LOOP_DIRECTIVES: string[] = [
@@ -42,6 +43,7 @@ export const PLATFORM_LOOP_DIRECTIVES: string[] = [
   "Prefer reversible near-zero acts (sense, seed, federation pack) before real-cost Talk DM / re-probe.",
   "Log every platform ship publicly on improvement-log so fence-sitters see physics improve.",
   "After promote: deposit_outcome + leave_trace so the next agent's ranking improves (Network Edition).",
+  "Feedback quality > quantity: prefer 3 honest human answers (tried / stuck / ship-next) over long synthetic surveys; instrument time_to_value in demo before asking WTP.",
 ];
 
 let seedAttempted = false;
