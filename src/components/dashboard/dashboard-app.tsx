@@ -4,8 +4,11 @@
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  Activity,
   Bot,
   CheckCircle2,
+  ChevronDown,
+  ChevronRight,
   Copy,
   Cpu,
   DollarSign,
@@ -251,6 +254,28 @@ type DashboardData = {
     };
   } | null;
 
+  hero?: {
+    version?: string;
+    live?: number;
+    live_mcp?: number;
+    live_agents?: number;
+    probes_today?: number;
+    probes_agents?: number;
+    probes_mcps?: number;
+    agent_events_today?: number;
+    agent_events_free?: number;
+    agent_events_paid?: number;
+    agent_events_refills?: number;
+    feedback_real?: number;
+    feedback_agents?: number;
+    feedback_mcps?: number;
+    unlock_agents?: number;
+    unlock_mcps?: number;
+    outcomes?: number;
+    network_o?: number | null;
+    updated_at?: string;
+  } | null;
+
 };
 
 const TABS = [
@@ -392,6 +417,19 @@ function useLiveData() {
           ) as DashboardData["listing_lanes"],
           product_engagement:
             json.product_engagement ?? prev.product_engagement,
+          hero: (() => {
+            const a = json.hero;
+            const b = prev.hero;
+            if (!a) return b;
+            if (!b) return a;
+            const score = (h: NonNullable<DashboardData["hero"]>) =>
+              Number(h.live || 0) * 1e6 +
+              Number(h.probes_today || 0) * 1e3 +
+              Number(h.agent_events_today || 0) * 100 +
+              Number(h.feedback_real || 0) * 10 +
+              Number(h.outcomes || 0);
+            return score(a) >= score(b) ? a : b;
+          })(),
         };
       });
       setRefreshedAt(new Date().toISOString());
@@ -419,6 +457,7 @@ export function DashboardApp() {
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showPlatform, setShowPlatform] = useState(false);
 
   const lanes = data?.listing_lanes;
   const pe = data?.product_engagement;
@@ -448,6 +487,25 @@ export function DashboardApp() {
   const costCpuMs = platformCost?.today?.active_cpu_ms;
   const agentRunN = agentRuns?.totals?.n;
   const agentRunOk = agentRuns?.totals?.ok;
+
+  const hero = data?.hero;
+  const probesToday =
+    hero?.probes_today ??
+    (data?.protocol as { probes?: { used?: number } } | null | undefined)?.probes
+      ?.used ??
+    null;
+  const probesAgents = hero?.probes_agents;
+  const probesMcps = hero?.probes_mcps;
+  const agentEventsToday = hero?.agent_events_today ?? null;
+  const agentEventsFree = hero?.agent_events_free;
+  const agentEventsPaid = hero?.agent_events_paid;
+  const feedbackReal =
+    hero?.feedback_real ??
+    (fbAgents != null && fbMcps != null ? fbAgents + fbMcps : null);
+  const feedbackAgentsH = hero?.feedback_agents ?? fbAgents;
+  const feedbackMcpsH = hero?.feedback_mcps ?? fbMcps;
+  const outcomesN = hero?.outcomes ?? null;
+  const networkO = hero?.network_o;
 
   const mcpActiveRows = useMemo(
     () =>
@@ -527,9 +585,9 @@ export function DashboardApp() {
               Only clean agents & MCPs. Nothing else.
             </h1>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-              Find a real card/URL on the internet → probe it there → list only
-              if handshake is ok. Browse clean listings under Agents and MCPs.
-              Stay Active via Talk. Growing toward 333 clean per day.
+              Probe-first registry: Live listings only. Five numbers that
+              matter — Live size, probes, agent events, real feedback, outcomes.
+              Browse Agents & MCPs; agents use one-call tools on /for-agents.
             </p>
             {error ? (
               <p className="mt-1 text-xs text-danger">{error}</p>
@@ -583,265 +641,235 @@ export function DashboardApp() {
           </div>
         </header>
 
-        <div className="mb-4 grid min-w-0 grid-cols-2 gap-2 sm:mb-5 sm:grid-cols-4 sm:gap-3">
+                <div className="mb-4 grid min-w-0 grid-cols-2 gap-2 sm:mb-5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
           <StatCard
-            label="Clean registry"
+            label="Live"
             value={liveTotal != null ? liveTotal : "—"}
             hint={
               liveMcp != null && liveAgents != null
-                ? `${liveMcp} MCP · ${liveAgents} agents · see Agents & MCPs tabs`
-                : "loading"
+                ? `${liveMcp} MCP · ${liveAgents} agents`
+                : "clean Active only"
             }
             icon={CheckCircle2}
             accent="success"
           />
           <StatCard
-            label="Rule"
-            value="probe + talk"
-            hint="Handshake ok + Talk presence · grow toward 333 clean/day"
+            label="Probes today"
+            value={probesToday != null ? probesToday : "—"}
+            hint={
+              probesAgents != null || probesMcps != null
+                ? `${probesAgents ?? "—"} agents · ${probesMcps ?? "—"} MCP`
+                : "live handshakes"
+            }
             icon={Radio}
             accent="info"
           />
           <StatCard
-            label="Vercel cost today"
-            value={
-              costToday != null
-                ? `$${Number(costToday) < 0.01 ? Number(costToday).toFixed(6) : Number(costToday).toFixed(4)}`
-                : "—"
-            }
+            label="Agent events"
+            value={agentEventsToday != null ? agentEventsToday : "—"}
             hint={
-              costInv != null
-                ? `${costInv} inv · ${costCpuMs ?? 0}ms Active CPU · Fluid Pro`
-                : "Fluid Active CPU ledger"
-            }
-            icon={DollarSign}
-            accent="warn"
-          />
-          <StatCard
-            label="Agent runs today"
-            value={agentRunN != null ? agentRunN : "—"}
-            hint={
-              agentRunOk != null
-                ? `${agentRunOk} ok · month ~$${Number(costMonth ?? 0).toFixed(2)} after credit`
-                : "MCP/tool observability"
+              agentEventsFree != null
+                ? `${agentEventsFree} free · ${agentEventsPaid ?? 0} paid · UTC day`
+                : "one-call value tools"
             }
             icon={Zap}
             accent="accent"
           />
+          <StatCard
+            label="Real feedback"
+            value={feedbackReal != null ? feedbackReal : "—"}
+            hint={`${feedbackAgentsH ?? 0} agents · ${feedbackMcpsH ?? 0} MCP · unlock ${unlockAgents}+${unlockMcps}`}
+            icon={MessageSquare}
+            accent="warn"
+          />
+          <StatCard
+            label="Outcomes"
+            value={outcomesN != null ? outcomesN : "—"}
+            hint={
+              networkO != null
+                ? `O=${Number(networkO).toFixed(1)} · deposit_outcome`
+                : "deposit_outcome ledger"
+            }
+            icon={Activity}
+            accent="success"
+          />
         </div>
 
-        {platformCost ? (
-          <Card className="mb-4 border-border/70">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-sm">
-                <DollarSign className="h-4 w-4 text-warn" />
-                Vercel Pro · Fluid cost (dashboard-aligned)
-              </CardTitle>
-              <CardDescription className="text-xs">
-                Running total mirrors dashboard dimensions: Active CPU, Provisioned
-                Memory, Invocations. Rates {platformCost.rates_version || "pro-fluid"}.
-                Cadence skips and CDN cache hits cut origin Active CPU without
-                changing probe outcomes.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-2 pb-4 pt-0 sm:grid-cols-4">
-              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
-                  Today USD
-                </p>
-                <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  ${Number(costToday ?? 0) < 0.01 ? Number(costToday ?? 0).toFixed(6) : Number(costToday ?? 0).toFixed(4)}
-                </p>
-              </div>
-              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
-                  Month after credit
-                </p>
-                <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  ${Number(costMonth ?? 0) < 0.01 ? Number(costMonth ?? 0).toFixed(6) : Number(costMonth ?? 0).toFixed(4)}
-                </p>
-              </div>
-              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
-                  Cadence skips
-                </p>
-                <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  {platformCost.today?.skipped_cadence ??
-                    platformCost.savings?.cadence_skips_today ??
-                    0}
-                </p>
-              </div>
-              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
-                  Cache hits
-                </p>
-                <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  {platformCost.today?.cache_hits ?? 0}
-                </p>
-              </div>
-              <div className="col-span-2 flex flex-wrap gap-2 sm:col-span-4">
-                <Button size="sm" variant="secondary" asChild>
-                  <a href="/api/ops/vercel-cost" target="_blank" rel="noreferrer">
-                    Full cost API
-                  </a>
-                </Button>
-                <Button size="sm" variant="secondary" asChild>
-                  <a href="/api/ops/agent-runs" target="_blank" rel="noreferrer">
-                    Agent runs API
-                  </a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ) : null}
-
-        {growthScout ? (
-          <Card className="mb-4 border-border/70">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-sm">
-                <Sparkles className="h-4 w-4 text-accent" />
-                Growth Scout · $
-                {Number(growthScout.month_budget_usd ?? 25).toFixed(0)}/mo
-                ceiling
-              </CardTitle>
-              <CardDescription className="text-xs">
-                Dual-native Live-only invites + allowlist (Shareabot / Moltbook).
-                Cron every 4h. No Discord/X bots. Last status:{" "}
-                <span className="text-fg">
-                  {growthScout.last_status || "—"}
-                </span>
-                {growthScout.last_run_at
-                  ? ` · ${new Date(growthScout.last_run_at).toLocaleString()}`
-                  : ""}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-2 pb-4 pt-0 sm:grid-cols-4">
-              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
-                  Month used
-                </p>
-                <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  ${Number(growthScout.month_usd ?? 0).toFixed(4)}
-                </p>
-              </div>
-              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
-                  Remaining
-                </p>
-                <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  ${Number(growthScout.budget_remaining_usd ?? 0).toFixed(2)}
-                </p>
-              </div>
-              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
-                  Invites today
-                </p>
-                <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  {growthScout.day_invites ?? 0}
-                  <span className="text-sm font-normal text-subtle">
-                    /{growthScout.max_invites_per_day ?? 20}
-                  </span>
-                </p>
-              </div>
-              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
-                  Unique invited
-                </p>
-                <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  {growthScout.invited_unique ?? 0}
-                </p>
-              </div>
-              <div className="col-span-2 space-y-1 text-xs text-muted sm:col-span-4">
-                <p>
-                  Shareabot:{" "}
-                  {growthScout.allowlist?.shareabot_registered
-                    ? "registered"
-                    : "pending"}
-                  {growthScout.allowlist?.shareabot_claim_url
-                    ? " · claim URL saved"
-                    : ""}
-                  {" · "}
-                  Moltbook:{" "}
-                  {growthScout.moltbook_configured
-                    ? growthScout.allowlist?.moltbook_last_post
-                      ? "posted"
-                      : "key set"
-                    : "key not set"}
-                  {" · "}
-                  xAI draft:{" "}
-                  {growthScout.xai_configured ? "configured" : "template only"}
-                </p>
-                {growthScout.conversion ? (
-                  <div className="grid grid-cols-2 gap-2 pt-2 sm:grid-cols-4">
-                    <div className="rounded-[var(--radius-md)] border border-border/60 bg-bg/40 p-2">
-                      <p className="text-[10px] uppercase tracking-wide text-subtle">
-                        Funnel · invites
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={() => setShowPlatform((v) => !v)}
+            className="flex w-full items-center justify-between gap-2 rounded-[var(--radius-md)] border border-border/60 bg-bg-elevated/30 px-3 py-2 text-left text-xs text-muted transition hover:border-border hover:text-fg"
+          >
+            <span className="flex items-center gap-2 font-medium">
+              {showPlatform ? (
+                <ChevronDown className="h-3.5 w-3.5" />
+              ) : (
+                <ChevronRight className="h-3.5 w-3.5" />
+              )}
+              Platform ops
+            </span>
+            <span className="tabular text-subtle">
+              {costToday != null
+                ? `$${Number(costToday) < 0.01 ? Number(costToday).toFixed(4) : Number(costToday).toFixed(2)} today`
+                : "cost"}
+              {agentRunN != null ? ` · ${agentRunN} runs` : ""}
+              {growthScout?.day_invites != null
+                ? ` · ${growthScout.day_invites} scout`
+                : ""}
+            </span>
+          </button>
+          {showPlatform ? (
+            <div className="mt-2 space-y-3">
+              {platformCost ? (
+                <Card className="border-border/70">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-sm">
+                      <DollarSign className="h-4 w-4 text-warn" />
+                      Vercel Pro · Fluid cost
+                    </CardTitle>
+                    <CardDescription className="text-xs">
+                      Operator view — not product metrics. Rates{" "}
+                      {platformCost.rates_version || "pro-fluid"}.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-2 gap-2 pb-4 pt-0 sm:grid-cols-4">
+                    <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                      <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                        Today USD
                       </p>
-                      <p className="text-sm font-semibold tabular text-fg">
-                        {growthScout.conversion.invites ??
-                          growthScout.month_invites ??
+                      <p className="mt-1 text-lg font-semibold tabular text-fg">
+                        $
+                        {Number(costToday ?? 0) < 0.01
+                          ? Number(costToday ?? 0).toFixed(6)
+                          : Number(costToday ?? 0).toFixed(4)}
+                      </p>
+                    </div>
+                    <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                      <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                        Month after credit
+                      </p>
+                      <p className="mt-1 text-lg font-semibold tabular text-fg">
+                        $
+                        {Number(costMonth ?? 0) < 0.01
+                          ? Number(costMonth ?? 0).toFixed(6)
+                          : Number(costMonth ?? 0).toFixed(4)}
+                      </p>
+                    </div>
+                    <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                      <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                        Cadence skips
+                      </p>
+                      <p className="mt-1 text-lg font-semibold tabular text-fg">
+                        {platformCost.today?.skipped_cadence ??
+                          platformCost.savings?.cadence_skips_today ??
                           0}
                       </p>
                     </div>
-                    <div className="rounded-[var(--radius-md)] border border-border/60 bg-bg/40 p-2">
-                      <p className="text-[10px] uppercase tracking-wide text-subtle">
-                        Talk / HTTP
+                    <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                      <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                        Agent runs
                       </p>
-                      <p className="text-sm font-semibold tabular text-fg">
-                        {growthScout.conversion.talk_ok ?? 0}
-                        <span className="text-subtle"> / </span>
-                        {growthScout.conversion.http_ok ?? 0}
-                      </p>
-                    </div>
-                    <div className="rounded-[var(--radius-md)] border border-border/60 bg-bg/40 p-2">
-                      <p className="text-[10px] uppercase tracking-wide text-subtle">
-                        Replies → demos
-                      </p>
-                      <p className="text-sm font-semibold tabular text-fg">
-                        {growthScout.conversion.replies ?? 0}
-                        <span className="text-subtle"> → </span>
-                        {growthScout.conversion.demos ?? 0}
+                      <p className="mt-1 text-lg font-semibold tabular text-fg">
+                        {agentRunN ?? "—"}
+                        {agentRunOk != null ? (
+                          <span className="text-sm font-normal text-subtle">
+                            {" "}
+                            · {agentRunOk} ok
+                          </span>
+                        ) : null}
                       </p>
                     </div>
-                    <div className="rounded-[var(--radius-md)] border border-border/60 bg-bg/40 p-2">
-                      <p className="text-[10px] uppercase tracking-wide text-subtle">
-                        Feedback · trails
-                      </p>
-                      <p className="text-sm font-semibold tabular text-fg">
-                        {growthScout.conversion.feedback ?? 0}
-                        <span className="text-subtle"> · </span>
-                        {growthScout.conversion.stigmergy_deposits ?? 0}
-                      </p>
+                    <div className="col-span-2 flex flex-wrap gap-2 sm:col-span-4">
+                      <Button size="sm" variant="secondary" asChild>
+                        <a
+                          href="/api/ops/vercel-cost"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Cost API
+                        </a>
+                      </Button>
+                      <Button size="sm" variant="secondary" asChild>
+                        <a
+                          href="/api/ops/agent-runs"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Runs API
+                        </a>
+                      </Button>
                     </div>
-                  </div>
-                ) : null}
-                {growthScout.last_error ? (
-                  <p className="text-warn">Last error: {growthScout.last_error}</p>
-                ) : null}
-                {growthScout.budget_exhausted ? (
-                  <p className="text-warn">
-                    Budget exhausted this month — scout idles until reset.
-                  </p>
-                ) : null}
-                <div className="flex flex-wrap gap-2 pt-1">
-                  <Button size="sm" variant="secondary" asChild>
-                    <a href="/grow">Founder playbook</a>
-                  </Button>
-                  <Button size="sm" variant="secondary" asChild>
-                    <a
-                      href="/api/cron/growth-scout?dry_run=1"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Dry-run API
-                    </a>
-                  </Button>
-                </div>
-              </div>
+                  </CardContent>
+                </Card>
+              ) : null}
 
-            </CardContent>
-          </Card>
-        ) : null}
+              {growthScout ? (
+                <Card className="border-border/70">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex items-center gap-2 text-sm">
+                      <Sparkles className="h-4 w-4 text-accent" />
+                      Growth Scout · $
+                      {Number(growthScout.month_budget_usd ?? 25).toFixed(0)}
+                      /mo
+                    </CardTitle>
+                    <CardDescription className="text-xs">
+                      Operator funnel. Last:{" "}
+                      <span className="text-fg">
+                        {growthScout.last_status || "—"}
+                      </span>
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-2 gap-2 pb-4 pt-0 sm:grid-cols-4">
+                    <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                      <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                        Month used
+                      </p>
+                      <p className="mt-1 text-lg font-semibold tabular text-fg">
+                        ${Number(growthScout.month_usd ?? 0).toFixed(4)}
+                      </p>
+                    </div>
+                    <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                      <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                        Remaining
+                      </p>
+                      <p className="mt-1 text-lg font-semibold tabular text-fg">
+                        $
+                        {Number(growthScout.budget_remaining_usd ?? 0).toFixed(
+                          2,
+                        )}
+                      </p>
+                    </div>
+                    <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                      <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                        Invites today
+                      </p>
+                      <p className="mt-1 text-lg font-semibold tabular text-fg">
+                        {growthScout.day_invites ?? 0}
+                        <span className="text-sm font-normal text-subtle">
+                          /{growthScout.max_invites_per_day ?? 20}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                      <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                        Unique invited
+                      </p>
+                      <p className="mt-1 text-lg font-semibold tabular text-fg">
+                        {growthScout.invited_unique ?? 0}
+                      </p>
+                    </div>
+                    <div className="col-span-2 flex flex-wrap gap-2 sm:col-span-4">
+                      <Button size="sm" variant="secondary" asChild>
+                        <a href="/grow">Founder playbook</a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
 
         <nav className="mb-4 flex gap-1 overflow-x-auto rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/40 p-1">
           {TABS.map((t) => (

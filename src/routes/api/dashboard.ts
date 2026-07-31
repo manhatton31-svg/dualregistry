@@ -149,6 +149,8 @@ type SidePanels = {
   platform_cost: unknown;
   agent_runs: unknown;
   growth_scout: unknown;
+  /** Compact 5 homepage stats — product-facing only */
+  hero: unknown;
 };
 
 let lastGoodSide: SidePanels | null = null;
@@ -220,6 +222,23 @@ function scoreLanes(v: unknown): number {
   return mcp + ag;
 }
 
+function scoreHero(v: unknown): number {
+  const o = v as {
+    live?: number;
+    probes_today?: number;
+    agent_events_today?: number;
+    feedback_real?: number;
+    outcomes?: number;
+  };
+  return (
+    num(o?.live) * 1e6 +
+    num(o?.probes_today) * 1e3 +
+    num(o?.agent_events_today) * 100 +
+    num(o?.feedback_real) * 10 +
+    num(o?.outcomes)
+  );
+}
+
 function applySticky(side: SidePanels): SidePanels {
   const prev = lastGoodSide;
   const next: SidePanels = {
@@ -247,9 +266,20 @@ function applySticky(side: SidePanels): SidePanels {
       prev?.growth_scout as object,
       scoreScout,
     ),
+    hero: stickyPanel(
+      side.hero as object,
+      prev?.hero as object,
+      scoreHero,
+    ),
   };
   // Only store when we have at least one real ops panel
-  if (next.platform_cost || next.agent_runs || next.growth_scout || next.listing_lanes) {
+  if (
+    next.platform_cost ||
+    next.agent_runs ||
+    next.growth_scout ||
+    next.listing_lanes ||
+    next.hero
+  ) {
     lastGoodSide = next;
   }
   return next;
@@ -327,6 +357,126 @@ async function attachSidePanels(timeoutMs: number) {
     /* */
   }
 
+
+  let hero: Record<string, unknown> | null = null;
+  try {
+    const lanes = listing_lanes as {
+      counts?: { mcp_active?: number; agents_active?: number };
+      mcp_active?: unknown[];
+      agents_active?: unknown[];
+    } | null;
+    const mcpN = Array.isArray(lanes?.mcp_active)
+      ? lanes!.mcp_active!.length
+      : Number(lanes?.counts?.mcp_active || 0);
+    const agN = Array.isArray(lanes?.agents_active)
+      ? lanes!.agents_active!.length
+      : Number(lanes?.counts?.agents_active || 0);
+    const probes = (protocol as { probes?: Record<string, unknown> } | null)
+      ?.probes;
+    const byKind = (probes?.by_kind_today || {}) as {
+      agents?: number;
+      mcps?: number;
+    };
+    const fromKind =
+      Number(byKind.agents || 0) + Number(byKind.mcps || 0);
+    const probesToday = Number(
+      probes?.used != null ? probes.used : fromKind || 0,
+    );
+
+    let event_events = 0;
+    let event_free = 0;
+    let event_paid = 0;
+    let event_refills = 0;
+    try {
+      const { getEventUsagePublic } = await import(
+        "@/lib/products/event-pricing"
+      );
+      const usage = await withTimeout(getEventUsagePublic(), 1500);
+      const t = (usage as { totals?: Record<string, number> } | null)?.totals;
+      event_events = Number(t?.total_events || 0);
+      event_free = Number(t?.free_events || 0);
+      event_paid = Number(t?.paid_events || 0);
+      event_refills = Number(t?.refill_grants_total || 0);
+    } catch {
+      /* */
+    }
+
+    let feedback_agents = 0;
+    let feedback_mcps = 0;
+    let feedback_real = 0;
+    try {
+      const { getFunnelHonesty } = await import(
+        "@/lib/products/funnel-honesty"
+      );
+      const fh = await withTimeout(getFunnelHonesty(), 2000);
+      if (fh) {
+        feedback_agents = Number(fh.feedback?.real_agents || 0);
+        feedback_mcps = Number(fh.feedback?.real_mcps || 0);
+        feedback_real = Number(
+          fh.feedback?.real_public || feedback_agents + feedback_mcps,
+        );
+      }
+    } catch {
+      const pe = product_engagement as {
+        feedback_agent_only?: number;
+        feedback_mcps?: number;
+      } | null;
+      if (pe) {
+        feedback_agents = Number(pe.feedback_agent_only || 0);
+        feedback_mcps = Number(pe.feedback_mcps || 0);
+        feedback_real = feedback_agents + feedback_mcps;
+      }
+    }
+
+    let outcomes = 0;
+    let network_o: number | null = null;
+    try {
+      const { getFirstPrinciplesPublic } = await import(
+        "@/lib/products/first-principles"
+      );
+      const fp = await withTimeout(getFirstPrinciplesPublic({}), 1500);
+      outcomes = Number(
+        (fp as { totals?: { outcomes?: number } } | null)?.totals?.outcomes ||
+          0,
+      );
+    } catch {
+      /* */
+    }
+    try {
+      const { getExonomicsPublic } = await import("@/lib/products/exonomics");
+      const exo = await withTimeout(getExonomicsPublic({}), 1500);
+      const o = (exo as { network_value?: { components?: { O?: number } } })
+        ?.network_value?.components?.O;
+      if (typeof o === "number" && Number.isFinite(o)) network_o = o;
+    } catch {
+      /* */
+    }
+
+    hero = {
+      version: "1.0.0",
+      live: mcpN + agN,
+      live_mcp: mcpN,
+      live_agents: agN,
+      probes_today: probesToday,
+      probes_agents: Number(byKind.agents || 0),
+      probes_mcps: Number(byKind.mcps || 0),
+      agent_events_today: event_events,
+      agent_events_free: event_free,
+      agent_events_paid: event_paid,
+      agent_events_refills: event_refills,
+      feedback_real,
+      feedback_agents,
+      feedback_mcps,
+      unlock_agents: 250,
+      unlock_mcps: 250,
+      outcomes,
+      network_o,
+      updated_at: new Date().toISOString(),
+    };
+  } catch {
+    hero = null;
+  }
+
   return applySticky({
     product_engagement,
     listing_lanes,
@@ -335,6 +485,7 @@ async function attachSidePanels(timeoutMs: number) {
     platform_cost,
     agent_runs,
     growth_scout,
+    hero,
   });
 }
 
@@ -493,6 +644,7 @@ export const Route = createFileRoute("/api/dashboard")({
             platform_cost: null,
             agent_runs: null,
             growth_scout: null,
+            hero: null,
           };
           const body = await applyProductionMirror(
             {
