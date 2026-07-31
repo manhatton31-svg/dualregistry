@@ -386,6 +386,8 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     feedback_endpoint: string;
     founding_discount: string;
     example_body: Record<string, unknown>;
+    /** Browser form — lowest friction for human operators */
+    browser_feedback_url?: string;
     confirm_note?: string;
     funnel?: Record<string, unknown>;
     first_action?: {
@@ -544,6 +546,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
       founding_discount:
         "25% A1FB vault after real survey (redeems when payments open)",
       example_body,
+      browser_feedback_url: `/products/success?order_id=${encodeURIComponent(order.id)}`,
       first_action: isQa
         ? undefined
         : {
@@ -579,7 +582,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     readme_blurb,
     message: isQa
       ? `Platform QA demo ready (not public). ${unlock.you_move_the_bar}`
-      : `${msg.headline} Demo ready. FIRST: POST feedback with next_steps.example_body / first_action → 25% or founding seat. Then explore artifacts. ${unlock.you_move_the_bar}`,
+      : `${msg.headline} Demo ready. FIRST: open next_steps.browser_feedback_url (or POST next_steps.example_body) → 25% or founding seat. Then explore artifacts. ${unlock.you_move_the_bar}`,
   };
 }
 

@@ -293,7 +293,21 @@ export function FeedbackSurvey(props: {
       .catch(() => setSurvey({ questions: FALLBACK_QUESTIONS }));
   }, []);
 
-  const questions = survey?.questions || FALLBACK_QUESTIONS;
+  /** Post-demo close path: high-signal core only (conversion KR) */
+  const COMPACT_IDS = new Set([
+    "overall",
+    "agent_ux",
+    "ux_friction",
+    "network_clarity",
+    "product_one_ship",
+    "would_buy_at_founding",
+    "wtp_alive_usd",
+    "wtp_confidence",
+  ]);
+
+  const questions = (survey?.questions || FALLBACK_QUESTIONS).filter((qq) =>
+    props.compact ? COMPACT_IDS.has(qq.id) : true,
+  );
   const q = questions[step];
   const total = questions.length;
 

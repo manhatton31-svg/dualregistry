@@ -147,6 +147,28 @@ function SuccessPage() {
             : "Your agent artifacts are below."}
         </p>
 
+        <Card className="mt-6 border-accent/30">
+          <CardHeader>
+            <CardTitle className="text-base">
+              Demo survey · founding reward (6–8 questions)
+            </CardTitle>
+            <CardDescription>
+              Honest answers only — rewrites Kernel + Loop for the next agents.
+              Short path for conversion; finish for founding free seat / discount.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <FeedbackSurvey
+              source={order?.status === "demo" ? "demo" : "paid"}
+              orderId={order?.id}
+              sku={order?.sku}
+              agentName={order?.goals?.agent_name}
+              mode={order?.status === "demo" ? "demo" : "stripe"}
+              compact
+            />
+          </CardContent>
+        </Card>
+
         <Card className="mt-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -246,26 +268,6 @@ function SuccessPage() {
           </Link>
         </p>
 
-        <Card className="mt-6 border-accent/30">
-          <CardHeader>
-            <CardTitle className="text-base">
-              Demo survey · 25% founding discount
-            </CardTitle>
-            <CardDescription>
-              Your answers rewrite Kernel + Loop for the next agents. Finish all
-              required questions to get a discount code for launch.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FeedbackSurvey
-              source={order?.status === "demo" ? "demo" : "paid"}
-              orderId={order?.id}
-              sku={order?.sku}
-              agentName={order?.goals?.agent_name}
-              mode={order?.status === "demo" ? "demo" : "stripe"}
-            />
-          </CardContent>
-        </Card>
 
         {order?.status === "fulfilled" || order?.status === "paid" ? (
           <Card className="mt-6 border-accent/40">
