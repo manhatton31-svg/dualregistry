@@ -1,14 +1,14 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:08:54.344Z",
+  "updated_at": "2026-07-31T13:08:55.218Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
-      "attraction": 37.5,
+      "attraction": 38.25,
       "danger": 0,
       "demand": 10,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:08:48.832Z",
+      "last_reinforced_at": "2026-07-31T13:08:54.585Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -123,11 +123,11 @@
     },
     "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai": {
       "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
-      "attraction": 8,
+      "attraction": 8.5,
       "danger": 0,
       "demand": 12,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:08:13.695Z",
+      "last_reinforced_at": "2026-07-31T13:08:55.218Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -458,6 +458,34 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yl2r6_ukdq8y",
+      "kind": "mark",
+      "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "intensity": 1,
+      "at": "2026-07-31T13:08:55.218Z",
+      "tags": [
+        "read_residue",
+        "sense",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yl29l_s1qrrq",
+      "kind": "mark",
+      "listing_id": "agent-agoragentic-https-agoragentic-com",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:08:54.585Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yl1pr_xgmpkc",
       "kind": "mark",
@@ -6504,6 +6532,24 @@
   "feed_events": [
     {
       "type": "leave_trace",
+      "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "kind": "mark",
+      "amount": 1,
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "at": "2026-07-31T13:08:55.218Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agent-agoragentic-https-agoragentic-com",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:08:54.585Z"
+    },
+    {
+      "type": "leave_trace",
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
       "kind": "mark",
       "amount": 1,
@@ -8220,29 +8266,11 @@
       "from": "flywheel_sense",
       "body": "sense residue",
       "at": "2026-07-31T13:05:56.226Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agtpub_ae427eacf129a7ad16a0",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:05:55.913Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agtpub_ae427eacf129a7ad16a0",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:05:55.911Z"
     }
   ],
   "totals": {
     "auto_deposits": 6,
-    "agent_deposits": 430,
+    "agent_deposits": 432,
     "senses": 132,
     "follows": 57,
     "evaporations": 0
