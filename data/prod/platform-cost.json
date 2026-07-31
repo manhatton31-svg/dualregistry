@@ -2,20 +2,20 @@
   "plan": "pro",
   "rates_version": "2026-07-fluid-pro-iad1-v1",
   "month": "2026-07",
-  "month_usd": 0.016723072,
-  "month_invocations": 15,
-  "month_active_cpu_ms": 235305,
-  "month_provisioned_gb_hours": 0.7005644444444443,
+  "month_usd": 0.01672372522222222,
+  "month_invocations": 16,
+  "month_active_cpu_ms": 235306,
+  "month_provisioned_gb_hours": 0.700566111111111,
   "month_cache_hits": 0,
   "today": {
     "day": "2026-07-31",
-    "invocations": 15,
-    "active_cpu_ms": 235305,
-    "wall_ms": 581016,
-    "provisioned_gb_hours": 0.7005644444444443,
+    "invocations": 16,
+    "active_cpu_ms": 235306,
+    "wall_ms": 581019,
+    "provisioned_gb_hours": 0.700566111111111,
     "response_bytes": 0,
     "cache_hits": 0,
-    "cache_misses": 15,
+    "cache_misses": 16,
     "skipped_cadence": 0,
     "by_class": {
       "product": {
@@ -35,6 +35,12 @@
         "wall_ms": 7282,
         "active_cpu_ms": 2913,
         "usd": 0.00014705622222222221
+      },
+      "discovery": {
+        "n": 1,
+        "wall_ms": 3,
+        "active_cpu_ms": 1,
+        "usd": 6.532222222222221e-7
       }
     },
     "usd": {
@@ -50,6 +56,18 @@
       "rates_version": "2026-07-fluid-pro-iad1-v1"
     },
     "events": [
+      {
+        "at": "2026-07-31T15:45:43.509Z",
+        "class": "discovery",
+        "route": "/api/a2a",
+        "label": "a2a_help",
+        "wall_ms": 3,
+        "active_cpu_ms": 1,
+        "invocations": 1,
+        "usd": 6.532222222222221e-7,
+        "skipped": false,
+        "vercel_cache": null
+      },
       {
         "at": "2026-07-31T15:00:06.019Z",
         "class": "api_read",
@@ -88,9 +106,9 @@
       }
     ]
   },
-  "lifetime_usd": 0.016723072,
-  "lifetime_invocations": 15,
-  "updated_at": "2026-07-31T15:00:06.019Z",
+  "lifetime_usd": 0.01672372522222222,
+  "lifetime_invocations": 16,
+  "updated_at": "2026-07-31T15:45:43.509Z",
   "savings_notes": [
     "Fluid Active CPU: I/O wait during probes is free",
     "Probe de-dupe: Vercel Cron primary; GH Actions commits only when tick fresh or backup",
