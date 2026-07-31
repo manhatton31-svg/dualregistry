@@ -1,4 +1,5 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
+import { Analytics } from "@vercel/analytics/react";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -93,24 +94,11 @@ export const Route = createRootRoute({
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
-        {/* Vercel Web Analytics + Speed Insights — free on Pro; enable in project dashboard */}
-        {/* Free Vercel Web Analytics when enabled in project (Pro). No-op if not. */}
-        <script
-          defer
-          src="/_vercel/insights/script.js"
-          data-sdkn="@vercel/analytics"
-          data-sdkv="lean"
-        />
-        <script
-          type="text/javascript"
-          dangerouslySetInnerHTML={{
-            __html:
-              "window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};",
-          }}
-        />
       </head>
       <body className="min-h-dvh bg-bg text-fg antialiased">
         <Outlet />
+        {/* Free Vercel Web Analytics (Pro plan included). No Speed Insights. */}
+        <Analytics />
         <Scripts />
       </body>
     </html>
