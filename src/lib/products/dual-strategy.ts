@@ -10,6 +10,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import { quietPolicyPublic } from "./outbound-quiet";
+import { connectorsPublic } from "./connectors";
 
 export const DUAL_STRATEGY_VERSION = "2.9.0";
 
@@ -56,6 +57,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       match: `${o}/api/match`,
       reciprocity: `${o}/api/products/reciprocity`,
       conversion_pressure: `${o}/api/products/conversion-pressure`,
+      connectors: `${o}/api/products/connectors`,
       stigmergy: `${o}/api/products/stigmergy`,
       autocatalysis: `${o}/api/products/autocatalysis`,
       first_principles: `${o}/api/products/first-principles`,
@@ -136,8 +138,9 @@ export function dualStrategyPublic(origin: string) {
     ok: true as const,
     mode: "dual",
     version: DUAL_STRATEGY_VERSION,
-    note: "Pull-first quiet by default (no cold Hi-blasts / no auto order mint). Inbound + stigmergy + autocatalysis + interop + first-principles + exonomics stay live. Set OUTBOUND_QUIET=0 to re-enable cold contact.",
+    note: "Pull-first quiet + connector channel (HiRey-style warm intros). No cold Hi-blasts / no auto order mint. Inbound + connectors + stigmergy stay live.",
     outbound: outboundPolicySummary(),
+    connectors: connectorsPublic(origin),
     inbound: inboundDiscoverySurfaces(origin),
     stigmergy: {
       version: "2.9.0",

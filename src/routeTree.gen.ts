@@ -86,6 +86,7 @@ import { Route as ApiProductsAgentfinderRouteImport } from './routes/api/product
 import { Route as ApiProductsAutocatalysisRouteImport } from './routes/api/products/autocatalysis'
 import { Route as ApiProductsCheckoutRouteImport } from './routes/api/products/checkout'
 import { Route as ApiProductsConfirmRouteImport } from './routes/api/products/confirm'
+import { Route as ApiProductsConnectorsRouteImport } from './routes/api/products/connectors'
 import { Route as ApiProductsConversionRouteImport } from './routes/api/products/conversion'
 import { Route as ApiProductsConversionPressureRouteImport } from './routes/api/products/conversion-pressure'
 import { Route as ApiProductsDemoRouteImport } from './routes/api/products/demo'
@@ -519,6 +520,11 @@ const ApiProductsConfirmRoute = ApiProductsConfirmRouteImport.update({
   path: '/api/products/confirm',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsConnectorsRoute = ApiProductsConnectorsRouteImport.update({
+  id: '/api/products/connectors',
+  path: '/api/products/connectors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsConversionRoute = ApiProductsConversionRouteImport.update({
   id: '/api/products/conversion',
   path: '/api/products/conversion',
@@ -767,6 +773,7 @@ export interface FileRoutesByFullPath {
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
+  '/api/products/connectors': typeof ApiProductsConnectorsRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
   '/api/products/conversion-pressure': typeof ApiProductsConversionPressureRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
@@ -879,6 +886,7 @@ export interface FileRoutesByTo {
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
+  '/api/products/connectors': typeof ApiProductsConnectorsRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
   '/api/products/conversion-pressure': typeof ApiProductsConversionPressureRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
@@ -992,6 +1000,7 @@ export interface FileRoutesById {
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
+  '/api/products/connectors': typeof ApiProductsConnectorsRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
   '/api/products/conversion-pressure': typeof ApiProductsConversionPressureRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
@@ -1106,6 +1115,7 @@ export interface FileRouteTypes {
     | '/api/products/autocatalysis'
     | '/api/products/checkout'
     | '/api/products/confirm'
+    | '/api/products/connectors'
     | '/api/products/conversion'
     | '/api/products/conversion-pressure'
     | '/api/products/demo'
@@ -1218,6 +1228,7 @@ export interface FileRouteTypes {
     | '/api/products/autocatalysis'
     | '/api/products/checkout'
     | '/api/products/confirm'
+    | '/api/products/connectors'
     | '/api/products/conversion'
     | '/api/products/conversion-pressure'
     | '/api/products/demo'
@@ -1330,6 +1341,7 @@ export interface FileRouteTypes {
     | '/api/products/autocatalysis'
     | '/api/products/checkout'
     | '/api/products/confirm'
+    | '/api/products/connectors'
     | '/api/products/conversion'
     | '/api/products/conversion-pressure'
     | '/api/products/demo'
@@ -1442,6 +1454,7 @@ export interface RootRouteChildren {
   ApiProductsAutocatalysisRoute: typeof ApiProductsAutocatalysisRoute
   ApiProductsCheckoutRoute: typeof ApiProductsCheckoutRoute
   ApiProductsConfirmRoute: typeof ApiProductsConfirmRoute
+  ApiProductsConnectorsRoute: typeof ApiProductsConnectorsRoute
   ApiProductsConversionRoute: typeof ApiProductsConversionRoute
   ApiProductsConversionPressureRoute: typeof ApiProductsConversionPressureRoute
   ApiProductsDemoRoute: typeof ApiProductsDemoRoute
@@ -2020,6 +2033,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsConfirmRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/connectors': {
+      id: '/api/products/connectors'
+      path: '/api/products/connectors'
+      fullPath: '/api/products/connectors'
+      preLoaderRoute: typeof ApiProductsConnectorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/conversion': {
       id: '/api/products/conversion'
       path: '/api/products/conversion'
@@ -2341,6 +2361,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsAutocatalysisRoute: ApiProductsAutocatalysisRoute,
   ApiProductsCheckoutRoute: ApiProductsCheckoutRoute,
   ApiProductsConfirmRoute: ApiProductsConfirmRoute,
+  ApiProductsConnectorsRoute: ApiProductsConnectorsRoute,
   ApiProductsConversionRoute: ApiProductsConversionRoute,
   ApiProductsConversionPressureRoute: ApiProductsConversionPressureRoute,
   ApiProductsDemoRoute: ApiProductsDemoRoute,
