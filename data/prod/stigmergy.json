@@ -1,14 +1,14 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:06:39.628Z",
+  "updated_at": "2026-07-31T13:06:41.138Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
-      "attraction": 27,
+      "attraction": 27.75,
       "danger": 0,
       "demand": 10,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:06:34.647Z",
+      "last_reinforced_at": "2026-07-31T13:06:41.138Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -55,11 +55,11 @@
     },
     "agtpub_4c34b0bf38d34d7e64ee": {
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
-      "attraction": 34.75,
+      "attraction": 35.5,
       "danger": 0,
       "demand": 17,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:06:37.937Z",
+      "last_reinforced_at": "2026-07-31T13:06:40.600Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -106,11 +106,11 @@
     },
     "agent-corduroy-labs-https-corduroy-labs-ai": {
       "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
-      "attraction": 9.5,
+      "attraction": 10,
       "danger": 0,
       "demand": 14,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:05:57.758Z",
+      "last_reinforced_at": "2026-07-31T13:06:39.687Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -458,6 +458,48 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yi7aq_7ckbmm",
+      "kind": "mark",
+      "listing_id": "agent-agoragentic-https-agoragentic-com",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:06:41.138Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yi6vs_v4p7so",
+      "kind": "mark",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:06:40.600Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yi66f_drox1i",
+      "kind": "mark",
+      "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "intensity": 1,
+      "at": "2026-07-31T13:06:39.687Z",
+      "tags": [
+        "read_residue",
+        "sense",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yi64s_kr3c95",
       "kind": "mark",
@@ -4824,6 +4866,33 @@
   "feed_events": [
     {
       "type": "leave_trace",
+      "listing_id": "agent-agoragentic-https-agoragentic-com",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:06:41.138Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:06:40.600Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "kind": "mark",
+      "amount": 1,
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "at": "2026-07-31T13:06:39.687Z"
+    },
+    {
+      "type": "leave_trace",
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
       "kind": "mark",
       "amount": 1.5,
@@ -6519,37 +6588,11 @@
       "from": "flywheel_seed",
       "at": "2026-07-31T13:05:43.104Z",
       "body": "Composition contagion touched 1 neighbors"
-    },
-    {
-      "type": "used_with",
-      "listing_id": "agent-law-ai-https-mcp-law-ai",
-      "listing_b": "agent-meacheal-supply-chain-agent-https-api-meacheal-ai",
-      "amount": 1,
-      "from": "flywheel_seed",
-      "at": "2026-07-31T13:05:43.104Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:05:42.934Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:05:42.876Z"
     }
   ],
   "totals": {
     "auto_deposits": 6,
-    "agent_deposits": 310,
+    "agent_deposits": 313,
     "senses": 94,
     "follows": 43,
     "evaporations": 0
