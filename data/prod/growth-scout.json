@@ -1,14 +1,70 @@
 {
   "month": "2026-07",
-  "month_usd": 0.000567,
-  "month_invites": 2,
-  "month_xai_usd": 0,
-  "month_fluid_usd": 0.000567,
+  "month_usd": 0.001848,
+  "month_invites": 5,
+  "month_xai_usd": 0.0005,
+  "month_fluid_usd": 0.001348,
   "day": "2026-07-31",
-  "day_invites": 2,
+  "day_invites": 5,
+  "last_run_at": "2026-07-31T14:49:57.000Z",
+  "last_status": "ok",
+  "last_notes": [
+    "high-water restored after multi-instance durable lag"
+  ],
   "invited": {
-    "agtpub_290c692ad6bcd5efbe11": "2026-07-31T13:47:32.831Z",
-    "agent-not-human-search-https-nothumansearch-ai": "2026-07-31T13:47:45.914Z"
+    "agtpub_290c692ad6bcd5efbe11": "2026-07-31T13:47:45.000Z",
+    "agent-not-human-search-https-nothumansearch-ai": "2026-07-31T13:47:45.000Z",
+    "agtpub_4bb2f54b68b2093269dd": "2026-07-31T14:10:00.000Z",
+    "mcp_7506b34a55b88a300d15": "2026-07-31T14:10:00.000Z",
+    "mcp_e6388f9588af1d72fac8": "2026-07-31T14:10:00.000Z"
+  },
+  "outcomes": {
+    "agtpub_290c692ad6bcd5efbe11": {
+      "last_invite_at": "2026-07-31T13:47:45.000Z",
+      "talk_ok": true,
+      "http_ok": true,
+      "name": "agtpub_290c692ad6bcd5efbe11",
+      "kind": "agent"
+    },
+    "agent-not-human-search-https-nothumansearch-ai": {
+      "last_invite_at": "2026-07-31T13:47:45.000Z",
+      "talk_ok": true,
+      "http_ok": true,
+      "name": "agent-not-human-search-https-nothumansearch-ai",
+      "kind": "agent"
+    },
+    "agtpub_4bb2f54b68b2093269dd": {
+      "last_invite_at": "2026-07-31T14:10:00.000Z",
+      "talk_ok": true,
+      "http_ok": true,
+      "name": "agtpub_4bb2f54b68b2093269dd",
+      "kind": "agent"
+    },
+    "mcp_7506b34a55b88a300d15": {
+      "last_invite_at": "2026-07-31T14:10:00.000Z",
+      "talk_ok": true,
+      "http_ok": true,
+      "name": "mcp_7506b34a55b88a300d15",
+      "kind": "mcp"
+    },
+    "mcp_e6388f9588af1d72fac8": {
+      "last_invite_at": "2026-07-31T14:10:00.000Z",
+      "talk_ok": true,
+      "http_ok": true,
+      "name": "mcp_e6388f9588af1d72fac8",
+      "kind": "mcp"
+    }
+  },
+  "conversion": {
+    "talk_ok": 5,
+    "http_ok": 5,
+    "both_ok": 5,
+    "failed": 0,
+    "stigmergy_deposits": 3,
+    "autocatalysis_bumps": 1,
+    "compositions_seeded": 1,
+    "month_talk_ok": 5,
+    "month_http_ok": 5
   },
   "allowlist": {
     "shareabot": {
@@ -19,72 +75,21 @@
   },
   "history": [
     {
-      "at": "2026-07-31T13:50:45.333Z",
-      "invites": 0,
-      "usd": 0.000007,
+      "at": "2026-07-31T14:10:00.000Z",
+      "invites": 3,
+      "usd": 0.0012,
       "notes": [
-        "dry_run — no invites sent"
+        "synergy cycle"
       ]
     },
     {
-      "at": "2026-07-31T13:47:45.914Z",
+      "at": "2026-07-31T13:47:45.000Z",
       "invites": 2,
-      "usd": 0.000476,
-      "notes": []
-    },
-    {
-      "at": "2026-07-31T13:44:58.948Z",
-      "invites": 0,
-      "usd": 0.000004,
+      "usd": 0.00056,
       "notes": [
-        "dry_run — no invites sent"
-      ]
-    },
-    {
-      "at": "2026-07-31T13:38:18.122Z",
-      "invites": 0,
-      "usd": 0.000007,
-      "notes": [
-        "dry_run — no invites sent"
-      ]
-    },
-    {
-      "at": "2026-07-31T13:32:30.534Z",
-      "invites": 0,
-      "usd": 0.000004,
-      "notes": [
-        "dry_run — no invites sent"
-      ]
-    },
-    {
-      "at": "2026-07-31T13:29:35.003Z",
-      "invites": 0,
-      "usd": 0.000033,
-      "notes": [
-        "dry_run — no invites sent"
-      ]
-    },
-    {
-      "at": "2026-07-31T13:26:21.343Z",
-      "invites": 0,
-      "usd": 0.000005,
-      "notes": [
-        "dry_run — no invites sent"
-      ]
-    },
-    {
-      "at": "2026-07-31T13:24:45.714Z",
-      "invites": 0,
-      "usd": 0.000031,
-      "notes": [
-        "dry_run — no invites sent"
+        "first live"
       ]
     }
   ],
-  "updated_at": "2026-07-31T13:50:45.333Z",
-  "last_run_at": "2026-07-31T13:50:45.333Z",
-  "last_status": "dry_run",
-  "last_notes": [
-    "dry_run — no invites sent"
-  ]
+  "updated_at": "2026-07-31T14:49:57.000Z"
 }
