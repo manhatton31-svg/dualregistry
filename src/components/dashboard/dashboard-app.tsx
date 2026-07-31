@@ -504,7 +504,7 @@ export function DashboardApp() {
             label="Vercel cost today"
             value={
               costToday != null
-                ? `$${Number(costToday).toFixed(4)}`
+                ? `$${Number(costToday) < 0.01 ? Number(costToday).toFixed(6) : Number(costToday).toFixed(4)}`
                 : "—"
             }
             hint={
@@ -548,7 +548,7 @@ export function DashboardApp() {
                   Today USD
                 </p>
                 <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  ${Number(costToday ?? 0).toFixed(4)}
+                  ${Number(costToday ?? 0) < 0.01 ? Number(costToday ?? 0).toFixed(6) : Number(costToday ?? 0).toFixed(4)}
                 </p>
               </div>
               <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
@@ -556,7 +556,7 @@ export function DashboardApp() {
                   Month after credit
                 </p>
                 <p className="mt-1 text-lg font-semibold tabular text-fg">
-                  ${Number(costMonth ?? 0).toFixed(4)}
+                  ${Number(costMonth ?? 0) < 0.01 ? Number(costMonth ?? 0).toFixed(6) : Number(costMonth ?? 0).toFixed(4)}
                 </p>
               </div>
               <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">

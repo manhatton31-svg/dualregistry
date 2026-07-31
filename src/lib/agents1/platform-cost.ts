@@ -355,6 +355,11 @@ export function platformCostPublic(s: PlatformCostState) {
 }
 
 function round4(n: number) {
+  // Keep micro-cent resolution so small Fluid samples don't read as $0.0000
+  if (!Number.isFinite(n)) return 0;
+  if (Math.abs(n) > 0 && Math.abs(n) < 0.0001) {
+    return Math.round(n * 1_000_000_000) / 1_000_000_000;
+  }
   return Math.round(n * 10_000) / 10_000;
 }
 function round6(n: number) {
