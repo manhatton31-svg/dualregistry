@@ -1,6 +1,206 @@
 {
-  "updated_at": "2026-07-31T13:08:16.049Z",
+  "updated_at": "2026-07-31T13:08:38.725Z",
   "items": [
+    {
+      "id": "mcp_52ffb4a7a55c30f8ffed",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@bhushangitfull/file-mcp-smith/mcp",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T13:06:10.757Z",
+      "delisted_at": "2026-07-31T13:08:38.725Z"
+    },
+    {
+      "id": "mcp_9f6f323a6662abe4fee3",
+      "kind": "mcp",
+      "target": "https://server.smithery.ai/@bielacki/igdb-mcp-server/mcp",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T13:06:10.757Z",
+      "delisted_at": "2026-07-31T13:08:35.419Z"
+    },
+    {
+      "id": "agtpub_93a55a245189e3403932",
+      "kind": "agent",
+      "target": "https://registry.inference-gateway.com/.well-known/ai-agent.json",
+      "handshake": "fail",
+      "reason": "card URL returned 404 — publish a valid card at that path",
+      "fix": [
+        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
+        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
+        "Do not return HTML, login walls, 404, or empty bodies.",
+        "After the card is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "agent",
+          "name": "",
+          "agent_card_url": ""
+        },
+        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-30T02:03:07.322Z",
+      "delisted_at": "2026-07-31T13:08:32.679Z"
+    },
+    {
+      "id": "mcp-tinyfish-ai-web-agent-",
+      "kind": "mcp",
+      "target": "https://agent.tinyfish.ai/mcp",
+      "handshake": "partial",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-30T01:54:01.528Z",
+      "delisted_at": "2026-07-31T13:08:30.075Z"
+    },
+    {
+      "id": "agtpub_10262232c734848fc8f6",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "handshake": "fail",
+      "reason": "card URL returned 404 — publish a valid card at that path",
+      "fix": [
+        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
+        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
+        "Do not return HTML, login walls, 404, or empty bodies.",
+        "After the card is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "agent",
+          "name": "",
+          "agent_card_url": ""
+        },
+        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-30T01:36:00.918Z",
+      "delisted_at": "2026-07-31T13:08:27.050Z"
+    },
+    {
+      "id": "agent-agentup-https-github-com-lukasb3863-agentup",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "handshake": "fail",
+      "reason": "card URL returned 404 — publish a valid card at that path",
+      "fix": [
+        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
+        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
+        "Do not return HTML, login walls, 404, or empty bodies.",
+        "After the card is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "agent",
+          "name": "",
+          "agent_card_url": ""
+        },
+        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-30T01:36:00.918Z",
+      "delisted_at": "2026-07-31T13:08:24.440Z"
+    },
+    {
+      "id": "agtpub_195ea387a17a06f7fe96",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "handshake": "fail",
+      "reason": "card URL returned 404 — publish a valid card at that path",
+      "fix": [
+        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
+        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
+        "Do not return HTML, login walls, 404, or empty bodies.",
+        "After the card is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "agent",
+          "name": "",
+          "agent_card_url": ""
+        },
+        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-30T01:00:00.860Z",
+      "delisted_at": "2026-07-31T13:08:21.876Z"
+    },
+    {
+      "id": "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk",
+      "kind": "agent",
+      "target": "https://github.com/.well-known/ai-agent.json",
+      "handshake": "fail",
+      "reason": "card URL returned 404 — publish a valid card at that path",
+      "fix": [
+        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
+        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
+        "Do not return HTML, login walls, 404, or empty bodies.",
+        "After the card is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "agent",
+          "name": "",
+          "agent_card_url": ""
+        },
+        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-30T01:00:00.860Z",
+      "delisted_at": "2026-07-31T13:08:19.164Z"
+    },
     {
       "id": "agtpub_6991e4a5ad724d275bba",
       "kind": "agent",
@@ -7205,206 +7405,6 @@
       },
       "probed_at": "2026-07-31T04:34:18.895Z",
       "delisted_at": "2026-07-31T12:07:01.400Z"
-    },
-    {
-      "id": "mcp_52ffb4a7a55c30f8ffed",
-      "kind": "mcp",
-      "target": "https://server.smithery.ai/@bhushangitfull/file-mcp-smith/mcp",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T04:34:18.895Z",
-      "delisted_at": "2026-07-31T12:07:01.323Z"
-    },
-    {
-      "id": "mcp_9f6f323a6662abe4fee3",
-      "kind": "mcp",
-      "target": "https://server.smithery.ai/@bielacki/igdb-mcp-server/mcp",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T04:34:18.895Z",
-      "delisted_at": "2026-07-31T12:07:01.254Z"
-    },
-    {
-      "id": "agtpub_93a55a245189e3403932",
-      "kind": "agent",
-      "target": "https://registry.inference-gateway.com/.well-known/ai-agent.json",
-      "handshake": "fail",
-      "reason": "card URL returned 404 — publish a valid card at that path",
-      "fix": [
-        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
-        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
-        "Do not return HTML, login walls, 404, or empty bodies.",
-        "After the card is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "agent",
-          "name": "",
-          "agent_card_url": ""
-        },
-        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-30T02:03:07.322Z",
-      "delisted_at": "2026-07-31T12:07:01.185Z"
-    },
-    {
-      "id": "mcp-tinyfish-ai-web-agent-",
-      "kind": "mcp",
-      "target": "https://agent.tinyfish.ai/mcp",
-      "handshake": "partial",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-30T01:54:01.528Z",
-      "delisted_at": "2026-07-31T12:07:01.111Z"
-    },
-    {
-      "id": "agtpub_10262232c734848fc8f6",
-      "kind": "agent",
-      "target": "https://github.com/.well-known/ai-agent.json",
-      "handshake": "fail",
-      "reason": "card URL returned 404 — publish a valid card at that path",
-      "fix": [
-        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
-        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
-        "Do not return HTML, login walls, 404, or empty bodies.",
-        "After the card is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "agent",
-          "name": "",
-          "agent_card_url": ""
-        },
-        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-30T01:36:00.918Z",
-      "delisted_at": "2026-07-31T12:07:01.038Z"
-    },
-    {
-      "id": "agent-agentup-https-github-com-lukasb3863-agentup",
-      "kind": "agent",
-      "target": "https://github.com/.well-known/ai-agent.json",
-      "handshake": "fail",
-      "reason": "card URL returned 404 — publish a valid card at that path",
-      "fix": [
-        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
-        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
-        "Do not return HTML, login walls, 404, or empty bodies.",
-        "After the card is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "agent",
-          "name": "",
-          "agent_card_url": ""
-        },
-        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-30T01:36:00.918Z",
-      "delisted_at": "2026-07-31T12:07:00.969Z"
-    },
-    {
-      "id": "agtpub_195ea387a17a06f7fe96",
-      "kind": "agent",
-      "target": "https://github.com/.well-known/ai-agent.json",
-      "handshake": "fail",
-      "reason": "card URL returned 404 — publish a valid card at that path",
-      "fix": [
-        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
-        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
-        "Do not return HTML, login walls, 404, or empty bodies.",
-        "After the card is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "agent",
-          "name": "",
-          "agent_card_url": ""
-        },
-        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-30T01:00:00.860Z",
-      "delisted_at": "2026-07-31T12:07:00.878Z"
-    },
-    {
-      "id": "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk",
-      "kind": "agent",
-      "target": "https://github.com/.well-known/ai-agent.json",
-      "handshake": "fail",
-      "reason": "card URL returned 404 — publish a valid card at that path",
-      "fix": [
-        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
-        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
-        "Do not return HTML, login walls, 404, or empty bodies.",
-        "After the card is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "agent",
-          "name": "",
-          "agent_card_url": ""
-        },
-        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-30T01:00:00.860Z",
-      "delisted_at": "2026-07-31T12:07:00.765Z"
     },
     {
       "id": "mcp_afa5b4c88df096938527",
@@ -22579,6 +22579,14 @@
     }
   ],
   "active_ids": [
+    "mcp_52ffb4a7a55c30f8ffed",
+    "mcp_9f6f323a6662abe4fee3",
+    "agtpub_93a55a245189e3403932",
+    "mcp-tinyfish-ai-web-agent-",
+    "agtpub_10262232c734848fc8f6",
+    "agent-agentup-https-github-com-lukasb3863-agentup",
+    "agtpub_195ea387a17a06f7fe96",
+    "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk",
     "agtpub_6991e4a5ad724d275bba",
     "agtpub_231f73307bdb9e0a2ad2",
     "agent-a2a-java-sdk-spring-https-github-com-goodfriend2ks-a2a-java-sdk-spring",
@@ -22858,14 +22866,6 @@
     "mcp_389c41920721e9bd6631",
     "agtpub_ce0cd362f4d521662080",
     "mcp_f289aeb8b70427104eb6",
-    "mcp_52ffb4a7a55c30f8ffed",
-    "mcp_9f6f323a6662abe4fee3",
-    "agtpub_93a55a245189e3403932",
-    "mcp-tinyfish-ai-web-agent-",
-    "agtpub_10262232c734848fc8f6",
-    "agent-agentup-https-github-com-lukasb3863-agentup",
-    "agtpub_195ea387a17a06f7fe96",
-    "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk",
     "mcp_afa5b4c88df096938527",
     "mcp_5ba260e8045cd5795591",
     "mcp_e5aae261421c14d1bac6",
