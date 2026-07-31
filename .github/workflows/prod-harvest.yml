@@ -27,18 +27,19 @@ jobs:
         run: |
           set -euo pipefail
           BASE="https://www.dualregistry.dev"
+          # Cost: one probes + soft dashboard + counters (was 3×probes + refresh).
+          # Retry probes only if first response is thin — same floor max-merge quality.
           curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
             "${BASE}/api/probes?t=$(date +%s)" -o /tmp/probes-api.json
           curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
-            "${BASE}/api/dashboard?refresh=1&t=$(date +%s)" -o /tmp/dash-api.json
+            "${BASE}/api/dashboard?t=$(date +%s)" -o /tmp/dash-api.json
           curl -sS -m 30 -L -A "DualRegistryHarvest/1.0" \
             "${BASE}/api/counters?t=$(date +%s)" -o /tmp/counters-api.json || echo '{}' > /tmp/counters-api.json
-          sleep 1
-          curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
-            "${BASE}/api/probes?t=$(date +%s)b" -o /tmp/probes-api-b.json || true
-          sleep 1
-          curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
-            "${BASE}/api/probes?t=$(date +%s)c" -o /tmp/probes-api-c.json || true
+          if ! python3 -c "import json;d=json.load(open('/tmp/probes-api.json')); assert (d.get('ok') or d.get('probes'))" 2>/dev/null; then
+            sleep 1
+            curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
+              "${BASE}/api/probes?t=$(date +%s)b" -o /tmp/probes-api-b.json || true
+          fi
           python3 - <<'PY'
           import json, pathlib
           from datetime import datetime, timezone
@@ -52,8 +53,7 @@ jobs:
           samples = [loadj(p) for p in (
               "/tmp/probes-api.json",
               "/tmp/probes-api-b.json",
-              "/tmp/probes-api-c.json",
-          ) if pathlib.Path(p).exists()]
+          ) if pathlib.Path(p).exists() and pathlib.Path(p).stat().st_size > 2]
           d = loadj("/tmp/dash-api.json")
           c = loadj("/tmp/counters-api.json")
 

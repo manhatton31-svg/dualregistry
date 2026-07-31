@@ -5,6 +5,9 @@
  *   writes ~1,000,000 / month included
  *   reads  ~10,000,000 / month included
  *
+ * Platform hosting is Vercel Pro + Fluid (Active CPU). CF KV here is separate
+ * from the Fluid ledger at platform-cost.json / /api/ops/vercel-cost.
+ *
  * We still soft-budget Agents1 so one runaway loop can't burn the month,
  * but caps are sized for real registry growth (not free-tier 1k/day cliff).
  *

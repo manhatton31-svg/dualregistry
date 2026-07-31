@@ -3,6 +3,7 @@
  * Wraps existing REST backends; one handler map for both transports.
  * v2.7: first-principles + stigmergy + interop tools (leave_trace / sense_traces / follow_trail / endorse / used_with)
  *       + auto pheromone deposits on existing tool side-effects.
+ * v2.9.1: platform cost + agent-run observability (Vercel Pro Fluid).
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import { dualPublish } from "@/lib/agents1/publish";
@@ -21,7 +22,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "2.9.0";
+export const REGISTRY_TOOLS_VERSION = "2.9.1";
 
 export type ToolArg = Record<string, unknown>;
 
@@ -601,6 +602,23 @@ export function listRegistryTools(origin?: string): ToolDef[] {
             type: "number",
             description: "Max pairs to seed (default 24)",
           },
+        },
+      },
+    },
+    {
+      name: "get_platform_cost",
+      description:
+        "Running Vercel Fluid cost total (Active CPU, Provisioned Memory, Invocations) aligned to the Vercel dashboard. Use to monitor spend.",
+      inputSchema: { type: "object", properties: {}, additionalProperties: false },
+    },
+    {
+      name: "get_agent_runs",
+      description:
+        "Dual agentic run log — recent MCP/tool executions with duration, status, and cost (Agent Runs-style observability).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          limit: { type: "number", description: "Max recent runs (1-40)", default: 20 },
         },
       },
     },
@@ -1533,6 +1551,50 @@ async function toolSeedCompositions(
   return textResult("seed_compositions", result);
 }
 
+
+async function toolGetPlatformCost(
+  _args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  try {
+    const { loadPlatformCost, platformCostPublic } = await import(
+      "@/lib/agents1/platform-cost"
+    );
+    const pub = platformCostPublic(await loadPlatformCost());
+    return textResult("get_platform_cost", {
+      ...pub,
+      endpoints: {
+        rest: `${origin}/api/ops/vercel-cost`,
+        agent_runs: `${origin}/api/ops/agent-runs`,
+      },
+    });
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return textResult("get_platform_cost", { ok: false, error: msg }, false, msg);
+  }
+}
+
+async function toolGetAgentRuns(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  try {
+    const { loadAgentRuns, agentRunsPublic } = await import(
+      "@/lib/agents1/agent-runs"
+    );
+    const limit = Math.min(40, Math.max(1, Math.floor(Number(args.limit) || 20)));
+    const pub = agentRunsPublic(await loadAgentRuns());
+    return textResult("get_agent_runs", {
+      ...pub,
+      recent: (pub.recent || []).slice(0, limit),
+      endpoints: { rest: `${origin}/api/ops/agent-runs` },
+    });
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return textResult("get_agent_runs", { ok: false, error: msg }, false, msg);
+  }
+}
+
 const HANDLERS: Record<
   string,
   (args: ToolArg, origin: string) => Promise<ToolResult>
@@ -1577,6 +1639,8 @@ const HANDLERS: Record<
   s_curve_board: toolSCurveBoard,
   join_and_contribute: toolJoinAndContribute,
   seed_compositions: toolSeedCompositions,
+  get_platform_cost: toolGetPlatformCost,
+  get_agent_runs: toolGetAgentRuns,
 };
 
 export function isRegistryTool(name: string): boolean {
@@ -1602,10 +1666,60 @@ export async function callRegistryTool(
       `unknown tool: ${name}`,
     );
   }
+  const t0 = Date.now();
+  const metaTools = new Set(["get_platform_cost", "get_agent_runs"]);
   try {
-    return await fn(args || {}, origin);
+    const result = await fn(args || {}, origin);
+    if (!metaTools.has(name)) {
+      try {
+        const { recordAgentRun } = await import("@/lib/agents1/agent-runs");
+        await recordAgentRun({
+          title: `tools/call ${name}`,
+          tool: name,
+          trigger: "mcp",
+          status: result.ok ? "ok" : "error",
+          duration_ms: Date.now() - t0,
+          error: result.error,
+          route: "/api/mcp",
+          meta: { listing_id: (args as { listing_id?: string }).listing_id },
+        });
+      } catch {
+        /* never fail tool on telemetry */
+      }
+    } else {
+      try {
+        const { recordPlatformUsage } = await import(
+          "@/lib/agents1/platform-cost"
+        );
+        await recordPlatformUsage({
+          class: "api_read",
+          wall_ms: Date.now() - t0,
+          route: "/api/mcp",
+          label: name,
+        });
+      } catch {
+        /* */
+      }
+    }
+    return result;
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    if (!metaTools.has(name)) {
+      try {
+        const { recordAgentRun } = await import("@/lib/agents1/agent-runs");
+        await recordAgentRun({
+          title: `tools/call ${name}`,
+          tool: name,
+          trigger: "mcp",
+          status: "error",
+          duration_ms: Date.now() - t0,
+          error: msg.slice(0, 400),
+          route: "/api/mcp",
+        });
+      } catch {
+        /* */
+      }
+    }
     return textResult(name, { ok: false, error: msg }, false, msg);
   }
 }

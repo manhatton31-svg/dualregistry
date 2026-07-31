@@ -71,7 +71,9 @@ import { Route as ApiListingsActiveRouteImport } from './routes/api/listings/act
 import { Route as ApiListingsStatusRouteImport } from './routes/api/listings/status'
 import { Route as ApiMcpRegistryPublishStatusRouteImport } from './routes/api/mcp-registry/publish-status'
 import { Route as ApiMcpRegistryServerDotjsonRouteImport } from './routes/api/mcp-registry/server[.]json'
+import { Route as ApiOpsAgentRunsRouteImport } from './routes/api/ops/agent-runs'
 import { Route as ApiOpsCloudflareApplyRouteImport } from './routes/api/ops/cloudflare-apply'
+import { Route as ApiOpsVercelCostRouteImport } from './routes/api/ops/vercel-cost'
 import { Route as ApiProbesIndexRouteImport } from './routes/api/probes/index'
 import { Route as ApiProductsAccessRouteImport } from './routes/api/products/access'
 import { Route as ApiProductsAgentRouteImport } from './routes/api/products/agent'
@@ -436,9 +438,19 @@ const ApiMcpRegistryServerDotjsonRoute =
     path: '/api/mcp-registry/server.json',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiOpsAgentRunsRoute = ApiOpsAgentRunsRouteImport.update({
+  id: '/api/ops/agent-runs',
+  path: '/api/ops/agent-runs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiOpsCloudflareApplyRoute = ApiOpsCloudflareApplyRouteImport.update({
   id: '/api/ops/cloudflare-apply',
   path: '/api/ops/cloudflare-apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOpsVercelCostRoute = ApiOpsVercelCostRouteImport.update({
+  id: '/api/ops/vercel-cost',
+  path: '/api/ops/vercel-cost',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiProbesIndexRoute = ApiProbesIndexRouteImport.update({
@@ -711,7 +723,9 @@ export interface FileRoutesByFullPath {
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
+  '/api/ops/agent-runs': typeof ApiOpsAgentRunsRoute
   '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
+  '/api/ops/vercel-cost': typeof ApiOpsVercelCostRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
   '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
@@ -816,7 +830,9 @@ export interface FileRoutesByTo {
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
+  '/api/ops/agent-runs': typeof ApiOpsAgentRunsRoute
   '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
+  '/api/ops/vercel-cost': typeof ApiOpsVercelCostRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
   '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
@@ -922,7 +938,9 @@ export interface FileRoutesById {
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
+  '/api/ops/agent-runs': typeof ApiOpsAgentRunsRoute
   '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
+  '/api/ops/vercel-cost': typeof ApiOpsVercelCostRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
   '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
@@ -1029,7 +1047,9 @@ export interface FileRouteTypes {
     | '/api/listings/status'
     | '/api/mcp-registry/publish-status'
     | '/api/mcp-registry/server.json'
+    | '/api/ops/agent-runs'
     | '/api/ops/cloudflare-apply'
+    | '/api/ops/vercel-cost'
     | '/api/products/access'
     | '/api/products/agent'
     | '/api/products/agentfinder'
@@ -1134,7 +1154,9 @@ export interface FileRouteTypes {
     | '/api/listings/status'
     | '/api/mcp-registry/publish-status'
     | '/api/mcp-registry/server.json'
+    | '/api/ops/agent-runs'
     | '/api/ops/cloudflare-apply'
+    | '/api/ops/vercel-cost'
     | '/api/products/access'
     | '/api/products/agent'
     | '/api/products/agentfinder'
@@ -1239,7 +1261,9 @@ export interface FileRouteTypes {
     | '/api/listings/status'
     | '/api/mcp-registry/publish-status'
     | '/api/mcp-registry/server.json'
+    | '/api/ops/agent-runs'
     | '/api/ops/cloudflare-apply'
+    | '/api/ops/vercel-cost'
     | '/api/products/access'
     | '/api/products/agent'
     | '/api/products/agentfinder'
@@ -1344,7 +1368,9 @@ export interface RootRouteChildren {
   ApiListingsStatusRoute: typeof ApiListingsStatusRoute
   ApiMcpRegistryPublishStatusRoute: typeof ApiMcpRegistryPublishStatusRoute
   ApiMcpRegistryServerDotjsonRoute: typeof ApiMcpRegistryServerDotjsonRoute
+  ApiOpsAgentRunsRoute: typeof ApiOpsAgentRunsRoute
   ApiOpsCloudflareApplyRoute: typeof ApiOpsCloudflareApplyRoute
+  ApiOpsVercelCostRoute: typeof ApiOpsVercelCostRoute
   ApiProductsAccessRoute: typeof ApiProductsAccessRoute
   ApiProductsAgentRoute: typeof ApiProductsAgentRoute
   ApiProductsAgentfinderRoute: typeof ApiProductsAgentfinderRoute
@@ -1824,11 +1850,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiMcpRegistryServerDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/ops/agent-runs': {
+      id: '/api/ops/agent-runs'
+      path: '/api/ops/agent-runs'
+      fullPath: '/api/ops/agent-runs'
+      preLoaderRoute: typeof ApiOpsAgentRunsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/ops/cloudflare-apply': {
       id: '/api/ops/cloudflare-apply'
       path: '/api/ops/cloudflare-apply'
       fullPath: '/api/ops/cloudflare-apply'
       preLoaderRoute: typeof ApiOpsCloudflareApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ops/vercel-cost': {
+      id: '/api/ops/vercel-cost'
+      path: '/api/ops/vercel-cost'
+      fullPath: '/api/ops/vercel-cost'
+      preLoaderRoute: typeof ApiOpsVercelCostRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/probes/': {
@@ -2187,7 +2227,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiListingsStatusRoute: ApiListingsStatusRoute,
   ApiMcpRegistryPublishStatusRoute: ApiMcpRegistryPublishStatusRoute,
   ApiMcpRegistryServerDotjsonRoute: ApiMcpRegistryServerDotjsonRoute,
+  ApiOpsAgentRunsRoute: ApiOpsAgentRunsRoute,
   ApiOpsCloudflareApplyRoute: ApiOpsCloudflareApplyRoute,
+  ApiOpsVercelCostRoute: ApiOpsVercelCostRoute,
   ApiProductsAccessRoute: ApiProductsAccessRoute,
   ApiProductsAgentRoute: ApiProductsAgentRoute,
   ApiProductsAgentfinderRoute: ApiProductsAgentfinderRoute,

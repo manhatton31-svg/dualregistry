@@ -9,6 +9,7 @@
  * without needing a write token on Vercel.
  *
  * Cost mode: adaptive batch/window, no force-live, maxDuration 90s.
+ * Fluid Active CPU: I/O wait during handshakes is free; cadence skip is cheap.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { writeFile, mkdir } from "node:fs/promises";
@@ -62,7 +63,41 @@ async function stampWorker(patch: Record<string, unknown>) {
   }
 }
 
+async function billProbeTick(opts: {
+  wall_ms: number;
+  skipped?: boolean;
+  probed?: number;
+  label?: string;
+}) {
+  try {
+    const { recordPlatformUsage } = await import(
+      "@/lib/agents1/platform-cost"
+    );
+    await recordPlatformUsage({
+      class: "cron_probe",
+      wall_ms: opts.wall_ms,
+      route: "/api/cron/probe",
+      label: opts.label || (opts.skipped ? "probe_tick_skipped" : "probe_tick"),
+      skipped: opts.skipped,
+    });
+    const { recordAgentRun } = await import("@/lib/agents1/agent-runs");
+    await recordAgentRun({
+      title: opts.skipped ? "probe_tick_skipped_cadence" : "probe_tick",
+      tool: "probe_tick",
+      trigger: "cron",
+      status: opts.skipped ? "skipped" : "ok",
+      duration_ms: opts.wall_ms,
+      bill: false, // already billed above
+      meta: { probed: opts.probed ?? 0 },
+      route: "/api/cron/probe",
+    });
+  } catch {
+    /* cost tracking never blocks ticks */
+  }
+}
+
 async function runTick() {
+  const t0 = Date.now();
   const {
     loadProbeState,
     invalidateProbeCache,
@@ -101,6 +136,11 @@ async function runTick() {
           null,
           2,
         );
+        await billProbeTick({
+          wall_ms: Date.now() - t0,
+          skipped: true,
+          probed: 0,
+        });
         return {
           ok: true,
           action: "probe_tick_skipped_cadence",
@@ -112,6 +152,11 @@ async function runTick() {
           adaptive,
           reason: `global cadence: last tick ${Math.round(age / 1000)}s ago (< ${Math.round(adaptive.windowMs / 1000)}s · on-pace)`,
           last_tick_at: lastIso,
+          cost: {
+            wall_ms: Date.now() - t0,
+            mode: "skip_cadence",
+            note: "Cheap skip — Fluid still bills 1 invocation + tiny Active CPU",
+          },
           commit: {
             "data/prod/probes.json": probesRaw,
           },
@@ -206,6 +251,7 @@ async function runTick() {
     status: "ok",
     mode: "production-cron",
     scheduler: "vercel-cron+github-actions-every-6m",
+    fluid: true,
     last_tick_at: lastIso,
     next_tick_at: nextIso,
     last_result: result.last_result || null,
@@ -295,7 +341,29 @@ async function runTick() {
     }
   }
 
+  // Persist cost + agent-run ledgers in commit payload when available
+  let platformCostRaw: string | null = null;
+  let agentRunsRaw: string | null = null;
+  try {
+    const { loadPlatformCost } = await import("@/lib/agents1/platform-cost");
+    platformCostRaw = JSON.stringify(await loadPlatformCost(), null, 2);
+  } catch {
+    platformCostRaw = null;
+  }
+  try {
+    const { loadAgentRuns } = await import("@/lib/agents1/agent-runs");
+    agentRunsRaw = JSON.stringify(await loadAgentRuns(), null, 2);
+  } catch {
+    agentRunsRaw = null;
+  }
+
   const oks = live.total;
+  const wall_ms = Date.now() - t0;
+  await billProbeTick({
+    wall_ms,
+    skipped: false,
+    probed: result.probed,
+  });
 
   return {
     ok: true,
@@ -311,6 +379,12 @@ async function runTick() {
     notes: result.notes,
     worker,
     durable: durableConfigPublic(),
+    cost: {
+      wall_ms,
+      mode: "full_tick",
+      fluid: true,
+      note: "Active CPU ≈ wall × ~0.18 (probe I/O wait free under Fluid)",
+    },
     // For GitHub Actions commit
     commit: {
       "data/prod/probes.json": probesRaw,
@@ -319,6 +393,8 @@ async function runTick() {
       "data/prod/counter-floors.json": floorsRaw,
       "data/prod/live-counters.json": liveCountersRaw,
       "data/prod/clean-registry.json": cleanRaw,
+      "data/prod/platform-cost.json": platformCostRaw,
+      "data/prod/agent-runs.json": agentRunsRaw,
       "data/prod/store-cache.json": cacheRaw
         ? // trim huge caches for commit size — keep counts + recent items
           (() => {

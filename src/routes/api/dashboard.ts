@@ -142,6 +142,8 @@ async function attachSidePanels(timeoutMs: number) {
   let listing_lanes = null;
   let metrics_truth = null;
   let protocol = null;
+  let platform_cost = null;
+  let agent_runs = null;
 
   try {
     const { getProductEngagement } = await import(
@@ -173,7 +175,37 @@ async function attachSidePanels(timeoutMs: number) {
   } catch {
     /* */
   }
-  return { product_engagement, listing_lanes, metrics_truth, protocol };
+  // Cost + agentic observability (cheap local durable reads)
+  try {
+    const { loadPlatformCost, platformCostPublic } = await import(
+      "@/lib/agents1/platform-cost"
+    );
+    platform_cost = await withTimeout(
+      loadPlatformCost().then(platformCostPublic),
+      Math.min(timeoutMs, 1500),
+    );
+  } catch {
+    /* */
+  }
+  try {
+    const { loadAgentRuns, agentRunsPublic } = await import(
+      "@/lib/agents1/agent-runs"
+    );
+    agent_runs = await withTimeout(
+      loadAgentRuns().then(agentRunsPublic),
+      Math.min(timeoutMs, 1500),
+    );
+  } catch {
+    /* */
+  }
+  return {
+    product_engagement,
+    listing_lanes,
+    metrics_truth,
+    protocol,
+    platform_cost,
+    agent_runs,
+  };
 }
 
 /**

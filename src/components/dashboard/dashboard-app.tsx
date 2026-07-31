@@ -8,10 +8,12 @@ import {
   CheckCircle2,
   Copy,
   Cpu,
+  DollarSign,
   MessageSquare,
   Radio,
   Search,
   Sparkles,
+  Zap,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -162,6 +164,56 @@ type DashboardData = {
       };
     };
   } | null;
+  platform_cost?: {
+    plan?: string;
+    fluid?: boolean;
+    rates_version?: string;
+    running_total?: {
+      today_usd?: number;
+      month_usd_gross?: number;
+      month_usd_after_pro_credit?: number;
+      lifetime_usd?: number;
+    };
+    today?: {
+      invocations?: number;
+      active_cpu_ms?: number;
+      active_cpu_hours?: number;
+      skipped_cadence?: number;
+      cache_hits?: number;
+      usd?: { total?: number; active_cpu?: number };
+    };
+    month?: {
+      month?: string;
+      invocations?: number;
+      usd_gross?: number;
+      usd_after_credit?: number;
+      pro_credit_usd?: number;
+    };
+    savings?: {
+      cadence_skips_today?: number;
+      cache_hit_rate?: number | null;
+      notes?: string[];
+    };
+  } | null;
+  agent_runs?: {
+    day?: string;
+    totals?: {
+      n?: number;
+      ok?: number;
+      error?: number;
+      skipped?: number;
+      avg_duration_ms?: number;
+      success_rate?: number | null;
+    };
+    recent?: Array<{
+      id?: string;
+      title?: string;
+      tool?: string;
+      status?: string;
+      duration_ms?: number;
+      usd_estimate?: number;
+    }>;
+  } | null;
 };
 
 const TABS = [
@@ -284,6 +336,16 @@ export function DashboardApp() {
   const liveAgents = lanes?.counts?.agents_active ?? null;
   const liveTotal =
     liveMcp != null && liveAgents != null ? liveMcp + liveAgents : null;
+
+  const platformCost = data?.platform_cost;
+  const agentRuns = data?.agent_runs;
+  const costToday = platformCost?.running_total?.today_usd;
+  const costMonth = platformCost?.running_total?.month_usd_after_pro_credit
+    ?? platformCost?.month?.usd_after_credit;
+  const costInv = platformCost?.today?.invocations;
+  const costCpuMs = platformCost?.today?.active_cpu_ms;
+  const agentRunN = agentRuns?.totals?.n;
+  const agentRunOk = agentRuns?.totals?.ok;
 
   const mcpActiveRows = useMemo(
     () =>
@@ -419,7 +481,7 @@ export function DashboardApp() {
           </div>
         </header>
 
-        <div className="mb-4 grid min-w-0 grid-cols-2 gap-2 sm:mb-5 sm:gap-3">
+        <div className="mb-4 grid min-w-0 grid-cols-2 gap-2 sm:mb-5 sm:grid-cols-4 sm:gap-3">
           <StatCard
             label="Clean registry"
             value={liveTotal != null ? liveTotal : "—"}
@@ -438,7 +500,98 @@ export function DashboardApp() {
             icon={Radio}
             accent="info"
           />
+          <StatCard
+            label="Vercel cost today"
+            value={
+              costToday != null
+                ? `$${Number(costToday).toFixed(4)}`
+                : "—"
+            }
+            hint={
+              costInv != null
+                ? `${costInv} inv · ${costCpuMs ?? 0}ms Active CPU · Fluid Pro`
+                : "Fluid Active CPU ledger"
+            }
+            icon={DollarSign}
+            accent="warn"
+          />
+          <StatCard
+            label="Agent runs today"
+            value={agentRunN != null ? agentRunN : "—"}
+            hint={
+              agentRunOk != null
+                ? `${agentRunOk} ok · month ~$${Number(costMonth ?? 0).toFixed(2)} after credit`
+                : "MCP/tool observability"
+            }
+            icon={Zap}
+            accent="accent"
+          />
         </div>
+
+        {platformCost ? (
+          <Card className="mb-4 border-border/70">
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2 text-sm">
+                <DollarSign className="h-4 w-4 text-warn" />
+                Vercel Pro · Fluid cost (dashboard-aligned)
+              </CardTitle>
+              <CardDescription className="text-xs">
+                Running total mirrors dashboard dimensions: Active CPU, Provisioned
+                Memory, Invocations. Rates {platformCost.rates_version || "pro-fluid"}.
+                Cadence skips and CDN cache hits cut origin Active CPU without
+                changing probe outcomes.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 gap-2 pb-4 pt-0 sm:grid-cols-4">
+              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                  Today USD
+                </p>
+                <p className="mt-1 text-lg font-semibold tabular text-fg">
+                  ${Number(costToday ?? 0).toFixed(4)}
+                </p>
+              </div>
+              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                  Month after credit
+                </p>
+                <p className="mt-1 text-lg font-semibold tabular text-fg">
+                  ${Number(costMonth ?? 0).toFixed(4)}
+                </p>
+              </div>
+              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                  Cadence skips
+                </p>
+                <p className="mt-1 text-lg font-semibold tabular text-fg">
+                  {platformCost.today?.skipped_cadence ??
+                    platformCost.savings?.cadence_skips_today ??
+                    0}
+                </p>
+              </div>
+              <div className="rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/50 p-3">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-subtle">
+                  Cache hits
+                </p>
+                <p className="mt-1 text-lg font-semibold tabular text-fg">
+                  {platformCost.today?.cache_hits ?? 0}
+                </p>
+              </div>
+              <div className="col-span-2 flex flex-wrap gap-2 sm:col-span-4">
+                <Button size="sm" variant="secondary" asChild>
+                  <a href="/api/ops/vercel-cost" target="_blank" rel="noreferrer">
+                    Full cost API
+                  </a>
+                </Button>
+                <Button size="sm" variant="secondary" asChild>
+                  <a href="/api/ops/agent-runs" target="_blank" rel="noreferrer">
+                    Agent runs API
+                  </a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : null}
 
         <nav className="mb-4 flex gap-1 overflow-x-auto rounded-[var(--radius-md)] border border-border/70 bg-bg-elevated/40 p-1">
           {TABS.map((t) => (
