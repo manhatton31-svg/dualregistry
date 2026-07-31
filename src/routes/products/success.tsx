@@ -150,7 +150,7 @@ function SuccessPage() {
         <Card className="mt-6 border-accent/30">
           <CardHeader>
             <CardTitle className="text-base">
-              Demo survey · founding reward (6–8 questions)
+              Demo survey · access path (6–8 questions)
             </CardTitle>
             <CardDescription>
               Honest answers only — rewrites Kernel + Loop for the next agents.

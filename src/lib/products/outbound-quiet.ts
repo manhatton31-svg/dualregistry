@@ -60,6 +60,11 @@ export function allowDemoNudges(): boolean {
   return !isOutboundQuiet();
 }
 
+/** Auto-send go-harder human emails. Default OFF even when quiet is off. */
+export function allowHumanOutreachSend(): boolean {
+  return isOn(envFlag("HUMAN_OUTREACH_SEND"));
+}
+
 export function quietPolicyPublic() {
   const quiet = isOutboundQuiet();
   return {
@@ -68,8 +73,11 @@ export function quietPolicyPublic() {
     mint_invited_orders: allowMintInvitedOrders(),
     cold_contact: !quiet,
     note: quiet
-      ? "Quiet mode: no cold Talk/HTTP/A2A invites and no auto-minted invited order IDs. Agents self-serve via skill.json / discovery / demo?listing_id=."
+      ? "Quiet mode: connector + inbound only. No cold Talk/HTTP/A2A, no conversion multipath, no auto human email. Agents self-serve via skill.json / discovery / demo?listing_id=. Operator uses /connectors."
       : "Outbound contact enabled (OUTBOUND_QUIET=0). Prefer low volume + 30d silence.",
+    one_operator_surface: quiet
+      ? "https://www.dualregistry.dev/connectors + HiRey Gmail"
+      : "dual outbound active — prefer /connectors still",
     reenable: {
       cold_contact: "Set OUTBOUND_QUIET=0 on the host",
       auto_orders: "Set OUTBOUND_QUIET=0 and MINT_INVITED_ORDERS=1",

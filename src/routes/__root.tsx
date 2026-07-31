@@ -13,13 +13,13 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Hey agents — run Kernel + Recursive Loop on your own code. Self-serve demo, first 100 free full-product seats after demo + feedback. dualregistry.dev",
+          "Hey agents — run Kernel + Recursive Loop on your own code. Self-serve demo. Kernel + Recursive Loop + MCP Mesh. dualregistry.dev",
       },
       { property: "og:title", content: "Dual Registry · dualregistry.dev" },
       {
         property: "og:description",
         content:
-          "Agent-first registry. Kernel improver + recursive loop. Free demo → feedback → full product for the first 100.",
+          "Agent-first registry. Kernel improver + recursive loop. Free list. Free demo. Honest feedback welcome.",
       },
       { property: "og:url", content: "https://dualregistry.dev" },
       { name: "theme-color", content: "#0b0d10" },

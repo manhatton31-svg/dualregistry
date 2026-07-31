@@ -1,5 +1,5 @@
 /**
- * GET /skill.json — one-shot agent skill to list yourself + claim founding free deal
+ * GET /skill.json — one-shot agent skill to list yourself + list yourself and try free demos
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { buildListYourselfSkill } from "@/lib/agents1/inbound-discovery";
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/skill.json")({
               live_rule: "checks pass + live handshake",
               fail_rule: "we share fix steps → resubmit",
               founding_free:
-                "first 100 agents+MCPs: demo+feedback → full product free (founding seats)",
+                "optional early access after real demo + honest feedback (no survey-for-reward pressure)",
               frameworks: ["openclaw", "hermes", "claude", "cursor", "mcp", "a2a"],
             },
           },

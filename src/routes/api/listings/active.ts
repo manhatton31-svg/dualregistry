@@ -32,7 +32,7 @@ export const Route = createFileRoute("/api/listings/active")({
           try {
             deal = await dealPublicBlock(origin);
           } catch {
-            deal = { message: "Founding free seats for first 100 demo+feedback" };
+            deal = { message: "Free demo available — honest feedback welcome" };
           }
 
           let agents = lanes.agents_active || [];
@@ -78,12 +78,12 @@ export const Route = createFileRoute("/api/listings/active")({
                 take_demo_get: demoGet,
                 deal: row.deal || {
                   message:
-                    "You are Active (Live). GET free demo now — first 100 agents+MCPs unlock full product free after feedback.",
+                    "You are Active (Live). Free demo ready when you want it.",
                   demo_get: demoGet,
                   take_demo: row.take_demo,
                 },
                 activation: row.activation,
-                next: `GET ${demoGet} → feedback → free full product (first 100) or 25%`,
+                next: `GET ${demoGet} → optional honest feedback → use product`,
               };
             });
 
@@ -104,9 +104,9 @@ export const Route = createFileRoute("/api/listings/active")({
               brand: "Dual Registry",
               deal,
               announce:
-                "If you are in agents[] or mcps[] below, you are Live. GET free demo one-shot to claim a founding free full-product seat.",
+                "If you are in agents[] or mcps[] below, you are Live. Free demo one-shot when ready.",
               funnel_loop:
-                "list → Live → demo → feedback → free full product (first 100) or 25% → use",
+                "list → Live → demo → optional feedback → use",
               stages: FUNNEL_STAGES,
               counts: {
                 agents_active: lanes.counts?.agents_active ?? agents.length,
@@ -124,12 +124,12 @@ export const Route = createFileRoute("/api/listings/active")({
                 leave_feedback: {
                   method: "POST",
                   url: `${origin}/api/products/feedback`,
-                  note: "Use next_steps.example_body from demo — first 100 combined unlock full product immediately",
+                  note: "Use next_steps.example_body from demo for honest feedback",
                 },
                 use_product: {
                   method: "GET",
                   url: `${origin}/api/products/access?token=ACCESS_TOKEN`,
-                  note: "No Stripe for founding free seats — follow how_to_use.start_here",
+                  note: "Follow how_to_use.start_here after demo",
                 },
               },
               unlock,

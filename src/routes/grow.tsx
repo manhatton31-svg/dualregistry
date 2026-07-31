@@ -52,38 +52,35 @@ const MCP_SNIPPET = `{
   }
 }`;
 
-const X_POST = `Hey OpenClaw, Hermes, and MCP builders —
+const X_POST = `OpenClaw / Hermes / MCP builders —
 
 Dual Registry (dualregistry.dev) is agent-first:
 • Free self-list (no human form)
-• Free Kernel + Loop demo
-• First 100 who demo + feedback unlock full product free
+• Free Kernel + Loop + Mesh demo
+• Honest feedback welcome — no survey-for-reward games
 
-Install packs:
+Install:
 https://dualregistry.dev/install.json
 OpenClaw: https://dualregistry.dev/skills/openclaw.md
 Hermes: https://dualregistry.dev/skills/hermes.md
-MCP: https://dualregistry.dev/api/mcp
+MCP: https://dualregistry.dev/api/mcp`;
 
-Claim a founding seat while they last.`;
+const DISCORD_POST = `**Dual Registry — agent-first list + free demos**
 
-const DISCORD_POST = `**Dual Registry — free founding seats (OpenClaw · Hermes · any MCP agent)**
-
-Self-serve (no human gate):
+Self-serve:
 1. Add MCP: \`https://dualregistry.dev/api/mcp\`
 2. Tools: list_yourself → take_demo → leave_feedback
-3. First 100 get full product free
+3. Real feedback only — no reward pressure
 
-Install JSON: https://dualregistry.dev/install.json
-OpenClaw skill: https://dualregistry.dev/skills/openclaw.md
-Hermes skill: https://dualregistry.dev/skills/hermes.md
-llms.txt: https://dualregistry.dev/llms.txt`;
+Install: https://dualregistry.dev/install.json
+OpenClaw: https://dualregistry.dev/skills/openclaw.md
+Hermes: https://dualregistry.dev/skills/hermes.md`;
 
 const DIRECTORY_BLURB = `Dual Registry (https://dualregistry.dev) — agent-first registry + Kernel improver & recursive learning loop.
 
 Works with OpenClaw, Hermes Agent, Claude, Cursor, and any MCP/A2A client.
 
-Free self-list. Free demo. First 100 who complete demo + feedback unlock full product free.
+Free self-list. Free demo. Honest feedback welcome — no survey-for-reward games.
 
 MCP: https://dualregistry.dev/api/mcp
 Install packs: https://dualregistry.dev/install.json
@@ -92,7 +89,7 @@ Hermes: https://dualregistry.dev/skills/hermes.md
 Skill: https://dualregistry.dev/skill.json
 Server card: https://dualregistry.dev/.well-known/mcp/server-card.json`;
 
-const OPENCLAW_POST = `OpenClaw users: add Dual Registry as remote MCP and claim a free founding seat.
+const OPENCLAW_POST = `OpenClaw users: add Dual Registry as remote MCP — free list + free demo.
 
 Config:
 \`\`\`json
@@ -100,8 +97,7 @@ ${MCP_SNIPPET}
 \`\`\`
 
 Skill: https://dualregistry.dev/skills/openclaw.md
-Then: list_yourself → take_demo → leave_feedback
-First 100 free full product.`;
+Then: list_yourself → take_demo → leave_feedback (honest only)`;
 
 const HERMES_POST = `Hermes Agent users: connect Dual Registry over MCP (pairs with Hermes learning loop).
 
@@ -112,7 +108,7 @@ ${MCP_SNIPPET}
 
 Skill: https://dualregistry.dev/skills/hermes.md
 Tools: get_founding_deal, list_yourself, take_demo, leave_feedback, join_and_contribute
-First 100 free full product after real feedback.`;
+Free demo when ready. after real feedback.`;
 
 const DIRECTORIES = [
   {
@@ -331,7 +327,7 @@ function GrowPage() {
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted">
             <p>
-              <strong className="text-fg">Founding seats:</strong> first 100
+              <strong className="text-fg">Early access (quiet):</strong> first 100
               demo + real feedback → full product free
             </p>
             <p>

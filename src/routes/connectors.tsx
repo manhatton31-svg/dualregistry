@@ -304,6 +304,12 @@ function ConnectorsPage() {
                 <CardTitle className="text-xl sm:text-2xl text-balance">
                   {partner.name}
                 </CardTitle>
+                {partner.id === "manual_research" && (
+                  <p className="text-sm text-primary font-medium">
+                    Quality gate: no auto-draft today. Research a human network
+                    (or wait on Mohan/Heroza). Mark Skip when done looking.
+                  </p>
+                )}
                 <CardDescription className="text-sm leading-relaxed">
                   {partner.role || "Connector candidate"}
                 </CardDescription>

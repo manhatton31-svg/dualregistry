@@ -19,7 +19,78 @@ import {
   scoreConnectorCandidate,
 } from "./connectors";
 
-export const CONNECTOR_DAILY_VERSION = "1.0.0";
+export const CONNECTOR_DAILY_VERSION = "1.1.0";
+
+
+/** Minimum HiRey-likeness to auto-draft (else research day). */
+export const MIN_HIREY_LIKENESS = 14;
+
+/** Live listing floor for scoreConnectorCandidate. */
+export const MIN_LIVE_CONNECTOR_SCORE = 5;
+
+/** Traits that prove a human/operator path (not pure discovery noise). */
+export const REQUIRED_HUMAN_TRAITS = new Set([
+  "human_proxy",
+  "intro_graph",
+  "kind_human_network",
+  "human_operator",
+  "kind_marketplace",
+  "engage_warm",
+]);
+
+function passesQualityGate(r: {
+  hirey_likeness: number;
+  traits: string[];
+  partner: ConnectorPartner;
+}): boolean {
+  if (r.hirey_likeness < MIN_HIREY_LIKENESS) return false;
+  // Seed partners with warm engage always ok if score met
+  if (r.partner.engage === "warm_intro_request" && r.partner.homepage) {
+    return r.traits.some((t) => REQUIRED_HUMAN_TRAITS.has(t)) || r.hirey_likeness >= 16;
+  }
+  // Live candidates: need human/marketplace trait, not discovery-only
+  const hasHuman = r.traits.some((t) => REQUIRED_HUMAN_TRAITS.has(t));
+  if (!hasHuman) return false;
+  // Prefer homepage/contact for auto-draft
+  if (!r.partner.homepage && !r.partner.contact && r.partner.kind === "discovery_index") {
+    return false;
+  }
+  return true;
+}
+
+function researchDayPick(day: string, origin: string, why: string, queue_after: DailyConnectorPick["queue_after"]): DailyConnectorPick {
+  const fallback: ConnectorPartner = {
+    id: "manual_research",
+    name: "Manual research day",
+    kind: "dev_community",
+    role: "No HiRey-class partner cleared the quality gate — operator finds one human network",
+    engage: "operator_manual",
+    status: "candidate",
+  };
+  return {
+    day,
+    partner: fallback,
+    hirey_likeness: 0,
+    traits: ["research", "quality_gate"],
+    why,
+    action: {
+      step: "Spend 15 minutes: AI people network, agent marketplace operator, MCP directory maintainer, or ask Rey for peers. Add to CONNECTOR_SEED only when a human inbox exists.",
+      do_not: [
+        "Do not cold-blast Active agents",
+        "Do not mint order IDs",
+        "Do not ask bots to POST feedback",
+        "Do not force a weak discovery listing just to hit quota",
+      ],
+      draft: {
+        subject: "(no draft — research day)",
+        body: "",
+        demo_link: `${origin.replace(/\/$/, "")}/products`,
+      },
+    },
+    queue_after,
+  };
+}
+
 
 export type LiveConnectorRow = {
   listing_id: string;
@@ -130,7 +201,7 @@ export function pickConnectorOfTheDay(opts?: {
       description: L.description,
       kind: L.kind,
     });
-    if (base.score < 3) continue;
+    if (base.score < MIN_LIVE_CONNECTOR_SCORE) continue;
     const synthetic: ConnectorPartner = {
       id: L.listing_id,
       name: L.name,
@@ -163,38 +234,23 @@ export function pickConnectorOfTheDay(opts?: {
       a.partner.name.localeCompare(b.partner.name),
   );
 
-  const top = ranked[0];
   const origin = opts?.origin || resolvePublicOrigin();
+  const queue_after_all = ranked.slice(0, 8).map((r) => ({
+    id: r.partner.id,
+    name: r.partner.name,
+    score: r.hirey_likeness,
+  }));
+  const qualified = ranked.filter(passesQualityGate);
+  const top = qualified[0];
   if (!top) {
-    const fallback: ConnectorPartner = {
-      id: "manual_research",
-      name: "Manual research day",
-      kind: "dev_community",
-      role: "No ranked candidates left — operator does 15m research for a new human network",
-      engage: "operator_manual",
-      status: "candidate",
-    };
-    return {
+    return researchDayPick(
       day,
-      partner: fallback,
-      hirey_likeness: 0,
-      traits: ["research"],
-      why: "Queue empty — spend 15 minutes finding one human-network / secretary / marketplace operator.",
-      action: {
-        step: "Search for: AI people network, agent marketplace operators, MCP directory maintainers. Add one to CONNECTOR_SEED.",
-        do_not: [
-          "Do not cold-blast Active agents",
-          "Do not mint order IDs",
-          "Do not ask bots to POST feedback",
-        ],
-        draft: {
-          subject: "(no draft — research day)",
-          body: "",
-          demo_link: `${origin.replace(/\/$/, "")}/products`,
-        },
-      },
-      queue_after: [],
-    };
+      origin,
+      ranked.length
+        ? `Quality gate: ${ranked.length} ranked but none cleared min score ${MIN_HIREY_LIKENESS} + human/marketplace traits. Research day — do not force a weak pick.`
+        : "Queue empty — spend 15 minutes finding one human-network / secretary / marketplace operator.",
+      queue_after_all,
+    );
   }
 
   const draft = connectorPitchForPartner(top.partner, origin);
@@ -203,7 +259,7 @@ export function pickConnectorOfTheDay(opts?: {
     partner: top.partner,
     hirey_likeness: top.hirey_likeness,
     traits: top.traits,
-    why: `Highest HiRey-likeness among remaining candidates (${top.traits.join(", ") || "n/a"}). One warm first-touch only.`,
+    why: `Cleared quality gate (score ${top.hirey_likeness} ≥ ${MIN_HIREY_LIKENESS}; traits: ${top.traits.join(", ") || "n/a"}). One warm first-touch only.`,
     action: {
       step:
         top.partner.engage === "registry_publish"
@@ -220,7 +276,7 @@ export function pickConnectorOfTheDay(opts?: {
       ],
       draft,
     },
-    queue_after: ranked.slice(1, 8).map((r) => ({
+    queue_after: qualified.slice(1, 8).map((r) => ({
       id: r.partner.id,
       name: r.partner.name,
       score: r.hirey_likeness,
@@ -273,7 +329,9 @@ export function connectorDailyPlaybook() {
       },
     ],
     quality_over_quota: {
-      note: "Missing a day is fine. Spamming 5 mid-tier bots is worse than one real secretary.",
+      min_hirey_likeness: MIN_HIREY_LIKENESS,
+      min_live_score: MIN_LIVE_CONNECTOR_SCORE,
+      note: "Missing a day is fine. Spamming 5 mid-tier bots is worse than one real secretary. Sub-threshold picks become research day.",
       promote_to_active_when: [
         "They confirmed they'll flag builders",
         "Or they introduced at least one human",
@@ -363,15 +421,27 @@ export async function runConnectorDailyPrep(opts?: {
   let state = await loadDurableJson<ConnectorDailyState>(DURABLE_NAME, emptyState);
 
   if (!opts?.force && state.last_prep?.day === day && state.last_prep.pick) {
-    return {
-      ok: true,
-      day,
-      already: true,
-      pick: state.last_prep.pick,
-      operator_notified: !!state.last_prep.operator_notified,
-      notify_error: state.last_prep.notify_error,
-      note: "Already prepped for this UTC day — no second target outreach.",
-    };
+    const prev = state.last_prep.pick;
+    const stillValid =
+      state.version === CONNECTOR_DAILY_VERSION &&
+      (prev.partner.id === "manual_research" ||
+        passesQualityGate({
+          hirey_likeness: prev.hirey_likeness,
+          traits: prev.traits || [],
+          partner: prev.partner,
+        }));
+    if (stillValid) {
+      return {
+        ok: true,
+        day,
+        already: true,
+        pick: prev,
+        operator_notified: !!state.last_prep.operator_notified,
+        notify_error: state.last_prep.notify_error,
+        note: "Already prepped for this UTC day — no second target outreach.",
+      };
+    }
+    // Quality gate tightened or version bump — re-prep once
   }
 
   // Exclude partners already touched recently (14d)
@@ -398,7 +468,7 @@ export async function runConnectorDailyPrep(opts?: {
     process.env.OPERATOR_EMAIL?.trim() ||
     "";
 
-  if (wantNotify && opEmail) {
+  if (wantNotify && opEmail && pick.partner.id !== "manual_research") {
     try {
       const text = [
         `Connector of the day (${day})`,

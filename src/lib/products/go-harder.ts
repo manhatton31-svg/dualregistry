@@ -433,31 +433,42 @@ export async function runGoHarder(opts?: {
         `human outreach: queued ${outreach.queued} drafts (total ${outreach.total}) — review / send manually or via mail transport`,
       );
 
-      // If we have real emails + resend, queue soft mails (not force-send spam)
-      try {
-        const { queueMail } = await import("./agent-mail");
-        let mailed = 0;
-        for (const item of outreach.samples) {
-          if (item.channel !== "email_draft" || !item.email) continue;
-          if (mailed >= 5) break;
-          await queueMail({
-            kind: "system_shipped",
-            to: item.email,
-            subject: item.subject,
-            text: item.body,
-            html: `<pre>${item.body.replace(/</g, "<")}</pre>`,
-            agent_name: item.name,
-            meta: {
-              listing_id: item.listing_id,
-              demo_get: item.demo_get,
-              go_harder: true,
-            },
-          });
-          mailed++;
+      // HARD LAW: never auto-email human operators from go-harder.
+      // Drafts stay in human-outreach.json for operator review only.
+      // Re-enable only with HUMAN_OUTREACH_SEND=1 (explicit opt-in).
+      const allowHumanSend =
+        process.env.HUMAN_OUTREACH_SEND === "1" ||
+        process.env.HUMAN_OUTREACH_SEND === "true";
+      if (allowHumanSend) {
+        try {
+          const { queueMail } = await import("./agent-mail");
+          let mailed = 0;
+          for (const item of outreach.samples) {
+            if (item.channel !== "email_draft" || !item.email) continue;
+            if (mailed >= 3) break;
+            await queueMail({
+              kind: "system_shipped",
+              to: item.email,
+              subject: item.subject,
+              text: item.body,
+              html: `<pre>${item.body.replace(/</g, "<")}</pre>`,
+              agent_name: item.name,
+              meta: {
+                listing_id: item.listing_id,
+                demo_get: item.demo_get,
+                go_harder: true,
+              },
+            });
+            mailed++;
+          }
+          if (mailed) notes.push(`email outbox: ${mailed} (HUMAN_OUTREACH_SEND=1)`);
+        } catch {
+          /* mail optional */
         }
-        if (mailed) notes.push(`email outbox: ${mailed} soft claim mails queued`);
-      } catch {
-        /* mail optional */
+      } else {
+        notes.push(
+          "human outreach: drafts only — auto-send OFF (set HUMAN_OUTREACH_SEND=1 to enable)",
+        );
       }
     } catch (e) {
       notes.push(

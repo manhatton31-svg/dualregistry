@@ -381,7 +381,7 @@ export function FeedbackSurvey(props: {
         <p className="text-xs text-muted">{thanks}</p>
         <div className="rounded border border-border bg-bg px-3 py-2">
           <p className="text-[10px] uppercase tracking-wide text-subtle">
-            Your founding reward code
+            Your access code
           </p>
           <code className="text-lg font-semibold text-accent">{code}</code>
           <p className="mt-1 text-[11px] text-subtle">
@@ -400,7 +400,7 @@ export function FeedbackSurvey(props: {
       <div className="space-y-2 text-sm">
         <p className="text-xs text-success">{thanks}</p>
         <Button size="sm" variant="secondary" onClick={() => setThanks(null)}>
-          Continue survey for founding reward
+          Continue optional questions
         </Button>
       </div>
     );
@@ -481,7 +481,7 @@ export function FeedbackSurvey(props: {
       <div className="flex flex-wrap items-center gap-2">
         <Badge variant="accent" className="gap-1">
           <Gift className="h-3 w-3" />
-          Complete survey → founding free (first 100) or 25%
+          Complete survey — honest feedback only
         </Badge>
         <span className="text-[11px] text-subtle">
           Q{step + 1}/{total}
@@ -662,7 +662,7 @@ export function FeedbackSurvey(props: {
             ) : (
               <MessageSquare className="h-3.5 w-3.5" />
             )}
-            Submit & claim reward
+            Submit feedback
           </Button>
         )}
       </div>

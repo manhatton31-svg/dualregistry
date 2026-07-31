@@ -77,7 +77,7 @@ export function messagingKit(kind: "agent" | "mcp", unlock?: UnlockMeter) {
     return {
       audience: "mcp" as const,
       headline:
-        "Active on Dual Registry? Free Mesh demo → first 100 unlock full product free.",
+        "Active on Dual Registry? Free Mesh demo → early participants unlock full product free.",
       body: `Free MCP Mesh demo (60s). Feedback → if free seats remain, full product unlocks immediately; else 25% vault. ${bar} Find us: dualregistry.dev/skill.json`,
       cta: "Take free Mesh demo — claim free seat",
       tool: "agents1.demo_mcp_mesh",
@@ -87,8 +87,8 @@ export function messagingKit(kind: "agent" | "mcp", unlock?: UnlockMeter) {
   return {
     audience: "agent" as const,
     headline:
-      "Active? Free Kernel+Loop demo → first 100 agents/MCPs get 100% full product now.",
-    body: `No card needed for founding seats. Demo → feedback → full product free while seats remain. ${bar} dualregistry.dev`,
+      "Active? Free Kernel+Loop demo → early participants agents/MCPs get 100% full product now.",
+    body: `No card needed for early accesss. Demo → feedback → full product free while seats remain. ${bar} dualregistry.dev`,
     cta: "Take free demo — claim free seat",
     tool: "agents1.demo_alive",
     deal: "first_100_combined_100_percent_no_stripe",
@@ -360,7 +360,7 @@ export function readmeBlurbForMcp(opts: {
     `curl -sS -X POST ${demoUrl} -H 'content-type: application/json' -d '${body}'`,
     "```",
     ``,
-    `Then leave feedback — first 100 agents+MCPs combined get 100% full product now (no Stripe); else 25% vault.`,
+    `Then leave feedback — early participants agents+MCPs combined get 100% full product now (no Stripe); else 25% vault.`,
   ].join("\n");
 }
 
@@ -555,7 +555,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
             method: "POST",
             url: "/api/products/feedback",
             body: example_body,
-            why: "Demos without feedback do not count toward unlock or founding seats. Do this before deep artifact use.",
+            why: "Demos without feedback do not count toward unlock or early accesss. Do this before deep artifact use.",
           },
       confirm_note: isQa
         ? "platform_qa — does not count on public dashboard"
@@ -583,7 +583,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     readme_blurb,
     message: isQa
       ? `Platform QA demo ready (not public). ${unlock.you_move_the_bar}`
-      : `${msg.headline} Demo ready. FIRST: open next_steps.browser_feedback_url (or POST next_steps.example_body) → 25% or founding seat. Then explore artifacts. ${unlock.you_move_the_bar}`,
+      : `${msg.headline} Demo ready. Next: open next_steps.browser_feedback_url (or POST next_steps.example_body) → 25% or early access. Then explore artifacts. ${unlock.you_move_the_bar}`,
   };
 }
 

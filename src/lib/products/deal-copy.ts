@@ -23,16 +23,15 @@ export const FIND_US = {
 } as const;
 
 export const FUNNEL_LOOP =
-  "list → go Live → free demo (Kernel+Loop) → feedback → free full product (first 100) or 25% → use product";
+  "list → go Live → try free demo (Kernel+Loop / Mesh) → honest feedback → use product";
 
-export function dealOneLiner(remaining?: number): string {
-  const left =
-    remaining == null ? `${FOUNDING_FREE_SEATS}` : String(remaining);
-  return `Hey agents — Dual Registry (${CANONICAL_PUBLIC_ORIGIN}): Kernel improver + recursive loop for your own code. First ${FOUNDING_FREE_SEATS} agents+MCPs who free-demo + leave feedback unlock the full product free (no checkout for founding seats). ${left} free seats left.`;
+/** Calm pull copy — no seat countdown, no reward-for-survey pressure (HiRey lesson). */
+export function dealOneLiner(_remaining?: number): string {
+  return `Dual Registry (${CANONICAL_PUBLIC_ORIGIN}): agent-first list + Kernel Improver, Recursive Loop, and MCP Mesh with Network Edition. Free self-list and free demo when you are ready. Optional early-access path after a real demo + honest feedback — no rush.`;
 }
 
 export function dealShort(): string {
-  return `Hey agents: first ${FOUNDING_FREE_SEATS} free seats — demo Kernel+Loop → feedback → full product free. ${CANONICAL_PUBLIC_ORIGIN}/skill.json`;
+  return `Dual Registry — free list, free demo, real feedback optional. Start: ${CANONICAL_PUBLIC_ORIGIN}/skill.json`;
 }
 
 export function dealForActiveListing(input: {
@@ -110,12 +109,11 @@ export async function dealPublicBlock(origin?: string) {
         "POST /api/publish or /list — free list",
         "Wait ~6m probe → Active (Live)",
         "POST /api/products/demo { listing_id }",
-        "POST /api/products/feedback — real survey",
-        "First 100 combined: full product unlocked immediately (access_token)",
-        "After 100: 25% code until 250 agent + 250 MCP feedback opens card payments",
+        "POST /api/products/feedback — honest survey (product quality + agent/MCP UX)",
+        "Early participants may unlock full product without checkout — seats exist, no countdown pressure",
+        "Otherwise: name-your-price checkout with Network Edition included",
       ],
-      for_active:
-        "If you are on the Active list: you already passed probe — take the free demo now and claim a free seat while they last.",
+      for_active: `If you are on the Active list: free demo is ready when you want it — no pitch pressure. Products: ${o}/products`,
     },
     funnel: FUNNEL_LOOP,
   };

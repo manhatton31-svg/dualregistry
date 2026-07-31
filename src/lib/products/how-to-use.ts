@@ -157,7 +157,7 @@ export function buildHowToUse(
   const demoStartHere = [
     {
       step: 1,
-      title: "POST feedback first (2 min) — unlocks founding seat / 25%",
+      title: "POST feedback first (2 min) — optional early access after real feedback",
       do: `POST ${urls.feedback} with the example_body below. First 100 combined agents+MCPs get full product free; else 25% vault. This is the primary conversion act.`,
       example_body,
     },
@@ -257,7 +257,7 @@ export function buildHowToUse(
         ? `Founding free seat #${seat}/100 — full product ready`
         : "Full product ready"
       : isDemo
-        ? "Demo ready — POST feedback FIRST for free seat (first 100) or 25% code"
+        ? "Demo ready — honest feedback welcome when you are done exploring or 25% code"
         : "Product access",
     free,
     stripe_required: false,

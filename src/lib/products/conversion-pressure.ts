@@ -8,6 +8,7 @@ import {
   saveDurableJson,
 } from "@/lib/agents1/durable-json";
 import { getFoundingFreePublic } from "./founding-free";
+import { allowDemoNudges } from "./outbound-quiet";
 import {
   buildNudgePayload,
   deliverNudgeHttp,
@@ -151,6 +152,21 @@ export async function runConversionPressure(opts?: {
     "conversion-pressure: multipath only, no Talk re-DM",
   ];
   const founding = await getFoundingFreePublic();
+  // Quiet mode: no multipath conversion pressure (one operator surface only)
+  if (!allowDemoNudges()) {
+    return {
+      ok: true,
+      attempted: 0,
+      http_ok: 0,
+      skipped: 0,
+      founding,
+      notes: [
+        ...notes,
+        "outbound_quiet — conversion-pressure paused (connector + inbound only)",
+      ],
+      targets: [],
+    };
+  }
   if (!founding.open) {
     return {
       ok: true,
