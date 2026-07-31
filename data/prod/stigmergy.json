@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:16:36.019Z",
+  "updated_at": "2026-07-31T13:16:39.723Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -55,11 +55,11 @@
     },
     "agtpub_4c34b0bf38d34d7e64ee": {
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
-      "attraction": 95,
+      "attraction": 95.75,
       "danger": 0,
       "demand": 27,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:28.072Z",
+      "last_reinforced_at": "2026-07-31T13:16:37.948Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -871,11 +871,11 @@
     },
     "mcp-ai-meacheal-mrc-data-https-api-meacheal-ai": {
       "listing_id": "mcp-ai-meacheal-mrc-data-https-api-meacheal-ai",
-      "attraction": 1,
+      "attraction": 1.5,
       "danger": 0,
-      "demand": 4,
+      "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:36.019Z",
+      "last_reinforced_at": "2026-07-31T13:16:37.719Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -888,11 +888,45 @@
     },
     "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei": {
       "listing_id": "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei",
+      "attraction": 0.5,
+      "danger": 0,
+      "demand": 7,
+      "joined": 0,
+      "last_reinforced_at": "2026-07-31T13:16:39.723Z",
+      "event_counts": {
+        "demos": 0,
+        "feedback": 0,
+        "match_hits": 0,
+        "probes_ok": 0,
+        "probes_fail": 0,
+        "lists": 0,
+        "endorsements": 0
+      }
+    },
+    "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp": {
+      "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "attraction": 2,
+      "danger": 0,
+      "demand": 4,
+      "joined": 0,
+      "last_reinforced_at": "2026-07-31T13:16:39.723Z",
+      "event_counts": {
+        "demos": 0,
+        "feedback": 0,
+        "match_hits": 0,
+        "probes_ok": 0,
+        "probes_fail": 0,
+        "lists": 0,
+        "endorsements": 0
+      }
+    },
+    "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai": {
+      "listing_id": "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai",
       "attraction": 0,
       "danger": 0,
       "demand": 2,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:36.019Z",
+      "last_reinforced_at": "2026-07-31T13:16:39.723Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -1149,9 +1183,67 @@
       "count": 1,
       "intensity": 4,
       "last_at": "2026-07-31T13:16:36.019Z"
+    },
+    "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp|mcp-ai-odei-connect-https-github-com-zer0h1ro-odei": {
+      "a": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "b": "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei",
+      "count": 1,
+      "intensity": 4,
+      "last_at": "2026-07-31T13:16:37.719Z"
+    },
+    "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp|mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai": {
+      "a": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "b": "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai",
+      "count": 1,
+      "intensity": 4,
+      "last_at": "2026-07-31T13:16:39.723Z"
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yv163_vlc2pg",
+      "kind": "used_with",
+      "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "listing_b": "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai",
+      "from": "flywheel_seed",
+      "body": "seed composition · other::general",
+      "intensity": 2,
+      "at": "2026-07-31T13:16:39.723Z",
+      "tags": [
+        "seed",
+        "composition",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yuzss_0mhtvb",
+      "kind": "mark",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:16:37.948Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yuzmf_stpju3",
+      "kind": "used_with",
+      "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "listing_b": "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei",
+      "from": "flywheel_seed",
+      "body": "seed composition · other::general",
+      "intensity": 2,
+      "at": "2026-07-31T13:16:37.719Z",
+      "tags": [
+        "seed",
+        "composition",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yuyb7_80cnoy",
       "kind": "used_with",
@@ -13221,6 +13313,49 @@
   "feed_events": [
     {
       "type": "contagion",
+      "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "listing_b": "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:39.723Z",
+      "body": "Composition contagion touched 1 neighbors"
+    },
+    {
+      "type": "used_with",
+      "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "listing_b": "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:39.723Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:16:37.948Z"
+    },
+    {
+      "type": "contagion",
+      "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "listing_b": "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:37.719Z",
+      "body": "Composition contagion touched 1 neighbors"
+    },
+    {
+      "type": "used_with",
+      "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "listing_b": "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:37.719Z"
+    },
+    {
+      "type": "contagion",
       "listing_id": "mcp-ai-meacheal-mrc-data-https-api-meacheal-ai",
       "listing_b": "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei",
       "amount": 1,
@@ -14902,56 +15037,11 @@
       "amount": 12,
       "kind": "hot",
       "at": "2026-07-31T13:14:11.924Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agtpub_ae427eacf129a7ad16a0",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:14:11.730Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agtpub_3c5075ba16667511f5f5",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:14:11.704Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-agoragentic-https-agoragentic-com",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:14:08.751Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:14:08.665Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-agoragentic-https-agoragentic-com",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:14:08.559Z"
     }
   ],
   "totals": {
     "auto_deposits": 50,
-    "agent_deposits": 858,
+    "agent_deposits": 861,
     "senses": 270,
     "follows": 106,
     "evaporations": 0
