@@ -7,6 +7,8 @@
  *
  * Returns full durable probe snapshot so Actions can commit data/prod/probes.json
  * without needing a write token on Vercel.
+ *
+ * Cost mode: adaptive batch/window, no force-live, maxDuration 90s.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { writeFile, mkdir } from "node:fs/promises";
@@ -14,8 +16,8 @@ import { join } from "node:path";
 import { dataRoot } from "@/lib/data-root";
 import { durableConfigPublic, readDurableRaw } from "@/lib/agents1/durable-json";
 
-/** Allow long multi-probe ticks toward 333/day */
-export const maxDuration = 300;
+/** Cap runaway ticks — adaptive batches finish well under this */
+export const maxDuration = 90;
 
 function authorized(request: Request): boolean {
   // Vercel Cron invocations are trusted (production schedule only)
@@ -61,38 +63,29 @@ async function stampWorker(patch: Record<string, unknown>) {
 }
 
 async function runTick() {
-  // Global cadence: if last tick < 6m ago anywhere, return current state without probing
+  const {
+    loadProbeState,
+    invalidateProbeCache,
+    resolveAdaptiveProbeBudget,
+  } = await import("@/lib/agents1/probe");
+
+  const adaptive = await resolveAdaptiveProbeBudget();
+
+  // Global cadence: adaptive window when on pace; never skip when behind
   try {
-    const { loadProbeState, invalidateProbeCache, PROBE_WINDOW_MS } =
-      await import("@/lib/agents1/probe");
     const { readDisplayAuthority } = await import(
       "@/lib/agents1/display-authority"
     );
     invalidateProbeCache();
-    const state0 = await loadProbeState();
+    const state0 = await loadProbeState({ mergeRemote: true });
     const auth = await readDisplayAuthority({
       used: state0.used,
       last_tick_at: state0.last_tick_at,
     });
     const lastIso = auth.last_tick_at || state0.last_tick_at;
-    // Behind clean growth target? Never skip — force volume toward 333/day
-    let behindTarget = false;
-    try {
-      const { loadCleanRegistry } = await import(
-        "@/lib/agents1/clean-registry"
-      );
-      const { CLEAN_GROWTH_TARGET_PER_DAY } = await import(
-        "@/lib/agents1/probe"
-      );
-      const reg = await loadCleanRegistry();
-      const total = reg?.counts?.total || Object.keys(reg?.items || {}).length;
-      behindTarget = total < CLEAN_GROWTH_TARGET_PER_DAY;
-    } catch {
-      behindTarget = true;
-    }
-    if (lastIso && !behindTarget) {
+    if (lastIso && !adaptive.behind) {
       const age = Date.now() - Date.parse(lastIso);
-      if (Number.isFinite(age) && age >= 0 && age < PROBE_WINDOW_MS - 5_000) {
+      if (Number.isFinite(age) && age >= 0 && age < adaptive.windowMs - 5_000) {
         const live = state0.live_active_snapshot || {
           total: 0,
           mcp: 0,
@@ -116,7 +109,8 @@ async function runTick() {
           budget: state0.budget,
           live_active_probe_ok: live.total,
           skipped: true,
-          reason: `global cadence: last tick ${Math.round(age / 1000)}s ago (< ${Math.round(PROBE_WINDOW_MS / 1000)}s)`,
+          adaptive,
+          reason: `global cadence: last tick ${Math.round(age / 1000)}s ago (< ${Math.round(adaptive.windowMs / 1000)}s · on-pace)`,
           last_tick_at: lastIso,
           commit: {
             "data/prod/probes.json": probesRaw,
@@ -128,10 +122,10 @@ async function runTick() {
     /* continue to normal tick */
   }
 
-  // Warm store cache so probe targets exist (listings from store)
+  // Warm store cache — TTL-gated, never forceLive (saves Active CPU)
   try {
     const { getLiveSnapshot } = await import("@/lib/agents1/fetch-live");
-    await getLiveSnapshot({ forceLive: true });
+    await getLiveSnapshot({ forceLive: false });
   } catch {
     try {
       const { loadStoreCache } = await import("@/lib/agents1/store-cache");
@@ -142,18 +136,15 @@ async function runTick() {
   }
 
   const { runProbeTick } = await import("@/lib/agents1/growth/engine");
-  const { invalidateProbeCache, loadProbeState, PROBES_PER_TICK, PROBE_WINDOW_MS } = await import(
-    "@/lib/agents1/probe"
-  );
   invalidateProbeCache();
-  const result = await runProbeTick({ max: PROBES_PER_TICK });
+  const result = await runProbeTick({ max: adaptive.probesPerTick });
 
   invalidateProbeCache();
-  const state = await loadProbeState();
+  const state = await loadProbeState({ mergeRemote: true });
   const lastIso = state.last_tick_at || new Date().toISOString();
   const lastMs = Date.parse(lastIso);
   const nextIso = new Date(
-    (Number.isFinite(lastMs) ? lastMs : Date.now()) + PROBE_WINDOW_MS,
+    (Number.isFinite(lastMs) ? lastMs : Date.now()) + adaptive.windowMs,
   ).toISOString();
 
   // Refresh stable live snapshot after tick (from results — durable)
@@ -222,6 +213,7 @@ async function runTick() {
     used: state.used,
     ticks: Number(state.used || 0),
     live_active: live.total,
+    adaptive,
     notes: result.notes?.slice(0, 8),
   });
 
@@ -315,6 +307,7 @@ async function runTick() {
     last_result: result.last_result,
     last_handshake: state.last_handshake || null,
     last_tick_at: lastIso,
+    adaptive,
     notes: result.notes,
     worker,
     durable: durableConfigPublic(),

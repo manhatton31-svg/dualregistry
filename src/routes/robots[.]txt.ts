@@ -46,7 +46,7 @@ Sitemap: ${o}/sitemap.xml
         return new Response(text, {
           headers: {
             "content-type": "text/plain; charset=utf-8",
-            "cache-control": "public, max-age=60",
+            "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
             "access-control-allow-origin": "*",
             link: `<${o}/llms.txt>; rel="describedby", <${o}/discovery.json>; rel="alternate"; type="application/json", <${o}/.well-known/agent-card.json>; rel="agent-card", <${o}/.well-known/ai-catalog.json>; rel="ai-catalog", <${o}/agentmap.json>; rel="agentmap"`,
             "x-dualregistry-agentmap": `${o}/agentmap.json`,

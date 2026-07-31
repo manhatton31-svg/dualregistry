@@ -1,11 +1,16 @@
 /**
  * Live handshake probes (no store KV).
  *
- * Discovery: multi-probe per 6m tick · high daily cap · never-probed first → grow Active.
+ * Discovery: multi-probe per tick · high daily cap · never-probed first → grow Active.
  * Goal: grow clean registry toward CLEAN_GROWTH_TARGET_PER_DAY (mixed agents+MCPs).
  * Only handshake ok + checks clean promote to the public list.
  * Weekly recheck: unlimited · every Active re-probed 7d after last ok.
  * Discovery always outranks weekly recheck when both are due.
+ *
+ * Cost mode (Fluid Active CPU):
+ * - Local-first reads (no remote merge on every GET)
+ * - Adaptive window/batch when not behind clean target
+ * - Lower probe concurrency
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -42,13 +47,23 @@ const UA = "Agents1Probe/1.2 (+registry; reliability; balanced)";
 export const MAX_PROBES_PER_DAY = 100_000;
 /** Target clean listings (agents + MCPs) added per UTC day. */
 export const CLEAN_GROWTH_TARGET_PER_DAY = 333;
-/** Tick window — still serialize multi-instance via last_tick, but allow high volume per tick. */
+
+/** Aggressive tick window when behind clean growth target. */
 export const PROBE_WINDOW_MS = 2 * 60_000;
-/** Full handshake probes per tick (mixed agents+MCPs). Only ok → clean list.
- *  64/tick × 10 ticks/hr × 24h ≈ 15k probes/day — enough headroom at ~2–5% ok rate for 333 clean. */
+/** Healthy cadence when on pace — cuts Fluid Active CPU without starving growth. */
+export const PROBE_WINDOW_HEALTHY_MS = 10 * 60_000;
+/** Full handshake probes per tick when behind target. */
 export const MAX_PROBES_PER_WINDOW = 64;
+/** Full probes per tick when on pace (adaptive). */
+export const MAX_PROBES_PER_WINDOW_HEALTHY = 24;
 export const MAX_PROBES_PER_HOUR = MAX_PROBES_PER_WINDOW * 30;
+/** Default alias — adaptive callers should use resolveAdaptiveProbeBudget(). */
 export const PROBES_PER_TICK = MAX_PROBES_PER_WINDOW;
+/** Parallel probe workers — network-bound; 5 uses less CPU than 10 with similar throughput. */
+export const PROBE_CONCURRENCY = 5;
+/** Skip remote GH merge on reads when local/mem is fresher than this. */
+const LOCAL_PROBE_FRESH_MS = 45_000;
+
 /** Short freshness window (hours) — discovery won't re-hit very recent oks */
 const FRESH_OK_MS = 6 * 3600_000;
 /** Active weekly recheck interval — unlimited queue, scales with Active count */
@@ -105,7 +120,7 @@ type ProbeState = {
   tick_log?: TickLogEntry[];
   updated_at: string;
   last_tick_at?: string;
-  /** Only advanced on checks-clean ok — drives full 6-minute wait */
+  /** Only advanced on checks-clean ok — drives full wait */
   last_ok_tick_at?: string;
   last_handshake?: "ok" | "partial" | "fail" | "skip";
   baseline_note?: string;
@@ -125,6 +140,15 @@ type ProbeState = {
     agents: number;
     at: string;
   };
+};
+
+export type AdaptiveProbeBudget = {
+  behind: boolean;
+  windowMs: number;
+  probesPerTick: number;
+  concurrency: number;
+  clean_total: number;
+  target: number;
 };
 
 function utcDay() {
@@ -188,6 +212,7 @@ function empty(): ProbeState {
 let mem: ProbeState | null = null;
 let chain: Promise<void> = Promise.resolve();
 let memMtime = 0;
+let lastRemoteMergeAt = 0;
 
 async function fileMtime(): Promise<number> {
   const mt = await durableFileMtime(DURABLE_NAME);
@@ -206,6 +231,30 @@ export function invalidateProbeCache(): void {
   memMtime = 0;
 }
 
+/**
+ * Adaptive budget: full volume only when clean registry is behind daily target.
+ * On pace → longer window + smaller batch (saves Fluid Active CPU).
+ */
+export async function resolveAdaptiveProbeBudget(): Promise<AdaptiveProbeBudget> {
+  let clean_total = 0;
+  try {
+    const { loadCleanRegistry } = await import("./clean-registry");
+    const reg = await loadCleanRegistry();
+    clean_total = reg?.counts?.total || Object.keys(reg?.items || {}).length;
+  } catch {
+    clean_total = 0;
+  }
+  const behind = clean_total < CLEAN_GROWTH_TARGET_PER_DAY;
+  return {
+    behind,
+    windowMs: behind ? PROBE_WINDOW_MS : PROBE_WINDOW_HEALTHY_MS,
+    probesPerTick: behind ? MAX_PROBES_PER_WINDOW : MAX_PROBES_PER_WINDOW_HEALTHY,
+    concurrency: PROBE_CONCURRENCY,
+    clean_total,
+    target: CLEAN_GROWTH_TARGET_PER_DAY,
+  };
+}
+
 /** Always fetch GitHub durable probes (cache-busted) for merge. */
 async function fetchRemoteProbeState(): Promise<MergeableProbeState | null> {
   const url = `${durableRemoteRawUrl(DURABLE_NAME)}?t=${Date.now()}`;
@@ -222,17 +271,45 @@ async function fetchRemoteProbeState(): Promise<MergeableProbeState | null> {
     if (!res.ok) return null;
     const text = await res.text();
     if (!text.trim() || text.trim().startsWith("<!")) return null;
+    lastRemoteMergeAt = Date.now();
     return JSON.parse(text) as MergeableProbeState;
   } catch {
     return null;
   }
 }
 
-export async function loadProbeState(): Promise<ProbeState> {
+export type LoadProbeOpts = {
+  /** Merge GitHub durable remote. Default false on reads (cost). true on ticks/persist. */
+  mergeRemote?: boolean;
+  /** Force disk re-read even if mem is warm. */
+  forceDisk?: boolean;
+};
+
+/**
+ * Load probe state.
+ * Default: local-first (mem → disk) — no remote fetch, no write-on-read.
+ * Tick / persist paths pass mergeRemote: true.
+ */
+export async function loadProbeState(
+  opts?: LoadProbeOpts,
+): Promise<ProbeState> {
   const day = utcDay();
   const hour = utcHourBucket();
+  const mergeRemote = Boolean(opts?.mergeRemote);
+  const forceDisk = Boolean(opts?.forceDisk);
 
-  // Always read local + remote and merge (source of truth for multi-instance)
+  // Fast path: warm in-memory same-day state without remote work
+  if (
+    mem &&
+    mem.day === day &&
+    !forceDisk &&
+    !mergeRemote &&
+    memMtime > 0 &&
+    Date.now() - memMtime < LOCAL_PROBE_FRESH_MS
+  ) {
+    return mem;
+  }
+
   let local: MergeableProbeState | null = null;
   try {
     const raw = await loadDurableJson<MergeableProbeState>(DURABLE_NAME, () => ({}));
@@ -240,10 +317,16 @@ export async function loadProbeState(): Promise<ProbeState> {
   } catch {
     /* */
   }
-  // loadDurableJson only hydrates when local missing — also force remote merge
-  const remote = await fetchRemoteProbeState();
 
-  // Include in-memory if same day (this instance may be ahead of disk)
+  // Remote merge only when explicitly requested (ticks/writes) or local empty
+  let remote: MergeableProbeState | null = null;
+  if (mergeRemote || !local) {
+    // Throttle remote even on ticks if we just merged
+    if (mergeRemote || Date.now() - lastRemoteMergeAt > LOCAL_PROBE_FRESH_MS) {
+      remote = await fetchRemoteProbeState();
+    }
+  }
+
   const memPart: MergeableProbeState | null =
     mem && mem.day === day ? (mem as MergeableProbeState) : null;
 
@@ -257,12 +340,10 @@ export async function loadProbeState(): Promise<ProbeState> {
       ...empty(),
       results: prevResults,
       day,
-      // carry live snapshot forward (still valid until re-probed)
       live_active_snapshot: merged.live_active_snapshot,
     };
   }
 
-  // Live count: HIGH-WATER mark — never decrease once Live has grown
   const liveNow = countLiveFromResults(merged.results);
   const prevSnap = merged.live_active_snapshot;
   const liveMerged = {
@@ -271,7 +352,6 @@ export async function loadProbeState(): Promise<ProbeState> {
     agents: Math.max(prevSnap?.agents || 0, liveNow.agents),
     at: new Date().toISOString(),
   };
-  // Prefer floor from durable counters if higher
   try {
     const { loadCounterFloors } = await import("./counter-floors");
     const floors = await loadCounterFloors();
@@ -281,7 +361,6 @@ export async function loadProbeState(): Promise<ProbeState> {
       liveMerged.agents,
       floors.live_floor?.agents || 0,
     );
-    // used floor
     if (floors.day === day) {
       merged.used = Math.max(Number(merged.used) || 0, floors.used_floor || 0);
     }
@@ -296,7 +375,6 @@ export async function loadProbeState(): Promise<ProbeState> {
     day,
     budget: MAX_PROBES_PER_DAY,
     hourly_cap: MAX_PROBES_PER_HOUR,
-
     hour_bucket: merged.hour_bucket === hour ? (merged.hour_bucket as string) : hour,
     hourly_used:
       merged.hour_bucket === hour ? Number(merged.hourly_used) || 0 : 0,
@@ -318,23 +396,28 @@ export async function loadProbeState(): Promise<ProbeState> {
     updated_at: merged.updated_at || new Date().toISOString(),
   };
 
-  // Write merged local so this instance is consistent (don't push every read)
-  try {
-    const { writeFile, mkdir } = await import("node:fs/promises");
-    const { dirname, join } = await import("node:path");
-    const path = join(dataRoot(), DURABLE_NAME);
-    await mkdir(dirname(path), { recursive: true });
-    await writeFile(path, JSON.stringify(mem, null, 2), "utf8");
+  // Only write local disk when we actually merged remote or local was missing
+  // (avoid write-on-every-GET which burns Active CPU)
+  if (mergeRemote || !local) {
+    try {
+      const { writeFile, mkdir } = await import("node:fs/promises");
+      const { dirname, join } = await import("node:path");
+      const path = join(dataRoot(), DURABLE_NAME);
+      await mkdir(dirname(path), { recursive: true });
+      await writeFile(path, JSON.stringify(mem, null, 2), "utf8");
+      memMtime = Date.now();
+    } catch {
+      memMtime = Date.now();
+    }
+  } else {
     memMtime = Date.now();
-  } catch {
-    /* */
   }
 
   return mem!;
 }
 
 async function persist(s: ProbeState) {
-  // 1) Merge remote probes (max used)
+  // 1) Merge remote probes (max used) — only on real writes
   try {
     const remote = await fetchRemoteProbeState();
     if (remote && remote.day === s.day) {
@@ -381,11 +464,9 @@ async function persist(s: ProbeState) {
       ),
       at: new Date().toISOString(),
     };
-    // re-load in case another instance raised higher during our write
     const again = await loadLiveCounters();
     s.used = Math.max(s.used, again.probes_used || 0);
   } catch {
-    // fallback floors only
     try {
       const { loadCounterFloors, raiseUsedFloor, raiseLiveFloor } = await import(
         "./counter-floors"
@@ -405,7 +486,6 @@ async function persist(s: ProbeState) {
   mem = s;
   s.updated_at = new Date().toISOString();
   chain = chain.then(async () => {
-    // Never persist used below floor — re-clamp immediately before write
     try {
       const { loadCounterFloors } = await import("./counter-floors");
       const floors = await loadCounterFloors();
@@ -479,7 +559,6 @@ export async function resolveMcpDns(
     const j = (await res.json()) as { Answer?: Array<{ data?: string }> };
     const txt = (j.Answer?.[0]?.data || "").replace(/^"|"$/g, "");
     if (!txt) return null;
-    // TXT may be "https://… proto=streamable-http" style
     const urlMatch = txt.match(/https?:\/\/\S+/i);
     const protoMatch = txt.match(/proto[=:](\S+)/i);
     return {
@@ -528,7 +607,7 @@ function checkNamespace(name: string, website?: string, repository?: string) {
 }
 
 export async function stampProbeTick(): Promise<void> {
-  const s = await loadProbeState();
+  const s = await loadProbeState({ mergeRemote: true });
   s.last_tick_at = new Date().toISOString();
   s.updated_at = s.last_tick_at;
   await persist(s);
@@ -606,7 +685,6 @@ export async function probeAgent(input: ProbeTarget): Promise<ProbeResult> {
       } else {
         handshake = "fail";
         signals.push(`card fail ${r.status}`);
-        // try next candidate
       }
     }
   } else if (input.endpoint_url || input.website) {
@@ -758,32 +836,25 @@ function probePriority(
   prev: ProbeResult | undefined,
   now: number,
 ): number {
-  // Pattern preflight: never select known-dead URLs (github.com/.well-known etc.)
   const pf = preflightPatterns(item);
   if (!pf.proceed) return -20000;
   let p = item.priority_boost || 0;
   const purpose = item.purpose || "discovery";
 
-  // --- Weekly recheck lane (unlimited; only when due ≥7d after last ok) ---
   if (purpose === "weekly_recheck") {
-    if (!prev) return -10000; // nothing to recheck
+    if (!prev) return -10000;
     const age = now - Date.parse(prev.probed_at || "0");
     if (prev.handshake === "ok" && prev.ok && age >= ACTIVE_REPROBE_MS) {
-      // Oldest due first via small age bonus
       return p + 3500 + Math.min(500, age / ACTIVE_REPROBE_MS);
     }
-    // Not due yet — never take a discovery slot
     return -10000;
   }
 
-  // --- Discovery lane: grow Active ---
   const age = prev ? now - Date.parse(prev.probed_at || "0") : 0;
-  // Already clean / still-ok: never burn discovery budget re-proving them
   if (prev && prev.handshake === "ok" && prev.ok && age < ACTIVE_REPROBE_MS) {
     return -10000;
   }
   if (!prev) {
-    // Never-probed with a reachable URL first (skip-only wastes 6-min slots)
     const hasUrl = Boolean(
       item.agent_card_url ||
         item.endpoint_url ||
@@ -792,19 +863,16 @@ function probePriority(
     );
     return p + (hasUrl ? 8000 : 3500);
   }
-  // Was ok but past 7d without weekly tag — leave for weekly lane
   if (prev.handshake === "ok" && prev.ok && age >= ACTIVE_REPROBE_MS) return -5000;
-  // FAIL / PARTIAL: short cool-down then re-try (need volume toward 333/day)
   if (prev.handshake === "fail" || prev.handshake === "partial") {
-    if (age < 30 * 60_000) return -800; // 30m cool-down (was 6h — starved growth)
-    return p + 600; // re-queue aggressively after cool-down
+    if (age < 30 * 60_000) return -800;
+    return p + 600;
   }
   if (item.dirty) {
     if (age < 6 * 3600_000) return -800;
     return p + 150;
   }
   if (prev.handshake === "skip") {
-    // Skip burns a slot with no path to clean — deprioritize hard for 24h
     if (age < 24 * 3600_000) return -9000;
     const hasUrl = Boolean(
       item.agent_card_url ||
@@ -813,7 +881,7 @@ function probePriority(
         item.website,
     );
     if (!hasUrl) return -5000;
-    return p - 200; // rare retry only after a day
+    return p - 200;
   }
   if (age > RETRY_DIRTY_MS) return p + 400;
   return p + 50;
@@ -826,7 +894,7 @@ export async function runProbeBudgeted(
 ): Promise<ProbeResult[]> {
   let state: ProbeState;
   try {
-    state = await loadProbeState();
+    state = await loadProbeState({ mergeRemote: true });
   } catch {
     state = empty();
   }
@@ -838,11 +906,15 @@ export async function runProbeBudgeted(
   state.hourly_cap = Number(state.hourly_cap) || MAX_PROBES_PER_HOUR;
   state.day = state.day || utcDay();
 
+  const adaptive = await resolveAdaptiveProbeBudget();
+  const windowMs = adaptive.windowMs;
+  const maxCap = Math.min(max, adaptive.probesPerTick);
+
   const priorLastTick = state.last_tick_at;
   const priorLastOk = state.last_ok_tick_at;
   const priorHandshake = state.last_handshake;
 
-  // GLOBAL CADENCE GATE — skip only when not force-burst (behind 333/day target)
+  // GLOBAL CADENCE GATE — adaptive window when on pace
   try {
     const { readDisplayAuthority } = await import("./display-authority");
     const auth = await readDisplayAuthority({
@@ -852,23 +924,21 @@ export async function runProbeBudgeted(
       live_mcp: state.live_active_snapshot?.mcp,
       live_agents: state.live_active_snapshot?.agents,
     });
-    // Align used to global high-water before anything else
     state.used = Math.max(state.used, (auth && auth.used) || 0);
     if (!opts?.force) {
       const lastIso = (auth && auth.last_tick_at) || state.last_tick_at;
       if (lastIso) {
         const age = Date.now() - Date.parse(lastIso);
-        if (Number.isFinite(age) && age >= 0 && age < PROBE_WINDOW_MS - 5_000) {
+        if (Number.isFinite(age) && age >= 0 && age < windowMs - 5_000) {
           return [];
         }
       }
     }
-    // Also honor local hour window if already spent
     if (state.hourly_used >= state.hourly_cap) {
       return [];
     }
   } catch {
-    /* fall through to local remaining checks */
+    /* fall through */
   }
 
   const dayRemaining = Math.max(0, state.budget - state.used);
@@ -885,7 +955,6 @@ export async function runProbeBudgeted(
     }))
     .sort((a, b) => b.pri - a.pri);
 
-  // Soft-deprioritize blocked targets (do NOT hard-exclude — that starved growth)
   try {
     const { loadDelistedIdSet } = await import("./probe-preflight");
     const { loadCounterFloors, isBlockedSync } = await import("./counter-floors");
@@ -913,7 +982,6 @@ export async function runProbeBudgeted(
         (x.item.store_id &&
           isBlockedSync(floors, { id: x.item.store_id, urls }))
       ) {
-        // Previously probed fail — retry later with lower priority (not permanent kill)
         x.pri = Math.min(x.pri, -20);
       }
     }
@@ -922,7 +990,6 @@ export async function runProbeBudgeted(
     /* */
   }
 
-  // Unique primary probes only (skip name:/url: aliases that triple-count MCPs)
   let agentToday = 0;
   let mcpToday = 0;
   let agentActiveOk = 0;
@@ -942,15 +1009,10 @@ export async function runProbeBudgeted(
     else if (r.kind === "mcp") mcpToday++;
   }
 
-  // Prefer spendable discovery (pri >= 0). Fall back only to soft-retry band
-  // (pri > -1000). NEVER fall back to still-ok (-10000) — that re-burned the
-  // clean set and froze Active at ~75 while "ok 38" looked healthy.
   let rankedLive = ranked.filter((x) => x.pri >= 0);
   if (rankedLive.length === 0) {
     rankedLive = ranked.filter((x) => x.pri > -1000);
   }
-  // Weekly rechecks are purpose-tagged and get pri ~3500 when due — already in >=0
-  // If still empty, do not probe still-ok discovery; return empty work set.
   if (rankedLive.length === 0) {
     rankedLive = [];
   }
@@ -964,16 +1026,14 @@ export async function runProbeBudgeted(
   agents.sort((a, b) => b.pri - a.pri);
   mcps.sort((a, b) => b.pri - a.pri);
 
-  const take = Math.min(max, remaining, Math.max(rankedLive.length, 1));
-  // Full probes per tick — never hard-cap at 1
-  const maxFullProbes = Math.max(1, Math.min(take, max, remaining, MAX_PROBES_PER_WINDOW));
+  const take = Math.min(maxCap, remaining, Math.max(rankedLive.length, 1));
+  const maxFullProbes = Math.max(1, Math.min(take, maxCap, remaining));
 
   const maxPreflightRejects = Math.max(64, maxFullProbes * 6);
   const selected: typeof ranked = [];
   let ai = 0;
   let mi = 0;
 
-  // Last primary probes today — break fail streaks so Live can still grow
   const recentPrimary = Object.entries(state.results)
     .filter(([k]) => !k.startsWith("name:") && !k.startsWith("url:"))
     .map(([, r]) => r)
@@ -988,8 +1048,6 @@ export async function runProbeBudgeted(
     last3.length >= 3 &&
     last3.every((r) => r.kind === "mcp" && !(r.handshake === "ok" && r.ok));
 
-  // Grow Live lists at same rate: lagging Active wins; then lagging day probes.
-  // Break pure fail streaks of either kind so the other lane can promote Live.
   while (selected.length < Math.min(maxPreflightRejects + maxFullProbes, rankedLive.length) && (ai < agents.length || mi < mcps.length)) {
     const activeGap = agentActiveOk - mcpActiveOk;
     const dayGap = agentToday - mcpToday;
@@ -998,8 +1056,8 @@ export async function runProbeBudgeted(
     else if (mcps.length === 0) preferAgent = true;
     else if (agentFailStreak && mcps.length > 0) preferAgent = false;
     else if (mcpFailStreak && agents.length > 0) preferAgent = true;
-    else if (activeGap < 0) preferAgent = true; // agents Active behind
-    else if (activeGap > 0) preferAgent = false; // mcps Active behind
+    else if (activeGap < 0) preferAgent = true;
+    else if (activeGap > 0) preferAgent = false;
     else if (dayGap < 0) preferAgent = true;
     else if (dayGap > 0) preferAgent = false;
     else preferAgent = agentToday <= mcpToday;
@@ -1023,13 +1081,11 @@ export async function runProbeBudgeted(
     } else break;
   }
 
-  // Never select still-ok / pattern-kill for spend. Empty queue > re-proving Active.
   const spendable = selected.filter((x) => x.pri >= 0);
   const softRetry = selected.filter((x) => x.pri > -1000 && x.pri < 0);
   const queue = spendable.length ? spendable : softRetry;
 
-  // Parallel full-probe pool (speed toward 333/day within function time limits)
-  const CONCURRENCY = 10;
+  const CONCURRENCY = adaptive.concurrency;
   const work = queue.slice(0, maxFullProbes + maxPreflightRejects);
   const out: ProbeResult[] = [];
   let gotCleanOk = false;
@@ -1123,7 +1179,6 @@ export async function runProbeBudgeted(
         /* */
       }
     } else if (result.handshake !== "skip") {
-      // Discovery fails do not delete other clean entries; only remove self if listed
       try {
         const { removeCleanOnFail } = await import("./clean-registry");
         await removeCleanOnFail(item.store_id || item.id);
@@ -1138,7 +1193,6 @@ export async function runProbeBudgeted(
     return result;
   }
 
-  // Run workers over work queue with concurrency
   let cursor = 0;
   async function worker() {
     while (cursor < work.length) {
@@ -1158,7 +1212,6 @@ export async function runProbeBudgeted(
   await Promise.all(
     Array.from({ length: Math.min(CONCURRENCY, work.length) }, () => worker()),
   );
-  // Only advance last_tick when a full budget probe ran
   if (fullProbes > 0) {
     state.last_tick_at = new Date().toISOString();
     state.updated_at = state.last_tick_at;
@@ -1174,7 +1227,6 @@ export async function runProbeBudgeted(
       state.hourly_used = Math.max(state.hourly_used, 1);
       state.last_handshake = lastOut?.handshake || "fail";
     }
-    // Shared high-water so other instances honor cadence + used
     try {
       const { raiseUsedFloor, raiseLastTickFloor } = await import(
         "./counter-floors"
@@ -1190,14 +1242,12 @@ export async function runProbeBudgeted(
       /* */
     }
   } else {
-    // Preflight-only: restore prior cadence markers (do not fake a tick)
     state.last_tick_at = priorLastTick;
     state.last_ok_tick_at = priorLastOk;
     state.last_handshake = priorHandshake;
     state.updated_at = new Date().toISOString();
   }
 
-  // High-water Live from results + floors
   const liveNow = countLiveFromResults(state.results);
   const prev = state.live_active_snapshot;
   state.live_active_snapshot = {
@@ -1207,7 +1257,6 @@ export async function runProbeBudgeted(
     at: new Date().toISOString(),
   };
 
-  // Cap result map size
   const ids = Object.keys(state.results);
   if (ids.length > 2500) {
     const primaries = ids.filter((id) => !id.startsWith("name:") && !id.startsWith("url:"));
@@ -1230,7 +1279,6 @@ export async function runProbeBudgeted(
   }
   await persist(state);
 
-  // Raise durable floors ONLY after a real probe tick (never on GET)
   try {
     const { raiseUsedFloor, raiseLiveFloor, raiseDelistedFloor } = await import(
       "./counter-floors"
@@ -1239,7 +1287,6 @@ export async function runProbeBudgeted(
     const { readDisplayAuthority, observeDisplayAuthority } = await import(
       "./display-authority"
     );
-    // Max with every source so we never raise to a lower value
     const auth = await readDisplayAuthority({
       used: state.used,
       live_total: state.live_active_snapshot?.total || 0,
@@ -1267,11 +1314,9 @@ export async function runProbeBudgeted(
       agents: liveFloor.agents,
       at: liveFloor.at,
     };
-    // Single public clean floor — absorb all ok, drop only explicit fails
     try {
       const { syncCleanFromProbeResults } = await import("./clean-registry");
       const clean = await syncCleanFromProbeResults(state.results || {});
-      // Align live snapshot upward to clean floor (never down)
       if (clean.counts.total > (state.live_active_snapshot?.total || 0)) {
         state.live_active_snapshot = {
           total: clean.counts.total,
@@ -1313,8 +1358,6 @@ export async function runProbeBudgeted(
 }
 
 export async function getProbePublic() {
-  // Sandbox / local: always return production public probe numbers so
-  // dualregistry.dev and Grok preview never disagree on used/last/next/live.
   try {
     const { shouldMirrorProductionMetrics, CANONICAL_API } = await import(
       "./canonical-metrics"
@@ -1350,7 +1393,9 @@ export async function getProbePublic() {
     /* fall through to local */
   }
 
-  const s = await loadProbeState();
+  // Local-first public read — no remote merge
+  const s = await loadProbeState({ mergeRemote: false });
+  const adaptive = await resolveAdaptiveProbeBudget();
   const day_remaining = Math.max(0, s.budget - s.used);
   const hourly_remaining = Math.max(0, s.hourly_cap - s.hourly_used);
   let probe_worker: Record<string, unknown> | null = null;
@@ -1363,12 +1408,10 @@ export async function getProbePublic() {
   } catch {
     probe_worker = null;
   }
-  // Production serverless: worker file is ephemeral. Derive health from last_tick.
   {
     const lastIso = s.last_tick_at || (probe_worker?.last_tick_at as string | undefined);
     const lastMs = lastIso ? Date.parse(String(lastIso)) : NaN;
     const ageMs = Number.isFinite(lastMs) ? Date.now() - lastMs : Infinity;
-    // Healthy if a tick landed within ~2 slots (12m). Stale after that.
     const derivedStatus =
       ageMs <= 12 * 60_000
         ? "running"
@@ -1392,12 +1435,15 @@ export async function getProbePublic() {
       pid: probe_worker?.pid ?? null,
       derived: true,
       age_ms: Number.isFinite(ageMs) ? ageMs : null,
+      adaptive: {
+        behind: adaptive.behind,
+        window_ms: adaptive.windowMs,
+        probes_per_tick: adaptive.probesPerTick,
+      },
     };
   }
   let agents_today = 0;
   let mcps_today = 0;
-  // Only count probes that match today's budget spends (most recent N = used).
-  // Prevents seeded history from inflating "16a/9m" when used is 1.
   const todaysPrimary = Object.entries(s.results)
     .filter(
       ([key, r]) =>
@@ -1420,7 +1466,6 @@ export async function getProbePublic() {
     if (r.kind === "agent") agents_today++;
     else if (r.kind === "mcp") mcps_today++;
   }
-  // Primary probe records only (skip aliases) for weekly due queue
   const primaries = Object.entries(s.results).filter(
     ([k]) => !k.startsWith("name:") && !k.startsWith("url:"),
   );
@@ -1446,12 +1491,10 @@ export async function getProbePublic() {
     ? s.tick_log
     : backfillTickLogFromResults(s.results)
   )
-    // Prefer budget-spent probes in the public log (real ticks)
     .filter((t) => t.spent_budget !== false)
     .sort((a, b) => (a.probed_at < b.probed_at ? 1 : -1))
     .slice(0, 40);
 
-  // Map tick log → recent shape (chronological — NOT deduped by listing id)
   const recentUnique = recentFromLog.map((t) => ({
     id: t.id,
     kind: (t.kind as "agent" | "mcp") || "agent",
@@ -1465,7 +1508,6 @@ export async function getProbePublic() {
     probed_at: t.probed_at,
   }));
 
-  // Outcome summary — unique primary listings (why fail / how many)
   const primaryMap = new Map<string, ProbeResult>();
   for (const [key, r] of Object.entries(s.results)) {
     if (key.startsWith("name:") || key.startsWith("url:")) continue;
@@ -1503,7 +1545,6 @@ export async function getProbePublic() {
         sigs.find((x) => /fail|404|402|410|403|timeout|error/i.test(String(x))) ||
         sigs[0] ||
         "unknown";
-      // Normalize e.g. "card fail 404" 
       let reason = String(failSig);
       if (/404/.test(reason)) reason = "card fail 404 (no agent/mcp card)";
       else if (/402/.test(reason)) reason = "card fail 402 (paywalled/blocked)";
@@ -1528,7 +1569,6 @@ export async function getProbePublic() {
     .slice(0, 10)
     .map(([reason, count]) => ({ reason, count }));
 
-  // READ-ONLY high-water — never raise/write on GET (that raced and dropped numbers)
   let usedOut = s.used;
   let liveOut: { total: number; mcp: number; agents: number; at: string } =
     s.live_active_snapshot || {
@@ -1555,16 +1595,13 @@ export async function getProbePublic() {
       agents: Math.max(liveOut.agents || 0, auth.live_agents || 0),
       at: liveOut.at || new Date().toISOString(),
     };
-    // last_tick never goes backwards — max ISO string / time
     if (auth.last_tick_at && (!lastTickOut || auth.last_tick_at > lastTickOut)) {
       lastTickOut = auth.last_tick_at;
     }
-    // Also max from newest tick_log entry
     const newestLog = (s.tick_log || [])[0]?.probed_at;
     if (newestLog && (!lastTickOut || newestLog > lastTickOut)) {
       lastTickOut = newestLog;
     }
-    // Keep process memory high-water (no durable write on GET)
     observeDisplayAuthority({
       used: usedOut,
       live_total: liveOut.total,
@@ -1572,13 +1609,10 @@ export async function getProbePublic() {
       live_agents: liveOut.agents,
       last_tick_at: lastTickOut,
     });
-    // Align in-memory state for this instance so subsequent ticks don't regress
     if (usedOut > s.used) s.used = usedOut;
     if (lastTickOut && (!s.last_tick_at || lastTickOut > s.last_tick_at)) {
       s.last_tick_at = lastTickOut;
     }
-    // Do NOT freeze inflated live_active_snapshot from floors here —
-    // public Live must equal Active lane (checks clean + probe ok now).
     counterBackend = "display-authority(max-of-all-sources)";
   } catch {
     try {
@@ -1591,7 +1625,6 @@ export async function getProbePublic() {
     }
   }
 
-  // PRODUCT TRUTH: Live card = Active listings only (not historical ok high-water)
   try {
     const { getLanedListings } = await import("./listing-lanes");
     const lanes = await getLanedListings();
@@ -1634,16 +1667,23 @@ export async function getProbePublic() {
         ? nextProbeFromLast(s.last_ok_tick_at || lastTickOut || s.last_tick_at)
         : nextProbeFromLast(lastTickOut || s.last_tick_at),
     cadence_rule:
-      "One full probe per 6 minutes. Preflight skips known-dead cards without spending budget. Live counts never decrease.",
+      "Adaptive cadence: full volume when behind clean target; 10m/24 when on pace. Local-first reads. Live counts never decrease.",
     live_active: liveOut,
     live_active_snapshot: liveOut,
     source_of_truth:
       "display-authority: max(GH probes, floors, live-counters, local) — GET never writes",
     counter_backend: counterBackend,
+    adaptive: {
+      behind: adaptive.behind,
+      window_ms: adaptive.windowMs,
+      probes_per_tick: adaptive.probesPerTick,
+      concurrency: adaptive.concurrency,
+      clean_total: adaptive.clean_total,
+      target: adaptive.target,
+    },
     probe_worker: probe_worker
       ? {
           status: probe_worker.status,
-          // Prefer high-water lastTickOut so worker never flaps behind display
           last_tick_at: lastTickOut || probe_worker.last_tick_at,
           next_tick_at: lastTickOut
             ? nextProbeFromLast(lastTickOut)
@@ -1674,9 +1714,9 @@ export async function getProbePublic() {
     },
     policy: {
       max_per_day: MAX_PROBES_PER_DAY,
-      max_per_window: MAX_PROBES_PER_WINDOW,
-      window_minutes: PROBE_WINDOW_MS / 60_000,
-      cadence: `up to ${MAX_PROBES_PER_WINDOW} full probes / ${PROBE_WINDOW_MS / 60_000}m · ${MAX_PROBES_PER_DAY}/day soft · clean list target ${CLEAN_GROWTH_TARGET_PER_DAY}/day · only handshake-ok listed · no fakes`,
+      max_per_window: adaptive.probesPerTick,
+      window_minutes: adaptive.windowMs / 60_000,
+      cadence: `adaptive: up to ${adaptive.probesPerTick} full probes / ${adaptive.windowMs / 60_000}m (behind=${adaptive.behind}) · ${MAX_PROBES_PER_DAY}/day soft · clean target ${CLEAN_GROWTH_TARGET_PER_DAY}/day · concurrency ${PROBE_CONCURRENCY}`,
       balance:
         "catch-up: lagging kind first; mix agents+MCPs. Prefer never-probed.",
       max_per_hour: MAX_PROBES_PER_HOUR,
@@ -1685,6 +1725,8 @@ export async function getProbePublic() {
       fresh_ok_hours: FRESH_OK_MS / 3600_000,
       weekly_recheck_days: 7,
       weekly_recheck_cap: "unlimited",
+      cost_mode:
+        "local-first reads · no force-live on ticks · CDN cache discovery · adaptive batch",
     },
     window_bucket: s.hour_bucket,
     window_used: s.hourly_used,

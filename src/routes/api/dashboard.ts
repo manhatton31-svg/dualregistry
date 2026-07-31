@@ -230,7 +230,9 @@ export const Route = createFileRoute("/api/dashboard")({
           url.searchParams.get("refresh") === "1" ||
           url.searchParams.get("live") === "1";
         const headers = {
-          "cache-control": "no-store",
+          "cache-control": userRefresh
+            ? "no-store"
+            : "private, max-age=30, stale-while-revalidate=60",
           "access-control-allow-origin": "*",
         };
 

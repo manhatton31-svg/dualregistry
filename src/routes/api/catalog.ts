@@ -10,7 +10,7 @@ export const Route = createFileRoute("/api/catalog")({
         const body = await federationCatalog(origin);
         return Response.json(body, {
           headers: {
-            "cache-control": "public, max-age=60",
+            "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
             "access-control-allow-origin": "*",
           },
         });

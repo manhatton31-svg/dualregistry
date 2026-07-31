@@ -16,7 +16,7 @@ export const Route = createFileRoute("/.well-known/mcp-registry-auth")({
         return new Response(`${MCP_REGISTRY_AUTH_LINE}\n`, {
           headers: {
             "content-type": "text/plain; charset=utf-8",
-            "cache-control": "public, max-age=60",
+            "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
             "access-control-allow-origin": "*",
           },
         });

@@ -31,7 +31,7 @@ export const Route = createFileRoute("/.well-known/a2a-card.json")({
         return Response.json(body, {
           headers: withDemoCtaHeaders(
             {
-              "cache-control": "public, max-age=120",
+              "cache-control": "public, max-age=120, s-maxage=300, stale-while-revalidate=600",
               "access-control-allow-origin": "*",
               "content-type": "application/json; charset=utf-8",
               "x-dual-a2a-card": "2.8.0",

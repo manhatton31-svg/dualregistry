@@ -31,7 +31,7 @@ export const Route = createFileRoute("/agentmap.json")({
         };
         return Response.json(body, {
           headers: withDemoCtaHeaders(
-            { "cache-control": "public, max-age=120" },
+            { "cache-control": "public, max-age=120, s-maxage=300, stale-while-revalidate=600" },
             { origin: o },
           ),
         });

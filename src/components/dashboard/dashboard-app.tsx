@@ -252,7 +252,8 @@ function useLiveData() {
 
   useEffect(() => {
     void load();
-    const id = setInterval(() => void load(true), 45_000);
+    // Soft poll every 2m — enough for ops visibility without burning Fluid Active CPU
+    const id = setInterval(() => void load(true), 120_000);
     return () => clearInterval(id);
   }, [load]);
 

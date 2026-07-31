@@ -75,7 +75,7 @@ export const Route = createFileRoute("/.well-known/agent-descriptions")({
         return Response.json(body, {
           headers: withDemoCtaHeaders(
             {
-              "cache-control": "public, max-age=60",
+              "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
               "access-control-allow-origin": "*",
             },
             { origin },

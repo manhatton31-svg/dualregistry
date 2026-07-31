@@ -80,7 +80,7 @@ export const Route = createFileRoute("/api/mcp-registry/publish-status")({
           },
           {
             headers: withDemoCtaHeaders(
-              { "cache-control": "public, max-age=60" },
+              { "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600" },
               { origin },
             ),
           },

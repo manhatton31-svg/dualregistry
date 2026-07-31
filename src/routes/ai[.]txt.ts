@@ -49,7 +49,7 @@ No account required. Real demos/feedback only.
         return new Response(text, {
           headers: {
             "content-type": "text/plain; charset=utf-8",
-            "cache-control": "public, max-age=60",
+            "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
             "access-control-allow-origin": "*",
           },
         });

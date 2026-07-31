@@ -673,7 +673,7 @@ export async function runProbeTick(opts?: { max?: number }): Promise<{
     probed_at?: string;
   } | null;
 }> {
-  const { PROBES_PER_TICK, CLEAN_GROWTH_TARGET_PER_DAY } = await import(
+  const { PROBES_PER_TICK, CLEAN_GROWTH_TARGET_PER_DAY, resolveAdaptiveProbeBudget } = await import(
     "@/lib/agents1/probe"
   );
   const state = await loadState();
@@ -682,24 +682,21 @@ export async function runProbeTick(opts?: { max?: number }): Promise<{
   await purgeAlreadyClean(state, notes);
 
   // Production only hits this path (Actions → /api/cron/probe). Must discover here.
-  let behind = true;
-  try {
-    const { loadCleanRegistry } = await import("../clean-registry");
-    const reg = await loadCleanRegistry();
-    const total = reg?.counts?.total || Object.keys(reg?.items || {}).length;
-    behind = total < CLEAN_GROWTH_TARGET_PER_DAY;
-    notes.push(
-      `clean floor ${total} · target ${CLEAN_GROWTH_TARGET_PER_DAY}/day · behind=${behind}`,
-    );
-  } catch {
-    notes.push("clean floor unknown — treating as behind target");
-  }
+  const adaptive = await resolveAdaptiveProbeBudget();
+  const behind = adaptive.behind;
+  notes.push(
+    `clean floor ${adaptive.clean_total} · target ${adaptive.target}/day · behind=${behind} · batch=${adaptive.probesPerTick} · window=${adaptive.windowMs / 1000}s`,
+  );
   await refillDiscoveryQueue(state, notes, { force: behind });
   await saveState(state); // persist new queue before long probe so crash keeps progress
 
-  const before = await loadProbeState();
+  const before = await loadProbeState({ mergeRemote: true });
   const usedBefore = before.used || 0;
-  await applyHandshakeProbes(state, { notes }, opts?.max ?? PROBES_PER_TICK);
+  await applyHandshakeProbes(
+    state,
+    { notes },
+    opts?.max ?? adaptive.probesPerTick ?? PROBES_PER_TICK,
+  );
 
   await purgeAlreadyClean(state, notes);
   purgeUnprobeable(state, notes);
@@ -710,7 +707,7 @@ export async function runProbeTick(opts?: { max?: number }): Promise<{
   } catch {
     /* */
   }
-  const after = await loadProbeState();
+  const after = await loadProbeState({ mergeRemote: true });
   const probed = Math.max(0, (after.used || 0) - usedBefore);
   let last_result: {
     id?: string;
@@ -906,8 +903,15 @@ export async function runGrowthCycle(opts?: {
     }
 
     purgeUnprobeable(state, run.notes);
-    const { PROBES_PER_TICK } = await import("@/lib/agents1/probe");
-    await applyHandshakeProbes(state, run, PROBES_PER_TICK);
+    const { resolveAdaptiveProbeBudget, PROBES_PER_TICK } = await import(
+      "@/lib/agents1/probe"
+    );
+    const adaptive = await resolveAdaptiveProbeBudget();
+    await applyHandshakeProbes(
+      state,
+      run,
+      adaptive.probesPerTick ?? PROBES_PER_TICK,
+    );
 
 
     const dailyOpsSnap = await loadDailyOps();

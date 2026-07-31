@@ -13,7 +13,7 @@ export const Route = createFileRoute("/.well-known/jwks.json")({
         const jwks = await getAgentCardJwks(origin);
         return Response.json(jwks, {
           headers: {
-            "cache-control": "public, max-age=300",
+            "cache-control": "public, max-age=300, s-maxage=300, stale-while-revalidate=600",
             "access-control-allow-origin": "*",
             "content-type": "application/json; charset=utf-8",
           },
