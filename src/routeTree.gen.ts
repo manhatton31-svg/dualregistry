@@ -67,6 +67,7 @@ import { Route as SkillsOpenclawDotmdRouteImport } from './routes/skills/opencla
 import { Route as DotwellKnownMcpServerCardRouteImport } from './routes/[.]well-known/mcp/server-card'
 import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[.]well-known/mcp/server-card[.]json'
 import { Route as ApiArdSearchRouteImport } from './routes/api/ard/search'
+import { Route as ApiCronConnectorDailyRouteImport } from './routes/api/cron/connector-daily'
 import { Route as ApiCronGrowthScoutRouteImport } from './routes/api/cron/growth-scout'
 import { Route as ApiCronPrefilterRouteImport } from './routes/api/cron/prefilter'
 import { Route as ApiCronProbeRouteImport } from './routes/api/cron/probe'
@@ -423,6 +424,11 @@ const ApiArdSearchRoute = ApiArdSearchRouteImport.update({
   path: '/api/ard/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCronConnectorDailyRoute = ApiCronConnectorDailyRouteImport.update({
+  id: '/api/cron/connector-daily',
+  path: '/api/cron/connector-daily',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCronGrowthScoutRoute = ApiCronGrowthScoutRouteImport.update({
   id: '/api/cron/growth-scout',
   path: '/api/cron/growth-scout',
@@ -763,6 +769,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/mcp/server-card': typeof DotwellKnownMcpServerCardRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
   '/api/ard/search': typeof ApiArdSearchRoute
+  '/api/cron/connector-daily': typeof ApiCronConnectorDailyRoute
   '/api/cron/growth-scout': typeof ApiCronGrowthScoutRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
@@ -877,6 +884,7 @@ export interface FileRoutesByTo {
   '/.well-known/mcp/server-card': typeof DotwellKnownMcpServerCardRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
   '/api/ard/search': typeof ApiArdSearchRoute
+  '/api/cron/connector-daily': typeof ApiCronConnectorDailyRoute
   '/api/cron/growth-scout': typeof ApiCronGrowthScoutRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
@@ -992,6 +1000,7 @@ export interface FileRoutesById {
   '/.well-known/mcp/server-card': typeof DotwellKnownMcpServerCardRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
   '/api/ard/search': typeof ApiArdSearchRoute
+  '/api/cron/connector-daily': typeof ApiCronConnectorDailyRoute
   '/api/cron/growth-scout': typeof ApiCronGrowthScoutRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
@@ -1108,6 +1117,7 @@ export interface FileRouteTypes {
     | '/.well-known/mcp/server-card'
     | '/.well-known/mcp/server-card.json'
     | '/api/ard/search'
+    | '/api/cron/connector-daily'
     | '/api/cron/growth-scout'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
@@ -1222,6 +1232,7 @@ export interface FileRouteTypes {
     | '/.well-known/mcp/server-card'
     | '/.well-known/mcp/server-card.json'
     | '/api/ard/search'
+    | '/api/cron/connector-daily'
     | '/api/cron/growth-scout'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
@@ -1336,6 +1347,7 @@ export interface FileRouteTypes {
     | '/.well-known/mcp/server-card'
     | '/.well-known/mcp/server-card.json'
     | '/api/ard/search'
+    | '/api/cron/connector-daily'
     | '/api/cron/growth-scout'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
@@ -1450,6 +1462,7 @@ export interface RootRouteChildren {
   DotwellKnownMcpServerCardRoute: typeof DotwellKnownMcpServerCardRoute
   DotwellKnownMcpServerCardDotjsonRoute: typeof DotwellKnownMcpServerCardDotjsonRoute
   ApiArdSearchRoute: typeof ApiArdSearchRoute
+  ApiCronConnectorDailyRoute: typeof ApiCronConnectorDailyRoute
   ApiCronGrowthScoutRoute: typeof ApiCronGrowthScoutRoute
   ApiCronPrefilterRoute: typeof ApiCronPrefilterRoute
   ApiCronProbeRoute: typeof ApiCronProbeRoute
@@ -1911,6 +1924,13 @@ declare module '@tanstack/react-router' {
       path: '/api/ard/search'
       fullPath: '/api/ard/search'
       preLoaderRoute: typeof ApiArdSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/cron/connector-daily': {
+      id: '/api/cron/connector-daily'
+      path: '/api/cron/connector-daily'
+      fullPath: '/api/cron/connector-daily'
+      preLoaderRoute: typeof ApiCronConnectorDailyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/cron/growth-scout': {
@@ -2377,6 +2397,7 @@ const rootRouteChildren: RootRouteChildren = {
   DotwellKnownMcpServerCardRoute: DotwellKnownMcpServerCardRoute,
   DotwellKnownMcpServerCardDotjsonRoute: DotwellKnownMcpServerCardDotjsonRoute,
   ApiArdSearchRoute: ApiArdSearchRoute,
+  ApiCronConnectorDailyRoute: ApiCronConnectorDailyRoute,
   ApiCronGrowthScoutRoute: ApiCronGrowthScoutRoute,
   ApiCronPrefilterRoute: ApiCronPrefilterRoute,
   ApiCronProbeRoute: ApiCronProbeRoute,

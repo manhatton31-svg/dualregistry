@@ -299,3 +299,219 @@ export function connectorDailyPublic(origin?: string, live?: LiveConnectorRow[])
     ],
   };
 }
+
+/* ── Durable daily prep (safe automation) ───────────────────────────── */
+
+export type ConnectorDailyLogEntry = {
+  day: string;
+  partner_id: string;
+  partner_name: string;
+  hirey_likeness: number;
+  status: "prepped" | "sent_by_operator" | "replied" | "dead" | "skipped";
+  prepped_at: string;
+  notes?: string;
+};
+
+export type ConnectorDailyState = {
+  version: string;
+  updated_at: string;
+  history: ConnectorDailyLogEntry[];
+  last_prep?: {
+    day: string;
+    pick: DailyConnectorPick;
+    operator_notified: boolean;
+    notify_error?: string;
+  };
+  /** Never auto-send to targets. Operator must opt-in per day. */
+  auto_send_to_targets: false;
+};
+
+const DURABLE_NAME = "connector-daily.json";
+
+function emptyState(): ConnectorDailyState {
+  return {
+    version: CONNECTOR_DAILY_VERSION,
+    updated_at: new Date().toISOString(),
+    history: [],
+    auto_send_to_targets: false,
+  };
+}
+
+/**
+ * Safe automation: rank + draft + durable log once per UTC day.
+ * NEVER emails connector targets. Optional: email the operator a digest
+ * when CONNECTOR_DAILY_NOTIFY=1 and CONNECTOR_OPERATOR_EMAIL is set.
+ */
+export async function runConnectorDailyPrep(opts?: {
+  origin?: string;
+  force?: boolean;
+}): Promise<{
+  ok: true;
+  day: string;
+  already: boolean;
+  pick: DailyConnectorPick;
+  operator_notified: boolean;
+  notify_error?: string;
+  note: string;
+}> {
+  const { loadDurableJson, saveDurableJson } = await import(
+    "@/lib/agents1/durable-json"
+  );
+  const { rankLiveConnectorCandidates } = await import("./connectors");
+  const origin = (opts?.origin || resolvePublicOrigin()).replace(/\/$/, "");
+  const day = utcDay();
+  let state = await loadDurableJson<ConnectorDailyState>(DURABLE_NAME, emptyState);
+
+  if (!opts?.force && state.last_prep?.day === day && state.last_prep.pick) {
+    return {
+      ok: true,
+      day,
+      already: true,
+      pick: state.last_prep.pick,
+      operator_notified: !!state.last_prep.operator_notified,
+      notify_error: state.last_prep.notify_error,
+      note: "Already prepped for this UTC day — no second target outreach.",
+    };
+  }
+
+  // Exclude partners already touched recently (14d)
+  const excludeIds: string[] = [];
+  const cutoff = Date.now() - 14 * 24 * 3600_000;
+  for (const h of state.history || []) {
+    const t = Date.parse(h.prepped_at);
+    if (Number.isFinite(t) && t >= cutoff && h.status !== "dead") {
+      excludeIds.push(h.partner_id);
+    }
+  }
+
+  const live = await rankLiveConnectorCandidates(30);
+  const pick = pickConnectorOfTheDay({ origin, live, excludeIds });
+
+  let operator_notified = false;
+  let notify_error: string | undefined;
+
+  const wantNotify =
+    process.env.CONNECTOR_DAILY_NOTIFY === "1" ||
+    process.env.CONNECTOR_DAILY_NOTIFY === "true";
+  const opEmail =
+    process.env.CONNECTOR_OPERATOR_EMAIL?.trim() ||
+    process.env.OPERATOR_EMAIL?.trim() ||
+    "";
+
+  if (wantNotify && opEmail) {
+    try {
+      const text = [
+        `Connector of the day (${day})`,
+        `Partner: ${pick.partner.name}`,
+        `Kind: ${pick.partner.kind}`,
+        `Score: ${pick.hirey_likeness}`,
+        `Why: ${pick.why}`,
+        ``,
+        `Action: ${pick.action.step}`,
+        ``,
+        `--- draft (YOU send; system never auto-sends to targets) ---`,
+        pick.action.draft.subject,
+        pick.action.draft.body,
+        ``,
+        `Do not: ${pick.action.do_not.join("; ")}`,
+        `Queue: ${pick.queue_after.map((q) => q.name).join(", ")}`,
+        `API: ${origin}/api/products/connectors/daily`,
+      ].join("\n");
+      const resendKey = process.env.RESEND_API_KEY?.trim();
+      if (resendKey) {
+        const from =
+          process.env.AGENTS1_MAIL_FROM?.trim() ||
+          process.env.MAIL_FROM?.trim() ||
+          "Dual Registry <onboarding@resend.dev>";
+        const res = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${resendKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from,
+            to: [opEmail],
+            subject: `[Dual] Connector of the day ${day}: ${pick.partner.name}`,
+            text,
+          }),
+          signal: AbortSignal.timeout(12_000),
+        });
+        if (!res.ok) {
+          notify_error = `resend HTTP ${res.status}: ${(await res.text()).slice(0, 160)}`;
+        } else {
+          operator_notified = true;
+        }
+      } else {
+        notify_error = "RESEND_API_KEY not set — draft stored; no operator email";
+      }
+    } catch (e) {
+      notify_error = e instanceof Error ? e.message : String(e);
+    }
+  }
+
+  const entry: ConnectorDailyLogEntry = {
+    day,
+    partner_id: pick.partner.id,
+    partner_name: pick.partner.name,
+    hirey_likeness: pick.hirey_likeness,
+    status: "prepped",
+    prepped_at: new Date().toISOString(),
+  };
+  state = {
+    ...state,
+    version: CONNECTOR_DAILY_VERSION,
+    updated_at: new Date().toISOString(),
+    history: [entry, ...(state.history || [])].slice(0, 90),
+    last_prep: {
+      day,
+      pick,
+      operator_notified,
+      notify_error,
+    },
+    auto_send_to_targets: false,
+  };
+  await saveDurableJson(DURABLE_NAME, state);
+
+  return {
+    ok: true,
+    day,
+    already: false,
+    pick,
+    operator_notified,
+    notify_error,
+    note:
+      "Prepped only. Auto-send to targets is permanently off. Operator sends the draft if the contact path is human.",
+  };
+}
+
+export async function getConnectorDailyStatus() {
+  const { loadDurableJson } = await import("@/lib/agents1/durable-json");
+  const state = await loadDurableJson<ConnectorDailyState>(
+    DURABLE_NAME,
+    emptyState,
+  );
+  return {
+    ok: true as const,
+    auto_send_to_targets: false as const,
+    automation: {
+      ranking: true,
+      draft: true,
+      durable_log: true,
+      cron_prep: true,
+      email_targets: false,
+      email_operator_digest:
+        process.env.CONNECTOR_DAILY_NOTIFY === "1" ||
+        process.env.CONNECTOR_DAILY_NOTIFY === "true",
+    },
+    last_prep: state.last_prep
+      ? {
+          day: state.last_prep.day,
+          partner: state.last_prep.pick.partner.name,
+          operator_notified: state.last_prep.operator_notified,
+        }
+      : null,
+    history: (state.history || []).slice(0, 14),
+    updated_at: state.updated_at,
+  };
+}
