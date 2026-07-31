@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:06:28.401Z",
+  "updated_at": "2026-07-31T13:06:29.888Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -21,11 +21,11 @@
     },
     "agtpub_ae427eacf129a7ad16a0": {
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
-      "attraction": 32.75,
+      "attraction": 33.25,
       "danger": 0,
       "demand": 14,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:06:25.553Z",
+      "last_reinforced_at": "2026-07-31T13:06:29.888Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -38,11 +38,11 @@
     },
     "agent-agent-guild-https-agent-guild-5d5r-onrender-com": {
       "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "attraction": 39.75,
+      "attraction": 40.5,
       "danger": 0,
       "demand": 17,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:06:25.356Z",
+      "last_reinforced_at": "2026-07-31T13:06:28.619Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -348,28 +348,28 @@
       "a": "agent-agoragentic-https-agoragentic-com",
       "b": "agtpub_ae427eacf129a7ad16a0",
       "count": 2,
-      "intensity": 7.958,
+      "intensity": 7.957,
       "last_at": "2026-07-31T13:05:27.821Z"
     },
     "agent-agent-guild-https-agent-guild-5d5r-onrender-com|agtpub_ae427eacf129a7ad16a0": {
       "a": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
       "b": "agtpub_ae427eacf129a7ad16a0",
       "count": 2,
-      "intensity": 7.955,
+      "intensity": 7.954,
       "last_at": "2026-07-31T13:05:29.531Z"
     },
     "agent-agent-guild-https-agent-guild-5d5r-onrender-com|agtpub_4c34b0bf38d34d7e64ee": {
       "a": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
       "b": "agtpub_4c34b0bf38d34d7e64ee",
       "count": 2,
-      "intensity": 7.952,
+      "intensity": 7.951,
       "last_at": "2026-07-31T13:05:31.341Z"
     },
     "agent-sunny-yuen-https-agent-yuens-me|agtpub_4c34b0bf38d34d7e64ee": {
       "a": "agent-sunny-yuen-https-agent-yuens-me",
       "b": "agtpub_4c34b0bf38d34d7e64ee",
       "count": 2,
-      "intensity": 7.952,
+      "intensity": 7.951,
       "last_at": "2026-07-31T13:05:33.172Z"
     },
     "agent-sunny-yuen-https-agent-yuens-me|agtpub_3c5075ba16667511f5f5": {
@@ -458,6 +458,34 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yhym8_q0tbnm",
+      "kind": "mark",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "intensity": 1,
+      "at": "2026-07-31T13:06:29.888Z",
+      "tags": [
+        "read_residue",
+        "sense",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yhxmz_rrnci1",
+      "kind": "mark",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:06:28.619Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yhxgx_1pigrf",
       "kind": "mark",
@@ -3322,7 +3350,7 @@
       "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
       "from": "probe_tick",
       "body": "outcome ok q=0.75 lat=60ms",
-      "intensity": 12.995,
+      "intensity": 12.994,
       "at": "2026-07-31T13:05:24.407Z",
       "tags": [
         "outcome",
@@ -4598,6 +4626,24 @@
     }
   ],
   "feed_events": [
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "kind": "mark",
+      "amount": 1,
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "at": "2026-07-31T13:06:29.888Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:06:28.619Z"
+    },
     {
       "type": "leave_trace",
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
@@ -6304,29 +6350,12 @@
       "from": "flywheel_sense",
       "body": "sense residue",
       "at": "2026-07-31T13:05:39.115Z"
-    },
-    {
-      "type": "contagion",
-      "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
-      "listing_b": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
-      "amount": 1,
-      "from": "flywheel_seed",
-      "at": "2026-07-31T13:05:38.946Z",
-      "body": "Composition contagion touched 1 neighbors"
-    },
-    {
-      "type": "used_with",
-      "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
-      "listing_b": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
-      "amount": 2,
-      "from": "flywheel_seed",
-      "at": "2026-07-31T13:05:38.946Z"
     }
   ],
   "totals": {
     "auto_deposits": 6,
-    "agent_deposits": 294,
-    "senses": 90,
+    "agent_deposits": 296,
+    "senses": 91,
     "follows": 41,
     "evaporations": 0
   }
