@@ -1,6 +1,31 @@
 {
-  "updated_at": "2026-07-31T13:10:32.542Z",
+  "updated_at": "2026-07-31T13:10:35.861Z",
   "items": [
+    {
+      "id": "agent-a2aapp-https-github-com-tanaikech-a2aapp",
+      "kind": "agent",
+      "target": "https://medium.com/.well-known/agent.json",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
+        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
+        "Do not return HTML, login walls, 404, or empty bodies.",
+        "After the card is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "agent",
+          "name": "",
+          "agent_card_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T12:03:48.664Z",
+      "delisted_at": "2026-07-31T13:10:35.861Z"
+    },
     {
       "id": "agent-agent2agent-doc-https-github-com-ai-boost-agent2agent-doc",
       "kind": "agent",
@@ -9931,31 +9956,6 @@
       },
       "probed_at": "2026-07-30T22:26:03.844Z",
       "delisted_at": "2026-07-31T12:07:04.680Z"
-    },
-    {
-      "id": "agent-a2aapp-https-github-com-tanaikech-a2aapp",
-      "kind": "agent",
-      "target": "https://medium.com/.well-known/agent.json",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
-        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
-        "Do not return HTML, login walls, 404, or empty bodies.",
-        "After the card is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "agent",
-          "name": "",
-          "agent_card_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T12:03:48.664Z",
-      "delisted_at": "2026-07-31T12:07:04.472Z"
     },
     {
       "id": "mcp-ai-com-mcp-skills-search-https-github-com-agentskills-agentskills",
@@ -22579,6 +22579,7 @@
     }
   ],
   "active_ids": [
+    "agent-a2aapp-https-github-com-tanaikech-a2aapp",
     "agent-agent2agent-doc-https-github-com-ai-boost-agent2agent-doc",
     "agent-a2a-docs-zh-https-github-com-sxhxliang-a2a-docs-zh",
     "mcp-openagent-https-github-com-the-open-agent-openagent",
@@ -22967,7 +22968,6 @@
     "agent-piqrypt-https-github-com-piqrypt-piqrypt",
     "agent-aria-https-github-com-wiqilee-aria",
     "agent-swarmtrade-https-github-com-tjcrowley-swarmtrade",
-    "agent-a2aapp-https-github-com-tanaikech-a2aapp",
     "mcp-ai-com-mcp-skills-search-https-github-com-agentskills-agentskills",
     "mcp-ai-com-mcp-registry-https-github-com-modelcontextprotocol-registry",
     "mcp-ai-com-mcp-petstore-https-github-com-la-rebelion-hapimcp",
