@@ -346,9 +346,12 @@ function useLiveData() {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [opsLoading, setOpsLoading] = useState(false);
+
   const load = useCallback(async (soft = false, opts?: { ops?: boolean }) => {
     // Soft poll: do not flip global refreshing spinner (keeps UI snappy)
-    if (!soft) setRefreshing(true);
+    if (!soft && !opts?.ops) setRefreshing(true);
+    if (opts?.ops) setOpsLoading(true);
     setError(null);
     try {
       const q = new URLSearchParams();
@@ -359,6 +362,7 @@ function useLiveData() {
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error(`dashboard ${res.status}`);
       const json = (await res.json()) as DashboardData;
+      const forceOps = Boolean(opts?.ops);
       // Sticky merge: never flash zeros when a soft poll times out side panels
       setData((prev) => {
         if (!prev) return json;
@@ -366,14 +370,17 @@ function useLiveData() {
           cost: (v?: DashboardData["platform_cost"]) =>
             Number(v?.running_total?.month_usd_gross || 0) * 1e6 +
             Number(v?.running_total?.today_usd || 0) * 1e3 +
-            Number(v?.today?.invocations || 0),
+            Number(v?.today?.invocations || 0) +
+            (v && typeof v === "object" && "ok" in (v as object) ? 1 : 0),
           runs: (v?: DashboardData["agent_runs"]) =>
-            Number(v?.totals?.n || 0) * 10 + Number(v?.totals?.ok || 0),
+            Number(v?.totals?.n || 0) * 10 + Number(v?.totals?.ok || 0) +
+            (v && typeof v === "object" ? 1 : 0),
           scout: (v?: DashboardData["growth_scout"]) =>
             Number(v?.month_invites || 0) * 1000 +
             Number(v?.day_invites || 0) * 100 +
             Number(v?.invited_unique || 0) * 10 +
-            Number(v?.month_usd || 0) * 1e6,
+            Number(v?.month_usd || 0) * 1e6 +
+            (v && typeof v === "object" ? 1 : 0),
           lanes: (v?: DashboardData["listing_lanes"]) => {
             const mcp = Array.isArray(v?.mcp_active)
               ? v!.mcp_active!.length
@@ -388,7 +395,9 @@ function useLiveData() {
           incoming: T | null | undefined,
           was: T | null | undefined,
           sc: (v: T) => number,
+          force?: boolean,
         ): T | null | undefined => {
+          if (force && incoming != null) return incoming;
           if (incoming == null) return was;
           if (was == null) return incoming;
           try {
@@ -403,16 +412,19 @@ function useLiveData() {
             json.platform_cost,
             prev.platform_cost,
             score.cost,
+            forceOps,
           ) as DashboardData["platform_cost"],
           agent_runs: pick(
             json.agent_runs,
             prev.agent_runs,
             score.runs,
+            forceOps,
           ) as DashboardData["agent_runs"],
           growth_scout: pick(
             json.growth_scout,
             prev.growth_scout,
             score.scout,
+            forceOps,
           ) as DashboardData["growth_scout"],
           listing_lanes: pick(
             json.listing_lanes,
@@ -426,13 +438,13 @@ function useLiveData() {
             const b = prev.hero;
             if (!a) return b;
             if (!b) return a;
-            const score = (h: NonNullable<DashboardData["hero"]>) =>
+            const hs = (h: NonNullable<DashboardData["hero"]>) =>
               Number(h.live || 0) * 1e6 +
               Number(h.probes_today || 0) * 1e3 +
               Number(h.agent_events_today || 0) * 100 +
               Number(h.feedback_real || 0) * 10 +
               Number(h.outcomes || 0);
-            return score(a) >= score(b) ? a : b;
+            return hs(a) >= hs(b) ? a : b;
           })(),
         };
       });
@@ -441,12 +453,13 @@ function useLiveData() {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
       setRefreshing(false);
+      if (opts?.ops) setOpsLoading(false);
     }
   }, []);
 
 
   useEffect(() => {
-    void load();
+    void load(true);
     // Soft poll every 3m — enough for ops visibility without burning Fluid Active CPU
     const id = setInterval(() => void load(true), 180_000);
     return () => clearInterval(id);
@@ -456,6 +469,7 @@ function useLiveData() {
     data,
     refreshedAt,
     refreshing,
+    opsLoading,
     error,
     refresh: () => load(false),
     loadOps: () => load(true, { ops: true }),
@@ -463,8 +477,15 @@ function useLiveData() {
 }
 
 export function DashboardApp() {
-  const { data, refreshedAt, refreshing, error, refresh, loadOps } =
-    useLiveData();
+  const {
+    data,
+    refreshedAt,
+    refreshing,
+    opsLoading,
+    error,
+    refresh,
+    loadOps,
+  } = useLiveData();
   const [tab, setTab] = useState<TabId>("mcp");
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
@@ -704,7 +725,8 @@ export function DashboardApp() {
             onClick={() => {
               setShowPlatform((v) => {
                 const next = !v;
-                if (next && !data?.platform_cost) {
+                if (next) {
+                  // Always fetch ops on open so cold isolates fill the panel
                   void loadOps();
                 }
                 return next;
@@ -721,17 +743,36 @@ export function DashboardApp() {
               Platform ops
             </span>
             <span className="tabular text-subtle">
-              {costToday != null
-                ? `$${Number(costToday) < 0.01 ? Number(costToday).toFixed(4) : Number(costToday).toFixed(2)} today`
-                : "cost"}
-              {agentRunN != null ? ` · ${agentRunN} runs` : ""}
-              {growthScout?.day_invites != null
+              {opsLoading
+                ? "loading…"
+                : costToday != null
+                  ? `$${Number(costToday) < 0.01 ? Number(costToday).toFixed(4) : Number(costToday).toFixed(2)} today`
+                  : "cost · runs · scout"}
+              {!opsLoading && agentRunN != null ? ` · ${agentRunN} runs` : ""}
+              {!opsLoading && growthScout?.day_invites != null
                 ? ` · ${growthScout.day_invites} scout`
                 : ""}
             </span>
           </button>
           {showPlatform ? (
             <div className="mt-2 space-y-3">
+              {opsLoading && !platformCost && !growthScout ? (
+                <Card className="border-border/70">
+                  <CardContent className="py-6 text-center text-sm text-muted">
+                    Loading platform cost, agent runs, and growth scout…
+                  </CardContent>
+                </Card>
+              ) : null}
+              {!opsLoading && !platformCost && !growthScout ? (
+                <Card className="border-border/70">
+                  <CardContent className="space-y-3 py-5 text-center text-sm text-muted">
+                    <p>Ops panels unavailable on this load.</p>
+                    <Button size="sm" variant="secondary" onClick={() => void loadOps()}>
+                      Retry
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : null}
               {platformCost ? (
                 <Card className="border-border/70">
                   <CardHeader className="pb-2">

@@ -409,7 +409,7 @@ async function attachSidePanels(
   let growth_scout = full ? null : lastGoodSide?.growth_scout ?? null;
 
   if (full) {
-    const opsT = Math.min(2500, t + 500);
+    const opsT = Math.min(4500, Math.max(t, 3000));
     const [cost, runs, scout] = await Promise.all([
       (async () => {
         try {
