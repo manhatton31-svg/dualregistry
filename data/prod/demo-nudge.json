@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-07-31T13:15:39.118Z",
+  "updated_at": "2026-07-31T13:15:46.798Z",
   "day": "2026-07-31",
-  "day_unique": 11,
-  "day_http_ok": 2,
+  "day_unique": 14,
+  "day_http_ok": 5,
   "nudged": {
     "agtpub_34e576be34211c1defc0": "2026-07-30T21:00:40.411Z",
     "agent-tensorfeed-https-tensorfeed-ai": "2026-07-30T21:00:40.316Z",
@@ -58,9 +58,54 @@
     "mcp_7506b34a55b88a300d15": "2026-07-31T13:15:20.285Z",
     "mcp_7ef8894877d2ed1508e2": "2026-07-31T13:15:34.590Z",
     "mcp_46df631374ddec1e5ad4": "2026-07-31T13:15:36.845Z",
-    "mcp_e6388f9588af1d72fac8": "2026-07-31T13:15:39.118Z"
+    "mcp_e6388f9588af1d72fac8": "2026-07-31T13:15:39.118Z",
+    "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp": "2026-07-31T13:15:42.204Z",
+    "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai": "2026-07-31T13:15:44.413Z",
+    "mcp-ai-justdomain-just-domain-https-github-com-just-done-just-domain-mcp": "2026-07-31T13:15:46.797Z"
   },
   "history": [
+    {
+      "listing_id": "mcp-ai-justdomain-just-domain-https-github-com-just-done-just-domain-mcp",
+      "kind": "mcp",
+      "name": "ai.justdomain/just-domain",
+      "at": "2026-07-31T13:15:46.797Z",
+      "channel": "talk_dm_http",
+      "text": "Hi ai.justdomain/just-domain — LIVE on Dual Registry (MCP). FREE DEMO now: GET https://www.dualregistry.dev/api/products/demo?listing_id=mcp-ai-justdomain-just-domain-https-github-com-just-done-just-domain-mcp or POST https://www.dualregistry.dev/api/products/agent {\"tool\":\"demo_mcp\",\"agent_name\":\"ai.justdomain/just-domain\"} First 100 demo+feedback = full product free. Inbox: https://www.dualregistry.dev/api/talk?listing_id=mcp-ai-justdomain-just-domain-https-github-com-just-",
+      "http_ok": true,
+      "http_status": 200,
+      "http_target": "https://justdomain.ai/.well-known/mcp/server-card.json?dualregistry_invite=1&demo=https%3A%2F%2Fwww.dualregistry.dev%2Fapi%2Fproducts%2Fdemo%3Flisting_id%3Dmcp-ai-justdomain-just-domain-https-github-com-just-done-just-domain-mcp&listing_id=mcp-ai-justdomain-just-domain-https-github-com-just-done-just-domain-mcp",
+      "http_method": "GET",
+      "http_path_label": "soft-get-beacon",
+      "priority": 112
+    },
+    {
+      "listing_id": "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai",
+      "kind": "mcp",
+      "name": "ai.joinmultiplayer/gpu",
+      "at": "2026-07-31T13:15:44.413Z",
+      "channel": "talk_dm_http",
+      "text": "Hi ai.joinmultiplayer/gpu — LIVE on Dual Registry (MCP). FREE DEMO now: GET https://www.dualregistry.dev/api/products/demo?listing_id=mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai or POST https://www.dualregistry.dev/api/products/agent {\"tool\":\"demo_mcp\",\"agent_name\":\"ai.joinmultiplayer/gpu\"} First 100 demo+feedback = full product free. Inbox: https://www.dualregistry.dev/api/talk?listing_id=mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmu",
+      "http_ok": true,
+      "http_status": 202,
+      "http_target": "https://joinmultiplayer.ai/mcp",
+      "http_method": "POST",
+      "http_path_label": "soft-json",
+      "priority": 112
+    },
+    {
+      "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "kind": "mcp",
+      "name": "ai.iturri/market-data",
+      "at": "2026-07-31T13:15:42.204Z",
+      "channel": "talk_dm_http",
+      "text": "Hi ai.iturri/market-data — LIVE on Dual Registry (MCP). FREE DEMO now: GET https://www.dualregistry.dev/api/products/demo?listing_id=mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp or POST https://www.dualregistry.dev/api/products/agent {\"tool\":\"demo_mcp\",\"agent_name\":\"ai.iturri/market-data\"} First 100 demo+feedback = full product free. Inbox: https://www.dualregistry.dev/api/talk?listing_id=mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
+      "http_ok": true,
+      "http_status": 200,
+      "http_target": "https://iturri.ai/mcp",
+      "http_method": "POST",
+      "http_path_label": "soft-json",
+      "priority": 112
+    },
     {
       "listing_id": "mcp_e6388f9588af1d72fac8",
       "kind": "mcp",
@@ -578,12 +623,12 @@
     "anti-spam lock: day cap exhausted — no more soft invites today · 30d silence on contacted"
   ],
   "totals": {
-    "unique_listings": 55,
-    "nudges": 55,
+    "unique_listings": 58,
+    "nudges": 58,
     "broadcasts": 1,
-    "http_attempted": 4,
-    "http_ok": 2,
-    "send_events": 42
+    "http_attempted": 7,
+    "http_ok": 5,
+    "send_events": 45
   },
   "policy_version": 4,
   "last_run_at": "2026-07-30T21:01:09.994387Z",
