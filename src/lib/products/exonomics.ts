@@ -350,19 +350,22 @@ async function gatherDensity(): Promise<DensitySnapshot> {
     const { getStigmergyPublic, followTrail } = await import("./stigmergy");
     const st = await getStigmergyPublic({});
     const totals = (st.totals || {}) as Record<string, number>;
-    compositions = Math.max(
-      compositions,
-      Number(totals.compositions || totals.agent_deposits || 0),
+    // Prefer real composition edges (used_with pairs), never agent_deposits/marks
+    const compList = Array.isArray(st.compositions) ? st.compositions.length : 0;
+    const compTotal = Number(
+      (totals as { compositions?: number }).compositions || 0,
     );
+    compositions = Math.max(compositions, compList, compTotal);
     try {
       const hot = await followTrail({ limit: 12, kind: "hot" });
       trail_heat = (hot.items || []).reduce(
-        (a: number, it: { score?: number; intensity?: number }) =>
-          a + Number(it.score || it.intensity || 1),
+        (a: number, it: { trail_score?: number; score?: number; intensity?: number }) =>
+          a + Number(it.trail_score || it.score || it.intensity || 1),
         0,
       );
     } catch {
-      trail_heat = Number(totals.senses || 0) * 0.2 + Number(totals.follows || 0);
+      trail_heat =
+        Number(totals.senses || 0) * 0.2 + Number(totals.follows || 0);
     }
   } catch {
     /* */
