@@ -330,7 +330,70 @@ function useLiveData() {
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error(`dashboard ${res.status}`);
       const json = (await res.json()) as DashboardData;
-      setData(json);
+      // Sticky merge: never flash zeros when a soft poll times out side panels
+      setData((prev) => {
+        if (!prev) return json;
+        const score = {
+          cost: (v?: DashboardData["platform_cost"]) =>
+            Number(v?.running_total?.month_usd_gross || 0) * 1e6 +
+            Number(v?.running_total?.today_usd || 0) * 1e3 +
+            Number(v?.today?.invocations || 0),
+          runs: (v?: DashboardData["agent_runs"]) =>
+            Number(v?.totals?.n || 0) * 10 + Number(v?.totals?.ok || 0),
+          scout: (v?: DashboardData["growth_scout"]) =>
+            Number(v?.month_invites || 0) * 1000 +
+            Number(v?.day_invites || 0) * 100 +
+            Number(v?.invited_unique || 0) * 10 +
+            Number(v?.month_usd || 0) * 1e6,
+          lanes: (v?: DashboardData["listing_lanes"]) => {
+            const mcp = Array.isArray(v?.mcp_active)
+              ? v!.mcp_active!.length
+              : Number(v?.counts?.mcp_active || 0);
+            const ag = Array.isArray(v?.agents_active)
+              ? v!.agents_active!.length
+              : Number(v?.counts?.agents_active || 0);
+            return mcp + ag;
+          },
+        };
+        const pick = <T,>(
+          incoming: T | null | undefined,
+          was: T | null | undefined,
+          sc: (v: T) => number,
+        ): T | null | undefined => {
+          if (incoming == null) return was;
+          if (was == null) return incoming;
+          try {
+            return sc(incoming) >= sc(was) ? incoming : was;
+          } catch {
+            return incoming;
+          }
+        };
+        return {
+          ...json,
+          platform_cost: pick(
+            json.platform_cost,
+            prev.platform_cost,
+            score.cost,
+          ) as DashboardData["platform_cost"],
+          agent_runs: pick(
+            json.agent_runs,
+            prev.agent_runs,
+            score.runs,
+          ) as DashboardData["agent_runs"],
+          growth_scout: pick(
+            json.growth_scout,
+            prev.growth_scout,
+            score.scout,
+          ) as DashboardData["growth_scout"],
+          listing_lanes: pick(
+            json.listing_lanes,
+            prev.listing_lanes,
+            score.lanes,
+          ) as DashboardData["listing_lanes"],
+          product_engagement:
+            json.product_engagement ?? prev.product_engagement,
+        };
+      });
       setRefreshedAt(new Date().toISOString());
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -338,6 +401,7 @@ function useLiveData() {
       setRefreshing(false);
     }
   }, []);
+
 
   useEffect(() => {
     void load();

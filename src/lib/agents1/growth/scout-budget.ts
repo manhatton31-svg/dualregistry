@@ -2,8 +2,14 @@
  * Growth Scout monthly/daily spend guard — hard $25/mo ceiling by default.
  * Tracks xAI token estimates + attributed Fluid wall time for scout cycles.
  * Conversion funnel + per-listing outcomes for ranking feedback.
+ *
+ * High-water merge: multi-instance / cold-start must never regress invites/USD.
  */
-import { loadDurableJson, saveDurableJson } from "@/lib/agents1/durable-json";
+import {
+  loadDurableJson,
+  saveDurableJson,
+  durableRemoteRawUrl,
+} from "@/lib/agents1/durable-json";
 
 const DURABLE = "growth-scout.json";
 
@@ -13,7 +19,6 @@ export type ScoutOutcome = {
   http_ok: boolean;
   name?: string;
   kind?: string;
-  /** filled when reply-capture / demo later matches this listing */
   replied_at?: string;
   demo_taken_at?: string;
   feedback_at?: string;
@@ -27,7 +32,6 @@ export type ScoutConversion = {
   stigmergy_deposits: number;
   autocatalysis_bumps: number;
   compositions_seeded: number;
-  /** month-scoped invite delivers (resets on month roll) */
   month_talk_ok: number;
   month_http_ok: number;
 };
@@ -44,12 +48,9 @@ export type ScoutBudgetState = {
   last_status?: string;
   last_error?: string;
   last_notes?: string[];
-  /** listing_id → last invite ISO */
   invited: Record<string, string>;
-  /** listing_id → last invite outcome (learning loop) */
   outcomes?: Record<string, ScoutOutcome>;
   conversion?: ScoutConversion;
-  /** allowlist registry state */
   allowlist?: {
     shareabot?: {
       registered_at?: string;
@@ -111,6 +112,181 @@ function empty(): ScoutBudgetState {
   };
 }
 
+function newerIso(a?: string, b?: string): string | undefined {
+  if (!a) return b;
+  if (!b) return a;
+  return a >= b ? a : b;
+}
+
+function mergeConversion(
+  a?: ScoutConversion,
+  b?: ScoutConversion,
+): ScoutConversion {
+  const A = a || emptyConversion();
+  const B = b || emptyConversion();
+  return {
+    talk_ok: Math.max(A.talk_ok || 0, B.talk_ok || 0),
+    http_ok: Math.max(A.http_ok || 0, B.http_ok || 0),
+    both_ok: Math.max(A.both_ok || 0, B.both_ok || 0),
+    failed: Math.max(A.failed || 0, B.failed || 0),
+    stigmergy_deposits: Math.max(
+      A.stigmergy_deposits || 0,
+      B.stigmergy_deposits || 0,
+    ),
+    autocatalysis_bumps: Math.max(
+      A.autocatalysis_bumps || 0,
+      B.autocatalysis_bumps || 0,
+    ),
+    compositions_seeded: Math.max(
+      A.compositions_seeded || 0,
+      B.compositions_seeded || 0,
+    ),
+    month_talk_ok: Math.max(A.month_talk_ok || 0, B.month_talk_ok || 0),
+    month_http_ok: Math.max(A.month_http_ok || 0, B.month_http_ok || 0),
+  };
+}
+
+/** High-water merge — never regress invites / USD / allowlist. */
+export function mergeScoutBudget(
+  a: ScoutBudgetState,
+  b: ScoutBudgetState,
+): ScoutBudgetState {
+  const month = utcMonth();
+  const day = utcDay();
+
+  // Prefer same-month high water for monthly counters
+  const aSameMonth = a.month === month;
+  const bSameMonth = b.month === month;
+  const month_usd = Math.max(
+    aSameMonth ? a.month_usd || 0 : 0,
+    bSameMonth ? b.month_usd || 0 : 0,
+  );
+  const month_invites = Math.max(
+    aSameMonth ? a.month_invites || 0 : 0,
+    bSameMonth ? b.month_invites || 0 : 0,
+  );
+  const month_xai_usd = Math.max(
+    aSameMonth ? a.month_xai_usd || 0 : 0,
+    bSameMonth ? b.month_xai_usd || 0 : 0,
+  );
+  const month_fluid_usd = Math.max(
+    aSameMonth ? a.month_fluid_usd || 0 : 0,
+    bSameMonth ? b.month_fluid_usd || 0 : 0,
+  );
+
+  const aSameDay = a.day === day;
+  const bSameDay = b.day === day;
+  const day_invites = Math.max(
+    aSameDay ? a.day_invites || 0 : 0,
+    bSameDay ? b.day_invites || 0 : 0,
+  );
+
+  const invited: Record<string, string> = { ...(a.invited || {}) };
+  for (const [id, at] of Object.entries(b.invited || {})) {
+    invited[id] = newerIso(invited[id], at) || at;
+  }
+
+  const outcomes: Record<string, ScoutOutcome> = {
+    ...(a.outcomes || {}),
+  };
+  for (const [id, row] of Object.entries(b.outcomes || {})) {
+    const prev = outcomes[id];
+    if (!prev) {
+      outcomes[id] = row;
+      continue;
+    }
+    outcomes[id] = {
+      ...prev,
+      ...row,
+      last_invite_at:
+        newerIso(prev.last_invite_at, row.last_invite_at) || row.last_invite_at,
+      talk_ok: Boolean(prev.talk_ok || row.talk_ok),
+      http_ok: Boolean(prev.http_ok || row.http_ok),
+      replied_at: newerIso(prev.replied_at, row.replied_at),
+      demo_taken_at: newerIso(prev.demo_taken_at, row.demo_taken_at),
+      feedback_at: newerIso(prev.feedback_at, row.feedback_at),
+    };
+  }
+
+  // Allowlist: prefer any registered / later post
+  const alA = a.allowlist || {};
+  const alB = b.allowlist || {};
+  const shareabot =
+    alA.shareabot?.registered_at || alB.shareabot?.registered_at
+      ? {
+          ...(alA.shareabot || {}),
+          ...(alB.shareabot || {}),
+          registered_at: newerIso(
+            alA.shareabot?.registered_at,
+            alB.shareabot?.registered_at,
+          ),
+        }
+      : alA.shareabot || alB.shareabot;
+  const moltbook =
+    alA.moltbook?.last_post_at || alB.moltbook?.last_post_at
+      ? {
+          ...(alA.moltbook || {}),
+          ...(alB.moltbook || {}),
+          last_post_at: newerIso(
+            alA.moltbook?.last_post_at,
+            alB.moltbook?.last_post_at,
+          ),
+        }
+      : alA.moltbook || alB.moltbook;
+
+  const histMap = new Map<string, ScoutBudgetState["history"][0]>();
+  for (const h of [...(a.history || []), ...(b.history || [])]) {
+    if (!h?.at) continue;
+    const prev = histMap.get(h.at);
+    if (!prev || (h.invites || 0) >= (prev.invites || 0)) histMap.set(h.at, h);
+  }
+  const history = [...histMap.values()]
+    .sort((x, y) => (y.at || "").localeCompare(x.at || ""))
+    .slice(0, 40);
+
+  const last_run_at = newerIso(a.last_run_at, b.last_run_at);
+  // Prefer status from the side with later last_run_at
+  const last_status =
+    (a.last_run_at || "") >= (b.last_run_at || "")
+      ? a.last_status || b.last_status
+      : b.last_status || a.last_status;
+  const last_notes =
+    (a.last_run_at || "") >= (b.last_run_at || "")
+      ? a.last_notes || b.last_notes
+      : b.last_notes || a.last_notes;
+  const last_error =
+    (a.last_run_at || "") >= (b.last_run_at || "")
+      ? a.last_error || b.last_error
+      : b.last_error || a.last_error;
+
+  return {
+    month,
+    month_usd,
+    month_invites,
+    month_xai_usd,
+    month_fluid_usd,
+    day,
+    day_invites,
+    last_run_at,
+    last_status,
+    last_error,
+    last_notes,
+    invited,
+    outcomes,
+    conversion: mergeConversion(a.conversion, b.conversion),
+    allowlist: {
+      shareabot,
+      moltbook,
+      last_allowlist_at: newerIso(
+        alA.last_allowlist_at,
+        alB.last_allowlist_at,
+      ),
+    },
+    history,
+    updated_at: newerIso(a.updated_at, b.updated_at) || new Date().toISOString(),
+  };
+}
+
 function roll(s: ScoutBudgetState): ScoutBudgetState {
   const m = utcMonth();
   const d = utcDay();
@@ -124,7 +300,6 @@ function roll(s: ScoutBudgetState): ScoutBudgetState {
       history: (s.history || []).slice(0, 40),
       conversion: {
         ...emptyConversion(),
-        // lifetime-ish counters kept across months for dashboard continuity
         stigmergy_deposits: s.conversion?.stigmergy_deposits || 0,
         autocatalysis_bumps: s.conversion?.autocatalysis_bumps || 0,
         compositions_seeded: s.conversion?.compositions_seeded || 0,
@@ -157,17 +332,59 @@ export function cooldownMs(): number {
   return cooldownDays() * 24 * 3600_000;
 }
 
-export async function loadScoutBudget(): Promise<ScoutBudgetState> {
+/** Process mem + remote high-water so cold isolates don't show zeros. */
+let mem: ScoutBudgetState | null = null;
+
+async function fetchRemoteScout(): Promise<ScoutBudgetState | null> {
   try {
-    const s = await loadDurableJson<ScoutBudgetState>(DURABLE, empty);
-    return roll(s || empty());
+    const url = durableRemoteRawUrl(DURABLE) + `?t=${Date.now()}`;
+    const res = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "DualRegistryScout/1.0",
+        "cache-control": "no-cache",
+      },
+      cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!res.ok) return null;
+    const text = await res.text();
+    if (!text.trim() || text.trim().startsWith("<!")) return null;
+    return JSON.parse(text) as ScoutBudgetState;
   } catch {
-    return empty();
+    return null;
   }
 }
 
+export async function loadScoutBudget(): Promise<ScoutBudgetState> {
+  let local: ScoutBudgetState | null = null;
+  try {
+    local = await loadDurableJson<ScoutBudgetState>(DURABLE, empty);
+  } catch {
+    local = null;
+  }
+  const remote = await fetchRemoteScout();
+
+  let merged = roll(local || empty());
+  if (remote) merged = mergeScoutBudget(merged, roll(remote));
+  if (mem) merged = mergeScoutBudget(merged, roll(mem));
+
+  mem = merged;
+  return merged;
+}
+
 export async function saveScoutBudget(s: ScoutBudgetState): Promise<void> {
-  const next = { ...roll(s), updated_at: new Date().toISOString() };
+  // Always merge high-water before write so a stale isolate cannot clobber
+  let next = roll(s);
+  if (mem) next = mergeScoutBudget(next, roll(mem));
+  try {
+    const remote = await fetchRemoteScout();
+    if (remote) next = mergeScoutBudget(next, roll(remote));
+  } catch {
+    /* */
+  }
+  next = { ...next, updated_at: new Date().toISOString() };
+  mem = next;
   await saveDurableJson(DURABLE, next);
 }
 
@@ -193,19 +410,16 @@ export function isCooling(
   return now - t < cooldownMs();
 }
 
-/** Estimate Fluid cost for a wall_ms scout tick (product-class ratios). */
 export function estimateFluidUsd(wall_ms: number): number {
   const wall_h = Math.max(0, wall_ms) / 3_600_000;
-  // Active CPU ~35% of wall for I/O-heavy scout; 2GB provisioned
   const active_cpu_h = wall_h * 0.35;
   const mem_gb_h = wall_h * 2;
   const cpu = active_cpu_h * 0.128;
-  const mem = mem_gb_h * 0.0106;
+  const memCost = mem_gb_h * 0.0106;
   const inv = 0.6 / 1_000_000;
-  return Number((cpu + mem + inv).toFixed(6));
+  return Number((cpu + memCost + inv).toFixed(6));
 }
 
-/** grok-build-0.1: $1/M in, $2/M out */
 export function estimateXaiUsd(inputTokens: number, outputTokens: number): number {
   const inUsd = (Math.max(0, inputTokens) / 1_000_000) * 1.0;
   const outUsd = (Math.max(0, outputTokens) / 1_000_000) * 2.0;
@@ -290,7 +504,6 @@ export function scoutBudgetPublic(s: ScoutBudgetState) {
       stigmergy_deposits: conv.stigmergy_deposits || 0,
       autocatalysis_bumps: conv.autocatalysis_bumps || 0,
       compositions_seeded: conv.compositions_seeded || 0,
-      /** filled by getGrowthScoutStatus when reply-capture is available */
       demos: 0,
       feedback: 0,
       replies: 0,

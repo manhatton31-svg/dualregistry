@@ -1,9 +1,14 @@
 /**
  * Dual agentic run observability — mirrors Vercel Agent Runs concepts
  * (status, duration, token/usage, trigger) for Dual MCP tools + product ops.
- * Not eve-native; same ops surface for debugging agent behavior in production.
+ *
+ * High-water merge: multi-instance cold starts must not zero "today" totals.
  */
-import { loadDurableJson, saveDurableJson } from "./durable-json";
+import {
+  loadDurableJson,
+  saveDurableJson,
+  durableRemoteRawUrl,
+} from "./durable-json";
 import { recordPlatformUsage } from "./platform-cost";
 import { deferWork } from "./defer-work";
 
@@ -26,7 +31,6 @@ export type AgentRun = {
   started_at: string;
   ended_at?: string;
   duration_ms?: number;
-  /** Approx model/product tokens if known */
   token_usage?: number;
   usd_estimate?: number;
   listing_id?: string;
@@ -52,47 +56,151 @@ function utcDay() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function emptyTotals() {
+  return {
+    n: 0,
+    ok: 0,
+    error: 0,
+    skipped: 0,
+    duration_ms: 0,
+    token_usage: 0,
+  };
+}
+
 function fresh(): AgentRunsState {
   return {
     day: utcDay(),
     runs: [],
-    totals: {
-      n: 0,
-      ok: 0,
-      error: 0,
-      skipped: 0,
-      duration_ms: 0,
-      token_usage: 0,
-    },
+    totals: emptyTotals(),
     updated_at: new Date().toISOString(),
+  };
+}
+
+function recomputeTotals(runs: AgentRun[]): AgentRunsState["totals"] {
+  const t = emptyTotals();
+  for (const run of runs) {
+    t.n += 1;
+    if (run.status === "ok") t.ok += 1;
+    else if (run.status === "error") t.error += 1;
+    else if (run.status === "skipped") t.skipped += 1;
+    t.duration_ms += run.duration_ms || 0;
+    t.token_usage += run.token_usage || 0;
+  }
+  return t;
+}
+
+/** Union runs by id; keep same-day only; recompute totals from runs. */
+export function mergeAgentRuns(
+  a: AgentRunsState,
+  b: AgentRunsState,
+): AgentRunsState {
+  const day = utcDay();
+  const map = new Map<string, AgentRun>();
+  for (const run of [...(a.runs || []), ...(b.runs || [])]) {
+    if (!run?.id) continue;
+    // Keep runs from today (started_at day) or if state.day is today and run lacks day
+    const startedDay = (run.started_at || "").slice(0, 10);
+    if (startedDay && startedDay !== day) continue;
+    const prev = map.get(run.id);
+    if (!prev) {
+      map.set(run.id, run);
+      continue;
+    }
+    // Prefer completed / longer duration
+    const prevEnded = prev.ended_at || prev.started_at || "";
+    const nextEnded = run.ended_at || run.started_at || "";
+    if (nextEnded >= prevEnded) map.set(run.id, { ...prev, ...run });
+  }
+  const runs = [...map.values()]
+    .sort((x, y) =>
+      (y.started_at || "").localeCompare(x.started_at || ""),
+    )
+    .slice(0, MAX_RUNS);
+  return {
+    day,
+    runs,
+    totals: recomputeTotals(runs),
+    updated_at:
+      (a.updated_at || "") >= (b.updated_at || "")
+        ? a.updated_at || new Date().toISOString()
+        : b.updated_at || new Date().toISOString(),
   };
 }
 
 let mem: AgentRunsState | null = null;
 let chain: Promise<void> = Promise.resolve();
 
+async function fetchRemoteRuns(): Promise<AgentRunsState | null> {
+  try {
+    const url = durableRemoteRawUrl(DURABLE_NAME) + `?t=${Date.now()}`;
+    const res = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "DualRegistryRuns/1.0",
+        "cache-control": "no-cache",
+      },
+      cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!res.ok) return null;
+    const text = await res.text();
+    if (!text.trim() || text.trim().startsWith("<!") || text.trim().startsWith("404"))
+      return null;
+    const j = JSON.parse(text) as AgentRunsState;
+    if (!j || !Array.isArray(j.runs)) return null;
+    return j;
+  } catch {
+    return null;
+  }
+}
+
 export async function loadAgentRuns(): Promise<AgentRunsState> {
-  if (mem && mem.day === utcDay()) return mem;
+  let local: AgentRunsState | null = null;
   try {
     const raw = await loadDurableJson<AgentRunsState>(DURABLE_NAME, () =>
       fresh(),
     );
-    if (raw?.day === utcDay() && Array.isArray(raw.runs)) {
-      mem = raw;
-      return mem;
-    }
+    if (raw && Array.isArray(raw.runs)) local = raw;
   } catch {
     /* */
   }
-  mem = fresh();
-  return mem;
+  const remote = await fetchRemoteRuns();
+
+  let merged = fresh();
+  if (local) merged = mergeAgentRuns(merged, local);
+  if (remote) merged = mergeAgentRuns(merged, remote);
+  if (mem) merged = mergeAgentRuns(merged, mem);
+
+  // If everything empty but mem has same-day, keep mem
+  if (merged.totals.n === 0 && mem && mem.day === utcDay() && mem.totals.n > 0) {
+    merged = mem;
+  }
+
+  mem = merged;
+  return merged;
 }
 
 async function persist(s: AgentRunsState, opts?: { await?: boolean }) {
-  mem = s;
+  // High-water merge before write
+  let next = s;
+  if (mem) next = mergeAgentRuns(next, mem);
+  try {
+    const remote = await fetchRemoteRuns();
+    if (remote) next = mergeAgentRuns(next, remote);
+  } catch {
+    /* */
+  }
+  next = {
+    ...next,
+    day: utcDay(),
+    totals: recomputeTotals(next.runs),
+    updated_at: new Date().toISOString(),
+  };
+  mem = next;
+
   chain = chain.then(async () => {
     try {
-      await saveDurableJson(DURABLE_NAME, s);
+      await saveDurableJson(DURABLE_NAME, next);
     } catch {
       /* */
     }
@@ -100,7 +208,6 @@ async function persist(s: AgentRunsState, opts?: { await?: boolean }) {
   if (opts?.await) {
     await chain;
   } else {
-    // waitUntil keeps durable write alive without extending provisioned wall
     deferWork(chain);
   }
 }
@@ -113,14 +220,16 @@ export async function recordAgentRun(
   input: Omit<AgentRun, "id" | "started_at"> & {
     started_at?: string;
     id?: string;
-    /** Also bill platform cost (default true for non-skipped) */
     bill?: boolean;
     route?: string;
+    await_persist?: boolean;
   },
 ): Promise<AgentRun> {
   const s = await loadAgentRuns();
+  // Do NOT wipe other instances' today runs — mergeAgentRuns already filters day
   if (s.day !== utcDay()) {
-    Object.assign(s, fresh());
+    // keep only fresh shell; merge will drop old-day runs
+    Object.assign(s, { day: utcDay(), runs: s.runs, totals: s.totals });
   }
   const started = input.started_at || new Date().toISOString();
   const ended = input.ended_at || new Date().toISOString();
@@ -144,13 +253,9 @@ export async function recordAgentRun(
   };
 
   s.runs = [run, ...s.runs].slice(0, MAX_RUNS);
-  s.totals.n += 1;
-  if (run.status === "ok") s.totals.ok += 1;
-  else if (run.status === "error") s.totals.error += 1;
-  else if (run.status === "skipped") s.totals.skipped += 1;
-  s.totals.duration_ms += duration;
-  s.totals.token_usage += run.token_usage || 0;
+  s.totals = recomputeTotals(s.runs);
   s.updated_at = ended;
+  s.day = utcDay();
 
   if (input.bill !== false) {
     try {
@@ -175,11 +280,10 @@ export async function recordAgentRun(
     }
   }
 
-  await persist(s);
+  await persist(s, { await: input.await_persist === true });
   return run;
 }
 
-/** Timed agent tool execution with automatic run + cost recording. */
 export async function withAgentRun<T>(
   meta: {
     title: string;

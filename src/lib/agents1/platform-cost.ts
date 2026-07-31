@@ -2,10 +2,13 @@
  * Running platform cost ledger — dimensions match Vercel dashboard.
  * Persists via durable-json so multi-instance /tmp still rolls up.
  * Persist is deferred (waitUntil) so billing never extends provisioned wall time.
+ *
+ * High-water merge: cold isolates must not zero today/month USD.
  */
 import {
   loadDurableJson,
   saveDurableJson,
+  durableRemoteRawUrl,
 } from "./durable-json";
 import { deferWork } from "./defer-work";
 import {
@@ -46,7 +49,7 @@ export type DayBucket = {
   response_bytes: number;
   cache_hits: number;
   cache_misses: number;
-  skipped_cadence: number; // cheap skip — still 1 inv, tiny CPU
+  skipped_cadence: number;
   by_class: Partial<
     Record<
       CostClass,
@@ -54,20 +57,19 @@ export type DayBucket = {
     >
   >;
   usd: CostBreakdown;
-  events: CostEvent[]; // last N
+  events: CostEvent[];
 };
 
 export type PlatformCostState = {
   plan: typeof VERCEL_PLAN;
   rates_version: string;
-  month: string; // YYYY-MM UTC
+  month: string;
   month_usd: number;
   month_invocations: number;
   month_active_cpu_ms: number;
   month_provisioned_gb_hours: number;
   month_cache_hits: number;
   today: DayBucket;
-  /** Lifetime within this deploy lineage (resets only if durable wiped) */
   lifetime_usd: number;
   lifetime_invocations: number;
   updated_at: string;
@@ -85,6 +87,7 @@ const SAVINGS_NOTES = [
   "preferredRegion iad1 + short maxDuration on metadata routes",
   "Dashboard soft poll 3m + private max-age; growth panel 3m",
   "x-vercel-cache telemetry in ledger (HIT = origin avoided)",
+  "High-water merge: multi-instance never regresses today/month USD",
 ];
 
 function utcDay(d = new Date()) {
@@ -132,6 +135,114 @@ function fresh(): PlatformCostState {
 let mem: PlatformCostState | null = null;
 let chain: Promise<void> = Promise.resolve();
 
+function mergeDayBucket(a: DayBucket, b: DayBucket): DayBucket {
+  if (a.day !== b.day) {
+    // Prefer today's bucket
+    const day = utcDay();
+    if (a.day === day) return a;
+    if (b.day === day) return b;
+    return (a.day || "") >= (b.day || "") ? a : b;
+  }
+  const by_class: DayBucket["by_class"] = { ...(a.by_class || {}) };
+  for (const [k, v] of Object.entries(b.by_class || {})) {
+    const key = k as CostClass;
+    const prev = by_class[key];
+    if (!prev) {
+      by_class[key] = v;
+      continue;
+    }
+    by_class[key] = {
+      n: Math.max(prev.n || 0, v?.n || 0),
+      wall_ms: Math.max(prev.wall_ms || 0, v?.wall_ms || 0),
+      active_cpu_ms: Math.max(prev.active_cpu_ms || 0, v?.active_cpu_ms || 0),
+      usd: Math.max(prev.usd || 0, v?.usd || 0),
+    };
+  }
+  const eventsMap = new Map<string, CostEvent>();
+  for (const ev of [...(a.events || []), ...(b.events || [])]) {
+    if (!ev) continue;
+    const key = `${ev.at}|${ev.route || ""}|${ev.label || ""}|${ev.wall_ms}`;
+    if (!eventsMap.has(key)) eventsMap.set(key, ev);
+  }
+  const events = [...eventsMap.values()]
+    .sort((x, y) => (y.at || "").localeCompare(x.at || ""))
+    .slice(0, MAX_EVENTS);
+
+  const merged: DayBucket = {
+    day: a.day,
+    invocations: Math.max(a.invocations || 0, b.invocations || 0),
+    active_cpu_ms: Math.max(a.active_cpu_ms || 0, b.active_cpu_ms || 0),
+    wall_ms: Math.max(a.wall_ms || 0, b.wall_ms || 0),
+    provisioned_gb_hours: Math.max(
+      a.provisioned_gb_hours || 0,
+      b.provisioned_gb_hours || 0,
+    ),
+    response_bytes: Math.max(a.response_bytes || 0, b.response_bytes || 0),
+    cache_hits: Math.max(a.cache_hits || 0, b.cache_hits || 0),
+    cache_misses: Math.max(a.cache_misses || 0, b.cache_misses || 0),
+    skipped_cadence: Math.max(a.skipped_cadence || 0, b.skipped_cadence || 0),
+    by_class,
+    usd: costFromUsage({ active_cpu_ms: 0, wall_ms: 0, invocations: 0 }),
+    events,
+  };
+  merged.usd = recomputeDayUsd(merged);
+  // Also high-water the precomputed usd_total if recompute is lower (shouldn't be)
+  const aTot = a.usd?.usd_total || 0;
+  const bTot = b.usd?.usd_total || 0;
+  if (Math.max(aTot, bTot) > (merged.usd.usd_total || 0)) {
+    const winner = aTot >= bTot ? a.usd : b.usd;
+    if (winner) merged.usd = { ...merged.usd, ...winner, usd_total: Math.max(aTot, bTot) };
+  }
+  return merged;
+}
+
+/** High-water merge across instances. */
+export function mergePlatformCost(
+  a: PlatformCostState,
+  b: PlatformCostState,
+): PlatformCostState {
+  const month = utcMonth();
+  const aM = a.month === month;
+  const bM = b.month === month;
+  const today = mergeDayBucket(
+    a.today?.day ? a.today : emptyDay(),
+    b.today?.day ? b.today : emptyDay(),
+  );
+  return {
+    plan: VERCEL_PLAN,
+    rates_version: RATES_VERSION,
+    month,
+    month_usd: Math.max(aM ? a.month_usd || 0 : 0, bM ? b.month_usd || 0 : 0),
+    month_invocations: Math.max(
+      aM ? a.month_invocations || 0 : 0,
+      bM ? b.month_invocations || 0 : 0,
+    ),
+    month_active_cpu_ms: Math.max(
+      aM ? a.month_active_cpu_ms || 0 : 0,
+      bM ? b.month_active_cpu_ms || 0 : 0,
+    ),
+    month_provisioned_gb_hours: Math.max(
+      aM ? a.month_provisioned_gb_hours || 0 : 0,
+      bM ? b.month_provisioned_gb_hours || 0 : 0,
+    ),
+    month_cache_hits: Math.max(
+      aM ? a.month_cache_hits || 0 : 0,
+      bM ? b.month_cache_hits || 0 : 0,
+    ),
+    today,
+    lifetime_usd: Math.max(a.lifetime_usd || 0, b.lifetime_usd || 0),
+    lifetime_invocations: Math.max(
+      a.lifetime_invocations || 0,
+      b.lifetime_invocations || 0,
+    ),
+    updated_at:
+      (a.updated_at || "") >= (b.updated_at || "")
+        ? a.updated_at || new Date().toISOString()
+        : b.updated_at || new Date().toISOString(),
+    savings_notes: [...SAVINGS_NOTES],
+  };
+}
+
 function rollDay(s: PlatformCostState): PlatformCostState {
   const day = utcDay();
   const month = utcMonth();
@@ -162,37 +273,75 @@ function recomputeDayUsd(day: DayBucket): CostBreakdown {
   });
 }
 
-export async function loadPlatformCost(): Promise<PlatformCostState> {
-  if (mem) {
-    rollDay(mem);
-    return mem;
+async function fetchRemoteCost(): Promise<PlatformCostState | null> {
+  try {
+    const url = durableRemoteRawUrl(DURABLE_NAME) + `?t=${Date.now()}`;
+    const res = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "DualRegistryCost/1.0",
+        "cache-control": "no-cache",
+      },
+      cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!res.ok) return null;
+    const text = await res.text();
+    if (!text.trim() || text.trim().startsWith("<!")) return null;
+    return JSON.parse(text) as PlatformCostState;
+  } catch {
+    return null;
   }
+}
+
+export async function loadPlatformCost(): Promise<PlatformCostState> {
+  let local: PlatformCostState | null = null;
   try {
     const raw = await loadDurableJson<PlatformCostState>(
       DURABLE_NAME,
       () => fresh(),
     );
-    if (raw && raw.today) {
-      mem = rollDay({ ...fresh(), ...raw, today: raw.today });
-      return mem;
-    }
+    if (raw && raw.today) local = rollDay({ ...fresh(), ...raw, today: raw.today });
   } catch {
     /* */
   }
-  mem = fresh();
-  return mem;
+  const remoteRaw = await fetchRemoteCost();
+  let remote: PlatformCostState | null = null;
+  if (remoteRaw?.today) {
+    remote = rollDay({ ...fresh(), ...remoteRaw, today: remoteRaw.today });
+  }
+
+  let merged = local || fresh();
+  if (remote) merged = mergePlatformCost(merged, remote);
+  if (mem) merged = mergePlatformCost(merged, rollDay({ ...mem }));
+  merged = rollDay(merged);
+  mem = merged;
+  return merged;
 }
 
 function schedulePersist(s: PlatformCostState) {
   mem = s;
   chain = chain.then(async () => {
     try {
-      await saveDurableJson(DURABLE_NAME, s);
+      // Merge remote high-water before push so we never clobber
+      let next = s;
+      try {
+        const remote = await fetchRemoteCost();
+        if (remote?.today) {
+          next = mergePlatformCost(
+            s,
+            rollDay({ ...fresh(), ...remote, today: remote.today }),
+          );
+        }
+      } catch {
+        /* */
+      }
+      mem = next;
+      await saveDurableJson(DURABLE_NAME, next);
     } catch {
       /* local-only ok */
     }
   });
-  // Do not await chain on the request path — waitUntil keeps it alive on Vercel
   deferWork(chain);
 }
 
@@ -205,11 +354,8 @@ export type RecordUsageInput = {
   invocations?: number;
   response_bytes?: number;
   cache_hit?: boolean;
-  /** Cadence skip / cheap early return */
   skipped?: boolean;
-  /** Raw x-vercel-cache status when known */
   vercel_cache?: string | null;
-  /** When true, still await durable write (cron commit needs it) */
   await_persist?: boolean;
 };
 
@@ -282,7 +428,18 @@ export async function recordPlatformUsage(
   if (input.await_persist) {
     mem = s;
     try {
-      await saveDurableJson(DURABLE_NAME, s);
+      let next = s;
+      const remote = await fetchRemoteCost();
+      if (remote?.today) {
+        next = mergePlatformCost(
+          s,
+          rollDay({ ...fresh(), ...remote, today: remote.today }),
+        );
+        // re-apply this event's deltas already in s — merge already high-watered
+        next = mergePlatformCost(next, s);
+      }
+      mem = next;
+      await saveDurableJson(DURABLE_NAME, next);
     } catch {
       /* */
     }
@@ -292,7 +449,6 @@ export async function recordPlatformUsage(
   return s;
 }
 
-/** Wrap an async op — records wall + estimated Active CPU. */
 export async function withPlatformCost<T>(
   input: Omit<RecordUsageInput, "wall_ms" | "active_cpu_ms"> & {
     wall_ms?: number;
@@ -314,6 +470,13 @@ export async function withPlatformCost<T>(
     }).catch(() => undefined);
     throw e;
   }
+}
+
+function round4(n: number) {
+  return Math.round(n * 10000) / 10000;
+}
+function round6(n: number) {
+  return Math.round(n * 1e6) / 1e6;
 }
 
 export function platformCostPublic(s: PlatformCostState) {
@@ -370,22 +533,10 @@ export function platformCostPublic(s: PlatformCostState) {
       cadence_skips_today: day.skipped_cadence,
       cache_hit_rate:
         day.cache_hits + day.cache_misses > 0
-          ? round4(day.cache_hits / (day.cache_hits + day.cache_misses))
+          ? Math.round(
+              (day.cache_hits / (day.cache_hits + day.cache_misses)) * 1000,
+            ) / 1000
           : null,
-      estimated_origin_avoided_invocations: day.cache_hits,
     },
-    updated_at: s.updated_at,
   };
-}
-
-function round4(n: number) {
-  // Keep micro-cent resolution so small Fluid samples don't read as $0.0000
-  if (!Number.isFinite(n)) return 0;
-  if (Math.abs(n) > 0 && Math.abs(n) < 0.0001) {
-    return Math.round(n * 1_000_000_000) / 1_000_000_000;
-  }
-  return Math.round(n * 10_000) / 10_000;
-}
-function round6(n: number) {
-  return Math.round(n * 1_000_000) / 1_000_000;
 }

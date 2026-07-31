@@ -97,6 +97,7 @@ async function handle(request: Request) {
         duration_ms: wall_ms,
         usd_estimate: result.cycle_usd ?? 0,
         bill: false,
+        await_persist: true,
         meta: {
           invites_sent: result.invites_sent,
           skipped: result.skipped,
@@ -108,6 +109,7 @@ async function handle(request: Request) {
         },
         route: "/api/cron/growth-scout",
       });
+
     } catch {
       /* observability soft */
     }

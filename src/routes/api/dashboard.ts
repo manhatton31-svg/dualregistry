@@ -5,6 +5,9 @@
  *
  * PRODUCT: public totals + items are CLEAN ACTIVE ONLY (probe-first).
  * Store dump / delisted / discovered never leave this API.
+ *
+ * Side panels (cost / agent_runs / growth_scout) are sticky last-good:
+ * timeout or empty isolate must NOT flash zeros.
  */
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -137,6 +140,121 @@ async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T | null> {
   ]);
 }
 
+/** Process-local last-good side panels — survives soft timeouts on this isolate. */
+type SidePanels = {
+  product_engagement: unknown;
+  listing_lanes: unknown;
+  metrics_truth: unknown;
+  protocol: unknown;
+  platform_cost: unknown;
+  agent_runs: unknown;
+  growth_scout: unknown;
+};
+
+let lastGoodSide: SidePanels | null = null;
+
+function num(v: unknown): number {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 0;
+}
+
+/** Prefer high-water for counter-ish side panels; never replace good with null/empty. */
+function stickyPanel<T>(
+  incoming: T | null | undefined,
+  prev: T | null | undefined,
+  score: (v: T) => number,
+): T | null {
+  if (incoming == null) return (prev as T) ?? null;
+  if (prev == null) return incoming;
+  try {
+    return score(incoming) >= score(prev) ? incoming : prev;
+  } catch {
+    return incoming ?? prev ?? null;
+  }
+}
+
+function scoreCost(v: unknown): number {
+  const o = v as {
+    running_total?: { today_usd?: number; month_usd_gross?: number };
+    today?: { invocations?: number };
+  };
+  return (
+    num(o?.running_total?.month_usd_gross) * 1e6 +
+    num(o?.running_total?.today_usd) * 1e3 +
+    num(o?.today?.invocations)
+  );
+}
+
+function scoreRuns(v: unknown): number {
+  const o = v as { totals?: { n?: number; ok?: number } };
+  return num(o?.totals?.n) * 10 + num(o?.totals?.ok);
+}
+
+function scoreScout(v: unknown): number {
+  const o = v as {
+    month_invites?: number;
+    day_invites?: number;
+    month_usd?: number;
+    invited_unique?: number;
+  };
+  return (
+    num(o?.month_invites) * 1000 +
+    num(o?.day_invites) * 100 +
+    num(o?.invited_unique) * 10 +
+    num(o?.month_usd) * 1e6
+  );
+}
+
+function scoreLanes(v: unknown): number {
+  const o = v as {
+    counts?: { mcp_active?: number; agents_active?: number };
+    mcp_active?: unknown[];
+    agents_active?: unknown[];
+  };
+  const mcp = Array.isArray(o?.mcp_active)
+    ? o.mcp_active.length
+    : num(o?.counts?.mcp_active);
+  const ag = Array.isArray(o?.agents_active)
+    ? o.agents_active.length
+    : num(o?.counts?.agents_active);
+  return mcp + ag;
+}
+
+function applySticky(side: SidePanels): SidePanels {
+  const prev = lastGoodSide;
+  const next: SidePanels = {
+    product_engagement:
+      side.product_engagement ?? prev?.product_engagement ?? null,
+    listing_lanes: stickyPanel(
+      side.listing_lanes as object,
+      prev?.listing_lanes as object,
+      scoreLanes,
+    ),
+    metrics_truth: side.metrics_truth ?? prev?.metrics_truth ?? null,
+    protocol: side.protocol ?? prev?.protocol ?? null,
+    platform_cost: stickyPanel(
+      side.platform_cost as object,
+      prev?.platform_cost as object,
+      scoreCost,
+    ),
+    agent_runs: stickyPanel(
+      side.agent_runs as object,
+      prev?.agent_runs as object,
+      scoreRuns,
+    ),
+    growth_scout: stickyPanel(
+      side.growth_scout as object,
+      prev?.growth_scout as object,
+      scoreScout,
+    ),
+  };
+  // Only store when we have at least one real ops panel
+  if (next.platform_cost || next.agent_runs || next.growth_scout || next.listing_lanes) {
+    lastGoodSide = next;
+  }
+  return next;
+}
+
 async function attachSidePanels(timeoutMs: number) {
   let product_engagement = null;
   let listing_lanes = null;
@@ -176,14 +294,15 @@ async function attachSidePanels(timeoutMs: number) {
   } catch {
     /* */
   }
-  // Cost + agentic observability (cheap local durable reads)
+  // Cost + agentic observability — allow more time; high-water load is cheap after warm
+  const opsMs = Math.max(timeoutMs, 2500);
   try {
     const { loadPlatformCost, platformCostPublic } = await import(
       "@/lib/agents1/platform-cost"
     );
     platform_cost = await withTimeout(
       loadPlatformCost().then(platformCostPublic),
-      Math.min(timeoutMs, 1500),
+      opsMs,
     );
   } catch {
     /* */
@@ -194,7 +313,7 @@ async function attachSidePanels(timeoutMs: number) {
     );
     agent_runs = await withTimeout(
       loadAgentRuns().then(agentRunsPublic),
-      Math.min(timeoutMs, 1500),
+      opsMs,
     );
   } catch {
     /* */
@@ -203,14 +322,12 @@ async function attachSidePanels(timeoutMs: number) {
     const { getGrowthScoutStatus } = await import(
       "@/lib/agents1/growth/scout"
     );
-    growth_scout = await withTimeout(
-      getGrowthScoutStatus(),
-      Math.min(timeoutMs, 1500),
-    );
+    growth_scout = await withTimeout(getGrowthScoutStatus(), opsMs);
   } catch {
     /* */
   }
-  return {
+
+  return applySticky({
     product_engagement,
     listing_lanes,
     metrics_truth,
@@ -218,7 +335,7 @@ async function attachSidePanels(timeoutMs: number) {
     platform_cost,
     agent_runs,
     growth_scout,
-  };
+  });
 }
 
 /**
@@ -255,8 +372,6 @@ async function applyProductionMirror<T extends Record<string, unknown>>(
           slice.protocol?.probes ??
           (payload.protocol as { probes?: unknown })?.probes,
       },
-      // Do NOT mirror mcp/agents/milestones/listing_lanes from production
-      // when those still carry store-dump totals — cleanOnlyTotals owns them.
       metrics_source: "mirrored-production-engagement-only",
       mirrored_from: slice.mirrored_from,
       mirrored_at: slice.mirrored_at,
@@ -338,7 +453,7 @@ export const Route = createFileRoute("/api/dashboard")({
                 getLiveSnapshot({ revalidate: false, forceLive: false }),
                 3_000,
               )) || {};
-            const side = await attachSidePanels(4_000);
+            const side = await attachSidePanels(5_000);
             const body = await applyProductionMirror(
               { ok: true, ...cached, ...side, degraded: true },
               request.url,
@@ -349,7 +464,7 @@ export const Route = createFileRoute("/api/dashboard")({
             );
           }
 
-          const side = await attachSidePanels(5_000);
+          const side = await attachSidePanels(6_000);
           const body = await applyProductionMirror(
             { ok: true, ...snap, ...side },
             request.url,
@@ -369,13 +484,24 @@ export const Route = createFileRoute("/api/dashboard")({
           } catch {
             /* */
           }
+          // Prefer sticky side panels even on hard error
+          const sticky = lastGoodSide || {
+            product_engagement: null,
+            listing_lanes: null,
+            metrics_truth: null,
+            protocol,
+            platform_cost: null,
+            agent_runs: null,
+            growth_scout: null,
+          };
           const body = await applyProductionMirror(
             {
               ok: true,
               degraded: true,
-              protocol,
+              ...sticky,
+              protocol: protocol || sticky.protocol,
               error: e instanceof Error ? e.message : String(e),
-              message: "Partial dashboard — probe stats still live",
+              message: "Partial dashboard — sticky panels kept where possible",
             },
             request.url,
           );

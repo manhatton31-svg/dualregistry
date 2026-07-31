@@ -191,7 +191,10 @@ export async function forceHydrateDurable(
     name === "exonomics.json" ||
     name === "interop.json" ||
     name === "reciprocity.json" ||
-    name === "growth-scout.json"
+    name === "growth-scout.json" ||
+    // Ops ledgers — multi-instance must not zero cost/runs
+    name === "platform-cost.json" ||
+    name === "agent-runs.json"
   ) {
     const remote = await hydrateRemote(name);
     if (remote && local) {
