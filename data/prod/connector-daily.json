@@ -1,0 +1,57 @@
+{
+  "version": "1.1.0",
+  "updated_at": "2026-07-31T17:30:52.438Z",
+  "history": [
+    {
+      "day": "2026-07-31",
+      "partner_id": "agoragentic",
+      "partner_name": "Agoragentic",
+      "hirey_likeness": 16,
+      "status": "prepped",
+      "prepped_at": "2026-07-31T17:30:52.438Z"
+    }
+  ],
+  "auto_send_to_targets": false,
+  "last_prep": {
+    "day": "2026-07-31",
+    "pick": {
+      "day": "2026-07-31",
+      "partner": {
+        "id": "agoragentic",
+        "name": "Agoragentic",
+        "kind": "agent_marketplace",
+        "role": "Agent marketplace (USDC tasks) — operators who already buy/sell agent work",
+        "listing_id": "agent-agoragentic-https-agoragentic-com",
+        "homepage": "https://agoragentic.com",
+        "engage": "warm_intro_request",
+        "status": "candidate",
+        "notes": "Prior probes showed limited preflight; treat as human-operator channel, not cold A2A spam."
+      },
+      "hirey_likeness": 16,
+      "traits": [
+        "human_operator",
+        "marketplace",
+        "kind_marketplace",
+        "engage_warm"
+      ],
+      "why": "Cleared quality gate (score 16 ≥ 14; traits: human_operator, marketplace, kind_marketplace, engage_warm). One warm first-touch only.",
+      "action": {
+        "step": "Send ONE warm email/operator note. Offer reciprocity: free list + honest product path. Ask for intros to humans who run agents, not for them to fake survey scores.",
+        "do_not": [
+          "No second email the same day",
+          "No order IDs or access tokens",
+          "No 'first 100 free' reward language",
+          "No asking their agent to POST /api/products/feedback",
+          "No multipath/Talk auto-blast"
+        ],
+        "draft": {
+          "subject": "Dual Registry × Agoragentic — warm intros only",
+          "body": "Partner note for Agoragentic (not a survey request).\n\nDual Registry (dualregistry.dev) lists agents & MCPs free, probes them live,\nand ships Kernel Improver / Recursive Loop / MCP Mesh with Network Edition.\n\nWe are not asking you to POST synthetic feedback.\nWe are looking for warm introductions to:\n  • humans who run agents (can open a browser ~5 min)\n  • MCP authors who want a free Mesh demo\n\nOne link to share (no order IDs, no tokens):\n  https://www.dualregistry.dev/products\n  skill: https://www.dualregistry.dev/skill.json\n  for agents: https://www.dualregistry.dev/for-agents\n\nQuiet policy: one touch, ignore if not relevant.\n— Dual Registry",
+          "demo_link": "https://www.dualregistry.dev/products"
+        }
+      },
+      "queue_after": []
+    },
+    "operator_notified": false
+  }
+}
