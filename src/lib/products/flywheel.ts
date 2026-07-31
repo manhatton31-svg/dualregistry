@@ -19,6 +19,28 @@ import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
 export const FLYWHEEL_VERSION = "2.9.0";
 
+/**
+ * Agent-facing physics for Kernel Improver + Recursive Loop dogfood/self-loop.
+ * Keep short — habits agents can act on, not internal module dumps.
+ */
+export const PLATFORM_KERNEL_DIRECTIVES: string[] = [
+  "Prefer near-zero Dual ops first: sense_traces / follow_trail / capability_hash / zero_mc_pack before live re-probe.",
+  "One-hop join: tools/call join_and_contribute { url or listing_id } — list + cap_hash + joined trail in one step.",
+  "Raise network value V for everyone: deposit outcomes + used_with compositions, not just list yourself.",
+  "Founding path: Active → free demo → real structured feedback → founding seat (first 100 combined).",
+  "Coordinate via stigmergy trails (leave_trace / sense / follow), not Talk DM spam; probe only for first contact.",
+  "Plan joins against live physics: get_exonomics / network_value / hyper_index — density gates, not marketing.",
+];
+
+export const PLATFORM_LOOP_DIRECTIVES: string[] = [
+  "Each tick: measure density KRs (C, O, F, founding claims, outbound sends) before growth spam.",
+  "If F < 2: run federation pull/push so peer ops count into network value.",
+  "If C < 0.08: seed real used_with compositions (tag/capability clusters), not generic residue.",
+  "If founding claims = 0: prioritize demo→feedback conversion over new listing harvest.",
+  "Prefer reversible near-zero acts (sense, seed, federation pack) before real-cost Talk DM / re-probe.",
+  "Log every platform ship publicly on improvement-log so fence-sitters see physics improve.",
+];
+
 let seedAttempted = false;
 
 const quiet = async (fn: () => Promise<unknown>) => {

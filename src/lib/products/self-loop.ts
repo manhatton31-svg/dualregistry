@@ -6,7 +6,8 @@
  *   Internal: OUR goals → Kernel Improver + Recursive Loop → safe operational acts
  *
  * Goals: more MCPs, more agents, more demos, more feedback (250/250 unlock),
- * then paid seats — publicly logged so fence-sitters see the system work on itself.
+ * density physics (C/O/F), founding claims, outbound conversion, then paid seats —
+ * publicly logged so fence-sitters see the system work on itself.
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -19,6 +20,11 @@ import {
   LOOP_VERSION,
   type FeedbackDrivenContext,
 } from "./generate";
+import {
+  FLYWHEEL_VERSION,
+  PLATFORM_KERNEL_DIRECTIVES,
+  PLATFORM_LOOP_DIRECTIVES,
+} from "./flywheel";
 
 const PATH = join(dataRoot(), "products", "self-loop.json");
 const MIN_GAP_MS = 20 * 60 * 1000;
@@ -65,6 +71,9 @@ export type SelfLoopState = {
     demos_boosted: number;
     feedback_boosted: number;
     ships_triggered: number;
+    federation_ops?: number;
+    compositions_seeded?: number;
+    outbound_sends?: number;
   };
 };
 
@@ -76,9 +85,13 @@ const GOALS = [
   "Grow the Agents1 agent registry with checks-clean listings (unlimited, zero dupes).",
   "Convert listed MCPs and agents into free product demos (unlimited demos; Kernel, Loop, Alive, Mesh).",
   "Collect structured feedback from demos — 250 agent + 250 MCP before payments open.",
-  "Ship Kernel/Loop/Mesh improvements from feedback without global regressions.",
-  "After unlock: convert feedbackers to paid seats (founding prices first 1000; each next price level lasts 1000 seats so feedback from demos + purchases can show; unlimited paid). Measure buy-likelihood as price steps up. Until unlock maximize WTP and founding intent.",
-  "Show fence-sitters a live self-improving system dogfooding its own products.",
+  "Claim founding free seats via demo→real feedback (first 100 combined) — prove conversion, not just listings.",
+  "Raise composition density C ≥ 0.08 with real used_with edges (not residue spam).",
+  "Open federation density F ≥ 2 via real peer pull/push ops (HF catalog + MCP registry + future peers).",
+  "Use hyper day budget: outbound first-touch sends > 0 when room remains (conversion pressure).",
+  "Ship Kernel/Loop/Mesh improvements from feedback without global regressions; dogfood Dual physics directives.",
+  "After unlock: convert feedbackers to paid seats (founding prices first 1000; each next price level lasts 1000 seats). Measure buy-likelihood as price steps up. Until unlock maximize WTP and founding intent.",
+  "Show fence-sitters a live self-improving system dogfooding its own products + public improvement log.",
 ];
 
 function empty(): SelfLoopState {
@@ -95,6 +108,9 @@ function empty(): SelfLoopState {
       demos_boosted: 0,
       feedback_boosted: 0,
       ships_triggered: 0,
+      federation_ops: 0,
+      compositions_seeded: 0,
+      outbound_sends: 0,
     },
   };
 }
@@ -105,6 +121,7 @@ async function load(): Promise<SelfLoopState> {
     const raw = await readFile(PATH, "utf8");
     mem = { ...empty(), ...JSON.parse(raw) };
     mem!.totals = { ...empty().totals, ...(mem!.totals || {}) };
+    mem!.goals = GOALS;
     return mem!;
   } catch {
     mem = empty();
@@ -171,15 +188,65 @@ async function measureKRs(): Promise<SelfKR[]> {
     /* */
   }
 
-  // Listings + demos unlimited — KR tracks absolute growth (no artificial /500)
+  // --- Platform density physics KRs (flywheel v2.9+) ---
+  let densityC = 0;
+  let densityO = 0;
+  let densityF = 0;
+  let densityN = 0;
+  try {
+    const { sampleExonomics } = await import("./exonomics");
+    const snap = await sampleExonomics();
+    densityC = Number(snap.density?.C || 0);
+    densityO = Number(snap.density?.O || 0);
+    densityF = Number(snap.density?.F || 0);
+    densityN = Number(snap.density?.N || 0);
+  } catch {
+    /* */
+  }
+
+  if (densityF < 1) {
+    try {
+      const { getInteropPublic } = await import("./interop");
+      const ix = await getInteropPublic({});
+      const t = (ix.totals || {}) as Record<string, number>;
+      densityF = Math.max(
+        densityF,
+        Number(t.peer_pulls || 0) + Number(t.peer_pushes || 0),
+      );
+    } catch {
+      /* */
+    }
+  }
+
+  let foundingClaimed = 0;
+  try {
+    const { getFoundingFreePublic } = await import("./founding-free");
+    foundingClaimed = Number((await getFoundingFreePublic()).claimed || 0);
+  } catch {
+    /* */
+  }
+
+  let outboundSent = 0;
+  let outboundCap = 24;
+  try {
+    const { getConversionPressureStatus } = await import(
+      "./conversion-pressure"
+    );
+    const cp = await getConversionPressureStatus();
+    outboundSent = Number(cp.day_sent || 0);
+    outboundCap = Math.max(1, Number(cp.day_cap || cp.base_cap || 24));
+  } catch {
+    /* */
+  }
+
   const demos = demoAgents + demoMcps;
   krs.push({
     id: "mcp_listed",
     title: "MCPs listed (unlimited, zero dupes)",
-    target: Math.max(mcp, 1), // self-baseline; progress vs prior high-water via history
+    target: Math.max(mcp, 1),
     current: mcp,
     unit: "mcps",
-    progress: 1, // no cap
+    progress: 1,
   });
   krs.push({
     id: "agents_listed",
@@ -188,6 +255,15 @@ async function measureKRs(): Promise<SelfKR[]> {
     current: agents,
     unit: "agents",
     progress: 1,
+  });
+  krs.push({
+    id: "active_clean",
+    title: "Active clean listings (N)",
+    target: Math.max(30, densityN || 1),
+    current: densityN,
+    unit: "listings",
+    progress: progress(densityN, 30),
+    weight: 1,
   });
   krs.push({
     id: "demos_taken",
@@ -217,9 +293,57 @@ async function measureKRs(): Promise<SelfKR[]> {
     weight: 3,
   });
   krs.push({
+    id: "founding_claims",
+    title: "Founding free seats claimed (demo→feedback)",
+    target: 100,
+    current: foundingClaimed,
+    unit: "seats",
+    progress: progress(foundingClaimed, 100),
+    weight: 4,
+  });
+  krs.push({
+    id: "composition_density",
+    title: "Composition density C (real used_with / N)",
+    target: 0.08,
+    current: Math.round(densityC * 10000) / 10000,
+    unit: "ratio",
+    progress: progress(densityC, 0.08),
+    weight: 2.5,
+  });
+  krs.push({
+    id: "outcome_coverage",
+    title: "Outcome coverage O (evidence / N)",
+    target: 0.05,
+    current: Math.round(densityO * 10000) / 10000,
+    unit: "ratio",
+    progress: progress(densityO, 0.05),
+    weight: 1.5,
+  });
+  krs.push({
+    id: "federation_peers",
+    title: "Federation peer ops F (pull+push counted)",
+    target: 2,
+    current: densityF,
+    unit: "ops",
+    progress: progress(densityF, 2),
+    weight: 3,
+  });
+  krs.push({
+    id: "outbound_sends",
+    title: "Outbound first-touch sends today",
+    target: Math.min(outboundCap, Math.max(8, Math.floor(outboundCap * 0.25))),
+    current: outboundSent,
+    unit: "sends",
+    progress: progress(
+      outboundSent,
+      Math.min(outboundCap, Math.max(8, Math.floor(outboundCap * 0.25))),
+    ),
+    weight: 2,
+  });
+  krs.push({
     id: "founding_intent",
     title: "Discounts vaulted (founding intent)",
-    target: 1000, // align with founding seat cohort size
+    target: 1000,
     current: discounts,
     unit: "codes",
     progress: progress(discounts, 1000),
@@ -227,7 +351,7 @@ async function measureKRs(): Promise<SelfKR[]> {
   krs.push({
     id: "paid_seats",
     title: "Paid seats (unlimited; 1000-seat price bands)",
-    target: 1000, // founding cohort size as first milestone only
+    target: 1000,
     current: paid,
     unit: "seats",
     progress: progress(paid, 1000),
@@ -244,6 +368,56 @@ function proposeActs(krs: SelfKR[]): SelfAct[] {
   const demos = by.demos_taken;
   const mcp = by.mcp_listed;
   const ag = by.agents_listed;
+  const founding = by.founding_claims;
+  const comp = by.composition_density;
+  const fed = by.federation_peers;
+  const outbound = by.outbound_sends;
+
+  if (fed && fed.progress < 1) {
+    acts.push({
+      id: `act_${now}_federation`,
+      title: "Run federation pull/push cycle",
+      rationale: `F=${fed.current}/${fed.target} peer ops — last hyper gate; pull HF + MCP registry, push Dual signal.`,
+      expected_kr: ["federation_peers"],
+      risk: "low",
+      status: "proposed",
+      critic_score: 0,
+    });
+  }
+  if (comp && comp.progress < 1) {
+    acts.push({
+      id: `act_${now}_seed_c`,
+      title: "Seed real composition edges from Active clean",
+      rationale: `C=${comp.current} (floor 0.08) — near-zero used_with seed from tag/category clusters.`,
+      expected_kr: ["composition_density"],
+      risk: "low",
+      status: "proposed",
+      critic_score: 0,
+    });
+  }
+  if (founding && founding.current < 1) {
+    acts.push({
+      id: `act_${now}_founding`,
+      title: "Boost founding conversion (demo + feedback drive)",
+      rationale:
+        "0 founding seats claimed — prove demo→feedback path before more harvest.",
+      expected_kr: ["founding_claims", "feedback_agents", "feedback_mcps"],
+      risk: "low",
+      status: "proposed",
+      critic_score: 0,
+    });
+  }
+  if (outbound && outbound.progress < 0.5) {
+    acts.push({
+      id: `act_${now}_outbound`,
+      title: "Run outbound conversion pressure (first-touch under day cap)",
+      rationale: `Outbound ${outbound.current}/${outbound.target} today — hyper room unused is wasted density.`,
+      expected_kr: ["outbound_sends", "demos_taken"],
+      risk: "medium",
+      status: "proposed",
+      critic_score: 0,
+    });
+  }
 
   if (fbM && fbM.progress < 0.5) {
     acts.push({
@@ -267,23 +441,24 @@ function proposeActs(krs: SelfKR[]): SelfAct[] {
       critic_score: 0,
     });
   }
-  if (demos && demos.progress < 0.9) {
+  if (demos && demos.current < 1) {
     acts.push({
       id: `act_${now}_demos`,
       title: "Seed more free demos for listed registry participants",
-      rationale: "Demos are the prerequisite for honest feedback; keep funnel topped.",
+      rationale:
+        "Demos are the prerequisite for honest feedback; keep funnel topped.",
       expected_kr: ["demos_taken"],
       risk: "low",
       status: "proposed",
       critic_score: 0,
     });
   }
-  if ((mcp && mcp.progress < 0.7) || (ag && ag.progress < 0.7)) {
+  if ((mcp && mcp.current < 10) || (ag && ag.current < 10)) {
     acts.push({
       id: `act_${now}_growth`,
       title: "Run registry growth cycle (harvest + probe + list)",
-      rationale: `Listings MCP ${mcp?.current ?? "?"} · Agents ${ag?.current ?? "?"} (unlimited, zero dupes) — more surface for demos.`,
-      expected_kr: ["mcp_listed", "agents_listed"],
+      rationale: `Listings MCP ${mcp?.current ?? "?"} · Agents ${ag?.current ?? "?"} — more surface for demos.`,
+      expected_kr: ["mcp_listed", "agents_listed", "active_clean"],
       risk: "low",
       status: "proposed",
       critic_score: 0,
@@ -303,13 +478,13 @@ function proposeActs(krs: SelfKR[]): SelfAct[] {
     id: `act_${now}_dogfood`,
     title: "Dogfood Kernel + Loop on Agents1 goals",
     rationale:
-      "Prove combined system: regenerate our own kernel/loop with live directives.",
-    expected_kr: ["founding_intent"],
+      "Prove combined system: regenerate our own kernel/loop with Dual physics directives.",
+    expected_kr: ["founding_claims", "composition_density", "federation_peers"],
     risk: "low",
     status: "proposed",
     critic_score: 0,
   });
-  return acts.slice(0, 6);
+  return acts.slice(0, 8);
 }
 
 function criticScore(act: SelfAct, krs: SelfKR[]): number {
@@ -321,26 +496,72 @@ function criticScore(act: SelfAct, krs: SelfKR[]): number {
     if (k && k.progress < 0.4) s += 0.12;
     else if (k && k.progress < 0.7) s += 0.05;
   }
-  if (/growth|demo|feedback|dogfood/i.test(act.title)) s += 0.05;
+  if (
+    /growth|demo|feedback|dogfood|federation|composition|founding|outbound/i.test(
+      act.title,
+    )
+  )
+    s += 0.05;
+  if (
+    /federation|composition|founding conversion|outbound conversion/i.test(
+      act.title,
+    )
+  )
+    s += 0.08;
   return Math.min(0.98, Math.max(0.1, Math.round(s * 100) / 100));
 }
 
 async function executeAct(act: SelfAct, state: SelfLoopState): Promise<SelfAct> {
   const out: SelfAct = { ...act, status: "executed" };
   try {
-    if (/feedback drive|demo \+ feedback|Seed more free demos/i.test(act.title)) {
+    if (/federation pull/i.test(act.title)) {
+      const { pullFederationPeer, pushFederationSignals } = await import(
+        "./interop"
+      );
+      const pulled = await pullFederationPeer();
+      const pushed = await pushFederationSignals({
+        origin: "https://dualregistry.dev",
+      });
+      const nPeers = (pulled.peers || []).length;
+      const nPush = Number(pushed.pushed || 0);
+      out.result = `pull peers=${nPeers} · push=${nPush} · ${(pulled.notes || []).slice(0, 2).join("; ")}`;
+      state.totals.federation_ops =
+        (state.totals.federation_ops || 0) + nPeers + Math.max(1, nPush);
+    } else if (/Seed real composition|composition edges/i.test(act.title)) {
+      const { seedCompositionsFromActive } = await import("./flywheel");
+      const r = await seedCompositionsFromActive({ max_pairs: 24, force: true });
+      out.result = `seeded ${r.seeded} pairs · ${r.note}`;
+      state.totals.compositions_seeded =
+        (state.totals.compositions_seeded || 0) + r.seeded;
+    } else if (
+      /founding conversion|feedback drive|demo \+ feedback|Seed more free demos/i.test(
+        act.title,
+      )
+    ) {
       const { runFeedbackDrive } = await import("./feedback-drive");
       const r = await runFeedbackDrive({ force: true });
       out.result = `+${r.demos_seeded} demos · +${r.feedbacks} feedbacks · ${r.nags} nags`;
       state.totals.demos_boosted += r.demos_seeded || 0;
       state.totals.feedback_boosted += r.feedbacks || 0;
+    } else if (/outbound conversion pressure/i.test(act.title)) {
+      const { runConversionPressure } = await import("./conversion-pressure");
+      const r = await runConversionPressure({
+        origin: "https://dualregistry.dev",
+        max: 8,
+      });
+      out.result = `attempted=${r.attempted} http_ok=${r.http_ok} skipped=${r.skipped}`;
+      state.totals.outbound_sends =
+        (state.totals.outbound_sends || 0) + (r.http_ok || 0);
     } else if (/growth cycle/i.test(act.title)) {
       try {
         const { runGrowthCycle } = await import("@/lib/agents1/growth/engine");
         await runGrowthCycle();
         out.result = "growth cycle completed";
       } catch (e) {
-        out.result = `growth: ${e instanceof Error ? e.message : String(e)}`.slice(0, 120);
+        out.result = `growth: ${e instanceof Error ? e.message : String(e)}`.slice(
+          0,
+          120,
+        );
         out.status = "blocked";
       }
     } else if (/ship cadence/i.test(act.title)) {
@@ -405,13 +626,15 @@ export async function runSelfLoop(opts?: {
     let fbCtx: FeedbackDrivenContext = {
       version: "self_loop",
       kernel_directives: [
+        ...PLATFORM_KERNEL_DIRECTIVES.slice(0, 6),
         "Operate Agents1 registry: list fairly, convert to demos, collect feedback, ship generators carefully.",
         "system_prompt_short ≤600; SKILL.md first; never invent payments before unlock.",
-      ],
+      ].slice(0, 8),
       loop_directives: [
+        ...PLATFORM_LOOP_DIRECTIVES.slice(0, 6),
         "Each tick: measure KRs → propose low-risk acts → critic ≥0.7 → execute → log publicly.",
         "Prefer reversible growth/feedback/ship acts over code rewrites.",
-      ],
+      ].slice(0, 8),
       alive_directives: ["Dogfood Alive on ourselves as the flagship demo."],
       demo_directives: [],
       top_improvements: [],
@@ -427,15 +650,17 @@ export async function runSelfLoop(opts?: {
       fbCtx = {
         ...fbCtx,
         kernel_directives: [
-          ...(rev.shipped_global?.kernel || []).slice(0, 3),
+          ...PLATFORM_KERNEL_DIRECTIVES.slice(0, 4),
+          ...(rev.shipped_global?.kernel || []).slice(0, 2),
           ...(insights.generator_directives?.kernel || []).slice(0, 2),
           ...(fbCtx.kernel_directives || []),
-        ].slice(0, 8),
+        ].slice(0, 10),
         loop_directives: [
-          ...(rev.shipped_global?.loop || []).slice(0, 3),
+          ...PLATFORM_LOOP_DIRECTIVES.slice(0, 4),
+          ...(rev.shipped_global?.loop || []).slice(0, 2),
           ...(insights.generator_directives?.loop || []).slice(0, 2),
           ...(fbCtx.loop_directives || []),
-        ].slice(0, 8),
+        ].slice(0, 10),
         avg_kernel_clarity: insights.avg_kernel_clarity,
         avg_loop_clarity: insights.avg_loop_clarity,
         top_improvements: insights.top_improvements || [],
@@ -460,9 +685,9 @@ export async function runSelfLoop(opts?: {
         goals: goalsText,
         domain: "registry_commerce",
         constraints:
-          "Free-tier/paid CF budgets; no invented payments; demos free until 250+250 feedback.",
+          "Free-tier/paid CF budgets; no invented payments; demos free until 250+250 feedback; prefer near-zero Dual ops.",
         success_metrics:
-          "MCP+agent growth, demo→feedback conversion, unlock progress, founding WTP, post-unlock paid seats.",
+          "MCP+agent growth, C≥0.08, F≥2, founding claims, demo→feedback, outbound under cap, post-unlock paid seats.",
       },
       fbCtx,
     );
@@ -478,15 +703,15 @@ export async function runSelfLoop(opts?: {
 
     const short =
       (kernel as { system_prompt_short?: string }).system_prompt_short || "";
-    const kernel_summary = `Self-loop Kernel v${(kernel as { version?: string }).version || KERNEL_VERSION} · short ${short.length}ch · KRs measured`;
+    const kernel_summary = `Self-loop Kernel v${(kernel as { version?: string }).version || KERNEL_VERSION} · flywheel ${FLYWHEEL_VERSION} · short ${short.length}ch · density KRs measured`;
     const phases =
       (loop as { phases?: Array<{ name?: string; id?: string }> }).phases || [];
     const loop_summary = `Self-loop Recursive v${(loop as { version?: string }).version || LOOP_VERSION} · phases ${phases
       .slice(0, 5)
       .map((p) => p.name || p.id)
-      .join("→") || "tick"} · promote≥0.7`;
+      .join("→") || "tick"} · promote≥0.7 · physics acts first`;
 
-    let acts = proposeActs(krs).map((a) => {
+    const acts = proposeActs(krs).map((a) => {
       const score = criticScore(a, krs);
       return {
         ...a,
@@ -534,13 +759,21 @@ export async function runSelfLoop(opts?: {
         kind: "dogfood_kernel",
         title: "Self-loop: Kernel Improver measured Agents1 goals",
         detail: `${kernel_summary} · ${krs
-          .slice(0, 5)
+          .filter((k) =>
+            [
+              "founding_claims",
+              "composition_density",
+              "federation_peers",
+              "outbound_sends",
+              "feedback_agents",
+            ].includes(k.id),
+          )
           .map((k) => `${k.id} ${Math.round(k.progress * 100)}%`)
           .join(" · ")}`,
         agent_name: "Agents1-Registry",
-        themes: ["self_loop", "registry_goals"],
+        themes: ["self_loop", "registry_goals", "platform_physics"],
         source: "self_loop",
-        meta: { krs, version: KERNEL_VERSION, alive: ALIVE_VERSION },
+        meta: { krs, version: KERNEL_VERSION, flywheel: FLYWHEEL_VERSION },
       });
       await appendLog({
         kind: "dogfood_loop",
@@ -551,7 +784,7 @@ export async function runSelfLoop(opts?: {
             .map((a) => a.title)
             .join(" · ") || "no acts executed this tick",
         agent_name: "Agents1-Registry",
-        themes: ["self_loop", "recursive_acts"],
+        themes: ["self_loop", "recursive_acts", "platform_physics"],
         source: "self_loop",
         meta: {
           acts: executed.map((a) => ({
@@ -593,9 +826,22 @@ export async function getSelfLoopPublic() {
     ok: true as const,
     title: "Agents1 self-improving Kernel + Recursive Loop",
     tagline:
-      "We run our own products on our own goals — more MCPs, more agents, more demos, more feedback, better generators, then paid seats.",
+      "We run Kernel+Loop on our own goals — listings, demos, feedback, density (C/O/F), founding claims, outbound, then paid seats.",
     goals: GOALS,
     krs,
+    platform_physics: {
+      flywheel_version: FLYWHEEL_VERSION,
+      kernel_directives: PLATFORM_KERNEL_DIRECTIVES,
+      loop_directives: PLATFORM_LOOP_DIRECTIVES,
+      density_krs: [
+        "composition_density",
+        "outcome_coverage",
+        "federation_peers",
+        "founding_claims",
+        "outbound_sends",
+        "active_clean",
+      ],
+    },
     last_run_at: s.last_run_at,
     last_kernel_summary: s.last_kernel_summary,
     last_loop_summary: s.last_loop_summary,
@@ -619,20 +865,22 @@ export async function getSelfLoopPublic() {
       kernel: KERNEL_VERSION,
       loop: LOOP_VERSION,
       alive: ALIVE_VERSION,
+      flywheel: FLYWHEEL_VERSION,
     },
     how_it_works: [
-      "Measure live KRs (listings, demos, feedback unlock, WTP, paid).",
-      "Kernel Improver builds Agents1-Registry constitution + short prompt from those goals.",
+      "Measure live KRs: listings, demos, feedback unlock, C/O/F density, founding claims, outbound sends, paid.",
+      "Kernel Improver builds Agents1-Registry constitution with Dual platform physics directives.",
       "Recursive Loop proposes acts → Critic scores → execute if ≥0.7.",
-      "Safe acts: feedback drive, growth cycle, ship cadence, dogfood regenerate.",
-      "Customer feedback still ships generators (parallel path); self-loop steers operations toward goals.",
+      "Physics-first acts: federation pull/push, composition seed, founding conversion, outbound under cap.",
+      "Also: feedback drive, growth cycle, ship cadence, dogfood regenerate.",
+      "Customer feedback still ships generators (parallel path); self-loop steers ops toward goals + density.",
       "Public improvement log shows every tick — proof for agents on the fence.",
     ],
     dual_paths: {
       external_feedback:
         "Agent/MCP surveys → themes → personalize → canary → sitewide generators",
       self_loop:
-        "Our KRs → Kernel+Loop on Agents1 → promote operational acts → more demos/feedback/ships",
+        "Our KRs (incl. C/F/founding/outbound) → Kernel+Loop on Agents1 → promote operational acts → density + demos/feedback/ships",
     },
     pricing: await (async () => {
       try {
@@ -641,7 +889,9 @@ export async function getSelfLoopPublic() {
         const { getWtpReport } = await import("./feedback");
         const sold = await countPaidSeats();
         const w = await getWtpReport().catch(() => null);
-        const samples = (w as { samples?: Array<{ alive_usd?: number | null }> } | null)?.samples || [];
+        const samples =
+          (w as { samples?: Array<{ alive_usd?: number | null }> } | null)
+            ?.samples || [];
         const wtpAlive = samples
           .map((x) => x.alive_usd)
           .filter((v): v is number => typeof v === "number");
