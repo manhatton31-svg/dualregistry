@@ -347,11 +347,16 @@ function useLiveData() {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const load = useCallback(async (soft = false) => {
-    setRefreshing(true);
+  const load = useCallback(async (soft = false, opts?: { ops?: boolean }) => {
+    // Soft poll: do not flip global refreshing spinner (keeps UI snappy)
+    if (!soft) setRefreshing(true);
     setError(null);
     try {
-      const url = soft ? "/api/dashboard" : "/api/dashboard?refresh=1";
+      const q = new URLSearchParams();
+      if (!soft) q.set("refresh", "1");
+      if (opts?.ops) q.set("ops", "1");
+      const qs = q.toString();
+      const url = qs ? `/api/dashboard?${qs}` : "/api/dashboard";
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error(`dashboard ${res.status}`);
       const json = (await res.json()) as DashboardData;
@@ -448,11 +453,19 @@ function useLiveData() {
     return () => clearInterval(id);
   }, [load]);
 
-  return { data, refreshedAt, refreshing, error, refresh: () => load(false) };
+  return {
+    data,
+    refreshedAt,
+    refreshing,
+    error,
+    refresh: () => load(false),
+    loadOps: () => load(true, { ops: true }),
+  };
 }
 
 export function DashboardApp() {
-  const { data, refreshedAt, refreshing, error, refresh } = useLiveData();
+  const { data, refreshedAt, refreshing, error, refresh, loadOps } =
+    useLiveData();
   const [tab, setTab] = useState<TabId>("engage");
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
@@ -698,7 +711,15 @@ export function DashboardApp() {
         <div className="mb-4">
           <button
             type="button"
-            onClick={() => setShowPlatform((v) => !v)}
+            onClick={() => {
+              setShowPlatform((v) => {
+                const next = !v;
+                if (next && !data?.platform_cost) {
+                  void loadOps();
+                }
+                return next;
+              });
+            }}
             className="flex w-full items-center justify-between gap-2 rounded-[var(--radius-md)] border border-border/60 bg-bg-elevated/30 px-3 py-2 text-left text-xs text-muted transition hover:border-border hover:text-fg"
           >
             <span className="flex items-center gap-2 font-medium">

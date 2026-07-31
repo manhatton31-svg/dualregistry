@@ -1,7 +1,8 @@
 /**
  * Fast dashboard payload for the UI — never hangs forever.
- * Soft poll (default): cache + disk probes, target <2s, never 504.
- * ?refresh=1 / ?live=1: recompute verified numbers (harder timeout).
+ * Soft poll (default): parallel side panels only, target <2.5s, never 504.
+ * ?refresh=1: same path + ops panels; does NOT forceLive re-probe the registry.
+ * ?ops=1 / ?full=1: include cost / agent_runs / growth_scout.
  *
  * PRODUCT: public totals + items are CLEAN ACTIVE ONLY (probe-first).
  * Store dump / delisted / discovered never leave this API.
@@ -42,7 +43,9 @@ function cleanOnlyTotals(body: Record<string, unknown>) {
     return {
       id: row.id,
       name: row.name,
-      description: row.description,
+      description: typeof row.description === "string"
+        ? row.description.slice(0, 160)
+        : row.description,
       author: row.author,
       status: "approved",
       safety_score: row.safety_score,
@@ -62,9 +65,41 @@ function cleanOnlyTotals(body: Record<string, unknown>) {
     };
   };
 
+  // Single slim list for tables — avoid shipping full probe blobs twice
+  const slimRow = (row: Record<string, unknown>) => {
+    const probe = (row.probe as Record<string, unknown> | null) || null;
+    return {
+      id: row.id,
+      name: row.name,
+      description:
+        typeof row.description === "string"
+          ? row.description.slice(0, 160)
+          : row.description,
+      author: row.author,
+      website: row.website,
+      repository: row.repository,
+      remote_url: row.remote_url,
+      endpoint_url: row.endpoint_url,
+      agent_card_url: row.agent_card_url,
+      lane: "active",
+      checks_clean: true,
+      probe: probe
+        ? { ok: true, handshake: probe.handshake || "ok", target: probe.target }
+        : { ok: true },
+      category_id: row.category_id,
+      category_label: row.category_label,
+      kind: row.kind,
+      demoed: row.demoed,
+      feedbacked: row.feedbacked,
+      founder_n: row.founder_n,
+    };
+  };
+  const mcpSlim = mcpActive.map(slimRow);
+  const agSlim = agentsActive.map(slimRow);
+
   const listing_lanes = {
-    mcp_active: mcpActive,
-    agents_active: agentsActive,
+    mcp_active: mcpSlim,
+    agents_active: agSlim,
     mcp_discovered: [],
     agents_discovered: [],
     mcp_needs_resubmit: [],
@@ -89,6 +124,7 @@ function cleanOnlyTotals(body: Record<string, unknown>) {
 
   return {
     ...body,
+    // Lightweight totals only — full rows live under listing_lanes (no triple copy)
     mcp: {
       ok: true,
       service: "dualregistry-clean",
@@ -96,7 +132,7 @@ function cleanOnlyTotals(body: Record<string, unknown>) {
       total: mcpN,
       clean_only: true,
       status: "live",
-      items: mcpActive.map(toItem),
+      items: [],
     },
     agents: {
       ok: true,
@@ -105,7 +141,7 @@ function cleanOnlyTotals(body: Record<string, unknown>) {
       total: agN,
       clean_only: true,
       status: "live",
-      items: agentsActive.map(toItem),
+      items: [],
     },
     milestones: {
       ...prevMilestones,
@@ -285,79 +321,139 @@ function applySticky(side: SidePanels): SidePanels {
   return next;
 }
 
-async function attachSidePanels(timeoutMs: number) {
-  let product_engagement = null;
-  let listing_lanes = null;
-  let metrics_truth = null;
-  let protocol = null;
-  let platform_cost = null;
-  let agent_runs = null;
-  let growth_scout = null;
+async function attachSidePanels(
+  timeoutMs: number,
+  opts?: { full?: boolean },
+) {
+  const full = Boolean(opts?.full);
+  const t = Math.max(800, Math.min(timeoutMs, full ? 3500 : 2200));
 
-  try {
-    const { getProductEngagement } = await import(
-      "@/lib/products/engagement"
-    );
-    product_engagement = await withTimeout(getProductEngagement(), timeoutMs);
-  } catch {
-    /* */
-  }
-  try {
-    const { getLanedListings } = await import("@/lib/agents1/listing-lanes");
-    listing_lanes = await withTimeout(getLanedListings(), timeoutMs);
-  } catch {
-    /* */
-  }
-  try {
-    const { getMetricsTruth } = await import("@/lib/agents1/metrics-truth");
-    metrics_truth = await withTimeout(getMetricsTruth(), timeoutMs);
-  } catch {
-    /* */
-  }
-  try {
-    const { getProbePublic, invalidateProbeCache } = await import(
-      "@/lib/agents1/probe"
-    );
-    invalidateProbeCache();
-    const probes = await getProbePublic();
-    protocol = { probes };
-  } catch {
-    /* */
-  }
-  // Cost + agentic observability — allow more time; high-water load is cheap after warm
-  const opsMs = Math.max(timeoutMs, 2500);
-  try {
-    const { loadPlatformCost, platformCostPublic } = await import(
-      "@/lib/agents1/platform-cost"
-    );
-    platform_cost = await withTimeout(
-      loadPlatformCost().then(platformCostPublic),
-      opsMs,
-    );
-  } catch {
-    /* */
-  }
-  try {
-    const { loadAgentRuns, agentRunsPublic } = await import(
-      "@/lib/agents1/agent-runs"
-    );
-    agent_runs = await withTimeout(
-      loadAgentRuns().then(agentRunsPublic),
-      opsMs,
-    );
-  } catch {
-    /* */
-  }
-  try {
-    const { getGrowthScoutStatus } = await import(
-      "@/lib/agents1/growth/scout"
-    );
-    growth_scout = await withTimeout(getGrowthScoutStatus(), opsMs);
-  } catch {
-    /* */
+  // Critical path in parallel — never sequential timeout stacking
+  const [
+    product_engagement,
+    listing_lanes,
+    metrics_truth,
+    protocol,
+    eventUsage,
+    outcomesLite,
+  ] = await Promise.all([
+    (async () => {
+      try {
+        const { getProductEngagement } = await import(
+          "@/lib/products/engagement"
+        );
+        return await withTimeout(getProductEngagement(), t);
+      } catch {
+        return null;
+      }
+    })(),
+    (async () => {
+      try {
+        const { getLanedListings } = await import(
+          "@/lib/agents1/listing-lanes"
+        );
+        return await withTimeout(getLanedListings(), t);
+      } catch {
+        return null;
+      }
+    })(),
+    (async () => {
+      try {
+        const { getMetricsTruth } = await import(
+          "@/lib/agents1/metrics-truth"
+        );
+        return await withTimeout(getMetricsTruth(), t);
+      } catch {
+        return null;
+      }
+    })(),
+    (async () => {
+      try {
+        const { getProbePublic } = await import("@/lib/agents1/probe");
+        // Do NOT invalidate cache on every soft poll — that forces disk/network work
+        const probes = await withTimeout(getProbePublic(), t);
+        return probes ? { probes } : null;
+      } catch {
+        return null;
+      }
+    })(),
+    (async () => {
+      try {
+        const { getEventUsagePublic } = await import(
+          "@/lib/products/event-pricing"
+        );
+        return await withTimeout(getEventUsagePublic(), Math.min(t, 1200));
+      } catch {
+        return null;
+      }
+    })(),
+    (async () => {
+      try {
+        // Lightweight: totals only via public, short timeout
+        const { getFirstPrinciplesPublic } = await import(
+          "@/lib/products/first-principles"
+        );
+        return await withTimeout(
+          getFirstPrinciplesPublic({}),
+          Math.min(t, 1200),
+        );
+      } catch {
+        return null;
+      }
+    })(),
+  ]);
+
+  // Ops panels only on full refresh / when Platform ops needed — soft uses sticky
+  let platform_cost = full ? null : lastGoodSide?.platform_cost ?? null;
+  let agent_runs = full ? null : lastGoodSide?.agent_runs ?? null;
+  let growth_scout = full ? null : lastGoodSide?.growth_scout ?? null;
+
+  if (full) {
+    const opsT = Math.min(2500, t + 500);
+    const [cost, runs, scout] = await Promise.all([
+      (async () => {
+        try {
+          const { loadPlatformCost, platformCostPublic } = await import(
+            "@/lib/agents1/platform-cost"
+          );
+          return await withTimeout(
+            loadPlatformCost().then(platformCostPublic),
+            opsT,
+          );
+        } catch {
+          return null;
+        }
+      })(),
+      (async () => {
+        try {
+          const { loadAgentRuns, agentRunsPublic } = await import(
+            "@/lib/agents1/agent-runs"
+          );
+          return await withTimeout(
+            loadAgentRuns().then(agentRunsPublic),
+            opsT,
+          );
+        } catch {
+          return null;
+        }
+      })(),
+      (async () => {
+        try {
+          const { getGrowthScoutStatus } = await import(
+            "@/lib/agents1/growth/scout"
+          );
+          return await withTimeout(getGrowthScoutStatus(), opsT);
+        } catch {
+          return null;
+        }
+      })(),
+    ]);
+    platform_cost = cost;
+    agent_runs = runs;
+    growth_scout = scout;
   }
 
-
+  // Hero from parallel results — no extra funnel/exonomics waterfall
   let hero: Record<string, unknown> | null = null;
   try {
     const lanes = listing_lanes as {
@@ -383,77 +479,31 @@ async function attachSidePanels(timeoutMs: number) {
       probes?.used != null ? probes.used : fromKind || 0,
     );
 
-    let event_events = 0;
-    let event_free = 0;
-    let event_paid = 0;
-    let event_refills = 0;
-    try {
-      const { getEventUsagePublic } = await import(
-        "@/lib/products/event-pricing"
-      );
-      const usage = await withTimeout(getEventUsagePublic(), 1500);
-      const t = (usage as { totals?: Record<string, number> } | null)?.totals;
-      event_events = Number(t?.total_events || 0);
-      event_free = Number(t?.free_events || 0);
-      event_paid = Number(t?.paid_events || 0);
-      event_refills = Number(t?.refill_grants_total || 0);
-    } catch {
-      /* */
-    }
+    const tEv = (eventUsage as { totals?: Record<string, number> } | null)
+      ?.totals;
+    const event_events = Number(tEv?.total_events || 0);
+    const event_free = Number(tEv?.free_events || 0);
+    const event_paid = Number(tEv?.paid_events || 0);
+    const event_refills = Number(tEv?.refill_grants_total || 0);
 
-    let feedback_agents = 0;
-    let feedback_mcps = 0;
-    let feedback_real = 0;
-    try {
-      const { getFunnelHonesty } = await import(
-        "@/lib/products/funnel-honesty"
-      );
-      const fh = await withTimeout(getFunnelHonesty(), 2000);
-      if (fh) {
-        feedback_agents = Number(fh.feedback?.real_agents || 0);
-        feedback_mcps = Number(fh.feedback?.real_mcps || 0);
-        feedback_real = Number(
-          fh.feedback?.real_public || feedback_agents + feedback_mcps,
-        );
-      }
-    } catch {
-      const pe = product_engagement as {
-        feedback_agent_only?: number;
-        feedback_mcps?: number;
-      } | null;
-      if (pe) {
-        feedback_agents = Number(pe.feedback_agent_only || 0);
-        feedback_mcps = Number(pe.feedback_mcps || 0);
-        feedback_real = feedback_agents + feedback_mcps;
-      }
-    }
+    const pe = product_engagement as {
+      feedback_agent_only?: number;
+      feedback_mcps?: number;
+      feedback_agents?: number;
+    } | null;
+    const feedback_agents = Number(
+      pe?.feedback_agent_only ?? pe?.feedback_agents ?? 0,
+    );
+    const feedback_mcps = Number(pe?.feedback_mcps ?? 0);
+    const feedback_real = feedback_agents + feedback_mcps;
 
-    let outcomes = 0;
-    let network_o: number | null = null;
-    try {
-      const { getFirstPrinciplesPublic } = await import(
-        "@/lib/products/first-principles"
-      );
-      const fp = await withTimeout(getFirstPrinciplesPublic({}), 1500);
-      outcomes = Number(
-        (fp as { totals?: { outcomes?: number } } | null)?.totals?.outcomes ||
-          0,
-      );
-    } catch {
-      /* */
-    }
-    try {
-      const { getExonomicsPublic } = await import("@/lib/products/exonomics");
-      const exo = await withTimeout(getExonomicsPublic({}), 1500);
-      const o = (exo as { network_value?: { components?: { O?: number } } })
-        ?.network_value?.components?.O;
-      if (typeof o === "number" && Number.isFinite(o)) network_o = o;
-    } catch {
-      /* */
-    }
+    const outcomes = Number(
+      (outcomesLite as { totals?: { outcomes?: number } } | null)?.totals
+        ?.outcomes || 0,
+    );
 
     hero = {
-      version: "1.0.0",
+      version: "1.1.0",
       live: mcpN + agN,
       live_mcp: mcpN,
       live_agents: agN,
@@ -470,7 +520,7 @@ async function attachSidePanels(timeoutMs: number) {
       unlock_agents: 250,
       unlock_mcps: 250,
       outcomes,
-      network_o,
+      network_o: null,
       updated_at: new Date().toISOString(),
     };
   } catch {
@@ -537,89 +587,37 @@ export const Route = createFileRoute("/api/dashboard")({
     handlers: {
       GET: async ({ request }) => {
         const url = new URL(request.url);
+        // refresh/live = refresh panels (parallel). Does NOT force re-probe whole registry.
         const userRefresh =
           url.searchParams.get("refresh") === "1" ||
           url.searchParams.get("live") === "1";
+        // ops=1 loads cost/runs/scout (Platform ops expand only)
+        const wantOps =
+          url.searchParams.get("ops") === "1" ||
+          url.searchParams.get("full") === "1";
         const headers = {
           "cache-control": userRefresh
             ? "no-store"
-            : "private, max-age=45, stale-while-revalidate=90",
+            : "private, max-age=30, stale-while-revalidate=60",
           "access-control-allow-origin": "*",
+          "x-dashboard-mode": wantOps ? "full" : "soft",
         };
 
         try {
-          const { getLiveSnapshot } = await import("@/lib/agents1/fetch-live");
-          try {
-            const { ensureGrowthScheduler } = await import(
-              "@/lib/agents1/growth/server"
-            );
-            ensureGrowthScheduler();
-          } catch {
-            /* */
-          }
+          // Soft path: skip getLiveSnapshot (heavy store revalidate) — lanes are enough
+          // Full/Update: still avoid forceLive; only revalidate=false cache snapshot
+          const side = await attachSidePanels(wantOps ? 2_800 : 2_000, {
+            full: wantOps,
+          });
 
-          if (userRefresh) {
-            try {
-              const { invalidateMirrorCache } = await import(
-                "@/lib/agents1/canonical-metrics"
-              );
-              invalidateMirrorCache();
-            } catch {
-              /* */
-            }
-            try {
-              const { reloadOrdersFromDisk } = await import(
-                "@/lib/products/orders"
-              );
-              await reloadOrdersFromDisk();
-            } catch {
-              /* */
-            }
-          }
+          // Never block dashboard on production mirror or full store snapshot
+          const body = {
+            ok: true as const,
+            ...side,
+            soft: !wantOps && !userRefresh,
+            metrics_source: wantOps ? "local-ops" : "local-fast",
+          };
 
-          if (!userRefresh) {
-            const snap =
-              (await withTimeout(
-                getLiveSnapshot({ revalidate: false, forceLive: false }),
-                3_000,
-              )) || {};
-            const side = await attachSidePanels(4_000);
-            const body = await applyProductionMirror(
-              { ok: true, ...snap, ...side, soft: true },
-              request.url,
-            );
-            return Response.json(
-              cleanOnlyTotals(body as Record<string, unknown>),
-              { headers },
-            );
-          }
-
-          const snap = await withTimeout(
-            getLiveSnapshot({ revalidate: true, forceLive: true }),
-            10_000,
-          );
-          if (!snap) {
-            const cached =
-              (await withTimeout(
-                getLiveSnapshot({ revalidate: false, forceLive: false }),
-                3_000,
-              )) || {};
-            const side = await attachSidePanels(5_000);
-            const body = await applyProductionMirror(
-              { ok: true, ...cached, ...side, degraded: true },
-              request.url,
-            );
-            return Response.json(
-              cleanOnlyTotals(body as Record<string, unknown>),
-              { headers },
-            );
-          }
-
-          const side = await attachSidePanels(6_000);
-          const body = await applyProductionMirror(
-            { ok: true, ...snap, ...side },
-            request.url,
-          );
           return Response.json(
             cleanOnlyTotals(body as Record<string, unknown>),
             { headers },
@@ -627,15 +625,13 @@ export const Route = createFileRoute("/api/dashboard")({
         } catch (e) {
           let protocol = null;
           try {
-            const { getProbePublic, invalidateProbeCache } = await import(
-              "@/lib/agents1/probe"
-            );
-            invalidateProbeCache();
-            protocol = { probes: await getProbePublic() };
+            const { getProbePublic } = await import("@/lib/agents1/probe");
+            protocol = {
+              probes: await withTimeout(getProbePublic(), 1500),
+            };
           } catch {
             /* */
           }
-          // Prefer sticky side panels even on hard error
           const sticky = lastGoodSide || {
             product_engagement: null,
             listing_lanes: null,
@@ -646,19 +642,15 @@ export const Route = createFileRoute("/api/dashboard")({
             growth_scout: null,
             hero: null,
           };
-          const body = await applyProductionMirror(
-            {
+          return Response.json(
+            cleanOnlyTotals({
               ok: true,
               degraded: true,
               ...sticky,
               protocol: protocol || sticky.protocol,
               error: e instanceof Error ? e.message : String(e),
               message: "Partial dashboard — sticky panels kept where possible",
-            },
-            request.url,
-          );
-          return Response.json(
-            cleanOnlyTotals(body as Record<string, unknown>),
+            } as Record<string, unknown>),
             { headers },
           );
         }
