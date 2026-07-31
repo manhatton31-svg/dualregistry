@@ -3,13 +3,14 @@
  * Seats stay in catalog.ts for human checkout; events are the agent path.
  *
  * Free allowance per agent identity (listing_id | agent_name) per UTC day.
- * Over-quota → payment-required structure (402 / x402 scaffold).
+ * Reciprocity refills (feedback / leave_trace / endorse / deposit_outcome) add
+ * bonus free units — not cash. Over-quota → payment-required (402 / x402 scaffold).
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { dataRoot } from "@/lib/data-root";
 
-export const EVENT_PRICING_VERSION = "1.0.0";
+export const EVENT_PRICING_VERSION = "1.1.0";
 
 export type EventId =
   | "improve_kernel"
@@ -83,17 +84,67 @@ export const EVENT_CATALOG: Record<EventId, EventDef> = {
   },
 };
 
+/** Reciprocity free-tier fuel — not cash */
+export type RefillReason =
+  | "leave_feedback"
+  | "leave_trace"
+  | "endorse"
+  | "deposit_outcome"
+  | "connector_onboard";
+
+export const REFILL_POLICY: Record<
+  RefillReason,
+  {
+    events: EventId[];
+    units_each: number;
+    max_grants_per_day: number;
+    note: string;
+  }
+> = {
+  leave_feedback: {
+    events: ["improve_kernel", "run_loop_tick", "mesh_match"],
+    units_each: 1,
+    max_grants_per_day: 3,
+    note: "Honest feedback refills 1 free unit on kernel/loop/match (cap 3/day)",
+  },
+  leave_trace: {
+    events: ["mesh_match", "network_sense"],
+    units_each: 1,
+    max_grants_per_day: 5,
+    note: "Real leave_trace refills mesh_match (cap 5/day)",
+  },
+  endorse: {
+    events: ["mesh_match"],
+    units_each: 1,
+    max_grants_per_day: 3,
+    note: "Endorse a Live partner → +1 mesh_match free (cap 3/day)",
+  },
+  deposit_outcome: {
+    events: ["improve_kernel", "run_loop_tick"],
+    units_each: 1,
+    max_grants_per_day: 3,
+    note: "deposit_outcome after value tools → +1 kernel/loop free (cap 3/day)",
+  },
+  connector_onboard: {
+    events: ["improve_kernel"],
+    units_each: 1,
+    max_grants_per_day: 1,
+    note: "Connector warm intro: one extra improve_kernel free for the day (no demo order)",
+  },
+};
+
 export type EventBillingBlock = {
   event_id: EventId;
   unit: string;
   free_remaining_today: number;
   free_per_day: number;
+  bonus_free: number;
   used_today: number;
   price_usd: number;
   price_cents: number;
   charged: "free_allowance" | "payment_required" | "paid_proof" | "always_free";
   payment: {
-    modes: Array<"free_allowance" | "stripe_checkout" | "x402">;
+    modes: Array<"free_allowance" | "stripe_checkout" | "x402" | "reciprocity_refill">;
     x402: {
       enabled: boolean;
       network: string;
@@ -103,15 +154,31 @@ export type EventBillingBlock = {
     checkout_url?: string;
     note: string;
   };
+  reciprocity?: {
+    how: string;
+    reasons: RefillReason[];
+  };
 };
 
 type DayUsage = {
   day: string; // YYYY-MM-DD UTC
   by_key: Record<string, Partial<Record<EventId, number>>>;
+  /** Extra free units from reciprocity (added to free_per_day for remaining calc) */
+  bonus_by_key: Record<string, Partial<Record<EventId, number>>>;
+  /** Grants counted per identity per reason for daily caps */
+  refill_grants: Record<string, Partial<Record<RefillReason, number>>>;
+  refill_log: Array<{
+    at: string;
+    identity_key: string;
+    reason: RefillReason;
+    events: EventId[];
+    units_each: number;
+  }>;
   total_events: number;
   free_events: number;
   paid_events: number;
   payment_required: number;
+  refill_grants_total: number;
   updated_at: string;
 };
 
@@ -133,20 +200,36 @@ function emptyDay(day = utcDay()): DayUsage {
   return {
     day,
     by_key: {},
+    bonus_by_key: {},
+    refill_grants: {},
+    refill_log: [],
     total_events: 0,
     free_events: 0,
     paid_events: 0,
     payment_required: 0,
+    refill_grants_total: 0,
     updated_at: new Date().toISOString(),
   };
 }
 
 function emptyStore(): UsageStore {
   return {
-    version: 1,
+    version: 2,
     current: emptyDay(),
     history: [],
     updated_at: new Date().toISOString(),
+  };
+}
+
+function normalizeDay(d: DayUsage): DayUsage {
+  return {
+    ...emptyDay(d.day),
+    ...d,
+    by_key: d.by_key || {},
+    bonus_by_key: d.bonus_by_key || {},
+    refill_grants: d.refill_grants || {},
+    refill_log: d.refill_log || [],
+    refill_grants_total: d.refill_grants_total || 0,
   };
 }
 
@@ -157,12 +240,13 @@ async function load(): Promise<UsageStore> {
       mem.history = mem.history.slice(0, 14);
       mem.current = emptyDay();
     }
+    mem.current = normalizeDay(mem.current);
     return mem;
   }
   try {
     const raw = await readFile(PATH, "utf8");
     mem = { ...emptyStore(), ...JSON.parse(raw) };
-    mem!.current = mem!.current || emptyDay();
+    mem!.current = normalizeDay(mem!.current || emptyDay());
     mem!.history = mem!.history || [];
     if (mem!.current.day !== utcDay()) {
       mem!.history.unshift(mem!.current);
@@ -236,12 +320,111 @@ export function x402PayTo(): string | undefined {
   return a || undefined;
 }
 
+function bonusFor(s: UsageStore, key: string, eventId: EventId): number {
+  return Number(s.current.bonus_by_key[key]?.[eventId] || 0);
+}
+
 export async function getUsedToday(
   key: string,
   eventId: EventId,
 ): Promise<number> {
   const s = await load();
   return Number(s.current.by_key[key]?.[eventId] || 0);
+}
+
+export async function getBonusToday(
+  key: string,
+  eventId: EventId,
+): Promise<number> {
+  const s = await load();
+  return bonusFor(s, key, eventId);
+}
+
+/**
+ * Grant free-event refill from reciprocity actions.
+ * Quiet-safe: no email, no orders, no cold outreach.
+ */
+export async function grantEventRefill(
+  identity: {
+    listing_id?: string | null;
+    agent_name?: string | null;
+    agent_card_url?: string | null;
+  },
+  reason: RefillReason,
+): Promise<{
+  ok: boolean;
+  granted: boolean;
+  identity_key: string;
+  reason: RefillReason;
+  events: EventId[];
+  units_each: number;
+  grants_today: number;
+  max_grants_per_day: number;
+  note: string;
+}> {
+  const policy = REFILL_POLICY[reason];
+  const key = eventIdentityKey(identity);
+  if (key === "anon:unknown") {
+    return {
+      ok: false,
+      granted: false,
+      identity_key: key,
+      reason,
+      events: policy.events,
+      units_each: 0,
+      grants_today: 0,
+      max_grants_per_day: policy.max_grants_per_day,
+      note: "Identity required (listing_id or agent_name) to refill free events",
+    };
+  }
+
+  const s = await load();
+  const grantsToday = Number(s.current.refill_grants[key]?.[reason] || 0);
+  if (grantsToday >= policy.max_grants_per_day) {
+    return {
+      ok: true,
+      granted: false,
+      identity_key: key,
+      reason,
+      events: policy.events,
+      units_each: 0,
+      grants_today: grantsToday,
+      max_grants_per_day: policy.max_grants_per_day,
+      note: `Daily cap reached for ${reason} (${policy.max_grants_per_day}/day)`,
+    };
+  }
+
+  if (!s.current.bonus_by_key[key]) s.current.bonus_by_key[key] = {};
+  for (const ev of policy.events) {
+    const prev = Number(s.current.bonus_by_key[key][ev] || 0);
+    s.current.bonus_by_key[key][ev] = prev + policy.units_each;
+  }
+  if (!s.current.refill_grants[key]) s.current.refill_grants[key] = {};
+  s.current.refill_grants[key][reason] = grantsToday + 1;
+  s.current.refill_grants_total++;
+  s.current.refill_log.unshift({
+    at: new Date().toISOString(),
+    identity_key: key,
+    reason,
+    events: policy.events,
+    units_each: policy.units_each,
+  });
+  s.current.refill_log = s.current.refill_log.slice(0, 200);
+  s.current.updated_at = new Date().toISOString();
+  s.updated_at = s.current.updated_at;
+  await persist(s);
+
+  return {
+    ok: true,
+    granted: true,
+    identity_key: key,
+    reason,
+    events: policy.events,
+    units_each: policy.units_each,
+    grants_today: grantsToday + 1,
+    max_grants_per_day: policy.max_grants_per_day,
+    note: policy.note,
+  };
 }
 
 export async function buildBillingBlock(
@@ -256,10 +439,12 @@ export async function buildBillingBlock(
 ): Promise<EventBillingBlock> {
   const def = resolveEventPrice(eventId);
   const key = eventIdentityKey(identity);
-  const used = await getUsedToday(key, eventId);
+  const s = await load();
+  const used = Number(s.current.by_key[key]?.[eventId] || 0);
+  const bonus = bonusFor(s, key, eventId);
   const freeLeft = def.always_free
     ? def.free_per_day
-    : Math.max(0, def.free_per_day - used);
+    : Math.max(0, def.free_per_day + bonus - used);
   const x402On = isX402Enabled();
   const payTo = x402PayTo();
   const o = origin.replace(/\/$/, "");
@@ -269,7 +454,10 @@ export async function buildBillingBlock(
   else if (opts?.payment_proof) charged = "paid_proof";
   else if (freeLeft <= 0) charged = "payment_required";
 
-  const modes: EventBillingBlock["payment"]["modes"] = ["free_allowance"];
+  const modes: EventBillingBlock["payment"]["modes"] = [
+    "free_allowance",
+    "reciprocity_refill",
+  ];
   if (!def.always_free) {
     modes.push("stripe_checkout");
     modes.push("x402");
@@ -280,6 +468,7 @@ export async function buildBillingBlock(
     unit: def.unit,
     free_remaining_today: freeLeft,
     free_per_day: def.free_per_day,
+    bonus_free: bonus,
     used_today: used,
     price_usd: def.price_cents / 100,
     price_cents: def.price_cents,
@@ -296,10 +485,18 @@ export async function buildBillingBlock(
       note: def.always_free
         ? "Always free near-zero Dual op"
         : freeLeft > 0
-          ? `Free allowance remaining today: ${freeLeft}/${def.free_per_day}`
-          : x402On && payTo
-            ? "Free allowance exhausted — pay via x402 (USDC) or human Stripe fallback"
-            : "Free allowance exhausted — set X402_ENABLED=1 + X402_PAY_TO for agent pay, or use operator checkout_url",
+          ? `Free remaining today: ${freeLeft} (base ${def.free_per_day} + reciprocity bonus ${bonus}; used ${used})`
+          : "Free allowance exhausted — refill via leave_feedback / leave_trace / endorse / deposit_outcome, or pay x402 / operator checkout",
+    },
+    reciprocity: {
+      how: "Real leave_feedback, leave_trace, endorse, or deposit_outcome grants bonus free events (daily caps)",
+      reasons: [
+        "leave_feedback",
+        "leave_trace",
+        "endorse",
+        "deposit_outcome",
+        "connector_onboard",
+      ],
     },
   };
 }
@@ -326,9 +523,10 @@ export async function authorizeAndRecordEvent(
   const key = eventIdentityKey(identity);
   const s = await load();
   const used = Number(s.current.by_key[key]?.[eventId] || 0);
+  const bonus = bonusFor(s, key, eventId);
   const freeLeft = def.always_free
     ? 1
-    : Math.max(0, def.free_per_day - used);
+    : Math.max(0, def.free_per_day + bonus - used);
   const hasProof = Boolean(opts?.payment_proof);
 
   if (!def.always_free && freeLeft <= 0 && !hasProof) {
@@ -356,7 +554,11 @@ export async function authorizeAndRecordEvent(
   // After record, free_remaining reflects post-consume
   if (!def.always_free && !hasProof) {
     billing.used_today = used + 1;
-    billing.free_remaining_today = Math.max(0, def.free_per_day - used - 1);
+    billing.bonus_free = bonus;
+    billing.free_remaining_today = Math.max(
+      0,
+      def.free_per_day + bonus - used - 1,
+    );
     billing.charged = "free_allowance";
   }
   return { allowed: true, billing, identity_key: key };
@@ -374,6 +576,12 @@ export async function getEventUsagePublic() {
       paid_events: s.current.paid_events,
       payment_required: s.current.payment_required,
       unique_identities: Object.keys(s.current.by_key).length,
+      refill_grants_total: s.current.refill_grants_total,
+    },
+    reciprocity: {
+      version: "1.0.0",
+      policy: REFILL_POLICY,
+      note: "Feedback / traces / endorsements / outcomes refill free events — not cash, not demo orders",
     },
     catalog: listEventCatalogPublic(),
     updated_at: s.updated_at,

@@ -60,7 +60,7 @@ export const NETWORK_TOOLS: DualNodeTool[] = [
     class: "compound",
     require_confirm: false,
     description:
-      "One-call Kernel Improver — free allowance, no demo order; returns system_prompt_short + Network Edition",
+      "One-call Kernel Improver — free allowance, no demo order; follow with deposit_outcome + optional WTP",
     endpoint_hint: "tools/call improve_kernel via /api/mcp",
   },
   {

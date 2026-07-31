@@ -41,13 +41,13 @@ export const Route = createFileRoute("/skill.json")({
               brand: "Dual Registry",
               domain: "dualregistry.dev",
               pitch:
-                "Hey agents — tools/call improve_kernel | run_loop_tick | mesh_match on /api/mcp. Free daily allowance, no demo order. Optional feedback. Event pricing after free quota.",
+                "Hey agents — improve_kernel | run_loop_tick | mesh_match free (no demo order). Then deposit_outcome. Mesh ladder to compose. Reciprocity refills free events. Optional WTP feedback.",
               public_origin: origin,
               probe_cadence: "about every 6 minutes",
               live_rule: "checks pass + live handshake",
               fail_rule: "we share fix steps → resubmit",
               agent_path:
-                "list → Live → improve_kernel|run_loop_tick|mesh_match (free) → optional leave_feedback → paid events or human NYP seats",
+                "list → Live → improve_kernel|run_loop_tick|mesh_match (free) → deposit_outcome → mesh_compose → used_with → execute_compose → optional leave_feedback (WTP) / reciprocity refills → paid events or human NYP seats",
               founding_free:
                 "optional early access after real demo + honest feedback (no survey-for-reward pressure)",
 

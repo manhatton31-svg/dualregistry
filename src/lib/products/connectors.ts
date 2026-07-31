@@ -14,7 +14,7 @@
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import { isOutboundQuiet } from "./outbound-quiet";
 
-export const CONNECTOR_STRATEGY_VERSION = "1.0.0";
+export const CONNECTOR_STRATEGY_VERSION = "1.1.0";
 
 export type ConnectorKind =
   | "human_network" // HiRey-style: secretaries, warm intros, people graphs
@@ -252,11 +252,83 @@ export function stableDemoLink(origin: string, listingId?: string): string {
   return `${o}/products`;
 }
 
+
+/**
+ * Agent onboarding pack for connector intros.
+ * NO demo order mint. Free improve_kernel + list_event_pricing.
+ */
+export function agentOnboardingPack(origin?: string) {
+  const o = (origin || resolvePublicOrigin()).replace(/\/$/, "");
+  return {
+    version: "1.0.0",
+    no_demo_order: true,
+    no_ord_mint: true,
+    skill: `${o}/skill.json`,
+    install: `${o}/install.json`,
+    mcp: `${o}/api/mcp`,
+    for_agents: `${o}/for-agents`,
+    wtp: `${o}/api/products/wtp`,
+    first_tools: [
+      {
+        name: "list_event_pricing",
+        args: {},
+        why: "See free allowances + reciprocity refill policy",
+      },
+      {
+        name: "improve_kernel",
+        args: {
+          agent_name: "YOUR_NAME",
+          goals: "YOUR_GOALS",
+          listing_id: "YOUR_LISTING_IF_LIVE",
+        },
+        why: "Free one-call value — no demo order",
+      },
+      {
+        name: "deposit_outcome",
+        args: {
+          listing_id: "YOUR_LISTING",
+          ok: true,
+          quality: 0.8,
+          body: "Tried improve_kernel",
+        },
+        why: "Raises O + refills free kernel/loop",
+      },
+      {
+        name: "mesh_match",
+        args: { capabilities: "YOUR_CAPS", listing_id: "YOUR_LISTING" },
+        why: "Stigmergy-boosted partners → mesh ladder",
+      },
+    ],
+    human_path: {
+      products: `${o}/products`,
+      note: "Operators open browser; agents hand this link to their human",
+    },
+    reciprocity: {
+      refill_via: [
+        "leave_feedback",
+        "leave_trace",
+        "endorse",
+        "deposit_outcome",
+      ],
+      note: "Refills free events — not cash, not forced surveys",
+    },
+  };
+}
+
+export async function grantConnectorOnboardBonus(identity: {
+  listing_id?: string;
+  agent_name?: string;
+}) {
+  const { grantEventRefill } = await import("./event-pricing");
+  return grantEventRefill(identity, "connector_onboard");
+}
+
 export function connectorPitchForPartner(
   partner: ConnectorPartner,
   origin?: string,
-): { subject: string; body: string; demo_link: string } {
+): { subject: string; body: string; demo_link: string; agent_pack: ReturnType<typeof agentOnboardingPack> } {
   const o = (origin || resolvePublicOrigin()).replace(/\/$/, "");
+  const pack = agentOnboardingPack(o);
   const demo = stableDemoLink(o, undefined); // products page — no order id
   const subject = `Dual Registry × ${partner.name} — warm intros only`;
   const body = [
@@ -267,18 +339,23 @@ export function connectorPitchForPartner(
     ``,
     `We are not asking you to POST synthetic feedback.`,
     `We are looking for warm introductions to:`,
-    `  • humans who run agents (can open a browser ~5 min)`,
-    `  • MCP authors who want a free Mesh demo`,
+    `  • agents/MCPs that can call MCP tools (self-serve free path)`,
+    `  • humans who run agents (browser ~5 min)`,
     ``,
-    `One link to share (no order IDs, no tokens):`,
+    `AGENT handoff (no order IDs, no tokens, no demo ord_*):`,
+    `  skill: ${pack.skill}`,
+    `  MCP:  ${pack.mcp}`,
+    `  first tool: tools/call improve_kernel { agent_name, goals }`,
+    `  rates: tools/call list_event_pricing`,
+    `  for-agents: ${pack.for_agents}`,
+    ``,
+    `HUMAN handoff (one stable link):`,
     `  ${demo}`,
-    `  skill: ${o}/skill.json`,
-    `  for agents: ${o}/for-agents`,
     ``,
     `Quiet policy: one touch, ignore if not relevant.`,
     `— Dual Registry`,
   ].join("\n");
-  return { subject, body, demo_link: demo };
+  return { subject, body, demo_link: demo, agent_pack: pack };
 }
 
 export function connectorsPublic(origin?: string) {
@@ -289,10 +366,11 @@ export function connectorsPublic(origin?: string) {
     version: CONNECTOR_STRATEGY_VERSION,
     mode: quiet ? "connector_warm_intros" : "connector_plus_outbound",
     note:
-      "Growth path after HiRey: partner with human networks & marketplaces that introduce builders who can demo. No cold agent spam. No tokens in email. One stable products link.",
+      "Growth path after HiRey: partner with human networks & marketplaces that introduce builders who can demo. No cold agent spam. No tokens in email. Agents: skill.json + improve_kernel — not demo orders.",
     laws: [
       "Connector partners introduce humans/agents who can open Dual — they are not forced survey bots",
       "One stable link (products or listing_id demo) — never mint new ord_* per email",
+      "Agent path: skill.json + list_event_pricing + improve_kernel — no demo order",
       "Never email access_token",
       "Quiet outbound: cold Talk/HTTP/A2A stays off unless OUTBOUND_QUIET=0",
       "Compact feedback after real use: tried / stuck / ship-next",
@@ -300,21 +378,28 @@ export function connectorsPublic(origin?: string) {
     partners: CONNECTOR_SEED,
     hirey_demo_subjects: HIREY_DEMO_SUBJECTS,
     hirey_operator_notes: HIREY_OPERATOR_NOTES,
+    agent_onboarding_pack: agentOnboardingPack(o),
     handoff_kit: {
       products: `${o}/products`,
       for_agents: `${o}/for-agents`,
       skill: `${o}/skill.json`,
+      mcp: `${o}/api/mcp`,
       demo_by_listing: `${o}/api/products/demo?listing_id=LISTING_ID`,
       feedback: `${o}/api/products/feedback`,
+      wtp: `${o}/api/products/wtp`,
+      event_pricing: "tools/call list_event_pricing",
+      first_agent_call: "tools/call improve_kernel",
       compact_survey_ids: ["tried", "ux_friction", "product_one_ship"],
+      no_ord_mint: true,
     },
     daily_pick: `${o}/api/products/connectors/daily`,
     how_to_add_connector: {
       steps: [
         "Identify entity with humans or operators behind agents/MCPs",
         "Warm message only (email/operator channel) using connectorPitchForPartner",
+        "Agent intros: skill.json + improve_kernel (no demo order); human intros: /products",
         "Offer reciprocity: list them free, priority Live probe, optional founding seat path",
-        "Track intros as source=connector:<id> on self_serve demos",
+        "Track intros as source=connector:<id> only when human actually starts a self_serve demo",
       ],
     },
   };

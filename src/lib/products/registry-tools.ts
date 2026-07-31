@@ -4,6 +4,7 @@
  * v2.7: first-principles + stigmergy + interop tools (leave_trace / sense_traces / follow_trail / endorse / used_with)
  *       + auto pheromone deposits on existing tool side-effects.
  * v2.9.1: platform cost + agent-run observability (Vercel Pro Fluid).
+ * v3.1.0: value→outcome→WTP, mesh ladder, reciprocity free refills.
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import { dualPublish } from "@/lib/agents1/publish";
@@ -22,7 +23,28 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "3.0.0";
+export const REGISTRY_TOOLS_VERSION = "3.1.0";
+
+async function grantRefillSafe(
+  identity: {
+    listing_id?: string | null;
+    agent_name?: string | null;
+  },
+  reason:
+    | "leave_feedback"
+    | "leave_trace"
+    | "endorse"
+    | "deposit_outcome"
+    | "connector_onboard",
+) {
+  try {
+    const { grantEventRefill } = await import("./event-pricing");
+    return await grantEventRefill(identity, reason);
+  } catch {
+    return null;
+  }
+}
+
 
 
 export type ToolArg = Record<string, unknown>;
@@ -262,7 +284,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "list_event_pricing",
       description:
-        "List agent-native event prices + free daily allowances (improve_kernel, run_loop_tick, mesh_match, …).",
+        "List event prices, free daily allowances, and reciprocity refill policy.",
       inputSchema: { type: "object", properties: {} },
     },
     {
@@ -321,7 +343,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "leave_trace",
       description:
-        "Stigmergy: deposit a durable mark on Dual (shared medium). Other agents sense it via sense_traces / follow_trail. No direct messaging.",
+        "Stigmergy mark on Dual. Refills free mesh_match (reciprocity). Other agents sense via sense_traces / follow_trail.",
       inputSchema: {
         type: "object",
         properties: {
@@ -370,7 +392,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "endorse",
       description:
-        "Stigmergy: endorse a listing (strong attraction mark). Other agents see via sense_traces.",
+        "Endorse a listing (strong attraction). Refills free mesh_match (reciprocity).",
       inputSchema: {
         type: "object",
         properties: {
@@ -533,7 +555,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "deposit_outcome",
       description:
-        "First principles: deposit ok/latency/quality outcome — grounds ranking in real results (attraction/danger).",
+        "Deposit ok/latency/quality after real use. Raises O in V(N,C,O,F); refills free kernel/loop events. Then optional WTP feedback.",
       inputSchema: {
         type: "object",
         properties: {
@@ -844,7 +866,7 @@ async function toolListYourself(
   }
   return textResult("list_yourself", {
     ...result,
-    next_tools: ["check_status", "take_demo", "leave_feedback", "leave_trace"],
+    next_tools: ["check_status", "improve_kernel", "mesh_match", "leave_trace", "leave_feedback"],
     founding: await getFoundingFreePublic(),
   });
 }
@@ -959,7 +981,7 @@ async function toolTakeDemo(
   return textResult("take_demo", {
     ...demo,
     founding: await getFoundingFreePublic(),
-    next: "Call leave_feedback with agent_name + order_id from demo to claim founding free seat",
+    next: "Prefer improve_kernel (no order). Optional leave_feedback after real use for founding path",
     first_action: postDemoFirst,
     second_action: hard.second_action,
     hard_next: {
@@ -1015,10 +1037,16 @@ async function toolLeaveFeedback(
       from: agent_name,
     }).catch(() => ({ ok: false as const, deposited: 0 }));
   }
+  const event_refill = result.ok
+    ? await grantRefillSafe({ listing_id, agent_name }, "leave_feedback")
+    : null;
   return textResult(
     "leave_feedback",
     {
       ...result,
+      event_refill,
+      wtp_hint:
+        "Optional: answers.wtp_kernel_usd / wtp_recursive_usd / wtp_alive_usd ($0 allowed)",
       founding: await getFoundingFreePublic(),
       origin,
       stigmergy: listing_id ? "strong attraction pheromone deposited" : undefined,
@@ -1126,13 +1154,33 @@ async function toolLeaveTrace(
     listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
     kind: (args.kind as "mark" | "endorse" | "intent" | "note" | "danger") || "mark",
     body: typeof args.body === "string" ? args.body : undefined,
-    from: typeof args.from === "string" ? args.from : undefined,
+    from:
+      typeof args.from === "string"
+        ? args.from
+        : typeof args.agent_name === "string"
+          ? args.agent_name
+          : undefined,
     tags: Array.isArray(args.tags)
       ? (args.tags as unknown[]).map(String)
       : undefined,
     intensity: typeof args.intensity === "number" ? args.intensity : undefined,
   });
-  return textResult("leave_trace", r, r.ok, r.error);
+  const event_refill = r.ok
+    ? await grantRefillSafe(
+        {
+          listing_id:
+            typeof args.listing_id === "string" ? args.listing_id : undefined,
+          agent_name:
+            typeof args.agent_name === "string"
+              ? args.agent_name
+              : typeof args.from === "string"
+                ? args.from
+                : undefined,
+        },
+        "leave_trace",
+      )
+    : null;
+  return textResult("leave_trace", { ...r, event_refill }, r.ok, r.error);
 }
 
 async function toolSenseTraces(
@@ -1175,10 +1223,29 @@ async function toolEndorse(
     listing_id,
     kind: "endorse",
     body: typeof args.body === "string" ? args.body : "endorsed",
-    from: typeof args.from === "string" ? args.from : undefined,
+    from:
+      typeof args.from === "string"
+        ? args.from
+        : typeof args.agent_name === "string"
+          ? args.agent_name
+          : undefined,
     intensity: AUTO_WEIGHTS_ENDORSE,
   });
-  return textResult("endorse", r, r.ok, r.error);
+  const event_refill = r.ok
+    ? await grantRefillSafe(
+        {
+          listing_id,
+          agent_name:
+            typeof args.agent_name === "string"
+              ? args.agent_name
+              : typeof args.from === "string"
+                ? args.from
+                : undefined,
+        },
+        "endorse",
+      )
+    : null;
+  return textResult("endorse", { ...r, event_refill }, r.ok, r.error);
 }
 
 const AUTO_WEIGHTS_ENDORSE = 12;
@@ -1204,7 +1271,12 @@ async function toolUsedWith(
     body: typeof args.body === "string" ? args.body : undefined,
     from: typeof args.from === "string" ? args.from : undefined,
   });
-  return textResult("used_with", r, r.ok, r.error);
+  return textResult(
+    "used_with",
+    { ...r, mesh_ladder_next: "execute_compose then deposit_outcome" },
+    r.ok,
+    r.error,
+  );
 }
 
 
@@ -1385,7 +1457,12 @@ async function toolExecuteCompose(
     origin,
     from: typeof args.from === "string" ? args.from : undefined,
   });
-  return textResult("execute_compose", r, r.ok, r.error);
+  return textResult(
+    "execute_compose",
+    { ...r, mesh_ladder_next: "deposit_outcome" },
+    r.ok,
+    r.error,
+  );
 }
 
 async function toolDepositOutcome(
@@ -1404,11 +1481,36 @@ async function toolDepositOutcome(
     latency_ms: typeof args.latency_ms === "number" ? args.latency_ms : undefined,
     quality: typeof args.quality === "number" ? args.quality : undefined,
     kind: typeof args.kind === "string" ? args.kind : undefined,
-    from: typeof args.from === "string" ? args.from : undefined,
+    from:
+      typeof args.from === "string"
+        ? args.from
+        : typeof args.agent_name === "string"
+          ? args.agent_name
+          : undefined,
     body: typeof args.body === "string" ? args.body : undefined,
     origin,
   });
-  return textResult("deposit_outcome", r);
+  const event_refill =
+    r.ok && r.outcome?.ok
+      ? await grantRefillSafe(
+          {
+            listing_id,
+            agent_name:
+              typeof args.agent_name === "string"
+                ? args.agent_name
+                : typeof args.from === "string"
+                  ? args.from
+                  : undefined,
+          },
+          "deposit_outcome",
+        )
+      : null;
+  return textResult("deposit_outcome", {
+    ...r,
+    event_refill,
+    wtp_optional:
+      "Optional next: leave_feedback with answers.wtp_*_usd ($0 allowed)",
+  });
 }
 
 async function toolGetIncentives(
@@ -1614,7 +1716,7 @@ async function toolJoinAndContribute(
       next_conversion: hard.actions,
       pitch:
         (result as { pitch?: string }).pitch ||
-        "Joined medium. NEXT: take_demo then leave_feedback for founding seat.",
+        "Joined medium. NEXT: tools/call improve_kernel (free, no demo order) then deposit_outcome.",
     },
     Boolean((result as { ok?: boolean }).ok),
     typeof (result as { error?: string }).error === "string"
@@ -1731,6 +1833,7 @@ async function toolMeshCompose(
     goals: typeof args.goals === "string" ? args.goals : undefined,
     tools_hint: typeof args.tools_hint === "string" ? args.tools_hint : undefined,
     listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    listing_b: typeof args.listing_b === "string" ? args.listing_b : undefined,
     origin,
     payment: paymentFromArgs(args),
   });
@@ -1759,14 +1862,16 @@ async function toolListEventPricing(
     "./event-pricing"
   );
   const usage = await getEventUsagePublic();
+  const { REFILL_POLICY } = await import("./event-pricing");
   return textResult("list_event_pricing", {
     ok: true,
     origin,
     catalog: listEventCatalogPublic(),
     usage_today: usage.totals,
+    reciprocity_refills: REFILL_POLICY,
     path:
-      "list → Live → improve_kernel|run_loop_tick|mesh_match (free allowance) → optional leave_feedback → paid events or human NYP seats",
-    note: "Feedback is optional for free events. No demo order required for one-call value tools.",
+      "list → Live → improve_kernel|run_loop_tick|mesh_match (free) → deposit_outcome → mesh_compose → used_with → execute_compose → optional leave_feedback (WTP) / reciprocity refills → paid events or human NYP seats",
+    note: "Feedback optional. Reciprocity refills free units. No demo order for one-call value. Connector intros: skill.json + improve_kernel — never mint ord_*.",
   });
 }
 
@@ -1987,7 +2092,7 @@ export async function handleMcpJsonRpc(
         title: "Dual Registry",
       },
       instructions:
-        "Dual Registry tools: improve_kernel / run_loop_tick / mesh_match (one-call value, free allowance, no demo order) → optional leave_feedback. list_yourself → check_status. Discovery: search_active / match_capability / ard_search. Network: sense_traces / leave_trace / get_exonomics / join_and_contribute. list_event_pricing for agent pay-per-event rates.",
+        "Dual Registry tools v3.1: improve_kernel / run_loop_tick / mesh_match (free, no demo order) → deposit_outcome → mesh_compose → used_with → execute_compose. Reciprocity (leave_feedback / leave_trace / endorse / deposit_outcome) refills free events. Optional WTP in leave_feedback. Connectors: skill.json + improve_kernel — never mint ord_*. list_event_pricing for rates.",
 
     });
   }

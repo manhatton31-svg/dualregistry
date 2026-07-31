@@ -1293,7 +1293,8 @@ export async function getPublicImprovementLog(opts?: {
   dogfood?: boolean;
 }) {
   await ensureHireyLearnings().catch(() => {});
-  await ensureCommerceOverhaulLearnings().catch(() => {});
+  await ensureCommerceOverhaulLearnings();
+  await ensureSynergyConvergenceLearnings().catch(() => {});
   await syncLogFromSources();
 
   if (opts?.dogfood !== false) {
@@ -1469,3 +1470,55 @@ export async function getPublicImprovementLog(opts?: {
     updated_at: s.updated_at,
   };
 }
+
+
+/** Synergies 1–5 (value→outcome→WTP, mesh ladder, reciprocity refills, connector pack, stigmergy). */
+export async function ensureSynergyConvergenceLearnings(): Promise<void> {
+  const s = await load();
+  if (s.entries.some((e) => e.source === "synergy_convergence_2026_07_31")) return;
+  const lessons = [
+    {
+      kind: "shipped" as const,
+      title: "Value tools return deposit_outcome + optional WTP follow-up",
+      detail:
+        "After free improve_kernel / run_loop_tick, agents get explicit deposit_outcome template and WTP fields. Closes O in V(N,C,O,F) without demo orders.",
+      source: "synergy_convergence_2026_07_31",
+      themes: ["agent_commerce", "outcome", "wtp"],
+    },
+    {
+      kind: "shipped" as const,
+      title: "Mesh ladder: match → compose → used_with → execute_compose",
+      detail:
+        "mesh_match surfaces trail_hot partners; mesh_compose seeds used_with when listing_b present; execute_compose completes the sticky graph.",
+      source: "synergy_convergence_2026_07_31",
+      themes: ["mesh", "stigmergy", "composition"],
+    },
+    {
+      kind: "shipped" as const,
+      title: "Reciprocity refills free event allowance",
+      detail:
+        "leave_feedback / leave_trace / endorse / deposit_outcome grant bonus free units (daily caps). Not cash. Quiet-safe.",
+      source: "synergy_convergence_2026_07_31",
+      themes: ["reciprocity", "event_pricing"],
+    },
+    {
+      kind: "directive" as const,
+      title: "Connector intros = skill.json + improve_kernel — never ord_*",
+      detail:
+        "agentOnboardingPack for HiRey-style partners. Human path stays /products. No auto demo seeds.",
+      source: "synergy_convergence_2026_07_31",
+      themes: ["connectors", "quiet", "trust"],
+    },
+  ];
+  for (const L of lessons) {
+    s.entries.unshift({
+      id: `ilog_syn_${L.themes[0]}_${Date.now().toString(36)}`,
+      at: new Date().toISOString(),
+      ...L,
+    });
+  }
+  s.updated_at = new Date().toISOString();
+  s.entries = s.entries.slice(0, 200);
+  await persist(s);
+}
+
