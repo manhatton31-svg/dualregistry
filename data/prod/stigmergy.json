@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:04:02.865Z",
+  "updated_at": "2026-07-31T13:04:03.735Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -38,11 +38,11 @@
     },
     "agent-agent-guild-https-agent-guild-5d5r-onrender-com": {
       "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "attraction": 3.25,
+      "attraction": 4,
       "danger": 0,
       "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:01:56.036Z",
+      "last_reinforced_at": "2026-07-31T13:04:03.735Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -191,6 +191,20 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yetuf_0p2tb5",
+      "kind": "mark",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:04:03.735Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yc5zp_7h7cp7",
       "kind": "mark",
@@ -396,6 +410,15 @@
     }
   ],
   "feed_events": [
+    {
+      "type": "leave_trace",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:04:03.735Z"
+    },
     {
       "type": "follow_trail",
       "amount": 8,
@@ -614,7 +637,7 @@
   ],
   "totals": {
     "auto_deposits": 0,
-    "agent_deposits": 14,
+    "agent_deposits": 15,
     "senses": 2,
     "follows": 7,
     "evaporations": 0
