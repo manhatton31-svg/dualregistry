@@ -2,20 +2,20 @@
   "plan": "pro",
   "rates_version": "2026-07-fluid-pro-iad1-v1",
   "month": "2026-07",
-  "month_usd": 0.03507105044444444,
-  "month_invocations": 44,
-  "month_active_cpu_ms": 534748,
-  "month_provisioned_gb_hours": 1.4254433333333332,
+  "month_usd": 0.035072040888888885,
+  "month_invocations": 45,
+  "month_active_cpu_ms": 534756,
+  "month_provisioned_gb_hours": 1.4254533333333332,
   "month_cache_hits": 0,
   "today": {
     "day": "2026-07-31",
-    "invocations": 44,
-    "active_cpu_ms": 534748,
-    "wall_ms": 1885798,
-    "provisioned_gb_hours": 1.4254433333333332,
+    "invocations": 45,
+    "active_cpu_ms": 534756,
+    "wall_ms": 1885816,
+    "provisioned_gb_hours": 1.4254533333333332,
     "response_bytes": 0,
     "cache_hits": 0,
-    "cache_misses": 44,
+    "cache_misses": 45,
     "skipped_cadence": 0,
     "by_class": {
       "product": {
@@ -40,28 +40,40 @@
         "n": 3,
         "wall_ms": 6,
         "active_cpu_ms": 2,
-        "usd": 1.9064444444444445e-06
+        "usd": 0.0000019064444444444445
       },
       "mcp": {
-        "n": 3,
-        "wall_ms": 4,
-        "active_cpu_ms": 2,
-        "usd": 1.8946666666666666e-06
+        "n": 4,
+        "wall_ms": 22,
+        "active_cpu_ms": 10,
+        "usd": 0.000002885111111111111
       }
     },
     "usd": {
-      "active_cpu_hours": 0.14854111111111112,
-      "provisioned_gb_hours": 1.0476655555555556,
-      "invocations": 44,
+      "active_cpu_hours": 0.14854333333333333,
+      "provisioned_gb_hours": 1.0476755555555555,
+      "invocations": 45,
       "bandwidth_gb": 0,
-      "usd_active_cpu": 0.019013262222222223,
-      "usd_provisioned_memory": 0.01110525488888889,
-      "usd_invocations": 2.6399999999999998e-05,
+      "usd_active_cpu": 0.019013546666666666,
+      "usd_provisioned_memory": 0.011105360888888888,
+      "usd_invocations": 0.000027,
       "usd_bandwidth": 0,
-      "usd_total": 0.03014491711111111,
+      "usd_total": 0.030145907555555553,
       "rates_version": "2026-07-fluid-pro-iad1-v1"
     },
     "events": [
+      {
+        "at": "2026-07-31T18:33:39.824Z",
+        "class": "mcp",
+        "route": "/api/mcp",
+        "label": "mcp_post",
+        "wall_ms": 18,
+        "active_cpu_ms": 8,
+        "invocations": 1,
+        "usd": 9.904444444444445e-7,
+        "skipped": false,
+        "vercel_cache": null
+      },
       {
         "at": "2026-07-31T17:51:08.767Z",
         "class": "cron_probe",
@@ -82,7 +94,7 @@
         "wall_ms": 3891,
         "active_cpu_ms": 1556,
         "invocations": 1,
-        "usd": 7.883811111111112e-05,
+        "usd": 0.00007883811111111112,
         "skipped": false,
         "vercel_cache": null
       },
@@ -106,7 +118,7 @@
         "wall_ms": 1,
         "active_cpu_ms": 0,
         "invocations": 1,
-        "usd": 6.058888888888889e-07,
+        "usd": 6.058888888888889e-7,
         "skipped": false,
         "vercel_cache": null
       },
@@ -154,7 +166,7 @@
         "wall_ms": 415,
         "active_cpu_ms": 166,
         "invocations": 1,
-        "usd": 8.94611111111111e-06,
+        "usd": 0.00000894611111111111,
         "skipped": false,
         "vercel_cache": null
       },
@@ -178,7 +190,7 @@
         "wall_ms": 611,
         "active_cpu_ms": 244,
         "invocations": 1,
-        "usd": 1.2873666666666667e-05,
+        "usd": 0.000012873666666666667,
         "skipped": false,
         "vercel_cache": null
       },
@@ -202,7 +214,7 @@
         "wall_ms": 2,
         "active_cpu_ms": 1,
         "invocations": 1,
-        "usd": 6.473333333333333e-07,
+        "usd": 6.473333333333333e-7,
         "skipped": false,
         "vercel_cache": null
       },
@@ -214,7 +226,7 @@
         "wall_ms": 1093,
         "active_cpu_ms": 547,
         "invocations": 1,
-        "usd": 2.6485444444444448e-05,
+        "usd": 0.000026485444444444448,
         "skipped": false,
         "vercel_cache": null
       },
@@ -226,7 +238,7 @@
         "wall_ms": 3925,
         "active_cpu_ms": 1570,
         "invocations": 1,
-        "usd": 7.953611111111111e-05,
+        "usd": 0.00007953611111111111,
         "skipped": false,
         "vercel_cache": null
       },
@@ -262,7 +274,7 @@
         "wall_ms": 0,
         "active_cpu_ms": 0,
         "invocations": 1,
-        "usd": 6e-07,
+        "usd": 6e-7,
         "skipped": false,
         "vercel_cache": null
       },
@@ -274,7 +286,7 @@
         "wall_ms": 2,
         "active_cpu_ms": 1,
         "invocations": 1,
-        "usd": 6.473333333333333e-07,
+        "usd": 6.473333333333333e-7,
         "skipped": false,
         "vercel_cache": null
       },
@@ -286,7 +298,7 @@
         "wall_ms": 4815,
         "active_cpu_ms": 1926,
         "invocations": 1,
-        "usd": 9.743499999999999e-05,
+        "usd": 0.00009743499999999999,
         "skipped": false,
         "vercel_cache": null
       },
@@ -334,7 +346,7 @@
         "wall_ms": 2,
         "active_cpu_ms": 1,
         "invocations": 1,
-        "usd": 6.473333333333333e-07,
+        "usd": 6.473333333333333e-7,
         "skipped": false,
         "vercel_cache": null
       },
@@ -346,7 +358,7 @@
         "wall_ms": 4042,
         "active_cpu_ms": 1617,
         "invocations": 1,
-        "usd": 8.189622222222222e-05,
+        "usd": 0.00008189622222222222,
         "skipped": false,
         "vercel_cache": null
       },
@@ -358,7 +370,7 @@
         "wall_ms": 4226,
         "active_cpu_ms": 1690,
         "invocations": 1,
-        "usd": 8.557533333333333e-05,
+        "usd": 0.00008557533333333333,
         "skipped": false,
         "vercel_cache": null
       },
@@ -394,7 +406,7 @@
         "wall_ms": 4895,
         "active_cpu_ms": 1958,
         "invocations": 1,
-        "usd": 9.90438888888889e-05,
+        "usd": 0.0000990438888888889,
         "skipped": false,
         "vercel_cache": null
       },
@@ -406,7 +418,7 @@
         "wall_ms": 3,
         "active_cpu_ms": 1,
         "invocations": 1,
-        "usd": 6.532222222222221e-07,
+        "usd": 6.532222222222221e-7,
         "skipped": false,
         "vercel_cache": null
       },
@@ -442,19 +454,19 @@
         "wall_ms": 3497,
         "active_cpu_ms": 1749,
         "invocations": 1,
-        "usd": 8.338011111111112e-05,
+        "usd": 0.00008338011111111112,
         "skipped": false,
         "vercel_cache": null
       }
     ]
   },
-  "lifetime_usd": 0.03507105044444444,
-  "lifetime_invocations": 44,
-  "updated_at": "2026-07-31T17:51:08.767Z",
+  "lifetime_usd": 0.035072040888888885,
+  "lifetime_invocations": 45,
+  "updated_at": "2026-07-31T18:33:39.824Z",
   "savings_notes": [
     "Fluid Active CPU: I/O wait during probes is free",
     "Probe de-dupe: Vercel Cron primary; GH Actions commits only when tick fresh or backup",
-    "Harvest every 12m soft GETs (was 2m) \u2014 fewer origin inv",
+    "Harvest every 12m soft GETs (was 2m) — fewer origin inv",
     "CDN + ETag/304 on discovery (cards, pack, stats, A2A help)",
     "waitUntil: cost ledger + durable writes off critical path",
     "preferredRegion iad1 + short maxDuration on metadata routes",
