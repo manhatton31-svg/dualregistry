@@ -1,6 +1,6 @@
 {
   "version": "2.7.0",
-  "updated_at": "2026-07-31T13:12:19.269Z",
+  "updated_at": "2026-07-31T13:12:31.279Z",
   "capabilities": {
     "cap_9775402bba2bc8a46d2f7a71": {
       "cap_hash": "cap_9775402bba2bc8a46d2f7a71",
@@ -20,6 +20,54 @@
     }
   },
   "attestations": [
+    {
+      "id": "att_ms8yphdo_li5prr",
+      "type": "outcome",
+      "subject": "mcp-ai-connectmachine-connectmachine-https-github-com-connectmachine-mcp-server",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:12:20.794Z",
+      "expires_at": "2026-08-03T13:12:20.794Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ypf76",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5cGY3NiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzoxMjoyMC43OTRaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzoxMjoyMC43OTRaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6Im1jcC1haS1jb25uZWN0bWFjaGluZS1jb25uZWN0bWFjaGluZS1odHRwcy1naXRodWItY29tLWNvbm5lY3RtYWNoaW5lLW1jcC1zZXJ2ZXIiLCJ0eXBlIjoib3V0Y29tZSJ9.DJtTv8QPEn_tlVmMrYlvCQ1yq5IEBFXBOLo-B_XPDbAZBk-csy7CLV8hAknQuAridQ8iAYbgK3qC8SDuldHDBg",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:12:20.794Z\",\"issued_at\":\"2026-07-31T13:12:20.794Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"mcp-ai-connectmachine-connectmachine-https-github-com-connectmachine-mcp-server\",\"type\":\"outcome\"}"
+    },
+    {
+      "id": "att_ms8ypgl0_2fmhtk",
+      "type": "outcome",
+      "subject": "mcp-ai-alpic-mcp-alpic-mcp-r1-https-alpic-ai",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:12:19.763Z",
+      "expires_at": "2026-08-03T13:12:19.763Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ypf76",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5cGY3NiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzoxMjoxOS43NjNaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzoxMjoxOS43NjNaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6Im1jcC1haS1hbHBpYy1tY3AtYWxwaWMtbWNwLXIxLWh0dHBzLWFscGljLWFpIiwidHlwZSI6Im91dGNvbWUifQ.XsAZUqZPR60OP4kiISAsC9CgfEwmME9hqHmgt_ROlJa_t9IeW7x3smEQlkFi-98bzkrghKHQUJYSiwTFFdKmyQ",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:12:19.763Z\",\"issued_at\":\"2026-07-31T13:12:19.763Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"mcp-ai-alpic-mcp-alpic-mcp-r1-https-alpic-ai\",\"type\":\"outcome\"}"
+    },
+    {
+      "id": "att_ms8ypg9f_r40aza",
+      "type": "outcome",
+      "subject": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:12:19.346Z",
+      "expires_at": "2026-08-03T13:12:19.346Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ypf76",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5cGY3NiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzoxMjoxOS4zNDZaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzoxMjoxOS4zNDZaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6Im1jcC1haS1nb3NzaXBlci1zaG9waWZ5LWFkbWluLW1jcC1yMS1odHRwcy1tY3AtZ29zc2lwZXItaW8tbWNwIiwidHlwZSI6Im91dGNvbWUifQ.KkcfaE1hNsaNbWk5wuARM9pT4Jx926JvFJ4xCi_ZwfUqEm5KsJTPpT9o-G0Ub4NNdFy0CNMSmJ0N2VUjUsltcA",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:12:19.346Z\",\"issued_at\":\"2026-07-31T13:12:19.346Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp\",\"type\":\"outcome\"}"
+    },
     {
       "id": "att_ms8ypg79_xnztwv",
       "type": "outcome",
@@ -208,24 +256,29 @@
       "score": 0.6
     },
     "mcp-ai-intuitek-the-stall-the-stall-https-the-stall-intuitek-ai-mcp": {
-      "last_signal_at": "2026-07-31T13:12:16.939Z",
-      "source": "outcome",
-      "score": 0.3
+      "last_signal_at": "2026-07-31T13:12:20.459Z",
+      "source": "attestation:outcome",
+      "score": 0.6
     },
     "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp": {
-      "last_signal_at": "2026-07-31T13:12:18.330Z",
-      "source": "outcome",
-      "score": 0.3
+      "last_signal_at": "2026-07-31T13:12:20.438Z",
+      "source": "attestation:outcome",
+      "score": 0.6
     },
     "mcp-ai-alpic-mcp-alpic-mcp-r1-https-alpic-ai": {
-      "last_signal_at": "2026-07-31T13:12:18.886Z",
-      "source": "outcome",
-      "score": 0.3
+      "last_signal_at": "2026-07-31T13:12:20.702Z",
+      "source": "attestation:outcome",
+      "score": 0.6
+    },
+    "mcp-ai-connectmachine-connectmachine-https-github-com-connectmachine-mcp-server": {
+      "last_signal_at": "2026-07-31T13:12:31.279Z",
+      "source": "attestation:outcome",
+      "score": 0.6
     }
   },
   "totals": {
     "cap_hashes": 1,
-    "attestations": 5,
+    "attestations": 8,
     "outcomes": 8,
     "identities": 0,
     "pipelines": 0,
