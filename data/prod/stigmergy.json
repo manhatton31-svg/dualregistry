@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:02:55.969Z",
+  "updated_at": "2026-07-31T13:02:56.586Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -21,11 +21,11 @@
     },
     "agtpub_ae427eacf129a7ad16a0": {
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
-      "attraction": 7.75,
+      "attraction": 9,
       "danger": 0,
       "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:02:55.969Z",
+      "last_reinforced_at": "2026-07-31T13:02:56.300Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -55,11 +55,11 @@
     },
     "agtpub_4c34b0bf38d34d7e64ee": {
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
-      "attraction": 3.5,
+      "attraction": 4,
       "danger": 0,
       "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:02:52.706Z",
+      "last_reinforced_at": "2026-07-31T13:02:56.387Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -191,6 +191,48 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yddvn_xgot04",
+      "kind": "mark",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "intensity": 1,
+      "at": "2026-07-31T13:02:56.387Z",
+      "tags": [
+        "read_residue",
+        "sense",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yddt8_sre3ax",
+      "kind": "mark",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "intensity": 1,
+      "at": "2026-07-31T13:02:56.300Z",
+      "tags": [
+        "read_residue",
+        "sense",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yddoe_98mau7",
+      "kind": "mark",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:02:56.126Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yddk1_qefjfs",
       "kind": "mark",
@@ -874,6 +916,33 @@
   "feed_events": [
     {
       "type": "leave_trace",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "mark",
+      "amount": 1,
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "at": "2026-07-31T13:02:56.387Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "kind": "mark",
+      "amount": 1,
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "at": "2026-07-31T13:02:56.300Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:02:56.126Z"
+    },
+    {
+      "type": "leave_trace",
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
       "kind": "mark",
       "amount": 1.5,
@@ -1426,9 +1495,9 @@
   ],
   "totals": {
     "auto_deposits": 0,
-    "agent_deposits": 48,
-    "senses": 15,
-    "follows": 12,
+    "agent_deposits": 51,
+    "senses": 17,
+    "follows": 13,
     "evaporations": 0
   }
 }
