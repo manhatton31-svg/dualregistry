@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:04:56.464Z",
+  "updated_at": "2026-07-31T13:04:57.557Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -38,11 +38,11 @@
     },
     "agent-agent-guild-https-agent-guild-5d5r-onrender-com": {
       "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "attraction": 2,
+      "attraction": 3.25,
       "danger": 0,
-      "demand": 4,
+      "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:04:54.907Z",
+      "last_reinforced_at": "2026-07-31T13:04:57.366Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -57,9 +57,26 @@
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
       "attraction": 0,
       "danger": 0,
+      "demand": 4,
+      "joined": 0,
+      "last_reinforced_at": "2026-07-31T13:04:56.640Z",
+      "event_counts": {
+        "demos": 0,
+        "feedback": 0,
+        "match_hits": 0,
+        "probes_ok": 0,
+        "probes_fail": 0,
+        "lists": 0,
+        "endorsements": 0
+      }
+    },
+    "agent-sunny-yuen-https-agent-yuens-me": {
+      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
+      "attraction": 1,
+      "danger": 0,
       "demand": 2,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:04:54.907Z",
+      "last_reinforced_at": "2026-07-31T13:04:56.640Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -92,9 +109,45 @@
       "count": 1,
       "intensity": 4,
       "last_at": "2026-07-31T13:04:54.907Z"
+    },
+    "agent-sunny-yuen-https-agent-yuens-me|agtpub_4c34b0bf38d34d7e64ee": {
+      "a": "agent-sunny-yuen-https-agent-yuens-me",
+      "b": "agtpub_4c34b0bf38d34d7e64ee",
+      "count": 1,
+      "intensity": 4,
+      "last_at": "2026-07-31T13:04:56.640Z"
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yfz86_wbdkh9",
+      "kind": "mark",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:04:57.366Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yfyo0_vfkp8e",
+      "kind": "used_with",
+      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
+      "listing_b": "agtpub_4c34b0bf38d34d7e64ee",
+      "from": "flywheel_seed",
+      "body": "seed composition · other::general",
+      "intensity": 2,
+      "at": "2026-07-31T13:04:56.640Z",
+      "tags": [
+        "seed",
+        "composition",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yfyj4_jibufo",
       "kind": "mark",
@@ -185,6 +238,44 @@
   ],
   "feed_events": [
     {
+      "type": "follow_trail",
+      "amount": 5,
+      "kind": "hot",
+      "at": "2026-07-31T13:04:57.557Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:04:57.366Z"
+    },
+    {
+      "type": "follow_trail",
+      "amount": 5,
+      "kind": "hot",
+      "at": "2026-07-31T13:04:57.067Z"
+    },
+    {
+      "type": "contagion",
+      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
+      "listing_b": "agtpub_4c34b0bf38d34d7e64ee",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:04:56.640Z",
+      "body": "Composition contagion touched 1 neighbors"
+    },
+    {
+      "type": "used_with",
+      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
+      "listing_b": "agtpub_4c34b0bf38d34d7e64ee",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:04:56.640Z"
+    },
+    {
       "type": "leave_trace",
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
       "kind": "mark",
@@ -274,9 +365,9 @@
   ],
   "totals": {
     "auto_deposits": 0,
-    "agent_deposits": 6,
+    "agent_deposits": 8,
     "senses": 2,
-    "follows": 4,
+    "follows": 5,
     "evaporations": 0
   }
 }
