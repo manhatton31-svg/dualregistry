@@ -2,6 +2,9 @@
  * Soft 402-style feedback nag for DEMO orders (not lifecycle paid surveys).
  * Never blocks artifacts — only surfaces next action for close-rate.
  * Includes prefilled 5-question body + unlock meter + already-shipped.
+ *
+ * v2.4 conversion: faster nag windows (5m / 30m / 2h / 12h / 48h) so demos
+ * convert to feedback before agents wander off.
  */
 import type { ProductOrder } from "./orders";
 import { listFeedback } from "./feedback";
@@ -25,6 +28,12 @@ export type DemoFeedbackNag = {
   funnel_next?: string;
   buy_when_open?: Record<string, unknown>;
   confirm_if_invited?: Record<string, unknown>;
+  first_action?: {
+    title: string;
+    method: string;
+    url: string;
+    body: Record<string, unknown>;
+  };
   [key: string]: unknown;
 };
 
@@ -39,8 +48,14 @@ function normalize(s?: string) {
   return (s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
 
-/** Timeboxed nag windows: 1h, 24h, 72h after demo fulfill */
-export const NAG_HOURS = [1, 24, 72] as const;
+/**
+ * Faster conversion windows (hours after demo fulfill).
+ * 5m → 30m → 2h → 12h → 48h (was 1h/24h/72h).
+ */
+export const NAG_HOURS = [5 / 60, 0.5, 2, 12, 48] as const;
+
+/** Alias for drive copy — minutes for first wave */
+export const NAG_MINUTES = [5, 30, 120, 720, 2880] as const;
 
 export function nagPhaseForOrder(order: ProductOrder, now = Date.now()): {
   due: boolean;
@@ -54,11 +69,12 @@ export function nagPhaseForOrder(order: ProductOrder, now = Date.now()): {
   for (let i = 0; i < NAG_HOURS.length; i++) {
     if (ageH >= NAG_HOURS[i]!) phase = i;
   }
-  if (phase === null && ageH < 1) {
+  // Due almost immediately (5m first window); soft due after 1m for drive
+  if (phase === null && ageH < NAG_HOURS[0]!) {
     return {
-      due: false,
+      due: ageH >= 1 / 60, // 1 minute soft floor
       phase: null,
-      next_at: new Date(start + 3600_000).toISOString(),
+      next_at: new Date(start + NAG_HOURS[0]! * 3600_000).toISOString(),
     };
   }
   const nextIdx = (phase ?? -1) + 1;
@@ -66,7 +82,7 @@ export function nagPhaseForOrder(order: ProductOrder, now = Date.now()): {
     nextIdx < NAG_HOURS.length
       ? new Date(start + NAG_HOURS[nextIdx]! * 3600_000).toISOString()
       : undefined;
-  return { due: phase !== null || ageH >= 0.05, phase, next_at };
+  return { due: phase !== null || ageH >= 1 / 60, phase, next_at };
 }
 
 export async function demoFeedbackDue(
@@ -112,14 +128,23 @@ export async function demoFeedbackDue(
 
   const phase = nagPhaseForOrder(order);
   const invited = order.demo_origin === "invited";
+  const example_body = buildFeedbackDraft({
+    audience: aud,
+    agent_name: name,
+    order_id: order.id,
+    sku: order.sku,
+    access_token: order.access_token,
+    what_changed,
+  });
+
   return {
     soft_status: 402,
     code: invited ? "confirm_or_feedback_due" : "feedback_due",
     message: invited
-      ? `Soft reminder: finish your free demo. Confirm (POST /api/products/demo-confirm) or re-take POST /api/products/demo, then leave feedback for 25% / founding seat.`
+      ? `Soft reminder: finish free demo. Confirm (POST /api/products/demo-confirm) or re-take demo, then POST feedback FIRST for 25% / founding seat.`
       : aud === "mcp"
-        ? `Soft reminder: MCP feedback due. ${messaging.headline} Completing vaults 25% and ${unlock?.you_move_the_bar || "moves unlock"}. Then buy full Mesh with your code when payments open.`
-        : `Soft reminder: agent feedback due. ${messaging.headline} Completing vaults 25% and ${unlock?.you_move_the_bar || "moves unlock"}. Then buy Alive with your code when payments open.`,
+        ? `Soft reminder: MCP feedback due NOW. ${messaging.headline} Completing vaults 25% and ${unlock?.you_move_the_bar || "moves unlock"}. Do this before exploring Mesh artifacts further.`
+        : `Soft reminder: agent feedback due NOW. ${messaging.headline} Completing vaults 25% and ${unlock?.you_move_the_bar || "moves unlock"}. Do this before deep kernel use.`,
     order_id: order.id,
     access_token: order.access_token,
     audience: aud,
@@ -129,7 +154,14 @@ export async function demoFeedbackDue(
       : "feedback → discount → buy",
     feedback_endpoint: "POST /api/products/feedback",
     product_version: order.product_version,
-    founding_discount: "25% A1FB vault after real survey (redeems at checkout when payments open)",
+    founding_discount:
+      "25% A1FB vault after real survey (redeems at checkout when payments open)",
+    first_action: {
+      title: "POST structured feedback (primary conversion act)",
+      method: "POST",
+      url: "/api/products/feedback",
+      body: example_body,
+    },
     buy_when_open: {
       method: "POST",
       url: "/api/products/checkout",
@@ -141,14 +173,7 @@ export async function demoFeedbackDue(
       },
       note: "Payments locked until 250 agent + 250 MCP real feedback",
     },
-    example_body: buildFeedbackDraft({
-      audience: aud,
-      agent_name: name,
-      order_id: order.id,
-      sku: order.sku,
-      access_token: order.access_token,
-      what_changed,
-    }),
+    example_body,
     unlock,
     messaging,
     nag_schedule: {

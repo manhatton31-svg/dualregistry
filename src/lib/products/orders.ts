@@ -203,6 +203,8 @@ export async function createOrder(input: {
   constraints?: string;
   domain?: string;
   success_metrics?: string;
+  tools_hint?: string;
+  preset?: string;
   email?: string;
   agent_card_url?: string;
   callback_url?: string;
@@ -213,6 +215,7 @@ export async function createOrder(input: {
   product_version?: string;
   demo_origin?: "self_serve" | "invited" | "organic" | "platform_qa";
 }): Promise<ProductOrder> {
+
   const sku = resolveSku(input.sku);
   if (!sku) throw new Error("Invalid product sku");
   if (!input.goals || input.goals.trim().length < 8) {
@@ -271,6 +274,8 @@ export async function createOrder(input: {
       constraints: input.constraints?.trim(),
       domain: input.domain?.trim(),
       success_metrics: input.success_metrics?.trim(),
+      tools_hint: input.tools_hint?.trim(),
+      preset: input.preset?.trim(),
     },
     access_token: newToken(),
     amount_cents: amount,

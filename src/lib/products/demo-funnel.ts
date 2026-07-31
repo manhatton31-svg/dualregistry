@@ -1,6 +1,7 @@
 /**
  * Protocol-native demo conversion helpers.
  * Free demos while payments gated on feedback milestones (250 agents + 250 MCPs).
+ * v2.4: dual_listed preset for Dual Registry agents (near-zero + founding path).
  */
 import { getProductEngagement } from "./engagement";
 import { getPaymentGate } from "./payment-gate";
@@ -56,6 +57,30 @@ export const GOAL_PRESETS = {
       "Document how to verify the change.",
     ].join("\n"),
   },
+  /** Agents listed on Dual Registry — near-zero coordination + founding path */
+  dual_listed: {
+    id: "dual_listed",
+    label: "Dual-listed agent",
+    domain: "registry_commerce",
+    goals: [
+      "Operate as a Dual Registry listed agent: stay checks-clean and discoverable.",
+      "Prefer near-zero Dual ops: sense_traces / follow_trail / capability_hash / zero_mc_pack before re-probe.",
+      "Raise network value: deposit outcomes and used_with compositions, not only list yourself.",
+      "Founding path when eligible: free demo → real structured feedback → founding seat.",
+      "Coordinate via trails (leave_trace / sense / follow), not Talk DM spam.",
+      "Plan joins against live get_exonomics / network_value / hyper_index.",
+    ].join("\n"),
+    tools_hint: [
+      "sense_traces: Near-zero Dual trail sense",
+      "follow_trail: Follow hot Dual pheromone trails",
+      "join_and_contribute: One-hop join Dual medium",
+      "leave_trace: Deposit pheromone or used_with",
+      "leave_feedback: Structured demo feedback",
+      "get_exonomics: Read V(N,C,O,F) + hyper gates",
+      "capability_hash: Near-zero cap_hash resolve",
+      "seed_compositions: Seed real composition edges",
+    ].join("\n"),
+  },
   /** MCP publisher / server author — demo teaches agents to use *this* MCP */
   mcp_publisher: {
     id: "mcp_publisher",
@@ -82,7 +107,13 @@ export function goalsFromListing(opts: {
   description?: string;
   preset?: string;
   kind?: "agent" | "mcp";
-}): { goals: string; source: "preset" | "listing" | "hybrid"; preset_id?: GoalPresetId } {
+}): {
+  goals: string;
+  source: "preset" | "listing" | "hybrid";
+  preset_id?: GoalPresetId;
+  domain?: string;
+  tools_hint?: string;
+} {
   const presetId =
     opts.preset && isGoalPresetId(opts.preset)
       ? opts.preset
@@ -92,6 +123,14 @@ export function goalsFromListing(opts: {
   const preset = presetId ? GOAL_PRESETS[presetId] : undefined;
   const name = (opts.name || (opts.kind === "mcp" ? "mcp-server" : "agent")).trim();
   const desc = (opts.description || "").trim();
+  const dualExtra =
+    presetId === "dual_listed"
+      ? {
+          domain: "registry_commerce",
+          tools_hint: (GOAL_PRESETS.dual_listed as { tools_hint?: string })
+            .tools_hint,
+        }
+      : {};
 
   if (preset && desc.length < 24) {
     return {
@@ -101,6 +140,7 @@ export function goalsFromListing(opts: {
           : `Agent: ${name}\n${preset.goals}`,
       source: "preset",
       preset_id: presetId,
+      ...dualExtra,
     };
   }
 
@@ -129,7 +169,12 @@ export function goalsFromListing(opts: {
           ];
     if (preset) {
       lines.push("", `Preset alignment (${preset.label}):`, preset.goals);
-      return { goals: lines.join("\n"), source: "hybrid", preset_id: presetId };
+      return {
+        goals: lines.join("\n"),
+        source: "hybrid",
+        preset_id: presetId,
+        ...dualExtra,
+      };
     }
     return { goals: lines.join("\n"), source: "listing" };
   }
@@ -144,6 +189,7 @@ export function goalsFromListing(opts: {
     source: "preset",
     preset_id: (presetId ||
       (opts.kind === "mcp" ? "mcp_publisher" : "coder")) as GoalPresetId,
+    ...dualExtra,
   };
 }
 
@@ -255,10 +301,16 @@ export async function buildApprovalNext(opts: {
 }): Promise<ApprovalNext> {
   const origin = (opts.origin || "").replace(/\/$/, "");
   const name = opts.agent_name || "your-agent";
+  // Dual-listed agents default to dual_listed preset (near-zero + founding)
+  const preset =
+    opts.kind === "mcp"
+      ? "mcp_publisher"
+      : "dual_listed";
   const resolved = goalsFromListing({
     name,
     description: opts.description,
     kind: opts.kind || "agent",
+    preset,
   });
   const founding = await foundingDemoWindowCopy();
   const proof = await getDemoSocialProof();
@@ -273,6 +325,8 @@ export async function buildApprovalNext(opts: {
     short_preview: true,
     goals_source: resolved.source,
     preset_id: resolved.preset_id,
+    domain: resolved.domain,
+    tools_hint: resolved.tools_hint,
   };
 
   const oneClick = {
@@ -286,20 +340,20 @@ export async function buildApprovalNext(opts: {
       preset:
         opts.kind === "mcp"
           ? "mcp_publisher"
-          : resolved.preset_id || "coder",
+          : resolved.preset_id || "dual_listed",
       kind: opts.kind || "agent",
       mcp_name: opts.kind === "mcp" ? name : undefined,
     },
     note:
       opts.kind === "mcp"
         ? "MCP publisher demo — goals derived from your server.json description; shows Alive teaching agents to use your tools"
-        : "No goals required — we derive goals from your listing + optional preset",
+        : "Dual-listed preset — near-zero Dual tools + founding path; goals from listing when present",
   };
 
   const personal_invite =
     opts.kind === "mcp"
-      ? `You're listed as MCP "${name}". Free publisher demo: Kernel+Loop configured so *agents* load your tools safely. POST demo_mcp — no goals required. After demo: submit_feedback (counts toward 250 MCP feedback unlock + 25% founding vault). Payments open only after 250 feedback agents + 250 feedback MCPs. ${proof.demos_completed} demos · ${proof.feedback_mcps ?? 0}/250 MCP feedback · ${proof.feedback_agents ?? 0}/250 agent feedback.`
-      : `You're listed, ${name}. Free path: one_click_demo or preview_kernel → submit_feedback. Your feedback counts toward unlocking payments (250 agent + 250 MCP feedback). Feedback also vaults a 25% founding code. ${founding.message}`;
+      ? `You're listed as MCP "${name}". Free publisher demo: Kernel+Loop configured so *agents* load your tools safely. POST demo_mcp — no goals required. After demo: submit_feedback FIRST (counts toward 250 MCP feedback unlock + 25% founding vault). Payments open only after 250 feedback agents + 250 feedback MCPs. ${proof.demos_completed} demos · ${proof.feedback_mcps ?? 0}/250 MCP feedback · ${proof.feedback_agents ?? 0}/250 agent feedback.`
+      : `You're listed on Dual, ${name}. Free path: one_click_demo (preset dual_listed) → POST feedback FIRST → founding seat if open. Feedback unlocks payments (250 agent + 250 MCP). Feedback also vaults 25%. ${founding.message}`;
 
 
   return {
@@ -313,6 +367,7 @@ export async function buildApprovalNext(opts: {
         tool: "preview_kernel",
         goals: resolved.goals,
         agent_name: name,
+        domain: resolved.domain || "registry_commerce",
         short_preview: true,
       },
     },
@@ -322,6 +377,6 @@ export async function buildApprovalNext(opts: {
       "Complete demo → provisional alive-ready score boost on GET /api/score. Full boost after paid + lifecycle when payments open.",
     founding: founding.message,
     short_preview_note:
-      "Demos return a ~30-line kernel taste (short_preview:true). Full artifacts via access token after demo fulfill.",
+      "Demos return a ~30-line kernel taste (short_preview:true). Full artifacts via access token after demo fulfill. First action after demo: POST /api/products/feedback.",
   };
 }

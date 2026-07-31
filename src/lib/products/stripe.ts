@@ -31,6 +31,8 @@ export async function startCheckout(input: {
   constraints?: string;
   domain?: string;
   success_metrics?: string;
+  tools_hint?: string;
+  preset?: string;
   email?: string;
   agent_card_url?: string;
   callback_url?: string;
@@ -43,6 +45,7 @@ export async function startCheckout(input: {
   product_version?: string;
   demo_origin?: "self_serve" | "invited" | "organic" | "platform_qa";
 }): Promise<{
+
   order: ProductOrder;
   checkout_url?: string;
   mode: "stripe" | "demo";

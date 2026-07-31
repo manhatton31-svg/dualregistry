@@ -114,12 +114,25 @@ export async function appendLog(
 }
 
 /**
- * Idempotent: ship flywheel v2.9 + open density gaps into the public improvement log.
+ * Idempotent: ship flywheel + open density gaps into the public improvement log.
+ * v2.4: live gap refresh — close gaps when F/C/founding meet floors; re-open if they drop.
  */
-export async function ensurePlatformPhysicsLog(): Promise<{ added: number }> {
+export async function ensurePlatformPhysicsLog(): Promise<{
+  added: number;
+  closed: number;
+  opened: number;
+  live?: {
+    F: number;
+    C: number;
+    founding: number;
+    O: number;
+  };
+}> {
   const s = await load();
   const titles = new Set(s.entries.map((e) => e.title));
   let added = 0;
+  let closed = 0;
+  let opened = 0;
 
   const push = async (e: Omit<LogEntry, "id" | "at">) => {
     if (titles.has(e.title)) return;
@@ -132,17 +145,19 @@ export async function ensurePlatformPhysicsLog(): Promise<{ added: number }> {
     kind: "shipped",
     title: `Platform ship: closed-loop flywheel v${FLYWHEEL_VERSION}`,
     detail:
-      "Probe/demo/match/feedback/sense now deposit density (C/O/trails). join_and_contribute + seed_compositions tools live. Density meters fixed: C from real compositions only.",
+      "Probe/demo/match/feedback/sense now deposit density (C/O/trails). join_and_contribute + seed_compositions tools live. Density meters fixed: C from real compositions only. Kernel/Loop v2.4: conversion-first + dual_listed + deposit_outcome.",
     themes: [
       "platform_physics",
       "flywheel",
       "closed_loop",
       "near_zero",
       "join_and_contribute",
+      "conversion",
     ],
     source: "platform",
     meta: {
       version: FLYWHEEL_VERSION,
+      kernel_loop: "2.4.0",
       items: [
         "write_path_auto_deposits",
         "join_and_contribute",
@@ -154,6 +169,10 @@ export async function ensurePlatformPhysicsLog(): Promise<{ added: number }> {
         "probe_cap_interop",
         "inbound_physics_pitch",
         "near_zero_preference",
+        "demo_feedback_conversion",
+        "dual_listed_preset",
+        "deposit_outcome_skill",
+        "live_gap_refresh",
       ],
     },
   });
@@ -177,34 +196,215 @@ export async function ensurePlatformPhysicsLog(): Promise<{ added: number }> {
     });
   }
 
-  await push({
-    kind: "system_candidate",
-    title: "Open gap: federation peer ops F = 0 (floor 2)",
-    detail:
-      "Two peers configured (HF AI Catalog, MCP Registry) but density F stays 0 until pull/push count. Self-loop act: Run federation pull/push cycle.",
-    themes: ["federation", "platform_physics", "open_gap"],
-    source: "platform",
-  });
-  await push({
-    kind: "system_candidate",
-    title: "Open gap: founding free seats 0 claimed / 100 open",
-    detail:
-      "Demo→feedback→seat path exists; no founding claims yet. Self-loop prioritizes founding conversion before more harvest.",
-    themes: ["founding", "conversion", "platform_physics", "open_gap"],
-    source: "platform",
-  });
-  await push({
-    kind: "system_candidate",
-    title:
-      "Open gap: composition density C under floor (need ≥0.08 real used_with)",
-    detail:
-      "Seed compositions from Active clean clusters; prefer real capability/tag pairs over residue marks so hyper gate opens honestly.",
-    themes: ["composition_density", "platform_physics", "open_gap"],
-    source: "platform",
-  });
+  // --- Live density snapshot (honest open/close) ---
+  let densityC = 0;
+  let densityO = 0;
+  let densityF = 0;
+  try {
+    const { sampleExonomics } = await import("./exonomics");
+    const snap = await sampleExonomics();
+    densityC = Number(snap.density?.C || 0);
+    densityO = Number(snap.density?.O || 0);
+    densityF = Number(snap.density?.F || 0);
+  } catch {
+    /* */
+  }
+  if (densityF < 1) {
+    try {
+      const { getInteropPublic } = await import("./interop");
+      const ix = await getInteropPublic({});
+      const t = (ix.totals || {}) as Record<string, number>;
+      densityF = Math.max(
+        densityF,
+        Number(t.peer_pulls || 0) + Number(t.peer_pushes || 0),
+      );
+    } catch {
+      /* */
+    }
+  }
+  let foundingClaimed = 0;
+  try {
+    const { getFoundingFreePublic } = await import("./founding-free");
+    foundingClaimed = Number((await getFoundingFreePublic()).claimed || 0);
+  } catch {
+    /* */
+  }
 
-  return { added };
+  const live = {
+    F: densityF,
+    C: densityC,
+    founding: foundingClaimed,
+    O: densityO,
+  };
+
+  type GapSpec = {
+    key: string;
+    openTitle: string;
+    openDetail: (v: number) => string;
+    closedTitle: string;
+    closedDetail: (v: number) => string;
+    themes: string[];
+    met: boolean;
+    value: number;
+  };
+
+  const gaps: GapSpec[] = [
+    {
+      key: "federation",
+      openTitle: "Open gap: federation peer ops F under floor (need ≥2)",
+      openDetail: (v) =>
+        `Live F=${v.toFixed(2)} (floor 2). Two peers configured (HF AI Catalog, MCP Registry). Self-loop act: Run federation pull/push cycle.`,
+      closedTitle: "Closed gap: federation peer ops F ≥ 2",
+      closedDetail: (v) =>
+        `Live F=${v.toFixed(2)} meets floor 2. Keep peer pull/push healthy; re-opens if F drops.`,
+      themes: ["federation", "platform_physics"],
+      met: densityF >= 2,
+      value: densityF,
+    },
+    {
+      key: "founding",
+      openTitle: "Open gap: founding free seats under target",
+      openDetail: (v) =>
+        `Live founding claims=${v}/100. Demo→feedback→seat path exists. Self-loop prioritizes founding conversion before more harvest.`,
+      closedTitle: "Closed gap: founding free seats claimed ≥ 1",
+      closedDetail: (v) =>
+        `Live founding claims=${v}/100. Conversion path proven; keep demo→feedback→seat flywheel spinning.`,
+      themes: ["founding", "conversion", "platform_physics"],
+      met: foundingClaimed >= 1,
+      value: foundingClaimed,
+    },
+    {
+      key: "composition_density",
+      openTitle:
+        "Open gap: composition density C under floor (need ≥0.08 real used_with)",
+      openDetail: (v) =>
+        `Live C=${v.toFixed(4)} (floor 0.08). Seed compositions from Active clean clusters; prefer real capability/tag pairs over residue marks so hyper gate opens honestly.`,
+      closedTitle: "Closed gap: composition density C ≥ 0.08",
+      closedDetail: (v) =>
+        `Live C=${v.toFixed(4)} meets floor 0.08. Keep real used_with edges healthy; re-opens if C drops.`,
+      themes: ["composition_density", "platform_physics"],
+      met: densityC >= 0.08,
+      value: densityC,
+    },
+  ];
+
+  // Legacy static titles from v2.3 ship — close them if live values differ
+  const legacyOpenTitles = [
+    "Open gap: federation peer ops F = 0 (floor 2)",
+    "Open gap: founding free seats 0 claimed / 100 open",
+    "Open gap: composition density C under floor (need ≥0.08 real used_with)",
+  ];
+
+  for (const g of gaps) {
+    const openTitle = g.openTitle;
+    const closedTitle = g.closedTitle;
+    const hasOpen =
+      titles.has(openTitle) ||
+      (g.key === "federation" && titles.has(legacyOpenTitles[0]!)) ||
+      (g.key === "founding" && titles.has(legacyOpenTitles[1]!)) ||
+      (g.key === "composition_density" && titles.has(legacyOpenTitles[2]!));
+    const hasClosed = titles.has(closedTitle);
+
+    if (g.met) {
+      // Close: ship a closed entry if not yet; leave open entries as history
+      if (!hasClosed) {
+        await push({
+          kind: "shipped",
+          title: closedTitle,
+          detail: g.closedDetail(g.value),
+          themes: [...g.themes, "gap_closed", "live_refresh"],
+          source: "platform",
+          meta: {
+            gap: g.key,
+            value: g.value,
+            live,
+            closed_at: new Date().toISOString(),
+          },
+        });
+        closed++;
+      }
+    } else {
+      // Open or re-open with live numbers
+      if (!hasOpen) {
+        await push({
+          kind: "system_candidate",
+          title: openTitle,
+          detail: g.openDetail(g.value),
+          themes: [...g.themes, "open_gap", "live_refresh"],
+          source: "platform",
+          meta: {
+            gap: g.key,
+            value: g.value,
+            live,
+          },
+        });
+        opened++;
+      } else {
+        // Refresh detail with live value via a status entry (not duplicate open title)
+        const statusTitle = `Live gap status: ${g.key} = ${
+          g.key === "founding"
+            ? String(g.value)
+            : g.value.toFixed(g.key === "composition_density" ? 4 : 2)
+        } (still open)`;
+        if (!titles.has(statusTitle)) {
+          // Only one status per distinct value; prune spam by key prefix
+          const recentStatus = s.entries.find(
+            (e) =>
+              e.title.startsWith(`Live gap status: ${g.key}`) &&
+              Date.now() - Date.parse(e.at) < 6 * 3600_000,
+          );
+          if (!recentStatus) {
+            await push({
+              kind: "system_candidate",
+              title: statusTitle,
+              detail: g.openDetail(g.value),
+              themes: [...g.themes, "open_gap", "live_refresh"],
+              source: "platform",
+              meta: { gap: g.key, value: g.value, live },
+            });
+          }
+        }
+      }
+    }
+  }
+
+  // Conversion backlog as live gap (demos without feedback)
+  try {
+    const { getFeedbackDriveStatus } = await import("./feedback-drive");
+    const fd = await getFeedbackDriveStatus();
+    const backlog = Number(
+      (fd as { conversion_backlog?: number }).conversion_backlog || 0,
+    );
+    if (backlog >= 8) {
+      const t = `Open gap: conversion backlog ${backlog} demos missing feedback`;
+      await push({
+        kind: "system_candidate",
+        title: t,
+        detail:
+          "Prefer nags over new demo seeds. Soft 402 first_action: POST /api/products/feedback. Kernel how_to_use step 1 is feedback.",
+        themes: ["conversion", "feedback_drive", "open_gap", "live_refresh"],
+        source: "platform",
+        meta: { backlog, live },
+      });
+      if (titles.has(t) === false && added > 0) opened++;
+    } else if (backlog === 0) {
+      await push({
+        kind: "shipped",
+        title: "Closed gap: conversion backlog cleared (0 demos missing feedback)",
+        detail:
+          "All countable demos have feedback or none pending. Keep first_action = POST feedback on new demos.",
+        themes: ["conversion", "gap_closed", "live_refresh"],
+        source: "platform",
+        meta: { backlog: 0 },
+      });
+    }
+  } catch {
+    /* */
+  }
+
+  return { added, closed, opened, live };
 }
+
 
 /** Agents1 dogfoods its own Kernel + Loop with live feedback directives */
 export async function runDogfoodImprovement(): Promise<Store["dogfood"]> {
@@ -297,8 +497,9 @@ export async function runDogfoodImprovement(): Promise<Store["dogfood"]> {
     last_run_at: new Date().toISOString(),
     agent_name: "Agents1-Registry",
     seed: String(kernel.seed || ""),
-    kernel_summary: `Kernel v${kernel.version || "2.3"} · Dual physics ${FLYWHEEL_VERSION} · ≤600 short-prompt + SKILL.md-first + near-zero first`,
-    loop_summary: `Recursive loop · ${phaseNames.length || "multi"} phases · density KRs (C/F/founding) + promote_gate`,
+    kernel_summary: `Kernel v${kernel.version || "2.4"} · Dual physics ${FLYWHEEL_VERSION} · ≤600 short-prompt + SKILL.md-first + near-zero first + outcome deposit`,
+    loop_summary: `Recursive loop · ${phaseNames.length || "multi"} phases · density KRs (C/F/founding) + promote_gate + deposit_outcome`,
+
     constitution_sample: constitution.map(String),
     phases_sample: phaseNames,
     feedback_directives_applied: directives_applied,
@@ -464,6 +665,13 @@ export async function syncLogFromSources(): Promise<{ added: number }> {
 function buildActionable(
   insights: Awaited<ReturnType<typeof getFeedbackInsights>> | null,
   review: Awaited<ReturnType<typeof listReviewQueue>> | null,
+  liveGaps?: {
+    F: number;
+    C: number;
+    founding: number;
+    O?: number;
+    conversion_backlog?: number;
+  } | null,
 ) {
   const items: Array<{
     priority: number;
@@ -508,21 +716,50 @@ function buildActionable(
     }
   }
 
+  // Live platform gaps — only surface as open when floors not met
+  const F = liveGaps?.F ?? 0;
+  const C = liveGaps?.C ?? 0;
+  const founding = liveGaps?.founding ?? 0;
+  const backlog = liveGaps?.conversion_backlog ?? 0;
+
   const platformGaps = [
     {
       theme: "federation",
-      from_feedback: "Run federation pull/push until F ≥ 2",
-      priority: 5,
+      from_feedback:
+        F >= 2
+          ? `Federation F=${F.toFixed(2)} meets floor 2 — keep peers healthy`
+          : `Run federation pull/push until F ≥ 2 (live F=${F.toFixed(2)})`,
+      priority: F >= 2 ? 1 : 5,
+      status: F >= 2 ? "shipped" : "open",
     },
     {
       theme: "founding",
-      from_feedback: "Claim founding seats via demo→feedback",
-      priority: 5,
+      from_feedback:
+        founding >= 1
+          ? `Founding claims=${founding} — conversion path proven; keep demo→feedback`
+          : `Claim founding seats via demo→feedback FIRST (live claims=${founding})`,
+      priority: founding >= 1 ? 2 : 5,
+      status: founding >= 1 ? "shipped" : "open",
     },
     {
       theme: "composition_density",
-      from_feedback: "Seed real used_with edges until C ≥ 0.08",
-      priority: 4,
+      from_feedback:
+        C >= 0.08
+          ? `Composition C=${C.toFixed(4)} meets floor — keep real used_with edges`
+          : `Seed real used_with edges until C ≥ 0.08 (live C=${C.toFixed(4)})`,
+      priority: C >= 0.08 ? 1 : 4,
+      status: C >= 0.08 ? "shipped" : "open",
+    },
+    {
+      theme: "conversion",
+      from_feedback:
+        backlog >= 8
+          ? `Conversion backlog ${backlog}: nag demos for feedback before seeding more`
+          : backlog > 0
+            ? `${backlog} demos still missing feedback — soft 402 first_action`
+            : "Conversion backlog clear — keep feedback as first_action after demo",
+      priority: backlog >= 8 ? 6 : backlog > 0 ? 3 : 1,
+      status: backlog === 0 ? "shipped" : "open",
     },
   ];
   for (const g of platformGaps) {
@@ -531,14 +768,23 @@ function buildActionable(
         priority: g.priority,
         theme: g.theme,
         from_feedback: g.from_feedback,
-        system_status: statusByTheme.get(g.theme) || "open",
+        system_status: g.status,
         log_ready: true,
       });
+    } else {
+      // Refresh status on existing theme entry
+      const existing = items.find((x) => x.theme === g.theme);
+      if (existing && g.status === "shipped") {
+        existing.system_status = "shipped";
+        existing.from_feedback = g.from_feedback;
+        existing.priority = Math.min(existing.priority, g.priority);
+      }
     }
   }
 
   return items.sort((a, b) => b.priority - a.priority).slice(0, 12);
 }
+
 
 function stripIdentity(text: string): string {
   return text
@@ -977,6 +1223,32 @@ export async function getPublicImprovementLog(opts?: {
         .catch(() => null),
     ]);
 
+  // Live physics snapshot for actionable_now honesty
+  let liveGaps: {
+    F: number;
+    C: number;
+    founding: number;
+    O: number;
+    conversion_backlog?: number;
+  } = { F: 0, C: 0, founding: 0, O: 0 };
+  try {
+    const phys = await ensurePlatformPhysicsLog();
+    if (phys.live) {
+      liveGaps = { ...liveGaps, ...phys.live };
+    }
+  } catch {
+    /* */
+  }
+  try {
+    const { getFeedbackDriveStatus } = await import("./feedback-drive");
+    const fd = await getFeedbackDriveStatus();
+    liveGaps.conversion_backlog = Number(
+      (fd as { conversion_backlog?: number }).conversion_backlog || 0,
+    );
+  } catch {
+    /* */
+  }
+
   const limit = opts?.limit ?? 40;
   return {
     ok: true as const,
@@ -1001,15 +1273,18 @@ export async function getPublicImprovementLog(opts?: {
         "External: feedback → personalize (3) → canary → sitewide generators",
         "Internal: measure KRs (incl. density) → Kernel+Loop on Agents1 → Critic ≥0.7 → execute safe acts",
         `Platform physics directives dogfooded into Kernel/Loop (flywheel ${FLYWHEEL_VERSION})`,
+        "Kernel/Loop v2.4: demo→feedback first · dual_listed · deposit_outcome · live gaps",
         "Daily/weekly ship cadence keeps product improving from both paths",
         "Human only on high-severity canary fail",
       ],
     },
     platform_physics: {
       version: FLYWHEEL_VERSION,
+      kernel_loop_version: "2.4.0",
       kernel_directives: PLATFORM_KERNEL_DIRECTIVES,
       loop_directives: PLATFORM_LOOP_DIRECTIVES,
-      note: "Closed-loop flywheel habits for Dual-listed agents — near-zero first, join_and_contribute, raise C/O/F, founding path.",
+      live: liveGaps,
+      note: "Closed-loop flywheel + conversion-first demos. Live gaps close when F/C/founding floors met.",
     },
     feedback_snapshot: {
       total: eng?.feedback_events ?? insights?.n ?? 0,
@@ -1025,7 +1300,8 @@ export async function getPublicImprovementLog(opts?: {
     },
     /** Anonymized live feedback + pain points + iterations */
     feedback_board: board,
-    actionable_now: buildActionable(insights, review),
+    actionable_now: buildActionable(insights, review, liveGaps),
+
     shipped_global: review?.shipped_global ?? null,
     /** Automatic ship calendar — human_attention only when you must act */
     ship_cadence: cadence

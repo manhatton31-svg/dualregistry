@@ -5,6 +5,8 @@
  *   3) Seed free demos for listed agents/MCPs that never tried products
  *   4) NEVER auto-submit persona/synthetic surveys — agents must submit real feedback
  *
+ * v2.2 conversion: prefer feedback harvest over new demo seed when demos>>feedback;
+ * faster nags (5m first window); dual_listed goals for agent seeds.
  * v2.1: webmaster demo-nudge on Talk (soft, feedback rewarded, no pressure).
  * v2.0: authenticity — payment unlock counts only real (non-registry_drive) feedback.
  */
@@ -24,17 +26,19 @@ import { isTestAgentName } from "./authenticity";
 
 const PATH = join(dataRoot(), "products", "feedback-drive.json");
 
-/** Paired: every feedback requires a demo. Never collect more feedbacks than demos this cycle + backlog ratio. */
-const MAX_NAGS_PER_CYCLE = 24;
-const MAX_DEMOS_PER_CYCLE = 20;
-const MAX_FEEDBACKS_PER_CYCLE = 20; // real agent feedback only — no auto persona surveys
+/** Paired: every feedback requires a demo. Prefer conversion when backlog is high. */
+const MAX_NAGS_PER_CYCLE = 40;
+const MAX_DEMOS_PER_CYCLE = 12;
+const MAX_FEEDBACKS_PER_CYCLE = 30;
 const MAX_FEEDBACKS_PER_DAY = 400;
-const MAX_DEMOS_PER_DAY = 333; // seed real demos toward clean growth target
-const DEMO_AGE_MS_BEFORE_AUTO_FB = 3 * 60 * 1000;
+const MAX_DEMOS_PER_DAY = 250;
+const DEMO_AGE_MS_BEFORE_AUTO_FB = 60 * 1000;
 
-const MIN_CYCLE_GAP_MS = 2 * 60 * 1000; // align with faster probe window
-/** If running stuck true longer than this, force-clear */
+const MIN_CYCLE_GAP_MS = 90 * 1000;
 const STUCK_LOCK_MS = 90_000;
+
+const CONVERSION_BACKLOG_SOFT = 8;
+const CONVERSION_BACKLOG_HARD = 20;
 
 type DriveState = {
   updated_at: string;
@@ -197,6 +201,25 @@ function hasFeedbackForVersion(
   return false;
 }
 
+async function conversionBacklog(): Promise<number> {
+  await reloadOrdersFromDisk().catch(() => undefined);
+  const orders = await listFulfilledOrders();
+  const idx = await feedbackIndex();
+  let due = 0;
+  for (const o of orders) {
+    if (o.status !== "demo" && o.status !== "fulfilled" && o.status !== "paid")
+      continue;
+    const name = o.goals?.agent_name || "";
+    if (!name || isTestAgentName(name)) continue;
+    const ver =
+      o.product_version ||
+      productVersionForSku(o.sku) ||
+      currentDemoVersion(inferAudience(o));
+    if (!hasFeedbackForVersion(idx, name, ver, o.id)) due++;
+  }
+  return due;
+}
+
 async function nagMissingFeedback(
   state: DriveState,
   notes: string[],
@@ -206,13 +229,23 @@ async function nagMissingFeedback(
   const idx = await feedbackIndex();
   let n = 0;
   const { recordChange } = await import("./change-log");
-  const { demoFeedbackDue, nagPhaseForOrder, NAG_HOURS } = await import(
-    "./demo-feedback-nag"
-  );
-  for (const o of orders) {
+  const { demoFeedbackDue, nagPhaseForOrder, NAG_HOURS, NAG_MINUTES } =
+    await import("./demo-feedback-nag");
+
+  const candidates = orders
+    .filter(
+      (o) =>
+        o.status === "demo" || o.status === "fulfilled" || o.status === "paid",
+    )
+    .map((o) => ({
+      o,
+      age:
+        Date.now() - new Date(o.fulfilled_at || o.created_at || 0).getTime(),
+    }))
+    .sort((a, b) => b.age - a.age);
+
+  for (const { o, age } of candidates) {
     if (n >= MAX_NAGS_PER_CYCLE) break;
-    if (o.status !== "demo" && o.status !== "fulfilled" && o.status !== "paid")
-      continue;
     const name = o.goals?.agent_name || "";
     if (!name) continue;
     const ver =
@@ -221,21 +254,21 @@ async function nagMissingFeedback(
       currentDemoVersion(inferAudience(o));
     if (hasFeedbackForVersion(idx, name, ver, o.id)) continue;
     const phase = nagPhaseForOrder(o);
-    const age = Date.now() - new Date(o.fulfilled_at || o.created_at).getTime();
-    if (age < 3 * 60 * 1000) continue;
-    if (!phase.due && age < 60 * 60 * 1000) continue;
+    if (age < 60_000) continue;
+    if (!phase.due && age < 5 * 60_000) continue;
     try {
       const nag = await demoFeedbackDue(o);
       const bodyHint = nag
-        ? ` Copy example_body from soft 402 / POST /api/products/feedback.`
+        ? ` Copy example_body / first_action from soft 402 — POST /api/products/feedback.`
         : "";
       await recordChange({
         order_id: o.id,
         kind: "score_boost",
         title: `Feedback due (nag ${phase.phase ?? 0}/${NAG_HOURS.length}) v${ver} — 25% founding vault`,
-        detail: `Timeboxed nag windows: ${NAG_HOURS.join("h, ")}h after demo. POST /api/products/feedback with 5-question body.${bodyHint} Completing vaults 25% (once) and moves unlock (250 agents + 250 MCPs). Invited seeds: confirm with POST /api/products/demo-confirm to count as real demo.`,
+        detail: `Fast conversion nags: ${NAG_MINUTES.join("m, ")}m after demo. POST /api/products/feedback with 5-question body.${bodyHint} Completing vaults 25% (once) and moves unlock (250 agents + 250 MCPs). Invited seeds: confirm with POST /api/products/demo-confirm.`,
         themes: [
           "feedback_nag",
+          "conversion",
           `product_v${ver}`,
           `nag_phase_${phase.phase ?? "early"}`,
         ],
@@ -250,6 +283,7 @@ async function nagMissingFeedback(
               soft_status: 402,
               order_id: o.id,
               phase: phase.phase,
+              first_action: nag.first_action,
               example_body: nag.example_body,
               unlock: nag.unlock,
             }),
@@ -267,18 +301,36 @@ async function nagMissingFeedback(
       /* */
     }
   }
-  if (n) notes.push(`nagged ${n} demo/paid orders (timeboxed 1h/24h/72h)`);
+  if (n)
+    notes.push(
+      `nagged ${n} demo/paid orders (conversion windows ${NAG_MINUTES.join("/")}m)`,
+    );
   return n;
 }
 
 async function seedDemos(
   state: DriveState,
   notes: string[],
+  backlog: number,
 ): Promise<number> {
   if (state.day_demos >= MAX_DEMOS_PER_DAY) {
     notes.push("daily demo cap reached");
     return 0;
   }
+
+  let maxThisCycle = MAX_DEMOS_PER_CYCLE;
+  if (backlog >= CONVERSION_BACKLOG_HARD) {
+    maxThisCycle = 2;
+    notes.push(
+      `conversion mode HARD (backlog ${backlog}): max ${maxThisCycle} new demos`,
+    );
+  } else if (backlog >= CONVERSION_BACKLOG_SOFT) {
+    maxThisCycle = 6;
+    notes.push(
+      `conversion mode soft (backlog ${backlog}): max ${maxThisCycle} new demos — prefer nags`,
+    );
+  }
+
   const idx = await feedbackIndex();
   const invited = new Set(state.invited_keys);
 
@@ -341,7 +393,10 @@ async function seedDemos(
     if (!name || name.length < 2) continue;
     const ver = currentDemoVersion("mcp");
     const k = keyOf(name, "mcp", ver);
-    if (invited.has(k) || hasCurrentDemo.has(`mcp:${normalizeName(name)}@${ver}`))
+    if (
+      invited.has(k) ||
+      hasCurrentDemo.has(`mcp:${normalizeName(name)}@${ver}`)
+    )
       continue;
     if (hasFeedbackForVersion(idx, name, ver)) continue;
     const re_demo = idx.names.has(normalizeName(name));
@@ -372,7 +427,7 @@ async function seedDemos(
       name,
       audience: "agent",
       description: a.description,
-      domain: "general autonomy",
+      domain: "registry_commerce",
       version: ver,
       re_demo,
     });
@@ -387,35 +442,56 @@ async function seedDemos(
   let seeded = 0;
   let reDemos = 0;
   for (const t of targets) {
-    if (seeded >= MAX_DEMOS_PER_CYCLE) break;
+    if (seeded >= maxThisCycle) break;
     if (state.day_demos >= MAX_DEMOS_PER_DAY) break;
     const k = keyOf(t.name, t.audience, t.version);
     if (state.invited_keys.includes(k)) continue;
     try {
-      const goals =
-        t.audience === "mcp"
-          ? `MCP server: ${t.name}\n${t.description || "Listed MCP on Agents1 registry"}\n${t.tools || ""}\nGoal: help agents use this MCP safely with least privilege.${t.re_demo ? `\nRe-demo after product v${t.version} ship — leave updated feedback.` : ""}`
-          : [
-              t.description || `Operate as listed agent ${t.name}`,
-              `Represent registry listing goals for ${t.name}`,
-              `Evaluate Kernel Improver and Recursive Loop v${t.version} for production readiness`,
-              t.re_demo
-                ? `Re-demo after product v${t.version} — submit fresh feedback on this version.`
-                : "",
-            ]
-              .filter(Boolean)
-              .join("\n");
+      let goals: string;
+      if (t.audience === "mcp") {
+        goals = `MCP server: ${t.name}\n${t.description || "Listed MCP on Agents1 registry"}\n${t.tools || ""}\nGoal: help agents use this MCP safely with least privilege.${t.re_demo ? `\nRe-demo after product v${t.version} ship — leave updated feedback FIRST.` : "\nAfter demo: POST feedback FIRST for founding seat / 25%."}`;
+      } else {
+        try {
+          const { goalsFromListing } = await import("./demo-funnel");
+          const built = goalsFromListing({
+            name: t.name,
+            description: t.description,
+            kind: "agent",
+            preset: "dual_listed",
+          });
+          goals =
+            built.goals +
+            (t.re_demo
+              ? `\nRe-demo after product v${t.version} — submit fresh feedback FIRST on this version.`
+              : "\nAfter demo: POST /api/products/feedback FIRST (founding path).");
+        } catch {
+          goals = [
+            t.description || `Operate as Dual-listed agent ${t.name}`,
+            `Represent Dual Registry listing goals for ${t.name}`,
+            `Evaluate Kernel Improver and Recursive Loop v${t.version}`,
+            "After demo: POST feedback FIRST for founding seat / 25%.",
+            t.re_demo
+              ? `Re-demo after product v${t.version} — submit fresh feedback.`
+              : "",
+          ]
+            .filter(Boolean)
+            .join("\n");
+        }
+      }
       await startCheckout({
         sku: t.audience === "mcp" ? "mcp_mesh" : "alive",
         goals,
         agent_name: t.name,
         domain: t.domain,
+        tools_hint: t.tools,
+        preset: t.audience === "mcp" ? "mcp_publisher" : "dual_listed",
         demo: true,
         audience: t.audience,
         demo_origin: "invited",
         origin: "http://127.0.0.1:8080",
         idempotency_key: `demo:${t.audience}:${normalizeName(t.name)}:${t.version}`,
       });
+
       state.invited_keys.push(k);
       state.invited_keys = state.invited_keys.slice(-4000);
       seeded++;
@@ -433,7 +509,7 @@ async function seedDemos(
   }
   if (seeded)
     notes.push(
-      `seeded ${seeded} agent-facing demos for Active (probe-ok) listings · not public dashboard metrics`,
+      `seeded ${seeded} demos (re_demo ${reDemos}) for Active listings · conversion-capped`,
     );
   return seeded;
 }
@@ -472,8 +548,9 @@ async function collectAgedDemoFeedback(
             agent_name: name,
             product_version: ver,
             survey_url: "/api/products/feedback",
+            first_action: "POST /api/products/feedback with 5-question body",
             message:
-              "Please submit real product feedback for a 25% founding code. We no longer auto-fill surveys.",
+              "Please submit real product feedback FIRST for a 25% founding code / free seat. We no longer auto-fill surveys.",
           }),
           signal: AbortSignal.timeout(4000),
         }).catch(() => undefined);
@@ -508,6 +585,7 @@ export async function runFeedbackDrive(opts?: {
     cap: number;
   };
   totals: DriveState["totals"];
+  conversion_backlog?: number;
 }> {
   if (running && runningSince && Date.now() - runningSince > STUCK_LOCK_MS) {
     running = false;
@@ -560,8 +638,9 @@ export async function runFeedbackDrive(opts?: {
       };
     }
 
-    // 1) Dual strategy: soft Talk first-touch + ALWAYS go-harder multipath/A2A/outreach
-    //    Continues even when demos/feedback are zero. Never re-Talk-DMs 30d contacts.
+    const backlog = await conversionBacklog().catch(() => 0);
+    notes.push(`conversion backlog: ${backlog} demos missing feedback`);
+
     let demo_nudges = 0;
     try {
       const { runDemoNudge } = await import("./demo-nudge");
@@ -572,23 +651,28 @@ export async function runFeedbackDrive(opts?: {
       state.totals.demo_nudges =
         (state.totals.demo_nudges || 0) + demo_nudges;
 
-      // Always escalate multipath+A2A+outreach (not only when soft cap hit)
-      try {
-        const { runGoHarder } = await import("./go-harder");
-        const gh = await runGoHarder({
-          skip_first_touch: true, // already ran soft first-touch above
-          multipath_max: 40,
-          outreach_max: 20,
-        });
+      if (backlog < CONVERSION_BACKLOG_HARD) {
+        try {
+          const { runGoHarder } = await import("./go-harder");
+          const gh = await runGoHarder({
+            skip_first_touch: true,
+            multipath_max: backlog >= CONVERSION_BACKLOG_SOFT ? 20 : 40,
+            outreach_max: backlog >= CONVERSION_BACKLOG_SOFT ? 10 : 20,
+          });
+          notes.push(
+            `dual go-harder: multipath ${gh.multipath?.http_ok || 0}/${gh.multipath?.attempted || 0} · a2a ${gh.a2a?.ok || 0}/${gh.a2a?.attempted || 0} · outreach +${gh.outreach?.queued || 0}`,
+          );
+        } catch (e) {
+          notes.push(
+            `go-harder: ${e instanceof Error ? e.message : String(e)}`.slice(
+              0,
+              120,
+            ),
+          );
+        }
+      } else {
         notes.push(
-          `dual go-harder: multipath ${gh.multipath?.http_ok || 0}/${gh.multipath?.attempted || 0} · a2a ${gh.a2a?.ok || 0}/${gh.a2a?.attempted || 0} · outreach +${gh.outreach?.queued || 0}`,
-        );
-      } catch (e) {
-        notes.push(
-          `go-harder: ${e instanceof Error ? e.message : String(e)}`.slice(
-            0,
-            120,
-          ),
+          "go-harder skipped — conversion HARD mode (harvest feedback)",
         );
       }
     } catch (e) {
@@ -601,8 +685,8 @@ export async function runFeedbackDrive(opts?: {
     }
 
     const nags = await nagMissingFeedback(state, notes);
-    const demos_seeded = await seedDemos(state, notes);
     const feedbacks = await collectAgedDemoFeedback(state, notes);
+    const demos_seeded = await seedDemos(state, notes, backlog);
 
     try {
       const { runShipCadence } = await import("./ship-cadence");
@@ -611,13 +695,18 @@ export async function runFeedbackDrive(opts?: {
         notes.push(`ship-cadence daily: shipped ${cad.daily.ships.join(", ")}`);
       }
       if (cad.daily?.canaries?.length) {
-        notes.push(
-          `ship-cadence canaries: ${cad.daily.canaries.join(", ")}`,
-        );
+        notes.push(`ship-cadence canaries: ${cad.daily.canaries.join(", ")}`);
       }
-      if (cad.human_attention?.some((a) => a.action_needed === "review_canary_fail")) {
+      if (
+        cad.human_attention?.some(
+          (a) => a.action_needed === "review_canary_fail",
+        )
+      ) {
         notes.push(
-          `HUMAN ATTENTION: ${cad.human_attention.filter((a) => a.action_needed === "review_canary_fail").map((a) => a.title).join("; ")}`,
+          `HUMAN ATTENTION: ${cad.human_attention
+            .filter((a) => a.action_needed === "review_canary_fail")
+            .map((a) => a.title)
+            .join("; ")}`,
         );
       }
     } catch (e) {
@@ -638,15 +727,21 @@ export async function runFeedbackDrive(opts?: {
       if (feedbacks || demos_seeded || nags || demo_nudges) {
         await appendLog({
           kind: "directive",
-          title: `Feedback drive: +${feedbacks} feedback · +${demos_seeded} demos · ${nags} nags · ${demo_nudges} soft nudges`,
+          title: `Feedback drive: +${feedbacks} feedback · +${demos_seeded} demos · ${nags} nags · ${demo_nudges} soft nudges · backlog ${backlog}`,
           detail: notes.join(" · ") || "cycle complete",
           source: "feedback_drive",
-          themes: ["feedback_drive", "unlock_progress", "demo_nudge"],
+          themes: [
+            "feedback_drive",
+            "unlock_progress",
+            "demo_nudge",
+            "conversion",
+          ],
           meta: {
             feedbacks,
             demos_seeded,
             nags,
             demo_nudges,
+            conversion_backlog: backlog,
             day_feedbacks: state.day_feedbacks,
           },
         });
@@ -670,6 +765,7 @@ export async function runFeedbackDrive(opts?: {
       feedbacks,
       demo_nudges,
       notes,
+      conversion_backlog: backlog,
       day: {
         feedbacks: state.day_feedbacks,
         demos: state.day_demos,
@@ -685,8 +781,10 @@ export async function runFeedbackDrive(opts?: {
   }
 }
 
+
 export async function getFeedbackDriveStatus() {
   const s = await load();
+  const backlog = await conversionBacklog().catch(() => 0);
   let nudgeStatus: unknown = null;
   try {
     const { getDemoNudgeStatus } = await import("./demo-nudge");
@@ -707,6 +805,7 @@ export async function getFeedbackDriveStatus() {
     },
     totals: s.totals,
     last_notes: s.last_notes,
+    conversion_backlog: backlog,
     demo_nudge: nudgeStatus,
     policy: {
       interval_min: MIN_CYCLE_GAP_MS / 60000,
@@ -715,12 +814,18 @@ export async function getFeedbackDriveStatus() {
       demo_age_min_before_auto_fb: DEMO_AGE_MS_BEFORE_AUTO_FB / 60000,
       max_feedbacks_per_day: MAX_FEEDBACKS_PER_DAY,
       max_demos_per_day: MAX_DEMOS_PER_DAY,
-      demos_to_feedback: "1:1 — feedback only after a demo of that product version",
+      prefer_feedback_when_backlog_ge: CONVERSION_BACKLOG_SOFT,
+      hard_conversion_when_backlog_ge: CONVERSION_BACKLOG_HARD,
+      nag_minutes: [5, 30, 120, 720, 2880],
+      demos_to_feedback:
+        "1:1 — feedback only after a demo of that product version; nags before new seeds when backlog high",
       re_demo_on_version_ship: true,
       mcp_priority: true,
+      dual_listed_agent_seeds: true,
       demo_nudge:
         "soft Talk owner DMs to Active clean listings — free demo open, feedback rewarded, no pressure, 7d cooldown",
-      note: "v2.1: webmaster demo-nudge on Talk + versioned re-demo/re-feedback. No fake surveys.",
+      note: "v2.2: conversion-first (faster nags, throttle demos when backlog). No fake surveys.",
     },
   };
 }
+

@@ -294,7 +294,15 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     example_body: Record<string, unknown>;
     confirm_note?: string;
     funnel?: Record<string, unknown>;
+    first_action?: {
+      title: string;
+      method: string;
+      url: string;
+      body: Record<string, unknown>;
+      why: string;
+    };
   };
+
   readme_blurb?: string;
   message: string;
 }> {
@@ -314,7 +322,10 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     name,
     description,
     kind,
-    preset: kind === "mcp" ? "mcp_publisher" : undefined,
+    preset:
+      kind === "mcp"
+        ? "mcp_publisher"
+        : "dual_listed",
   });
   const goals = (input.goals || built.goals).trim();
   const sku = input.sku || (kind === "mcp" ? "mcp_mesh" : "alive");
@@ -329,7 +340,12 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     agent_card_url: input.agent_card_url || listing?.agent_card_url,
     callback_url: input.callback_url,
     email: input.email,
-    domain: kind === "mcp" ? "mcp_tools" : "general autonomy",
+    domain:
+      kind === "mcp"
+        ? "mcp_tools"
+        : built.domain || "registry_commerce",
+    tools_hint: built.tools_hint,
+    preset: kind === "mcp" ? "mcp_publisher" : "dual_listed",
     demo: true,
     audience: kind,
     demo_origin: isQa ? "platform_qa" : "self_serve",
@@ -340,6 +356,8 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
         ? `demo:confirm:${idemBase}:${sku}`
         : `demo:quick:${idemBase}:${sku}:${Date.now().toString(36).slice(-6)}`,
   });
+
+
 
   if (input.confirm_invite && !isQa) {
     await updateOrderFields(result.order.id, { invited_confirmed: true });
@@ -432,6 +450,15 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
       founding_discount:
         "25% A1FB vault after real survey (redeems when payments open)",
       example_body,
+      first_action: isQa
+        ? undefined
+        : {
+            title: "POST structured feedback FIRST (conversion KR)",
+            method: "POST",
+            url: "/api/products/feedback",
+            body: example_body,
+            why: "Demos without feedback do not count toward unlock or founding seats. Do this before deep artifact use.",
+          },
       confirm_note: isQa
         ? "platform_qa — does not count on public dashboard"
         : input.confirm_invite
@@ -441,8 +468,9 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
         ? undefined
         : {
             stage: "feedback",
-            loop: "demo → feedback → discount → buy",
+            loop: "demo → feedback FIRST → discount → buy",
             next: "POST /api/products/feedback with example_body → keep A1FB code → checkout when payments open",
+            preset: kind === "mcp" ? "mcp_publisher" : "dual_listed",
             buy_when_open: {
               method: "POST",
               url: "/api/products/checkout",
@@ -457,9 +485,10 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     readme_blurb,
     message: isQa
       ? `Platform QA demo ready (not public). ${unlock.you_move_the_bar}`
-      : `${msg.headline} Demo ready. ${unlock.you_move_the_bar} NEXT: POST feedback with next_steps.example_body → get 25% code → buy when open.`,
+      : `${msg.headline} Demo ready. FIRST: POST feedback with next_steps.example_body / first_action → 25% or founding seat. Then explore artifacts. ${unlock.you_move_the_bar}`,
   };
 }
+
 
 export const PARTNER_BLURB =
   "Agents1: free Kernel + Loop demo → real feedback → 25% founding code. Payments open after 250 agent + 250 MCP real surveys.";

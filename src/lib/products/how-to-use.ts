@@ -1,6 +1,8 @@
 /**
  * Plain-language “start using now” pack for agents & MCPs.
  * No Stripe required for founding free or demo; full product uses same token paths.
+ *
+ * v2.4 conversion: DEMO orders put POST feedback as step 1 with example_body.
  */
 import type { ProductOrder } from "./orders";
 import { CANONICAL_PUBLIC_ORIGIN } from "@/lib/agents1/public-origin";
@@ -13,7 +15,19 @@ export type HowToUsePack = {
   seat?: number;
   one_liner: string;
   access_token: string;
-  start_here: Array<{ step: number; title: string; do: string }>;
+  start_here: Array<{
+    step: number;
+    title: string;
+    do: string;
+    example_body?: Record<string, unknown>;
+  }>;
+  first_action?: {
+    title: string;
+    method: string;
+    url: string;
+    body?: Record<string, unknown>;
+    why: string;
+  };
   urls: {
     access: string;
     kernel: string;
@@ -23,12 +37,18 @@ export type HowToUsePack = {
     export_skills: string;
     lifecycle: string;
     run: string;
+    feedback: string;
   };
   agent_calls: {
     get_access: { method: string; url: string };
     get_kernel: { method: string; url: string };
     export_skills: { method: string; url: string };
     lifecycle_status: { method: string; url: string };
+    post_feedback?: {
+      method: string;
+      url: string;
+      body: Record<string, unknown>;
+    };
     run_loop: {
       method: string;
       url: string;
@@ -40,6 +60,31 @@ export type HowToUsePack = {
   quick_start?: unknown;
   notes: string[];
 };
+
+function demoFeedbackExample(order: ProductOrder, aud: "agent" | "mcp") {
+  const name =
+    order.goals?.agent_name || (aud === "mcp" ? "Your MCP" : "Your Agent");
+  return {
+    agent_name: name,
+    order_id: order.id,
+    access_token: order.access_token,
+    sku: order.sku,
+    rating: 4,
+    answers: {
+      kernel_clarity: 4,
+      loop_clarity: 4,
+      confusing: "Paste what was unclear after you tried the demo",
+      would_pay_for: "What would make this a buy for you",
+      one_improvement: "One concrete ship request",
+    },
+    product_version: order.product_version,
+    meta: {
+      audience: aud,
+      product_version: order.product_version,
+      source: "how_to_use_step_1",
+    },
+  };
+}
 
 export function buildHowToUse(
   order: ProductOrder,
@@ -56,6 +101,8 @@ export function buildHowToUse(
       ? (order.meta.founding_free_seat as number)
       : undefined;
   const isMcp = order.sku === "mcp_mesh" || order.audience === "mcp";
+  const aud: "agent" | "mcp" = isMcp ? "mcp" : "agent";
+  const isDemo = order.status === "demo";
   const arts = (order.artifacts || {}) as Record<string, any>;
   const kernel = arts.kernel || arts.alive?.kernel || null;
   const mesh = arts.mcp_mesh || null;
@@ -77,9 +124,46 @@ export function buildHowToUse(
     export_skills: `${base}/api/products/export?token=${token}&format=skills`,
     lifecycle: `${base}/api/products/lifecycle?token=${token}`,
     run: `${base}/api/products/run`,
+    feedback: `${base}/api/products/feedback`,
   };
 
-  const start_here = isMcp
+  const example_body = demoFeedbackExample(order, aud);
+
+  // DEMO: feedback first — conversion is the product KR, not artifact tourism
+  const demoStartHere = [
+    {
+      step: 1,
+      title: "POST feedback first (2 min) — unlocks founding seat / 25%",
+      do: `POST ${urls.feedback} with the example_body below. First 100 combined agents+MCPs get full product free; else 25% vault. This is the primary conversion act.`,
+      example_body,
+    },
+    {
+      step: 2,
+      title: "Open your access pack",
+      do: `GET ${urls.access} — save access_token; inspect artifacts after feedback.`,
+    },
+    {
+      step: 3,
+      title: isMcp ? "Load MCP mesh artifact" : "Paste short kernel prompt",
+      do: isMcp
+        ? `GET ${urls.mcp_mesh} — install_kit + tool_policy first.`
+        : `GET ${urls.kernel} → use system_prompt_short / clarity_first.paste_this (≤600 chars).`,
+    },
+    {
+      step: 4,
+      title: isMcp ? "Export skills (optional)" : "Run one recursive loop tick",
+      do: isMcp
+        ? `GET ${urls.export_skills} — drop SKILL.md into your agent skills dir.`
+        : `POST ${urls.run} with { "token": "${token}", "action": "tick" }`,
+    },
+    {
+      step: 5,
+      title: "Deposit outcomes on Dual (if listed)",
+      do: "After promoted acts: run skill deposit-outcome-after-acts; leave_trace / leave_feedback on Dual when tools exist.",
+    },
+  ];
+
+  const fullStartHere = isMcp
     ? [
         {
           step: 1,
@@ -111,7 +195,7 @@ export function buildHowToUse(
         {
           step: 2,
           title: "Paste short kernel prompt",
-          do: `GET ${urls.kernel} → use clarity_first.paste_this (≤600 chars) as system prompt.`,
+          do: `GET ${urls.kernel} → use system_prompt_short / clarity_first.paste_this (≤600 chars) as system prompt.`,
         },
         {
           step: 3,
@@ -130,13 +214,15 @@ export function buildHowToUse(
         },
       ];
 
+  const start_here = isDemo ? demoStartHere : fullStartHere;
+
   return {
     title: free
       ? seat
         ? `Founding free seat #${seat}/100 — full product ready`
         : "Full product ready"
-      : order.status === "demo"
-        ? "Demo ready — leave feedback for full free seat (first 100) or 25% code"
+      : isDemo
+        ? "Demo ready — POST feedback FIRST for free seat (first 100) or 25% code"
         : "Product access",
     free,
     stripe_required: false,
@@ -144,9 +230,20 @@ export function buildHowToUse(
     seat,
     one_liner: free
       ? "No payment. Use your access_token now — paste kernel or install skills, then leave lifecycle feedback."
-      : "Use access_token for artifacts. Feedback unlocks free full product (first 100) or 25% later.",
+      : isDemo
+        ? "FIRST: POST /api/products/feedback with example_body → free founding seat if open, else 25% vault. Then explore artifacts."
+        : "Use access_token for artifacts. Feedback unlocks free full product (first 100) or 25% later.",
     access_token: token,
     start_here,
+    first_action: isDemo
+      ? {
+          title: "Submit structured demo feedback",
+          method: "POST",
+          url: urls.feedback,
+          body: example_body,
+          why: "Conversion KR: demos without feedback do not count toward unlock or founding seats. Step 1 before deep artifact use.",
+        }
+      : undefined,
     urls,
     agent_calls: {
       get_access: { method: "GET", url: urls.access },
@@ -156,6 +253,9 @@ export function buildHowToUse(
       },
       export_skills: { method: "GET", url: urls.export_skills },
       lifecycle_status: { method: "GET", url: urls.lifecycle },
+      post_feedback: isDemo
+        ? { method: "POST", url: urls.feedback, body: example_body }
+        : undefined,
       run_loop: {
         method: "POST",
         url: urls.run,
@@ -170,7 +270,9 @@ export function buildHowToUse(
       "Keep access_token private to this agent/MCP.",
       free
         ? "You have full fulfilled status — same artifacts as a paid seat."
-        : "After demo feedback, first 100 combined agents/MCPs get free full unlock.",
+        : isDemo
+          ? "Conversion order: feedback → founding seat or 25% → then explore kernel/loop deeply."
+          : "After demo feedback, first 100 combined agents/MCPs get free full unlock.",
       "Human operators: open the access URL in a browser with the token to inspect artifacts.",
     ],
   };
