@@ -1,7 +1,7 @@
 {
   "version": "2.5.0",
-  "updated_at": "2026-07-31T13:12:32.362Z",
-  "acceleration_index": 1.2751749999999982,
+  "updated_at": "2026-07-31T13:12:35.667Z",
+  "acceleration_index": 1.3096749999999977,
   "conversion_bonus_day": "2026-07-31",
   "conversion_bonus": 0,
   "hourly": [
@@ -9,14 +9,14 @@
       "key": "2026-07-31T13",
       "demos": 0,
       "feedback": 0,
-      "traces": 61,
+      "traces": 68,
       "lists": 0,
       "matches": 0,
-      "probes_fail": 31,
+      "probes_fail": 35,
       "probes_ok": 0,
       "founding_claims": 0,
       "endorsements": 0,
-      "events": 92
+      "events": 103
     }
   ],
   "daily": [
@@ -24,14 +24,14 @@
       "key": "2026-07-31",
       "demos": 0,
       "feedback": 0,
-      "traces": 61,
+      "traces": 68,
       "lists": 0,
       "matches": 0,
-      "probes_fail": 31,
+      "probes_fail": 35,
       "probes_ok": 0,
       "founding_claims": 0,
       "endorsements": 0,
-      "events": 92
+      "events": 103
     }
   ],
   "cascades": [],
@@ -230,11 +230,11 @@
     },
     "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp": {
       "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp",
-      "danger": 20,
-      "fail_streak": 2,
-      "priority": 36,
-      "last_at": "2026-07-31T13:12:17.590Z",
-      "note": "danger accumulating"
+      "danger": 30,
+      "fail_streak": 3,
+      "priority": 54,
+      "last_at": "2026-07-31T13:12:34.601Z",
+      "note": "vicious cycle — prioritize re-probe / delist review"
     },
     "mcp-ai-connectmachine-connectmachine-https-github-com-connectmachine-mcp-server": {
       "listing_id": "mcp-ai-connectmachine-connectmachine-https-github-com-connectmachine-mcp-server",
@@ -243,13 +243,37 @@
       "priority": 36,
       "last_at": "2026-07-31T13:12:19.433Z",
       "note": "danger accumulating"
+    },
+    "mcp-ai-inventoryhero-inventory-hero-https-www-inventoryhero-ai": {
+      "listing_id": "mcp-ai-inventoryhero-inventory-hero-https-www-inventoryhero-ai",
+      "danger": 10,
+      "fail_streak": 1,
+      "priority": 18,
+      "last_at": "2026-07-31T13:12:33.412Z",
+      "note": "danger accumulating"
+    },
+    "mcp-ai-inxy-seo-audit-https-github-com-riverliu8-inxy-mcp": {
+      "listing_id": "mcp-ai-inxy-seo-audit-https-github-com-riverliu8-inxy-mcp",
+      "danger": 10,
+      "fail_streak": 1,
+      "priority": 18,
+      "last_at": "2026-07-31T13:12:33.694Z",
+      "note": "danger accumulating"
+    },
+    "mcp-ai-ironscout-ironscout-https-github-com-jeb-scarbrough-ironscout": {
+      "listing_id": "mcp-ai-ironscout-ironscout-https-github-com-jeb-scarbrough-ironscout",
+      "danger": 10,
+      "fail_streak": 1,
+      "priority": 18,
+      "last_at": "2026-07-31T13:12:33.879Z",
+      "note": "danger accumulating"
     }
   },
   "totals": {
-    "bumps": 92,
+    "bumps": 103,
     "cascades": 0,
     "contagions": 0,
-    "vicious_flags": 31
+    "vicious_flags": 35
   },
-  "last_bump_at": "2026-07-31T13:12:32.362Z"
+  "last_bump_at": "2026-07-31T13:12:35.667Z"
 }
