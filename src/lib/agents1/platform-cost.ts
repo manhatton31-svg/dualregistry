@@ -275,6 +275,31 @@ function recomputeDayUsd(day: DayBucket): CostBreakdown {
 
 async function fetchRemoteCost(): Promise<PlatformCostState | null> {
   try {
+    const token =
+      process.env.DURABLE_GITHUB_TOKEN ||
+      process.env.GITHUB_TOKEN ||
+      process.env.GH_TOKEN;
+    if (token) {
+      const api = `https://api.github.com/repos/manhatton31-svg/dualregistry/contents/data/prod/${DURABLE_NAME}?ref=main&t=${Date.now()}`;
+      const res = await fetch(api, {
+        headers: {
+          accept: "application/vnd.github+json",
+          authorization: `Bearer ${token}`,
+          "user-agent": "DualRegistryCost/1.0",
+        },
+        cache: "no-store",
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (res.ok) {
+        const j = (await res.json()) as { content?: string };
+        if (j.content) {
+          const text = Buffer.from(j.content.replace(/\n/g, ""), "base64").toString(
+            "utf8",
+          );
+          return JSON.parse(text) as PlatformCostState;
+        }
+      }
+    }
     const url = durableRemoteRawUrl(DURABLE_NAME) + `?t=${Date.now()}`;
     const res = await fetch(url, {
       headers: {
@@ -293,6 +318,7 @@ async function fetchRemoteCost(): Promise<PlatformCostState | null> {
     return null;
   }
 }
+
 
 export async function loadPlatformCost(): Promise<PlatformCostState> {
   let local: PlatformCostState | null = null;

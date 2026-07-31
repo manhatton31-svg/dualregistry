@@ -132,6 +132,33 @@ let chain: Promise<void> = Promise.resolve();
 
 async function fetchRemoteRuns(): Promise<AgentRunsState | null> {
   try {
+    const token =
+      process.env.DURABLE_GITHUB_TOKEN ||
+      process.env.GITHUB_TOKEN ||
+      process.env.GH_TOKEN;
+    if (token) {
+      const api = `https://api.github.com/repos/manhatton31-svg/dualregistry/contents/data/prod/${DURABLE_NAME}?ref=main&t=${Date.now()}`;
+      const res = await fetch(api, {
+        headers: {
+          accept: "application/vnd.github+json",
+          authorization: `Bearer ${token}`,
+          "user-agent": "DualRegistryRuns/1.0",
+        },
+        cache: "no-store",
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (res.ok) {
+        const j = (await res.json()) as { content?: string };
+        if (j.content) {
+          const text = Buffer.from(j.content.replace(/\n/g, ""), "base64").toString(
+            "utf8",
+          );
+          const parsed = JSON.parse(text) as AgentRunsState;
+          if (parsed && Array.isArray(parsed.runs)) return parsed;
+        }
+      }
+      if (res.status === 404) return null;
+    }
     const url = durableRemoteRawUrl(DURABLE_NAME) + `?t=${Date.now()}`;
     const res = await fetch(url, {
       headers: {
@@ -153,6 +180,7 @@ async function fetchRemoteRuns(): Promise<AgentRunsState | null> {
     return null;
   }
 }
+
 
 export async function loadAgentRuns(): Promise<AgentRunsState> {
   let local: AgentRunsState | null = null;

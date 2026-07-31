@@ -137,7 +137,48 @@ async function writeLocal(name: string, raw: string): Promise<void> {
 }
 
 async function hydrateRemote(name: string): Promise<string | null> {
-  const url = durableRemoteRawUrl(name);
+  // Prefer GitHub Contents API (auth, no CDN lag) over raw.githubusercontent.com
+  const token =
+    process.env.DURABLE_GITHUB_TOKEN ||
+    process.env.GITHUB_TOKEN ||
+    process.env.GH_TOKEN;
+  if (token) {
+    try {
+      const api = `https://api.github.com/repos/${DEFAULT_REPO}/contents/${durableGithubPath(name)}?ref=${DEFAULT_BRANCH}&t=${Date.now()}`;
+      const res = await fetch(api, {
+        headers: {
+          accept: "application/vnd.github+json",
+          authorization: `Bearer ${token}`,
+          "user-agent": "DualRegistryDurable/1.0",
+          "x-github-api-version": "2022-11-28",
+        },
+        cache: "no-store",
+        signal: AbortSignal.timeout(12_000),
+      });
+      if (res.ok) {
+        const j = (await res.json()) as { content?: string; encoding?: string };
+        if (j.content) {
+          const text = Buffer.from(
+            j.content.replace(/\n/g, ""),
+            "base64",
+          ).toString("utf8");
+          if (text.trim() && !text.trim().startsWith("<!")) {
+            try {
+              JSON.parse(text);
+              await writeLocal(name, text);
+              return text;
+            } catch {
+              /* fall through */
+            }
+          }
+        }
+      }
+    } catch {
+      /* fall through to raw */
+    }
+  }
+
+  const url = durableRemoteRawUrl(name) + `?t=${Date.now()}`;
   try {
     const res = await fetch(url, {
       headers: {
@@ -151,7 +192,6 @@ async function hydrateRemote(name: string): Promise<string | null> {
     if (!res.ok) return null;
     const text = await res.text();
     if (!text.trim() || text.trim().startsWith("<!")) return null;
-    // validate JSON — never persist PLACEHOLDER / corrupt blobs
     try {
       JSON.parse(text);
     } catch {
@@ -163,6 +203,7 @@ async function hydrateRemote(name: string): Promise<string | null> {
     return null;
   }
 }
+
 
 /**
  * Prefer remote when local is missing, empty, or smaller than remote high-water.

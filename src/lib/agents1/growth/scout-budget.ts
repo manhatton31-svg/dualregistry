@@ -337,6 +337,31 @@ let mem: ScoutBudgetState | null = null;
 
 async function fetchRemoteScout(): Promise<ScoutBudgetState | null> {
   try {
+    const token =
+      process.env.DURABLE_GITHUB_TOKEN ||
+      process.env.GITHUB_TOKEN ||
+      process.env.GH_TOKEN;
+    if (token) {
+      const api = `https://api.github.com/repos/manhatton31-svg/dualregistry/contents/data/prod/${DURABLE}?ref=main&t=${Date.now()}`;
+      const res = await fetch(api, {
+        headers: {
+          accept: "application/vnd.github+json",
+          authorization: `Bearer ${token}`,
+          "user-agent": "DualRegistryScout/1.0",
+        },
+        cache: "no-store",
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (res.ok) {
+        const j = (await res.json()) as { content?: string };
+        if (j.content) {
+          const text = Buffer.from(j.content.replace(/\n/g, ""), "base64").toString(
+            "utf8",
+          );
+          return JSON.parse(text) as ScoutBudgetState;
+        }
+      }
+    }
     const url = durableRemoteRawUrl(DURABLE) + `?t=${Date.now()}`;
     const res = await fetch(url, {
       headers: {
@@ -355,6 +380,7 @@ async function fetchRemoteScout(): Promise<ScoutBudgetState | null> {
     return null;
   }
 }
+
 
 export async function loadScoutBudget(): Promise<ScoutBudgetState> {
   let local: ScoutBudgetState | null = null;
