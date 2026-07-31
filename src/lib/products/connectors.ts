@@ -121,6 +121,73 @@ export const CONNECTOR_SEED: ConnectorPartner[] = [
   },
 ];
 
+/** HiRey-referred demo subjects (2026-07-31). Warm path only. */
+export type DemoSubject = {
+  id: string;
+  name: string;
+  org?: string;
+  role: string;
+  fit: "demo_operator" | "connector_meta" | "investor_signal";
+  contact_path: "warm_connector_intro" | "direct" | "via_hirey";
+  priority: 1 | 2 | 3;
+  hirey_note: string;
+  ask: string;
+  product_focus: Array<"kernel" | "recursive" | "mcp_mesh" | "alive" | "network">;
+};
+
+export const HIREY_DEMO_SUBJECTS: DemoSubject[] = [
+  {
+    id: "mohan_sf",
+    name: "Mohan (SF)",
+    role: "AI researcher building agent-native search infrastructure",
+    fit: "demo_operator",
+    contact_path: "warm_connector_intro",
+    priority: 1,
+    hirey_note:
+      "Closest fit to Dual ask. Reachable via warm intro from a Connector, not direct.",
+    ask: "Try products path (~5 min browser) and say where agent-native search would plug in.",
+    product_focus: ["kernel", "recursive", "network"],
+  },
+  {
+    id: "heroza_zhang",
+    name: "Heroza Zhang",
+    org: "GoRest",
+    role: "Co-founder, AI multi-agent platform",
+    fit: "demo_operator",
+    contact_path: "direct",
+    priority: 1,
+    hirey_note: "Direct contact available on HiRey.",
+    ask: "Try free products demo as multi-agent operator; honest friction on Mesh/Network tools.",
+    product_focus: ["mcp_mesh", "alive", "network", "kernel"],
+  },
+  {
+    id: "lawrence_lou",
+    name: "Lawrence Lou",
+    role: "Venture partner — AI agents + recruiting tech; HiRey Connector",
+    fit: "connector_meta",
+    contact_path: "direct",
+    priority: 2,
+    hirey_note:
+      "Connector on HiRey. Ask who should try Dual, not to take the demo himself.",
+    ask: "Warm intros to 1–2 operators who run agents/MCPs and can open a browser.",
+    product_focus: ["network"],
+  },
+  {
+    id: "kevin_yu",
+    name: "Kevin Yu",
+    org: "Llama Ventures",
+    role: "Invests in agent-native networks",
+    fit: "investor_signal",
+    contact_path: "direct",
+    priority: 3,
+    hirey_note:
+      "Investor lens, not operator demo. Useful signal, different ask.",
+    ask: "10-min view on registry + founding path; not a product survey.",
+    product_focus: ["network"],
+  },
+];
+
+
 /** Score a listing for connector potential (name/description only). */
 export function scoreConnectorCandidate(listing: {
   id?: string;
@@ -203,6 +270,7 @@ export function connectorsPublic(origin?: string) {
       "Compact feedback after real use: tried / stuck / ship-next",
     ],
     partners: CONNECTOR_SEED,
+    hirey_demo_subjects: HIREY_DEMO_SUBJECTS,
     handoff_kit: {
       products: `${o}/products`,
       for_agents: `${o}/for-agents`,
