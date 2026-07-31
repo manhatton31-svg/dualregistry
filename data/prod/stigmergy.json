@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:16:52.860Z",
+  "updated_at": "2026-07-31T13:16:55.249Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -55,11 +55,11 @@
     },
     "agtpub_4c34b0bf38d34d7e64ee": {
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
-      "attraction": 96.5,
+      "attraction": 97.25,
       "danger": 0,
       "demand": 27,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:47.781Z",
+      "last_reinforced_at": "2026-07-31T13:16:53.386Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -72,11 +72,11 @@
     },
     "agent-sunny-yuen-https-agent-yuens-me": {
       "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
-      "attraction": 106.25,
+      "attraction": 107,
       "danger": 0,
       "demand": 27,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:51.506Z",
+      "last_reinforced_at": "2026-07-31T13:16:55.248Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -1248,6 +1248,34 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yvd5d_ubmfbr",
+      "kind": "mark",
+      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:16:55.248Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yvbpm_5ejr3b",
+      "kind": "mark",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:16:53.386Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yvbb0_o50um5",
       "kind": "mark",
@@ -13531,6 +13559,24 @@
   "feed_events": [
     {
       "type": "leave_trace",
+      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:16:55.248Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:16:53.386Z"
+    },
+    {
+      "type": "leave_trace",
       "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
       "kind": "mark",
       "amount": 1.5,
@@ -15229,29 +15275,11 @@
       "from": "flywheel_sense",
       "body": "sense residue",
       "at": "2026-07-31T13:14:25.877Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:14:23.967Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:14:23.816Z"
     }
   ],
   "totals": {
     "auto_deposits": 50,
-    "agent_deposits": 873,
+    "agent_deposits": 875,
     "senses": 270,
     "follows": 109,
     "evaporations": 0
