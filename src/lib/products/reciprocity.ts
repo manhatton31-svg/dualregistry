@@ -82,7 +82,7 @@ async function fetchCardText(url: string): Promise<string> {
     const res = await fetch(url, {
       headers: {
         accept: "application/json,text/plain,*/*",
-        "user-agent": "DualRegistryReciprocity/2.3 (+https://dualregistry.dev)",
+        "user-agent": "DualRegistryReciprocity/2.6 (+https://dualregistry.dev)",
       },
       signal: AbortSignal.timeout(4000),
       redirect: "follow",
@@ -173,6 +173,21 @@ export async function evaluateReciprocity(opts: {
     await persist(s);
   } else {
     mem = s;
+  }
+
+  // Interop proof: linking Dual boosts stigmergy trails
+  if (row.links_dual) {
+    try {
+      const { reciprocityInteropProof } = await import("./interop");
+      await reciprocityInteropProof({
+        listing_id: row.listing_id,
+        links_dual: true,
+        score: row.score,
+        clean: row.clean,
+      });
+    } catch {
+      /* */
+    }
   }
 
   return row;
@@ -276,7 +291,7 @@ export async function getReciprocityPublic() {
   const s = await load();
   return {
     ok: true,
-    version: "2.3.0",
+    version: "2.6.0",
     totals: s.totals,
     updated_at: s.updated_at,
     top: Object.values(s.by_listing)
@@ -302,4 +317,14 @@ export async function reciprocityBoost(listingId: string): Promise<number> {
   if (row.links_dual) return 40;
   if (row.clean) return 15;
   return 0;
+}
+
+/** Map listing_id → reciprocity score for interop graph / ranking. */
+export async function getReciprocityScores(): Promise<Record<string, number>> {
+  const s = await load();
+  const out: Record<string, number> = {};
+  for (const [id, row] of Object.entries(s.by_listing || {})) {
+    if (row?.score) out[id] = row.score;
+  }
+  return out;
 }

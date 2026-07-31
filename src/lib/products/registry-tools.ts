@@ -310,6 +310,74 @@ export function listRegistryTools(origin?: string): ToolDef[] {
         required: ["listing_id", "listing_b"],
       },
     },
+    {
+      name: "get_acceleration",
+      description:
+        "Autocatalysis S-curve meter — acceleration_index + multipliers that raise rates of match, conversion, outbound.",
+      inputSchema: {
+        type: "object",
+        properties: {},
+      },
+    },
+    {
+      name: "interop_resolve",
+      description:
+        "Cross-protocol resolve: find capability nodes and how to invoke via MCP / A2A / ARD / HTTP.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          q: { type: "string", description: "Capability query" },
+          listing_id: { type: "string" },
+          tool: { type: "string" },
+          skill: { type: "string" },
+          prefer: {
+            type: "string",
+            enum: ["mcp", "a2a", "ard", "http", "dns"],
+            default: "mcp",
+          },
+          limit: { type: "number", default: 8 },
+        },
+      },
+    },
+    {
+      name: "compose_peers",
+      description:
+        "Composition interop — co-use peers + protocol endpoints for agents/MCPs that work together.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          limit: { type: "number", default: 10 },
+        },
+      },
+    },
+    {
+      name: "interop_session",
+      description:
+        "Open or append a cross-protocol session (match → demo → feedback survives MCP or A2A entry).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          action: {
+            type: "string",
+            enum: ["open", "append", "get"],
+            default: "open",
+          },
+          session_id: { type: "string" },
+          entry_protocol: {
+            type: "string",
+            enum: ["mcp", "a2a", "ard", "http", "dns"],
+          },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          match_q: { type: "string" },
+          step_action: { type: "string" },
+          detail: { type: "string" },
+          demo_order_id: { type: "string" },
+          feedback_id: { type: "string" },
+        },
+      },
+    },
   ];
 }
 
@@ -784,6 +852,109 @@ async function toolUsedWith(
   return textResult("used_with", r, r.ok, r.error);
 }
 
+
+async function toolGetAcceleration(
+  _args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { getAutocatalysisPublic } = await import("./autocatalysis");
+  const r = await getAutocatalysisPublic({ origin });
+  return textResult("get_acceleration", r);
+}
+
+async function toolInteropResolve(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { interopResolve } = await import("./interop");
+  const r = await interopResolve({
+    origin,
+    q: typeof args.q === "string" ? args.q : undefined,
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    tool: typeof args.tool === "string" ? args.tool : undefined,
+    skill: typeof args.skill === "string" ? args.skill : undefined,
+    prefer: (args.prefer as "mcp" | "a2a" | "ard" | "http" | "dns") || "mcp",
+    limit: Number(args.limit) || 8,
+  });
+  return textResult("interop_resolve", r);
+}
+
+async function toolComposePeers(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { composePeers } = await import("./interop");
+  const r = await composePeers({
+    origin,
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    limit: Number(args.limit) || 10,
+  });
+  return textResult("compose_peers", r);
+}
+
+async function toolInteropSession(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const {
+    openInteropSession,
+    appendInteropSession,
+    getInteropSession,
+  } = await import("./interop");
+  const action = String(args.action || "open").toLowerCase();
+  if (action === "get") {
+    const id = String(args.session_id || "").trim();
+    if (!id) {
+      return textResult(
+        "interop_session",
+        { ok: false, error: "session_id required" },
+        false,
+        "session_id required",
+      );
+    }
+    const sess = await getInteropSession(id);
+    return textResult(
+      "interop_session",
+      sess || { ok: false, error: "not found" },
+      Boolean(sess),
+      sess ? undefined : "not found",
+    );
+  }
+  if (action === "append") {
+    const id = String(args.session_id || "").trim();
+    if (!id) {
+      return textResult(
+        "interop_session",
+        { ok: false, error: "session_id required" },
+        false,
+        "session_id required",
+      );
+    }
+    const sess = await appendInteropSession(id, {
+      action: String(args.step_action || "step"),
+      protocol: args.entry_protocol as "mcp" | "a2a" | "ard" | "http" | "dns" | undefined,
+      detail: typeof args.detail === "string" ? args.detail : undefined,
+      demo_order_id:
+        typeof args.demo_order_id === "string" ? args.demo_order_id : undefined,
+      feedback_id:
+        typeof args.feedback_id === "string" ? args.feedback_id : undefined,
+    });
+    return textResult(
+      "interop_session",
+      sess || { ok: false, error: "session not found or closed" },
+      Boolean(sess),
+    );
+  }
+  const sess = await openInteropSession({
+    entry_protocol:
+      (args.entry_protocol as "mcp" | "a2a" | "ard" | "http" | "dns") || "mcp",
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    agent_name: typeof args.agent_name === "string" ? args.agent_name : undefined,
+    match_q: typeof args.match_q === "string" ? args.match_q : undefined,
+  });
+  return textResult("interop_session", { ok: true, session: sess });
+}
+
 const HANDLERS: Record<
   string,
   (args: ToolArg, origin: string) => Promise<ToolResult>
@@ -806,6 +977,10 @@ const HANDLERS: Record<
   follow_trail: toolFollowTrail,
   endorse: toolEndorse,
   used_with: toolUsedWith,
+  get_acceleration: toolGetAcceleration,
+  interop_resolve: toolInteropResolve,
+  compose_peers: toolComposePeers,
+  interop_session: toolInteropSession,
 };
 
 export function isRegistryTool(name: string): boolean {
@@ -876,7 +1051,7 @@ export async function handleMcpJsonRpc(
         title: "Dual Registry",
       },
       instructions:
-        "Dual Registry tools: list_yourself → check_status → take_demo → leave_feedback for founding free seats. search_active / match_capability / ard_search for discovery. Stigmergy: leave_trace / sense_traces / follow_trail / endorse / used_with — coordinate via Dual as shared medium.",
+        "Dual Registry tools: list_yourself → check_status → take_demo → leave_feedback for founding free seats. search_active / match_capability / ard_search for discovery. Stigmergy + autocatalysis + interop: leave_trace / get_acceleration / interop_resolve / compose_peers / interop_session.",
     });
   }
 
@@ -951,6 +1126,6 @@ export function mcpToolCatalogPublic(origin: string) {
     methods: ["initialize", "tools/list", "tools/call", "ping"],
     tools: listRegistryTools(o).map((t) => t.name),
     stigmergy: STIGMERGY_VERSION,
-    note: "POST JSON-RPC to /api/protocol. Dual is invocable + stigmergic medium.",
+    note: "POST JSON-RPC to /api/protocol. Dual is invocable + stigmergic + autocatalytic + interoperable fabric.",
   };
 }

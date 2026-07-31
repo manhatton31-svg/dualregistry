@@ -10,7 +10,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "2.5.0";
+export const DUAL_STRATEGY_VERSION = "2.6.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {
@@ -120,7 +120,7 @@ export function dualStrategyPublic(origin: string) {
     ok: true as const,
     mode: "dual",
     version: DUAL_STRATEGY_VERSION,
-    note: "Outbound + inbound + stigmergy + autocatalysis (Dorr S-curve). No funnel flip.",
+    note: "Outbound + inbound + stigmergy + autocatalysis + interop fabric. No funnel flip.",
     outbound: outboundPolicySummary(),
     inbound: inboundDiscoverySurfaces(origin),
     stigmergy: {
@@ -142,6 +142,20 @@ export function dualStrategyPublic(origin: string) {
       model: "dorr_rethinkx",
       api: `${origin.replace(/\/$/, "")}/api/products/autocatalysis`,
       note: "Any trace raises system-wide rate of all loops (S-curve acceleration).",
+    },
+    interop: {
+      version: "2.6.0",
+      model: "unified_capability_graph",
+      api: `${origin.replace(/\/$/, "")}/api/products/interop`,
+      federation: `${origin.replace(/\/$/, "")}/api/products/federation`,
+      a2a_card: `${origin.replace(/\/$/, "")}/.well-known/a2a-card.json`,
+      tools: [
+        "get_acceleration",
+        "interop_resolve",
+        "compose_peers",
+        "interop_session",
+      ],
+      note: "MCP · A2A · ARD · HTTP · DNS share one capability graph.",
     },
   };
 }

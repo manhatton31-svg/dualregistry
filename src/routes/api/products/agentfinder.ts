@@ -14,7 +14,7 @@ export const Route = createFileRoute("/api/products/agentfinder")({
         return Response.json(
           {
             ok: true,
-            version: "2.4.0",
+            version: "2.6.0",
             stigmergy: true,
             dual_as_tool: true,
             title: "Dual Registry × GitHub Agent Finder",

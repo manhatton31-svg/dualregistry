@@ -22,6 +22,7 @@ import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkillDotjsonRouteImport } from './routes/skill[.]json'
 import { Route as TalkRouteImport } from './routes/talk'
+import { Route as DotwellKnownA2aCardDotjsonRouteImport } from './routes/[.]well-known/a2a-card[.]json'
 import { Route as DotwellKnownAgentCardDotjsonRouteImport } from './routes/[.]well-known/agent-card[.]json'
 import { Route as DotwellKnownAgentDescriptionsRouteImport } from './routes/[.]well-known/agent-descriptions'
 import { Route as DotwellKnownAgentDotjsonRouteImport } from './routes/[.]well-known/agent[.]json'
@@ -82,10 +83,12 @@ import { Route as ApiProductsDemoConfirmRouteImport } from './routes/api/product
 import { Route as ApiProductsDemoNudgeRouteImport } from './routes/api/products/demo-nudge'
 import { Route as ApiProductsDualStrategyRouteImport } from './routes/api/products/dual-strategy'
 import { Route as ApiProductsExportRouteImport } from './routes/api/products/export'
+import { Route as ApiProductsFederationRouteImport } from './routes/api/products/federation'
 import { Route as ApiProductsFeedbackRouteImport } from './routes/api/products/feedback'
 import { Route as ApiProductsFeedbackDriveRouteImport } from './routes/api/products/feedback-drive'
 import { Route as ApiProductsGoHarderRouteImport } from './routes/api/products/go-harder'
 import { Route as ApiProductsImprovementLogRouteImport } from './routes/api/products/improvement-log'
+import { Route as ApiProductsInteropRouteImport } from './routes/api/products/interop'
 import { Route as ApiProductsLearningRouteImport } from './routes/api/products/learning'
 import { Route as ApiProductsLifecycleRouteImport } from './routes/api/products/lifecycle'
 import { Route as ApiProductsMailRouteImport } from './routes/api/products/mail'
@@ -168,6 +171,12 @@ const TalkRoute = TalkRouteImport.update({
   path: '/talk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DotwellKnownA2aCardDotjsonRoute =
+  DotwellKnownA2aCardDotjsonRouteImport.update({
+    id: '/.well-known/a2a-card.json',
+    path: '/.well-known/a2a-card.json',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DotwellKnownAgentCardDotjsonRoute =
   DotwellKnownAgentCardDotjsonRouteImport.update({
     id: '/.well-known/agent-card.json',
@@ -482,6 +491,11 @@ const ApiProductsExportRoute = ApiProductsExportRouteImport.update({
   path: '/api/products/export',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsFederationRoute = ApiProductsFederationRouteImport.update({
+  id: '/api/products/federation',
+  path: '/api/products/federation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsFeedbackRoute = ApiProductsFeedbackRouteImport.update({
   id: '/api/products/feedback',
   path: '/api/products/feedback',
@@ -504,6 +518,11 @@ const ApiProductsImprovementLogRoute =
     path: '/api/products/improvement-log',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiProductsInteropRoute = ApiProductsInteropRouteImport.update({
+  id: '/api/products/interop',
+  path: '/api/products/interop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsLearningRoute = ApiProductsLearningRouteImport.update({
   id: '/api/products/learning',
   path: '/api/products/learning',
@@ -599,6 +618,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
   '/talk': typeof TalkRoute
+  '/.well-known/a2a-card.json': typeof DotwellKnownA2aCardDotjsonRoute
   '/.well-known/agent-card.json': typeof DotwellKnownAgentCardDotjsonRoute
   '/.well-known/agent-descriptions': typeof DotwellKnownAgentDescriptionsRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
@@ -657,10 +677,12 @@ export interface FileRoutesByFullPath {
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
   '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
   '/api/products/export': typeof ApiProductsExportRoute
+  '/api/products/federation': typeof ApiProductsFederationRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
   '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
+  '/api/products/interop': typeof ApiProductsInteropRoute
   '/api/products/learning': typeof ApiProductsLearningRoute
   '/api/products/lifecycle': typeof ApiProductsLifecycleRoute
   '/api/products/mail': typeof ApiProductsMailRoute
@@ -694,6 +716,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
   '/talk': typeof TalkRoute
+  '/.well-known/a2a-card.json': typeof DotwellKnownA2aCardDotjsonRoute
   '/.well-known/agent-card.json': typeof DotwellKnownAgentCardDotjsonRoute
   '/.well-known/agent-descriptions': typeof DotwellKnownAgentDescriptionsRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
@@ -752,10 +775,12 @@ export interface FileRoutesByTo {
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
   '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
   '/api/products/export': typeof ApiProductsExportRoute
+  '/api/products/federation': typeof ApiProductsFederationRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
   '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
+  '/api/products/interop': typeof ApiProductsInteropRoute
   '/api/products/learning': typeof ApiProductsLearningRoute
   '/api/products/lifecycle': typeof ApiProductsLifecycleRoute
   '/api/products/mail': typeof ApiProductsMailRoute
@@ -790,6 +815,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
   '/talk': typeof TalkRoute
+  '/.well-known/a2a-card.json': typeof DotwellKnownA2aCardDotjsonRoute
   '/.well-known/agent-card.json': typeof DotwellKnownAgentCardDotjsonRoute
   '/.well-known/agent-descriptions': typeof DotwellKnownAgentDescriptionsRoute
   '/.well-known/agent.json': typeof DotwellKnownAgentDotjsonRoute
@@ -848,10 +874,12 @@ export interface FileRoutesById {
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
   '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
   '/api/products/export': typeof ApiProductsExportRoute
+  '/api/products/federation': typeof ApiProductsFederationRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
   '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
+  '/api/products/interop': typeof ApiProductsInteropRoute
   '/api/products/learning': typeof ApiProductsLearningRoute
   '/api/products/lifecycle': typeof ApiProductsLifecycleRoute
   '/api/products/mail': typeof ApiProductsMailRoute
@@ -887,6 +915,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/skill.json'
     | '/talk'
+    | '/.well-known/a2a-card.json'
     | '/.well-known/agent-card.json'
     | '/.well-known/agent-descriptions'
     | '/.well-known/agent.json'
@@ -945,10 +974,12 @@ export interface FileRouteTypes {
     | '/api/products/demo-nudge'
     | '/api/products/dual-strategy'
     | '/api/products/export'
+    | '/api/products/federation'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
     | '/api/products/go-harder'
     | '/api/products/improvement-log'
+    | '/api/products/interop'
     | '/api/products/learning'
     | '/api/products/lifecycle'
     | '/api/products/mail'
@@ -982,6 +1013,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/skill.json'
     | '/talk'
+    | '/.well-known/a2a-card.json'
     | '/.well-known/agent-card.json'
     | '/.well-known/agent-descriptions'
     | '/.well-known/agent.json'
@@ -1040,10 +1072,12 @@ export interface FileRouteTypes {
     | '/api/products/demo-nudge'
     | '/api/products/dual-strategy'
     | '/api/products/export'
+    | '/api/products/federation'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
     | '/api/products/go-harder'
     | '/api/products/improvement-log'
+    | '/api/products/interop'
     | '/api/products/learning'
     | '/api/products/lifecycle'
     | '/api/products/mail'
@@ -1077,6 +1111,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/skill.json'
     | '/talk'
+    | '/.well-known/a2a-card.json'
     | '/.well-known/agent-card.json'
     | '/.well-known/agent-descriptions'
     | '/.well-known/agent.json'
@@ -1135,10 +1170,12 @@ export interface FileRouteTypes {
     | '/api/products/demo-nudge'
     | '/api/products/dual-strategy'
     | '/api/products/export'
+    | '/api/products/federation'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
     | '/api/products/go-harder'
     | '/api/products/improvement-log'
+    | '/api/products/interop'
     | '/api/products/learning'
     | '/api/products/lifecycle'
     | '/api/products/mail'
@@ -1173,6 +1210,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkillDotjsonRoute: typeof SkillDotjsonRoute
   TalkRoute: typeof TalkRoute
+  DotwellKnownA2aCardDotjsonRoute: typeof DotwellKnownA2aCardDotjsonRoute
   DotwellKnownAgentCardDotjsonRoute: typeof DotwellKnownAgentCardDotjsonRoute
   DotwellKnownAgentDescriptionsRoute: typeof DotwellKnownAgentDescriptionsRoute
   DotwellKnownAgentDotjsonRoute: typeof DotwellKnownAgentDotjsonRoute
@@ -1230,10 +1268,12 @@ export interface RootRouteChildren {
   ApiProductsDemoNudgeRoute: typeof ApiProductsDemoNudgeRoute
   ApiProductsDualStrategyRoute: typeof ApiProductsDualStrategyRoute
   ApiProductsExportRoute: typeof ApiProductsExportRoute
+  ApiProductsFederationRoute: typeof ApiProductsFederationRoute
   ApiProductsFeedbackRoute: typeof ApiProductsFeedbackRoute
   ApiProductsFeedbackDriveRoute: typeof ApiProductsFeedbackDriveRoute
   ApiProductsGoHarderRoute: typeof ApiProductsGoHarderRoute
   ApiProductsImprovementLogRoute: typeof ApiProductsImprovementLogRoute
+  ApiProductsInteropRoute: typeof ApiProductsInteropRoute
   ApiProductsLearningRoute: typeof ApiProductsLearningRoute
   ApiProductsLifecycleRoute: typeof ApiProductsLifecycleRoute
   ApiProductsMailRoute: typeof ApiProductsMailRoute
@@ -1345,6 +1385,13 @@ declare module '@tanstack/react-router' {
       path: '/talk'
       fullPath: '/talk'
       preLoaderRoute: typeof TalkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/a2a-card.json': {
+      id: '/.well-known/a2a-card.json'
+      path: '/.well-known/a2a-card.json'
+      fullPath: '/.well-known/a2a-card.json'
+      preLoaderRoute: typeof DotwellKnownA2aCardDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/agent-card.json': {
@@ -1767,6 +1814,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsExportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/federation': {
+      id: '/api/products/federation'
+      path: '/api/products/federation'
+      fullPath: '/api/products/federation'
+      preLoaderRoute: typeof ApiProductsFederationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/feedback': {
       id: '/api/products/feedback'
       path: '/api/products/feedback'
@@ -1793,6 +1847,13 @@ declare module '@tanstack/react-router' {
       path: '/api/products/improvement-log'
       fullPath: '/api/products/improvement-log'
       preLoaderRoute: typeof ApiProductsImprovementLogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/products/interop': {
+      id: '/api/products/interop'
+      path: '/api/products/interop'
+      fullPath: '/api/products/interop'
+      preLoaderRoute: typeof ApiProductsInteropRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/products/learning': {
@@ -1934,6 +1995,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkillDotjsonRoute: SkillDotjsonRoute,
   TalkRoute: TalkRoute,
+  DotwellKnownA2aCardDotjsonRoute: DotwellKnownA2aCardDotjsonRoute,
   DotwellKnownAgentCardDotjsonRoute: DotwellKnownAgentCardDotjsonRoute,
   DotwellKnownAgentDescriptionsRoute: DotwellKnownAgentDescriptionsRoute,
   DotwellKnownAgentDotjsonRoute: DotwellKnownAgentDotjsonRoute,
@@ -1993,10 +2055,12 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsDemoNudgeRoute: ApiProductsDemoNudgeRoute,
   ApiProductsDualStrategyRoute: ApiProductsDualStrategyRoute,
   ApiProductsExportRoute: ApiProductsExportRoute,
+  ApiProductsFederationRoute: ApiProductsFederationRoute,
   ApiProductsFeedbackRoute: ApiProductsFeedbackRoute,
   ApiProductsFeedbackDriveRoute: ApiProductsFeedbackDriveRoute,
   ApiProductsGoHarderRoute: ApiProductsGoHarderRoute,
   ApiProductsImprovementLogRoute: ApiProductsImprovementLogRoute,
+  ApiProductsInteropRoute: ApiProductsInteropRoute,
   ApiProductsLearningRoute: ApiProductsLearningRoute,
   ApiProductsLifecycleRoute: ApiProductsLifecycleRoute,
   ApiProductsMailRoute: ApiProductsMailRoute,

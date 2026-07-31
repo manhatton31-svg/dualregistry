@@ -134,10 +134,28 @@ export const Route = createFileRoute("/api/feed")({
           /* */
         }
 
+        try {
+          const { getInteropPublic } = await import(
+            "@/lib/products/interop"
+          );
+          const ix = await getInteropPublic({ origin });
+          items.unshift({
+            type: "interop",
+            version: ix.version,
+            model: ix.model,
+            graph_total: (ix.graph as { total?: number } | undefined)?.total,
+            tools: ix.tools,
+            at: new Date().toISOString(),
+            note: "Unified capability graph across MCP · A2A · ARD · HTTP",
+          });
+        } catch {
+          /* */
+        }
+
         items.unshift({
           type: "dual_strategy",
-          mode: "outbound_plus_inbound_plus_stigmergy_plus_autocatalysis",
-          version: "2.5.0",
+          mode: "outbound_plus_inbound_plus_stigmergy_plus_autocatalysis_plus_interop",
+          version: "2.6.0",
           note: "Outbound + inbound + stigmergy + autocatalysis (Dorr S-curve) always on",
           at: new Date().toISOString(),
         });
