@@ -1,6 +1,6 @@
 {
   "version": "2.7.0",
-  "updated_at": "2026-07-31T13:12:50.011Z",
+  "updated_at": "2026-07-31T13:12:54.923Z",
   "capabilities": {
     "cap_9775402bba2bc8a46d2f7a71": {
       "cap_hash": "cap_9775402bba2bc8a46d2f7a71",
@@ -20,6 +20,38 @@
     }
   },
   "attestations": [
+    {
+      "id": "att_ms8yq5t3_gt05d5",
+      "type": "outcome",
+      "subject": "agtpub_c9870b79be7f4faab49c",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:12:52.454Z",
+      "expires_at": "2026-08-03T13:12:52.454Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ypf76",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5cGY3NiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzoxMjo1Mi40NTRaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzoxMjo1Mi40NTRaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6ImFndHB1Yl9jOTg3MGI3OWJlN2Y0ZmFhYjQ5YyIsInR5cGUiOiJvdXRjb21lIn0.A_WsZWZXfkdfsQOym9W2wrfPPgAKfHJDiRi3fFsQdCdXlkyupVTi_LsRzHS8_NUAan_Lv_IRO9nc0Q-Hf6Bwqg",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:12:52.454Z\",\"issued_at\":\"2026-07-31T13:12:52.454Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"agtpub_c9870b79be7f4faab49c\",\"type\":\"outcome\"}"
+    },
+    {
+      "id": "att_ms8yq5b6_x10phz",
+      "type": "outcome",
+      "subject": "agtpub_0e58c1804b88f9a3de9e",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:12:51.763Z",
+      "expires_at": "2026-08-03T13:12:51.763Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ypf76",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5cGY3NiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzoxMjo1MS43NjNaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzoxMjo1MS43NjNaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6ImFndHB1Yl8wZTU4YzE4MDRiODhmOWEzZGU5ZSIsInR5cGUiOiJvdXRjb21lIn0.hX3dZaz97roHmrSWAtLItQ8NSmrGUJlI9mCBunoJh46kKvshtJy6uWG7WQvZgZZv7Yu6wpqVUMLsy8ovS0IemA",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:12:51.763Z\",\"issued_at\":\"2026-07-31T13:12:51.763Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"agtpub_0e58c1804b88f9a3de9e\",\"type\":\"outcome\"}"
+    },
     {
       "id": "att_ms8yq3cy_0j2s4t",
       "type": "outcome",
@@ -296,6 +328,36 @@
   ],
   "outcomes": [
     {
+      "id": "out_ms8yq7d3_82u0",
+      "listing_id": "mcp-ai-klavis-strata-https-github-com-klavis-ai-klavis",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:54.471Z"
+    },
+    {
+      "id": "out_ms8yq72f_8bir",
+      "listing_id": "mcp-ai-kive-mcp-https-kive-ai",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:54.087Z"
+    },
+    {
+      "id": "out_ms8yq6pi_7iw5",
+      "listing_id": "mcp-ai-keenable-web-search-https-github-com-keenableai-keenable-mcp",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:53.622Z"
+    },
+    {
       "id": "out_ms8yq26j_0wqi",
       "listing_id": "agtpub_c9870b79be7f4faab49c",
       "ok": false,
@@ -490,12 +552,12 @@
   "identities": {},
   "liveness": {
     "agtpub_0e58c1804b88f9a3de9e": {
-      "last_signal_at": "2026-07-31T13:05:24.089Z",
+      "last_signal_at": "2026-07-31T13:12:52.742Z",
       "source": "attestation:outcome",
       "score": 0.6
     },
     "agtpub_c9870b79be7f4faab49c": {
-      "last_signal_at": "2026-07-31T13:05:24.558Z",
+      "last_signal_at": "2026-07-31T13:12:53.535Z",
       "source": "attestation:outcome",
       "score": 0.6
     },
@@ -560,22 +622,22 @@
       "score": 0.6
     },
     "mcp-ai-keenable-web-search-https-api-keenable-ai-mcp": {
-      "last_signal_at": "2026-07-31T13:12:47.908Z",
-      "source": "outcome",
-      "score": 0.3
+      "last_signal_at": "2026-07-31T13:12:50.455Z",
+      "source": "attestation:outcome",
+      "score": 0.6
     },
     "mcp-ai-intuitek-the-stall-the-stall-r2-https-the-stall-intuitek-ai-sse": {
-      "last_signal_at": "2026-07-31T13:12:47.998Z",
-      "source": "outcome",
-      "score": 0.3
+      "last_signal_at": "2026-07-31T13:12:50.650Z",
+      "source": "attestation:outcome",
+      "score": 0.6
     }
   },
   "totals": {
     "cap_hashes": 1,
-    "attestations": 17,
-    "outcomes": 19,
+    "attestations": 19,
+    "outcomes": 22,
     "identities": 0,
     "pipelines": 0,
-    "attractor_picks": 3
+    "attractor_picks": 4
   }
 }
