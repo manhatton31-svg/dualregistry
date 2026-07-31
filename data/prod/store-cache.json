@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-07-30T22:31:47.087Z",
+  "updated_at": "2026-07-31T01:09:48.092Z",
   "source": "https://grok-agent-store.manhatton31.workers.dev",
   "live": true,
-  "mcp_approved": 8,
-  "agents_approved": 345,
+  "mcp_approved": 140,
+  "agents_approved": 360,
   "mcp_target": 0,
   "agents_target": 0,
   "milestones": {
@@ -13,7 +13,7 @@
       "agents_approved": 0
     },
     "mcp": {
-      "approved": 8,
+      "approved": 140,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -21,7 +21,7 @@
       "unlimited": true
     },
     "agents": {
-      "approved": 345,
+      "approved": 360,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -41,7 +41,7 @@
         "https://grok-agent-store.manhatton31.workers.dev/registry.json"
       ]
     },
-    "updated_at": "2026-07-30T22:31:27.734Z"
+    "updated_at": "2026-07-31T01:09:47.113Z"
   },
   "mcp_items": [
     {
@@ -896,91 +896,6 @@
       "updated_at": "2026-07-29T04:54:19.191Z"
     },
     {
-      "id": "mcp_00deea6c41af64e4ff2a",
-      "slug": "blast-radius",
-      "name": "blast-radius",
-      "description": "Blast Radius tools for AI strategy, diligence, and market updates.",
-      "repository": "https://github.com/kipmcc/blast-radius-live",
-      "website": "https://github.com/kipmcc/blast-radius-live",
-      "remote_url": "https://blast-radius.ai/mcp",
-      "author": "ai.blast-radius",
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T04:54:17.358Z",
-      "created_at": "2026-07-29T04:54:17.358Z",
-      "updated_at": "2026-07-29T04:54:17.358Z"
-    },
-    {
-      "id": "mcp_2a5dec8c27bb6f98a1b5",
-      "slug": "docs-mcp",
-      "name": "docs-mcp",
-      "description": "Remote MCP server for Tandem docs, install guides, SDKs, workflows, and agent setup help.",
-      "repository": "https://github.com/frumu-ai/tandem",
-      "website": "https://github.com/frumu-ai/tandem",
-      "remote_url": "https://tandem.ac/mcp",
-      "author": "ac.tandem",
-      "status": "approved",
-      "safety_score": 100,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T04:54:15.673Z",
-      "created_at": "2026-07-29T04:54:15.673Z",
-      "updated_at": "2026-07-29T04:54:15.673Z"
-    },
-    {
-      "id": "mcp_7d2db12c6b14e34b5dbb",
-      "slug": "trading",
-      "name": "trading",
-      "description": "AI-powered trading strategy development: backtesting, market data, and portfolio analysis",
-      "repository": "https://github.com/mindsightventures/lona",
-      "website": "https://lona.agency",
-      "remote_url": "https://mcp.lona.agency/mcp",
-      "author": "agency.lona",
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T04:54:13.403Z",
-      "created_at": "2026-07-29T04:54:13.403Z",
-      "updated_at": "2026-07-29T04:54:13.403Z"
-    },
-    {
-      "id": "mcp_ca39a0bfacbd38ab54d6",
-      "slug": "abmeter",
-      "name": "abmeter",
-      "description": "Feature flagging and A/B testing platform with AI-first experimentation workflows.",
-      "repository": "https://github.com/abmeter/abmeter",
-      "website": "https://abmeter.ai",
-      "remote_url": "https://mcp.abmeter.ai",
-      "author": "ai.abmeter",
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T04:54:10.860Z",
-      "created_at": "2026-07-29T04:54:10.860Z",
-      "updated_at": "2026-07-29T04:54:10.860Z"
-    },
-    {
-      "id": "mcp_8c3afa1247e5bf2e04a1",
-      "slug": "agentberg",
-      "name": "agentberg",
-      "description": "Agent-to-agent trading intelligence exchange. Publish findings, vote on quality, earn reputation.",
-      "repository": "https://github.com/Agentberg/agentberg",
-      "website": "https://github.com/Agentberg/agentberg",
-      "remote_url": "https://agentberg.ai/mcp",
-      "author": "ai.agentberg",
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T04:54:08.615Z",
-      "created_at": "2026-07-29T04:54:08.615Z",
-      "updated_at": "2026-07-29T04:54:08.615Z"
-    },
-    {
       "id": "mcp_be8f86bf9ad20a166b1e",
       "slug": "agentdm",
       "name": "agentdm",
@@ -1013,57 +928,6 @@
       "approved_at": "2026-07-29T04:54:04.218Z",
       "created_at": "2026-07-29T04:54:04.218Z",
       "updated_at": "2026-07-29T04:54:04.218Z"
-    },
-    {
-      "id": "mcp_d4ae5716dd1d0c18ec71",
-      "slug": "ambix",
-      "name": "ambix",
-      "description": "Your product team's shared strategic memory \u2014 an MCP server your AI tools reason over.",
-      "repository": "https://github.com/ambix-ai/mcp",
-      "website": "https://ambix.ai",
-      "remote_url": "https://mcp.ambix.ai",
-      "author": "ai.ambix",
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T04:54:02.271Z",
-      "created_at": "2026-07-29T04:54:02.271Z",
-      "updated_at": "2026-07-29T04:54:02.271Z"
-    },
-    {
-      "id": "mcp_5bb23a37784fd495295d",
-      "slug": "enforcement-database",
-      "name": "enforcement-database",
-      "description": "Search Argus HQ public FDA enforcement data: warning letters, recalls, approvals, 483s.",
-      "repository": "https://github.com/andrewjgaber-commits/empire-distribution",
-      "website": "https://argushq.ai",
-      "remote_url": "https://argushq.ai/api/mcp",
-      "author": "ai.argushq",
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T04:53:58.987Z",
-      "created_at": "2026-07-29T04:53:58.987Z",
-      "updated_at": "2026-07-29T04:53:58.987Z"
-    },
-    {
-      "id": "mcp_8e9300f82bf60be680f2",
-      "slug": "arpi-mcp",
-      "name": "arpi-mcp",
-      "description": "AI-powered ECG analysis: submit ECG images and receive diagnosis reports from ARPI's ECG AI.",
-      "repository": "https://github.com/arpi-ai/arpi-mcp",
-      "website": "https://arpi.ai",
-      "remote_url": "https://mcp.arpi.ai/mcp",
-      "author": "ai.arpi",
-      "status": "approved",
-      "safety_score": 100,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-29T04:53:56.686Z",
-      "created_at": "2026-07-29T04:53:56.686Z",
-      "updated_at": "2026-07-29T04:53:56.686Z"
     },
     {
       "id": "mcp_b996e1e6352ba1148e7a",
@@ -4265,7 +4129,6 @@
     "mcp-server-naa"
   ],
   "agent_names": [
-    "intentfence",
     "autoharness",
     "autonoetic",
     "red-skills",
@@ -4277,43 +4140,30 @@
     "attestly",
     "hive-mcp-count",
     "hive-mcp-swap",
-    "hive-mcp-evaluator",
     "skill-concierge",
     "flipkart-listing",
     "finops",
-    "logicsrc",
     "rocketride-server",
-    "ruview",
     "claude-skills",
     "session-recall",
-    "awesome-graph-engineering",
     "novigo_langgraph",
-    "toolnexus",
     "swift-a2a",
     "ianptkcs",
     "skills",
     "notebooklm-mcp",
     "kc-claude-plugins",
     "cv4vs-agents",
-    "preloop",
     "managr",
-    "zendriver-rs",
-    "arc-kit",
     "cybersec-toolkit",
     "excel-vba-sync",
     "nlqdb",
-    "nhatvu148",
-    "superpm",
     "issue-pr-cron",
-    "agentlas-desktop",
     "knowledge-context-protocol",
     "multi-agent-travel-planner",
-    "adk_dart",
     "lex-loom",
     "polimi-cloud-computing",
     "mas-sentry-toolkit",
     "swift-agent-runtime",
-    "kazma",
     "claude-code-plugin"
   ],
   "mcp_repos": [
@@ -4424,7 +4274,6 @@
     "https://github.com/netwrix/mcp-server-naa"
   ],
   "agent_repos": [
-    "https://github.com/razel369/intentfence",
     "https://github.com/softwaresalt/autoharness",
     "https://github.com/mandubian/autonoetic",
     "https://github.com/reddb-io/red-skills",
@@ -4436,61 +4285,33 @@
     "https://github.com/jasonadmin123/attestly",
     "https://github.com/srotzin/hive-mcp-count",
     "https://github.com/srotzin/hive-mcp-swap",
-    "https://github.com/srotzin/hive-mcp-evaluator",
     "https://github.com/thinhkhuat/skill-concierge",
     "https://github.com/yatinbhalla/flipkart-listing",
     "https://github.com/manny864/finops",
-    "https://github.com/profullstack/logicsrc",
     "https://github.com/rocketride-org/rocketride-server",
-    "https://github.com/souravsanyal1/ruview",
     "https://github.com/tylerprogramming/claude-skills",
     "https://github.com/absolutemode/session-recall",
-    "https://github.com/chaoyue0307/awesome-graph-engineering",
     "https://github.com/avanibhandary/novigo_langgraph",
-    "https://github.com/muthuishere/toolnexus",
     "https://github.com/no-problem-dev/swift-a2a",
     "https://github.com/ianptkcs/ianptkcs",
     "https://github.com/base44/skills",
     "https://github.com/roomi-fields/notebooklm-mcp",
     "https://github.com/iamcxa/kc-claude-plugins",
     "https://github.com/corsinvest/cv4vs-agents",
-    "https://github.com/preloop/preloop",
     "https://github.com/usiclabs/managr",
-    "https://github.com/turtiesocks/zendriver-rs",
-    "https://github.com/tractorjuice/arc-kit",
     "https://github.com/26zl/cybersec-toolkit",
     "https://github.com/eitaroseta/excel-vba-sync",
     "https://github.com/nlqdb/nlqdb",
-    "https://github.com/nhatvu148/nhatvu148",
-    "https://github.com/konglong87/superpm",
     "https://github.com/rainlanguage/issue-pr-cron",
-    "https://github.com/agentlas-ai/agentlas-desktop",
     "https://github.com/cantara/knowledge-context-protocol",
     "https://github.com/anas7aha/multi-agent-travel-planner",
-    "https://github.com/adk-labs/adk_dart",
     "https://github.com/alpibrusl/lex-loom",
     "https://github.com/javadzandiyeh/polimi-cloud-computing",
     "https://github.com/evkir/mas-sentry-toolkit",
     "https://github.com/no-problem-dev/swift-agent-runtime",
-    "https://github.com/mubder/kazma",
     "https://github.com/cain-ish/claude-code-plugin"
   ],
-  "agent_cards": [
-    "https://agentpass-protocol.rmalka06.chatgpt.site/.well-known/agent.json",
-    "https://hive-mcp-gateway.onrender.com/.well-known/agent.json",
-    "https://logicsrc.com/.well-known/agent.json",
-    "https://ruview-ten.vercel.app/.well-known/agent.json",
-    "https://chaoyue0307.github.io/awesome-graph-engineering/.well-known/agent.json",
-    "https://muthuishere.github.io/toolnexus/.well-known/agent.json",
-    "https://preloop.ai/.well-known/agent.json",
-    "https://turtiesocks.github.io/zendriver-rs/.well-known/agent.json",
-    "https://arckit.org/.well-known/agent.json",
-    "https://nhatvu148.dev/.well-known/agent.json",
-    "https://konglong87.github.io/anything-ai/.well-known/agent.json",
-    "https://agentlas.cloud/desktop/.well-known/agent.json",
-    "https://pub.dev/packages/adk_dart/.well-known/agent.json",
-    "https://kazma.ai/.well-known/agent.json"
-  ],
+  "agent_cards": [],
   "health": {
     "ok": true,
     "service": "grok-agent-store",
@@ -4511,10 +4332,10 @@
         "unlimited": false
       },
       "agents": {
-        "approved": 436,
+        "approved": 451,
         "target": 500,
-        "remaining": 64,
-        "pct": 87.2,
+        "remaining": 49,
+        "pct": 90.2,
         "ready": false,
         "unlimited": false
       },
@@ -4531,16 +4352,16 @@
           "https://grok-agent-store.manhatton31.workers.dev/registry.json"
         ]
       },
-      "updated_at": "2026-07-30T22:29:42.664Z"
+      "updated_at": "2026-07-31T01:08:06.299Z"
     },
     "agent_registry": {
       "accepting_submissions": true,
       "submit": "https://grok-agent-store.manhatton31.workers.dev/v1/agents/submit",
       "list": "https://grok-agent-store.manhatton31.workers.dev/agents.json",
       "well_known": "https://grok-agent-store.manhatton31.workers.dev/.well-known/agents.json",
-      "approved_count": 436,
+      "approved_count": 451,
       "auto_approve_threshold": 70,
-      "approved": 436
+      "approved": 451
     },
     "registry": {
       "accepting_submissions": true,
@@ -4559,10 +4380,10 @@
         "cursor": {
           "github_last_comment_id": 5107319336,
           "gmail_last_internal_date": 1785261414604,
-          "updated_at": "2026-07-30T22:00:16.317Z"
+          "updated_at": "2026-07-31T01:00:16.386Z"
         },
         "last_run": {
-          "ran_at": "2026-07-30T22:00:15.914Z",
+          "ran_at": "2026-07-31T01:00:15.884Z",
           "github_new": 0,
           "gmail_new": 0,
           "approved": 0,
@@ -4570,19 +4391,19 @@
           "rejected": 0
         },
         "agents_last_run": {
-          "ran_at": "2026-07-30T22:00:16.841Z",
+          "ran_at": "2026-07-31T01:00:16.756Z",
           "github_new": 0,
           "repos_new": 8,
-          "refreshed": 1,
-          "approved": 7,
+          "refreshed": 5,
+          "approved": 11,
           "needs_review": 2,
           "rejected": 0
         },
         "agents_cursor": {
           "github_last_comment_id": 0,
-          "search_offset": 104,
-          "last_refresh_at": "2026-07-30T22:00:16.841Z",
-          "updated_at": "2026-07-30T22:01:09.034Z"
+          "search_offset": 110,
+          "last_refresh_at": "2026-07-31T01:00:16.756Z",
+          "updated_at": "2026-07-31T01:00:57.518Z"
         }
       },
       "approved": 332
