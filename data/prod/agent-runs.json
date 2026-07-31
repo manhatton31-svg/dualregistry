@@ -1,0 +1,42 @@
+{
+  "day": "2026-07-31",
+  "runs": [
+    {
+      "id": "run_seed_scout_1",
+      "title": "growth_scout",
+      "tool": "growth_scout",
+      "trigger": "cron",
+      "status": "ok",
+      "started_at": "2026-07-31T14:10:00.000Z",
+      "ended_at": "2026-07-31T14:10:30.000Z",
+      "duration_ms": 30000,
+      "meta": {
+        "invites_sent": 3,
+        "seed": true
+      }
+    },
+    {
+      "id": "run_seed_scout_0",
+      "title": "growth_scout",
+      "tool": "growth_scout",
+      "trigger": "cron",
+      "status": "ok",
+      "started_at": "2026-07-31T13:47:20.000Z",
+      "ended_at": "2026-07-31T13:47:50.000Z",
+      "duration_ms": 30000,
+      "meta": {
+        "invites_sent": 2,
+        "seed": true
+      }
+    }
+  ],
+  "totals": {
+    "n": 2,
+    "ok": 2,
+    "error": 0,
+    "skipped": 0,
+    "duration_ms": 60000,
+    "token_usage": 0
+  },
+  "updated_at": "2026-07-31T14:49:57.000Z"
+}
