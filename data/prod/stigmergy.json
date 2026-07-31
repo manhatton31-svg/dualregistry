@@ -1,14 +1,14 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:07:16.187Z",
+  "updated_at": "2026-07-31T13:07:17.775Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
-      "attraction": 30,
+      "attraction": 30.5,
       "danger": 0,
       "demand": 10,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:07:16.187Z",
+      "last_reinforced_at": "2026-07-31T13:07:16.315Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -458,6 +458,20 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yiyfv_7wwhas",
+      "kind": "mark",
+      "listing_id": "agent-agoragentic-https-agoragentic-com",
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "intensity": 1,
+      "at": "2026-07-31T13:07:16.315Z",
+      "tags": [
+        "read_residue",
+        "sense",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yiycb_hq7tbm",
       "kind": "mark",
@@ -5260,6 +5274,15 @@
       "type": "leave_trace",
       "listing_id": "agent-agoragentic-https-agoragentic-com",
       "kind": "mark",
+      "amount": 1,
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "at": "2026-07-31T13:07:16.315Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agent-agoragentic-https-agoragentic-com",
+      "kind": "mark",
       "amount": 1.5,
       "from": "flywheel_follow",
       "body": "follow residue",
@@ -6978,22 +7001,13 @@
       "from": "flywheel_follow",
       "body": "follow residue",
       "at": "2026-07-31T13:05:45.067Z"
-    },
-    {
-      "type": "contagion",
-      "listing_id": "agent-not-human-search-https-nothumansearch-ai",
-      "listing_b": "agent-pictomancer-ai-https-api-pictomancer-ai",
-      "amount": 1,
-      "from": "flywheel_seed",
-      "at": "2026-07-31T13:05:45.021Z",
-      "body": "Composition contagion touched 1 neighbors"
     }
   ],
   "totals": {
     "auto_deposits": 6,
-    "agent_deposits": 341,
+    "agent_deposits": 342,
     "senses": 103,
-    "follows": 46,
+    "follows": 47,
     "evaporations": 0
   }
 }
