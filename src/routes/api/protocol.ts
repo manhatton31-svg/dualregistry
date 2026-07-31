@@ -21,6 +21,11 @@ import {
   REGISTRY_TOOLS_VERSION,
 } from "@/lib/products/registry-tools";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
+import { discoveryJsonResponse } from "@/lib/agents1/discovery-cache";
+import { MAX_DURATION, PREFERRED_REGION } from "@/lib/agents1/vercel-platform";
+
+export const maxDuration = MAX_DURATION.mcp_post;
+export const preferredRegion = PREFERRED_REGION;
 
 export const Route = createFileRoute("/api/protocol")({
   server: {
@@ -59,7 +64,9 @@ export const Route = createFileRoute("/api/protocol")({
             {
               headers: withDemoCtaHeaders(
                 {
-                  "cache-control": "public, max-age=60",
+                  "cache-control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
+                  "cdn-cache-control": "public, s-maxage=300, stale-while-revalidate=600",
+                  "vercel-cdn-cache-control": "public, s-maxage=300, stale-while-revalidate=600",
                   "access-control-allow-origin": "*",
                 },
                 { origin },

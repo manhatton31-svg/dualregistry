@@ -1,12 +1,11 @@
 /**
- * Production probe tick — Vercel Cron + GitHub Actions every 6 minutes.
+ * Production probe tick — Vercel Cron primary (every 6m).
+ * GitHub Actions: soft snapshot + commit when fresh; full POST only if stale.
  *
  * GET/POST /api/cron/probe
+ *   ?mode=snapshot | body { mode: "snapshot" } → durable commit only, no tick
  * Optional: Authorization: Bearer $CRON_SECRET or ?secret=
  * Vercel Cron sends `x-vercel-cron: 1` (always allowed).
- *
- * Returns full durable probe snapshot so Actions can commit data/prod/probes.json
- * without needing a write token on Vercel.
  *
  * Cost mode: adaptive batch/window, no force-live, maxDuration 90s.
  * Fluid Active CPU: I/O wait during handshakes is free; cadence skip is cheap.
@@ -16,9 +15,11 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { dataRoot } from "@/lib/data-root";
 import { durableConfigPublic, readDurableRaw } from "@/lib/agents1/durable-json";
+import { MAX_DURATION, PREFERRED_REGION } from "@/lib/agents1/vercel-platform";
 
 /** Cap runaway ticks — adaptive batches finish well under this */
-export const maxDuration = 90;
+export const maxDuration = MAX_DURATION.cron_probe;
+export const preferredRegion = PREFERRED_REGION;
 
 function authorized(request: Request): boolean {
   // Vercel Cron invocations are trusted (production schedule only)
@@ -34,6 +35,15 @@ function authorized(request: Request): boolean {
     : "";
   const hdr = request.headers.get("x-cron-secret") || "";
   return q === secret || bearer === secret || hdr === secret;
+}
+
+function wantsSnapshot(request: Request, body?: { mode?: string }): boolean {
+  const url = new URL(request.url);
+  const q = (url.searchParams.get("mode") || "").toLowerCase();
+  if (q === "snapshot" || q === "commit" || q === "commit_only") return true;
+  if ((body?.mode || "").toLowerCase() === "snapshot") return true;
+  if ((body?.mode || "").toLowerCase() === "commit_only") return true;
+  return false;
 }
 
 async function stampWorker(patch: Record<string, unknown>) {
@@ -79,6 +89,7 @@ async function billProbeTick(opts: {
       route: "/api/cron/probe",
       label: opts.label || (opts.skipped ? "probe_tick_skipped" : "probe_tick"),
       skipped: opts.skipped,
+      await_persist: true, // cron commit needs durable ledger
     });
     const { recordAgentRun } = await import("@/lib/agents1/agent-runs");
     await recordAgentRun({
@@ -94,6 +105,27 @@ async function billProbeTick(opts: {
   } catch {
     /* cost tracking never blocks ticks */
   }
+}
+
+async function runSnapshot() {
+  const { buildProbeSnapshot } = await import("@/lib/agents1/probe-snapshot");
+  const snap = await buildProbeSnapshot();
+  try {
+    const { recordPlatformUsage } = await import(
+      "@/lib/agents1/platform-cost"
+    );
+    await recordPlatformUsage({
+      class: "api_read",
+      wall_ms: snap.cost.wall_ms,
+      route: "/api/cron/probe",
+      label: "probe_snapshot",
+      skipped: true,
+      await_persist: true,
+    });
+  } catch {
+    /* */
+  }
+  return snap;
 }
 
 async function runTick() {
@@ -250,7 +282,7 @@ async function runTick() {
   const worker = await stampWorker({
     status: "ok",
     mode: "production-cron",
-    scheduler: "vercel-cron+github-actions-every-6m",
+    scheduler: "vercel-cron-primary+github-actions-snapshot",
     fluid: true,
     last_tick_at: lastIso,
     next_tick_at: nextIso,
@@ -418,55 +450,50 @@ async function runTick() {
   };
 }
 
+async function handle(request: Request) {
+  if (!authorized(request)) {
+    return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
+  }
+  let body: { mode?: string } = {};
+  if (request.method === "POST") {
+    try {
+      body = (await request.json()) as { mode?: string };
+    } catch {
+      body = {};
+    }
+  }
+  try {
+    if (wantsSnapshot(request, body)) {
+      const snap = await runSnapshot();
+      return Response.json(snap, {
+        headers: { "cache-control": "no-store" },
+      });
+    }
+    // Vercel Cron always runs full tick (with internal cadence skip)
+    const out = await runTick();
+    return Response.json(out, {
+      headers: { "cache-control": "no-store" },
+    });
+  } catch (e) {
+    await stampWorker({
+      status: "error",
+      error: e instanceof Error ? e.message : String(e),
+    });
+    return Response.json(
+      {
+        ok: false,
+        error: e instanceof Error ? e.message : String(e),
+      },
+      { status: 500, headers: { "cache-control": "no-store" } },
+    );
+  }
+}
+
 export const Route = createFileRoute("/api/cron/probe")({
   server: {
     handlers: {
-      GET: async ({ request }) => {
-        if (!authorized(request)) {
-          return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
-        }
-        try {
-          const body = await runTick();
-          return Response.json(body, {
-            headers: { "cache-control": "no-store" },
-          });
-        } catch (e) {
-          await stampWorker({
-            status: "error",
-            error: e instanceof Error ? e.message : String(e),
-          });
-          return Response.json(
-            {
-              ok: false,
-              error: e instanceof Error ? e.message : String(e),
-            },
-            { status: 500, headers: { "cache-control": "no-store" } },
-          );
-        }
-      },
-      POST: async ({ request }) => {
-        if (!authorized(request)) {
-          return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
-        }
-        try {
-          const body = await runTick();
-          return Response.json(body, {
-            headers: { "cache-control": "no-store" },
-          });
-        } catch (e) {
-          await stampWorker({
-            status: "error",
-            error: e instanceof Error ? e.message : String(e),
-          });
-          return Response.json(
-            {
-              ok: false,
-              error: e instanceof Error ? e.message : String(e),
-            },
-            { status: 500, headers: { "cache-control": "no-store" } },
-          );
-        }
-      },
+      GET: async ({ request }) => handle(request),
+      POST: async ({ request }) => handle(request),
     },
   },
 });

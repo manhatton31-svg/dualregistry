@@ -1,6 +1,8 @@
-# Production probe scheduler — every 6 minutes.
-# 1) Hits dualregistry.dev probe tick (Vercel Cron is primary; this is backup + durable commit)
-# 2) Commits durable state with MAX-merge so used/live/delist never regress
+# Production probe durable commit — Vercel Cron is primary (every 6m).
+# This workflow de-dupes origin work:
+#   1) Soft snapshot (mode=snapshot) — no probe tick
+#   2) If last_tick is fresh → merge+commit only
+#   3) If stale → POST full tick as backup (Vercel cron missed)
 name: Production probe tick
 
 on:
@@ -23,11 +25,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run production probe tick
+      - name: Soft snapshot or backup tick
         id: tick
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
-          # Prefer www to avoid apex 308; -L follows redirects either way
           PROBE_URL: https://www.dualregistry.dev/api/cron/probe
         run: |
           set -euo pipefail
@@ -35,15 +36,54 @@ jobs:
           if [ -n "${CRON_SECRET:-}" ]; then
             HDR=(-H "Authorization: Bearer ${CRON_SECRET}" -H "x-cron-secret: ${CRON_SECRET}")
           fi
-          curl -sS -L -m 180 -X POST "${PROBE_URL}" \
+          # 1) Soft snapshot — never re-runs probes; returns commit payload
+          curl -sS -L -m 60 -X GET "${PROBE_URL}?mode=snapshot&t=$(date +%s)" \
             -H "accept: application/json" \
-            -H "content-type: application/json" \
-            -H "user-agent: DualRegistryActionsProbe/1.0" \
+            -H "user-agent: DualRegistryActionsProbe/2.0-snapshot" \
             "${HDR[@]}" \
-            -d '{}' \
             -o /tmp/probe-tick.json \
-            -w "http=%{http_code}\n"
-          head -c 400 /tmp/probe-tick.json; echo
+            -w "snapshot_http=%{http_code}\n" || true
+          head -c 300 /tmp/probe-tick.json; echo
+
+          NEED_TICK=0
+          python3 - <<'PY'
+          import json, pathlib, sys, os
+          p = pathlib.Path("/tmp/probe-tick.json")
+          if not p.exists() or p.stat().st_size < 8:
+              print("snapshot missing")
+              pathlib.Path("/tmp/need_tick").write_text("1")
+              sys.exit(0)
+          try:
+              d = json.loads(p.read_text())
+          except Exception:
+              pathlib.Path("/tmp/need_tick").write_text("1")
+              sys.exit(0)
+          if not d.get("ok"):
+              print("snapshot not ok", d.get("error"))
+              pathlib.Path("/tmp/need_tick").write_text("1")
+              sys.exit(0)
+          stale = bool(d.get("needs_tick") or d.get("stale"))
+          age = d.get("age_ms")
+          print("snapshot stale=", stale, "age_ms=", age, "used=", d.get("used_today"), "last=", d.get("last_tick_at"))
+          pathlib.Path("/tmp/need_tick").write_text("1" if stale else "0")
+          PY
+          NEED_TICK=$(cat /tmp/need_tick)
+
+          if [ "$NEED_TICK" = "1" ]; then
+            echo "last_tick stale — backup full probe POST"
+            curl -sS -L -m 180 -X POST "${PROBE_URL}" \
+              -H "accept: application/json" \
+              -H "content-type: application/json" \
+              -H "user-agent: DualRegistryActionsProbe/2.0-backup" \
+              "${HDR[@]}" \
+              -d '{}' \
+              -o /tmp/probe-tick.json \
+              -w "backup_http=%{http_code}\n"
+            head -c 400 /tmp/probe-tick.json; echo
+          else
+            echo "last_tick fresh — commit-only (no re-probe)"
+          fi
+
           python3 - <<'PY'
           import json, pathlib, sys
           p = pathlib.Path("/tmp/probe-tick.json")
@@ -170,7 +210,6 @@ jobs:
                       if not prev:
                           items[iid] = {**it, "id": iid}
                           continue
-                      # keep earliest approved_at, newest probed_at, max score
                       items[iid] = {
                           **prev,
                           **it,
@@ -272,7 +311,6 @@ jobs:
               floors_path.parent.mkdir(parents=True, exist_ok=True)
               floors_path.write_text(json.dumps(floors, indent=2))
               probes["used"] = max_used
-              # last_tick high-water from API + existing
               api_last = d.get("last_tick_at") or ""
               if api_last and api_last >= (probes.get("last_tick_at") or ""):
                   probes["last_tick_at"] = api_last
@@ -285,7 +323,7 @@ jobs:
               live_path.parent.mkdir(parents=True, exist_ok=True)
               live_path.write_text(json.dumps(livec, indent=2))
               print("locked used", max_used, "live", livec["live_ok"], "last", probes.get("last_tick_at"))
-          print("probed", d.get("probed"), "used", d.get("used_today"), "live_ok", d.get("live_active_probe_ok"))
+          print("action", d.get("action"), "used", d.get("used_today"), "live_ok", d.get("live_active_probe_ok"))
           PY
 
       - name: Commit durable probe state
@@ -298,6 +336,6 @@ jobs:
             echo "No durable state changes"
             exit 0
           fi
-          git commit -m "chore(prod): durable probe state (max-merge) $(date -u +%Y-%m-%dT%H:%MZ)"
+          git commit -m "chore(prod): durable probe state (snapshot/max-merge) $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase origin main || true
           git push

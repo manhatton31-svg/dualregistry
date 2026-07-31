@@ -1,11 +1,13 @@
 /**
  * Running platform cost ledger — dimensions match Vercel dashboard.
  * Persists via durable-json so multi-instance /tmp still rolls up.
+ * Persist is deferred (waitUntil) so billing never extends provisioned wall time.
  */
 import {
   loadDurableJson,
   saveDurableJson,
 } from "./durable-json";
+import { deferWork } from "./defer-work";
 import {
   type CostClass,
   type CostBreakdown,
@@ -32,6 +34,7 @@ export type CostEvent = {
   response_bytes?: number;
   usd: number;
   skipped?: boolean;
+  vercel_cache?: string | null;
 };
 
 export type DayBucket = {
@@ -73,6 +76,17 @@ export type PlatformCostState = {
 
 const MAX_EVENTS = 80;
 
+const SAVINGS_NOTES = [
+  "Fluid Active CPU: I/O wait during probes is free",
+  "Probe de-dupe: Vercel Cron primary; GH Actions commits only when tick fresh or backup",
+  "Harvest every 12m soft GETs (was 2m) — fewer origin inv",
+  "CDN + ETag/304 on discovery (cards, pack, stats, A2A help)",
+  "waitUntil: cost ledger + durable writes off critical path",
+  "preferredRegion iad1 + short maxDuration on metadata routes",
+  "Dashboard soft poll 3m + private max-age; growth panel 3m",
+  "x-vercel-cache telemetry in ledger (HIT = origin avoided)",
+];
+
 function utcDay(d = new Date()) {
   return d.toISOString().slice(0, 10);
 }
@@ -111,13 +125,7 @@ function fresh(): PlatformCostState {
     lifetime_usd: 0,
     lifetime_invocations: 0,
     updated_at: new Date().toISOString(),
-    savings_notes: [
-      "Fluid Active CPU: I/O wait during probes is free",
-      "Adaptive probe: on-pace → 10m window / 24 batch (vs 2m / 64)",
-      "CDN cache on discovery cuts origin invocations",
-      "Cron cadence skip returns cheap when last tick fresh",
-      "Dashboard soft poll 2m + private max-age=30",
-    ],
+    savings_notes: [...SAVINGS_NOTES],
   };
 }
 
@@ -140,6 +148,7 @@ function rollDay(s: PlatformCostState): PlatformCostState {
   }
   s.rates_version = RATES_VERSION;
   s.plan = VERCEL_PLAN;
+  s.savings_notes = [...SAVINGS_NOTES];
   return s;
 }
 
@@ -174,7 +183,7 @@ export async function loadPlatformCost(): Promise<PlatformCostState> {
   return mem;
 }
 
-async function persist(s: PlatformCostState) {
+function schedulePersist(s: PlatformCostState) {
   mem = s;
   chain = chain.then(async () => {
     try {
@@ -183,7 +192,8 @@ async function persist(s: PlatformCostState) {
       /* local-only ok */
     }
   });
-  await chain;
+  // Do not await chain on the request path — waitUntil keeps it alive on Vercel
+  deferWork(chain);
 }
 
 export type RecordUsageInput = {
@@ -197,6 +207,10 @@ export type RecordUsageInput = {
   cache_hit?: boolean;
   /** Cadence skip / cheap early return */
   skipped?: boolean;
+  /** Raw x-vercel-cache status when known */
+  vercel_cache?: string | null;
+  /** When true, still await durable write (cron commit needs it) */
+  await_persist?: boolean;
 };
 
 export async function recordPlatformUsage(
@@ -252,6 +266,7 @@ export async function recordPlatformUsage(
     response_bytes: input.response_bytes,
     usd: sampleCost.usd_total,
     skipped: input.skipped,
+    vercel_cache: input.vercel_cache ?? null,
   };
   s.today.events = [ev, ...s.today.events].slice(0, MAX_EVENTS);
 
@@ -264,7 +279,16 @@ export async function recordPlatformUsage(
   s.lifetime_invocations += inv;
   s.updated_at = ev.at;
 
-  await persist(s);
+  if (input.await_persist) {
+    mem = s;
+    try {
+      await saveDurableJson(DURABLE_NAME, s);
+    } catch {
+      /* */
+    }
+  } else {
+    schedulePersist(s);
+  }
   return s;
 }
 

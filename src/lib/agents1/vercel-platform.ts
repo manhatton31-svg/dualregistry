@@ -15,6 +15,8 @@
  */
 export const VERCEL_PLAN: "hobby" | "pro" | "enterprise" = "pro";
 export const FLUID_ENABLED = true;
+/** Single-region pin — no multi-region spill */
+export const PREFERRED_REGION = "iad1";
 export const RATES_VERSION = "2026-07-fluid-pro-iad1-v1";
 
 /** Standard Fluid machine: 1 vCPU · 2 GB (Pro default) */
@@ -42,6 +44,18 @@ export const PRO_RATES = {
 
 /** Pro plan monthly credit (informational — does not auto-zero ledger) */
 export const PRO_MONTHLY_CREDIT_USD = 20;
+
+/** Route-class maxDuration caps (seconds) — shorter = less worst-case provisioned GB-hr */
+export const MAX_DURATION = {
+  cron_probe: 90,
+  cron_prefilter: 60,
+  mcp_post: 30,
+  api_write: 30,
+  api_read: 15,
+  discovery: 10,
+  metadata: 10,
+  dashboard: 20,
+} as const;
 
 export type CostClass =
   | "cron_probe"
@@ -160,6 +174,7 @@ export function platformPublicMeta() {
   return {
     plan: VERCEL_PLAN,
     fluid: FLUID_ENABLED,
+    preferred_region: PREFERRED_REGION,
     fluid_memory_mb: FLUID_MEMORY_MB,
     fluid_vcpu: FLUID_VCPU,
     rates_version: RATES_VERSION,
@@ -171,6 +186,7 @@ export function platformPublicMeta() {
       bandwidth_usd_per_gb: PRO_RATES.bandwidth_usd_per_gb,
     },
     pro_monthly_credit_usd: PRO_MONTHLY_CREDIT_USD,
+    max_duration: MAX_DURATION,
     dashboard_dimensions: [
       "Active CPU",
       "Provisioned Memory",
@@ -178,6 +194,15 @@ export function platformPublicMeta() {
       "Fast Data Transfer (approx)",
       "CDN / Edge cache hits (saved origin)",
     ],
+    lean_ops: {
+      probe_primary: "vercel-cron",
+      probe_backup: "github-actions-if-stale",
+      harvest_interval_min: 12,
+      dashboard_soft_poll_ms: 180_000,
+      discovery_cdn: true,
+      etag_304: true,
+      wait_until: true,
+    },
     note:
       "Internal ledger mirrors Vercel Fluid dashboard dimensions. Absolute $ uses published Pro rates (recalibrate with VERCEL_RATE_* if needed). Cache hits are origin-avoided and reduce Active CPU.",
   };

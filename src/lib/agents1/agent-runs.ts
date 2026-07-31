@@ -5,6 +5,7 @@
  */
 import { loadDurableJson, saveDurableJson } from "./durable-json";
 import { recordPlatformUsage } from "./platform-cost";
+import { deferWork } from "./defer-work";
 
 const DURABLE_NAME = "agent-runs.json";
 const MAX_RUNS = 120;
@@ -87,7 +88,7 @@ export async function loadAgentRuns(): Promise<AgentRunsState> {
   return mem;
 }
 
-async function persist(s: AgentRunsState) {
+async function persist(s: AgentRunsState, opts?: { await?: boolean }) {
   mem = s;
   chain = chain.then(async () => {
     try {
@@ -96,7 +97,12 @@ async function persist(s: AgentRunsState) {
       /* */
     }
   });
-  await chain;
+  if (opts?.await) {
+    await chain;
+  } else {
+    // waitUntil keeps durable write alive without extending provisioned wall
+    deferWork(chain);
+  }
 }
 
 function newId() {

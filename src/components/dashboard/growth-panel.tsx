@@ -57,7 +57,7 @@ export function GrowthPanel() {
     const t = setInterval(() => {
       if (document.visibilityState === "hidden") return;
       void load(false);
-    }, 30_000);
+    }, 180_000);
     return () => clearInterval(t);
   }, [load]);
 

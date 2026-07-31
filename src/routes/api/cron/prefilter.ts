@@ -6,6 +6,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { dataRoot } from "@/lib/data-root";
+import { MAX_DURATION, PREFERRED_REGION } from "@/lib/agents1/vercel-platform";
+
+export const maxDuration = MAX_DURATION.cron_prefilter;
+export const preferredRegion = PREFERRED_REGION;
 
 async function readDurableRaw(name: string): Promise<string | null> {
   try {
@@ -19,6 +23,7 @@ export const Route = createFileRoute("/api/cron/prefilter")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const t0 = Date.now();
         const url = new URL(request.url);
         const dry = url.searchParams.get("dry") === "1";
         const noLive = url.searchParams.get("pattern_only") === "1";
@@ -41,6 +46,21 @@ export const Route = createFileRoute("/api/cron/prefilter")({
               "store-cache.json",
             ),
           };
+
+          try {
+            const { recordPlatformUsage } = await import(
+              "@/lib/agents1/platform-cost"
+            );
+            await recordPlatformUsage({
+              class: "cron_prefilter",
+              wall_ms: Date.now() - t0,
+              route: "/api/cron/prefilter",
+              label: dry ? "prefilter_dry" : "prefilter",
+              await_persist: true,
+            });
+          } catch {
+            /* */
+          }
 
           return Response.json({
             ok: true,

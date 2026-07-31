@@ -7,6 +7,7 @@
     "deploymentEnabled": true
   },
   "fluid": true,
+  "regions": ["iad1"],
   "crons": [
     {
       "path": "/api/cron/probe",
@@ -17,6 +18,22 @@
       "schedule": "15 */4 * * *"
     }
   ],
+  "functions": {
+    "api/cron/probe": {
+      "maxDuration": 90,
+      "memory": 2048
+    },
+    "api/cron/prefilter": {
+      "maxDuration": 60,
+      "memory": 2048
+    },
+    "api/dashboard": {
+      "maxDuration": 20
+    },
+    "api/**": {
+      "maxDuration": 15
+    }
+  },
   "headers": [
     {
       "source": "/llms.txt",
@@ -75,6 +92,74 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=60, s-maxage=300, stale-while-revalidate=600"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, s-maxage=300, stale-while-revalidate=600"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, s-maxage=300, stale-while-revalidate=600"
+        }
+      ]
+    },
+    {
+      "source": "/api/products/discovery-pack",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, s-maxage=300, stale-while-revalidate=600"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, s-maxage=300, stale-while-revalidate=600"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, s-maxage=300, stale-while-revalidate=600"
+        }
+      ]
+    },
+    {
+      "source": "/api/stats",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=30, s-maxage=60, stale-while-revalidate=120"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, s-maxage=60, stale-while-revalidate=120"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, s-maxage=60, stale-while-revalidate=120"
+        }
+      ]
+    },
+    {
+      "source": "/discovery.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, s-maxage=300, stale-while-revalidate=600"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, s-maxage=300, stale-while-revalidate=600"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, s-maxage=300, stale-while-revalidate=600"
+        }
+      ]
+    },
+    {
+      "source": "/agentmap.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=120, s-maxage=300, stale-while-revalidate=600"
         },
         {
           "key": "CDN-Cache-Control",

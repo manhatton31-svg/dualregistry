@@ -1,7 +1,7 @@
 /**
  * Inbound A2A — agents call Dual Registry.
- * GET  /api/a2a — endpoint info + card pointer
- * POST /api/a2a — JSON-RPC message/send | tasks/send
+ * GET  /api/a2a — endpoint info + card pointer (CDN + ETag)
+ * POST /api/a2a — JSON-RPC message/send | tasks/send (no-store)
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
@@ -9,6 +9,12 @@ import { agents1AgentCard } from "@/lib/agents1/a2a-card";
 import { handleInboundA2a } from "@/lib/products/inbound-a2a";
 import { inboundDiscoverySurfaces } from "@/lib/products/dual-strategy";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
+import { discoveryJsonResponse } from "@/lib/agents1/discovery-cache";
+import { MAX_DURATION, PREFERRED_REGION } from "@/lib/agents1/vercel-platform";
+import { withTrackedRequest } from "@/lib/agents1/track-request";
+
+export const maxDuration = MAX_DURATION.api_write;
+export const preferredRegion = PREFERRED_REGION;
 
 export const Route = createFileRoute("/api/a2a")({
   server: {
@@ -19,69 +25,84 @@ export const Route = createFileRoute("/api/a2a")({
           headers: {
             "access-control-allow-origin": "*",
             "access-control-allow-methods": "GET, POST, OPTIONS",
-            "access-control-allow-headers": "content-type",
+            "access-control-allow-headers": "content-type, if-none-match",
           },
         }),
-      GET: async ({ request }) => {
-        const origin = resolvePublicOrigin(request);
-        return Response.json(
+      GET: async ({ request }) =>
+        withTrackedRequest(
           {
-            ok: true,
-            protocol: "a2a",
-            endpoint: `${origin}/api/a2a`,
-            agent_card: `${origin}/.well-known/agent.json`,
-            methods: ["message/send", "tasks/send", "help"],
-            card: agents1AgentCard(origin),
-            discovery: inboundDiscoverySurfaces(origin),
-            note: "POST JSON-RPC body to self-serve list/demo/status. Dual strategy: inbound + outbound both live.",
+            class: "discovery",
+            route: "/api/a2a",
+            label: "a2a_help",
           },
+          async () => {
+            const origin = resolvePublicOrigin(request);
+            const body = {
+              ok: true,
+              protocol: "a2a",
+              endpoint: `${origin}/api/a2a`,
+              agent_card: `${origin}/.well-known/agent.json`,
+              methods: ["message/send", "tasks/send", "help"],
+              card: agents1AgentCard(origin),
+              discovery: inboundDiscoverySurfaces(origin),
+              note: "POST JSON-RPC body to self-serve list/demo/status. Dual strategy: inbound + outbound both live.",
+            };
+            return discoveryJsonResponse(request, body, {
+              browser: 60,
+              cdn: 120,
+              swr: 300,
+              fingerprint: `a2a-help|${origin}|v1`,
+              extraHeaders: withDemoCtaHeaders(
+                { "access-control-allow-origin": "*" },
+                { origin },
+              ),
+            });
+          },
+        ),
+      POST: async ({ request }) =>
+        withTrackedRequest(
           {
-            headers: withDemoCtaHeaders(
-              {
-                "cache-control": "public, max-age=60",
-                "access-control-allow-origin": "*",
-              },
-              { origin },
-            ),
+            class: "agent_tool",
+            route: "/api/a2a",
+            label: "a2a_post",
           },
-        );
-      },
-      POST: async ({ request }) => {
-        const origin = resolvePublicOrigin(request);
-        let body: unknown = {};
-        try {
-          body = await request.json();
-        } catch {
-          /* */
-        }
-        try {
-          const result = await handleInboundA2a(request, body);
-          return Response.json(result, {
-            headers: withDemoCtaHeaders(
-              {
-                "cache-control": "no-store",
-                "access-control-allow-origin": "*",
-              },
-              { origin },
-            ),
-          });
-        } catch (e) {
-          return Response.json(
-            {
-              jsonrpc: "2.0",
-              id: null,
-              error: {
-                code: -32000,
-                message: e instanceof Error ? e.message : String(e),
-              },
-            },
-            {
-              status: 500,
-              headers: withDemoCtaHeaders(undefined, { origin }),
-            },
-          );
-        }
-      },
+          async () => {
+            const origin = resolvePublicOrigin(request);
+            let body: unknown = {};
+            try {
+              body = await request.json();
+            } catch {
+              /* */
+            }
+            try {
+              const result = await handleInboundA2a(request, body);
+              return Response.json(result, {
+                headers: withDemoCtaHeaders(
+                  {
+                    "cache-control": "no-store",
+                    "access-control-allow-origin": "*",
+                  },
+                  { origin },
+                ),
+              });
+            } catch (e) {
+              return Response.json(
+                {
+                  jsonrpc: "2.0",
+                  id: null,
+                  error: {
+                    code: -32000,
+                    message: e instanceof Error ? e.message : String(e),
+                  },
+                },
+                {
+                  status: 500,
+                  headers: withDemoCtaHeaders(undefined, { origin }),
+                },
+              );
+            }
+          },
+        ),
     },
   },
 });

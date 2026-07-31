@@ -27,7 +27,9 @@ export const Route = createFileRoute("/api/counters")({
             },
             {
               headers: {
-                "cache-control": "no-store",
+                "cache-control": "public, max-age=10, s-maxage=20, stale-while-revalidate=40",
+                "cdn-cache-control": "public, s-maxage=20, stale-while-revalidate=40",
+                "vercel-cdn-cache-control": "public, s-maxage=20, stale-while-revalidate=40",
                 "access-control-allow-origin": "*",
               },
             },

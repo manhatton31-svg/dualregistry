@@ -264,7 +264,7 @@ export const Route = createFileRoute("/api/dashboard")({
         const headers = {
           "cache-control": userRefresh
             ? "no-store"
-            : "private, max-age=30, stale-while-revalidate=60",
+            : "private, max-age=45, stale-while-revalidate=90",
           "access-control-allow-origin": "*",
         };
 

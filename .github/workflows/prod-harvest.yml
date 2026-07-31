@@ -1,11 +1,11 @@
-# Harvest production high-water counters every 2 minutes (no probe).
-# Keeps GitHub data/prod/* ahead of multi-instance Vercel /tmp races so
-# used/last_tick/live never regress when instances disagree.
+# Harvest production high-water counters every 12 minutes (no probe).
+# Soft GETs only — counters + probes (dashboard dropped to cut origin Active CPU).
+# Keeps GitHub data/prod/* ahead of multi-instance Vercel /tmp races.
 name: Production counter harvest
 
 on:
   schedule:
-    - cron: "*/2 * * * *"
+    - cron: "*/12 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -23,23 +23,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Pull production high-water
+      - name: Pull production high-water (soft)
         run: |
           set -euo pipefail
           BASE="https://www.dualregistry.dev"
-          # Cost: one probes + soft dashboard + counters (was 3×probes + refresh).
-          # Retry probes only if first response is thin — same floor max-merge quality.
-          curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
-            "${BASE}/api/probes?t=$(date +%s)" -o /tmp/probes-api.json
-          curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
-            "${BASE}/api/dashboard?t=$(date +%s)" -o /tmp/dash-api.json
-          curl -sS -m 30 -L -A "DualRegistryHarvest/1.0" \
-            "${BASE}/api/counters?t=$(date +%s)" -o /tmp/counters-api.json || echo '{}' > /tmp/counters-api.json
-          if ! python3 -c "import json;d=json.load(open('/tmp/probes-api.json')); assert (d.get('ok') or d.get('probes'))" 2>/dev/null; then
-            sleep 1
-            curl -sS -m 45 -L -A "DualRegistryHarvest/1.0" \
-              "${BASE}/api/probes?t=$(date +%s)b" -o /tmp/probes-api-b.json || true
+          # Soft harvest: one probes + one counters. No dashboard (heavy).
+          # ETag: if 304, keep previous GH floors (no write).
+          ETAG_FILE="data/prod/.harvest-etag"
+          ETAG=""
+          if [ -f "$ETAG_FILE" ]; then ETAG=$(cat "$ETAG_FILE" || true); fi
+          HDR=(-H "accept: application/json" -A "DualRegistryHarvest/2.0-soft")
+          if [ -n "$ETAG" ]; then HDR+=(-H "If-None-Match: $ETAG"); fi
+
+          CODE=$(curl -sS -m 45 -L "${HDR[@]}" \
+            -D /tmp/probes-hdr.txt \
+            -o /tmp/probes-api.json \
+            -w "%{http_code}" \
+            "${BASE}/api/probes?soft=1&t=$(date +%s)" || echo "000")
+          echo "probes_http=$CODE"
+          if [ "$CODE" = "304" ]; then
+            echo "probes 304 — floors unchanged"
+            exit 0
           fi
+          # capture etag for next run
+          grep -i '^etag:' /tmp/probes-hdr.txt | head -1 | sed 's/[Ee][Tt][Aa][Gg]: *//' | tr -d '\r' > "$ETAG_FILE" || true
+
+          curl -sS -m 30 -L -A "DualRegistryHarvest/2.0-soft" \
+            "${BASE}/api/counters?t=$(date +%s)" -o /tmp/counters-api.json || echo '{}' > /tmp/counters-api.json
+
           python3 - <<'PY'
           import json, pathlib
           from datetime import datetime, timezone
@@ -50,32 +61,19 @@ jobs:
               except Exception:
                   return {}
 
-          samples = [loadj(p) for p in (
-              "/tmp/probes-api.json",
-              "/tmp/probes-api-b.json",
-          ) if pathlib.Path(p).exists() and pathlib.Path(p).stat().st_size > 2]
-          d = loadj("/tmp/dash-api.json")
+          p = loadj("/tmp/probes-api.json")
           c = loadj("/tmp/counters-api.json")
-
-          used = 0
-          last = ""
-          live = {"total": 0, "mcp": 0, "agents": 0, "at": ""}
-          recent = []
-          for p in samples:
-              pr = p.get("probes") or {}
-              used = max(used, int(pr.get("used") or 0))
-              lt = pr.get("last_tick_at") or ""
-              if lt >= last:
-                  last = lt
-              lv = pr.get("live_active") or {}
-              live = {
-                  "total": max(int(live.get("total") or 0), int(lv.get("total") or 0)),
-                  "mcp": max(int(live.get("mcp") or 0), int(lv.get("mcp") or 0)),
-                  "agents": max(int(live.get("agents") or 0), int(lv.get("agents") or 0)),
-                  "at": max(live.get("at") or "", lv.get("at") or ""),
-              }
-              for r in (p.get("recent") or []):
-                  recent.append(r)
+          pr = p.get("probes") or {}
+          used = int(pr.get("used") or 0)
+          last = pr.get("last_tick_at") or ""
+          lv = pr.get("live_active") or {}
+          live = {
+              "total": int(lv.get("total") or 0),
+              "mcp": int(lv.get("mcp") or 0),
+              "agents": int(lv.get("agents") or 0),
+              "at": lv.get("at") or "",
+          }
+          recent = list(p.get("recent") or [])
           cc = c.get("counters") or c
           used = max(used, int(cc.get("probes_used") or 0))
           live["total"] = max(int(live["total"] or 0), int(cc.get("live_ok") or 0))
@@ -83,7 +81,7 @@ jobs:
           live["agents"] = max(int(live["agents"] or 0), int(cc.get("live_agents") or 0))
 
           day = (last or datetime.now(timezone.utc).isoformat())[:10]
-          print("harvest used", used, "last", last, "live", live.get("total"), "samples", len(samples))
+          print("harvest used", used, "last", last, "live", live.get("total"))
 
           def load(path):
               path = pathlib.Path(path)
@@ -107,15 +105,7 @@ jobs:
               "agents": max(int(fl.get("agents") or 0), int(live.get("agents") or 0)),
               "at": max(fl.get("at") or "", live.get("at") or ""),
           }
-          delist = (d.get("delist") or {}).get("delisted_total") or 0
-          floors["delisted_floor"] = max(int(floors.get("delisted_floor") or 0), int(delist), int(cc.get("delisted_count") or 0))
-          mcp_in = int((d.get("mcp") or {}).get("total") or 0)
-          ag_in = int((d.get("agents") or {}).get("total") or 0)
-          dm = int((d.get("delist") or {}).get("delisted_mcp") or 0)
-          da = int((d.get("delist") or {}).get("delisted_agents") or 0)
-          floors["store_mcp_floor"] = max(int(floors.get("store_mcp_floor") or 0), mcp_in + dm)
-          floors["store_agents_floor"] = max(int(floors.get("store_agents_floor") or 0), ag_in + da)
-          # last_tick high-water on floors (shared across instances)
+          floors["delisted_floor"] = max(int(floors.get("delisted_floor") or 0), int(cc.get("delisted_count") or 0))
           prev_lt = floors.get("last_tick_floor") or ""
           floors["last_tick_floor"] = last if last >= prev_lt else prev_lt
           floors["updated_at"] = datetime.now(timezone.utc).isoformat()
@@ -153,13 +143,13 @@ jobs:
           livec["live_agents"] = floors["live_floor"]["agents"]
           livec["delisted_count"] = max(int(livec.get("delisted_count") or 0), floors["delisted_floor"])
           livec["updated_at"] = floors["updated_at"]
-          livec["backend"] = "harvest"
+          livec["backend"] = "harvest-soft-12m"
 
           pathlib.Path("data/prod").mkdir(parents=True, exist_ok=True)
           pathlib.Path("data/prod/counter-floors.json").write_text(json.dumps(floors, indent=2))
           pathlib.Path("data/prod/probes.json").write_text(json.dumps(probes, indent=2))
           pathlib.Path("data/prod/live-counters.json").write_text(json.dumps(livec, indent=2))
-          print("wrote floors used", floors["used_floor"], "last", probes.get("last_tick_at"), "last_tick_floor", floors.get("last_tick_floor"))
+          print("wrote floors used", floors["used_floor"], "last", probes.get("last_tick_at"))
           PY
 
       - name: Commit (conflict-safe max-merge)
