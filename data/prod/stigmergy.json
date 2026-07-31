@@ -1,14 +1,14 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:01:59.185Z",
+  "updated_at": "2026-07-31T13:02:00.011Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
-      "attraction": 2.75,
+      "attraction": 3.5,
       "danger": 0,
       "demand": 5,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:01:55.410Z",
+      "last_reinforced_at": "2026-07-31T13:01:59.509Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -89,11 +89,11 @@
     },
     "agtpub_3c5075ba16667511f5f5": {
       "listing_id": "agtpub_3c5075ba16667511f5f5",
-      "attraction": 0,
+      "attraction": 0.5,
       "danger": 0,
-      "demand": 4,
+      "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:01:57.916Z",
+      "last_reinforced_at": "2026-07-31T13:01:59.449Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -106,11 +106,28 @@
     },
     "agent-corduroy-labs-https-corduroy-labs-ai": {
       "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
-      "attraction": 1,
+      "attraction": 2,
+      "danger": 0,
+      "demand": 4,
+      "joined": 0,
+      "last_reinforced_at": "2026-07-31T13:01:59.449Z",
+      "event_counts": {
+        "demos": 0,
+        "feedback": 0,
+        "match_hits": 0,
+        "probes_ok": 0,
+        "probes_fail": 0,
+        "lists": 0,
+        "endorsements": 0
+      }
+    },
+    "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai": {
+      "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "attraction": 0,
       "danger": 0,
       "demand": 2,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:01:57.916Z",
+      "last_reinforced_at": "2026-07-31T13:01:59.449Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -164,9 +181,45 @@
       "count": 1,
       "intensity": 4,
       "last_at": "2026-07-31T13:01:57.916Z"
+    },
+    "agent-corduroy-labs-https-corduroy-labs-ai|agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai": {
+      "a": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "b": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "count": 1,
+      "intensity": 4,
+      "last_at": "2026-07-31T13:01:59.449Z"
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yc5zp_7h7cp7",
+      "kind": "mark",
+      "listing_id": "agent-agoragentic-https-agoragentic-com",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:01:59.509Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yc5y1_2asxgg",
+      "kind": "used_with",
+      "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "listing_b": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "from": "flywheel_seed",
+      "body": "seed composition · other::general",
+      "intensity": 2,
+      "at": "2026-07-31T13:01:59.449Z",
+      "tags": [
+        "seed",
+        "composition",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yc4u9_vb2cwb",
       "kind": "mark",
@@ -344,6 +397,44 @@
   ],
   "feed_events": [
     {
+      "type": "follow_trail",
+      "amount": 8,
+      "kind": "demand",
+      "at": "2026-07-31T13:02:00.011Z"
+    },
+    {
+      "type": "follow_trail",
+      "amount": 8,
+      "kind": "hot",
+      "at": "2026-07-31T13:01:59.814Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agent-agoragentic-https-agoragentic-com",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:01:59.509Z"
+    },
+    {
+      "type": "contagion",
+      "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "listing_b": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:01:59.449Z",
+      "body": "Composition contagion touched 1 neighbors"
+    },
+    {
+      "type": "used_with",
+      "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
+      "listing_b": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:01:59.449Z"
+    },
+    {
       "type": "leave_trace",
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
       "kind": "mark",
@@ -517,7 +608,7 @@
   ],
   "totals": {
     "auto_deposits": 0,
-    "agent_deposits": 12,
+    "agent_deposits": 14,
     "senses": 2,
     "follows": 6,
     "evaporations": 0
