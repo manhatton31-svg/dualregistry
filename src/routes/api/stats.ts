@@ -41,7 +41,17 @@ export const Route = createFileRoute("/api/stats")({
               sitewide_at: 4,
               note: "First 3 agents with a theme get individualized Kernel/Loop; 4th reuse ships sitewide.",
             },
-            note: "Clean-only counts (probe ok at source URL). Store dumps are not Dual Registry.",
+            funnel_honesty: await (async () => {
+              try {
+                const { getFunnelHonesty } = await import(
+                  "@/lib/products/funnel-honesty"
+                );
+                return await getFunnelHonesty();
+              } catch {
+                return null;
+              }
+            })(),
+            note: "Clean-only counts (probe ok at source URL). Store dumps are not Dual Registry. funnel_honesty splits invited vs real demos.",
           },
           {
             headers: {

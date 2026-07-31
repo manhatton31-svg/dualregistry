@@ -631,6 +631,11 @@ export function agents1McpServerCard(origin: string) {
     remotes: [
       {
         type: "streamable-http",
+        url: `${o}/api/mcp`,
+        headers: {},
+      },
+      {
+        type: "streamable-http",
         url: `${o}/api/protocol`,
         headers: {},
       },
@@ -679,7 +684,8 @@ export function agents1McpServerCard(origin: string) {
       { name: "zero_mc_pack", description: `Free federation pack (copy, don't re-crawl)` },
       { name: "s_curve_board", description: `Stacked S-curve dashboard` },
     ],
-    tools_endpoint: `${o}/api/protocol`,
+    tools_endpoint: `${o}/api/mcp`,
+    tools_endpoint_alias: `${o}/api/protocol`,
     tools_transport: "streamable-http",
     tools_methods: ["initialize", "tools/list", "tools/call", "ping"],
     dual_as_tool: true,

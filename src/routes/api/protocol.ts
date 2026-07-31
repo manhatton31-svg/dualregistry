@@ -98,7 +98,8 @@ export const Route = createFileRoute("/api/protocol")({
             session: null,
             dual_as_tool: {
               version: REGISTRY_TOOLS_VERSION,
-              endpoint: `${origin}/api/protocol`,
+              endpoint: `${origin}/api/mcp`,
+              endpoint_alias: `${origin}/api/protocol`,
               methods: ["initialize", "tools/list", "tools/call", "ping"],
               tools: listRegistryTools(origin).map((t) => t.name),
               note: "POST JSON-RPC tools/list | tools/call here. Dual is invocable.",
@@ -163,7 +164,7 @@ export const Route = createFileRoute("/api/protocol")({
             },
             policy: [
               "Find us: /skill.json · /discovery.json · /llms.txt · dualregistry.dev",
-              "Dual-as-tool: POST /api/protocol JSON-RPC tools/list | tools/call",
+              "Dual-as-tool: POST /api/mcp (alias /api/protocol) JSON-RPC tools/list | tools/call",
               "Free self-list: list_yourself tool or POST /api/publish",
               "Live = checks clean + probe ok (~6m). Active list: search_active tool",
               "DEAL: first 100 agents+MCPs — demo + feedback unlocks full product free (founding seats)",

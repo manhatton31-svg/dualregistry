@@ -28,6 +28,12 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
     agent_descriptions: `${o}/.well-known/agent-descriptions`,
     mcp_server_card: `${o}/.well-known/mcp/server-card.json`,
     mcp_server_card_alt: `${o}/.well-known/mcp/server-card`,
+    mcp_streamable: `${o}/api/mcp`,
+    mcp_streamable_short: `${o}/mcp`,
+    mcp_protocol_alias: `${o}/api/protocol`,
+    mcp_well_known: `${o}/.well-known/mcp.json`,
+    discovery_pack_api: `${o}/api/products/discovery-pack`,
+    founding_dogfood: `${o}/api/products/founding-dogfood`,
     a2a_rpc: `${o}/api/a2a`,
     ard_search: `${o}/api/ard/search`,
     activity_feed: `${o}/api/feed`,
@@ -74,12 +80,12 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
     score: `${o}/api/score`,
     self_serve_steps: [
       `GET ${o}/skill.json`,
-      `POST ${o}/api/publish {"url":"https://YOUR_HOST/.well-known/agent.json"}`,
+      `POST ${o}/api/mcp tools/call list_yourself OR POST ${o}/api/publish`,
       `GET ${o}/api/listings/status?name=YOUR_NAME until lane=active`,
       id
-        ? `GET ${o}/api/products/demo?listing_id=${encodeURIComponent(id)}`
-        : `GET ${o}/api/products/demo?listing_id=YOUR_ID`,
-      `POST ${o}/api/products/feedback`,
+        ? `POST ${o}/api/mcp tools/call take_demo {listing_id:${encodeURIComponent(id)}}`
+        : `POST ${o}/api/mcp tools/call take_demo {listing_id:YOUR_ID}`,
+      `POST ${o}/api/mcp tools/call leave_feedback FIRST (founding seat / 25%)`,
       `tools/call leave_trace | sense_traces | follow_trail — stigmergic coordination`,
     ],
   };

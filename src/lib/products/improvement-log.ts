@@ -1286,6 +1286,14 @@ export async function getPublicImprovementLog(opts?: {
       live: liveGaps,
       note: "Closed-loop flywheel + conversion-first demos. Live gaps close when F/C/founding floors met.",
     },
+    funnel_honesty: await (async () => {
+      try {
+        const { getFunnelHonesty } = await import("./funnel-honesty");
+        return await getFunnelHonesty();
+      } catch {
+        return null;
+      }
+    })(),
     feedback_snapshot: {
       total: eng?.feedback_events ?? insights?.n ?? 0,
       feedback_agents: eng?.feedback_agents ?? 0,

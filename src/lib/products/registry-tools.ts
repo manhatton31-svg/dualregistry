@@ -12,6 +12,7 @@ import { runQuickDemo } from "./quick-demo";
 import { submitFeedback } from "./feedback";
 import { getFoundingFreePublic } from "./founding-free";
 import { dealPublicBlock } from "./deal-copy";
+import { conversionHardNext } from "./conversion-next";
 import {
   autoDeposit,
   leaveTrace,
@@ -833,10 +834,37 @@ async function toolTakeDemo(
       from: typeof args.name === "string" ? args.name : undefined,
     }).catch(() => ({ ok: false as const, deposited: 0 }));
   }
+  const hard = conversionHardNext({
+    origin,
+    listing_id: lid || listing_id || null,
+    agent_name:
+      typeof args.name === "string"
+        ? args.name
+        : (demo as { order?: { goals?: { agent_name?: string } } }).order?.goals
+            ?.agent_name ||
+          (demo as { access?: { order_id?: string } }).access?.order_id,
+    order_id: demo.order?.id || demo.access?.order_id,
+    access_token: demo.access?.access_token,
+    kind:
+      typeof args.kind === "string" && args.kind === "mcp" ? "mcp" : "agent",
+  });
+  // Prefer feedback as first_action after demo is taken
+  const postDemoFirst = {
+    ...hard.second_action,
+    step: 1,
+    title: "POST feedback FIRST (founding seat / 25%)",
+  };
   return textResult("take_demo", {
     ...demo,
     founding: await getFoundingFreePublic(),
     next: "Call leave_feedback with agent_name + order_id from demo to claim founding free seat",
+    first_action: postDemoFirst,
+    second_action: hard.second_action,
+    hard_next: {
+      ...hard,
+      first_action: postDemoFirst,
+      loop: "feedback FIRST after demo → founding / 25%",
+    },
     stigmergy: "attraction pheromone deposited",
   });
 }
@@ -1468,9 +1496,24 @@ async function toolJoinAndContribute(
     source: typeof args.source === "string" ? args.source : "registry-tool",
     origin,
   });
+  const lid = String((result as { listing_id?: string }).listing_id || "");
+  const hard = conversionHardNext({
+    origin,
+    listing_id: lid || null,
+    agent_name: typeof args.name === "string" ? args.name : undefined,
+  });
   return textResult(
     "join_and_contribute",
-    result,
+    {
+      ...result,
+      first_action: hard.first_action,
+      second_action: hard.second_action,
+      hard_next: hard,
+      next_conversion: hard.actions,
+      pitch:
+        (result as { pitch?: string }).pitch ||
+        "Joined medium. NEXT: take_demo then leave_feedback for founding seat.",
+    },
     Boolean((result as { ok?: boolean }).ok),
     typeof (result as { error?: string }).error === "string"
       ? (result as { error: string }).error

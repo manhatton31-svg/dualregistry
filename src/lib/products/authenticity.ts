@@ -4,7 +4,7 @@
  */
 
 const TEST_NAME_RE =
-  /^(peer\d*|nagtest|funneltest|mesh-\d+|paidcycle|closedloop|fb-driven|pricetest|sota-agent|feedbackcheck|postfeedback|teltest|clarityship|prefstack|ab-peer|test[-_]?agent|integrity(?:smoke)?|closerate|smoketest|mailtest|zeropay|closerateagent|wtpbot|feedbackbot|founding free test|founding.?free.?test.?agent)$/i;
+  /^(peer\d*|nagtest|funneltest|mesh-\d+|paidcycle|closedloop|fb-driven|pricetest|sota-agent|feedbackcheck|postfeedback|teltest|clarityship|prefstack|ab-peer|test[-_]?agent|integrity(?:smoke)?|closerate|smoketest|mailtest|zeropay|closerateagent|wtpbot|feedbackbot|founding free test|founding.?free.?test.?agent|operatordogfood[-_].*)$/i;
 
 /** Legacy auto-drive template surveys (MCP install kit / agent persona spam) */
 const TEMPLATE_BODY_RE =
@@ -31,6 +31,12 @@ export function isSyntheticFeedback(item: {
   if (item.meta?.synthetic === true) return true;
   if (item.meta?.platform_dogfood === true) return true;
   if (item.meta?.not_external === true) return true;
+  // operator dogfood only counts when meta.count_as_real === true
+  if (
+    item.meta?.operator_dogfood === true &&
+    item.meta?.count_as_real !== true
+  )
+    return true;
   if (item.meta?.drive && String(item.meta.drive).includes("feedback-drive"))
     return true;
   if (Array.isArray(item.tags)) {
@@ -40,8 +46,13 @@ export function isSyntheticFeedback(item: {
     if (item.tags.includes("funnel_complete")) return true; // bulk build-agent batch
     if (item.tags.includes("dogfood")) return true;
   }
-  if (item.source === "platform_qa" || item.source === "registry_drive")
+  if (
+    item.source === "platform_qa" ||
+    item.source === "registry_drive" ||
+    item.source === "operator_dogfood"
+  )
     return true;
+  // operator_dogfood_real is allowed through (explicit count_as_real path)
   const body = item.body || "";
   if (body.includes("registry_drive persona")) return true;
   if (TEMPLATE_BODY_RE.test(body)) return true;

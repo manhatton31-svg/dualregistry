@@ -1357,3 +1357,40 @@ export async function getDemoNudgeStatus() {
     },
   };
 }
+
+/**
+ * Listing IDs that accepted multipath/HTTPS delivery (http_ok).
+ * Invited demo seeds should only target these — no ghost demos.
+ */
+export async function listHttpOkListingIds(): Promise<Set<string>> {
+  const s = await load();
+  const out = new Set<string>();
+  for (const h of s.history || []) {
+    if (h.listing_id && (h.http_ok === true || h.channel === "talk_dm_http")) {
+      out.add(h.listing_id);
+    }
+  }
+  return out;
+}
+
+/** Names of http_ok listings (normalized lower) for seed matching by name. */
+export async function listHttpOkNames(): Promise<Set<string>> {
+  const s = await load();
+  const out = new Set<string>();
+  for (const h of s.history || []) {
+    if (
+      h.listing_id &&
+      (h.http_ok === true || h.channel === "talk_dm_http") &&
+      h.name
+    ) {
+      out.add(
+        h.name
+          .trim()
+          .toLowerCase()
+          .replace(/\s+mcp\s*$/i, "")
+          .slice(0, 80),
+      );
+    }
+  }
+  return out;
+}

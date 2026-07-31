@@ -550,6 +550,18 @@ export async function joinAndContribute(opts: {
     founding = await getFoundingFreePublic();
   });
 
+  let hard_next: Record<string, unknown> | null = null;
+  try {
+    const { conversionHardNext } = await import("./conversion-next");
+    hard_next = conversionHardNext({
+      origin,
+      listing_id,
+      agent_name: name,
+    }) as unknown as Record<string, unknown>;
+  } catch {
+    hard_next = null;
+  }
+
   return {
     ok: true,
     version: FLYWHEEL_VERSION,
@@ -562,6 +574,9 @@ export async function joinAndContribute(opts: {
       outcome: "join template",
       interop_session: true,
     },
+    first_action: hard_next ? hard_next["first_action"] : undefined,
+    second_action: hard_next ? hard_next["second_action"] : undefined,
+    hard_next,
     next_near_zero: [
       `tools/call sense_traces {}`,
       `tools/call follow_trail {"kind":"hot"}`,
@@ -570,12 +585,14 @@ export async function joinAndContribute(opts: {
       `tools/call leave_trace {"listing_id":"${listing_id}","kind":"mark","body":"hello medium"}`,
     ],
     next_real_cost: [
-      `GET ${origin}/api/products/demo?listing_id=${encodeURIComponent(listing_id)}`,
-      `POST ${origin}/api/products/feedback with demo draft`,
+      `POST ${origin}/api/products/demo { listing_id: "${listing_id}" }`,
+      `POST ${origin}/api/products/feedback with demo draft FIRST`,
+      `POST ${origin}/api/mcp tools/call take_demo then leave_feedback`,
     ],
     pitch:
-      "You are on the medium. Near-zero trails raise V for everyone; demo+feedback claims founding seat.",
+      "You are on the medium. NEXT: take_demo then leave_feedback for founding seat. Near-zero trails raise V for everyone.",
     take_demo_get: `${origin}/api/products/demo?listing_id=${encodeURIComponent(listing_id)}`,
+    mcp_endpoint: `${origin}/api/mcp`,
   };
 }
 

@@ -16,6 +16,7 @@ import { Route as DiscoveryDotjsonRouteImport } from './routes/discovery[.]json'
 import { Route as ListRouteImport } from './routes/list'
 import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as OpenapiDotjsonRouteImport } from './routes/openapi[.]json'
 import { Route as RobotsAgentDottxtRouteImport } from './routes/robots-agent[.]txt'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
@@ -32,6 +33,7 @@ import { Route as DotwellKnownAiCatalogDotjsonRouteImport } from './routes/[.]we
 import { Route as DotwellKnownHttpMessageSignaturesDirectoryRouteImport } from './routes/[.]well-known/http-message-signatures-directory'
 import { Route as DotwellKnownJwksDotjsonRouteImport } from './routes/[.]well-known/jwks[.]json'
 import { Route as DotwellKnownMcpRegistryAuthRouteImport } from './routes/[.]well-known/mcp-registry-auth'
+import { Route as DotwellKnownMcpDotjsonRouteImport } from './routes/[.]well-known/mcp[.]json'
 import { Route as DotwellKnownSignatureAgentCardDotjsonRouteImport } from './routes/[.]well-known/signature-agent-card[.]json'
 import { Route as AgentsPublicRouteImport } from './routes/agents/public'
 import { Route as AgentsSearchRouteImport } from './routes/agents/search'
@@ -44,6 +46,7 @@ import { Route as ApiFeedRouteImport } from './routes/api/feed'
 import { Route as ApiGrowthRouteImport } from './routes/api/growth'
 import { Route as ApiListingLanesRouteImport } from './routes/api/listing-lanes'
 import { Route as ApiMatchRouteImport } from './routes/api/match'
+import { Route as ApiMcpRouteImport } from './routes/api/mcp'
 import { Route as ApiProtocolRouteImport } from './routes/api/protocol'
 import { Route as ApiPublishRouteImport } from './routes/api/publish'
 import { Route as ApiScoreRouteImport } from './routes/api/score'
@@ -81,6 +84,7 @@ import { Route as ApiProductsConversionPressureRouteImport } from './routes/api/
 import { Route as ApiProductsDemoRouteImport } from './routes/api/products/demo'
 import { Route as ApiProductsDemoConfirmRouteImport } from './routes/api/products/demo-confirm'
 import { Route as ApiProductsDemoNudgeRouteImport } from './routes/api/products/demo-nudge'
+import { Route as ApiProductsDiscoveryPackRouteImport } from './routes/api/products/discovery-pack'
 import { Route as ApiProductsDualStrategyRouteImport } from './routes/api/products/dual-strategy'
 import { Route as ApiProductsExonomicsRouteImport } from './routes/api/products/exonomics'
 import { Route as ApiProductsExportRouteImport } from './routes/api/products/export'
@@ -88,6 +92,7 @@ import { Route as ApiProductsFederationRouteImport } from './routes/api/products
 import { Route as ApiProductsFeedbackRouteImport } from './routes/api/products/feedback'
 import { Route as ApiProductsFeedbackDriveRouteImport } from './routes/api/products/feedback-drive'
 import { Route as ApiProductsFirstPrinciplesRouteImport } from './routes/api/products/first-principles'
+import { Route as ApiProductsFoundingDogfoodRouteImport } from './routes/api/products/founding-dogfood'
 import { Route as ApiProductsGoHarderRouteImport } from './routes/api/products/go-harder'
 import { Route as ApiProductsImprovementLogRouteImport } from './routes/api/products/improvement-log'
 import { Route as ApiProductsInteropRouteImport } from './routes/api/products/interop'
@@ -141,6 +146,11 @@ const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
 const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
   id: '/llms.txt',
   path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpenapiDotjsonRoute = OpenapiDotjsonRouteImport.update({
@@ -231,6 +241,11 @@ const DotwellKnownMcpRegistryAuthRoute =
     path: '/.well-known/mcp-registry-auth',
     getParentRoute: () => rootRouteImport,
   } as any)
+const DotwellKnownMcpDotjsonRoute = DotwellKnownMcpDotjsonRouteImport.update({
+  id: '/.well-known/mcp.json',
+  path: '/.well-known/mcp.json',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DotwellKnownSignatureAgentCardDotjsonRoute =
   DotwellKnownSignatureAgentCardDotjsonRouteImport.update({
     id: '/.well-known/signature-agent-card.json',
@@ -290,6 +305,11 @@ const ApiListingLanesRoute = ApiListingLanesRouteImport.update({
 const ApiMatchRoute = ApiMatchRouteImport.update({
   id: '/api/match',
   path: '/api/match',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiMcpRoute = ApiMcpRouteImport.update({
+  id: '/api/mcp',
+  path: '/api/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiProtocolRoute = ApiProtocolRouteImport.update({
@@ -483,6 +503,12 @@ const ApiProductsDemoNudgeRoute = ApiProductsDemoNudgeRouteImport.update({
   path: '/api/products/demo-nudge',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsDiscoveryPackRoute =
+  ApiProductsDiscoveryPackRouteImport.update({
+    id: '/api/products/discovery-pack',
+    path: '/api/products/discovery-pack',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiProductsDualStrategyRoute = ApiProductsDualStrategyRouteImport.update({
   id: '/api/products/dual-strategy',
   path: '/api/products/dual-strategy',
@@ -518,6 +544,12 @@ const ApiProductsFirstPrinciplesRoute =
   ApiProductsFirstPrinciplesRouteImport.update({
     id: '/api/products/first-principles',
     path: '/api/products/first-principles',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiProductsFoundingDogfoodRoute =
+  ApiProductsFoundingDogfoodRouteImport.update({
+    id: '/api/products/founding-dogfood',
+    path: '/api/products/founding-dogfood',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiProductsGoHarderRoute = ApiProductsGoHarderRouteImport.update({
@@ -625,6 +657,7 @@ export interface FileRoutesByFullPath {
   '/list': typeof ListRouteWithChildren
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/mcp': typeof McpRoute
   '/openapi.json': typeof OpenapiDotjsonRoute
   '/robots-agent.txt': typeof RobotsAgentDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -641,6 +674,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/http-message-signatures-directory': typeof DotwellKnownHttpMessageSignaturesDirectoryRoute
   '/.well-known/jwks.json': typeof DotwellKnownJwksDotjsonRoute
   '/.well-known/mcp-registry-auth': typeof DotwellKnownMcpRegistryAuthRoute
+  '/.well-known/mcp.json': typeof DotwellKnownMcpDotjsonRoute
   '/.well-known/signature-agent-card.json': typeof DotwellKnownSignatureAgentCardDotjsonRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
@@ -653,6 +687,7 @@ export interface FileRoutesByFullPath {
   '/api/growth': typeof ApiGrowthRoute
   '/api/listing-lanes': typeof ApiListingLanesRoute
   '/api/match': typeof ApiMatchRoute
+  '/api/mcp': typeof ApiMcpRoute
   '/api/protocol': typeof ApiProtocolRoute
   '/api/publish': typeof ApiPublishRoute
   '/api/score': typeof ApiScoreRoute
@@ -688,6 +723,7 @@ export interface FileRoutesByFullPath {
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
+  '/api/products/discovery-pack': typeof ApiProductsDiscoveryPackRoute
   '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
   '/api/products/exonomics': typeof ApiProductsExonomicsRoute
   '/api/products/export': typeof ApiProductsExportRoute
@@ -695,6 +731,7 @@ export interface FileRoutesByFullPath {
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
   '/api/products/first-principles': typeof ApiProductsFirstPrinciplesRoute
+  '/api/products/founding-dogfood': typeof ApiProductsFoundingDogfoodRoute
   '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
   '/api/products/interop': typeof ApiProductsInteropRoute
@@ -725,6 +762,7 @@ export interface FileRoutesByTo {
   '/list': typeof ListRouteWithChildren
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/mcp': typeof McpRoute
   '/openapi.json': typeof OpenapiDotjsonRoute
   '/robots-agent.txt': typeof RobotsAgentDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -741,6 +779,7 @@ export interface FileRoutesByTo {
   '/.well-known/http-message-signatures-directory': typeof DotwellKnownHttpMessageSignaturesDirectoryRoute
   '/.well-known/jwks.json': typeof DotwellKnownJwksDotjsonRoute
   '/.well-known/mcp-registry-auth': typeof DotwellKnownMcpRegistryAuthRoute
+  '/.well-known/mcp.json': typeof DotwellKnownMcpDotjsonRoute
   '/.well-known/signature-agent-card.json': typeof DotwellKnownSignatureAgentCardDotjsonRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
@@ -753,6 +792,7 @@ export interface FileRoutesByTo {
   '/api/growth': typeof ApiGrowthRoute
   '/api/listing-lanes': typeof ApiListingLanesRoute
   '/api/match': typeof ApiMatchRoute
+  '/api/mcp': typeof ApiMcpRoute
   '/api/protocol': typeof ApiProtocolRoute
   '/api/publish': typeof ApiPublishRoute
   '/api/score': typeof ApiScoreRoute
@@ -788,6 +828,7 @@ export interface FileRoutesByTo {
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
+  '/api/products/discovery-pack': typeof ApiProductsDiscoveryPackRoute
   '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
   '/api/products/exonomics': typeof ApiProductsExonomicsRoute
   '/api/products/export': typeof ApiProductsExportRoute
@@ -795,6 +836,7 @@ export interface FileRoutesByTo {
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
   '/api/products/first-principles': typeof ApiProductsFirstPrinciplesRoute
+  '/api/products/founding-dogfood': typeof ApiProductsFoundingDogfoodRoute
   '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
   '/api/products/interop': typeof ApiProductsInteropRoute
@@ -826,6 +868,7 @@ export interface FileRoutesById {
   '/list': typeof ListRouteWithChildren
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
+  '/mcp': typeof McpRoute
   '/openapi.json': typeof OpenapiDotjsonRoute
   '/robots-agent.txt': typeof RobotsAgentDottxtRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -842,6 +885,7 @@ export interface FileRoutesById {
   '/.well-known/http-message-signatures-directory': typeof DotwellKnownHttpMessageSignaturesDirectoryRoute
   '/.well-known/jwks.json': typeof DotwellKnownJwksDotjsonRoute
   '/.well-known/mcp-registry-auth': typeof DotwellKnownMcpRegistryAuthRoute
+  '/.well-known/mcp.json': typeof DotwellKnownMcpDotjsonRoute
   '/.well-known/signature-agent-card.json': typeof DotwellKnownSignatureAgentCardDotjsonRoute
   '/agents/public': typeof AgentsPublicRoute
   '/agents/search': typeof AgentsSearchRoute
@@ -854,6 +898,7 @@ export interface FileRoutesById {
   '/api/growth': typeof ApiGrowthRoute
   '/api/listing-lanes': typeof ApiListingLanesRoute
   '/api/match': typeof ApiMatchRoute
+  '/api/mcp': typeof ApiMcpRoute
   '/api/protocol': typeof ApiProtocolRoute
   '/api/publish': typeof ApiPublishRoute
   '/api/score': typeof ApiScoreRoute
@@ -889,6 +934,7 @@ export interface FileRoutesById {
   '/api/products/demo': typeof ApiProductsDemoRoute
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
+  '/api/products/discovery-pack': typeof ApiProductsDiscoveryPackRoute
   '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
   '/api/products/exonomics': typeof ApiProductsExonomicsRoute
   '/api/products/export': typeof ApiProductsExportRoute
@@ -896,6 +942,7 @@ export interface FileRoutesById {
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
   '/api/products/first-principles': typeof ApiProductsFirstPrinciplesRoute
+  '/api/products/founding-dogfood': typeof ApiProductsFoundingDogfoodRoute
   '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
   '/api/products/interop': typeof ApiProductsInteropRoute
@@ -928,6 +975,7 @@ export interface FileRouteTypes {
     | '/list'
     | '/llms-full.txt'
     | '/llms.txt'
+    | '/mcp'
     | '/openapi.json'
     | '/robots-agent.txt'
     | '/robots.txt'
@@ -944,6 +992,7 @@ export interface FileRouteTypes {
     | '/.well-known/http-message-signatures-directory'
     | '/.well-known/jwks.json'
     | '/.well-known/mcp-registry-auth'
+    | '/.well-known/mcp.json'
     | '/.well-known/signature-agent-card.json'
     | '/agents/public'
     | '/agents/search'
@@ -956,6 +1005,7 @@ export interface FileRouteTypes {
     | '/api/growth'
     | '/api/listing-lanes'
     | '/api/match'
+    | '/api/mcp'
     | '/api/protocol'
     | '/api/publish'
     | '/api/score'
@@ -991,6 +1041,7 @@ export interface FileRouteTypes {
     | '/api/products/demo'
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
+    | '/api/products/discovery-pack'
     | '/api/products/dual-strategy'
     | '/api/products/exonomics'
     | '/api/products/export'
@@ -998,6 +1049,7 @@ export interface FileRouteTypes {
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
     | '/api/products/first-principles'
+    | '/api/products/founding-dogfood'
     | '/api/products/go-harder'
     | '/api/products/improvement-log'
     | '/api/products/interop'
@@ -1028,6 +1080,7 @@ export interface FileRouteTypes {
     | '/list'
     | '/llms-full.txt'
     | '/llms.txt'
+    | '/mcp'
     | '/openapi.json'
     | '/robots-agent.txt'
     | '/robots.txt'
@@ -1044,6 +1097,7 @@ export interface FileRouteTypes {
     | '/.well-known/http-message-signatures-directory'
     | '/.well-known/jwks.json'
     | '/.well-known/mcp-registry-auth'
+    | '/.well-known/mcp.json'
     | '/.well-known/signature-agent-card.json'
     | '/agents/public'
     | '/agents/search'
@@ -1056,6 +1110,7 @@ export interface FileRouteTypes {
     | '/api/growth'
     | '/api/listing-lanes'
     | '/api/match'
+    | '/api/mcp'
     | '/api/protocol'
     | '/api/publish'
     | '/api/score'
@@ -1091,6 +1146,7 @@ export interface FileRouteTypes {
     | '/api/products/demo'
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
+    | '/api/products/discovery-pack'
     | '/api/products/dual-strategy'
     | '/api/products/exonomics'
     | '/api/products/export'
@@ -1098,6 +1154,7 @@ export interface FileRouteTypes {
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
     | '/api/products/first-principles'
+    | '/api/products/founding-dogfood'
     | '/api/products/go-harder'
     | '/api/products/improvement-log'
     | '/api/products/interop'
@@ -1128,6 +1185,7 @@ export interface FileRouteTypes {
     | '/list'
     | '/llms-full.txt'
     | '/llms.txt'
+    | '/mcp'
     | '/openapi.json'
     | '/robots-agent.txt'
     | '/robots.txt'
@@ -1144,6 +1202,7 @@ export interface FileRouteTypes {
     | '/.well-known/http-message-signatures-directory'
     | '/.well-known/jwks.json'
     | '/.well-known/mcp-registry-auth'
+    | '/.well-known/mcp.json'
     | '/.well-known/signature-agent-card.json'
     | '/agents/public'
     | '/agents/search'
@@ -1156,6 +1215,7 @@ export interface FileRouteTypes {
     | '/api/growth'
     | '/api/listing-lanes'
     | '/api/match'
+    | '/api/mcp'
     | '/api/protocol'
     | '/api/publish'
     | '/api/score'
@@ -1191,6 +1251,7 @@ export interface FileRouteTypes {
     | '/api/products/demo'
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
+    | '/api/products/discovery-pack'
     | '/api/products/dual-strategy'
     | '/api/products/exonomics'
     | '/api/products/export'
@@ -1198,6 +1259,7 @@ export interface FileRouteTypes {
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
     | '/api/products/first-principles'
+    | '/api/products/founding-dogfood'
     | '/api/products/go-harder'
     | '/api/products/improvement-log'
     | '/api/products/interop'
@@ -1229,6 +1291,7 @@ export interface RootRouteChildren {
   ListRoute: typeof ListRouteWithChildren
   LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
+  McpRoute: typeof McpRoute
   OpenapiDotjsonRoute: typeof OpenapiDotjsonRoute
   RobotsAgentDottxtRoute: typeof RobotsAgentDottxtRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
@@ -1245,6 +1308,7 @@ export interface RootRouteChildren {
   DotwellKnownHttpMessageSignaturesDirectoryRoute: typeof DotwellKnownHttpMessageSignaturesDirectoryRoute
   DotwellKnownJwksDotjsonRoute: typeof DotwellKnownJwksDotjsonRoute
   DotwellKnownMcpRegistryAuthRoute: typeof DotwellKnownMcpRegistryAuthRoute
+  DotwellKnownMcpDotjsonRoute: typeof DotwellKnownMcpDotjsonRoute
   DotwellKnownSignatureAgentCardDotjsonRoute: typeof DotwellKnownSignatureAgentCardDotjsonRoute
   AgentsPublicRoute: typeof AgentsPublicRoute
   AgentsSearchRoute: typeof AgentsSearchRoute
@@ -1257,6 +1321,7 @@ export interface RootRouteChildren {
   ApiGrowthRoute: typeof ApiGrowthRoute
   ApiListingLanesRoute: typeof ApiListingLanesRoute
   ApiMatchRoute: typeof ApiMatchRoute
+  ApiMcpRoute: typeof ApiMcpRoute
   ApiProtocolRoute: typeof ApiProtocolRoute
   ApiPublishRoute: typeof ApiPublishRoute
   ApiScoreRoute: typeof ApiScoreRoute
@@ -1291,6 +1356,7 @@ export interface RootRouteChildren {
   ApiProductsDemoRoute: typeof ApiProductsDemoRoute
   ApiProductsDemoConfirmRoute: typeof ApiProductsDemoConfirmRoute
   ApiProductsDemoNudgeRoute: typeof ApiProductsDemoNudgeRoute
+  ApiProductsDiscoveryPackRoute: typeof ApiProductsDiscoveryPackRoute
   ApiProductsDualStrategyRoute: typeof ApiProductsDualStrategyRoute
   ApiProductsExonomicsRoute: typeof ApiProductsExonomicsRoute
   ApiProductsExportRoute: typeof ApiProductsExportRoute
@@ -1298,6 +1364,7 @@ export interface RootRouteChildren {
   ApiProductsFeedbackRoute: typeof ApiProductsFeedbackRoute
   ApiProductsFeedbackDriveRoute: typeof ApiProductsFeedbackDriveRoute
   ApiProductsFirstPrinciplesRoute: typeof ApiProductsFirstPrinciplesRoute
+  ApiProductsFoundingDogfoodRoute: typeof ApiProductsFoundingDogfoodRoute
   ApiProductsGoHarderRoute: typeof ApiProductsGoHarderRoute
   ApiProductsImprovementLogRoute: typeof ApiProductsImprovementLogRoute
   ApiProductsInteropRoute: typeof ApiProductsInteropRoute
@@ -1370,6 +1437,13 @@ declare module '@tanstack/react-router' {
       path: '/llms.txt'
       fullPath: '/llms.txt'
       preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/openapi.json': {
@@ -1484,6 +1558,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotwellKnownMcpRegistryAuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/mcp.json': {
+      id: '/.well-known/mcp.json'
+      path: '/.well-known/mcp.json'
+      fullPath: '/.well-known/mcp.json'
+      preLoaderRoute: typeof DotwellKnownMcpDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/signature-agent-card.json': {
       id: '/.well-known/signature-agent-card.json'
       path: '/.well-known/signature-agent-card.json'
@@ -1566,6 +1647,13 @@ declare module '@tanstack/react-router' {
       path: '/api/match'
       fullPath: '/api/match'
       preLoaderRoute: typeof ApiMatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/mcp': {
+      id: '/api/mcp'
+      path: '/api/mcp'
+      fullPath: '/api/mcp'
+      preLoaderRoute: typeof ApiMcpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/protocol': {
@@ -1827,6 +1915,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsDemoNudgeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/discovery-pack': {
+      id: '/api/products/discovery-pack'
+      path: '/api/products/discovery-pack'
+      fullPath: '/api/products/discovery-pack'
+      preLoaderRoute: typeof ApiProductsDiscoveryPackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/dual-strategy': {
       id: '/api/products/dual-strategy'
       path: '/api/products/dual-strategy'
@@ -1874,6 +1969,13 @@ declare module '@tanstack/react-router' {
       path: '/api/products/first-principles'
       fullPath: '/api/products/first-principles'
       preLoaderRoute: typeof ApiProductsFirstPrinciplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/products/founding-dogfood': {
+      id: '/api/products/founding-dogfood'
+      path: '/api/products/founding-dogfood'
+      fullPath: '/api/products/founding-dogfood'
+      preLoaderRoute: typeof ApiProductsFoundingDogfoodRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/products/go-harder': {
@@ -2030,6 +2132,7 @@ const rootRouteChildren: RootRouteChildren = {
   ListRoute: ListRouteWithChildren,
   LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
+  McpRoute: McpRoute,
   OpenapiDotjsonRoute: OpenapiDotjsonRoute,
   RobotsAgentDottxtRoute: RobotsAgentDottxtRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
@@ -2047,6 +2150,7 @@ const rootRouteChildren: RootRouteChildren = {
     DotwellKnownHttpMessageSignaturesDirectoryRoute,
   DotwellKnownJwksDotjsonRoute: DotwellKnownJwksDotjsonRoute,
   DotwellKnownMcpRegistryAuthRoute: DotwellKnownMcpRegistryAuthRoute,
+  DotwellKnownMcpDotjsonRoute: DotwellKnownMcpDotjsonRoute,
   DotwellKnownSignatureAgentCardDotjsonRoute:
     DotwellKnownSignatureAgentCardDotjsonRoute,
   AgentsPublicRoute: AgentsPublicRoute,
@@ -2060,6 +2164,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiGrowthRoute: ApiGrowthRoute,
   ApiListingLanesRoute: ApiListingLanesRoute,
   ApiMatchRoute: ApiMatchRoute,
+  ApiMcpRoute: ApiMcpRoute,
   ApiProtocolRoute: ApiProtocolRoute,
   ApiPublishRoute: ApiPublishRoute,
   ApiScoreRoute: ApiScoreRoute,
@@ -2094,6 +2199,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsDemoRoute: ApiProductsDemoRoute,
   ApiProductsDemoConfirmRoute: ApiProductsDemoConfirmRoute,
   ApiProductsDemoNudgeRoute: ApiProductsDemoNudgeRoute,
+  ApiProductsDiscoveryPackRoute: ApiProductsDiscoveryPackRoute,
   ApiProductsDualStrategyRoute: ApiProductsDualStrategyRoute,
   ApiProductsExonomicsRoute: ApiProductsExonomicsRoute,
   ApiProductsExportRoute: ApiProductsExportRoute,
@@ -2101,6 +2207,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsFeedbackRoute: ApiProductsFeedbackRoute,
   ApiProductsFeedbackDriveRoute: ApiProductsFeedbackDriveRoute,
   ApiProductsFirstPrinciplesRoute: ApiProductsFirstPrinciplesRoute,
+  ApiProductsFoundingDogfoodRoute: ApiProductsFoundingDogfoodRoute,
   ApiProductsGoHarderRoute: ApiProductsGoHarderRoute,
   ApiProductsImprovementLogRoute: ApiProductsImprovementLogRoute,
   ApiProductsInteropRoute: ApiProductsInteropRoute,

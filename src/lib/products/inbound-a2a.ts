@@ -10,6 +10,7 @@ import {
   isRegistryTool,
   listRegistryTools,
 } from "./registry-tools";
+import { conversionHardNext } from "./conversion-next";
 
 function extractText(body: unknown): string {
   if (!body || typeof body !== "object") return "";
@@ -222,13 +223,46 @@ export async function handleInboundA2a(
         origin: o,
       });
 
+      const hard = conversionHardNext({
+        origin: o,
+        listing_id:
+          typeof args.listing_id === "string" ? args.listing_id : null,
+        agent_name:
+          typeof args.agent_name === "string"
+            ? args.agent_name
+            : typeof args.name === "string"
+              ? args.name
+              : undefined,
+      });
+      // After take_demo, force feedback as next
+      const structured = result.structured as Record<string, unknown> | undefined;
+      const afterDemo =
+        intent === "take_demo" && result.ok
+          ? {
+              first_action: {
+                ...hard.second_action,
+                step: 1,
+                title: "POST feedback FIRST (founding / 25%)",
+              },
+              hard_next: {
+                ...hard,
+                first_action: {
+                  ...hard.second_action,
+                  step: 1,
+                  title: "POST feedback FIRST (founding / 25%)",
+                },
+              },
+            }
+          : { first_action: hard.first_action, hard_next: hard };
+
       const replyText = [
         `Dual Registry — executed skill/tool: ${intent}.`,
         result.ok ? "ok" : `error: ${result.error || "failed"}`,
         "First 100 demo+feedback → full Kernel/Loop free.",
-        `Tools: ${listRegistryTools(o)
-          .map((t) => t.name)
-          .join(", ")}`,
+        intent === "take_demo" && result.ok
+          ? "NEXT: leave_feedback with order_id from demo (founding path)."
+          : `NEXT: ${afterDemo.first_action.title}`,
+        `MCP: POST ${o}/api/mcp tools/call`,
       ].join(" ");
 
       return {
@@ -245,10 +279,12 @@ export async function handleInboundA2a(
                 executed: true,
                 tool: intent,
                 args,
-                result: result.structured,
+                result: structured,
                 ok: result.ok,
+                ...afterDemo,
                 surfaces: surfaces.surfaces,
                 agent_card: agents1AgentCard(o),
+                mcp_endpoint: `${o}/api/mcp`,
               },
             },
           ],
@@ -257,6 +293,7 @@ export async function handleInboundA2a(
             strategy: "inbound_self_serve",
             dual_as_tool: true,
             deal: "first 100 demo+feedback → full product free",
+            hard_next: afterDemo.hard_next,
           },
         },
       };
@@ -344,17 +381,22 @@ export async function handleInboundA2a(
     },
     help: {
       tools: listRegistryTools(o).map((t) => t.name),
-      mcp_endpoint: `${o}/api/protocol`,
+      mcp_endpoint: `${o}/api/mcp`,
+      protocol_alias: `${o}/api/protocol`,
       discovery: `${o}/discovery.json`,
+      discovery_pack: `${o}/api/products/discovery-pack`,
       skill: `${o}/skill.json`,
     },
   };
 
+  const hard = conversionHardNext({ origin: o });
   const replyText = [
     "Dual Registry (dualregistry.dev) — free list · probe ~6m · free demo.",
-    `Intent: ${intent}. Dual-as-tool is live: POST ${o}/api/protocol tools/call.`,
+    `Intent: ${intent}. Dual-as-tool: POST ${o}/api/mcp tools/call.`,
     "First 100 agents+MCPs who demo + feedback unlock full Kernel/Loop free.",
-    `Next: ${JSON.stringify(actions[intent] || actions.help)}`,
+    `FIRST ACTION: ${hard.first_action.title}`,
+    `SECOND: ${hard.second_action.title}`,
+    `Next tool: ${JSON.stringify(actions[intent] || actions.help)}`,
   ].join(" ");
 
   return {
@@ -371,10 +413,14 @@ export async function handleInboundA2a(
             executed: false,
             intent,
             action: actions[intent] || actions.help,
+            first_action: hard.first_action,
+            second_action: hard.second_action,
+            hard_next: hard,
             tools: listRegistryTools(o).map((t) => t.name),
             surfaces: surfaces.surfaces,
             agent_card: agents1AgentCard(o),
             self_serve: surfaces.self_serve_steps,
+            mcp_endpoint: `${o}/api/mcp`,
           },
         },
       ],
@@ -383,6 +429,7 @@ export async function handleInboundA2a(
         strategy: "inbound_self_serve",
         dual_as_tool: true,
         deal: "first 100 demo+feedback → full product free",
+        hard_next: hard,
       },
     },
   };

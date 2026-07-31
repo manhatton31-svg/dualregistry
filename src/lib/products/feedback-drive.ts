@@ -342,21 +342,46 @@ async function seedDemos(
     tools?: string;
     version: string;
     re_demo?: boolean;
+    listing_id?: string;
   };
   const targets: Target[] = [];
 
-  let mcps: Array<{ name?: string; description?: string }> = [];
-  let agents: Array<{ name?: string; description?: string }> = [];
+  // Gate: only seed invited demos for listings that accepted HTTPS (http_ok).
+  let reachableNames = new Set<string>();
+  let reachableIds = new Set<string>();
+  try {
+    const { listHttpOkListingIds, listHttpOkNames } = await import(
+      "./demo-nudge"
+    );
+    reachableIds = await listHttpOkListingIds();
+    reachableNames = await listHttpOkNames();
+  } catch {
+    /* */
+  }
+  if (reachableIds.size === 0 && reachableNames.size === 0) {
+    notes.push(
+      "seed skip: 0 http_ok listings — no invited demos until multipath/A2A lands",
+    );
+    return 0;
+  }
+  notes.push(
+    `reachable gate: ${reachableIds.size} http_ok ids · ${reachableNames.size} names`,
+  );
+
+  let mcps: Array<{ name?: string; description?: string; id?: string }> = [];
+  let agents: Array<{ name?: string; description?: string; id?: string }> = [];
   try {
     const { getLanedListings } = await import("@/lib/agents1/listing-lanes");
     const lanes = await getLanedListings();
     mcps = (lanes.mcp_active || []).map((m) => ({
       name: m.name,
       description: m.description,
+      id: m.id,
     }));
     agents = (lanes.agents_active || []).map((a) => ({
       name: a.name,
       description: a.description,
+      id: a.id,
     }));
     if (!mcps.length && !agents.length) {
       notes.push(
@@ -388,9 +413,15 @@ async function seedDemos(
     ...agents.slice(0, offset),
   ].slice(0, 150);
 
+  const isReachable = (id: string | undefined, name: string) => {
+    if (id && reachableIds.has(id)) return true;
+    return reachableNames.has(normalizeName(name));
+  };
+
   for (const m of mcpSlice) {
     const name = (m.name || "").trim();
     if (!name || name.length < 2) continue;
+    if (!isReachable(m.id, name)) continue;
     const ver = currentDemoVersion("mcp");
     const k = keyOf(name, "mcp", ver);
     if (
@@ -409,11 +440,13 @@ async function seedDemos(
         "list_resources: List resources\ncall_tool: Invoke tool\nread_resource: Read a resource",
       version: ver,
       re_demo,
+      listing_id: m.id,
     });
   }
   for (const a of agentSlice) {
     const name = (a.name || "").trim();
     if (!name || name.length < 2) continue;
+    if (!isReachable(a.id, name)) continue;
     const ver = currentDemoVersion("agent");
     const k = keyOf(name, "agent", ver);
     if (
@@ -430,6 +463,7 @@ async function seedDemos(
       domain: "registry_commerce",
       version: ver,
       re_demo,
+      listing_id: a.id,
     });
   }
 
@@ -509,7 +543,11 @@ async function seedDemos(
   }
   if (seeded)
     notes.push(
-      `seeded ${seeded} demos (re_demo ${reDemos}) for Active listings · conversion-capped`,
+      `seeded ${seeded} demos (re_demo ${reDemos}) ONLY for http_ok reachable · conversion-capped`,
+    );
+  else
+    notes.push(
+      "seeded 0 — reachable http_ok pool had no new demo candidates",
     );
   return seeded;
 }
@@ -792,6 +830,13 @@ export async function getFeedbackDriveStatus() {
   } catch {
     /* */
   }
+  let funnel_honesty: unknown = null;
+  try {
+    const { getFunnelHonesty } = await import("./funnel-honesty");
+    funnel_honesty = await getFunnelHonesty();
+  } catch {
+    /* */
+  }
   return {
     ok: true as const,
     last_run_at: s.last_run_at,
@@ -806,6 +851,7 @@ export async function getFeedbackDriveStatus() {
     totals: s.totals,
     last_notes: s.last_notes,
     conversion_backlog: backlog,
+    funnel_honesty,
     demo_nudge: nudgeStatus,
     policy: {
       interval_min: MIN_CYCLE_GAP_MS / 60000,
@@ -822,9 +868,10 @@ export async function getFeedbackDriveStatus() {
       re_demo_on_version_ship: true,
       mcp_priority: true,
       dual_listed_agent_seeds: true,
+      seed_only_http_ok: true,
       demo_nudge:
         "soft Talk owner DMs to Active clean listings — free demo open, feedback rewarded, no pressure, 7d cooldown",
-      note: "v2.2: conversion-first (faster nags, throttle demos when backlog). No fake surveys.",
+      note: "v2.3: conversion-first + seed only http_ok reachable. Funnel honesty split. No fake surveys.",
     },
   };
 }

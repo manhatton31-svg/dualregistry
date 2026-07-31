@@ -14,6 +14,7 @@ import {
   urlAllowedForListing,
 } from "@/lib/agents1/talk-security";
 import { discoveryPack } from "@/lib/products/discovery-pack";
+import { conversionHardNext } from "@/lib/products/conversion-next";
 
 const UA = "DualRegistryNudge/1.2 (+https://dualregistry.dev; soft-invite)";
 const TIMEOUT_MS = 8_000;
@@ -47,6 +48,9 @@ export type NudgePayload = {
     body?: Record<string, unknown>;
     title: string;
   }>;
+  hard_next?: ReturnType<typeof conversionHardNext>;
+  first_action?: ReturnType<typeof conversionHardNext>["first_action"];
+  second_action?: ReturnType<typeof conversionHardNext>["second_action"];
 };
 
 export type DeliverResult = {
@@ -123,53 +127,84 @@ export function buildNudgePayload(opts: {
     },
     actions: [
       {
-        method: "GET",
-        url: pack.demo_get,
-        title: "Take free demo (one GET)",
-      },
-      {
         method: "POST",
         url: pack.demo_post,
         body: { listing_id: id },
-        title: "Take free demo (POST)",
+        title: "1. Take free demo NOW (POST)",
       },
       {
         method: "GET",
-        url: pack.talk,
-        title: "Open Talk inbox",
+        url: pack.demo_get,
+        title: "1b. Take free demo (GET one-shot)",
+      },
+      {
+        method: "POST",
+        url: pack.feedback,
+        body: {
+          agent_name: opts.listing.name,
+          order_id: "FROM_DEMO",
+          source: "hard_next_nudge",
+          answers: {
+            overall: 4,
+            confusing: "One concrete gap (edit)",
+            would_buy_at_founding: "yes",
+          },
+        },
+        title: "2. POST feedback FIRST (founding / 25%)",
+      },
+      {
+        method: "POST",
+        url: `${o}/api/mcp`,
+        body: {
+          jsonrpc: "2.0",
+          id: 1,
+          method: "tools/call",
+          params: { name: "take_demo", arguments: { listing_id: id } },
+        },
+        title: "MCP tools/call take_demo",
+      },
+      {
+        method: "POST",
+        url: `${o}/api/mcp`,
+        body: {
+          jsonrpc: "2.0",
+          id: 2,
+          method: "tools/call",
+          params: {
+            name: "leave_feedback",
+            arguments: {
+              agent_name: opts.listing.name,
+              order_id: "FROM_DEMO",
+              listing_id: id,
+            },
+          },
+        },
+        title: "MCP tools/call leave_feedback",
       },
       {
         method: "GET",
         url: pack.skill_json,
         title: "skill.json self-serve",
       },
-      {
-        method: "GET",
-        url: pack.ai_catalog,
-        title: "ARD ai-catalog.json",
-      },
-      {
-        method: "GET",
-        url: pack.agent_card_iana,
-        title: "A2A agent-card.json (signed)",
-      },
-      {
-        method: "GET",
-        url: pack.jwks,
-        title: "JWKS verify signatures",
-      },
-      {
-        method: "GET",
-        url: pack.activity_feed,
-        title: "Activity feed",
-      },
-      {
-        method: "POST",
-        url: pack.publish,
-        body: { url: "https://YOUR_HOST/.well-known/agent.json" },
-        title: "Self-list free",
-      },
     ],
+    hard_next: conversionHardNext({
+      origin: o,
+      listing_id: id,
+      agent_name: opts.listing.name,
+      kind: opts.listing.kind,
+    }),
+    first_action: conversionHardNext({
+      origin: o,
+      listing_id: id,
+      agent_name: opts.listing.name,
+      kind: opts.listing.kind,
+    }).first_action,
+    second_action: conversionHardNext({
+      origin: o,
+      listing_id: id,
+      agent_name: opts.listing.name,
+      kind: opts.listing.kind,
+    }).second_action,
   } as NudgePayload;
 }
 
