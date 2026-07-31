@@ -1,0 +1,44 @@
+{
+  "version": "2.7.0",
+  "updated_at": "2026-07-31T13:06:45.941Z",
+  "sessions": [
+    {
+      "id": "ix_ms8ygo63_nzumwd",
+      "created_at": "2026-07-31T13:05:29.691Z",
+      "updated_at": "2026-07-31T13:05:29.691Z",
+      "entry_protocol": "http",
+      "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
+      "agent_name": "base-agent-kit",
+      "match_q": "probe_ok",
+      "steps": [
+        {
+          "at": "2026-07-31T13:05:29.691Z",
+          "action": "open",
+          "protocol": "http",
+          "detail": "probe_ok"
+        }
+      ]
+    }
+  ],
+  "peers": [
+    {
+      "id": "hf-ai-catalog",
+      "name": "Hugging Face AI Catalog",
+      "catalog_url": "https://huggingface.co/.well-known/ai-catalog.json",
+      "note": "ARD auto_pull peer"
+    },
+    {
+      "id": "mcp-registry",
+      "name": "Official MCP Registry",
+      "catalog_url": "https://registry.modelcontextprotocol.io",
+      "note": "mirror reference"
+    }
+  ],
+  "totals": {
+    "resolves": 8,
+    "sessions_opened": 1,
+    "peer_pulls": 0,
+    "peer_pushes": 0,
+    "reciprocity_proofs": 0
+  }
+}
