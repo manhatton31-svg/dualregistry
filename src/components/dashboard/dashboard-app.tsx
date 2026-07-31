@@ -513,23 +513,20 @@ export function DashboardApp() {
   const outcomesN = hero?.outcomes ?? null;
   const networkO = hero?.network_o;
 
+  // Search only — category scope applied inside CategoryGroupedListings
   const mcpActiveRows = useMemo(
     () =>
-      filterRows(
-        (lanes?.mcp_active || []).map(toListingRow),
-        query,
-        categoryFilter,
-      ),
-    [lanes, query, categoryFilter],
+      filterRows((lanes?.mcp_active || []).map(toListingRow), query, null),
+    [lanes, query],
   );
   const agentActiveRows = useMemo(
     () =>
       filterRows(
         (lanes?.agents_active || []).map(toListingRow),
         query,
-        categoryFilter,
+        null,
       ),
-    [lanes, query, categoryFilter],
+    [lanes, query],
   );
 
   const cleanExport = useMemo(() => {
@@ -927,14 +924,20 @@ export function DashboardApp() {
               </div>
             </div>
             {(() => {
-              const cats =
+              const cats = (
                 tab === "mcp"
                   ? lanes?.categories?.mcp || []
-                  : lanes?.categories?.agents || [];
+                  : lanes?.categories?.agents || []
+              )
+                .filter((c) => c.live !== false && (c.count || 0) > 0)
+                .slice()
+                .sort((a, b) => (b.count || 0) - (a.count || 0));
               return (
                 <div className="space-y-1.5">
                   <p className="text-[11px] text-subtle">
-                    Default All · pick a category to show only that one.
+                    Choose at top · default{" "}
+                    <span className="font-medium text-fg">All</span> (top 5
+                    collapsed). Pick a category to show only that list.
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     <button
@@ -944,46 +947,41 @@ export function DashboardApp() {
                         "rounded-full border px-2.5 py-1 text-[11px] font-medium",
                         !categoryFilter
                           ? "border-accent bg-accent/15 text-accent"
-                          : "border-border text-muted",
+                          : "border-border text-muted hover:text-fg",
                       )}
                     >
                       All
+                      <span className="ml-1 tabular text-subtle">
+                        {tab === "mcp"
+                          ? liveMcp ?? mcpActiveRows.length
+                          : liveAgents ?? agentActiveRows.length}
+                      </span>
                     </button>
-                    {cats.map((c) => {
-                      const live = c.live !== false && (c.count || 0) > 0;
-                      return (
-                        <button
-                          key={c.id}
-                          type="button"
-                          disabled={!live}
-                          onClick={() =>
-                            live &&
-                            setCategoryFilter(
-                              categoryFilter === c.id ? null : c.id,
-                            )
-                          }
-                          className={cn(
-                            "rounded-full border px-2.5 py-1 text-[11px] font-medium",
-                            !live && "cursor-not-allowed opacity-40",
-                            live && categoryFilter === c.id
-                              ? "border-accent bg-accent/15 text-accent"
-                              : "border-border text-muted",
-                          )}
-                        >
-                          {c.label}
-                          <span className="ml-1 tabular text-subtle">
-                            {c.count}
-                          </span>
-                        </button>
-                      );
-                    })}
+                    {cats.map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => setCategoryFilter(c.id)}
+                        className={cn(
+                          "rounded-full border px-2.5 py-1 text-[11px] font-medium",
+                          categoryFilter === c.id
+                            ? "border-accent bg-accent/15 text-accent"
+                            : "border-border text-muted hover:text-fg",
+                        )}
+                      >
+                        {c.label}
+                        <span className="ml-1 tabular text-subtle">
+                          {c.count}
+                        </span>
+                      </button>
+                    ))}
                   </div>
                 </div>
               );
             })()}
             <div className="space-y-2">
               <p className="text-[11px] text-subtle">
-                Top 5 shown · expand for full list (25/page). JSON:{" "}
+                One list at a time · top 5 collapsed · expand 25/page. JSON:{" "}
                 <a
                   href="/api/listings/active"
                   className="text-accent underline"

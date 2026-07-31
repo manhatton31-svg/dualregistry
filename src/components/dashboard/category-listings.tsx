@@ -1,6 +1,7 @@
 /**
- * Single active view: All (default) or one chosen category.
- * Top 5 visible; expand → 25 per page.
+ * Chips choose the view. Default All = top 5 collapsed across everything.
+ * One category chosen = only that category (top 5 collapsed; expand 25/page).
+ * Never stacks multiple category sections.
  */
 import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
@@ -39,7 +40,7 @@ export function CategoryGroupedListings({
   rows,
   emptyLabel,
   showDemoCta,
-  /** null = All; otherwise only this category is shown */
+  /** null = All; string = only this category id */
   filterCategoryId,
   categoryLabel,
 }: {
@@ -47,15 +48,21 @@ export function CategoryGroupedListings({
   emptyLabel: string;
   showDemoCta?: boolean;
   filterCategoryId?: string | null;
-  /** Display label when a category chip is selected */
   categoryLabel?: string | null;
 }) {
-  const sorted = useMemo(() => sortTop(rows), [rows]);
+  // Enforce single-category scope here (parent may also filter)
+  const scoped = useMemo(() => {
+    if (!filterCategoryId) return rows;
+    return rows.filter((r) => r.category_id === filterCategoryId);
+  }, [rows, filterCategoryId]);
+
+  const sorted = useMemo(() => sortTop(scoped), [scoped]);
   const total = sorted.length;
   const needsCollapse = total > PREVIEW;
-  const title = filterCategoryId
-    ? categoryLabel || sorted[0]?.category_label || filterCategoryId
-    : "All";
+  const isAll = !filterCategoryId;
+  const title = isAll
+    ? "All"
+    : categoryLabel || sorted[0]?.category_label || filterCategoryId || "Category";
 
   const [expanded, setExpanded] = useState(false);
   const [page, setPage] = useState(0);
@@ -63,7 +70,7 @@ export function CategoryGroupedListings({
   useEffect(() => {
     setExpanded(false);
     setPage(0);
-  }, [filterCategoryId, total]);
+  }, [filterCategoryId]);
 
   const visible = useMemo(() => {
     if (!needsCollapse || !expanded) {
@@ -73,18 +80,33 @@ export function CategoryGroupedListings({
     return sorted.slice(start, start + PAGE);
   }, [sorted, needsCollapse, expanded, page]);
 
+  // Hide per-row category tags when already scoped to one category
+  const displayRows = useMemo(() => {
+    if (isAll) return visible;
+    return visible.map((r) => ({
+      ...r,
+      category_label: undefined,
+    }));
+  }, [visible, isAll]);
+
   const pageCount = Math.max(1, Math.ceil(total / PAGE));
   const from = expanded ? page * PAGE + 1 : 1;
   const to = expanded
     ? Math.min(total, (page + 1) * PAGE)
     : Math.min(PREVIEW, total);
 
-  if (!rows.length) {
-    return <p className="text-sm text-subtle">{emptyLabel}</p>;
+  if (!scoped.length) {
+    return (
+      <p className="text-sm text-subtle">
+        {filterCategoryId
+          ? `No clean listings in ${title}.`
+          : emptyLabel}
+      </p>
+    );
   }
 
   return (
-    <Card className="border-border/70">
+    <Card className="border-border/70" key={filterCategoryId || "all"}>
       <CardHeader className="pb-2">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="min-w-0">
@@ -95,13 +117,14 @@ export function CategoryGroupedListings({
               </span>
             </CardTitle>
             <CardDescription className="text-xs">
+              {isAll
+                ? "All categories · "
+                : "This category only · "}
               {needsCollapse && !expanded
-                ? `Top ${Math.min(PREVIEW, total)} of ${total}`
+                ? `top ${Math.min(PREVIEW, total)} of ${total} (collapsed)`
                 : expanded
-                  ? `Showing ${from}–${to} of ${total}`
+                  ? `${from}–${to} of ${total}`
                   : `${total} listing${total === 1 ? "" : "s"}`}
-              {" · "}
-              {filterCategoryId ? "chosen category only" : "all categories"}
             </CardDescription>
           </div>
           {needsCollapse ? (
@@ -133,7 +156,7 @@ export function CategoryGroupedListings({
       </CardHeader>
       <CardContent className="space-y-3 pb-4 pt-0">
         <ListingTable
-          rows={visible}
+          rows={displayRows}
           showDemoCta={showDemoCta}
           emptyLabel={emptyLabel}
         />
@@ -164,7 +187,7 @@ export function CategoryGroupedListings({
             </div>
           </div>
         ) : null}
-        {needsCollapse && !expanded && total > PREVIEW ? (
+        {needsCollapse && !expanded ? (
           <button
             type="button"
             className={cn(
@@ -174,7 +197,7 @@ export function CategoryGroupedListings({
             onClick={() => setExpanded(true)}
           >
             + {total - PREVIEW} more
-            {filterCategoryId ? ` in ${title}` : ""}
+            {!isAll ? ` in ${title}` : " (all categories)"}
           </button>
         ) : null}
       </CardContent>
