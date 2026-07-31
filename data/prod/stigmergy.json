@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:03:20.758Z",
+  "updated_at": "2026-07-31T13:03:21.559Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -21,11 +21,11 @@
     },
     "agtpub_ae427eacf129a7ad16a0": {
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
-      "attraction": 2.5,
+      "attraction": 3.25,
       "danger": 0,
       "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:01:58.017Z",
+      "last_reinforced_at": "2026-07-31T13:03:20.871Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -191,6 +191,20 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8ydwrr_u541sj",
+      "kind": "mark",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:03:20.871Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8ydv40_uav8dk",
       "kind": "mark",
@@ -410,6 +424,21 @@
     }
   ],
   "feed_events": [
+    {
+      "type": "follow_trail",
+      "amount": 8,
+      "kind": "hot",
+      "at": "2026-07-31T13:03:21.559Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:03:20.871Z"
+    },
     {
       "type": "leave_trace",
       "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
@@ -637,7 +666,7 @@
   ],
   "totals": {
     "auto_deposits": 0,
-    "agent_deposits": 15,
+    "agent_deposits": 16,
     "senses": 2,
     "follows": 8,
     "evaporations": 0
