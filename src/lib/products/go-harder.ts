@@ -525,3 +525,13 @@ export async function getGoHarderStatus() {
     },
   };
 }
+
+/** First-principles attractor targets for outbound prioritization. */
+export async function goHarderAttractorPriority(limit = 12) {
+  try {
+    const { getAttractorTargets } = await import("./first-principles");
+    return await getAttractorTargets({ limit });
+  } catch {
+    return { ok: true as const, mode: "attractor_first" as const, targets: [], note: "unavailable" };
+  }
+}

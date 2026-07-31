@@ -10,7 +10,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "2.6.0";
+export const DUAL_STRATEGY_VERSION = "2.7.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {
@@ -57,6 +57,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       conversion_pressure: `${o}/api/products/conversion-pressure`,
       stigmergy: `${o}/api/products/stigmergy`,
       autocatalysis: `${o}/api/products/autocatalysis`,
+      first_principles: `${o}/api/products/first-principles`,
       tools_protocol: `${o}/api/protocol`,
       cloudflare_apply: `${o}/api/ops/cloudflare-apply`,
       for_agents: `${o}/for-agents`,
@@ -111,6 +112,8 @@ export function outboundPolicySummary() {
       "Metrics = unique listings, never event spam counts",
       "Zero demos/sales does NOT pause outbound",
       "Stigmergy replaces coordination-by-message for agent↔agent",
+      "Attractor-first outbound — amplify hot trails before cold contact",
+      "Liveness = signal freshness (first principles)",
     ],
   };
 }
@@ -120,7 +123,7 @@ export function dualStrategyPublic(origin: string) {
     ok: true as const,
     mode: "dual",
     version: DUAL_STRATEGY_VERSION,
-    note: "Outbound + inbound + stigmergy + autocatalysis + interop fabric. No funnel flip.",
+    note: "Outbound + inbound + stigmergy + autocatalysis + interop + first-principles atoms. No funnel flip.",
     outbound: outboundPolicySummary(),
     inbound: inboundDiscoverySurfaces(origin),
     stigmergy: {
@@ -156,6 +159,24 @@ export function dualStrategyPublic(origin: string) {
         "interop_session",
       ],
       note: "MCP · A2A · ARD · HTTP · DNS share one capability graph.",
+    },
+    first_principles: {
+      version: "2.7.0",
+      model: "five_atoms",
+      atoms: ["capability", "address", "evidence", "trace", "rate"],
+      api: `${origin.replace(/\/$/, "")}/api/products/first-principles`,
+      tools: [
+        "capability_hash",
+        "attest",
+        "check_liveness",
+        "execute_compose",
+        "deposit_outcome",
+        "get_incentives",
+        "attractor_targets",
+        "bind_identity",
+        "verify_attestation",
+      ],
+      note: "Harden Dual to physics — content-addressed caps, signed evidence, liveness freshness, executable composition.",
     },
   };
 }

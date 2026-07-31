@@ -1,7 +1,7 @@
 /**
  * Dual-as-tool — invocable registry ops for MCP tools/list|call and A2A skills.
  * Wraps existing REST backends; one handler map for both transports.
- * v2.4: stigmergy tools (leave_trace / sense_traces / follow_trail / endorse / used_with)
+ * v2.7: first-principles + stigmergy + interop tools (leave_trace / sense_traces / follow_trail / endorse / used_with)
  *       + auto pheromone deposits on existing tool side-effects.
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
@@ -20,7 +20,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "2.5.0";
+export const REGISTRY_TOOLS_VERSION = "2.7.0";
 
 export type ToolArg = Record<string, unknown>;
 
@@ -376,6 +376,135 @@ export function listRegistryTools(origin?: string): ToolDef[] {
           demo_order_id: { type: "string" },
           feedback_id: { type: "string" },
         },
+      },
+    },
+
+    {
+      name: "capability_hash",
+      description:
+        "First principles: content-addressed capability hash (what it does, not who hosts it). Optionally register + bind listing_id.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          name: { type: "string" },
+          kind: { type: "string", enum: ["agent", "mcp", "dual", "pipeline"] },
+          description: { type: "string" },
+          tools: { type: "array", items: { type: "string" } },
+          skills: { type: "array", items: { type: "string" } },
+          tags: { type: "array", items: { type: "string" } },
+          listing_id: { type: "string" },
+          register: { type: "boolean", default: true },
+        },
+        required: ["name"],
+      },
+    },
+    {
+      name: "attest",
+      description:
+        "First principles: issue a signed public attestation (probe_clean, liveness, outcome, capability).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          type: {
+            type: "string",
+            enum: ["probe_clean", "liveness", "outcome", "identity_bind", "composition", "reciprocity", "capability"],
+          },
+          subject: { type: "string", description: "listing_id or cap_hash" },
+          listing_id: { type: "string" },
+          claims: { type: "object" },
+          body: { type: "string" },
+          expires_hours: { type: "number", default: 72 },
+        },
+      },
+    },
+    {
+      name: "check_liveness",
+      description:
+        "First principles: liveness from signal freshness (stigmergy + probe + outcomes), not Dual calendar alone.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          max_hours: { type: "number" },
+        },
+        required: ["listing_id"],
+      },
+    },
+    {
+      name: "execute_compose",
+      description:
+        "First principles: turn used_with composition into an invocable A→B pipeline with endpoints + attestation.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          listing_b: { type: "string" },
+          from: { type: "string" },
+        },
+        required: ["listing_id", "listing_b"],
+      },
+    },
+    {
+      name: "deposit_outcome",
+      description:
+        "First principles: deposit ok/latency/quality outcome — grounds ranking in real results (attraction/danger).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          listing_b: { type: "string" },
+          ok: { type: "boolean", default: true },
+          latency_ms: { type: "number" },
+          quality: { type: "number", description: "0-1" },
+          kind: { type: "string" },
+          from: { type: "string" },
+          body: { type: "string" },
+        },
+        required: ["listing_id"],
+      },
+    },
+    {
+      name: "get_incentives",
+      description:
+        "First principles: transparent incentive surface — founding seats, rank rules, liveness physics agents can plan against.",
+      inputSchema: { type: "object", properties: {} },
+    },
+    {
+      name: "attractor_targets",
+      description:
+        "First principles: attractor-only growth targets (hot trails × outcomes × liveness) for outbound amplification.",
+      inputSchema: {
+        type: "object",
+        properties: { limit: { type: "number", default: 12 } },
+      },
+    },
+    {
+      name: "bind_identity",
+      description:
+        "First principles: bind cryptographic identity (DID / public key) to listing + content-addressed capability.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          did: { type: "string" },
+          public_key_pem: { type: "string" },
+          public_jwk: { type: "object" },
+          name: { type: "string" },
+        },
+        required: ["listing_id"],
+      },
+    },
+    {
+      name: "verify_attestation",
+      description:
+        "First principles: verify a Dual-issued signed attestation (JWS + ledger).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          jws: { type: "string" },
+          id: { type: "string" },
+        },
+        required: ["jws"],
       },
     },
   ];
@@ -955,6 +1084,158 @@ async function toolInteropSession(
   return textResult("interop_session", { ok: true, session: sess });
 }
 
+
+async function toolCapabilityHash(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const { hashCapability, registerCapability } = await import("./first-principles");
+  const name = String(args.name || "").trim();
+  if (!name) {
+    return textResult("capability_hash", { ok: false, error: "name required" }, false, "name required");
+  }
+  const input = {
+    name,
+    kind: args.kind as "agent" | "mcp" | "dual" | "pipeline" | undefined,
+    description: typeof args.description === "string" ? args.description : undefined,
+    tools: Array.isArray(args.tools) ? args.tools.map(String) : undefined,
+    skills: Array.isArray(args.skills) ? args.skills.map(String) : undefined,
+    tags: Array.isArray(args.tags) ? args.tags.map(String) : undefined,
+  };
+  const cap_hash = hashCapability(input);
+  let registered = null;
+  if (args.register !== false) {
+    registered = await registerCapability({
+      ...input,
+      listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    });
+  }
+  return textResult("capability_hash", { ok: true, cap_hash, registered });
+}
+
+async function toolAttest(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { issueAttestation } = await import("./first-principles");
+  const subject = String(args.subject || args.listing_id || "").trim();
+  if (!subject) {
+    return textResult("attest", { ok: false, error: "subject required" }, false, "subject required");
+  }
+  const r = await issueAttestation({
+    type: (args.type as "probe_clean") || "capability",
+    subject,
+    claims: (args.claims as Record<string, unknown>) || { note: args.body || "attestation" },
+    origin,
+    expires_hours: Number(args.expires_hours) || 72,
+  });
+  return textResult("attest", r);
+}
+
+async function toolCheckLiveness(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const { checkLiveness } = await import("./first-principles");
+  const listing_id = String(args.listing_id || "").trim();
+  if (!listing_id) {
+    return textResult("check_liveness", { ok: false, error: "listing_id required" }, false, "listing_id required");
+  }
+  const r = await checkLiveness({
+    listing_id,
+    max_hours: typeof args.max_hours === "number" ? args.max_hours : undefined,
+  });
+  return textResult("check_liveness", r);
+}
+
+async function toolExecuteCompose(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { executeCompose } = await import("./first-principles");
+  const r = await executeCompose({
+    listing_id: String(args.listing_id || ""),
+    listing_b: String(args.listing_b || ""),
+    origin,
+    from: typeof args.from === "string" ? args.from : undefined,
+  });
+  return textResult("execute_compose", r, r.ok, r.error);
+}
+
+async function toolDepositOutcome(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { depositOutcome } = await import("./first-principles");
+  const listing_id = String(args.listing_id || "").trim();
+  if (!listing_id) {
+    return textResult("deposit_outcome", { ok: false, error: "listing_id required" }, false, "listing_id required");
+  }
+  const r = await depositOutcome({
+    listing_id,
+    listing_b: typeof args.listing_b === "string" ? args.listing_b : undefined,
+    ok: args.ok !== false && args.ok !== "false",
+    latency_ms: typeof args.latency_ms === "number" ? args.latency_ms : undefined,
+    quality: typeof args.quality === "number" ? args.quality : undefined,
+    kind: typeof args.kind === "string" ? args.kind : undefined,
+    from: typeof args.from === "string" ? args.from : undefined,
+    body: typeof args.body === "string" ? args.body : undefined,
+    origin,
+  });
+  return textResult("deposit_outcome", r);
+}
+
+async function toolGetIncentives(
+  _args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { getIncentiveSurface } = await import("./first-principles");
+  return textResult("get_incentives", await getIncentiveSurface({ origin }));
+}
+
+async function toolAttractorTargets(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { getAttractorTargets } = await import("./first-principles");
+  return textResult(
+    "attractor_targets",
+    await getAttractorTargets({ origin, limit: Number(args.limit) || 12 }),
+  );
+}
+
+async function toolBindIdentity(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { bindIdentity } = await import("./first-principles");
+  const r = await bindIdentity({
+    listing_id: String(args.listing_id || ""),
+    did: typeof args.did === "string" ? args.did : undefined,
+    public_key_pem: typeof args.public_key_pem === "string" ? args.public_key_pem : undefined,
+    public_jwk: args.public_jwk as Record<string, string> | undefined,
+    name: typeof args.name === "string" ? args.name : undefined,
+    origin,
+  });
+  return textResult("bind_identity", r, r.ok, r.error);
+}
+
+async function toolVerifyAttestation(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const { verifyAttestation } = await import("./first-principles");
+  const jws = String(args.jws || "").trim();
+  if (!jws) {
+    return textResult("verify_attestation", { ok: false, error: "jws required" }, false, "jws required");
+  }
+  const r = await verifyAttestation({
+    jws,
+    id: typeof args.id === "string" ? args.id : undefined,
+  });
+  return textResult("verify_attestation", r, r.ok, r.reason);
+}
+
 const HANDLERS: Record<
   string,
   (args: ToolArg, origin: string) => Promise<ToolResult>
@@ -981,6 +1262,15 @@ const HANDLERS: Record<
   interop_resolve: toolInteropResolve,
   compose_peers: toolComposePeers,
   interop_session: toolInteropSession,
+  capability_hash: toolCapabilityHash,
+  attest: toolAttest,
+  check_liveness: toolCheckLiveness,
+  execute_compose: toolExecuteCompose,
+  deposit_outcome: toolDepositOutcome,
+  get_incentives: toolGetIncentives,
+  attractor_targets: toolAttractorTargets,
+  bind_identity: toolBindIdentity,
+  verify_attestation: toolVerifyAttestation,
 };
 
 export function isRegistryTool(name: string): boolean {
@@ -1051,7 +1341,7 @@ export async function handleMcpJsonRpc(
         title: "Dual Registry",
       },
       instructions:
-        "Dual Registry tools: list_yourself → check_status → take_demo → leave_feedback for founding free seats. search_active / match_capability / ard_search for discovery. Stigmergy + autocatalysis + interop: leave_trace / get_acceleration / interop_resolve / compose_peers / interop_session.",
+        "Dual Registry tools: list_yourself → check_status → take_demo → leave_feedback for founding free seats. search_active / match_capability / ard_search for discovery. First principles + stigmergy + interop: capability_hash / attest / check_liveness / execute_compose / deposit_outcome / get_incentives / attractor_targets / bind_identity.",
     });
   }
 
@@ -1126,6 +1416,6 @@ export function mcpToolCatalogPublic(origin: string) {
     methods: ["initialize", "tools/list", "tools/call", "ping"],
     tools: listRegistryTools(o).map((t) => t.name),
     stigmergy: STIGMERGY_VERSION,
-    note: "POST JSON-RPC to /api/protocol. Dual is invocable + stigmergic + autocatalytic + interoperable fabric.",
+    note: "POST JSON-RPC to /api/protocol. Dual is invocable + first-principles physics + stigmergy + autocatalysis + interop.",
   };
 }

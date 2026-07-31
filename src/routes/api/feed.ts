@@ -135,6 +135,24 @@ export const Route = createFileRoute("/api/feed")({
         }
 
         try {
+          const { getFirstPrinciplesPublic } = await import(
+            "@/lib/products/first-principles"
+          );
+          const fp = await getFirstPrinciplesPublic({ origin });
+          items.unshift({
+            type: "first_principles",
+            version: fp.version,
+            model: fp.model,
+            atoms: fp.atoms,
+            totals: fp.totals,
+            at: new Date().toISOString(),
+            note: "Five atoms — capability · address · evidence · trace · rate",
+          });
+        } catch {
+          /* */
+        }
+
+        try {
           const { getInteropPublic } = await import(
             "@/lib/products/interop"
           );
@@ -154,8 +172,8 @@ export const Route = createFileRoute("/api/feed")({
 
         items.unshift({
           type: "dual_strategy",
-          mode: "outbound_plus_inbound_plus_stigmergy_plus_autocatalysis_plus_interop",
-          version: "2.6.0",
+          mode: "outbound_plus_inbound_plus_stigmergy_plus_autocatalysis_plus_interop_plus_first_principles",
+          version: "2.7.0",
           note: "Outbound + inbound + stigmergy + autocatalysis (Dorr S-curve) always on",
           at: new Date().toISOString(),
         });

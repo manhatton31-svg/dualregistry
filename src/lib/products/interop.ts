@@ -14,7 +14,7 @@ import {
   saveDurableJson,
 } from "@/lib/agents1/durable-json";
 
-export const INTEROP_VERSION = "2.6.0";
+export const INTEROP_VERSION = "2.7.0";
 const DURABLE = "interop.json";
 
 export type ProtocolKind = "mcp" | "a2a" | "ard" | "http" | "dns";
@@ -767,8 +767,10 @@ export async function pushFederationSignals(opts?: {
   try {
     const { getAccelerationMultipliers } = await import("./autocatalysis");
     const { followTrail } = await import("./stigmergy");
+    const { federationAttestationBundle } = await import("./first-principles");
     const m = await getAccelerationMultipliers();
     const hot = await followTrail({ kind: "hot", limit: 8 });
+    const attBundle = await federationAttestationBundle({ origin, limit: 12 });
     payload = {
       ...payload,
       acceleration_index: m.index,
@@ -779,6 +781,12 @@ export async function pushFederationSignals(opts?: {
       agent_card: `${origin}/.well-known/agent-card.json`,
       mcp_server_card: `${origin}/.well-known/mcp/server-card.json`,
       interop: `${origin}/api/products/interop`,
+      first_principles: `${origin}/api/products/first-principles`,
+      // P2: federation carries signed attestations + cap hashes, not just catalog rows
+      attestations: attBundle.attestations,
+      capabilities: attBundle.capabilities,
+      attractors: attBundle.attractors,
+      attestation_bundle_type: attBundle.type,
     };
   } catch (e) {
     notes.push(`payload: ${e instanceof Error ? e.message : "x"}`);

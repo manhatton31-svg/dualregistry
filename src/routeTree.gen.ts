@@ -86,6 +86,7 @@ import { Route as ApiProductsExportRouteImport } from './routes/api/products/exp
 import { Route as ApiProductsFederationRouteImport } from './routes/api/products/federation'
 import { Route as ApiProductsFeedbackRouteImport } from './routes/api/products/feedback'
 import { Route as ApiProductsFeedbackDriveRouteImport } from './routes/api/products/feedback-drive'
+import { Route as ApiProductsFirstPrinciplesRouteImport } from './routes/api/products/first-principles'
 import { Route as ApiProductsGoHarderRouteImport } from './routes/api/products/go-harder'
 import { Route as ApiProductsImprovementLogRouteImport } from './routes/api/products/improvement-log'
 import { Route as ApiProductsInteropRouteImport } from './routes/api/products/interop'
@@ -507,6 +508,12 @@ const ApiProductsFeedbackDriveRoute =
     path: '/api/products/feedback-drive',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiProductsFirstPrinciplesRoute =
+  ApiProductsFirstPrinciplesRouteImport.update({
+    id: '/api/products/first-principles',
+    path: '/api/products/first-principles',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiProductsGoHarderRoute = ApiProductsGoHarderRouteImport.update({
   id: '/api/products/go-harder',
   path: '/api/products/go-harder',
@@ -680,6 +687,7 @@ export interface FileRoutesByFullPath {
   '/api/products/federation': typeof ApiProductsFederationRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
+  '/api/products/first-principles': typeof ApiProductsFirstPrinciplesRoute
   '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
   '/api/products/interop': typeof ApiProductsInteropRoute
@@ -778,6 +786,7 @@ export interface FileRoutesByTo {
   '/api/products/federation': typeof ApiProductsFederationRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
+  '/api/products/first-principles': typeof ApiProductsFirstPrinciplesRoute
   '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
   '/api/products/interop': typeof ApiProductsInteropRoute
@@ -877,6 +886,7 @@ export interface FileRoutesById {
   '/api/products/federation': typeof ApiProductsFederationRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
   '/api/products/feedback-drive': typeof ApiProductsFeedbackDriveRoute
+  '/api/products/first-principles': typeof ApiProductsFirstPrinciplesRoute
   '/api/products/go-harder': typeof ApiProductsGoHarderRoute
   '/api/products/improvement-log': typeof ApiProductsImprovementLogRoute
   '/api/products/interop': typeof ApiProductsInteropRoute
@@ -977,6 +987,7 @@ export interface FileRouteTypes {
     | '/api/products/federation'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
+    | '/api/products/first-principles'
     | '/api/products/go-harder'
     | '/api/products/improvement-log'
     | '/api/products/interop'
@@ -1075,6 +1086,7 @@ export interface FileRouteTypes {
     | '/api/products/federation'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
+    | '/api/products/first-principles'
     | '/api/products/go-harder'
     | '/api/products/improvement-log'
     | '/api/products/interop'
@@ -1173,6 +1185,7 @@ export interface FileRouteTypes {
     | '/api/products/federation'
     | '/api/products/feedback'
     | '/api/products/feedback-drive'
+    | '/api/products/first-principles'
     | '/api/products/go-harder'
     | '/api/products/improvement-log'
     | '/api/products/interop'
@@ -1271,6 +1284,7 @@ export interface RootRouteChildren {
   ApiProductsFederationRoute: typeof ApiProductsFederationRoute
   ApiProductsFeedbackRoute: typeof ApiProductsFeedbackRoute
   ApiProductsFeedbackDriveRoute: typeof ApiProductsFeedbackDriveRoute
+  ApiProductsFirstPrinciplesRoute: typeof ApiProductsFirstPrinciplesRoute
   ApiProductsGoHarderRoute: typeof ApiProductsGoHarderRoute
   ApiProductsImprovementLogRoute: typeof ApiProductsImprovementLogRoute
   ApiProductsInteropRoute: typeof ApiProductsInteropRoute
@@ -1835,6 +1849,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsFeedbackDriveRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/first-principles': {
+      id: '/api/products/first-principles'
+      path: '/api/products/first-principles'
+      fullPath: '/api/products/first-principles'
+      preLoaderRoute: typeof ApiProductsFirstPrinciplesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/go-harder': {
       id: '/api/products/go-harder'
       path: '/api/products/go-harder'
@@ -2058,6 +2079,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsFederationRoute: ApiProductsFederationRoute,
   ApiProductsFeedbackRoute: ApiProductsFeedbackRoute,
   ApiProductsFeedbackDriveRoute: ApiProductsFeedbackDriveRoute,
+  ApiProductsFirstPrinciplesRoute: ApiProductsFirstPrinciplesRoute,
   ApiProductsGoHarderRoute: ApiProductsGoHarderRoute,
   ApiProductsImprovementLogRoute: ApiProductsImprovementLogRoute,
   ApiProductsInteropRoute: ApiProductsInteropRoute,

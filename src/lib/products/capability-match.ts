@@ -1,10 +1,12 @@
 /**
  * Capability matchmaking — rank Active clean listings for NL needs.
- * Layer on ARD + clean registry + stigmergic usage pheromones (trail-following).
+ * Layer on ARD + clean registry + stigmergic usage pheromones (trail-following)
+ * + first-principles outcome scores.
  */
 import { ardSearch, type ArdSearchHit } from "@/lib/agents1/ai-catalog";
 import { getFoundingFreePublic } from "./founding-free";
 import { pheromoneBoostFor } from "./stigmergy";
+import { outcomeScoreFor } from "./first-principles";
 
 export type MatchHit = ArdSearchHit & {
   listing_id?: string;
@@ -13,6 +15,7 @@ export type MatchHit = ArdSearchHit & {
   match_reasons: string[];
   capability_score: number;
   pheromone_boost?: number;
+  outcome_score?: number;
 };
 
 const CAP_ALIASES: Array<{ re: RegExp; tags: string[]; boost: number }> = [
@@ -61,6 +64,7 @@ export async function matchCapabilities(
   founding: Awaited<ReturnType<typeof getFoundingFreePublic>>;
   note: string;
   stigmergy: boolean;
+  first_principles: boolean;
 }> {
   const o = origin.replace(/\/$/, "");
   const limit = Math.min(40, Math.max(1, opts?.limit ?? 12));
@@ -81,18 +85,12 @@ export async function matchCapabilities(
     ...(kind === "agent" ? [] : lanes.mcp_active || []),
   ].filter((L) => L?.id && clean[L.id]);
 
+  const q = query.trim().toLowerCase();
   const aliasHits: MatchHit[] = [];
-  const q = query.toLowerCase();
   for (const L of activeRows) {
-    const blob = `${L.name} ${L.description || ""} ${(L.tags || []).join(" ")} ${(L.capabilities || []).join(" ")}`.toLowerCase();
     let capability_score = 0;
     const match_reasons: string[] = [];
-    for (const t of q.split(/\s+/).filter(Boolean)) {
-      if (blob.includes(t)) {
-        capability_score += 14;
-        match_reasons.push(`token:${t}`);
-      }
-    }
+    const blob = `${L.name || ""} ${L.description || ""} ${(L.tags || []).join(" ")}`.toLowerCase();
     for (const a of CAP_ALIASES) {
       if (a.re.test(query)) {
         for (const tag of a.tags) {
@@ -110,6 +108,10 @@ export async function matchCapabilities(
     if (L.name.toLowerCase().includes(q)) {
       capability_score += 22;
       match_reasons.push("name");
+    }
+    if (capability_score <= 0 && q && blob.includes(q)) {
+      capability_score += 12;
+      match_reasons.push("text");
     }
     if (capability_score <= 0) continue;
     aliasHits.push({
@@ -182,6 +184,25 @@ export async function matchCapabilities(
     }
   }
 
+  // First-principles outcome physics boost
+  for (const h of byId.values()) {
+    if (!h.listing_id) continue;
+    try {
+      const oScore = await outcomeScoreFor(h.listing_id);
+      if (oScore > 0) {
+        h.outcome_score = oScore;
+        h.capability_score += Math.round(oScore * 25);
+        h.score = h.capability_score;
+        h.match_reasons = [
+          ...(h.match_reasons || []),
+          "outcome_physics",
+        ].slice(0, 10);
+      }
+    } catch {
+      /* */
+    }
+  }
+
   const hits = [...byId.values()]
     .sort((a, b) => b.capability_score - a.capability_score)
     .slice(0, limit);
@@ -192,7 +213,8 @@ export async function matchCapabilities(
     total: byId.size,
     hits,
     founding: await getFoundingFreePublic(),
-    note: "Ranked Active clean + ARD + stigmergy × autocatalysis × interop graph. take_demo_get for founding free path.",
+    note: "Ranked Active clean + ARD + stigmergy × outcomes × first-principles. take_demo_get for founding free path.",
     stigmergy: true,
+    first_principles: true,
   };
 }
