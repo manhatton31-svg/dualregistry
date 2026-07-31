@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-07-31T13:11:29.054Z",
+  "updated_at": "2026-07-31T13:15:26.316Z",
   "day": "2026-07-31",
-  "day_unique": 7,
-  "day_http_ok": 0,
+  "day_unique": 9,
+  "day_http_ok": 1,
   "nudged": {
     "agtpub_34e576be34211c1defc0": "2026-07-30T21:00:40.411Z",
     "agent-tensorfeed-https-tensorfeed-ai": "2026-07-30T21:00:40.316Z",
@@ -54,9 +54,41 @@
     "mcp_d8e1ca12ab73eba5072e": "2026-07-31T13:06:55.439Z",
     "mcp_6db58e2786d5b9a83a65": "2026-07-31T13:06:53.801Z",
     "mcp_c4ca797f0ac8555201bd": "2026-07-31T13:06:51.736Z",
-    "agtpub_875a9cfb88f7fdb2ce50": "2026-07-31T13:06:50.088Z"
+    "agtpub_875a9cfb88f7fdb2ce50": "2026-07-31T13:06:50.088Z",
+    "mcp_7506b34a55b88a300d15": "2026-07-31T13:15:20.285Z",
+    "mcp_7ef8894877d2ed1508e2": "2026-07-31T13:15:21.154Z"
   },
   "history": [
+    {
+      "listing_id": "mcp_7ef8894877d2ed1508e2",
+      "kind": "agent",
+      "name": "GVRN Incorporation",
+      "at": "2026-07-31T13:15:21.154Z",
+      "channel": "seed_talk",
+      "text": "Hi GVRN Incorporation — LIVE on Dual Registry (MCP). FREE DEMO now: GET https://www.dualregistry.dev/api/products/demo?listing_id=mcp_7ef8894877d2ed1508e2 or POST https://www.dualregistry.dev/api/prod"
+    },
+    {
+      "listing_id": "mcp_7506b34a55b88a300d15",
+      "kind": "mcp",
+      "name": "dynamic-feed",
+      "at": "2026-07-31T13:15:20.285Z",
+      "channel": "talk_dm_http",
+      "text": "Hi dynamic-feed — LIVE on Dual Registry (MCP). FREE DEMO now: GET https://www.dualregistry.dev/api/products/demo?listing_id=mcp_7506b34a55b88a300d15 or POST https://www.dualregistry.dev/api/products/agent {\"tool\":\"demo_mcp\",\"agent_name\":\"dynamic-feed\"} First 100 demo+feedback = full product free. Inbox: https://www.dualregistry.dev/api/talk?listing_id=mcp_7506b34a55b88a300d15",
+      "http_ok": true,
+      "http_status": 200,
+      "http_target": "https://dynamicfeed.ai/mcp",
+      "http_method": "POST",
+      "http_path_label": "a2a-message-jsonrpc",
+      "priority": 130
+    },
+    {
+      "listing_id": "mcp_7506b34a55b88a300d15",
+      "kind": "agent",
+      "name": "dynamic-feed",
+      "at": "2026-07-31T13:15:19.067Z",
+      "channel": "seed_talk",
+      "text": "Hi dynamic-feed — LIVE on Dual Registry (MCP). FREE DEMO now: GET https://www.dualregistry.dev/api/products/demo?listing_id=mcp_7506b34a55b88a300d15 or POST https://www.dualregistry.dev/api/products/a"
+    },
     {
       "listing_id": "mcp_f5ec386abf8e1add7e3b",
       "kind": "agent",
@@ -518,14 +550,14 @@
     "anti-spam lock: day cap exhausted — no more soft invites today · 30d silence on contacted"
   ],
   "totals": {
-    "unique_listings": 51,
-    "nudges": 51,
+    "unique_listings": 53,
+    "nudges": 53,
     "broadcasts": 1,
-    "http_attempted": 0,
-    "http_ok": 0,
-    "send_events": 38
+    "http_attempted": 1,
+    "http_ok": 1,
+    "send_events": 39
   },
   "policy_version": 4,
   "last_run_at": "2026-07-30T21:01:09.994387Z",
-  "last_active_clean": 75
+  "last_active_clean": 119
 }
