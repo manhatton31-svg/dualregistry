@@ -1,7 +1,7 @@
 {
   "version": "2.5.0",
-  "updated_at": "2026-07-31T13:05:15.877Z",
-  "acceleration_index": 1.1443750000000001,
+  "updated_at": "2026-07-31T13:05:20.589Z",
+  "acceleration_index": 1.1848,
   "conversion_bonus_day": "2026-07-31",
   "conversion_bonus": 0,
   "hourly": [
@@ -9,14 +9,14 @@
       "key": "2026-07-31T13",
       "demos": 0,
       "feedback": 0,
-      "traces": 67,
+      "traces": 80,
       "lists": 0,
       "matches": 0,
-      "probes_fail": 0,
-      "probes_ok": 0,
+      "probes_fail": 3,
+      "probes_ok": 1,
       "founding_claims": 0,
       "endorsements": 0,
-      "events": 67
+      "events": 84
     }
   ],
   "daily": [
@@ -24,23 +24,40 @@
       "key": "2026-07-31",
       "demos": 0,
       "feedback": 0,
-      "traces": 67,
+      "traces": 80,
       "lists": 0,
       "matches": 0,
-      "probes_fail": 0,
-      "probes_ok": 0,
+      "probes_fail": 3,
+      "probes_ok": 1,
       "founding_claims": 0,
       "endorsements": 0,
-      "events": 67
+      "events": 84
     }
   ],
   "cascades": [],
-  "vicious": {},
+  "vicious": {
+    "agtpub_0e58c1804b88f9a3de9e": {
+      "listing_id": "agtpub_0e58c1804b88f9a3de9e",
+      "danger": 20,
+      "fail_streak": 2,
+      "priority": 36,
+      "last_at": "2026-07-31T13:05:20.176Z",
+      "note": "danger accumulating"
+    },
+    "agtpub_c9870b79be7f4faab49c": {
+      "listing_id": "agtpub_c9870b79be7f4faab49c",
+      "danger": 10,
+      "fail_streak": 1,
+      "priority": 18,
+      "last_at": "2026-07-31T13:05:18.686Z",
+      "note": "danger accumulating"
+    }
+  },
   "totals": {
-    "bumps": 67,
+    "bumps": 84,
     "cascades": 0,
     "contagions": 0,
-    "vicious_flags": 0
+    "vicious_flags": 3
   },
-  "last_bump_at": "2026-07-31T13:05:15.876Z"
+  "last_bump_at": "2026-07-31T13:05:20.589Z"
 }
