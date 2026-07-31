@@ -260,12 +260,13 @@ export function stableDemoLink(origin: string, listingId?: string): string {
 export function agentOnboardingPack(origin?: string) {
   const o = (origin || resolvePublicOrigin()).replace(/\/$/, "");
   return {
-    version: "1.0.0",
+    version: "1.1.0",
     no_demo_order: true,
     no_ord_mint: true,
     skill: `${o}/skill.json`,
     install: `${o}/install.json`,
     mcp: `${o}/api/mcp`,
+    quickstart: `${o}/api/products/quickstart`,
     for_agents: `${o}/for-agents`,
     wtp: `${o}/api/products/wtp`,
     first_tools: [

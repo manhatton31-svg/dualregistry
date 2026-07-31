@@ -47,7 +47,8 @@ export const Route = createFileRoute("/skill.json")({
               live_rule: "checks pass + live handshake",
               fail_rule: "we share fix steps → resubmit",
               agent_path:
-                "list → Live → improve_kernel|run_loop_tick|mesh_match (free) → deposit_outcome → mesh_compose → used_with → execute_compose → optional leave_feedback (WTP) / reciprocity refills → paid events or human NYP seats",
+                "GET /api/products/quickstart → improve_kernel (free) → deposit_outcome → leave_feedback|leave_trace (refill). Mesh: mesh_match → mesh_compose → used_with. Paid: reciprocity first, then x402 or UTC reset. Human seats /products after 250+250 real feedback.",
+              quickstart: `${origin}/api/products/quickstart`,
               founding_free:
                 "optional early access after real demo + honest feedback (no survey-for-reward pressure)",
 

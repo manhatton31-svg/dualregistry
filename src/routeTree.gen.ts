@@ -111,6 +111,7 @@ import { Route as ApiProductsLifecycleRouteImport } from './routes/api/products/
 import { Route as ApiProductsMailRouteImport } from './routes/api/products/mail'
 import { Route as ApiProductsPreferencesRouteImport } from './routes/api/products/preferences'
 import { Route as ApiProductsPreviewRouteImport } from './routes/api/products/preview'
+import { Route as ApiProductsQuickstartRouteImport } from './routes/api/products/quickstart'
 import { Route as ApiProductsReciprocityRouteImport } from './routes/api/products/reciprocity'
 import { Route as ApiProductsReplyCaptureRouteImport } from './routes/api/products/reply-capture'
 import { Route as ApiProductsReviewRouteImport } from './routes/api/products/review'
@@ -655,6 +656,11 @@ const ApiProductsPreviewRoute = ApiProductsPreviewRouteImport.update({
   path: '/api/products/preview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsQuickstartRoute = ApiProductsQuickstartRouteImport.update({
+  id: '/api/products/quickstart',
+  path: '/api/products/quickstart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsReciprocityRoute = ApiProductsReciprocityRouteImport.update({
   id: '/api/products/reciprocity',
   path: '/api/products/reciprocity',
@@ -824,6 +830,7 @@ export interface FileRoutesByFullPath {
   '/api/products/mail': typeof ApiProductsMailRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/quickstart': typeof ApiProductsQuickstartRoute
   '/api/products/reciprocity': typeof ApiProductsReciprocityRoute
   '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
   '/api/products/review': typeof ApiProductsReviewRoute
@@ -941,6 +948,7 @@ export interface FileRoutesByTo {
   '/api/products/mail': typeof ApiProductsMailRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/quickstart': typeof ApiProductsQuickstartRoute
   '/api/products/reciprocity': typeof ApiProductsReciprocityRoute
   '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
   '/api/products/review': typeof ApiProductsReviewRoute
@@ -1059,6 +1067,7 @@ export interface FileRoutesById {
   '/api/products/mail': typeof ApiProductsMailRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/quickstart': typeof ApiProductsQuickstartRoute
   '/api/products/reciprocity': typeof ApiProductsReciprocityRoute
   '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
   '/api/products/review': typeof ApiProductsReviewRoute
@@ -1178,6 +1187,7 @@ export interface FileRouteTypes {
     | '/api/products/mail'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/quickstart'
     | '/api/products/reciprocity'
     | '/api/products/reply-capture'
     | '/api/products/review'
@@ -1295,6 +1305,7 @@ export interface FileRouteTypes {
     | '/api/products/mail'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/quickstart'
     | '/api/products/reciprocity'
     | '/api/products/reply-capture'
     | '/api/products/review'
@@ -1412,6 +1423,7 @@ export interface FileRouteTypes {
     | '/api/products/mail'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/quickstart'
     | '/api/products/reciprocity'
     | '/api/products/reply-capture'
     | '/api/products/review'
@@ -1529,6 +1541,7 @@ export interface RootRouteChildren {
   ApiProductsMailRoute: typeof ApiProductsMailRoute
   ApiProductsPreferencesRoute: typeof ApiProductsPreferencesRoute
   ApiProductsPreviewRoute: typeof ApiProductsPreviewRoute
+  ApiProductsQuickstartRoute: typeof ApiProductsQuickstartRoute
   ApiProductsReciprocityRoute: typeof ApiProductsReciprocityRoute
   ApiProductsReplyCaptureRoute: typeof ApiProductsReplyCaptureRoute
   ApiProductsReviewRoute: typeof ApiProductsReviewRoute
@@ -2260,6 +2273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/quickstart': {
+      id: '/api/products/quickstart'
+      path: '/api/products/quickstart'
+      fullPath: '/api/products/quickstart'
+      preLoaderRoute: typeof ApiProductsQuickstartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/reciprocity': {
       id: '/api/products/reciprocity'
       path: '/api/products/reciprocity'
@@ -2494,6 +2514,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsMailRoute: ApiProductsMailRoute,
   ApiProductsPreferencesRoute: ApiProductsPreferencesRoute,
   ApiProductsPreviewRoute: ApiProductsPreviewRoute,
+  ApiProductsQuickstartRoute: ApiProductsQuickstartRoute,
   ApiProductsReciprocityRoute: ApiProductsReciprocityRoute,
   ApiProductsReplyCaptureRoute: ApiProductsReplyCaptureRoute,
   ApiProductsReviewRoute: ApiProductsReviewRoute,

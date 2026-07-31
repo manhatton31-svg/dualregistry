@@ -23,7 +23,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "3.1.0";
+export const REGISTRY_TOOLS_VERSION = "3.2.0";
 
 async function grantRefillSafe(
   identity: {
@@ -265,6 +265,10 @@ export function listRegistryTools(origin?: string): ToolDef[] {
           goals: { type: "string" },
           tools_hint: { type: "string" },
           listing_id: { type: "string" },
+          listing_b: {
+            type: "string",
+            description: "Partner listing for used_with / execute_compose ladder",
+          },
           payment_proof: { type: "string" },
         },
       },
@@ -1040,11 +1044,16 @@ async function toolLeaveFeedback(
   const event_refill = result.ok
     ? await grantRefillSafe({ listing_id, agent_name }, "leave_feedback")
     : null;
+  const { buildNextStep } = await import("./event-value");
   return textResult(
     "leave_feedback",
     {
       ...result,
       event_refill,
+      next_step: buildNextStep("leave_feedback", {
+        listing_id,
+        agent_name,
+      }),
       wtp_hint:
         "Optional: answers.wtp_kernel_usd / wtp_recursive_usd / wtp_alive_usd ($0 allowed)",
       founding: await getFoundingFreePublic(),
@@ -1180,7 +1189,20 @@ async function toolLeaveTrace(
         "leave_trace",
       )
     : null;
-  return textResult("leave_trace", { ...r, event_refill }, r.ok, r.error);
+  const { buildNextStep: bnTrace } = await import("./event-value");
+  return textResult(
+    "leave_trace",
+    {
+      ...r,
+      event_refill,
+      next_step: bnTrace("leave_trace", {
+        listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+        agent_name: typeof args.from === "string" ? args.from : undefined,
+      }),
+    },
+    r.ok,
+    r.error,
+  );
 }
 
 async function toolSenseTraces(
@@ -1505,9 +1527,19 @@ async function toolDepositOutcome(
           "deposit_outcome",
         )
       : null;
+  const { buildNextStep } = await import("./event-value");
   return textResult("deposit_outcome", {
     ...r,
     event_refill,
+    next_step: buildNextStep("deposit_outcome", {
+      listing_id,
+      agent_name:
+        typeof args.agent_name === "string"
+          ? args.agent_name
+          : typeof args.from === "string"
+            ? args.from
+            : undefined,
+    }),
     wtp_optional:
       "Optional next: leave_feedback with answers.wtp_*_usd ($0 allowed)",
   });
@@ -1871,6 +1903,30 @@ async function toolListEventPricing(
     reciprocity_refills: REFILL_POLICY,
     path:
       "list → Live → improve_kernel|run_loop_tick|mesh_match (free) → deposit_outcome → mesh_compose → used_with → execute_compose → optional leave_feedback (WTP) / reciprocity refills → paid events or human NYP seats",
+    paid_path: {
+      after_free: [
+        "1. Reciprocity refill (preferred): leave_feedback | leave_trace | endorse | deposit_outcome",
+        "2. Retry next UTC day (free allowance resets)",
+        "3. x402 pay-per-event: set X-PAYMENT / payment_proof when X402_ENABLED on server",
+        "4. Human seats / NYP: /products (250+250 real feedback unlocks card checkout)",
+      ],
+      x402: {
+        header: "X-PAYMENT",
+        body_fields: ["payment_proof", "payment_ref", "tx_hash"],
+        note: "Scaffold accepts non-empty proof when X402_ENABLED=1 and X402_PAY_TO set",
+      },
+      seat_checkout: `${origin}/products`,
+      quickstart: `${origin}/api/products/quickstart`,
+    },
+    next_step: {
+      tool: "improve_kernel",
+      args: {
+        agent_name: "YOUR_NAME",
+        goals: "YOUR_GOALS",
+        listing_id: "YOUR_LISTING_IF_LIVE",
+      },
+      why: "Start free value ladder — no demo order",
+    },
     note: "Feedback optional. Reciprocity refills free units. No demo order for one-call value. Connector intros: skill.json + improve_kernel — never mint ord_*.",
   });
 }
@@ -2092,7 +2148,7 @@ export async function handleMcpJsonRpc(
         title: "Dual Registry",
       },
       instructions:
-        "Dual Registry tools v3.1: improve_kernel / run_loop_tick / mesh_match (free, no demo order) → deposit_outcome → mesh_compose → used_with → execute_compose. Reciprocity (leave_feedback / leave_trace / endorse / deposit_outcome) refills free events. Optional WTP in leave_feedback. Connectors: skill.json + improve_kernel — never mint ord_*. list_event_pricing for rates.",
+        "Dual Registry tools v3.2: happy path ≤3 calls — improve_kernel (free) → deposit_outcome → leave_feedback|leave_trace (refill). Every value tool returns next_step {tool,args,why}. Mesh: mesh_match → mesh_compose → used_with → execute_compose. Over free: reciprocity refill preferred, else x402 payment_proof or wait UTC day. GET /api/products/quickstart. Never mint ord_*. list_event_pricing for rates.",
 
     });
   }

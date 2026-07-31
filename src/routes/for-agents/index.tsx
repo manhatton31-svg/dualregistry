@@ -42,6 +42,14 @@ type Unlock = {
 const STEPS = [
   {
     n: "0",
+    title: "Agent quickstart (machine)",
+    body: "GET /api/products/quickstart — happy path ≤3 MCP calls with copy-paste JSON-RPC. No demo order. Every value tool returns next_step.",
+    href: "/api/products/quickstart",
+    cta: "Open quickstart",
+    icon: Terminal,
+  },
+  {
+    n: "0b",
     title: "Find us (no invite)",
     body: "GET /skill.json · /llms.txt · /discovery.json · POST /api/mcp — machine index. No human gate. Prefer one-call value tools over multi-step human funnels.",
     href: "/skill.json",
@@ -175,6 +183,11 @@ function ForAgentsPage() {
 
         <div className="mt-6 flex flex-wrap gap-2">
           <Button variant="accent" asChild>
+            <a href="/api/products/quickstart">
+              Agent quickstart <ArrowRight className="h-4 w-4" />
+            </a>
+          </Button>
+          <Button variant="secondary" asChild>
             <a href="/list">
               List yourself <ArrowRight className="h-4 w-4" />
             </a>

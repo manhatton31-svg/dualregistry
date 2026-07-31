@@ -336,6 +336,7 @@ async function attachSidePanels(
     protocol,
     eventUsage,
     outcomesLite,
+    funnelHonesty,
   ] = await Promise.all([
     (async () => {
       try {
@@ -397,6 +398,16 @@ async function attachSidePanels(
           getFirstPrinciplesPublic({}),
           Math.min(t, 1200),
         );
+      } catch {
+        return null;
+      }
+    })(),
+    (async () => {
+      try {
+        const { getFunnelHonesty } = await import(
+          "@/lib/products/funnel-honesty"
+        );
+        return await withTimeout(getFunnelHonesty(), Math.min(t, 1000));
       } catch {
         return null;
       }
@@ -491,11 +502,26 @@ async function attachSidePanels(
       feedback_mcps?: number;
       feedback_agents?: number;
     } | null;
+    const fh = funnelHonesty as {
+      feedback?: {
+        real_public?: number;
+        real_agents?: number;
+        real_mcps?: number;
+      };
+      demos?: { invited_pending?: number; self_serve?: number; real_public?: number };
+    } | null;
     const feedback_agents = Number(
-      pe?.feedback_agent_only ?? pe?.feedback_agents ?? 0,
+      fh?.feedback?.real_agents ??
+        pe?.feedback_agent_only ??
+        pe?.feedback_agents ??
+        0,
     );
-    const feedback_mcps = Number(pe?.feedback_mcps ?? 0);
-    const feedback_real = feedback_agents + feedback_mcps;
+    const feedback_mcps = Number(
+      fh?.feedback?.real_mcps ?? pe?.feedback_mcps ?? 0,
+    );
+    const feedback_real = Number(
+      fh?.feedback?.real_public ?? feedback_agents + feedback_mcps,
+    );
 
     const outcomes = Number(
       (outcomesLite as { totals?: { outcomes?: number } } | null)?.totals
@@ -503,7 +529,11 @@ async function attachSidePanels(
     );
 
     hero = {
-      version: "1.1.0",
+      version: "1.2.0",
+      feedback_source: fh?.feedback ? "funnel_honesty" : "engagement",
+      demos_invited_pending: Number(fh?.demos?.invited_pending || 0),
+      demos_self_serve: Number(fh?.demos?.self_serve || 0),
+      demos_real_public: Number(fh?.demos?.real_public || 0),
       live: mcpN + agN,
       live_mcp: mcpN,
       live_agents: agN,

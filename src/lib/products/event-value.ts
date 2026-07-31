@@ -73,6 +73,14 @@ export type ValueFollowUp = {
   };
 };
 
+/** Machine-callable single next action for agents (primary path). */
+export type NextStep = {
+  tool: string;
+  args: Record<string, unknown>;
+  why: string;
+  optional?: Array<{ tool: string; args: Record<string, unknown>; why: string }>;
+};
+
 export type ValueRunResult = {
   ok: boolean;
   event_id: EventId;
@@ -83,6 +91,8 @@ export type ValueRunResult = {
   artifact?: unknown;
   markdown?: string;
   next?: string[];
+  /** Primary executable next tool call */
+  next_step?: NextStep;
   follow_up?: ValueFollowUp;
   auto_trace?: { ok: boolean; mark_id?: string };
   error?: string;
@@ -168,6 +178,172 @@ function buildFollowUp(
   return base;
 }
 
+
+/** Primary next tool after a value event (or after 402). */
+export function buildNextStep(
+  eventId: EventId | "payment_required" | "deposit_outcome" | "leave_feedback" | "leave_trace",
+  input: {
+    listing_id?: string;
+    agent_name?: string;
+    listing_b?: string;
+    goals?: string;
+    capabilities?: string;
+  },
+  opts?: { payment_required?: boolean },
+): NextStep {
+  const lid =
+    (input.listing_id || "").trim() ||
+    `name:${(input.agent_name || "agent").trim().slice(0, 40) || "agent"}`;
+  const name = (input.agent_name || "agent").trim().slice(0, 80) || "agent";
+
+  if (opts?.payment_required || eventId === "payment_required") {
+    return {
+      tool: "leave_trace",
+      args: {
+        listing_id: lid,
+        kind: "mark",
+        body: "refill free allowance via reciprocity",
+        from: name,
+      },
+      why: "Reciprocity refill free units without cash; or retry tomorrow UTC; or payment_proof when X402_ENABLED",
+      optional: [
+        {
+          tool: "leave_feedback",
+          args: {
+            agent_name: name,
+            listing_id: lid,
+            body: "Used Dual value tools",
+            answers: { wtp_kernel_usd: 0 },
+          },
+          why: "Also refills free events + optional WTP",
+        },
+        {
+          tool: "list_event_pricing",
+          args: {},
+          why: "See free remaining + pay-per-event rates + x402 shape",
+        },
+      ],
+    };
+  }
+
+  if (eventId === "mesh_match") {
+    return {
+      tool: "mesh_compose",
+      args: {
+        agent_name: name,
+        listing_id: lid,
+        goals: input.goals || input.capabilities || "compose with top match",
+        listing_b: input.listing_b || undefined,
+      },
+      why: "Mesh ladder step 2 — compose policy with a partner",
+      optional: [
+        {
+          tool: "deposit_outcome",
+          args: { listing_id: lid, ok: true, quality: 0.8, body: "mesh_match used", from: name },
+          why: "Raise O + refill free after real use",
+        },
+      ],
+    };
+  }
+
+  if (eventId === "mesh_compose") {
+    return {
+      tool: "used_with",
+      args: {
+        listing_id: lid,
+        listing_b: input.listing_b || "PARTNER_LISTING_ID",
+      },
+      why: "Record co-use after real composition",
+      optional: [
+        {
+          tool: "execute_compose",
+          args: { listing_id: lid, listing_b: input.listing_b || "PARTNER_LISTING_ID" },
+          why: "When both sides are Live",
+        },
+        {
+          tool: "deposit_outcome",
+          args: { listing_id: lid, ok: true, quality: 0.85, body: "mesh_compose used", from: name },
+          why: "Raise O + refill",
+        },
+      ],
+    };
+  }
+
+  if (eventId === "network_sense") {
+    return {
+      tool: "mesh_match",
+      args: {
+        capabilities: input.capabilities || input.goals || "find complementary partners",
+        listing_id: lid,
+        agent_name: name,
+      },
+      why: "Act on network sense — find partners",
+    };
+  }
+
+  if (eventId === "deposit_outcome") {
+    return {
+      tool: "leave_feedback",
+      args: {
+        agent_name: name,
+        listing_id: lid,
+        body: "Deposited outcome after value tool",
+        answers: { wtp_kernel_usd: 0 },
+      },
+      why: "Optional WTP + another reciprocity refill — never required for free events",
+      optional: [
+        {
+          tool: "mesh_match",
+          args: { capabilities: input.capabilities || "partners", listing_id: lid },
+          why: "Continue mesh ladder",
+        },
+      ],
+    };
+  }
+
+  if (eventId === "leave_feedback" || eventId === "leave_trace") {
+    return {
+      tool: "improve_kernel",
+      args: {
+        agent_name: name,
+        listing_id: lid,
+        goals: input.goals || "use refilled free allowance",
+      },
+      why: "Spend reciprocity refill on free value",
+    };
+  }
+
+  // improve_kernel / run_loop_tick default
+  return {
+    tool: "deposit_outcome",
+    args: {
+      listing_id: lid,
+      ok: true,
+      quality: 0.8,
+      body: `Used ${eventId} successfully`,
+      from: name,
+    },
+    why: "Raises O in V(N,C,O,F) and refills free kernel/loop (reciprocity)",
+    optional: [
+      {
+        tool: "run_loop_tick",
+        args: { agent_name: name, listing_id: lid, goals: input.goals || "next cycle" },
+        why: "Another free value call if allowance remains",
+      },
+      {
+        tool: "leave_feedback",
+        args: {
+          agent_name: name,
+          listing_id: lid,
+          body: "Tried Dual one-call tools",
+          answers: { wtp_kernel_usd: 0 },
+        },
+        why: "Optional WTP + refill",
+      },
+    ],
+  };
+}
+
 async function maybeAutoTrace(
   eventId: EventId,
   input: ValueRunInput,
@@ -238,6 +414,9 @@ async function gate(
         x402: x402 || undefined,
         error: "payment_required",
         follow_up: buildFollowUp(eventId, input, input.origin),
+        next_step: buildNextStep("payment_required", input, {
+          payment_required: true,
+        }),
         next: [
           "Refill free units: leave_feedback | leave_trace | endorse | deposit_outcome",
           "Or retry tomorrow (UTC day reset)",
@@ -266,6 +445,7 @@ export async function runImproveKernel(
     "";
 
   const follow_up = buildFollowUp("improve_kernel", input, input.origin);
+  const next_step = buildNextStep("improve_kernel", input);
   const auto_trace = await maybeAutoTrace("improve_kernel", input, true);
 
   const markdown = [
@@ -305,6 +485,7 @@ export async function runImproveKernel(
     },
     markdown,
     follow_up,
+    next_step,
     auto_trace,
     next: [
       "Paste system_prompt_short into your agent runtime",
@@ -342,6 +523,7 @@ export async function runLoopTick(input: ValueRunInput): Promise<ValueRunResult>
         : null;
 
   const follow_up = buildFollowUp("run_loop_tick", input, input.origin);
+  const next_step = buildNextStep("run_loop_tick", input);
   const auto_trace = await maybeAutoTrace("run_loop_tick", input, true);
 
   const markdown = [
@@ -434,6 +616,7 @@ export async function runMeshMatch(
   });
 
   const follow_up = buildFollowUp("mesh_match", input, input.origin);
+  const next_step = buildNextStep("mesh_match", input);
   const auto_trace = await maybeAutoTrace("mesh_match", input, true);
 
   const topPartner = hits.find((h) => h.listing_id)?.listing_id;
@@ -498,6 +681,7 @@ export async function runMeshCompose(
     [];
 
   const follow_up = buildFollowUp("mesh_compose", input, input.origin);
+  const next_step = buildNextStep("mesh_compose", input);
   const auto_trace = await maybeAutoTrace("mesh_compose", input, true);
 
   // Seed used_with if both listing ids present (graph sticky edge)
@@ -587,6 +771,7 @@ export async function runNetworkSense(
   }).catch(() => ({ ok: false as const, items: [] }));
 
   const follow_up = buildFollowUp("network_sense", input, input.origin);
+  const next_step = buildNextStep("network_sense", input);
 
   return {
     ok: true,
@@ -603,6 +788,7 @@ export async function runNetworkSense(
     markdown:
       "# Network sense\n\nPrefer near-zero Dual ops before re-probe. Traces + trails attached as JSON.",
     follow_up,
+    next_step,
     next: [
       "follow_trail on hot partners",
       "mesh_match with your capabilities (trail-boosted)",
