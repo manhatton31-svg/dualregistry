@@ -1,6 +1,6 @@
 {
   "version": "2.7.0",
-  "updated_at": "2026-07-31T13:12:59.198Z",
+  "updated_at": "2026-07-31T13:13:03.201Z",
   "capabilities": {
     "cap_9775402bba2bc8a46d2f7a71": {
       "cap_hash": "cap_9775402bba2bc8a46d2f7a71",
@@ -20,6 +20,22 @@
     }
   },
   "attestations": [
+    {
+      "id": "att_ms8yqb9p_yd5qkl",
+      "type": "outcome",
+      "subject": "mcp-ai-klavis-strata-https-github-com-klavis-ai-klavis",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:12:59.532Z",
+      "expires_at": "2026-08-03T13:12:59.532Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ypf76",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5cGY3NiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzoxMjo1OS41MzJaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzoxMjo1OS41MzJaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6Im1jcC1haS1rbGF2aXMtc3RyYXRhLWh0dHBzLWdpdGh1Yi1jb20ta2xhdmlzLWFpLWtsYXZpcyIsInR5cGUiOiJvdXRjb21lIn0.v3I_SgEYSfSGceYwklbnxn6o4JBodCROc3JNEvWFLR0ZHfb8U-78xQb_Eo9YgQ-JXXGRfgQ6CHaiI7_Dc3kGzQ",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:12:59.532Z\",\"issued_at\":\"2026-07-31T13:12:59.532Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"mcp-ai-klavis-strata-https-github-com-klavis-ai-klavis\",\"type\":\"outcome\"}"
+    },
     {
       "id": "att_ms8yqat0_katn0t",
       "type": "outcome",
@@ -392,6 +408,16 @@
   ],
   "outcomes": [
     {
+      "id": "out_ms8yqc01_sghn",
+      "listing_id": "mcp-ai-kontato-kontato-https-kontato-ai",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:13:00.481Z"
+    },
+    {
       "id": "out_ms8yq84g_b8df",
       "listing_id": "mcp-ai-kolens-kolens-mcp-https-github-com-mira-gift-hq-kolagent",
       "ok": false,
@@ -731,22 +757,22 @@
       "score": 0.6
     },
     "mcp-ai-klodkot-gen-https-klodkot-ai-mcp": {
-      "last_signal_at": "2026-07-31T13:12:57.818Z",
-      "source": "outcome",
-      "score": 0.3
+      "last_signal_at": "2026-07-31T13:13:00.123Z",
+      "source": "attestation:outcome",
+      "score": 0.6
     },
     "mcp-ai-klavis-strata-https-github-com-klavis-ai-klavis": {
-      "last_signal_at": "2026-07-31T13:12:57.922Z",
-      "source": "outcome",
-      "score": 0.3
+      "last_signal_at": "2026-07-31T13:13:00.757Z",
+      "source": "attestation:outcome",
+      "score": 0.6
     }
   },
   "totals": {
     "cap_hashes": 1,
-    "attestations": 23,
-    "outcomes": 24,
+    "attestations": 24,
+    "outcomes": 25,
     "identities": 0,
     "pipelines": 0,
-    "attractor_picks": 4
+    "attractor_picks": 7
   }
 }
