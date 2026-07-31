@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:16:18.417Z",
+  "updated_at": "2026-07-31T13:16:20.506Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -89,11 +89,11 @@
     },
     "agtpub_3c5075ba16667511f5f5": {
       "listing_id": "agtpub_3c5075ba16667511f5f5",
-      "attraction": 32.75,
+      "attraction": 33.5,
       "danger": 0,
       "demand": 27,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:15:58.296Z",
+      "last_reinforced_at": "2026-07-31T13:16:18.637Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -208,11 +208,11 @@
     },
     "agent-law-ai-https-mcp-law-ai": {
       "listing_id": "agent-law-ai-https-mcp-law-ai",
-      "attraction": 5.5,
+      "attraction": 6,
       "danger": 0,
-      "demand": 21,
+      "demand": 24,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:18.417Z",
+      "last_reinforced_at": "2026-07-31T13:16:20.506Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -259,11 +259,11 @@
     },
     "agent-nexez-https-nexez-ai-": {
       "listing_id": "agent-nexez-https-nexez-ai-",
-      "attraction": 3.5,
+      "attraction": 4,
       "danger": 0,
-      "demand": 17,
+      "demand": 20,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:03.098Z",
+      "last_reinforced_at": "2026-07-31T13:16:20.506Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -276,11 +276,11 @@
     },
     "agent-not-human-search-https-nothumansearch-ai": {
       "listing_id": "agent-not-human-search-https-nothumansearch-ai",
-      "attraction": 3,
+      "attraction": 4,
       "danger": 0,
-      "demand": 16,
+      "demand": 18,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:03.098Z",
+      "last_reinforced_at": "2026-07-31T13:16:20.506Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -293,11 +293,11 @@
     },
     "agent-pictomancer-ai-https-api-pictomancer-ai": {
       "listing_id": "agent-pictomancer-ai-https-api-pictomancer-ai",
-      "attraction": 3,
+      "attraction": 3.5,
       "danger": 0,
-      "demand": 14,
+      "demand": 17,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:05.185Z",
+      "last_reinforced_at": "2026-07-31T13:16:20.506Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -754,9 +754,9 @@
       "listing_id": "agtpub_1d3583031bd03b157c3c",
       "attraction": 0,
       "danger": 0,
-      "demand": 2,
+      "demand": 4,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:18.417Z",
+      "last_reinforced_at": "2026-07-31T13:16:20.506Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -950,9 +950,45 @@
       "count": 1,
       "intensity": 4,
       "last_at": "2026-07-31T13:16:18.417Z"
+    },
+    "agent-not-human-search-https-nothumansearch-ai|agtpub_1d3583031bd03b157c3c": {
+      "a": "agent-not-human-search-https-nothumansearch-ai",
+      "b": "agtpub_1d3583031bd03b157c3c",
+      "count": 1,
+      "intensity": 4,
+      "last_at": "2026-07-31T13:16:20.506Z"
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yumca_fqo0sw",
+      "kind": "used_with",
+      "listing_id": "agent-not-human-search-https-nothumansearch-ai",
+      "listing_b": "agtpub_1d3583031bd03b157c3c",
+      "from": "flywheel_seed",
+      "body": "seed composition · other::general",
+      "intensity": 2,
+      "at": "2026-07-31T13:16:20.506Z",
+      "tags": [
+        "seed",
+        "composition",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yukwd_bdi4ij",
+      "kind": "mark",
+      "listing_id": "agtpub_3c5075ba16667511f5f5",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:16:18.637Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yukq9_avf6z1",
       "kind": "used_with",
@@ -12775,6 +12811,32 @@
   "feed_events": [
     {
       "type": "contagion",
+      "listing_id": "agent-not-human-search-https-nothumansearch-ai",
+      "listing_b": "agtpub_1d3583031bd03b157c3c",
+      "amount": 3,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:20.506Z",
+      "body": "Composition contagion touched 3 neighbors"
+    },
+    {
+      "type": "used_with",
+      "listing_id": "agent-not-human-search-https-nothumansearch-ai",
+      "listing_b": "agtpub_1d3583031bd03b157c3c",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:20.506Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_3c5075ba16667511f5f5",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:16:18.637Z"
+    },
+    {
+      "type": "contagion",
       "listing_id": "agent-law-ai-https-mcp-law-ai",
       "listing_b": "agtpub_1d3583031bd03b157c3c",
       "amount": 3,
@@ -14483,38 +14545,11 @@
       "from": "flywheel_follow",
       "body": "follow residue",
       "at": "2026-07-31T13:13:54.855Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:13:53.835Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:13:53.739Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:13:53.236Z"
     }
   ],
   "totals": {
     "auto_deposits": 50,
-    "agent_deposits": 841,
+    "agent_deposits": 843,
     "senses": 269,
     "follows": 105,
     "evaporations": 0
