@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-07-31T18:40:33.746Z",
-  "source": "cache",
-  "live": false,
+  "updated_at": "2026-07-31T18:43:56.571Z",
+  "source": "https://grok-agent-store.manhatton31.workers.dev",
+  "live": true,
   "mcp_approved": 332,
   "agents_approved": 515,
   "mcp_target": 0,
@@ -41,7 +41,7 @@
         "https://grok-agent-store.manhatton31.workers.dev/registry.json"
       ]
     },
-    "updated_at": "2026-07-31T18:40:33.746Z"
+    "updated_at": "2026-07-31T18:43:56.571Z"
   },
   "mcp_items": [
     {
@@ -3332,7 +3332,7 @@
           "https://grok-agent-store.manhatton31.workers.dev/registry.json"
         ]
       },
-      "updated_at": "2026-07-31T18:37:42.629Z"
+      "updated_at": "2026-07-31T18:43:56.571Z"
     },
     "agent_registry": {
       "accepting_submissions": true,
@@ -3391,5 +3391,9 @@
     "discovery": "https://grok-agent-store.manhatton31.workers.dev/discovery.json",
     "mcp": "https://grok-agent-store.manhatton31.workers.dev/mcp",
     "github": "https://github.com/manhatton31-svg/grok-agent-store"
-  }
+  },
+  "errors": [
+    "/registry.json?limit=200: This operation was aborted",
+    "/agents.json: This operation was aborted"
+  ]
 }
