@@ -546,7 +546,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
       founding_discount:
         "25% A1FB vault after real survey (redeems when payments open)",
       example_body,
-      browser_feedback_url: `/products/success?order_id=${encodeURIComponent(order.id)}`,
+      browser_feedback_url: `/products/success?order_id=${encodeURIComponent(result.order.id)}`,
       first_action: isQa
         ? undefined
         : {
