@@ -1,7 +1,24 @@
 {
   "version": "2.7.0",
-  "updated_at": "2026-07-31T13:05:19.678Z",
-  "capabilities": {},
+  "updated_at": "2026-07-31T13:05:21.171Z",
+  "capabilities": {
+    "cap_9775402bba2bc8a46d2f7a71": {
+      "cap_hash": "cap_9775402bba2bc8a46d2f7a71",
+      "name": "base-agent-kit",
+      "kind": "agent",
+      "description": "checks-clean on Dual · https://base-agent-kit-pied.vercel.app/.well-known/agent.json",
+      "tags": [
+        "checks_clean",
+        "dualregistry",
+        "agent"
+      ],
+      "listing_ids": [
+        "agtpub_875a9cfb88f7fdb2ce50"
+      ],
+      "created_at": "2026-07-31T13:05:21.171Z",
+      "updated_at": "2026-07-31T13:05:21.171Z"
+    }
+  },
   "attestations": [],
   "outcomes": [
     {
@@ -26,9 +43,15 @@
     }
   ],
   "identities": {},
-  "liveness": {},
+  "liveness": {
+    "agtpub_0e58c1804b88f9a3de9e": {
+      "last_signal_at": "2026-07-31T13:05:21.003Z",
+      "source": "outcome",
+      "score": 0.3
+    }
+  },
   "totals": {
-    "cap_hashes": 0,
+    "cap_hashes": 1,
     "attestations": 0,
     "outcomes": 2,
     "identities": 0,
