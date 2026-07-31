@@ -1,6 +1,31 @@
 {
-  "updated_at": "2026-07-31T13:10:20.210Z",
+  "updated_at": "2026-07-31T13:10:23.199Z",
   "items": [
+    {
+      "id": "mcp-holaos-https-github-com-holaboss-ai-holaos",
+      "kind": "mcp",
+      "target": "https://holaos.ai/.well-known/mcp/server-card.json",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T12:03:48.664Z",
+      "delisted_at": "2026-07-31T13:10:23.198Z"
+    },
     {
       "id": "mcp-magic-mcp-https-github-com-21st-dev-magic-mcp",
       "kind": "mcp",
@@ -8105,31 +8130,6 @@
       },
       "probed_at": "2026-07-31T12:03:48.664Z",
       "delisted_at": "2026-07-31T12:07:04.180Z"
-    },
-    {
-      "id": "mcp-holaos-https-github-com-holaboss-ai-holaos",
-      "kind": "mcp",
-      "target": "https://holaos.ai/.well-known/mcp/server-card.json",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T12:03:48.664Z",
-      "delisted_at": "2026-07-31T12:07:04.105Z"
     },
     {
       "id": "mcp-github-mcp-https-github-com-github-github-mcp-server",
@@ -22579,6 +22579,7 @@
     }
   ],
   "active_ids": [
+    "mcp-holaos-https-github-com-holaboss-ai-holaos",
     "mcp-magic-mcp-https-github-com-21st-dev-magic-mcp",
     "mcp-awesome-mcp-servers-https-github-com-appcypher-awesome-mcp-servers",
     "mcp-semble-https-github-com-minishlab-semble",
@@ -22894,7 +22895,6 @@
     "agtpub_410e791e8325126c0c06",
     "agtpub_2fa2abb93cbe4cb1a017",
     "mcp-openagent-https-github-com-the-open-agent-openagent",
-    "mcp-holaos-https-github-com-holaboss-ai-holaos",
     "mcp-github-mcp-https-github-com-github-github-mcp-server",
     "mcp-scrapling-https-github-com-d4vinci-scrapling",
     "mcp-mcporter-https-github-com-openclaw-mcporter-readme",
