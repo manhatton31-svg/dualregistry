@@ -4,10 +4,12 @@
   "framework": null,
   "installCommand": "npm install",
   "git": {
-    "deploymentEnabled": true
+    "deploymentEnabled": false
   },
   "fluid": true,
-  "regions": ["iad1"],
+  "regions": [
+    "iad1"
+  ],
   "crons": [
     {
       "path": "/api/cron/probe",
