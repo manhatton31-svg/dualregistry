@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:16:12.683Z",
+  "updated_at": "2026-07-31T13:16:14.672Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -38,11 +38,11 @@
     },
     "agent-agent-guild-https-agent-guild-5d5r-onrender-com": {
       "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "attraction": 105.5,
+      "attraction": 106.25,
       "danger": 0,
       "demand": 27,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:15:44.109Z",
+      "last_reinforced_at": "2026-07-31T13:16:13.753Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -106,11 +106,11 @@
     },
     "agent-corduroy-labs-https-corduroy-labs-ai": {
       "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
-      "attraction": 27.5,
+      "attraction": 28,
       "danger": 0,
-      "demand": 27,
+      "demand": 30,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:12.683Z",
+      "last_reinforced_at": "2026-07-31T13:16:14.671Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -123,11 +123,11 @@
     },
     "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai": {
       "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
-      "attraction": 17.5,
+      "attraction": 18.5,
       "danger": 0,
-      "demand": 24,
+      "demand": 26,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:12.683Z",
+      "last_reinforced_at": "2026-07-31T13:16:14.671Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -191,11 +191,11 @@
     },
     "agent-grok-agent-store-https-grok-agent-store-manhatton31-workers-dev": {
       "listing_id": "agent-grok-agent-store-https-grok-agent-store-manhatton31-workers-dev",
-      "attraction": 13,
+      "attraction": 13.5,
       "danger": 0,
-      "demand": 20,
+      "demand": 23,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:12.683Z",
+      "last_reinforced_at": "2026-07-31T13:16:14.671Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -718,11 +718,28 @@
     },
     "agtpub_b9f0d8828d83cb7ac364": {
       "listing_id": "agtpub_b9f0d8828d83cb7ac364",
+      "attraction": 0.5,
+      "danger": 0,
+      "demand": 7,
+      "joined": 0,
+      "last_reinforced_at": "2026-07-31T13:16:14.671Z",
+      "event_counts": {
+        "demos": 0,
+        "feedback": 0,
+        "match_hits": 0,
+        "probes_ok": 0,
+        "probes_fail": 0,
+        "lists": 0,
+        "endorsements": 0
+      }
+    },
+    "agtpub_31c620076f963c1add9e": {
+      "listing_id": "agtpub_31c620076f963c1add9e",
       "attraction": 0,
       "danger": 0,
-      "demand": 4,
+      "demand": 2,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:12.683Z",
+      "last_reinforced_at": "2026-07-31T13:16:14.671Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -895,9 +912,45 @@
       "count": 1,
       "intensity": 4,
       "last_at": "2026-07-31T13:16:12.683Z"
+    },
+    "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai|agtpub_31c620076f963c1add9e": {
+      "a": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "b": "agtpub_31c620076f963c1add9e",
+      "count": 1,
+      "intensity": 4,
+      "last_at": "2026-07-31T13:16:14.671Z"
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yuhu8_ledivn",
+      "kind": "used_with",
+      "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "listing_b": "agtpub_31c620076f963c1add9e",
+      "from": "flywheel_seed",
+      "body": "seed composition · other::general",
+      "intensity": 2,
+      "at": "2026-07-31T13:16:14.671Z",
+      "tags": [
+        "seed",
+        "composition",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yuh4p_urldna",
+      "kind": "mark",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:16:13.753Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yugaz_qp8e04",
       "kind": "used_with",
@@ -12634,6 +12687,38 @@
     {
       "type": "contagion",
       "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "listing_b": "agtpub_31c620076f963c1add9e",
+      "amount": 3,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:14.671Z",
+      "body": "Composition contagion touched 3 neighbors"
+    },
+    {
+      "type": "used_with",
+      "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
+      "listing_b": "agtpub_31c620076f963c1add9e",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:14.671Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:16:13.753Z"
+    },
+    {
+      "type": "follow_trail",
+      "amount": 8,
+      "kind": "demand",
+      "at": "2026-07-31T13:16:12.784Z"
+    },
+    {
+      "type": "contagion",
+      "listing_id": "agent-gouvernance-ai-adp-control-plane-https-gouvernance-ai",
       "listing_b": "agtpub_b9f0d8828d83cb7ac364",
       "amount": 3,
       "from": "flywheel_seed",
@@ -14335,44 +14420,11 @@
       "from": "flywheel_follow",
       "body": "follow residue",
       "at": "2026-07-31T13:13:50.487Z"
-    },
-    {
-      "type": "follow_trail",
-      "amount": 10,
-      "kind": "hot",
-      "at": "2026-07-31T13:13:49.550Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:13:49.387Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:13:48.238Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:13:47.688Z"
     }
   ],
   "totals": {
     "auto_deposits": 50,
-    "agent_deposits": 835,
+    "agent_deposits": 837,
     "senses": 269,
     "follows": 105,
     "evaporations": 0
