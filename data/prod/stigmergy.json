@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:16:28.072Z",
+  "updated_at": "2026-07-31T13:16:31.756Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -21,11 +21,11 @@
     },
     "agtpub_ae427eacf129a7ad16a0": {
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
-      "attraction": 87.25,
+      "attraction": 87.75,
       "danger": 0,
       "demand": 21,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:15:52.706Z",
+      "last_reinforced_at": "2026-07-31T13:16:29.851Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -786,11 +786,11 @@
     },
     "mcp_7506b34a55b88a300d15": {
       "listing_id": "mcp_7506b34a55b88a300d15",
-      "attraction": 1,
+      "attraction": 1.5,
       "danger": 0,
-      "demand": 4,
+      "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:26.350Z",
+      "last_reinforced_at": "2026-07-31T13:16:28.188Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -803,11 +803,62 @@
     },
     "mcp_7ef8894877d2ed1508e2": {
       "listing_id": "mcp_7ef8894877d2ed1508e2",
+      "attraction": 0.5,
+      "danger": 0,
+      "demand": 7,
+      "joined": 0,
+      "last_reinforced_at": "2026-07-31T13:16:29.956Z",
+      "event_counts": {
+        "demos": 0,
+        "feedback": 0,
+        "match_hits": 0,
+        "probes_ok": 0,
+        "probes_fail": 0,
+        "lists": 0,
+        "endorsements": 0
+      }
+    },
+    "mcp_46df631374ddec1e5ad4": {
+      "listing_id": "mcp_46df631374ddec1e5ad4",
+      "attraction": 1.5,
+      "danger": 0,
+      "demand": 7,
+      "joined": 0,
+      "last_reinforced_at": "2026-07-31T13:16:31.675Z",
+      "event_counts": {
+        "demos": 0,
+        "feedback": 0,
+        "match_hits": 0,
+        "probes_ok": 0,
+        "probes_fail": 0,
+        "lists": 0,
+        "endorsements": 0
+      }
+    },
+    "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp": {
+      "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
+      "attraction": 2,
+      "danger": 0,
+      "demand": 4,
+      "joined": 0,
+      "last_reinforced_at": "2026-07-31T13:16:31.675Z",
+      "event_counts": {
+        "demos": 0,
+        "feedback": 0,
+        "match_hits": 0,
+        "probes_ok": 0,
+        "probes_fail": 0,
+        "lists": 0,
+        "endorsements": 0
+      }
+    },
+    "mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify": {
+      "listing_id": "mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify",
       "attraction": 0,
       "danger": 0,
       "demand": 2,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:16:26.350Z",
+      "last_reinforced_at": "2026-07-31T13:16:31.675Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -1029,9 +1080,89 @@
       "count": 1,
       "intensity": 4,
       "last_at": "2026-07-31T13:16:26.350Z"
+    },
+    "mcp_46df631374ddec1e5ad4|mcp_7ef8894877d2ed1508e2": {
+      "a": "mcp_46df631374ddec1e5ad4",
+      "b": "mcp_7ef8894877d2ed1508e2",
+      "count": 1,
+      "intensity": 4,
+      "last_at": "2026-07-31T13:16:28.188Z"
+    },
+    "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp|mcp_46df631374ddec1e5ad4": {
+      "a": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
+      "b": "mcp_46df631374ddec1e5ad4",
+      "count": 1,
+      "intensity": 4,
+      "last_at": "2026-07-31T13:16:29.956Z"
+    },
+    "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp|mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify": {
+      "a": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
+      "b": "mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify",
+      "count": 1,
+      "intensity": 4,
+      "last_at": "2026-07-31T13:16:31.675Z"
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yuuyj_eaym9m",
+      "kind": "used_with",
+      "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
+      "listing_b": "mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify",
+      "from": "flywheel_seed",
+      "body": "seed composition · other::general",
+      "intensity": 2,
+      "at": "2026-07-31T13:16:31.675Z",
+      "tags": [
+        "seed",
+        "composition",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yutms_livp6e",
+      "kind": "used_with",
+      "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
+      "listing_b": "mcp_46df631374ddec1e5ad4",
+      "from": "flywheel_seed",
+      "body": "seed composition · other::general",
+      "intensity": 2,
+      "at": "2026-07-31T13:16:29.956Z",
+      "tags": [
+        "seed",
+        "composition",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yutjv_c83e48",
+      "kind": "mark",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "intensity": 1,
+      "at": "2026-07-31T13:16:29.851Z",
+      "tags": [
+        "read_residue",
+        "sense",
+        "near_zero"
+      ]
+    },
+    {
+      "id": "tr_ms8yus9o_dg00bt",
+      "kind": "used_with",
+      "listing_id": "mcp_46df631374ddec1e5ad4",
+      "listing_b": "mcp_7ef8894877d2ed1508e2",
+      "from": "flywheel_seed",
+      "body": "seed composition · other::general",
+      "intensity": 2,
+      "at": "2026-07-31T13:16:28.188Z",
+      "tags": [
+        "seed",
+        "composition",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yus6g_2hdx0z",
       "kind": "mark",
@@ -12983,6 +13114,66 @@
   ],
   "feed_events": [
     {
+      "type": "contagion",
+      "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
+      "listing_b": "mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:31.675Z",
+      "body": "Composition contagion touched 1 neighbors"
+    },
+    {
+      "type": "used_with",
+      "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
+      "listing_b": "mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:31.675Z"
+    },
+    {
+      "type": "contagion",
+      "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
+      "listing_b": "mcp_46df631374ddec1e5ad4",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:29.956Z",
+      "body": "Composition contagion touched 1 neighbors"
+    },
+    {
+      "type": "used_with",
+      "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
+      "listing_b": "mcp_46df631374ddec1e5ad4",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:29.956Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "kind": "mark",
+      "amount": 1,
+      "from": "flywheel_sense",
+      "body": "sense residue",
+      "at": "2026-07-31T13:16:29.851Z"
+    },
+    {
+      "type": "contagion",
+      "listing_id": "mcp_46df631374ddec1e5ad4",
+      "listing_b": "mcp_7ef8894877d2ed1508e2",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:28.188Z",
+      "body": "Composition contagion touched 1 neighbors"
+    },
+    {
+      "type": "used_with",
+      "listing_id": "mcp_46df631374ddec1e5ad4",
+      "listing_b": "mcp_7ef8894877d2ed1508e2",
+      "amount": 1,
+      "from": "flywheel_seed",
+      "at": "2026-07-31T13:16:28.188Z"
+    },
+    {
       "type": "leave_trace",
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
       "kind": "mark",
@@ -14655,73 +14846,13 @@
       "from": "flywheel_sense",
       "body": "sense residue",
       "at": "2026-07-31T13:14:03.474Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:14:03.395Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:14:03.242Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:14:02.292Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
-      "kind": "mark",
-      "amount": 1,
-      "from": "flywheel_sense",
-      "body": "sense residue",
-      "at": "2026-07-31T13:14:01.272Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:14:00.618Z"
-    },
-    {
-      "type": "leave_trace",
-      "listing_id": "agent-agoragentic-https-agoragentic-com",
-      "kind": "mark",
-      "amount": 1.5,
-      "from": "flywheel_follow",
-      "body": "follow residue",
-      "at": "2026-07-31T13:14:00.516Z"
-    },
-    {
-      "type": "follow_trail",
-      "amount": 5,
-      "kind": "hot",
-      "at": "2026-07-31T13:14:00.232Z"
     }
   ],
   "totals": {
     "auto_deposits": 50,
-    "agent_deposits": 850,
+    "agent_deposits": 854,
     "senses": 270,
-    "follows": 105,
+    "follows": 106,
     "evaporations": 0
   }
 }
