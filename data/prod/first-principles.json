@@ -1,6 +1,6 @@
 {
   "version": "2.7.0",
-  "updated_at": "2026-07-31T13:12:31.279Z",
+  "updated_at": "2026-07-31T13:12:38.037Z",
   "capabilities": {
     "cap_9775402bba2bc8a46d2f7a71": {
       "cap_hash": "cap_9775402bba2bc8a46d2f7a71",
@@ -20,6 +20,22 @@
     }
   },
   "attestations": [
+    {
+      "id": "att_ms8ypuol_8b8xvc",
+      "type": "outcome",
+      "subject": "mcp-ai-inventoryhero-inventory-hero-https-www-inventoryhero-ai",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:12:38.035Z",
+      "expires_at": "2026-08-03T13:12:38.035Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ypf76",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5cGY3NiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzoxMjozOC4wMzVaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzoxMjozOC4wMzVaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6Im1jcC1haS1pbnZlbnRvcnloZXJvLWludmVudG9yeS1oZXJvLWh0dHBzLXd3dy1pbnZlbnRvcnloZXJvLWFpIiwidHlwZSI6Im91dGNvbWUifQ.mMkJZumN7JLFljO_oPrJ0MMNMOLZ3NAazaCezYBMcZ1eN0-AQe6LLzpZ034WbM6NYQjFt6s3Qmixxq6lDy8Hfw",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:12:38.035Z\",\"issued_at\":\"2026-07-31T13:12:38.035Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"mcp-ai-inventoryhero-inventory-hero-https-www-inventoryhero-ai\",\"type\":\"outcome\"}"
+    },
     {
       "id": "att_ms8yphdo_li5prr",
       "type": "outcome",
@@ -152,6 +168,46 @@
   ],
   "outcomes": [
     {
+      "id": "out_ms8ypsq0_9nk0",
+      "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:35.496Z"
+    },
+    {
+      "id": "out_ms8ypsgs_8xk9",
+      "listing_id": "mcp-ai-ironscout-ironscout-https-github-com-jeb-scarbrough-ironscout",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:35.164Z"
+    },
+    {
+      "id": "out_ms8yps3v_7wtw",
+      "listing_id": "mcp-ai-inventoryhero-inventory-hero-https-www-inventoryhero-ai",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:34.699Z"
+    },
+    {
+      "id": "out_ms8yprz5_jr6c",
+      "listing_id": "mcp-ai-inxy-seo-audit-https-github-com-riverliu8-inxy-mcp",
+      "ok": false,
+      "quality": 0.15,
+      "kind": "probe_fail",
+      "from": "probe_tick",
+      "body": "handshake fail",
+      "at": "2026-07-31T13:12:34.529Z"
+    },
+    {
       "id": "out_ms8ypely_vkxv",
       "listing_id": "mcp-ai-connectmachine-connectmachine-https-github-com-connectmachine-mcp-server",
       "ok": false,
@@ -274,12 +330,27 @@
       "last_signal_at": "2026-07-31T13:12:31.279Z",
       "source": "attestation:outcome",
       "score": 0.6
+    },
+    "mcp-ai-inxy-seo-audit-https-github-com-riverliu8-inxy-mcp": {
+      "last_signal_at": "2026-07-31T13:12:36.990Z",
+      "source": "outcome",
+      "score": 0.3
+    },
+    "mcp-ai-inventoryhero-inventory-hero-https-www-inventoryhero-ai": {
+      "last_signal_at": "2026-07-31T13:12:37.097Z",
+      "source": "outcome",
+      "score": 0.3
+    },
+    "mcp-ai-ironscout-ironscout-https-github-com-jeb-scarbrough-ironscout": {
+      "last_signal_at": "2026-07-31T13:12:37.444Z",
+      "source": "outcome",
+      "score": 0.3
     }
   },
   "totals": {
     "cap_hashes": 1,
-    "attestations": 8,
-    "outcomes": 8,
+    "attestations": 9,
+    "outcomes": 12,
     "identities": 0,
     "pipelines": 0,
     "attractor_picks": 2
