@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:01:57.916Z",
+  "updated_at": "2026-07-31T13:01:59.185Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -21,11 +21,11 @@
     },
     "agtpub_ae427eacf129a7ad16a0": {
       "listing_id": "agtpub_ae427eacf129a7ad16a0",
-      "attraction": 1.75,
+      "attraction": 2.5,
       "danger": 0,
       "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:01:57.229Z",
+      "last_reinforced_at": "2026-07-31T13:01:58.017Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -167,6 +167,20 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8yc4u9_vb2cwb",
+      "kind": "mark",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:01:58.017Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yc4rg_tx3m13",
       "kind": "used_with",
@@ -329,6 +343,15 @@
     }
   ],
   "feed_events": [
+    {
+      "type": "leave_trace",
+      "listing_id": "agtpub_ae427eacf129a7ad16a0",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:01:58.017Z"
+    },
     {
       "type": "contagion",
       "listing_id": "agent-corduroy-labs-https-corduroy-labs-ai",
@@ -494,9 +517,9 @@
   ],
   "totals": {
     "auto_deposits": 0,
-    "agent_deposits": 11,
+    "agent_deposits": 12,
     "senses": 2,
-    "follows": 4,
+    "follows": 6,
     "evaporations": 0
   }
 }
