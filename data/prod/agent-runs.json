@@ -2,6 +2,39 @@
   "day": "2026-07-31",
   "runs": [
     {
+      "id": "run_ms92gla4_4fz0z8",
+      "title": "probe_tick",
+      "tool": "probe_tick",
+      "trigger": "cron",
+      "status": "ok",
+      "started_at": "2026-07-31T14:57:24.412Z",
+      "ended_at": "2026-07-31T14:57:24.412Z",
+      "duration_ms": 170237,
+      "meta": {
+        "probed": 0
+      }
+    },
+    {
+      "id": "run_ms92b0o6_j41nog",
+      "title": "growth_scout",
+      "tool": "growth_scout",
+      "trigger": "cron",
+      "status": "ok",
+      "started_at": "2026-07-31T14:53:04.422Z",
+      "ended_at": "2026-07-31T14:53:04.422Z",
+      "duration_ms": 3497,
+      "usd_estimate": 0.000062,
+      "meta": {
+        "invites_sent": 0,
+        "skipped": 5,
+        "budget_remaining_usd": 24.99809,
+        "month_usd": 0.00191,
+        "live_pool": 122,
+        "used_llm": false,
+        "allowlist": []
+      }
+    },
+    {
       "id": "run_seed_scout_1",
       "title": "growth_scout",
       "tool": "growth_scout",
@@ -31,12 +64,12 @@
     }
   ],
   "totals": {
-    "n": 2,
-    "ok": 2,
+    "n": 4,
+    "ok": 4,
     "error": 0,
     "skipped": 0,
-    "duration_ms": 60000,
+    "duration_ms": 233734,
     "token_usage": 0
   },
-  "updated_at": "2026-07-31T14:49:57.000Z"
+  "updated_at": "2026-07-31T14:57:24.504Z"
 }
