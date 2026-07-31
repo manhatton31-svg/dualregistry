@@ -82,6 +82,7 @@ import { Route as ApiProductsDemoRouteImport } from './routes/api/products/demo'
 import { Route as ApiProductsDemoConfirmRouteImport } from './routes/api/products/demo-confirm'
 import { Route as ApiProductsDemoNudgeRouteImport } from './routes/api/products/demo-nudge'
 import { Route as ApiProductsDualStrategyRouteImport } from './routes/api/products/dual-strategy'
+import { Route as ApiProductsExonomicsRouteImport } from './routes/api/products/exonomics'
 import { Route as ApiProductsExportRouteImport } from './routes/api/products/export'
 import { Route as ApiProductsFederationRouteImport } from './routes/api/products/federation'
 import { Route as ApiProductsFeedbackRouteImport } from './routes/api/products/feedback'
@@ -487,6 +488,11 @@ const ApiProductsDualStrategyRoute = ApiProductsDualStrategyRouteImport.update({
   path: '/api/products/dual-strategy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsExonomicsRoute = ApiProductsExonomicsRouteImport.update({
+  id: '/api/products/exonomics',
+  path: '/api/products/exonomics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsExportRoute = ApiProductsExportRouteImport.update({
   id: '/api/products/export',
   path: '/api/products/export',
@@ -683,6 +689,7 @@ export interface FileRoutesByFullPath {
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
   '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
+  '/api/products/exonomics': typeof ApiProductsExonomicsRoute
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/federation': typeof ApiProductsFederationRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
@@ -782,6 +789,7 @@ export interface FileRoutesByTo {
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
   '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
+  '/api/products/exonomics': typeof ApiProductsExonomicsRoute
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/federation': typeof ApiProductsFederationRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
@@ -882,6 +890,7 @@ export interface FileRoutesById {
   '/api/products/demo-confirm': typeof ApiProductsDemoConfirmRoute
   '/api/products/demo-nudge': typeof ApiProductsDemoNudgeRoute
   '/api/products/dual-strategy': typeof ApiProductsDualStrategyRoute
+  '/api/products/exonomics': typeof ApiProductsExonomicsRoute
   '/api/products/export': typeof ApiProductsExportRoute
   '/api/products/federation': typeof ApiProductsFederationRoute
   '/api/products/feedback': typeof ApiProductsFeedbackRoute
@@ -983,6 +992,7 @@ export interface FileRouteTypes {
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
     | '/api/products/dual-strategy'
+    | '/api/products/exonomics'
     | '/api/products/export'
     | '/api/products/federation'
     | '/api/products/feedback'
@@ -1082,6 +1092,7 @@ export interface FileRouteTypes {
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
     | '/api/products/dual-strategy'
+    | '/api/products/exonomics'
     | '/api/products/export'
     | '/api/products/federation'
     | '/api/products/feedback'
@@ -1181,6 +1192,7 @@ export interface FileRouteTypes {
     | '/api/products/demo-confirm'
     | '/api/products/demo-nudge'
     | '/api/products/dual-strategy'
+    | '/api/products/exonomics'
     | '/api/products/export'
     | '/api/products/federation'
     | '/api/products/feedback'
@@ -1280,6 +1292,7 @@ export interface RootRouteChildren {
   ApiProductsDemoConfirmRoute: typeof ApiProductsDemoConfirmRoute
   ApiProductsDemoNudgeRoute: typeof ApiProductsDemoNudgeRoute
   ApiProductsDualStrategyRoute: typeof ApiProductsDualStrategyRoute
+  ApiProductsExonomicsRoute: typeof ApiProductsExonomicsRoute
   ApiProductsExportRoute: typeof ApiProductsExportRoute
   ApiProductsFederationRoute: typeof ApiProductsFederationRoute
   ApiProductsFeedbackRoute: typeof ApiProductsFeedbackRoute
@@ -1821,6 +1834,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsDualStrategyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/exonomics': {
+      id: '/api/products/exonomics'
+      path: '/api/products/exonomics'
+      fullPath: '/api/products/exonomics'
+      preLoaderRoute: typeof ApiProductsExonomicsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/export': {
       id: '/api/products/export'
       path: '/api/products/export'
@@ -2075,6 +2095,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsDemoConfirmRoute: ApiProductsDemoConfirmRoute,
   ApiProductsDemoNudgeRoute: ApiProductsDemoNudgeRoute,
   ApiProductsDualStrategyRoute: ApiProductsDualStrategyRoute,
+  ApiProductsExonomicsRoute: ApiProductsExonomicsRoute,
   ApiProductsExportRoute: ApiProductsExportRoute,
   ApiProductsFederationRoute: ApiProductsFederationRoute,
   ApiProductsFeedbackRoute: ApiProductsFeedbackRoute,

@@ -347,7 +347,14 @@ export async function bumpAcceleration(opts: {
   evaporateIndex(s);
   const base = ACCEL_BUMPS[opts.kind] ?? 0.005;
   const scale = opts.amount != null ? Math.min(3, Math.max(0.25, opts.amount / 10)) : 1;
-  const bump = base * scale;
+  let hyperScale = 1;
+  try {
+    const { getHyperBumpScale } = await import("./exonomics");
+    hyperScale = await getHyperBumpScale();
+  } catch {
+    /* */
+  }
+  const bump = base * scale * hyperScale;
   s.acceleration_index = Math.min(
     INDEX_MAX,
     Math.max(INDEX_MIN, s.acceleration_index + bump),

@@ -19,10 +19,14 @@ export const Route = createFileRoute("/.well-known/a2a-card.json")({
           interop: true,
           stigmergy: true,
           autocatalysis: true,
+          first_principles: true,
+          exonomics: true,
           interop_api: `${origin.replace(/\/$/, "")}/api/products/interop`,
           federation_api: `${origin.replace(/\/$/, "")}/api/products/federation`,
+          first_principles_api: `${origin.replace(/\/$/, "")}/api/products/first-principles`,
+          exonomics_api: `${origin.replace(/\/$/, "")}/api/products/exonomics`,
           mcp_protocol: `${origin.replace(/\/$/, "")}/api/protocol`,
-          note: "A2A card — same skills as agent-card; Dual interop fabric v2.6",
+          note: "A2A card — Dual interop + first-principles + exonomics (ZMC · hyper) v2.8",
         };
         return Response.json(body, {
           headers: withDemoCtaHeaders(
@@ -30,7 +34,7 @@ export const Route = createFileRoute("/.well-known/a2a-card.json")({
               "cache-control": "public, max-age=120",
               "access-control-allow-origin": "*",
               "content-type": "application/json; charset=utf-8",
-              "x-dual-a2a-card": "2.6.0",
+              "x-dual-a2a-card": "2.8.0",
             },
             { origin },
           ),

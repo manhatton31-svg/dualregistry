@@ -78,6 +78,7 @@ export async function getConversionPressureStatus() {
   const founding = await getFoundingFreePublic();
   let day_cap = CONVERSION_DAY_CAP;
   let accel: Record<string, unknown> | null = null;
+  let exo: Record<string, unknown> | null = null;
   try {
     const { getAccelerationMultipliers } = await import("./autocatalysis");
     const m = await getAccelerationMultipliers();
@@ -95,9 +96,26 @@ export async function getConversionPressureStatus() {
   } catch {
     /* */
   }
+  try {
+    const { getExonomicsMultipliers } = await import("./exonomics");
+    const em = await getExonomicsMultipliers();
+    day_cap = Math.min(
+      80,
+      Math.floor(day_cap * em.conversion_room_mult),
+    );
+    exo = {
+      hyper_mode: em.hyper_mode,
+      hyper_index: em.hyper_index,
+      network_value: em.network_value,
+      conversion_room_mult: em.conversion_room_mult,
+      effective_cap: day_cap,
+    };
+  } catch {
+    /* */
+  }
   return {
     ok: true,
-    version: "2.5.0",
+    version: "2.8.0",
     day: s.day,
     day_sent: s.day_sent,
     day_cap,
@@ -105,8 +123,9 @@ export async function getConversionPressureStatus() {
     room: Math.max(0, day_cap - s.day_sent),
     founding,
     autocatalysis: accel,
+    exonomics: exo,
     cooldown_days: 7,
-    law: "Multipath HTTPS only — never re-Talk-DM. 30d Talk silence untouched. Only Active clean already first-touched who never demoed. Cap rises with acceleration_index.",
+    law: "Multipath HTTPS only — never re-Talk-DM. 30d Talk silence untouched. Only Active clean already first-touched who never demoed. Cap rises with acceleration_index + hyper-mode value growth.",
     recent: s.history.slice(-15),
   };
 }

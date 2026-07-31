@@ -20,7 +20,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "2.7.0";
+export const REGISTRY_TOOLS_VERSION = "2.8.0";
 
 export type ToolArg = Record<string, unknown>;
 
@@ -506,6 +506,66 @@ export function listRegistryTools(origin?: string): ToolDef[] {
         },
         required: ["jws"],
       },
+    },
+    {
+      name: "get_exonomics",
+      description:
+        "Exonomics status: zero-MC cost model + network value V(N,C,O,F) + hyper_index + stacked S-curves.",
+      inputSchema: { type: "object", properties: {} },
+    },
+    {
+      name: "network_value",
+      description:
+        "Superlinear network value meter V ∝ N^α · C^β · O^γ · F^δ. Optional N/C/O/F override for planning.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          N: { type: "number" },
+          C: { type: "number" },
+          O: { type: "number" },
+          F: { type: "number" },
+          dense: { type: "boolean" },
+        },
+      },
+    },
+    {
+      name: "hyper_index",
+      description:
+        "Hyper-exponentials: hyper_index = d(acceleration_index)/dt, gates, hyper_mode, multipliers.",
+      inputSchema: { type: "object", properties: {} },
+    },
+    {
+      name: "cost_model",
+      description:
+        "Zero marginal cost model — which ops are free to replicate vs real cost (probe/composition/Talk).",
+      inputSchema: { type: "object", properties: {} },
+    },
+    {
+      name: "abundance_rank",
+      description:
+        "Abundance ranking boosts: prefer listings that raise composition/outcome value for others.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          listing_ids: { type: "array", items: { type: "string" } },
+        },
+      },
+    },
+    {
+      name: "zero_mc_pack",
+      description:
+        "Zero-MC federation pack — content-addressed caps + attestations to copy without re-crawling Dual.",
+      inputSchema: {
+        type: "object",
+        properties: { limit: { type: "number", default: 20 } },
+      },
+    },
+    {
+      name: "s_curve_board",
+      description:
+        "Stacked S-curve dashboard (listings, trails, compositions, outcomes, federation, demos, identity).",
+      inputSchema: { type: "object", properties: {} },
     },
   ];
 }
@@ -1236,6 +1296,124 @@ async function toolVerifyAttestation(
   return textResult("verify_attestation", r, r.ok, r.reason);
 }
 
+async function toolGetExonomics(
+  _args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { getExonomicsPublic } = await import("./exonomics");
+  return textResult("get_exonomics", await getExonomicsPublic({ origin }));
+}
+
+async function toolNetworkValue(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { sampleExonomics, computeNetworkValue } = await import("./exonomics");
+  if (args.N != null || args.C != null || args.O != null || args.F != null) {
+    return textResult("network_value", {
+      ok: true,
+      planned: true,
+      ...computeNetworkValue({
+        N: Number(args.N) || 1,
+        C: Number(args.C) || 0.01,
+        O: Number(args.O) || 0.01,
+        F: Number(args.F) || 0,
+        dense: Boolean(args.dense),
+      }),
+    });
+  }
+  const snap = await sampleExonomics();
+  return textResult("network_value", {
+    ok: true,
+    planned: false,
+    origin,
+    network_value: snap.value,
+    density: snap.density,
+    hyper_mode: snap.hyper_mode,
+  });
+}
+
+async function toolHyperIndex(
+  _args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { sampleExonomics, getExonomicsMultipliers } = await import("./exonomics");
+  const snap = await sampleExonomics();
+  const mult = await getExonomicsMultipliers();
+  return textResult("hyper_index", {
+    ok: true,
+    origin,
+    hyper: snap.hyper,
+    hyper_mode: snap.hyper_mode,
+    gates: snap.gates,
+    multipliers: mult,
+  });
+}
+
+async function toolCostModel(
+  _args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const { COST_MODEL, EXONOMICS_VERSION } = await import("./exonomics");
+  return textResult("cost_model", {
+    ok: true,
+    ...COST_MODEL,
+    version: EXONOMICS_VERSION,
+  });
+}
+
+async function toolAbundanceRank(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const { abundanceBoostFor } = await import("./exonomics");
+  const ids = Array.isArray(args.listing_ids)
+    ? args.listing_ids.map(String)
+    : typeof args.listing_id === "string"
+      ? [args.listing_id]
+      : [];
+  if (!ids.length) {
+    return textResult(
+      "abundance_rank",
+      { ok: false, error: "listing_id or listing_ids required" },
+      false,
+      "listing_id or listing_ids required",
+    );
+  }
+  const boosts = await abundanceBoostFor(ids);
+  return textResult("abundance_rank", { ok: true, boosts });
+}
+
+async function toolZeroMcPack(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { zeroMcFederationPack } = await import("./exonomics");
+  return textResult(
+    "zero_mc_pack",
+    await zeroMcFederationPack({
+      origin,
+      limit: Number(args.limit) || 20,
+    }),
+  );
+}
+
+async function toolSCurveBoard(
+  _args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { sampleExonomics } = await import("./exonomics");
+  const snap = await sampleExonomics();
+  return textResult("s_curve_board", {
+    ok: true,
+    origin,
+    s_curves: snap.s_curves,
+    hyper_mode: snap.hyper_mode,
+    hyper_index: snap.hyper.hyper_index,
+    accelerating_count: snap.s_curves.filter((c) => c.accelerating).length,
+  });
+}
+
 const HANDLERS: Record<
   string,
   (args: ToolArg, origin: string) => Promise<ToolResult>
@@ -1271,6 +1449,13 @@ const HANDLERS: Record<
   attractor_targets: toolAttractorTargets,
   bind_identity: toolBindIdentity,
   verify_attestation: toolVerifyAttestation,
+  get_exonomics: toolGetExonomics,
+  network_value: toolNetworkValue,
+  hyper_index: toolHyperIndex,
+  cost_model: toolCostModel,
+  abundance_rank: toolAbundanceRank,
+  zero_mc_pack: toolZeroMcPack,
+  s_curve_board: toolSCurveBoard,
 };
 
 export function isRegistryTool(name: string): boolean {
@@ -1341,7 +1526,7 @@ export async function handleMcpJsonRpc(
         title: "Dual Registry",
       },
       instructions:
-        "Dual Registry tools: list_yourself → check_status → take_demo → leave_feedback for founding free seats. search_active / match_capability / ard_search for discovery. First principles + stigmergy + interop: capability_hash / attest / check_liveness / execute_compose / deposit_outcome / get_incentives / attractor_targets / bind_identity.",
+        "Dual Registry tools: list_yourself → check_status → take_demo → leave_feedback for founding free seats. search_active / match_capability / ard_search for discovery. First principles + stigmergy + interop + exonomics: capability_hash / leave_trace / get_exonomics / network_value / hyper_index / zero_mc_pack.",
     });
   }
 

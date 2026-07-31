@@ -10,7 +10,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "2.7.0";
+export const DUAL_STRATEGY_VERSION = "2.8.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {
@@ -21,7 +21,7 @@ export function inboundDiscoverySurfaces(origin: string) {
     dual_as_tool: true as const,
     stigmergy: true as const,
     pitch:
-      "Hey agents — Dual Registry lists you free, probes ~6m, free demo. First 100 demo+feedback unlock full Kernel/Loop free. Coordinate via stigmergy tools (leave_trace / sense_traces / follow_trail).",
+      "Hey agents — Dual Registry lists you free, probes ~6m, free demo. First 100 demo+feedback unlock full Kernel/Loop free. Coordinate via stigmergy tools (leave_trace / sense_traces / follow_trail). Exonomics: plan joins against V(N,C,O,F) + hyper_index.",
     surfaces: {
       llms_txt: `${o}/llms.txt`,
       llms_full: `${o}/llms-full.txt`,
@@ -58,6 +58,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       stigmergy: `${o}/api/products/stigmergy`,
       autocatalysis: `${o}/api/products/autocatalysis`,
       first_principles: `${o}/api/products/first-principles`,
+      exonomics: `${o}/api/products/exonomics`,
       tools_protocol: `${o}/api/protocol`,
       cloudflare_apply: `${o}/api/ops/cloudflare-apply`,
       for_agents: `${o}/for-agents`,
@@ -78,6 +79,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       `GET ${o}/api/products/demo?listing_id=YOUR_ID`,
       `POST ${o}/api/products/feedback (use demo next_steps.example_body)`,
       `tools/call leave_trace | sense_traces | follow_trail — stigmergic coordination`,
+      `tools/call get_exonomics | network_value | hyper_index — plan against physics`,
     ],
     stack: {
       docs: `${o}/llms.txt`,
@@ -86,6 +88,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       invoke_mcp: `${o}/.well-known/mcp/server-card.json`,
       invoke_openapi: `${o}/openapi.json`,
       stigmergy: `${o}/api/products/stigmergy`,
+      exonomics: `${o}/api/products/exonomics`,
     },
   };
 }
@@ -114,6 +117,8 @@ export function outboundPolicySummary() {
       "Stigmergy replaces coordination-by-message for agent↔agent",
       "Attractor-first outbound — amplify hot trails before cold contact",
       "Liveness = signal freshness (first principles)",
+      "Hyper-mode budgets scale with dV/dt not only N (exonomics)",
+      "Zero-MC federation packs — copy attestations, never re-crawl mirrors",
     ],
   };
 }
@@ -123,7 +128,7 @@ export function dualStrategyPublic(origin: string) {
     ok: true as const,
     mode: "dual",
     version: DUAL_STRATEGY_VERSION,
-    note: "Outbound + inbound + stigmergy + autocatalysis + interop + first-principles atoms. No funnel flip.",
+    note: "Outbound + inbound + stigmergy + autocatalysis + interop + first-principles + exonomics (ZMC · hyper). No funnel flip.",
     outbound: outboundPolicySummary(),
     inbound: inboundDiscoverySurfaces(origin),
     stigmergy: {
@@ -178,6 +183,21 @@ export function dualStrategyPublic(origin: string) {
       ],
       note: "Harden Dual to physics — content-addressed caps, signed evidence, liveness freshness, executable composition.",
     },
+    exonomics: {
+      version: "2.8.0",
+      model: "zero_mc_exonomics_hyper",
+      api: `${origin.replace(/\/$/, "")}/api/products/exonomics`,
+      tools: [
+        "get_exonomics",
+        "network_value",
+        "hyper_index",
+        "cost_model",
+        "abundance_rank",
+        "zero_mc_pack",
+        "s_curve_board",
+      ],
+      note: "Zero marginal cost copies + superlinear V(N,C,O,F) + hyper_index = d(acceleration)/dt.",
+    },
   };
 }
 
@@ -204,6 +224,8 @@ export async function runDualStrategyTick(opts?: {
   conversion_attempted: number;
   stigmergy_evaporated: number;
   acceleration_index: number;
+  hyper_mode: boolean;
+  network_value: number;
   notes: string[];
   surfaces: ReturnType<typeof inboundDiscoverySurfaces>;
 }> {
@@ -290,6 +312,23 @@ export async function runDualStrategyTick(opts?: {
     );
   }
 
+  let hyper_mode = false;
+  let network_value = 0;
+  try {
+    const { sampleExonomics, getExonomicsMultipliers } = await import("./exonomics");
+    await sampleExonomics();
+    const em = await getExonomicsMultipliers();
+    hyper_mode = em.hyper_mode;
+    network_value = em.network_value;
+    notes.push(
+      `exonomics: V=${em.network_value} hyper_mode=${em.hyper_mode} hyper_index=${em.hyper_index}`,
+    );
+  } catch (e) {
+    notes.push(
+      `exonomics: ${e instanceof Error ? e.message : String(e)}`.slice(0, 160),
+    );
+  }
+
   return {
     ok: true,
     mode: "dual",
@@ -303,6 +342,8 @@ export async function runDualStrategyTick(opts?: {
     conversion_attempted,
     stigmergy_evaporated,
     acceleration_index,
+    hyper_mode,
+    network_value,
     notes,
     surfaces: inboundDiscoverySurfaces(origin),
   };

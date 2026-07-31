@@ -111,7 +111,11 @@ export function pickNudgeTier(activeClean: number): NudgeTierDef {
 export function dayBudgetForActive(
   activeClean: number,
   alreadyToday = 0,
-  opts?: { replies_7d?: number; acceleration_mult?: number },
+  opts?: {
+    replies_7d?: number;
+    acceleration_mult?: number;
+    exonomics_mult?: number;
+  },
 ): NudgeDayPlan {
   const active = Math.max(0, Math.floor(activeClean));
   const replies_7d = Math.max(0, Math.floor(opts?.replies_7d ?? 0));
@@ -130,6 +134,14 @@ export function dayBudgetForActive(
   if (typeof am === "number" && am > 1) {
     day_budget = Math.ceil(day_budget * Math.min(1.8, am));
     governor = (governor ? governor + " · " : "") + `autocatalysis×${am.toFixed(2)}`;
+  }
+
+  // Exonomics / hyper-mode: scale by value growth not only N
+  const em = opts?.exonomics_mult;
+  if (typeof em === "number" && em > 1) {
+    day_budget = Math.ceil(day_budget * Math.min(2.0, em));
+    governor =
+      (governor ? governor + " · " : "") + `exonomics×${em.toFixed(2)}`;
   }
 
   // Absolute safety: never schedule more first-touches than the list
@@ -615,9 +627,17 @@ export async function runDemoNudge(opts?: {
   } catch {
     /* */
   }
+  let exo_mult = 1;
+  try {
+    const { getExonomicsMultipliers } = await import("./exonomics");
+    exo_mult = (await getExonomicsMultipliers()).day_budget_mult;
+  } catch {
+    /* */
+  }
   const plan = dayBudgetForActive(pool.length, state.day_unique, {
     replies_7d,
     acceleration_mult: accel_mult,
+    exonomics_mult: exo_mult,
   });
   const propCap = capForActive(
     pool.length,

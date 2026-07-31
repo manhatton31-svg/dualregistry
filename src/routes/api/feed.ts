@@ -153,6 +153,27 @@ export const Route = createFileRoute("/api/feed")({
         }
 
         try {
+          const { getExonomicsPublic } = await import(
+            "@/lib/products/exonomics"
+          );
+          const ex = await getExonomicsPublic({ origin });
+          items.unshift({
+            type: "exonomics",
+            version: ex.version,
+            model: ex.model,
+            network_value: (ex.network_value as { V?: number } | undefined)?.V,
+            hyper_mode: (ex.hyper as { hyper_mode?: boolean } | undefined)
+              ?.hyper_mode,
+            hyper_index: (ex.hyper as { hyper_index?: number } | undefined)
+              ?.hyper_index,
+            at: new Date().toISOString(),
+            note: "Zero MC + V(N,C,O,F) + hyper_index = d(acceleration)/dt",
+          });
+        } catch {
+          /* */
+        }
+
+        try {
           const { getInteropPublic } = await import(
             "@/lib/products/interop"
           );
@@ -172,11 +193,12 @@ export const Route = createFileRoute("/api/feed")({
 
         items.unshift({
           type: "dual_strategy",
-          mode: "outbound_plus_inbound_plus_stigmergy_plus_autocatalysis_plus_interop_plus_first_principles",
-          version: "2.7.0",
-          note: "Outbound + inbound + stigmergy + autocatalysis (Dorr S-curve) always on",
+          mode: "outbound_plus_inbound_plus_stigmergy_plus_autocatalysis_plus_interop_plus_first_principles_plus_exonomics",
+          version: "2.8.0",
+          note: "Outbound + inbound + stigmergy + autocatalysis + interop + first principles + exonomics (ZMC · hyper) always on",
           at: new Date().toISOString(),
         });
+
 
         return Response.json(
           {

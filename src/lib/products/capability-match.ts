@@ -16,6 +16,7 @@ export type MatchHit = ArdSearchHit & {
   capability_score: number;
   pheromone_boost?: number;
   outcome_score?: number;
+  abundance_boost?: number;
 };
 
 const CAP_ALIASES: Array<{ re: RegExp; tags: string[]; boost: number }> = [
@@ -65,6 +66,7 @@ export async function matchCapabilities(
   note: string;
   stigmergy: boolean;
   first_principles: boolean;
+  exonomics: boolean;
 }> {
   const o = origin.replace(/\/$/, "");
   const limit = Math.min(40, Math.max(1, opts?.limit ?? 12));
@@ -203,6 +205,38 @@ export async function matchCapabilities(
     }
   }
 
+  // Exonomics abundance ranking — prefer positive externalities (raise C/O for others)
+  try {
+    const { abundanceBoostFor, getExonomicsMultipliers } = await import(
+      "./exonomics"
+    );
+    const ab = await abundanceBoostFor(lids);
+    let matchMult = 1;
+    try {
+      matchMult = (await getExonomicsMultipliers()).match_boost_mult;
+    } catch {
+      /* */
+    }
+    for (const h of byId.values()) {
+      if (!h.listing_id) continue;
+      const b = ab[h.listing_id] || 0;
+      if (b > 0) {
+        (h as MatchHit & { abundance_boost?: number }).abundance_boost = b;
+        h.capability_score += Math.round(b * 8 * matchMult);
+        h.score = h.capability_score;
+        h.match_reasons = [
+          ...(h.match_reasons || []),
+          "abundance_rank",
+        ].slice(0, 12);
+      } else if (matchMult > 1.01) {
+        h.capability_score = Math.round(h.capability_score * matchMult);
+        h.score = h.capability_score;
+      }
+    }
+  } catch {
+    /* */
+  }
+
   const hits = [...byId.values()]
     .sort((a, b) => b.capability_score - a.capability_score)
     .slice(0, limit);
@@ -213,8 +247,9 @@ export async function matchCapabilities(
     total: byId.size,
     hits,
     founding: await getFoundingFreePublic(),
-    note: "Ranked Active clean + ARD + stigmergy × outcomes × first-principles. take_demo_get for founding free path.",
+    note: "Ranked Active clean + ARD + stigmergy × outcomes × first-principles × abundance. take_demo_get for founding free path.",
     stigmergy: true,
     first_principles: true,
+    exonomics: true,
   };
 }
