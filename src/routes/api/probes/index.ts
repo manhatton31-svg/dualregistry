@@ -28,6 +28,9 @@ export const Route = createFileRoute("/api/probes/")({
           const policy = (probes.policy || {}) as Record<string, unknown>;
           const worker = (probes.probe_worker || {}) as Record<string, unknown>;
           const adaptive =
+            ((probes as { adaptive?: Record<string, unknown> }).adaptive as
+              | Record<string, unknown>
+              | undefined) ||
             (worker.adaptive as Record<string, unknown> | undefined) ||
             ({
               behind: true,

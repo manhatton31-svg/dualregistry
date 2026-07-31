@@ -1712,6 +1712,8 @@ export async function getProbePublic() {
       probes_per_tick: adaptive.probesPerTick,
       concurrency: adaptive.concurrency,
       clean_total: adaptive.clean_total,
+      clean_added_today: adaptive.clean_added_today,
+      expected_by_now: adaptive.expected_by_now,
       target: adaptive.target,
     },
     probe_worker: probe_worker
