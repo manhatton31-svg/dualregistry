@@ -13,7 +13,7 @@ import {
   saveDurableJson,
 } from "@/lib/agents1/durable-json";
 
-export const EXONOMICS_VERSION = "2.8.0";
+export const EXONOMICS_VERSION = "2.9.0";
 const DURABLE = "exonomics.json";
 
 /** Exponents for V ∝ N^α · C^β · O^γ · F^δ (raise after density thresholds). */
@@ -591,24 +591,34 @@ export async function getExonomicsMultipliers(): Promise<{
   const snap = await sampleExonomics();
   const hi = snap.hyper.hyper_index;
   const hyper = snap.hyper_mode;
+  const V = Math.max(0.01, snap.value.V || 0);
   // mild always-on lift from positive hyper_index; stronger in hyper_mode
   const hiLift = clamp(1 + hi * 8, 0.9, 1.6);
   const modeLift = hyper ? 1.25 : 1;
+  // Flywheel 5: couple V → budgets even before hyper_mode (log scale, mild)
+  const vLift = clamp(1 + Math.log10(1 + V) * 0.15, 1, 1.45);
+  const combined = clamp(hiLift * modeLift * vLift, 1, 2.2);
   return {
     hyper_mode: hyper,
     hyper_index: hi,
     network_value: snap.value.V,
-    day_budget_mult: Math.round(clamp(hiLift * modeLift, 1, 2) * 1000) / 1000,
+    day_budget_mult: Math.round(combined * 1000) / 1000,
     conversion_room_mult:
-      Math.round(clamp(hiLift * (hyper ? 1.35 : 1.05), 1, 2.2) * 1000) / 1000,
+      Math.round(
+        clamp(hiLift * (hyper ? 1.35 : 1.05) * Math.sqrt(vLift), 1, 2.2) * 1000,
+      ) / 1000,
     match_boost_mult:
-      Math.round(clamp(1 + (hyper ? 0.2 : 0) + Math.max(0, hi) * 4, 1, 1.8) * 1000) /
-      1000,
-    cascade_scale: hyper ? 1.5 + clamp(hi * 10, 0, 1) : 1 + clamp(hi * 5, 0, 0.3),
-    bump_scale: hyper ? 1.4 : 1.05,
+      Math.round(
+        clamp(1 + (hyper ? 0.2 : 0) + Math.max(0, hi) * 4 + (vLift - 1) * 0.5, 1, 1.8) *
+          1000,
+      ) / 1000,
+    cascade_scale: hyper
+      ? 1.5 + clamp(hi * 10, 0, 1)
+      : 1 + clamp(hi * 5, 0, 0.3) + (vLift - 1) * 0.4,
+    bump_scale: hyper ? 1.4 : clamp(1.05 * vLift, 1.05, 1.25),
     note: hyper
-      ? "Hyper-mode — stacked S-curves open; budgets scale with dV/dt not just N"
-      : "Linear-ish regime — densify compositions/outcomes/trails to unlock hyper",
+      ? "Hyper-mode — stacked S-curves open; budgets scale with dV/dt and V"
+      : `V-coupled regime (V≈${V.toFixed(2)}) — densify C/O/trails to unlock hyper; day budget already scales with V`,
   };
 }
 

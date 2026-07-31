@@ -664,6 +664,21 @@ export async function submitFeedback(input: {
     /* */
   }
 
+  // Flywheel 1+6+7: pheromone + outcome + loud founding (HTTP path, not only MCP tool)
+  try {
+    const { onFeedback } = await import("./flywheel");
+    await onFeedback({
+      listing_id: cascadeListingId || undefined,
+      agent_name,
+      founding_claimed: Boolean(
+        freeGrant?.granted && freeGrant?.percent_off === 100,
+      ),
+      feedback_id: (candidate as { id?: string })?.id,
+    });
+  } catch {
+    /* */
+  }
+
   // learning hooks (non-blocking)
   try {
     const { trackFunnel } = await import("./learning-loop");

@@ -1115,9 +1115,17 @@ export async function runPresenceHarder(opts?: {
   } catch {
     /* */
   }
+  let exo_mult = 1;
+  try {
+    const { getExonomicsMultipliers } = await import("./exonomics");
+    exo_mult = (await getExonomicsMultipliers()).day_budget_mult;
+  } catch {
+    /* */
+  }
   const plan = dayBudgetForActive(activeClean, state.day_unique, {
     replies_7d,
     acceleration_mult: accel_mult,
+    exonomics_mult: exo_mult,
   });
   if (plan.governor) notes.push(plan.governor);
 
@@ -1249,9 +1257,17 @@ export async function getDemoNudgeStatus() {
   } catch {
     /* */
   }
+  let exo_mult = 1;
+  try {
+    const { getExonomicsMultipliers } = await import("./exonomics");
+    exo_mult = (await getExonomicsMultipliers()).day_budget_mult;
+  } catch {
+    /* */
+  }
   const plan = dayBudgetForActive(active_clean, s.day_unique, {
     replies_7d,
     acceleration_mult: accel_mult,
+    exonomics_mult: exo_mult,
   });
   const max_per_cycle = capForActive(
     active_clean,

@@ -359,6 +359,19 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     } catch {
       /* */
     }
+    // Flywheel 1+7: HTTP demo path deposits attraction + outcome
+    try {
+      const { onDemo } = await import("./flywheel");
+      await onDemo({
+        listing_id: listing.id,
+        name,
+        order_id: result.order?.id,
+        platform_qa: isQa,
+        origin: input.origin,
+      });
+    } catch {
+      /* */
+    }
   }
 
   const unlock = await getUnlockMeter();

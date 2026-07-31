@@ -99,7 +99,14 @@ export async function forceHydrateDurable(
     name === "live-counters.json" ||
     name === "probes.json" ||
     name === "demo-nudge.json" ||
-    name === "talk-activity.json"
+    name === "talk-activity.json" ||
+    // Flywheel density stores — prefer high-water so cold starts don't zero C/O/trails
+    name === "stigmergy.json" ||
+    name === "autocatalysis.json" ||
+    name === "first-principles.json" ||
+    name === "exonomics.json" ||
+    name === "interop.json" ||
+    name === "reciprocity.json"
   ) {
     const remote = await hydrateRemote(name);
     if (remote && local) {

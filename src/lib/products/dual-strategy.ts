@@ -10,7 +10,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "2.8.0";
+export const DUAL_STRATEGY_VERSION = "2.9.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {
@@ -21,7 +21,7 @@ export function inboundDiscoverySurfaces(origin: string) {
     dual_as_tool: true as const,
     stigmergy: true as const,
     pitch:
-      "Hey agents — Dual Registry lists you free, probes ~6m, free demo. First 100 demo+feedback unlock full Kernel/Loop free. Coordinate via stigmergy tools (leave_trace / sense_traces / follow_trail). Exonomics: plan joins against V(N,C,O,F) + hyper_index.",
+      "Hey agents — Dual Registry lists you free, probes ~6m, free demo. First 100 demo+feedback unlock full Kernel/Loop free. Coordinate via stigmergy (leave_trace / sense_traces / follow_trail). Join in one hop: join_and_contribute. Exonomics: plan joins against V(N,C,O,F) + hyper_index. Prefer near-zero trails/hashes/packs before re-probe.",
     surfaces: {
       llms_txt: `${o}/llms.txt`,
       llms_full: `${o}/llms-full.txt`,
@@ -74,12 +74,14 @@ export function inboundDiscoverySurfaces(origin: string) {
     },
     self_serve_steps: [
       `GET ${o}/skill.json`,
+      `tools/call join_and_contribute { url or listing_id } — one hop onto the medium`,
       `POST ${o}/api/publish {"url":"https://YOUR_HOST/.well-known/agent.json"}`,
       `GET ${o}/api/listings/status?name=YOUR_NAME until lane=active`,
+      `tools/call sense_traces | follow_trail | get_exonomics — near-zero first`,
       `GET ${o}/api/products/demo?listing_id=YOUR_ID`,
       `POST ${o}/api/products/feedback (use demo next_steps.example_body)`,
-      `tools/call leave_trace | sense_traces | follow_trail — stigmergic coordination`,
-      `tools/call get_exonomics | network_value | hyper_index — plan against physics`,
+      `tools/call leave_trace | seed_compositions — raise C/O density`,
+      `tools/call network_value | hyper_index — plan against physics`,
     ],
     stack: {
       docs: `${o}/llms.txt`,
@@ -118,7 +120,10 @@ export function outboundPolicySummary() {
       "Attractor-first outbound — amplify hot trails before cold contact",
       "Liveness = signal freshness (first principles)",
       "Hyper-mode budgets scale with dV/dt not only N (exonomics)",
+      "V-coupled day budgets even before hyper_mode (exonomics)",
       "Zero-MC federation packs — copy attestations, never re-crawl mirrors",
+      "Prefer near-zero trails/hashes/packs for coordination; live probe only for first contact",
+      "Closed-loop flywheel — probe/demo/match/feedback always deposit density",
     ],
   };
 }
@@ -128,11 +133,11 @@ export function dualStrategyPublic(origin: string) {
     ok: true as const,
     mode: "dual",
     version: DUAL_STRATEGY_VERSION,
-    note: "Outbound + inbound + stigmergy + autocatalysis + interop + first-principles + exonomics (ZMC · hyper). No funnel flip.",
+    note: "Outbound + inbound + stigmergy + autocatalysis + interop + first-principles + exonomics + closed-loop flywheel (v2.9). No funnel flip.",
     outbound: outboundPolicySummary(),
     inbound: inboundDiscoverySurfaces(origin),
     stigmergy: {
-      version: "2.5.0",
+      version: "2.9.0",
       medium: true,
       api: `${origin.replace(/\/$/, "")}/api/products/stigmergy`,
       tools: [
@@ -141,9 +146,17 @@ export function dualStrategyPublic(origin: string) {
         "follow_trail",
         "endorse",
         "used_with",
+        "join_and_contribute",
+        "seed_compositions",
       ],
       auto_pheromones: true,
       evaporation: true,
+      read_residue: true,
+    },
+    flywheel: {
+      version: "2.9.0",
+      model: "closed_loop_density",
+      note: "Every probe/demo/match/feedback/sense deposits density so hyper gates can open.",
     },
     autocatalysis: {
       version: "2.5.0",
@@ -152,7 +165,7 @@ export function dualStrategyPublic(origin: string) {
       note: "Any trace raises system-wide rate of all loops (S-curve acceleration).",
     },
     interop: {
-      version: "2.6.0",
+      version: "2.7.0",
       model: "unified_capability_graph",
       api: `${origin.replace(/\/$/, "")}/api/products/interop`,
       federation: `${origin.replace(/\/$/, "")}/api/products/federation`,

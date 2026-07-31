@@ -20,7 +20,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "2.8.0";
+export const REGISTRY_TOOLS_VERSION = "2.9.0";
 
 export type ToolArg = Record<string, unknown>;
 
@@ -566,6 +566,42 @@ export function listRegistryTools(origin?: string): ToolDef[] {
       description:
         "Stacked S-curve dashboard (listings, trails, compositions, outcomes, federation, demos, identity).",
       inputSchema: { type: "object", properties: {} },
+    },
+    {
+      name: "join_and_contribute",
+      description:
+        "Compound self-serve: list (optional) → cap_hash → joined trail → interop session → outcome template. One hop onto the Dual medium.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: {
+            type: "string",
+            description: "If already listed, pass listing_id to join medium only",
+          },
+          url: {
+            type: "string",
+            description: "Agent card or MCP server URL to publish",
+          },
+          agent_card_url: { type: "string" },
+          server_json: { type: "object" },
+          name: { type: "string" },
+          source: { type: "string" },
+        },
+      },
+    },
+    {
+      name: "seed_compositions",
+      description:
+        "Near-zero bootstrap: seed used_with composition edges from Active clean category/tag clusters. Opens composition_density gate without live re-probes.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          max_pairs: {
+            type: "number",
+            description: "Max pairs to seed (default 24)",
+          },
+        },
+      },
     },
   ];
 }
@@ -1414,6 +1450,46 @@ async function toolSCurveBoard(
   });
 }
 
+async function toolJoinAndContribute(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { joinAndContribute } = await import("./flywheel");
+  const result = await joinAndContribute({
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    url: typeof args.url === "string" ? args.url : undefined,
+    agent_card_url:
+      typeof args.agent_card_url === "string" ? args.agent_card_url : undefined,
+    server_json:
+      args.server_json && typeof args.server_json === "object"
+        ? (args.server_json as Record<string, unknown>)
+        : undefined,
+    name: typeof args.name === "string" ? args.name : undefined,
+    source: typeof args.source === "string" ? args.source : "registry-tool",
+    origin,
+  });
+  return textResult(
+    "join_and_contribute",
+    result,
+    Boolean((result as { ok?: boolean }).ok),
+    typeof (result as { error?: string }).error === "string"
+      ? (result as { error: string }).error
+      : undefined,
+  );
+}
+
+async function toolSeedCompositions(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const { seedCompositionsFromActive } = await import("./flywheel");
+  const result = await seedCompositionsFromActive({
+    max_pairs: typeof args.max_pairs === "number" ? args.max_pairs : 24,
+    force: true,
+  });
+  return textResult("seed_compositions", result);
+}
+
 const HANDLERS: Record<
   string,
   (args: ToolArg, origin: string) => Promise<ToolResult>
@@ -1456,6 +1532,8 @@ const HANDLERS: Record<
   abundance_rank: toolAbundanceRank,
   zero_mc_pack: toolZeroMcPack,
   s_curve_board: toolSCurveBoard,
+  join_and_contribute: toolJoinAndContribute,
+  seed_compositions: toolSeedCompositions,
 };
 
 export function isRegistryTool(name: string): boolean {

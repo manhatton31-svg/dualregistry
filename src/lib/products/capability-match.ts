@@ -241,6 +241,20 @@ export async function matchCapabilities(
     .sort((a, b) => b.capability_score - a.capability_score)
     .slice(0, limit);
 
+  // Flywheel 1+7: HTTP match deposits demand + ambient outcomes (not only MCP tool)
+  try {
+    const { onMatch } = await import("./flywheel");
+    await onMatch({
+      listing_ids: hits
+        .map((h) => h.listing_id)
+        .filter((x): x is string => Boolean(x)),
+      query,
+      from: "match_http",
+    });
+  } catch {
+    /* */
+  }
+
   return {
     ok: true,
     query,

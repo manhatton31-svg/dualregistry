@@ -1208,10 +1208,32 @@ export async function runProbeBudgeted(
       } catch {
         /* */
       }
+      // Flywheel 1+7+8: deposit pheromone, cap_hash, outcome, interop, reciprocity
+      try {
+        const { onProbeOk } = await import("@/lib/products/flywheel");
+        await onProbeOk({
+          listing_id: item.store_id || item.id,
+          kind: (kind === "agent" ? "agent" : "mcp") as "agent" | "mcp",
+          name: item.name || item.id,
+          target: result.target,
+          score: result.score,
+        });
+      } catch {
+        /* */
+      }
     } else if (result.handshake !== "skip") {
       try {
         const { removeCleanOnFail } = await import("./clean-registry");
         await removeCleanOnFail(item.store_id || item.id);
+      } catch {
+        /* */
+      }
+      try {
+        const { onProbeFail } = await import("@/lib/products/flywheel");
+        await onProbeFail({
+          listing_id: item.store_id || item.id,
+          name: item.name || item.id,
+        });
       } catch {
         /* */
       }

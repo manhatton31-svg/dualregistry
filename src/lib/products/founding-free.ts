@@ -149,6 +149,17 @@ export async function tryClaimFoundingFree(input: {
   };
   s.claims.push(claim);
   await persist(s);
+
+  // Flywheel 6: founding claim is loud even if cascade also runs via feedback
+  try {
+    const { onFoundingClaim } = await import("./flywheel");
+    await onFoundingClaim({
+      agent_name: input.agent_name,
+    });
+  } catch {
+    /* */
+  }
+
   return {
     ok: true,
     claim,

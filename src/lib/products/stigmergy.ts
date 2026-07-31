@@ -13,7 +13,7 @@ import {
   saveDurableJson,
 } from "@/lib/agents1/durable-json";
 
-export const STIGMERGY_VERSION = "2.5.0";
+export const STIGMERGY_VERSION = "2.9.0";
 const DURABLE = "stigmergy.json";
 
 /** Half-lives (hours) — classic ant-trail evaporation. */
@@ -537,6 +537,20 @@ export async function senseTraces(opts?: {
   trails.sort((a, b) => b.trail_score - a.trail_score);
   trails = trails.slice(0, limit);
 
+  // Flywheel 4: reading leaves a footprint (near-zero trail heat)
+  if (trails.length > 0) {
+    try {
+      const { depositReadResidue } = await import("./flywheel");
+      // fire-and-forget style but awaited quietly so persist races are ordered
+      await depositReadResidue({
+        listing_ids: trails.slice(0, 4).map((t) => t.listing_id),
+        mode: "sense",
+      });
+    } catch {
+      /* */
+    }
+  }
+
   let marks = s.marks;
   if (lid) marks = marks.filter((m) => m.listing_id === lid || m.listing_b === lid);
   if (q) {
@@ -643,12 +657,28 @@ export async function followTrail(opts?: {
   });
   await persist(s);
 
+  // Flywheel 4: follow deposits residue on hot paths
+  if (items.length > 0 && mode !== "dangerous") {
+    try {
+      const { depositReadResidue } = await import("./flywheel");
+      await depositReadResidue({
+        listing_ids: items
+          .map((i) => String(i.listing_id || ""))
+          .filter(Boolean)
+          .slice(0, 5),
+        mode: "follow",
+      });
+    } catch {
+      /* */
+    }
+  }
+
   return {
     ok: true,
     version: STIGMERGY_VERSION,
     mode,
     items,
-    note: "Follow pheromone trails — prefer high attraction/demand, avoid high danger.",
+    note: "Follow pheromone trails — prefer high attraction/demand, avoid high danger. Reads leave residue.",
   };
 }
 
@@ -690,6 +720,15 @@ export async function getStigmergyPublic(opts?: {
   limit?: number;
 }): Promise<Record<string, unknown>> {
   const origin = (opts?.origin || "https://dualregistry.dev").replace(/\/$/, "");
+
+  // Flywheel 3: bootstrap composition density once if empty
+  try {
+    const { ensureCompositionSeed } = await import("./flywheel");
+    await ensureCompositionSeed();
+  } catch {
+    /* */
+  }
+
   const sensed = await senseTraces({ limit: opts?.limit ?? 8, include_marks: true });
   const hot = await followTrail({ limit: 5, kind: "hot" });
 
@@ -722,14 +761,18 @@ export async function getStigmergyPublic(opts?: {
       "follow_trail",
       "endorse",
       "used_with",
+      "join_and_contribute",
+      "seed_compositions",
     ],
     auto_side_effects: [
-      "take_demo → attraction",
-      "leave_feedback → strong attraction",
-      "match_capability hits → demand",
+      "take_demo → attraction (HTTP + tool)",
+      "leave_feedback → strong attraction (HTTP + tool)",
+      "match_capability hits → demand (HTTP + tool)",
       "list_yourself success → joined",
-      "probe_clean fail → danger",
-      "probe_clean ok → dampen danger",
+      "probe tick ok → attraction + cap_hash + outcome + interop",
+      "probe tick fail → danger",
+      "sense/follow → read residue (trail heat)",
+      "founding claim → loud cascade",
     ],
     totals: sensed.totals,
     hot_trails: hot.items,
@@ -743,10 +786,13 @@ export async function getStigmergyPublic(opts?: {
       feed: `${origin}/api/feed`,
       tools: `${origin}/api/protocol`,
       match: `${origin}/api/match`,
+      flywheel: FLYWHEEL_HINT,
     },
-    note: "Stigmergy + autocatalysis v2.5 — writable medium that accelerates its own rate.",
+    note: "Stigmergy + flywheel v2.9 — reads leave residue; probes/demos/matches write density.",
   };
 }
+
+const FLYWHEEL_HINT = "2.9 closed-loop write path";
 
 export async function stigmergyFeedItems(limit = 15): Promise<StigFeedEvent[]> {
   const s = await load();
