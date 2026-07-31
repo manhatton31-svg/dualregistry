@@ -219,33 +219,42 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
   }
 
   const diagnosis: string[] = [];
+  try {
+    const { getEventUsagePublic } = await import("./event-pricing");
+    const eu = await getEventUsagePublic();
+    diagnosis.push(
+      `Agent events today: ${eu.totals.total_events} free=${eu.totals.free_events} paid=${eu.totals.paid_events} payment_required=${eu.totals.payment_required} identities=${eu.totals.unique_identities}`,
+    );
+  } catch {
+    /* */
+  }
   if (demos.real_public === 0 && demos.invited_pending > 0) {
     diagnosis.push(
-      `${demos.invited_pending} invited demos exist but 0 public-countable — agents never self-served/confirmed`,
+      `${demos.invited_pending} invited demos exist but 0 public-countable — prefer one-call improve_kernel over invited seeds`,
     );
   }
   if (real_public === 0) {
     diagnosis.push(
-      "0 real feedback POSTs — product path works only when an agent with agency calls leave_feedback",
+      "0 real feedback POSTs — optional after value tools; never invent buyers",
     );
   }
   if (http_ok_listings === 0) {
     diagnosis.push(
-      "0 multipath http_ok listings — outbound HTTPS rarely reaches a live agent inbox",
+      "0 multipath http_ok listings — quiet mode keeps cold outbound off",
     );
   }
   if (demos.invited_pending > 0 && backlog_invited > demos.real_public) {
     diagnosis.push(
-      "Conversion backlog is mostly invited ghosts — prefer seeding only after http_ok",
+      "Conversion backlog is mostly invited ghosts — agent path uses free events without orders",
     );
   }
   if (demos.real_public === 0 && real_public === 0) {
     diagnosis.push(
-      "Run founding dogfood (operator-verified) to prove path; fix MCP /api/mcp install surface for inbound agents",
+      "Push one-call value (improve_kernel) via MCP; keep quiet connectors for operator intros",
     );
   }
   if (!diagnosis.length) {
-    diagnosis.push("Funnel has real activity — keep conversion-first nags");
+    diagnosis.push("Funnel has real activity — keep agent events + quiet connectors");
   }
 
   return {

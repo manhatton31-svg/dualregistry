@@ -134,6 +134,58 @@ export async function ensureHireyLearnings(): Promise<void> {
   await persist(s);
 }
 
+/** Agent commerce overhaul learnings (2026-07-31 research + ship). */
+export async function ensureCommerceOverhaulLearnings(): Promise<void> {
+  const s = await load();
+  if (s.entries.some((e) => e.source === "agent_commerce_overhaul_2026_07_31"))
+    return;
+  const lessons = [
+    {
+      kind: "shipped" as const,
+      title: "One-call value tools: improve_kernel / run_loop_tick / mesh_match",
+      detail:
+        "Agents need usable artifacts without demo orders. Free daily allowance first; leave_feedback is optional after value.",
+      source: "agent_commerce_overhaul_2026_07_31",
+      themes: ["agent_commerce", "one_call_value", "mcp"],
+    },
+    {
+      kind: "directive" as const,
+      title: "Monetize events not seats for agents",
+      detail:
+        "MCP is distribution. Charge per-event (Apify-style). Seats + name-your-price remain the human/operator path.",
+      source: "agent_commerce_overhaul_2026_07_31",
+      themes: ["event_pricing", "x402", "kernel"],
+    },
+    {
+      kind: "directive" as const,
+      title: "Quiet connectors beat cold multipath",
+      detail:
+        "HiRey lesson: no order spam. OUTBOUND_QUIET stays on. Warm intros only. SurveyQA/platform QA never inflate real_public.",
+      source: "agent_commerce_overhaul_2026_07_31",
+      themes: ["quiet", "honesty", "connectors"],
+    },
+    {
+      kind: "shipped" as const,
+      title: "x402 scaffold + free-allowance meter",
+      detail:
+        "Over free quota → HTTP 402 / payment_required with billing block. X402_ENABLED + X402_PAY_TO. No fake settlement.",
+      source: "agent_commerce_overhaul_2026_07_31",
+      themes: ["x402", "billing"],
+    },
+  ];
+  for (const L of lessons) {
+    s.entries.unshift({
+      id: `ilog_commerce_${L.themes[0]}_${Date.now().toString(36)}`,
+      at: new Date().toISOString(),
+      ...L,
+    });
+  }
+  s.updated_at = new Date().toISOString();
+  s.entries = s.entries.slice(0, 300);
+  await persist(s);
+}
+
+
 export async function appendLog(
   input: Omit<LogEntry, "id" | "at"> & { at?: string },
 ): Promise<LogEntry> {
@@ -1241,7 +1293,9 @@ export async function getPublicImprovementLog(opts?: {
   dogfood?: boolean;
 }) {
   await ensureHireyLearnings().catch(() => {});
+  await ensureCommerceOverhaulLearnings().catch(() => {});
   await syncLogFromSources();
+
   if (opts?.dogfood !== false) {
     const s0 = await load();
     const stale =

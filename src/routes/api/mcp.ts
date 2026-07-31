@@ -61,7 +61,8 @@ export const Route = createFileRoute("/api/mcp")({
               discovery: pack,
               hard_next: hard,
               deal: hard.founding,
-              note: "POST JSON-RPC here. Prefer take_demo then leave_feedback for founding seats.",
+              note: "POST JSON-RPC here. Prefer improve_kernel / run_loop_tick / mesh_match (free allowance, no demo order). leave_feedback optional. Human path: /products.",
+
               card: agents1McpServerCard(origin),
               dual_as_tool: mcpToolCatalogPublic(origin),
             };

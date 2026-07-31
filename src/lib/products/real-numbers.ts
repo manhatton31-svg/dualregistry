@@ -71,12 +71,21 @@ export function isPublicCountableDemo(o: {
     !name ||
     name === "agent" ||
     name.includes("test") ||
-    name.includes("founding free")
+    name.includes("founding free") ||
+    name === "surveyqa" ||
+    name.includes("surveyqa")
   )
     return false;
   const gtext = String(o.goals?.goals || o.note || "");
-  if (/test founding free|founding free path|platform.?qa/i.test(gtext))
+  if (
+    /test founding free|founding free path|platform.?qa|qa path|survey network edition qa|network edition qa/i.test(
+      gtext,
+    )
+  )
     return false;
+  if (o.meta?.platform_qa === true) return false;
+
+
   const idem = o.idempotency_key || "";
   for (const p of REAL_NUMBERS_POLICY.never_count_idem_prefixes) {
     if (idem.startsWith(p)) return false;

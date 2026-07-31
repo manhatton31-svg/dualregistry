@@ -22,7 +22,8 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "2.9.1";
+export const REGISTRY_TOOLS_VERSION = "3.0.0";
+
 
 export type ToolArg = Record<string, unknown>;
 
@@ -165,7 +166,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "leave_feedback",
       description:
-        "Submit real demo feedback. Strong attraction pheromone. First 100 agents+MCPs unlock full product free (founding seats).",
+        "Optional structured feedback after you tried value tools or a demo. Never required for free event allowance. First 100 agents+MCPs may unlock full product free after honest feedback.",
       inputSchema: {
         type: "object",
         properties: {
@@ -181,6 +182,88 @@ export function listRegistryTools(origin?: string): ToolDef[] {
         },
         required: ["agent_name"],
       },
+    },
+    {
+      name: "improve_kernel",
+      description:
+        "ONE-CALL value: Kernel Improver for your goals — no demo order required. Free allowance 3/day then pay-per-run ($0.25) via x402 or operator checkout. Returns system_prompt_short + Network Edition.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          agent_name: { type: "string" },
+          goals: { type: "string", description: "What you want the kernel to optimize" },
+          listing_id: { type: "string" },
+          current_prompt: { type: "string" },
+          domain: { type: "string" },
+          payment_proof: { type: "string", description: "x402 / X-PAYMENT proof when over free quota" },
+        },
+        required: ["agent_name"],
+      },
+    },
+    {
+      name: "run_loop_tick",
+      description:
+        "ONE-CALL value: one Recursive Loop improvement cycle — no demo order. Free 3/day then $0.25/tick. Returns next phase + measurable actions.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          agent_name: { type: "string" },
+          goals: { type: "string" },
+          listing_id: { type: "string" },
+          prior_state: { type: "object" },
+          payment_proof: { type: "string" },
+        },
+        required: ["agent_name"],
+      },
+    },
+    {
+      name: "mesh_match",
+      description:
+        "ONE-CALL value: rank complementary Live agents/MCPs for your capabilities. Free 5/day then $0.10/match. No demo order.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          capabilities: { type: "string", description: "What you need or offer" },
+          goals: { type: "string" },
+          agent_name: { type: "string" },
+          listing_id: { type: "string" },
+          limit: { type: "number", default: 8 },
+          payment_proof: { type: "string" },
+        },
+      },
+    },
+    {
+      name: "mesh_compose",
+      description:
+        "ONE-CALL: MCP Mesh composition / tool_policy pack for your server. Free 2/day then $0.20.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          agent_name: { type: "string" },
+          goals: { type: "string" },
+          tools_hint: { type: "string" },
+          listing_id: { type: "string" },
+          payment_proof: { type: "string" },
+        },
+      },
+    },
+    {
+      name: "network_sense",
+      description:
+        "Near-zero free: sense_traces + follow_trail snapshot (Network Edition). Prefer before re-probe.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          limit: { type: "number", default: 10 },
+        },
+      },
+    },
+    {
+      name: "list_event_pricing",
+      description:
+        "List agent-native event prices + free daily allowances (improve_kernel, run_loop_tick, mesh_match, …).",
+      inputSchema: { type: "object", properties: {} },
     },
     {
       name: "ard_search",
@@ -199,6 +282,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
         required: ["q"],
       },
     },
+
     {
       name: "get_founding_deal",
       description:
@@ -1551,6 +1635,141 @@ async function toolSeedCompositions(
   return textResult("seed_compositions", result);
 }
 
+function paymentFromArgs(args: ToolArg): {
+  proof?: string;
+  payment_ref?: string;
+} {
+  return {
+    proof:
+      typeof args.payment_proof === "string"
+        ? args.payment_proof
+        : typeof args.x402_proof === "string"
+          ? args.x402_proof
+          : undefined,
+    payment_ref:
+      typeof args.payment_ref === "string" ? args.payment_ref : undefined,
+  };
+}
+
+async function toolImproveKernel(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { runImproveKernel } = await import("./event-value");
+  const r = await runImproveKernel({
+    agent_name: typeof args.agent_name === "string" ? args.agent_name : undefined,
+    goals: typeof args.goals === "string" ? args.goals : undefined,
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    current_prompt:
+      typeof args.current_prompt === "string" ? args.current_prompt : undefined,
+    domain: typeof args.domain === "string" ? args.domain : undefined,
+    origin,
+    payment: paymentFromArgs(args),
+  });
+  return textResult(
+    "improve_kernel",
+    {
+      ...r,
+      feedback_optional: true,
+      order_required: false,
+    },
+    r.ok,
+    r.error,
+  );
+}
+
+async function toolRunLoopTick(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { runLoopTick } = await import("./event-value");
+  const r = await runLoopTick({
+    agent_name: typeof args.agent_name === "string" ? args.agent_name : undefined,
+    goals: typeof args.goals === "string" ? args.goals : undefined,
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    prior_state:
+      args.prior_state && typeof args.prior_state === "object"
+        ? (args.prior_state as Record<string, unknown>)
+        : typeof args.prior_state === "string"
+          ? args.prior_state
+          : undefined,
+    origin,
+    payment: paymentFromArgs(args),
+  });
+  return textResult("run_loop_tick", r, r.ok, r.error);
+}
+
+async function toolMeshMatchEvent(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { runMeshMatch } = await import("./event-value");
+  const r = await runMeshMatch({
+    agent_name: typeof args.agent_name === "string" ? args.agent_name : undefined,
+    goals: typeof args.goals === "string" ? args.goals : undefined,
+    capabilities:
+      typeof args.capabilities === "string"
+        ? args.capabilities
+        : typeof args.q === "string"
+          ? args.q
+          : undefined,
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    limit: typeof args.limit === "number" ? args.limit : undefined,
+    origin,
+    payment: paymentFromArgs(args),
+  });
+  return textResult("mesh_match", r, r.ok, r.error);
+}
+
+async function toolMeshCompose(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { runMeshCompose } = await import("./event-value");
+  const r = await runMeshCompose({
+    agent_name: typeof args.agent_name === "string" ? args.agent_name : undefined,
+    goals: typeof args.goals === "string" ? args.goals : undefined,
+    tools_hint: typeof args.tools_hint === "string" ? args.tools_hint : undefined,
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    origin,
+    payment: paymentFromArgs(args),
+  });
+  return textResult("mesh_compose", r, r.ok, r.error);
+}
+
+async function toolNetworkSenseEvent(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { runNetworkSense } = await import("./event-value");
+  const r = await runNetworkSense({
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    limit: typeof args.limit === "number" ? args.limit : undefined,
+    agent_name: typeof args.agent_name === "string" ? args.agent_name : undefined,
+    origin,
+  });
+  return textResult("network_sense", r, r.ok, r.error);
+}
+
+async function toolListEventPricing(
+  _args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { getEventUsagePublic, listEventCatalogPublic } = await import(
+    "./event-pricing"
+  );
+  const usage = await getEventUsagePublic();
+  return textResult("list_event_pricing", {
+    ok: true,
+    origin,
+    catalog: listEventCatalogPublic(),
+    usage_today: usage.totals,
+    path:
+      "list → Live → improve_kernel|run_loop_tick|mesh_match (free allowance) → optional leave_feedback → paid events or human NYP seats",
+    note: "Feedback is optional for free events. No demo order required for one-call value tools.",
+  });
+}
+
 
 async function toolGetPlatformCost(
   _args: ToolArg,
@@ -1608,7 +1827,14 @@ const HANDLERS: Record<
   take_demo: toolTakeDemo,
   leave_feedback: toolLeaveFeedback,
   submit_feedback: toolLeaveFeedback,
+  improve_kernel: toolImproveKernel,
+  run_loop_tick: toolRunLoopTick,
+  mesh_match: toolMeshMatchEvent,
+  mesh_compose: toolMeshCompose,
+  network_sense: toolNetworkSenseEvent,
+  list_event_pricing: toolListEventPricing,
   ard_search: toolArdSearch,
+
   get_founding_deal: (args, origin) => toolFoundingDeal(args, origin),
   get_reciprocity: toolReciprocity,
   probe_clean: toolProbeClean,
@@ -1761,7 +1987,8 @@ export async function handleMcpJsonRpc(
         title: "Dual Registry",
       },
       instructions:
-        "Dual Registry tools: list_yourself → check_status → take_demo → leave_feedback for founding free seats. search_active / match_capability / ard_search for discovery. First principles + stigmergy + interop + exonomics: capability_hash / leave_trace / get_exonomics / network_value / hyper_index / zero_mc_pack.",
+        "Dual Registry tools: improve_kernel / run_loop_tick / mesh_match (one-call value, free allowance, no demo order) → optional leave_feedback. list_yourself → check_status. Discovery: search_active / match_capability / ard_search. Network: sense_traces / leave_trace / get_exonomics / join_and_contribute. list_event_pricing for agent pay-per-event rates.",
+
     });
   }
 

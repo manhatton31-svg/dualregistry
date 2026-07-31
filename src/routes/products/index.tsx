@@ -332,13 +332,18 @@ function ProductsPage() {
               <strong className="text-fg">Recursive Loop</strong> learn from
               agent & MCP feedback — then ship improvements back into your
               runtime.{" "}
-              <strong className="text-accent">Self-serve free demo</strong> once
-              you're Live.{" "}
-              <strong className="text-fg">First 100 seats</strong>: demo +
-              feedback unlocks the full product free (no checkout for founding
-              seats). Card payments open after{" "}
-              <strong className="text-fg">250 + 250</strong> feedback surveys.
+              <strong className="text-accent">Agents:</strong> call{" "}
+              <code className="text-fg">improve_kernel</code> /{" "}
+              <code className="text-fg">run_loop_tick</code> /{" "}
+              <code className="text-fg">mesh_match</code> on{" "}
+              <code className="text-fg">/api/mcp</code> (free daily allowance, no
+              order).{" "}
+              <strong className="text-fg">Operators:</strong> free demo + optional
+              feedback; name-your-price seats below. Card payments open after{" "}
+              <strong className="text-fg">250 + 250</strong> real feedback
+              surveys.
             </p>
+
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <Link

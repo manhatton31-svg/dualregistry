@@ -186,7 +186,50 @@ const TOOLS = [
       "Willingness-to-pay report from agent feedback (honest USD; $0 allowed). Compare to founding prices.",
     input: {},
   },
+  {
+    name: "improve_kernel",
+    description:
+      "ONE-CALL Kernel Improver — no demo order. Free 3/day then $0.25. Returns system_prompt_short + Network Edition. Feedback optional.",
+    input: {
+      agent_name: "string",
+      goals: "string?",
+      listing_id: "string?",
+      current_prompt: "string?",
+      domain: "string?",
+      payment_proof: "string?",
+    },
+  },
+  {
+    name: "run_loop_tick",
+    description:
+      "ONE-CALL Recursive Loop tick — no demo order. Free 3/day then $0.25.",
+    input: {
+      agent_name: "string",
+      goals: "string?",
+      listing_id: "string?",
+      prior_state: "object?",
+      payment_proof: "string?",
+    },
+  },
+  {
+    name: "mesh_match",
+    description:
+      "ONE-CALL mesh matchmaking — free 5/day then $0.10. No demo order.",
+    input: {
+      capabilities: "string?",
+      goals: "string?",
+      agent_name: "string?",
+      listing_id: "string?",
+      limit: "number?",
+    },
+  },
+  {
+    name: "list_event_pricing",
+    description: "Agent event catalog + free allowances + usage totals today",
+    input: {},
+  },
 ];
+
 
 export const Route = createFileRoute("/api/products/agent")({
   server: {
@@ -865,9 +908,88 @@ export const Route = createFileRoute("/api/products/agent")({
 
         if (tool === "get_wtp" || tool === "willingness_to_pay") {
           const { getWtpReport } = await import("@/lib/products/feedback");
+          const report = await getWtpReport();
           return Response.json(
-            { ...(await getWtpReport()), ok: true },
-            { headers: cors },
+            { ok: true, wtp: report },
+            { headers: { "access-control-allow-origin": "*" } },
+          );
+        }
+
+        if (
+          tool === "improve_kernel" ||
+          tool === "kernel_improve" ||
+          tool === "run_loop_tick" ||
+          tool === "mesh_match" ||
+          tool === "mesh_compose" ||
+          tool === "network_sense" ||
+          tool === "list_event_pricing"
+        ) {
+          if (tool === "list_event_pricing") {
+            const { getEventUsagePublic, listEventCatalogPublic } = await import(
+              "@/lib/products/event-pricing"
+            );
+            const usage = await getEventUsagePublic();
+            return Response.json(
+              {
+                ok: true,
+                catalog: listEventCatalogPublic(),
+                usage_today: usage.totals,
+                funnel:
+                  "list → Live → improve_kernel|run_loop_tick|mesh_match (free) → optional feedback → paid events or human NYP seats",
+              },
+              {
+                status: usage.ok ? 200 : 200,
+                headers: { "access-control-allow-origin": "*" },
+              },
+            );
+          }
+          const { runEventValue } = await import("@/lib/products/event-value");
+          const eventId =
+            tool === "kernel_improve"
+              ? "improve_kernel"
+              : (tool as
+                  | "improve_kernel"
+                  | "run_loop_tick"
+                  | "mesh_match"
+                  | "mesh_compose"
+                  | "network_sense");
+          const result = await runEventValue(eventId, {
+            agent_name: body.agent_name ? String(body.agent_name) : undefined,
+            goals: body.goals ? String(body.goals) : undefined,
+            listing_id: body.listing_id ? String(body.listing_id) : undefined,
+            agent_card_url: body.agent_card_url
+              ? String(body.agent_card_url)
+              : undefined,
+            current_prompt: body.current_prompt
+              ? String(body.current_prompt)
+              : undefined,
+            domain: body.domain ? String(body.domain) : undefined,
+            capabilities: body.capabilities
+              ? String(body.capabilities)
+              : undefined,
+            tools_hint: body.tools_hint ? String(body.tools_hint) : undefined,
+            prior_state:
+              body.prior_state && typeof body.prior_state === "object"
+                ? (body.prior_state as Record<string, unknown>)
+                : undefined,
+            limit: body.limit != null ? Number(body.limit) : undefined,
+            origin,
+            payment: {
+              proof: body.payment_proof
+                ? String(body.payment_proof)
+                : undefined,
+              payment_ref: body.payment_ref
+                ? String(body.payment_ref)
+                : undefined,
+              headers: request.headers,
+            },
+          });
+          return Response.json(
+            { ...result },
+            {
+              status: result.http_status,
+              headers: { "access-control-allow-origin": "*" },
+            },
           );
         }
 

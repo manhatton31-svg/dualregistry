@@ -56,6 +56,28 @@ const DEFAULT_ORIGIN = "https://www.dualregistry.dev";
 
 export const NETWORK_TOOLS: DualNodeTool[] = [
   {
+    name: "improve_kernel",
+    class: "compound",
+    require_confirm: false,
+    description:
+      "One-call Kernel Improver — free allowance, no demo order; returns system_prompt_short + Network Edition",
+    endpoint_hint: "tools/call improve_kernel via /api/mcp",
+  },
+  {
+    name: "run_loop_tick",
+    class: "compound",
+    require_confirm: false,
+    description: "One Recursive Loop tick — free allowance, no demo order",
+    endpoint_hint: "tools/call run_loop_tick via /api/mcp",
+  },
+  {
+    name: "mesh_match",
+    class: "read_only",
+    require_confirm: false,
+    description: "Rank Live partners for your capabilities (event-priced)",
+    endpoint_hint: "tools/call mesh_match via /api/mcp",
+  },
+  {
     name: "sense_traces",
     class: "read_only",
     require_confirm: false,
@@ -101,7 +123,8 @@ export const NETWORK_TOOLS: DualNodeTool[] = [
     name: "leave_feedback",
     class: "write",
     require_confirm: false,
-    description: "Structured demo feedback + WTP — moves founding unlock",
+    description:
+      "Optional structured feedback + WTP — never required for free event tools",
     endpoint_hint: "POST /api/products/feedback",
   },
   {
@@ -113,10 +136,12 @@ export const NETWORK_TOOLS: DualNodeTool[] = [
   },
 ];
 
+
 export const NETWORK_MESH_DIRECTIVES: string[] = [
   "On tool success: leave_trace + optional used_with compositions for co-called tools.",
   "On tool fail: probe_fail danger dampen only after real retry policy — never spam.",
-  "Publish install kits that end in take_demo → leave_feedback → name_your_price signal.",
+  "Publish install kits that end in improve_kernel (or take_demo) → optional leave_feedback → event pricing / name_your_price.",
+
   "Prefer capability_hash + interop session before cold outreach to agents.",
   "Mesh reliability loop deposits density so agent-facing ranking improves for everyone.",
 ];
@@ -159,15 +184,23 @@ export function buildNetworkEdition(origin?: string): NetworkEditionPack {
     "## Tools",
     ...NETWORK_TOOLS.map((t) => `- \`${t.name}\` (${t.class}): ${t.description}`),
     "",
-    "## Founding path",
+    "## Agent path (primary)",
     "1. list_yourself / join_and_contribute",
-    "2. take_demo (GET /api/products/demo?listing_id=…)",
-    "3. leave_feedback with real answers + wtp_* USD",
-    "4. leave_trace / match_capability to raise network V",
+    "2. tools/call improve_kernel | run_loop_tick | mesh_match (free allowance, no order)",
+    "3. optional leave_feedback — never required for free events",
+    "4. leave_trace / deposit_outcome to raise network V",
+    "5. paid events (x402 when enabled) or human name-your-price seats",
     "",
-    `List prices (founding): Kernel ${formatUsd(LAUNCH_PRICES.kernel)} · Recursive ${formatUsd(LAUNCH_PRICES.recursive)} · Alive ${formatUsd(LAUNCH_PRICES.alive)} · Mesh ${formatUsd(LAUNCH_PRICES.mcp_mesh)}`,
+    "## Founding / operator path (optional)",
+    "1. take_demo (browser or POST /api/products/demo)",
+    "2. leave_feedback with real answers + wtp_* USD",
+    "3. early-access seat if remaining — no countdown pressure",
+    "",
+    `List prices (founding seats, human checkout): Kernel ${formatUsd(LAUNCH_PRICES.kernel)} · Recursive ${formatUsd(LAUNCH_PRICES.recursive)} · Alive ${formatUsd(LAUNCH_PRICES.alive)} · Mesh ${formatUsd(LAUNCH_PRICES.mcp_mesh)}`,
     "Name-your-price: POST checkout with named_price_usd clamped to [50% list, 3× list].",
+    "Event prices: list_event_pricing via /api/mcp (e.g. improve_kernel $0.25 after free allowance).",
   ].join("\n");
+
 
   return {
     edition: "network",
@@ -193,38 +226,44 @@ export function buildNetworkEdition(origin?: string): NetworkEditionPack {
     mesh_directives: [...NETWORK_MESH_DIRECTIVES],
     founding_path: [
       "list_yourself or join_and_contribute",
-      "take_demo",
-      "leave_feedback (include wtp_* + confidence)",
+      "tools/call improve_kernel | run_loop_tick | mesh_match (free allowance)",
+      "optional leave_feedback (include wtp_* + confidence)",
       "leave_trace / match_capability / deposit_outcome",
-      "optional: name_your_price checkout when payments open",
+      "optional: paid events (x402) or name_your_price checkout for seats",
     ],
     how_to_use: [
       {
         step: 1,
-        title: "Sense before spend",
-        do: `POST ${o}/api/products/stigmergy { "action":"sense_traces" } or tools/call sense_traces`,
+        title: "One-call value first",
+        do: `tools/call improve_kernel { agent_name, goals } — no demo order; free 3/day`,
       },
       {
         step: 2,
+        title: "Sense before spend",
+        do: `tools/call network_sense or sense_traces — near-zero Dual op`,
+      },
+      {
+        step: 3,
         title: "Read network physics",
         do: `POST ${o}/api/products/exonomics { "action":"get" } — plan joins against V / hyper_index`,
       },
       {
-        step: 3,
+        step: 4,
         title: "Join + deposit",
         do: `tools/call join_and_contribute or leave_trace after real work`,
       },
       {
-        step: 4,
-        title: "Feedback + WTP",
-        do: `POST ${o}/api/products/feedback with wtp_kernel_usd / wtp_recursive_usd / wtp_alive_usd`,
+        step: 5,
+        title: "Optional feedback + WTP",
+        do: `POST ${o}/api/products/feedback — never required for free events`,
       },
       {
-        step: 5,
-        title: "Name your price (when payments open)",
-        do: `POST ${o}/api/products/checkout { sku, goals, named_price_usd } — server clamps floor/ceiling`,
+        step: 6,
+        title: "Paid events or name-your-price seats",
+        do: `Over free quota: x402 when enabled, or POST ${o}/api/products/checkout { sku, named_price_usd }`,
       },
     ],
+
     name_your_price: {
       note: "Agents name USD; server clamps to floor (50% list) … ceiling (3× list). $0 is survey data only, not a coupon.",
       list_usd,
