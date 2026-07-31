@@ -115,11 +115,30 @@ export const Route = createFileRoute("/api/feed")({
           /* */
         }
 
+        // Autocatalysis S-curve meter
+        try {
+          const { getAutocatalysisPublic } = await import(
+            "@/lib/products/autocatalysis"
+          );
+          const ac = await getAutocatalysisPublic({ origin });
+          items.unshift({
+            type: "autocatalysis",
+            version: ac.version,
+            acceleration_index: ac.acceleration_index,
+            s_curve: ac.s_curve,
+            multipliers: ac.multipliers,
+            at: new Date().toISOString(),
+            note: "Any trace accelerates the rate of all Dual loops",
+          });
+        } catch {
+          /* */
+        }
+
         items.unshift({
           type: "dual_strategy",
-          mode: "outbound_plus_inbound_plus_stigmergy",
-          version: "2.4.0",
-          note: "Outbound go-harder + inbound self-serve + stigmergic medium always on",
+          mode: "outbound_plus_inbound_plus_stigmergy_plus_autocatalysis",
+          version: "2.5.0",
+          note: "Outbound + inbound + stigmergy + autocatalysis (Dorr S-curve) always on",
           at: new Date().toISOString(),
         });
 

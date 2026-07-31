@@ -20,7 +20,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "2.4.0";
+export const REGISTRY_TOOLS_VERSION = "2.5.0";
 
 export type ToolArg = Record<string, unknown>;
 

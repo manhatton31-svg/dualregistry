@@ -192,7 +192,7 @@ export async function matchCapabilities(
     total: byId.size,
     hits,
     founding: await getFoundingFreePublic(),
-    note: "Ranked Active clean + ARD + stigmergic usage trails. take_demo_get for founding free path.",
+    note: "Ranked Active clean + ARD + stigmergic trails × autocatalytic acceleration. take_demo_get for founding free path.",
     stigmergy: true,
   };
 }

@@ -284,6 +284,17 @@ export async function delistOnProbeFail(input: {
   );
   await saveDelistStore(store);
 
+  // Autocatalysis vicious cycle — sustained fails accelerate delist priority signal
+  try {
+    const { bumpAcceleration } = await import("@/lib/products/autocatalysis");
+    await bumpAcceleration({
+      kind: "probe_fail",
+      listing_id: input.id,
+    });
+  } catch {
+    /* */
+  }
+
   try {
     const cache = await loadStoreCache();
     const listKey = input.kind === "mcp" ? "mcp_items" : "agent_items";

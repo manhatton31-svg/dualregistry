@@ -578,6 +578,7 @@ export async function submitFeedback(input: {
   await persist(s);
 
   // Reply-capture funnel: mark feedback if we can resolve listing_id
+  let cascadeListingId = "";
   try {
     const rawLid = input.meta?.listing_id ?? input.answers?.listing_id;
     const lid =
@@ -588,6 +589,7 @@ export async function submitFeedback(input: {
           ? String(rawLid)
           : "";
     if (lid) {
+      cascadeListingId = lid;
       const { markFeedback } = await import("./reply-capture");
       await markFeedback(lid);
     }
@@ -645,6 +647,21 @@ export async function submitFeedback(input: {
     } catch {
       /* */
     }
+  }
+
+  // Autocatalytic cascade — feedback / founding claim accelerates all rates
+  try {
+    const { runFeedbackCascade } = await import("./autocatalysis");
+    await runFeedbackCascade({
+      listing_id: cascadeListingId || undefined,
+      agent_name,
+      founding_claimed: Boolean(
+        freeGrant?.granted && freeGrant?.percent_off === 100,
+      ),
+      from: agent_name,
+    });
+  } catch {
+    /* */
   }
 
   // learning hooks (non-blocking)

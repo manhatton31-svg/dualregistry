@@ -13,7 +13,7 @@ import {
   saveDurableJson,
 } from "@/lib/agents1/durable-json";
 
-export const STIGMERGY_VERSION = "2.4.0";
+export const STIGMERGY_VERSION = "2.5.0";
 const DURABLE = "stigmergy.json";
 
 /** Half-lives (hours) — classic ant-trail evaporation. */
@@ -79,7 +79,10 @@ export type StigFeedEvent = {
     | "evaporation"
     | "follow_trail"
     | "founding_heat"
-    | "composition";
+    | "composition"
+    | "contagion"
+    | "cascade"
+    | "autocatalysis";
   listing_id?: string;
   listing_b?: string;
   kind?: string;
@@ -344,6 +347,21 @@ export async function autoDeposit(opts: {
 
   s.totals.auto_deposits += deposited;
   await persist(s);
+
+  // Autocatalysis: each deposit raises system-wide acceleration index
+  if (deposited > 0) {
+    try {
+      const { bumpAcceleration } = await import("./autocatalysis");
+      await bumpAcceleration({
+        kind: opts.kind,
+        listing_id: ids[0],
+        amount: AUTO_WEIGHTS[opts.kind],
+        meta: opts.meta,
+      });
+    } catch {
+      /* */
+    }
+  }
   return { ok: true, deposited };
 }
 
@@ -430,6 +448,19 @@ export async function leaveTrace(opts: {
       from: opts.from,
       at: now,
     });
+    // P1 composition contagion — deposit demand on co-use neighbors
+    const touched = applyCompositionContagion(s, a, b, now, opts.from);
+    if (touched > 0) {
+      pushFeed(s, {
+        type: "contagion",
+        listing_id: a,
+        listing_b: b,
+        amount: touched,
+        from: opts.from,
+        at: now,
+        body: `Composition contagion touched ${touched} neighbors`,
+      });
+    }
   } else {
     pushFeed(s, {
       type: kind === "endorse" ? "endorse" : "leave_trace",
@@ -444,6 +475,17 @@ export async function leaveTrace(opts: {
 
   s.totals.agent_deposits += 1;
   await persist(s);
+
+  try {
+    const { bumpAcceleration } = await import("./autocatalysis");
+    await bumpAcceleration({
+      kind: kind === "endorse" ? "endorse" : kind === "used_with" ? "used_with" : "leave_trace",
+      listing_id: listing_id || undefined,
+      amount: intensity,
+    });
+  } catch {
+    /* */
+  }
   return { ok: true, mark };
 }
 
@@ -617,6 +659,14 @@ export async function pheromoneBoostFor(
   if (!listingIds.length) return {};
   const s = await load();
   const now = new Date().toISOString();
+  let mult = 1;
+  try {
+    const { getAccelerationMultipliers } = await import("./autocatalysis");
+    const m = await getAccelerationMultipliers();
+    mult = m.match_boost_mult;
+  } catch {
+    /* */
+  }
   const out: Record<string, number> = {};
   for (const id of listingIds) {
     const row = s.pheromones[id];
@@ -625,15 +675,13 @@ export async function pheromoneBoostFor(
       continue;
     }
     evaporateListing(row, now);
-    // Cap boost so trails don't dominate capability forever
+    // Cap boost so trails don't dominate capability forever; autocatalysis multiplies
     const boost = Math.min(
-      40,
-      trailScore(row) * 0.35 + row.event_counts.feedback * 2,
+      55,
+      (trailScore(row) * 0.35 + row.event_counts.feedback * 2) * mult,
     );
     out[id] = Math.round(boost * 10) / 10;
   }
-  // don't persist every match (read-heavy); only if we evaporated meaningfully
-  // skip persist to avoid write storms on match
   return out;
 }
 
@@ -691,11 +739,12 @@ export async function getStigmergyPublic(opts?: {
     feed: (await load()).feed_events.slice(0, 20),
     endpoints: {
       api: `${origin}/api/products/stigmergy`,
+      autocatalysis: `${origin}/api/products/autocatalysis`,
       feed: `${origin}/api/feed`,
       tools: `${origin}/api/protocol`,
       match: `${origin}/api/match`,
     },
-    note: "Stigmergy layer v2.4 — Dual is a writable medium, not just a directory.",
+    note: "Stigmergy + autocatalysis v2.5 — writable medium that accelerates its own rate.",
   };
 }
 
@@ -704,4 +753,119 @@ export async function stigmergyFeedItems(limit = 15): Promise<StigFeedEvent[]> {
   const now = new Date().toISOString();
   for (const row of Object.values(s.pheromones)) evaporateListing(row, now);
   return s.feed_events.slice(0, limit);
+}
+
+
+/** P1 — composition contagion: seed demand on co-use graph neighbors. */
+function applyCompositionContagion(
+  s: Store,
+  a: string,
+  b: string,
+  now: string,
+  from?: string,
+): number {
+  const neighborIds = new Set<string>();
+  for (const c of Object.values(s.compositions)) {
+    if (c.a === a || c.b === a) neighborIds.add(c.a === a ? c.b : c.a);
+    if (c.a === b || c.b === b) neighborIds.add(c.a === b ? c.b : c.a);
+  }
+  neighborIds.delete(a);
+  neighborIds.delete(b);
+  let touched = 0;
+  for (const id of [...neighborIds].slice(0, 8)) {
+    const row = ensureListing(s, id);
+    evaporateListing(row, now);
+    row.demand += AUTO_WEIGHTS.used_with * 0.75;
+    row.attraction += 0.5;
+    row.last_reinforced_at = now;
+    touched += 1;
+  }
+  // mutual demand on A and B themselves (reinforce composition)
+  for (const id of [a, b]) {
+    const row = ensureListing(s, id);
+    evaporateListing(row, now);
+    row.demand += AUTO_WEIGHTS.used_with * 0.5;
+    row.last_reinforced_at = now;
+  }
+  void from;
+  return touched;
+}
+
+/**
+ * Contagion from a single listing (cascade / feedback).
+ * Deposits weak demand on composition neighbors.
+ */
+export async function contagionFromListing(
+  listing_id: string,
+  opts?: { intensity?: number; from?: string },
+): Promise<{ ok: true; touched: number }> {
+  const s = await load();
+  const now = new Date().toISOString();
+  const id = listing_id.trim();
+  if (!id) return { ok: true, touched: 0 };
+  const intensity = Math.min(8, Math.max(1, opts?.intensity ?? 2));
+  const neighborIds = new Set<string>();
+  for (const c of Object.values(s.compositions)) {
+    if (c.a === id) neighborIds.add(c.b);
+    if (c.b === id) neighborIds.add(c.a);
+  }
+  let touched = 0;
+  for (const nid of [...neighborIds].slice(0, 10)) {
+    const row = ensureListing(s, nid);
+    evaporateListing(row, now);
+    row.demand += intensity;
+    row.attraction += intensity * 0.25;
+    row.last_reinforced_at = now;
+    touched += 1;
+  }
+  if (touched > 0) {
+    pushFeed(s, {
+      type: "contagion",
+      listing_id: id,
+      amount: touched,
+      from: opts?.from,
+      at: now,
+      body: `Cascade contagion → ${touched} neighbors`,
+    });
+    await persist(s);
+  }
+  return { ok: true, touched };
+}
+
+/** Trail scores for outbound priority (hot-trail → multipath ranking). */
+export async function getTrailScoreMap(
+  listingIds?: string[],
+): Promise<Record<string, number>> {
+  const s = await load();
+  const now = new Date().toISOString();
+  const out: Record<string, number> = {};
+  const ids = listingIds?.length
+    ? listingIds
+    : Object.keys(s.pheromones);
+  for (const id of ids) {
+    const row = s.pheromones[id];
+    if (!row) {
+      out[id] = 0;
+      continue;
+    }
+    evaporateListing(row, now);
+    out[id] = trailScore(row);
+  }
+  return out;
+}
+
+/** High-danger listings for vicious-cycle delist acceleration. */
+export async function getDangerList(limit = 20): Promise<
+  Array<ListingPheromones & { trail_score: number }>
+> {
+  const s = await load();
+  const now = new Date().toISOString();
+  return Object.values(s.pheromones)
+    .map((r) => {
+      evaporateListing(r, now);
+      return { ...r, trail_score: trailScore(r) };
+    })
+    .filter((r) => r.danger >= 8 || r.event_counts.probes_fail >= 2)
+    .sort((a, b) => b.danger - a.danger)
+    .slice(0, limit);
 }

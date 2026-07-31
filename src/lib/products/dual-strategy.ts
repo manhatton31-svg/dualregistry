@@ -10,7 +10,7 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "2.4.0";
+export const DUAL_STRATEGY_VERSION = "2.5.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {
@@ -56,6 +56,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       reciprocity: `${o}/api/products/reciprocity`,
       conversion_pressure: `${o}/api/products/conversion-pressure`,
       stigmergy: `${o}/api/products/stigmergy`,
+      autocatalysis: `${o}/api/products/autocatalysis`,
       tools_protocol: `${o}/api/protocol`,
       cloudflare_apply: `${o}/api/ops/cloudflare-apply`,
       for_agents: `${o}/for-agents`,
@@ -119,11 +120,11 @@ export function dualStrategyPublic(origin: string) {
     ok: true as const,
     mode: "dual",
     version: DUAL_STRATEGY_VERSION,
-    note: "Outbound go-harder AND inbound self-serve AND stigmergic medium. No funnel flip.",
+    note: "Outbound + inbound + stigmergy + autocatalysis (Dorr S-curve). No funnel flip.",
     outbound: outboundPolicySummary(),
     inbound: inboundDiscoverySurfaces(origin),
     stigmergy: {
-      version: "2.4.0",
+      version: "2.5.0",
       medium: true,
       api: `${origin.replace(/\/$/, "")}/api/products/stigmergy`,
       tools: [
@@ -135,6 +136,12 @@ export function dualStrategyPublic(origin: string) {
       ],
       auto_pheromones: true,
       evaporation: true,
+    },
+    autocatalysis: {
+      version: "2.5.0",
+      model: "dorr_rethinkx",
+      api: `${origin.replace(/\/$/, "")}/api/products/autocatalysis`,
+      note: "Any trace raises system-wide rate of all loops (S-curve acceleration).",
     },
   };
 }
@@ -161,6 +168,7 @@ export async function runDualStrategyTick(opts?: {
   conversion_http_ok: number;
   conversion_attempted: number;
   stigmergy_evaporated: number;
+  acceleration_index: number;
   notes: string[];
   surfaces: ReturnType<typeof inboundDiscoverySurfaces>;
 }> {
@@ -233,6 +241,20 @@ export async function runDualStrategyTick(opts?: {
     );
   }
 
+  let acceleration_index = 1;
+  try {
+    const { getAccelerationMultipliers } = await import("./autocatalysis");
+    const m = await getAccelerationMultipliers();
+    acceleration_index = m.index;
+    notes.push(
+      `autocatalysis: index=${m.index} match×${m.match_boost_mult.toFixed(2)} conv_room×${m.conversion_room_mult.toFixed(2)}`,
+    );
+  } catch (e) {
+    notes.push(
+      `autocatalysis: ${e instanceof Error ? e.message : String(e)}`.slice(0, 160),
+    );
+  }
+
   return {
     ok: true,
     mode: "dual",
@@ -245,6 +267,7 @@ export async function runDualStrategyTick(opts?: {
     conversion_http_ok,
     conversion_attempted,
     stigmergy_evaporated,
+    acceleration_index,
     notes,
     surfaces: inboundDiscoverySurfaces(origin),
   };

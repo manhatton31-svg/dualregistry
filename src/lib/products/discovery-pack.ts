@@ -14,7 +14,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
   return {
     origin: o,
     dual_strategy: true,
-    version: "2.4.0",
+    version: "2.5.0",
     llms_txt: `${o}/llms.txt`,
     llms_full: `${o}/llms-full.txt`,
     ai_txt: `${o}/ai.txt`,
@@ -63,6 +63,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
     reciprocity: `${o}/api/products/reciprocity`,
     conversion_pressure: `${o}/api/products/conversion-pressure`,
     stigmergy: `${o}/api/products/stigmergy`,
+    autocatalysis: `${o}/api/products/autocatalysis`,
     reply_capture: `${o}/api/products/reply-capture`,
     robots_agent: `${o}/robots-agent.txt`,
     protocol: `${o}/api/protocol`,

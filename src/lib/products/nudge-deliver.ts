@@ -443,6 +443,8 @@ export type NudgeScoreContext = {
   feed_hot?: Set<string>;
   /** listing_ids that replied after a nudge */
   reply_hot?: Set<string>;
+  /** stigmergy trail scores (hot-trail → outbound priority) */
+  trail_score?: Map<string, number>;
   now?: number;
 };
 
@@ -473,6 +475,11 @@ export function scoreNudgePriority(
     if (ageH < 24) s += 40;
     else if (ageH < 72) s += 25;
     else if (ageH < 168) s += 12;
+  }
+  // P1 hot-trail → outbound priority (stigmergy attraction/demand)
+  const ts = ctx?.trail_score?.get(L.id);
+  if (typeof ts === "number" && ts > 0) {
+    s += Math.min(60, Math.round(ts * 1.2));
   }
   return s;
 }
@@ -517,5 +524,15 @@ export async function loadNudgeScoreContext(): Promise<NudgeScoreContext> {
   } catch {
     /* */
   }
-  return { recent_active_ms, feed_hot, reply_hot, now };
+  const trail_score = new Map<string, number>();
+  try {
+    const { getTrailScoreMap } = await import("./stigmergy");
+    const map = await getTrailScoreMap();
+    for (const [id, score] of Object.entries(map)) {
+      if (score > 0) trail_score.set(id, score);
+    }
+  } catch {
+    /* */
+  }
+  return { recent_active_ms, feed_hot, reply_hot, trail_score, now };
 }

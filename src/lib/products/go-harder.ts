@@ -296,6 +296,17 @@ export async function runGoHarder(opts?: {
 }> {
   const notes: string[] = ["GO HARDER wave — no re-DM of 30d contacts"];
   const origin = publicOriginFromEnv(opts?.origin);
+  let multipath_accel_extra = 0;
+  try {
+    const { getAccelerationMultipliers } = await import("./autocatalysis");
+    const m = await getAccelerationMultipliers();
+    multipath_accel_extra = m.multipath_extra;
+    notes.push(
+      `autocatalysis: index=${m.index} multipath_extra=+${m.multipath_extra} day_budget×${m.day_budget_mult.toFixed(2)}`,
+    );
+  } catch {
+    /* */
+  }
 
   // 1) First-touch never-contacted with harder copy (respects day/30d caps inside)
   let first_touch: Awaited<ReturnType<typeof runDemoNudge>> | null = null;
@@ -320,7 +331,7 @@ export async function runGoHarder(opts?: {
   if (!opts?.skip_multipath) {
     multipath = await runMultiPathBackfill({
       origin,
-      max: opts?.multipath_max ?? MULTIPATH_MAX,
+      max: (opts?.multipath_max ?? MULTIPATH_MAX) + multipath_accel_extra,
       harder_message: true,
     });
     notes.push(

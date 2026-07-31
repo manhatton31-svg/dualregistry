@@ -111,7 +111,7 @@ export function pickNudgeTier(activeClean: number): NudgeTierDef {
 export function dayBudgetForActive(
   activeClean: number,
   alreadyToday = 0,
-  opts?: { replies_7d?: number },
+  opts?: { replies_7d?: number; acceleration_mult?: number },
 ): NudgeDayPlan {
   const active = Math.max(0, Math.floor(activeClean));
   const replies_7d = Math.max(0, Math.floor(opts?.replies_7d ?? 0));
@@ -123,6 +123,13 @@ export function dayBudgetForActive(
   if (replies_7d === 0) {
     governor =
       "dual-strategy: 0 replies this week — full tier day budget still applies (30d silence holds)";
+  }
+
+  // Autocatalysis: acceleration_index multiplies day first-touch budget
+  const am = opts?.acceleration_mult;
+  if (typeof am === "number" && am > 1) {
+    day_budget = Math.ceil(day_budget * Math.min(1.8, am));
+    governor = (governor ? governor + " · " : "") + `autocatalysis×${am.toFixed(2)}`;
   }
 
   // Absolute safety: never schedule more first-touches than the list
@@ -601,7 +608,17 @@ export async function runDemoNudge(opts?: {
     return true;
   });
 
-  const plan = dayBudgetForActive(pool.length, state.day_unique, { replies_7d });
+  let accel_mult = 1;
+  try {
+    const { getAccelerationMultipliers } = await import("./autocatalysis");
+    accel_mult = (await getAccelerationMultipliers()).day_budget_mult;
+  } catch {
+    /* */
+  }
+  const plan = dayBudgetForActive(pool.length, state.day_unique, {
+    replies_7d,
+    acceleration_mult: accel_mult,
+  });
   const propCap = capForActive(
     pool.length,
     eligible.length,
@@ -1071,7 +1088,17 @@ export async function runPresenceHarder(opts?: {
     /* */
   }
 
-  const plan = dayBudgetForActive(activeClean, state.day_unique, { replies_7d });
+  let accel_mult = 1;
+  try {
+    const { getAccelerationMultipliers } = await import("./autocatalysis");
+    accel_mult = (await getAccelerationMultipliers()).day_budget_mult;
+  } catch {
+    /* */
+  }
+  const plan = dayBudgetForActive(activeClean, state.day_unique, {
+    replies_7d,
+    acceleration_mult: accel_mult,
+  });
   if (plan.governor) notes.push(plan.governor);
 
   let nudged = 0;
@@ -1195,7 +1222,17 @@ export async function getDemoNudgeStatus() {
   ).length;
   const never_contacted = Math.max(0, active_clean - cooling);
   const replies_7d = await countReplies7d();
-  const plan = dayBudgetForActive(active_clean, s.day_unique, { replies_7d });
+  let accel_mult = 1;
+  try {
+    const { getAccelerationMultipliers } = await import("./autocatalysis");
+    accel_mult = (await getAccelerationMultipliers()).day_budget_mult;
+  } catch {
+    /* */
+  }
+  const plan = dayBudgetForActive(active_clean, s.day_unique, {
+    replies_7d,
+    acceleration_mult: accel_mult,
+  });
   const max_per_cycle = capForActive(
     active_clean,
     never_contacted,

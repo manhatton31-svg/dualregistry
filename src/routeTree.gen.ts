@@ -72,6 +72,7 @@ import { Route as ApiProbesIndexRouteImport } from './routes/api/probes/index'
 import { Route as ApiProductsAccessRouteImport } from './routes/api/products/access'
 import { Route as ApiProductsAgentRouteImport } from './routes/api/products/agent'
 import { Route as ApiProductsAgentfinderRouteImport } from './routes/api/products/agentfinder'
+import { Route as ApiProductsAutocatalysisRouteImport } from './routes/api/products/autocatalysis'
 import { Route as ApiProductsCheckoutRouteImport } from './routes/api/products/checkout'
 import { Route as ApiProductsConfirmRouteImport } from './routes/api/products/confirm'
 import { Route as ApiProductsConversionRouteImport } from './routes/api/products/conversion'
@@ -429,6 +430,12 @@ const ApiProductsAgentfinderRoute = ApiProductsAgentfinderRouteImport.update({
   path: '/api/products/agentfinder',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsAutocatalysisRoute =
+  ApiProductsAutocatalysisRouteImport.update({
+    id: '/api/products/autocatalysis',
+    path: '/api/products/autocatalysis',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiProductsCheckoutRoute = ApiProductsCheckoutRouteImport.update({
   id: '/api/products/checkout',
   path: '/api/products/checkout',
@@ -640,6 +647,7 @@ export interface FileRoutesByFullPath {
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
   '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
+  '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -734,6 +742,7 @@ export interface FileRoutesByTo {
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
   '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
+  '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -829,6 +838,7 @@ export interface FileRoutesById {
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
   '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
+  '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -925,6 +935,7 @@ export interface FileRouteTypes {
     | '/api/products/access'
     | '/api/products/agent'
     | '/api/products/agentfinder'
+    | '/api/products/autocatalysis'
     | '/api/products/checkout'
     | '/api/products/confirm'
     | '/api/products/conversion'
@@ -1019,6 +1030,7 @@ export interface FileRouteTypes {
     | '/api/products/access'
     | '/api/products/agent'
     | '/api/products/agentfinder'
+    | '/api/products/autocatalysis'
     | '/api/products/checkout'
     | '/api/products/confirm'
     | '/api/products/conversion'
@@ -1113,6 +1125,7 @@ export interface FileRouteTypes {
     | '/api/products/access'
     | '/api/products/agent'
     | '/api/products/agentfinder'
+    | '/api/products/autocatalysis'
     | '/api/products/checkout'
     | '/api/products/confirm'
     | '/api/products/conversion'
@@ -1207,6 +1220,7 @@ export interface RootRouteChildren {
   ApiProductsAccessRoute: typeof ApiProductsAccessRoute
   ApiProductsAgentRoute: typeof ApiProductsAgentRoute
   ApiProductsAgentfinderRoute: typeof ApiProductsAgentfinderRoute
+  ApiProductsAutocatalysisRoute: typeof ApiProductsAutocatalysisRoute
   ApiProductsCheckoutRoute: typeof ApiProductsCheckoutRoute
   ApiProductsConfirmRoute: typeof ApiProductsConfirmRoute
   ApiProductsConversionRoute: typeof ApiProductsConversionRoute
@@ -1683,6 +1697,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsAgentfinderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/autocatalysis': {
+      id: '/api/products/autocatalysis'
+      path: '/api/products/autocatalysis'
+      fullPath: '/api/products/autocatalysis'
+      preLoaderRoute: typeof ApiProductsAutocatalysisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/checkout': {
       id: '/api/products/checkout'
       path: '/api/products/checkout'
@@ -1962,6 +1983,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsAccessRoute: ApiProductsAccessRoute,
   ApiProductsAgentRoute: ApiProductsAgentRoute,
   ApiProductsAgentfinderRoute: ApiProductsAgentfinderRoute,
+  ApiProductsAutocatalysisRoute: ApiProductsAutocatalysisRoute,
   ApiProductsCheckoutRoute: ApiProductsCheckoutRoute,
   ApiProductsConfirmRoute: ApiProductsConfirmRoute,
   ApiProductsConversionRoute: ApiProductsConversionRoute,

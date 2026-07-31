@@ -76,16 +76,37 @@ async function persist(s: ConvState) {
 export async function getConversionPressureStatus() {
   const s = await load();
   const founding = await getFoundingFreePublic();
+  let day_cap = CONVERSION_DAY_CAP;
+  let accel: Record<string, unknown> | null = null;
+  try {
+    const { getAccelerationMultipliers } = await import("./autocatalysis");
+    const m = await getAccelerationMultipliers();
+    day_cap = Math.min(
+      60,
+      Math.floor(CONVERSION_DAY_CAP * m.conversion_room_mult) +
+        m.conversion_room_bonus,
+    );
+    accel = {
+      index: m.index,
+      conversion_room_mult: m.conversion_room_mult,
+      conversion_room_bonus: m.conversion_room_bonus,
+      effective_cap: day_cap,
+    };
+  } catch {
+    /* */
+  }
   return {
     ok: true,
-    version: "2.3.0",
+    version: "2.5.0",
     day: s.day,
     day_sent: s.day_sent,
-    day_cap: CONVERSION_DAY_CAP,
-    room: Math.max(0, CONVERSION_DAY_CAP - s.day_sent),
+    day_cap,
+    base_cap: CONVERSION_DAY_CAP,
+    room: Math.max(0, day_cap - s.day_sent),
     founding,
+    autocatalysis: accel,
     cooldown_days: 7,
-    law: "Multipath HTTPS only — never re-Talk-DM. 30d Talk silence untouched. Only Active clean already first-touched who never demoed.",
+    law: "Multipath HTTPS only — never re-Talk-DM. 30d Talk silence untouched. Only Active clean already first-touched who never demoed. Cap rises with acceleration_index.",
     recent: s.history.slice(-15),
   };
 }
@@ -124,7 +145,22 @@ export async function runConversionPressure(opts?: {
   }
 
   const s = await load();
-  const room = Math.max(0, CONVERSION_DAY_CAP - s.day_sent);
+  let day_cap = CONVERSION_DAY_CAP;
+  try {
+    const { getAccelerationMultipliers } = await import("./autocatalysis");
+    const m = await getAccelerationMultipliers();
+    day_cap = Math.min(
+      60,
+      Math.floor(CONVERSION_DAY_CAP * m.conversion_room_mult) +
+        m.conversion_room_bonus,
+    );
+    notes.push(
+      `autocatalysis: index=${m.index} cap=${day_cap} (base ${CONVERSION_DAY_CAP} + bonus ${m.conversion_room_bonus})`,
+    );
+  } catch {
+    /* */
+  }
+  const room = Math.max(0, day_cap - s.day_sent);
   const max = Math.min(room, Math.max(1, opts?.max ?? 8));
   if (room <= 0) {
     return {
@@ -194,7 +230,10 @@ export async function runConversionPressure(opts?: {
   const ranked = candidates
     .map((L) => ({
       L,
-      score: scoreNudgePriority(L, ctx) + (L.agent_card_url ? 20 : 0),
+      score:
+        scoreNudgePriority(L, ctx) +
+        (L.agent_card_url ? 20 : 0) +
+        (ctx.trail_score?.get(L.id) || 0) * 0.5,
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, max);
