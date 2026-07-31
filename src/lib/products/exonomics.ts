@@ -298,6 +298,41 @@ async function gatherDensity(): Promise<DensitySnapshot> {
     /* */
   }
 
+  // Cold Vercel instances: fall back to durable live counters / floors
+  if (N < 1) {
+    try {
+      const { loadDurableJson } = await import("@/lib/agents1/durable-json");
+      const live = await loadDurableJson<{
+        live_ok?: number;
+        live_mcp?: number;
+        live_agents?: number;
+      }>("live-counters.json", () => ({}));
+      const total =
+        Number(live.live_ok || 0) ||
+        Number(live.live_mcp || 0) + Number(live.live_agents || 0);
+      if (total > 0) N = total;
+    } catch {
+      /* */
+    }
+  }
+  if (N < 1) {
+    try {
+      const { loadDurableJson } = await import("@/lib/agents1/durable-json");
+      const floors = await loadDurableJson<{
+        live_floor?: { total?: number };
+        store_mcp_floor?: number;
+        store_agents_floor?: number;
+      }>("counter-floors.json", () => ({}));
+      const total =
+        Number(floors.live_floor?.total || 0) ||
+        Number(floors.store_mcp_floor || 0) +
+          Number(floors.store_agents_floor || 0);
+      if (total > 0) N = total;
+    } catch {
+      /* */
+    }
+  }
+
   try {
     const { getFirstPrinciplesPublic } = await import("./first-principles");
     const fp = await getFirstPrinciplesPublic({});
