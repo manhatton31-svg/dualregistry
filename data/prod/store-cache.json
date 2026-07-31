@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-07-31T13:05:01.833Z",
+  "updated_at": "2026-07-31T13:06:47.476Z",
   "source": "https://grok-agent-store.manhatton31.workers.dev",
   "live": true,
-  "mcp_approved": 332,
-  "agents_approved": 492,
+  "mcp_approved": 331,
+  "agents_approved": 489,
   "mcp_target": 0,
   "agents_target": 0,
   "milestones": {
@@ -13,7 +13,7 @@
       "agents_approved": 0
     },
     "mcp": {
-      "approved": 332,
+      "approved": 331,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -21,7 +21,7 @@
       "unlimited": true
     },
     "agents": {
-      "approved": 492,
+      "approved": 489,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -41,7 +41,7 @@
         "https://grok-agent-store.manhatton31.workers.dev/registry.json"
       ]
     },
-    "updated_at": "2026-07-31T13:05:01.833Z"
+    "updated_at": "2026-07-31T13:06:03.153Z"
   },
   "mcp_items": [
     {
@@ -3248,1711 +3248,6 @@
   ],
   "agent_items": [
     {
-      "id": "agtpub_74b52ddb1e5a82ef3b48",
-      "slug": "hackai-hack-230679",
-      "name": "HackAI_Hack-230679",
-      "description": "The Temperature Alert Agent is a Python script that utilizes the uAgents library to monitor real-time temperatures from the OpenWeatherMap API. Users can set a preferred temperature range for a specific location, and the script will alert them if the temperature goes beyond this range.",
-      "repository": "https://github.com/Jai0401/HackAI_Hack-230679",
-      "framework": "uagents",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "fetch-ai",
-        "fetchai",
-        "python",
-        "temperature-monitoring",
-        "uagents",
-        "weather-api"
-      ],
-      "skills": [
-        {
-          "name": "fetch-ai"
-        },
-        {
-          "name": "fetchai"
-        },
-        {
-          "name": "python"
-        },
-        {
-          "name": "temperature-monitoring"
-        },
-        {
-          "name": "uagents"
-        }
-      ],
-      "author": "Jai0401",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T12:30:21.512Z",
-      "created_at": "2026-07-31T12:30:21.512Z",
-      "updated_at": "2026-07-31T12:30:21.512Z"
-    },
-    {
-      "id": "agtpub_3746e864ab7ba53dbbf5",
-      "slug": "chronodesk",
-      "name": "chronodesk",
-      "description": "AI-agent-native ticket automation platform with current MCP, A2A, CloudEvents, Go, React, PostgreSQL, and Redis.",
-      "repository": "https://github.com/seaworld008/chronodesk",
-      "framework": "a2a",
-      "protocols": [
-        "a2a",
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "a2a",
-        "ai-agents",
-        "automation",
-        "cloudevents",
-        "golang",
-        "helpdesk",
-        "mcp",
-        "openapi"
-      ],
-      "skills": [
-        {
-          "name": "a2a"
-        },
-        {
-          "name": "ai-agents"
-        },
-        {
-          "name": "automation"
-        },
-        {
-          "name": "cloudevents"
-        },
-        {
-          "name": "golang"
-        }
-      ],
-      "author": "seaworld008",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T11:30:24.989Z",
-      "created_at": "2026-07-31T11:30:24.989Z",
-      "updated_at": "2026-07-31T11:30:24.989Z"
-    },
-    {
-      "id": "agtpub_3db1602c723507f0698a",
-      "slug": "batesian",
-      "name": "batesian",
-      "description": "Active security scanner for A2A and MCP servers",
-      "endpoint_url": "https://pkg.go.dev/github.com/calbebop/batesian",
-      "agent_card_url": "https://pkg.go.dev/github.com/calbebop/batesian/.well-known/agent.json",
-      "repository": "https://github.com/calbebop/batesian",
-      "website": "https://pkg.go.dev/github.com/calbebop/batesian",
-      "framework": "a2a",
-      "protocols": [
-        "a2a",
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "a2a",
-        "agent-security",
-        "ai-security",
-        "dast",
-        "mcp",
-        "oauth",
-        "red-team"
-      ],
-      "skills": [
-        {
-          "name": "a2a"
-        },
-        {
-          "name": "agent-security"
-        },
-        {
-          "name": "ai-security"
-        },
-        {
-          "name": "dast"
-        },
-        {
-          "name": "mcp"
-        }
-      ],
-      "author": "calbebop",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T11:30:23.372Z",
-      "created_at": "2026-07-31T11:30:23.372Z",
-      "updated_at": "2026-07-31T11:30:23.372Z"
-    },
-    {
-      "id": "agtpub_70095bd3b098b066daee",
-      "slug": "forge-harness",
-      "name": "forge-harness",
-      "description": "Forge your Claude Code projects — pass them through, they come out faster.",
-      "endpoint_url": "https://www.npmjs.com/package/@chrono-meta/fh-gate",
-      "agent_card_url": "https://www.npmjs.com/package/@chrono-meta/fh-gate/.well-known/agent.json",
-      "repository": "https://github.com/chrono-meta/forge-harness",
-      "website": "https://www.npmjs.com/package/@chrono-meta/fh-gate",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "ai-agent",
-        "anthropic",
-        "claude",
-        "claude-code",
-        "codex",
-        "developer-tools",
-        "harness",
-        "knowledge-management"
-      ],
-      "skills": [
-        {
-          "name": "ai-agent"
-        },
-        {
-          "name": "anthropic"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "claude-code"
-        },
-        {
-          "name": "codex"
-        }
-      ],
-      "author": "chrono-meta",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T11:00:28.240Z",
-      "created_at": "2026-07-31T11:00:28.240Z",
-      "updated_at": "2026-07-31T11:00:28.240Z"
-    },
-    {
-      "id": "agtpub_94d31df7b4eb4e3dd632",
-      "slug": "vscode",
-      "name": "vscode",
-      "description": "Maho extension for VSCode/VSCodium.",
-      "endpoint_url": "https://mahocommerce.com/",
-      "agent_card_url": "https://mahocommerce.com/.well-known/agent.json",
-      "repository": "https://github.com/MahoCommerce/vscode",
-      "website": "https://mahocommerce.com/",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "ecommerce",
-        "maho",
-        "vscode",
-        "vscode-extension",
-        "vscodium",
-        "vscodium-extension"
-      ],
-      "skills": [
-        {
-          "name": "ecommerce"
-        },
-        {
-          "name": "maho"
-        },
-        {
-          "name": "vscode"
-        },
-        {
-          "name": "vscode-extension"
-        },
-        {
-          "name": "vscodium"
-        }
-      ],
-      "author": "MahoCommerce",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T11:00:26.518Z",
-      "created_at": "2026-07-31T11:00:26.518Z",
-      "updated_at": "2026-07-31T11:00:26.518Z"
-    },
-    {
-      "id": "agtpub_0924c3f130b964a37509",
-      "slug": "academic-research",
-      "name": "academic-research",
-      "description": "Modular academic research pipeline for Claude Code — 10+ databases, 6-tier PDF resolution, citation management",
-      "repository": "https://github.com/ahlerjam/academic-research",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "search",
-        "retrieval",
-        "coding",
-        "developer-tools",
-        "research",
-        "summarization",
-        "academic",
-        "modular",
-        "pipeline",
-        "claude",
-        "code",
-        "databases",
-        "tier",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "academic"
-        },
-        {
-          "name": "research"
-        },
-        {
-          "name": "modular"
-        },
-        {
-          "name": "pipeline"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "code"
-        }
-      ],
-      "author": "ahlerjam",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T12:01:11.623Z",
-      "created_at": "2026-07-31T11:00:25.563Z",
-      "updated_at": "2026-07-31T12:01:11.623Z"
-    },
-    {
-      "id": "agtpub_f0ab7272820088bae61d",
-      "slug": "client-matrix",
-      "name": "client_matrix",
-      "description": "client_matrix — agent-related open source project discovered via GitHub search.",
-      "repository": "https://github.com/noobclaw/client_matrix",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "client",
-        "matrix",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "client"
-        },
-        {
-          "name": "matrix"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        }
-      ],
-      "author": "noobclaw",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T12:01:12.586Z",
-      "created_at": "2026-07-31T11:00:24.709Z",
-      "updated_at": "2026-07-31T12:01:12.586Z"
-    },
-    {
-      "id": "agtpub_da0f68e58936dfdecce2",
-      "slug": "gitnexus",
-      "name": "GitNexus",
-      "description": "GitNexus: The Zero-Server Code Intelligence Engine -       GitNexus is a client-side knowledge graph creator that runs entirely in your browser. Drop in a git repository (Github, Gitlab, Azure, Local) or ZIP file, and get an interactive knowledge graph with a built in Graph RAG Agent. Perfect for code exploration",
-      "endpoint_url": "https://gitnexus.vercel.app",
-      "agent_card_url": "https://gitnexus.vercel.app/.well-known/agent.json",
-      "repository": "https://github.com/abhigyanpatwari/GitNexus",
-      "website": "https://gitnexus.vercel.app",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "coding",
-        "developer-tools",
-        "gitnexus",
-        "zero",
-        "server",
-        "code",
-        "intelligence",
-        "engine",
-        "client",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "gitnexus"
-        },
-        {
-          "name": "zero"
-        },
-        {
-          "name": "server"
-        },
-        {
-          "name": "code"
-        },
-        {
-          "name": "intelligence"
-        },
-        {
-          "name": "engine"
-        }
-      ],
-      "author": "abhigyanpatwari",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T11:00:23.149Z",
-      "created_at": "2026-07-31T11:00:23.149Z",
-      "updated_at": "2026-07-31T11:00:23.149Z"
-    },
-    {
-      "id": "agtpub_6297f99df304529bcca5",
-      "slug": "spectre-kinetic",
-      "name": "spectre_kinetic",
-      "description": "Elixir-first planning toolkit for Action Language tool selection perfect for Agents.",
-      "repository": "https://github.com/elchemista/spectre_kinetic",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "ai-agents",
-        "elixir",
-        "planner"
-      ],
-      "skills": [
-        {
-          "name": "agents"
-        },
-        {
-          "name": "ai-agents"
-        },
-        {
-          "name": "elixir"
-        },
-        {
-          "name": "planner"
-        }
-      ],
-      "author": "elchemista",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T11:00:21.979Z",
-      "created_at": "2026-07-31T11:00:21.979Z",
-      "updated_at": "2026-07-31T11:00:21.979Z"
-    },
-    {
-      "id": "agtpub_7881ce63f383573d16b3",
-      "slug": "presentation-md",
-      "name": "presentation-md",
-      "description": "Turn rough notes into a polished, schema-validated slide deck in any AI agent (Claude Code, Cursor, Codex, Gemini CLI, Copilot) — then export native, editable PowerPoint, Keynote & Google Slides. Skill + MCP server.",
-      "endpoint_url": "https://presentation-md.vercel.app",
-      "agent_card_url": "https://presentation-md.vercel.app/.well-known/agent.json",
-      "repository": "https://github.com/isatimur/presentation-md",
-      "website": "https://presentation-md.vercel.app",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "ai-agent",
-        "claude-code",
-        "claude-code-plugin",
-        "claude-plugin",
-        "claude-skills",
-        "cursor",
-        "deck-generator",
-        "keynote"
-      ],
-      "skills": [
-        {
-          "name": "ai-agent"
-        },
-        {
-          "name": "claude-code"
-        },
-        {
-          "name": "claude-code-plugin"
-        },
-        {
-          "name": "claude-plugin"
-        },
-        {
-          "name": "claude-skills"
-        }
-      ],
-      "author": "isatimur",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T11:00:20.608Z",
-      "created_at": "2026-07-31T11:00:20.608Z",
-      "updated_at": "2026-07-31T11:00:20.608Z"
-    },
-    {
-      "id": "agtpub_58c13e7c47d249c23d2f",
-      "slug": "opengsc",
-      "name": "opengsc",
-      "description": "Open-source Google Search Console dashboard — sync GSC data, track rankings, analyze branded vs non-branded traffic. Self-hosted on your VPS.",
-      "endpoint_url": "https://opengsc.org/",
-      "agent_card_url": "https://opengsc.org/.well-known/agent.json",
-      "repository": "https://github.com/fenjo26/opengsc",
-      "website": "https://opengsc.org/",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "analytics",
-        "dashboard",
-        "google-search-console",
-        "gsc",
-        "nextjs",
-        "open-source",
-        "prisma",
-        "rank-tracking"
-      ],
-      "skills": [
-        {
-          "name": "analytics"
-        },
-        {
-          "name": "dashboard"
-        },
-        {
-          "name": "google-search-console"
-        },
-        {
-          "name": "gsc"
-        },
-        {
-          "name": "nextjs"
-        }
-      ],
-      "author": "fenjo26",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T11:00:18.694Z",
-      "created_at": "2026-07-31T11:00:18.694Z",
-      "updated_at": "2026-07-31T11:00:18.694Z"
-    },
-    {
-      "id": "agtpub_f20d09c984ada0073060",
-      "slug": "payments-py",
-      "name": "payments-py",
-      "description": "🐍 Python SDK to interact with the Nevermined Payments Protocol",
-      "endpoint_url": "https://nevermined-io.github.io/payments-py/",
-      "agent_card_url": "https://nevermined-io.github.io/payments-py/.well-known/agent.json",
-      "repository": "https://github.com/nevermined-io/payments-py",
-      "website": "https://nevermined-io.github.io/payments-py/",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "commerce",
-        "payments",
-        "coding",
-        "developer-tools",
-        "python",
-        "sdk",
-        "interact",
-        "nevermined",
-        "protocol",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "payments"
-        },
-        {
-          "name": "python"
-        },
-        {
-          "name": "sdk"
-        },
-        {
-          "name": "interact"
-        },
-        {
-          "name": "nevermined"
-        },
-        {
-          "name": "protocol"
-        }
-      ],
-      "author": "nevermined-io",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T10:30:21.199Z",
-      "created_at": "2026-07-31T10:30:21.199Z",
-      "updated_at": "2026-07-31T10:30:21.199Z"
-    },
-    {
-      "id": "agtpub_875a9cfb88f7fdb2ce50",
-      "slug": "base-agent-kit",
-      "name": "base-agent-kit",
-      "description": "base-agent-kit — agent-related open source project discovered via GitHub search.",
-      "endpoint_url": "https://base-agent-kit-pied.vercel.app",
-      "agent_card_url": "https://base-agent-kit-pied.vercel.app/.well-known/agent.json",
-      "repository": "https://github.com/dainagon89/base-agent-kit",
-      "website": "https://base-agent-kit-pied.vercel.app",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "base",
-        "kit",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "base"
-        },
-        {
-          "name": "kit"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        }
-      ],
-      "author": "dainagon89",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T10:30:19.335Z",
-      "created_at": "2026-07-31T10:30:19.335Z",
-      "updated_at": "2026-07-31T10:30:19.335Z"
-    },
-    {
-      "id": "agtpub_6a35294e34435b6d4710",
-      "slug": "hermes-a2a",
-      "name": "Hermes_A2A",
-      "description": "Hermes_A2A — agent-related open source project discovered via GitHub search.",
-      "repository": "https://github.com/WarwickSong/Hermes_A2A",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "a2a",
-        "hermes",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "hermes"
-        },
-        {
-          "name": "a2a"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        }
-      ],
-      "author": "WarwickSong",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T12:01:13.335Z",
-      "created_at": "2026-07-31T10:30:17.886Z",
-      "updated_at": "2026-07-31T12:01:13.335Z"
-    },
-    {
-      "id": "agtpub_419117c45b9bf9409f72",
-      "slug": "agentic-finance-network",
-      "name": "agentic-finance-network",
-      "description": "Autonomous multi-agent financial intelligence infrastructure built with Fetch.ai uAgents.",
-      "repository": "https://github.com/agenticfinance-dev/agentic-finance-network",
-      "framework": "uagents",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agentverse",
-        "autonomous-agents",
-        "bnb-chain",
-        "fetch-ai",
-        "financial-intelligence",
-        "infrastructure",
-        "multi-agent",
-        "python"
-      ],
-      "skills": [
-        {
-          "name": "agentverse"
-        },
-        {
-          "name": "autonomous-agents"
-        },
-        {
-          "name": "bnb-chain"
-        },
-        {
-          "name": "fetch-ai"
-        },
-        {
-          "name": "financial-intelligence"
-        }
-      ],
-      "author": "agenticfinance-dev",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T10:00:17.612Z",
-      "created_at": "2026-07-31T10:00:17.612Z",
-      "updated_at": "2026-07-31T10:00:17.612Z"
-    },
-    {
-      "id": "agtpub_43136792553cd2ec63b8",
-      "slug": "a2a-superhub",
-      "name": "a2a-superhub",
-      "description": "Durable A2A coordination with opt-in Markdown memory, offline inboxes, knowledge graph and timeline, plus authorized Qdrant hybrid retrieval.",
-      "endpoint_url": "https://phenomenoner.github.io/a2a-superhub/",
-      "agent_card_url": "https://phenomenoner.github.io/a2a-superhub/.well-known/agent.json",
-      "repository": "https://github.com/phenomenoner/a2a-superhub",
-      "website": "https://phenomenoner.github.io/a2a-superhub/",
-      "framework": "a2a",
-      "protocols": [
-        "a2a",
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "a2a",
-        "a2a-protocol",
-        "agent-memory",
-        "agent2agent",
-        "ai-agents",
-        "knowledge-graph",
-        "llm-agents",
-        "local-first"
-      ],
-      "skills": [
-        {
-          "name": "a2a"
-        },
-        {
-          "name": "a2a-protocol"
-        },
-        {
-          "name": "agent-memory"
-        },
-        {
-          "name": "agent2agent"
-        },
-        {
-          "name": "ai-agents"
-        }
-      ],
-      "author": "phenomenoner",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T09:00:17.867Z",
-      "created_at": "2026-07-31T09:00:17.867Z",
-      "updated_at": "2026-07-31T09:00:17.867Z"
-    },
-    {
-      "id": "agtpub_a260e4d7cbbde8c98edb",
-      "slug": "switchboard",
-      "name": "switchboard",
-      "description": "The public half of Devcontainer routing tool for my Claude sessions.",
-      "repository": "https://github.com/atelier-nyaarium/switchboard",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "switchboard",
-        "public",
-        "half",
-        "devcontainer",
-        "routing",
-        "tool",
-        "claude",
-        "sessions",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "switchboard"
-        },
-        {
-          "name": "public"
-        },
-        {
-          "name": "half"
-        },
-        {
-          "name": "devcontainer"
-        },
-        {
-          "name": "routing"
-        },
-        {
-          "name": "tool"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "sessions"
-        }
-      ],
-      "author": "atelier-nyaarium",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T12:01:14.063Z",
-      "created_at": "2026-07-31T08:30:23.885Z",
-      "updated_at": "2026-07-31T12:01:14.063Z"
-    },
-    {
-      "id": "agtpub_2fa38f2df2c9dc4ec678",
-      "slug": "webforj-ai",
-      "name": "webforj-ai",
-      "description": "The webforJ plugin for AI coding assistants.",
-      "repository": "https://github.com/webforj/webforj-ai",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "coding",
-        "developer-tools",
-        "webforj",
-        "plugin",
-        "assistants",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "webforj"
-        },
-        {
-          "name": "plugin"
-        },
-        {
-          "name": "coding"
-        },
-        {
-          "name": "assistants"
-        }
-      ],
-      "author": "webforj",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T12:01:14.811Z",
-      "created_at": "2026-07-31T08:30:23.279Z",
-      "updated_at": "2026-07-31T12:01:14.811Z"
-    },
-    {
-      "id": "agtpub_6c1c0938cbe0ee19de36",
-      "slug": "claude-config",
-      "name": "claude-config",
-      "description": "claude-config — agent-related open source project discovered via GitHub search.",
-      "repository": "https://github.com/wannabefro/claude-config",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "claude",
-        "config",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "config"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        }
-      ],
-      "author": "wannabefro",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T12:01:15.514Z",
-      "created_at": "2026-07-31T08:30:22.515Z",
-      "updated_at": "2026-07-31T12:01:15.514Z"
-    },
-    {
-      "id": "agtpub_ff6907d2c7dba7835ac6",
-      "slug": "aide",
-      "name": "aide",
-      "description": "Multi-agent orchestration, persistent memory, and intelligent workflows for AI coding assistants. Supports Claude Code, OpenCode and Codex.",
-      "endpoint_url": "https://jmylchreest.github.io/aide/",
-      "agent_card_url": "https://jmylchreest.github.io/aide/.well-known/agent.json",
-      "repository": "https://github.com/jmylchreest/aide",
-      "website": "https://jmylchreest.github.io/aide/",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "ai",
-        "ai-agents",
-        "ai-coding",
-        "claude-code",
-        "cli",
-        "code-assistant",
-        "code-indexing",
-        "codex"
-      ],
-      "skills": [
-        {
-          "name": "ai"
-        },
-        {
-          "name": "ai-agents"
-        },
-        {
-          "name": "ai-coding"
-        },
-        {
-          "name": "claude-code"
-        },
-        {
-          "name": "cli"
-        }
-      ],
-      "author": "jmylchreest",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T08:30:20.998Z",
-      "created_at": "2026-07-31T08:30:20.998Z",
-      "updated_at": "2026-07-31T08:30:20.998Z"
-    },
-    {
-      "id": "agtpub_d4c008b9729dcb8b3ee9",
-      "slug": "openwork",
-      "name": "openwork",
-      "description": "The open-source alternative to Claude Cowork (powered by opencode)",
-      "endpoint_url": "https://openworklabs.com",
-      "agent_card_url": "https://openworklabs.com/.well-known/agent.json",
-      "repository": "https://github.com/different-ai/openwork",
-      "website": "https://openworklabs.com",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "coding",
-        "developer-tools",
-        "openwork",
-        "alternative",
-        "claude",
-        "cowork",
-        "powered",
-        "opencode",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "openwork"
-        },
-        {
-          "name": "alternative"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "cowork"
-        },
-        {
-          "name": "powered"
-        },
-        {
-          "name": "opencode"
-        }
-      ],
-      "author": "different-ai",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T08:30:19.072Z",
-      "created_at": "2026-07-31T08:30:19.072Z",
-      "updated_at": "2026-07-31T08:30:19.072Z"
-    },
-    {
-      "id": "agtpub_fec5ffa7e60fc0749c6b",
-      "slug": "cello-client",
-      "name": "cello-client",
-      "description": "The official client for the CELLO protocol — MCP server and native adapters for OpenClaw, NanoClaw, IronClaw, ZeroClaw, and other agent variants",
-      "repository": "https://github.com/Mygentic-AI/cello-client",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "agent-to-agent",
-        "ai-agents",
-        "cello",
-        "claw",
-        "cryptographic-identity",
-        "mcp",
-        "mcp-server",
-        "openclaw"
-      ],
-      "skills": [
-        {
-          "name": "agent-to-agent"
-        },
-        {
-          "name": "ai-agents"
-        },
-        {
-          "name": "cello"
-        },
-        {
-          "name": "claw"
-        },
-        {
-          "name": "cryptographic-identity"
-        }
-      ],
-      "author": "Mygentic-AI",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T08:30:17.468Z",
-      "created_at": "2026-07-31T08:30:17.468Z",
-      "updated_at": "2026-07-31T08:30:17.468Z"
-    },
-    {
-      "id": "agtpub_c9870b79be7f4faab49c",
-      "slug": "extract-llms-docs",
-      "name": "extract-llms-docs",
-      "description": "Extract documentation for AI agents from any site with llms.txt support. Features MCP server, REST API, batch processing, and multiple export formats.",
-      "endpoint_url": "https://llm.energy",
-      "agent_card_url": "https://llm.energy/.well-known/agent.json",
-      "repository": "https://github.com/nirholas/extract-llms-docs",
-      "website": "https://llm.energy",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "ai",
-        "ai-agents",
-        "claude",
-        "cursor",
-        "developer-tools",
-        "documentation",
-        "llm",
-        "llms-txt"
-      ],
-      "skills": [
-        {
-          "name": "ai"
-        },
-        {
-          "name": "ai-agents"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "cursor"
-        },
-        {
-          "name": "developer-tools"
-        }
-      ],
-      "author": "nirholas",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T08:00:22.178Z",
-      "created_at": "2026-07-31T08:00:22.178Z",
-      "updated_at": "2026-07-31T08:00:22.178Z"
-    },
-    {
-      "id": "agtpub_0e58c1804b88f9a3de9e",
-      "slug": "lyra-intel",
-      "name": "lyra-intel",
-      "description": "Lyra Intel is an intelligence platform designed to analyze repositories of any size - from small projects to enterprise monorepos with millions of lines of code. With 70+ components, it provides end-to-end analysis, security scanning, AI integration, and more.",
-      "endpoint_url": "https://lyra-intel.vercel.app",
-      "agent_card_url": "https://lyra-intel.vercel.app/.well-known/agent.json",
-      "repository": "https://github.com/nirholas/lyra-intel",
-      "website": "https://lyra-intel.vercel.app",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "mcp"
-      ],
-      "skills": [
-        {
-          "name": "mcp"
-        }
-      ],
-      "author": "nirholas",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T08:00:20.134Z",
-      "created_at": "2026-07-31T08:00:20.134Z",
-      "updated_at": "2026-07-31T08:00:20.134Z"
-    },
-    {
-      "id": "agtpub_248e32a5fd28013f6ea0",
-      "slug": "distributed-multi-agent-system-for-course-creation",
-      "name": "Distributed-Multi-Agent-System-for-Course-Creation",
-      "description": "Deployed with Google Cloud.",
-      "repository": "https://github.com/hudatou123/Distributed-Multi-Agent-System-for-Course-Creation",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "a2a-protocol",
-        "agent",
-        "docker",
-        "fastapi",
-        "gcp-project",
-        "google-gemini",
-        "mcp",
-        "multi-agent"
-      ],
-      "skills": [
-        {
-          "name": "a2a-protocol"
-        },
-        {
-          "name": "agent"
-        },
-        {
-          "name": "docker"
-        },
-        {
-          "name": "fastapi"
-        },
-        {
-          "name": "gcp-project"
-        }
-      ],
-      "author": "hudatou123",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T08:00:18.223Z",
-      "created_at": "2026-07-31T08:00:18.223Z",
-      "updated_at": "2026-07-31T08:00:18.223Z"
-    },
-    {
-      "id": "agtpub_70e53c1bbb349e3c28bc",
-      "slug": "clipforge",
-      "name": "clipforge",
-      "description": "ClipForge（原『带货剪手』/ daihuo-jianshou）：开源 AI 带货短视频神器——上传一张商品图，AI 自动提炼卖点 + 写种草脚本 + 锁定商品原图不变形 + 配画面/配音/字幕，一键产出抖音小店 / 快手 / 小红书 / TikTok Shop 卖货短视频。0 成本批量出片、开源无水印、本地自部署。也支持一句话主题成片。Open-source AI e-commerce/UGC short-video generator.",
-      "endpoint_url": "https://xixihhhh.github.io/clipforge/",
-      "agent_card_url": "https://xixihhhh.github.io/clipforge/.well-known/agent.json",
-      "repository": "https://github.com/xixihhhh/clipforge",
-      "website": "https://xixihhhh.github.io/clipforge/",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "ai-ugc",
-        "ai-video-creator",
-        "ai-video-generator",
-        "ai-voiceover",
-        "aigc",
-        "douyin",
-        "ecommerce",
-        "faceless-video"
-      ],
-      "skills": [
-        {
-          "name": "ai-ugc"
-        },
-        {
-          "name": "ai-video-creator"
-        },
-        {
-          "name": "ai-video-generator"
-        },
-        {
-          "name": "ai-voiceover"
-        },
-        {
-          "name": "aigc"
-        }
-      ],
-      "author": "xixihhhh",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 93,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T06:00:26.585Z",
-      "created_at": "2026-07-31T06:00:26.585Z",
-      "updated_at": "2026-07-31T06:00:26.585Z"
-    },
-    {
-      "id": "agtpub_c6fcd25c08e376f579f0",
-      "slug": "cantos-plugin",
-      "name": "cantos-plugin",
-      "description": "The full Cantos system as a one-command Claude Code plugin: a self-improving, multi-agent assistant orchestrator that routes each request to a specialist assistant.",
-      "endpoint_url": "https://github.com/ne11nn/cantos",
-      "agent_card_url": "https://github.com/ne11nn/cantos/.well-known/agent.json",
-      "repository": "https://github.com/ne11nn/cantos-plugin",
-      "website": "https://github.com/ne11nn/cantos",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agentic-ai",
-        "ai-agents",
-        "ai-assistant",
-        "ai-orchestration",
-        "anthropic",
-        "claude",
-        "claude-code",
-        "claude-code-plugin"
-      ],
-      "skills": [
-        {
-          "name": "agentic-ai"
-        },
-        {
-          "name": "ai-agents"
-        },
-        {
-          "name": "ai-assistant"
-        },
-        {
-          "name": "ai-orchestration"
-        },
-        {
-          "name": "anthropic"
-        }
-      ],
-      "author": "ne11nn",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 93,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T06:00:24.994Z",
-      "created_at": "2026-07-31T06:00:24.994Z",
-      "updated_at": "2026-07-31T06:00:24.994Z"
-    },
-    {
-      "id": "agtpub_f54bd0a0af4df0d4c541",
-      "slug": "noname-mcp",
-      "name": "noname-mcp",
-      "description": "noname-mcp — agent-related open source project discovered via GitHub search.",
-      "repository": "https://github.com/savelev-sa/noname-mcp",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "mcp",
-        "tools",
-        "noname",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "noname"
-        },
-        {
-          "name": "mcp"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        }
-      ],
-      "author": "savelev-sa",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T06:00:22.585Z",
-      "created_at": "2026-07-31T06:00:22.585Z",
-      "updated_at": "2026-07-31T06:00:22.585Z"
-    },
-    {
-      "id": "agtpub_426af2f6d2d0b11e3866",
-      "slug": "brain-creator",
-      "name": "brain-creator",
-      "description": "brain-creator — agent-related open source project discovered via GitHub search.",
-      "repository": "https://github.com/zhuyanlong0091-prog/brain-creator",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "brain",
-        "creator",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "brain"
-        },
-        {
-          "name": "creator"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        }
-      ],
-      "author": "zhuyanlong0091-prog",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T06:00:21.357Z",
-      "created_at": "2026-07-31T06:00:21.357Z",
-      "updated_at": "2026-07-31T06:00:21.357Z"
-    },
-    {
-      "id": "agtpub_fbe8a884ad4507dbe2e4",
-      "slug": "codex-kit",
-      "name": "codex-kit",
-      "description": "codex-kit — agent-related open source project discovered via GitHub search.",
-      "repository": "https://github.com/Chlience/codex-kit",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "coding",
-        "developer-tools",
-        "codex",
-        "kit",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "codex"
-        },
-        {
-          "name": "kit"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        }
-      ],
-      "author": "Chlience",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T06:00:20.093Z",
-      "created_at": "2026-07-31T06:00:20.093Z",
-      "updated_at": "2026-07-31T06:00:20.093Z"
-    },
-    {
-      "id": "agtpub_8a6eb991e8ab72c11fb3",
-      "slug": "agenticoshybrid",
-      "name": "AgenticosHybrid",
-      "description": "AgenticosHybrid — agent-related open source project discovered via GitHub search.",
-      "repository": "https://github.com/rachidSabah/AgenticosHybrid",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "agenticoshybrid",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "agenticoshybrid"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        },
-        {
-          "name": "search"
-        }
-      ],
-      "author": "rachidSabah",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T06:00:19.168Z",
-      "created_at": "2026-07-31T06:00:19.168Z",
-      "updated_at": "2026-07-31T06:00:19.168Z"
-    },
-    {
-      "id": "agtpub_4e06257106fa618a9478",
-      "slug": "claude-code-templates",
-      "name": "claude-code-templates",
-      "description": "claude-code-templates — agent-related open source project discovered via GitHub search.",
-      "repository": "https://github.com/freshdollars23/claude-code-templates",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "coding",
-        "developer-tools",
-        "claude",
-        "code",
-        "templates",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "code"
-        },
-        {
-          "name": "templates"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        }
-      ],
-      "author": "freshdollars23",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T06:00:17.758Z",
-      "created_at": "2026-07-31T06:00:17.758Z",
-      "updated_at": "2026-07-31T06:00:17.758Z"
-    },
-    {
-      "id": "agtpub_9683ce41a40a712ef4a4",
-      "slug": "free-claude",
-      "name": "free-claude",
-      "description": "free-claude — agent-related open source project discovered via GitHub search.",
-      "repository": "https://github.com/vparsatwar-git/free-claude",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "free",
-        "claude",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "free"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        }
-      ],
-      "author": "vparsatwar-git",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T07:00:39.336Z",
-      "created_at": "2026-07-31T05:30:19.077Z",
-      "updated_at": "2026-07-31T07:00:39.336Z"
-    },
-    {
       "id": "agtpub_c6869db9a790019cf84b",
       "slug": "med-autoscience",
       "name": "med-autoscience",
@@ -5123,113 +3418,6 @@
       "updated_at": "2026-07-31T03:30:22.882Z"
     },
     {
-      "id": "agtpub_3c99d9388bfe6432ae41",
-      "slug": "cat-harness",
-      "name": "cat-harness",
-      "description": "🐱 Ask-before-building workflow harness for Claude Code — auto-routes vague requests through interview → consensus plan → evidence-gated execution. No slash commands needed.",
-      "endpoint_url": "https://chussum.github.io/cat-harness/",
-      "agent_card_url": "https://chussum.github.io/cat-harness/.well-known/agent.json",
-      "repository": "https://github.com/chussum/cat-harness",
-      "website": "https://chussum.github.io/cat-harness/",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "ai-agents",
-        "automation",
-        "claude",
-        "claude-code",
-        "claude-code-plugin",
-        "code-quality",
-        "developer-tools",
-        "llm"
-      ],
-      "skills": [
-        {
-          "name": "ai-agents"
-        },
-        {
-          "name": "automation"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "claude-code"
-        },
-        {
-          "name": "claude-code-plugin"
-        }
-      ],
-      "author": "chussum",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T03:30:21.407Z",
-      "created_at": "2026-07-31T03:30:21.407Z",
-      "updated_at": "2026-07-31T03:30:21.407Z"
-    },
-    {
-      "id": "agtpub_dcb63a73ae289109be6b",
-      "slug": "enablenext",
-      "name": "enablenext",
-      "description": "enablenext — agent-related open source project discovered via GitHub search.",
-      "endpoint_url": "https://enablenext-client.vercel.app",
-      "agent_card_url": "https://enablenext-client.vercel.app/.well-known/agent.json",
-      "repository": "https://github.com/heza-ru/enablenext",
-      "website": "https://enablenext-client.vercel.app",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "agents",
-        "discovery",
-        "registry",
-        "search",
-        "retrieval",
-        "enablenext",
-        "related",
-        "project",
-        "discovered",
-        "via",
-        "rest"
-      ],
-      "skills": [
-        {
-          "name": "peer-discovery"
-        },
-        {
-          "name": "enablenext"
-        },
-        {
-          "name": "related"
-        },
-        {
-          "name": "project"
-        },
-        {
-          "name": "discovered"
-        },
-        {
-          "name": "via"
-        },
-        {
-          "name": "search"
-        }
-      ],
-      "author": "heza-ru",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T03:30:19.688Z",
-      "created_at": "2026-07-31T03:30:19.688Z",
-      "updated_at": "2026-07-31T03:30:19.688Z"
-    },
-    {
       "id": "agtpub_1666ebf6eb251ac000e4",
       "slug": "fidscript-deploy",
       "name": "fidscript-deploy",
@@ -5395,105 +3583,6 @@
       "approved_at": "2026-07-31T03:00:19.168Z",
       "created_at": "2026-07-31T03:00:19.168Z",
       "updated_at": "2026-07-31T03:00:19.168Z"
-    },
-    {
-      "id": "agtpub_92ef583e301edad0bc0d",
-      "slug": "breeze",
-      "name": "breeze",
-      "description": "The open-source IT platform that comes with the workers. RMM + PSA in one system, with a governed AI operator built in.",
-      "endpoint_url": "https://breezermm.com",
-      "agent_card_url": "https://breezermm.com/.well-known/agent.json",
-      "repository": "https://github.com/LanternOps/breeze",
-      "website": "https://breezermm.com",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "golang",
-        "it-management",
-        "monitoring",
-        "msp",
-        "remote-management",
-        "rmm",
-        "self-hosted",
-        "typescript"
-      ],
-      "skills": [
-        {
-          "name": "golang"
-        },
-        {
-          "name": "it-management"
-        },
-        {
-          "name": "monitoring"
-        },
-        {
-          "name": "msp"
-        },
-        {
-          "name": "remote-management"
-        }
-      ],
-      "author": "LanternOps",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T01:00:23.198Z",
-      "created_at": "2026-07-31T01:00:23.198Z",
-      "updated_at": "2026-07-31T01:00:23.198Z"
-    },
-    {
-      "id": "agtpub_92eae1c9c65efe52ecd1",
-      "slug": "agentchat-claude-code",
-      "name": "agentchat-claude-code",
-      "description": "AgentChat for Claude Code — give your Claude Code agent a persistent @handle other agents can DM. Official plugin: MCP tools, session hooks, inbox digests, peer etiquette.",
-      "endpoint_url": "https://agentchat.me",
-      "agent_card_url": "https://agentchat.me/.well-known/agent.json",
-      "repository": "https://github.com/agentchatme/agentchat-claude-code",
-      "website": "https://agentchat.me",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "agent-to-agent",
-        "agentchat",
-        "agents",
-        "claude",
-        "claude-code",
-        "mcp",
-        "messaging",
-        "plugin"
-      ],
-      "skills": [
-        {
-          "name": "agent-to-agent"
-        },
-        {
-          "name": "agentchat"
-        },
-        {
-          "name": "agents"
-        },
-        {
-          "name": "claude"
-        },
-        {
-          "name": "claude-code"
-        }
-      ],
-      "author": "agentchatme",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T01:00:21.186Z",
-      "created_at": "2026-07-31T01:00:21.186Z",
-      "updated_at": "2026-07-31T01:00:21.186Z"
     },
     {
       "id": "agtpub_633c1701d11859ae0e43",
@@ -5708,56 +3797,6 @@
       "updated_at": "2026-07-31T01:00:54.889Z"
     },
     {
-      "id": "agtpub_ec933d999288a6d355c8",
-      "slug": "lantern",
-      "name": "lantern",
-      "description": "Production runtime for AI agents — run the whole stack locally with one command, ship to your own cloud. Real WhatsApp/Slack/voice/web channels, multi-LLM routing, durable workflows, cost forecasting, eval-in-CI, and verifiable receipts. Apache-2.0.",
-      "endpoint_url": "https://dshakes.github.io/lantern/",
-      "agent_card_url": "https://dshakes.github.io/lantern/.well-known/agent.json",
-      "repository": "https://github.com/dshakes/lantern",
-      "website": "https://dshakes.github.io/lantern/",
-      "protocols": [
-        "mcp",
-        "rest"
-      ],
-      "capabilities": [
-        "agent-framework",
-        "ai-agents",
-        "firecracker",
-        "go",
-        "llm",
-        "mcp",
-        "multi-tenant",
-        "observability"
-      ],
-      "skills": [
-        {
-          "name": "agent-framework"
-        },
-        {
-          "name": "ai-agents"
-        },
-        {
-          "name": "firecracker"
-        },
-        {
-          "name": "go"
-        },
-        {
-          "name": "llm"
-        }
-      ],
-      "author": "dshakes",
-      "tags": [],
-      "status": "approved",
-      "safety_score": 90,
-      "safety_flags": [],
-      "failed_checks": [],
-      "approved_at": "2026-07-31T00:30:18.095Z",
-      "created_at": "2026-07-31T00:30:18.095Z",
-      "updated_at": "2026-07-31T00:30:18.095Z"
-    },
-    {
       "id": "agtpub_034f3642b81fff731918",
       "slug": "cr8",
       "name": "cr8",
@@ -5865,6 +3904,1455 @@
       "approved_at": "2026-07-30T23:00:42.035Z",
       "created_at": "2026-07-30T22:30:22.601Z",
       "updated_at": "2026-07-30T23:00:42.035Z"
+    },
+    {
+      "id": "agtpub_f4d61a92bdeb79cfd12e",
+      "slug": "soredium",
+      "name": "soredium",
+      "description": "Everything needed to grow a garden — validators, CI, MCP server, Obsidian plugin, and Claude skill",
+      "repository": "https://github.com/Hortora/soredium",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "mcp",
+        "tools",
+        "soredium",
+        "everything",
+        "needed",
+        "grow",
+        "garden",
+        "validators",
+        "server",
+        "obsidian",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "soredium"
+        },
+        {
+          "name": "everything"
+        },
+        {
+          "name": "needed"
+        },
+        {
+          "name": "grow"
+        },
+        {
+          "name": "garden"
+        },
+        {
+          "name": "validators"
+        },
+        {
+          "name": "mcp"
+        },
+        {
+          "name": "server"
+        }
+      ],
+      "author": "Hortora",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T23:00:42.884Z",
+      "created_at": "2026-07-30T22:30:21.885Z",
+      "updated_at": "2026-07-30T23:00:42.884Z"
+    },
+    {
+      "id": "agtpub_07b7915548b1e798f5a0",
+      "slug": "tigrimosr",
+      "name": "TigrimOSR",
+      "description": "TigrimOSR is the Rust version of TigrimOS — a high-performance native desktop rewrite of the original Python/Node.js AI assistant. Built entirely in Rust using egui for the UI, TigrimOSR delivers faster startup, lower memory usage, and a single self-contained binary with no Node.js or Python runtime required to run the app itself.",
+      "repository": "https://github.com/Sompote/TigrimOSR",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "memory",
+        "context",
+        "coding",
+        "developer-tools",
+        "tigrimosr",
+        "rust",
+        "version",
+        "tigrimos",
+        "high",
+        "performance",
+        "native",
+        "desktop",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "tigrimosr"
+        },
+        {
+          "name": "rust"
+        },
+        {
+          "name": "version"
+        },
+        {
+          "name": "tigrimos"
+        },
+        {
+          "name": "high"
+        },
+        {
+          "name": "performance"
+        },
+        {
+          "name": "native"
+        }
+      ],
+      "author": "Sompote",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-31T01:00:55.704Z",
+      "created_at": "2026-07-30T22:30:21.134Z",
+      "updated_at": "2026-07-31T01:00:55.704Z"
+    },
+    {
+      "id": "agtpub_1ae57b92b356494e8ad4",
+      "slug": "cc-skills",
+      "name": "cc-skills",
+      "description": "Claude Code Skills Marketplace: plugins, skills for ADR-driven development, DevOps automation, ClickHouse management, semantic versioning, and productivity workflows",
+      "repository": "https://github.com/terrylica/cc-skills",
+      "protocols": [
+        "mcp",
+        "rest"
+      ],
+      "capabilities": [
+        "ai-agents",
+        "ai-tools",
+        "anthropic",
+        "automation",
+        "claude",
+        "claude-code",
+        "clickhouse",
+        "coding-assistant"
+      ],
+      "skills": [
+        {
+          "name": "ai-agents"
+        },
+        {
+          "name": "ai-tools"
+        },
+        {
+          "name": "anthropic"
+        },
+        {
+          "name": "automation"
+        },
+        {
+          "name": "claude"
+        }
+      ],
+      "author": "terrylica",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T22:30:19.901Z",
+      "created_at": "2026-07-30T22:30:19.901Z",
+      "updated_at": "2026-07-30T22:30:19.901Z"
+    },
+    {
+      "id": "agtpub_440eb1068575bab07377",
+      "slug": "tai-skeleton",
+      "name": "tai-skeleton",
+      "description": "tai-skeleton — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/tai42ai/tai-skeleton",
+      "protocols": [
+        "mcp",
+        "rest"
+      ],
+      "capabilities": [
+        "agentic-ai",
+        "mcp",
+        "mcp-server",
+        "python",
+        "tai",
+        "tai-core"
+      ],
+      "skills": [
+        {
+          "name": "agentic-ai"
+        },
+        {
+          "name": "mcp"
+        },
+        {
+          "name": "mcp-server"
+        },
+        {
+          "name": "python"
+        },
+        {
+          "name": "tai"
+        }
+      ],
+      "author": "tai42ai",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T22:30:19.003Z",
+      "created_at": "2026-07-30T22:30:19.003Z",
+      "updated_at": "2026-07-30T22:30:19.003Z"
+    },
+    {
+      "id": "agtpub_6407fe7c7cd5556e1e7a",
+      "slug": "obsidian-mcp-router",
+      "name": "obsidian-mcp-router",
+      "description": "MCP server that routes Claude tool calls to multiple Obsidian vaults (local or remote) over the Local REST API plugin.",
+      "repository": "https://github.com/tboome33/obsidian-mcp-router",
+      "protocols": [
+        "mcp",
+        "rest"
+      ],
+      "capabilities": [
+        "anthropic",
+        "claude-code",
+        "claude-desktop",
+        "karpathy",
+        "knowledge-management",
+        "llm-wiki",
+        "mcp",
+        "model-context-protocol"
+      ],
+      "skills": [
+        {
+          "name": "anthropic"
+        },
+        {
+          "name": "claude-code"
+        },
+        {
+          "name": "claude-desktop"
+        },
+        {
+          "name": "karpathy"
+        },
+        {
+          "name": "knowledge-management"
+        }
+      ],
+      "author": "tboome33",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T22:30:17.575Z",
+      "created_at": "2026-07-30T22:30:17.575Z",
+      "updated_at": "2026-07-30T22:30:17.575Z"
+    },
+    {
+      "id": "agtpub_4d073a879a4214b1d7e1",
+      "slug": "agentsouk",
+      "name": "AgentSouk",
+      "description": "AgentSouk — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/hukaichun/AgentSouk",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "agentsouk",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "agentsouk"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        },
+        {
+          "name": "discovered"
+        },
+        {
+          "name": "via"
+        },
+        {
+          "name": "search"
+        }
+      ],
+      "author": "hukaichun",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-31T01:00:56.587Z",
+      "created_at": "2026-07-30T22:00:18.572Z",
+      "updated_at": "2026-07-31T01:00:56.587Z"
+    },
+    {
+      "id": "agtpub_fe5e7506cf2109285f4e",
+      "slug": "autoharness",
+      "name": "autoharness",
+      "description": "Agent harness installer based on identified primitives of best practices in agent harness setups.",
+      "repository": "https://github.com/softwaresalt/autoharness",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "autoharness",
+        "harness",
+        "installer",
+        "based",
+        "identified",
+        "primitives",
+        "best",
+        "practices",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "autoharness"
+        },
+        {
+          "name": "harness"
+        },
+        {
+          "name": "installer"
+        },
+        {
+          "name": "based"
+        },
+        {
+          "name": "identified"
+        },
+        {
+          "name": "primitives"
+        },
+        {
+          "name": "best"
+        },
+        {
+          "name": "practices"
+        }
+      ],
+      "author": "softwaresalt",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T20:00:25.887Z",
+      "created_at": "2026-07-30T20:00:25.887Z",
+      "updated_at": "2026-07-30T20:00:25.887Z"
+    },
+    {
+      "id": "agtpub_61e3cf5f3c82d8eafdbf",
+      "slug": "autonoetic",
+      "name": "autonoetic",
+      "description": "Autonoetic Agent System",
+      "repository": "https://github.com/mandubian/autonoetic",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "autonoetic",
+        "system",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "autonoetic"
+        },
+        {
+          "name": "system"
+        }
+      ],
+      "author": "mandubian",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T20:00:24.325Z",
+      "created_at": "2026-07-30T20:00:24.325Z",
+      "updated_at": "2026-07-30T20:00:24.325Z"
+    },
+    {
+      "id": "agtpub_e03a3db4f8c2c9ba7eb1",
+      "slug": "red-skills",
+      "name": "red-skills",
+      "description": "red-skills — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/reddb-io/red-skills",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "red",
+        "skills",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "red"
+        },
+        {
+          "name": "skills"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        },
+        {
+          "name": "discovered"
+        },
+        {
+          "name": "via"
+        }
+      ],
+      "author": "reddb-io",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T20:00:22.984Z",
+      "created_at": "2026-07-30T20:00:22.984Z",
+      "updated_at": "2026-07-30T20:00:22.984Z"
+    },
+    {
+      "id": "agtpub_227e0f93b082d5ffb6e6",
+      "slug": "pkm-assistant",
+      "name": "PKM-Assistant",
+      "description": "AI Agent system for Obsidian - chat with your vault, edit files with AI assistance.",
+      "repository": "https://github.com/JDHole/PKM-Assistant",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "pkm",
+        "assistant",
+        "system",
+        "obsidian",
+        "chat",
+        "vault",
+        "edit",
+        "files",
+        "assistance",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "pkm"
+        },
+        {
+          "name": "assistant"
+        },
+        {
+          "name": "system"
+        },
+        {
+          "name": "obsidian"
+        },
+        {
+          "name": "chat"
+        },
+        {
+          "name": "vault"
+        },
+        {
+          "name": "edit"
+        },
+        {
+          "name": "files"
+        }
+      ],
+      "author": "JDHole",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T20:00:21.670Z",
+      "created_at": "2026-07-30T20:00:21.670Z",
+      "updated_at": "2026-07-30T20:00:21.670Z"
+    },
+    {
+      "id": "agtpub_4aad7ab3b10e71beba87",
+      "slug": "davekjohns-workshop",
+      "name": "davekjohns-workshop",
+      "description": "De werkplaats van Dave (DaveKJohn): de marketplace waar al zijn Claude-Code-plugins worden gebouwd, o.a. het Claude-Specialists-systeem.",
+      "repository": "https://github.com/DaveKJohn/davekjohns-workshop",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "coding",
+        "developer-tools",
+        "davekjohns",
+        "workshop",
+        "werkplaats",
+        "van",
+        "dave",
+        "davekjohn",
+        "marketplace",
+        "waar",
+        "zijn",
+        "claude",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "davekjohns"
+        },
+        {
+          "name": "workshop"
+        },
+        {
+          "name": "werkplaats"
+        },
+        {
+          "name": "van"
+        },
+        {
+          "name": "dave"
+        },
+        {
+          "name": "davekjohn"
+        },
+        {
+          "name": "marketplace"
+        },
+        {
+          "name": "waar"
+        }
+      ],
+      "author": "DaveKJohn",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T20:00:20.146Z",
+      "created_at": "2026-07-30T20:00:20.146Z",
+      "updated_at": "2026-07-30T20:00:20.146Z"
+    },
+    {
+      "id": "agtpub_28e08d8be12a4a400f26",
+      "slug": "claude-global-rules",
+      "name": "claude-global-rules",
+      "description": "Global Claude Code configuration: rules, conventions, audit roles, skills, and cross-project memory.",
+      "repository": "https://github.com/nullvoidundefined/claude-global-rules",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "memory",
+        "context",
+        "coding",
+        "developer-tools",
+        "claude",
+        "global",
+        "rules",
+        "code",
+        "configuration",
+        "conventions",
+        "audit",
+        "roles",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "claude"
+        },
+        {
+          "name": "global"
+        },
+        {
+          "name": "rules"
+        },
+        {
+          "name": "code"
+        },
+        {
+          "name": "configuration"
+        }
+      ],
+      "author": "nullvoidundefined",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T20:00:17.918Z",
+      "created_at": "2026-07-30T20:00:17.918Z",
+      "updated_at": "2026-07-30T20:00:17.918Z"
+    },
+    {
+      "id": "agtpub_fd0d696a84a3ebdd1191",
+      "slug": "tenzro-a2a-server",
+      "name": "tenzro-a2a-server",
+      "description": "tenzro-a2a-server — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/tenzro/tenzro-a2a-server",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "a2a",
+        "tenzro",
+        "server",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "tenzro"
+        },
+        {
+          "name": "a2a"
+        },
+        {
+          "name": "server"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        }
+      ],
+      "author": "tenzro",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T19:30:42.991Z",
+      "created_at": "2026-07-30T19:30:42.991Z",
+      "updated_at": "2026-07-30T19:30:42.991Z"
+    },
+    {
+      "id": "agtpub_515a5a05ed523afe033c",
+      "slug": "allclaws",
+      "name": "allclaws",
+      "description": "allclaws — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/dz3ai/allclaws",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "allclaws",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "allclaws"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        },
+        {
+          "name": "discovered"
+        },
+        {
+          "name": "via"
+        },
+        {
+          "name": "search"
+        }
+      ],
+      "author": "dz3ai",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T19:30:40.170Z",
+      "created_at": "2026-07-30T19:30:40.170Z",
+      "updated_at": "2026-07-30T19:30:40.170Z"
+    },
+    {
+      "id": "agtpub_a890339f95317b122f33",
+      "slug": "attestly",
+      "name": "attestly",
+      "description": "attestly — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/Jasonadmin123/attestly",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "attestly",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "attestly"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        },
+        {
+          "name": "discovered"
+        },
+        {
+          "name": "via"
+        },
+        {
+          "name": "search"
+        }
+      ],
+      "author": "Jasonadmin123",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T19:30:36.874Z",
+      "created_at": "2026-07-30T19:30:36.874Z",
+      "updated_at": "2026-07-30T19:30:36.874Z"
+    },
+    {
+      "id": "agtpub_79dd0f1c195026e43df2",
+      "slug": "hive-mcp-count",
+      "name": "hive-mcp-count",
+      "description": "Signed token count for the AI agent economy — counts input tokens for a prompt or chat messages and returns the count Ed25519-signed by HiveCompute, verifiable offline. Hive Civilization.",
+      "repository": "https://github.com/srotzin/hive-mcp-count",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "mcp",
+        "tools",
+        "hive",
+        "count",
+        "signed",
+        "token",
+        "economy",
+        "counts",
+        "input",
+        "tokens",
+        "prompt",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "hive"
+        },
+        {
+          "name": "mcp"
+        },
+        {
+          "name": "count"
+        },
+        {
+          "name": "signed"
+        },
+        {
+          "name": "token"
+        },
+        {
+          "name": "economy"
+        },
+        {
+          "name": "counts"
+        }
+      ],
+      "author": "srotzin",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T19:30:30.333Z",
+      "created_at": "2026-07-30T19:30:30.333Z",
+      "updated_at": "2026-07-30T19:30:30.333Z"
+    },
+    {
+      "id": "agtpub_fcb3705b6e42cbf65bcc",
+      "slug": "hive-mcp-swap",
+      "name": "hive-mcp-swap",
+      "description": "HiveSwap MCP Server — agent-native vAMM DEX. Swap USDC/USDCx/USAD/ALEO across 4 settlement rails.",
+      "repository": "https://github.com/srotzin/hive-mcp-swap",
+      "protocols": [
+        "mcp",
+        "rest"
+      ],
+      "capabilities": [
+        "agent-commerce",
+        "hive-civilization",
+        "mcp",
+        "model-context-protocol",
+        "x402"
+      ],
+      "skills": [
+        {
+          "name": "agent-commerce"
+        },
+        {
+          "name": "hive-civilization"
+        },
+        {
+          "name": "mcp"
+        },
+        {
+          "name": "model-context-protocol"
+        },
+        {
+          "name": "x402"
+        }
+      ],
+      "author": "srotzin",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T19:30:24.912Z",
+      "created_at": "2026-07-30T19:30:24.912Z",
+      "updated_at": "2026-07-30T19:30:24.912Z"
+    },
+    {
+      "id": "agtpub_7673b9ed0cd028203cf5",
+      "slug": "skill-concierge",
+      "name": "skill-concierge",
+      "description": "A skill-governance layer over Claude Code's default mechanism: semantic retrieval (which skill) + use-enforcement (whether Claude uses one) + a compounding invocation ledger.",
+      "repository": "https://github.com/thinhkhuat/skill-concierge",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "search",
+        "retrieval",
+        "coding",
+        "developer-tools",
+        "skill",
+        "concierge",
+        "governance",
+        "layer",
+        "over",
+        "claude",
+        "code",
+        "default",
+        "mechanism",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "skill"
+        },
+        {
+          "name": "concierge"
+        },
+        {
+          "name": "governance"
+        },
+        {
+          "name": "layer"
+        },
+        {
+          "name": "over"
+        },
+        {
+          "name": "claude"
+        },
+        {
+          "name": "code"
+        }
+      ],
+      "author": "thinhkhuat",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T17:30:29.159Z",
+      "created_at": "2026-07-30T17:30:29.159Z",
+      "updated_at": "2026-07-30T17:30:29.159Z"
+    },
+    {
+      "id": "agtpub_5cf115d35aa58583cac1",
+      "slug": "flipkart-listing",
+      "name": "Flipkart-listing",
+      "description": "Automated Flipkart Seller Hub listing agent - React + Node + Playwright + Gemini. Drives the whole Add-a-Single-Listing form: images, every tab, the variant matrix, QC.",
+      "repository": "https://github.com/yatinbhalla/Flipkart-listing",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "flipkart",
+        "listing",
+        "automated",
+        "seller",
+        "hub",
+        "react",
+        "node",
+        "playwright",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "flipkart"
+        },
+        {
+          "name": "listing"
+        },
+        {
+          "name": "automated"
+        },
+        {
+          "name": "seller"
+        },
+        {
+          "name": "hub"
+        },
+        {
+          "name": "react"
+        }
+      ],
+      "author": "yatinbhalla",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T17:30:27.944Z",
+      "created_at": "2026-07-30T17:30:27.944Z",
+      "updated_at": "2026-07-30T17:30:27.944Z"
+    },
+    {
+      "id": "agtpub_b105b810496c98b86f84",
+      "slug": "finops",
+      "name": "finops",
+      "description": "finops — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/manny864/finops",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "finops",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "finops"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        },
+        {
+          "name": "discovered"
+        },
+        {
+          "name": "via"
+        },
+        {
+          "name": "search"
+        }
+      ],
+      "author": "manny864",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T17:30:26.676Z",
+      "created_at": "2026-07-30T17:30:26.676Z",
+      "updated_at": "2026-07-30T17:30:26.676Z"
+    },
+    {
+      "id": "agtpub_078bfe958e29a3abab9b",
+      "slug": "rocketride-server",
+      "name": "rocketride-server",
+      "description": "High-performance AI pipeline engine with a C++ core and 50+ Python-extensible nodes. Build, debug, and scale LLM workflows with 13+ model providers, 8+ vector databases, and agent orchestration, all from your IDE. Includes VS Code extension, TypeScript/Python SDKs, and Docker deployment.",
+      "repository": "https://github.com/rocketride-org/rocketride-server",
+      "protocols": [
+        "mcp",
+        "rest"
+      ],
+      "capabilities": [
+        "ai",
+        "cpp",
+        "data-pipeline",
+        "data-processing",
+        "machine-learning",
+        "mcp",
+        "python",
+        "sdk"
+      ],
+      "skills": [
+        {
+          "name": "ai"
+        },
+        {
+          "name": "cpp"
+        },
+        {
+          "name": "data-pipeline"
+        },
+        {
+          "name": "data-processing"
+        },
+        {
+          "name": "machine-learning"
+        }
+      ],
+      "author": "rocketride-org",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T17:30:22.882Z",
+      "created_at": "2026-07-30T17:30:22.882Z",
+      "updated_at": "2026-07-30T17:30:22.882Z"
+    },
+    {
+      "id": "agtpub_a7ec446ac1e519def713",
+      "slug": "claude-skills",
+      "name": "claude-skills",
+      "description": "claude-skills — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/tylerprogramming/claude-skills",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "claude",
+        "skills",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "claude"
+        },
+        {
+          "name": "skills"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        },
+        {
+          "name": "discovered"
+        },
+        {
+          "name": "via"
+        }
+      ],
+      "author": "tylerprogramming",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T17:30:19.448Z",
+      "created_at": "2026-07-30T17:30:19.448Z",
+      "updated_at": "2026-07-30T17:30:19.448Z"
+    },
+    {
+      "id": "agtpub_c621f187100297153fd6",
+      "slug": "session-recall",
+      "name": "session-recall",
+      "description": "Shared memory for Claude Code and Codex. Your agent recalls decisions from weeks ago — including what the other engine worked out. Local semantic search over both histories, as MCP tools.",
+      "repository": "https://github.com/AbsoluteMode/session-recall",
+      "protocols": [
+        "mcp",
+        "rest"
+      ],
+      "capabilities": [
+        "agent-memory",
+        "ai-memory",
+        "anthropic",
+        "claude-code",
+        "codex",
+        "developer-tools",
+        "embeddings",
+        "mcp"
+      ],
+      "skills": [
+        {
+          "name": "agent-memory"
+        },
+        {
+          "name": "ai-memory"
+        },
+        {
+          "name": "anthropic"
+        },
+        {
+          "name": "claude-code"
+        },
+        {
+          "name": "codex"
+        }
+      ],
+      "author": "AbsoluteMode",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T17:30:18.127Z",
+      "created_at": "2026-07-30T17:30:18.127Z",
+      "updated_at": "2026-07-30T17:30:18.127Z"
+    },
+    {
+      "id": "agtpub_36ee6568c102f8144a5b",
+      "slug": "novigo-langgraph",
+      "name": "Novigo_langgraph",
+      "description": "Novigo_langgraph — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/Avanibhandary/Novigo_langgraph",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "novigo",
+        "langgraph",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "novigo"
+        },
+        {
+          "name": "langgraph"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        },
+        {
+          "name": "discovered"
+        },
+        {
+          "name": "via"
+        }
+      ],
+      "author": "Avanibhandary",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T17:31:06.501Z",
+      "created_at": "2026-07-30T17:00:18.976Z",
+      "updated_at": "2026-07-30T17:31:06.501Z"
+    },
+    {
+      "id": "agtpub_7fd471cf051701972140",
+      "slug": "swift-a2a",
+      "name": "swift-a2a",
+      "description": "Swift implementation of the A2A (Agent2Agent) protocol v1.0 — client, server, and in-process, with REST and JSON-RPC bindings and SSE streaming",
+      "repository": "https://github.com/no-problem-dev/swift-a2a",
+      "framework": "a2a",
+      "protocols": [
+        "a2a",
+        "rest"
+      ],
+      "capabilities": [
+        "a2a",
+        "ai-agents",
+        "json-rpc",
+        "swift",
+        "swift-package"
+      ],
+      "skills": [
+        {
+          "name": "a2a"
+        },
+        {
+          "name": "ai-agents"
+        },
+        {
+          "name": "json-rpc"
+        },
+        {
+          "name": "swift"
+        },
+        {
+          "name": "swift-package"
+        }
+      ],
+      "author": "no-problem-dev",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T15:30:18.526Z",
+      "created_at": "2026-07-30T15:30:18.526Z",
+      "updated_at": "2026-07-30T15:30:18.526Z"
+    },
+    {
+      "id": "agtpub_2b46aab3db7a7f20e304",
+      "slug": "ianptkcs",
+      "name": "ianptkcs",
+      "description": "ianptkcs — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/ianptkcs/ianptkcs",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "ianptkcs",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "ianptkcs"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        },
+        {
+          "name": "discovered"
+        },
+        {
+          "name": "via"
+        },
+        {
+          "name": "search"
+        }
+      ],
+      "author": "ianptkcs",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T15:30:40.202Z",
+      "created_at": "2026-07-30T15:00:27.142Z",
+      "updated_at": "2026-07-30T15:30:40.202Z"
+    },
+    {
+      "id": "agtpub_cc41f096d5fbde121dbf",
+      "slug": "skills",
+      "name": "skills",
+      "description": "skills — agent-related open source project discovered via GitHub search.",
+      "repository": "https://github.com/base44/skills",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "agents",
+        "discovery",
+        "registry",
+        "search",
+        "retrieval",
+        "skills",
+        "related",
+        "project",
+        "discovered",
+        "via",
+        "rest"
+      ],
+      "skills": [
+        {
+          "name": "peer-discovery"
+        },
+        {
+          "name": "skills"
+        },
+        {
+          "name": "related"
+        },
+        {
+          "name": "project"
+        },
+        {
+          "name": "discovered"
+        },
+        {
+          "name": "via"
+        },
+        {
+          "name": "search"
+        }
+      ],
+      "author": "base44",
+      "tags": [],
+      "status": "approved",
+      "safety_score": 90,
+      "safety_flags": [],
+      "failed_checks": [],
+      "approved_at": "2026-07-30T15:30:41.081Z",
+      "created_at": "2026-07-30T15:00:26.272Z",
+      "updated_at": "2026-07-30T15:30:41.081Z"
     }
   ],
   "mcp_names": [
@@ -6070,39 +5558,6 @@
     "mcp-server-naa"
   ],
   "agent_names": [
-    "hackai_hack-230679",
-    "chronodesk",
-    "batesian",
-    "forge-harness",
-    "vscode",
-    "academic-research",
-    "client_matrix",
-    "gitnexus",
-    "spectre_kinetic",
-    "presentation-md",
-    "opengsc",
-    "payments-py",
-    "base-agent-kit",
-    "hermes_a2a",
-    "agentic-finance-network",
-    "a2a-superhub",
-    "switchboard",
-    "webforj-ai",
-    "claude-config",
-    "aide",
-    "openwork",
-    "cello-client",
-    "extract-llms-docs",
-    "lyra-intel",
-    "distributed-multi-agent-system-for-course-creation",
-    "clipforge",
-    "cantos-plugin",
-    "noname-mcp",
-    "brain-creator",
-    "codex-kit",
-    "agenticoshybrid",
-    "claude-code-templates",
-    "free-claude",
     "med-autoscience",
     "code-ops",
     "ceo-orchestration",
@@ -6119,7 +5574,40 @@
     "airsup-chatgpt-app",
     "lantern",
     "cr8",
-    "hollerback"
+    "hollerback",
+    "soredium",
+    "tigrimosr",
+    "cc-skills",
+    "tai-skeleton",
+    "obsidian-mcp-router",
+    "agentsouk",
+    "intentfence",
+    "autoharness",
+    "autonoetic",
+    "red-skills",
+    "pkm-assistant",
+    "davekjohns-workshop",
+    "claude-global-rules",
+    "tenzro-a2a-server",
+    "allclaws",
+    "attestly",
+    "hive-mcp-count",
+    "hive-mcp-swap",
+    "hive-mcp-evaluator",
+    "skill-concierge",
+    "flipkart-listing",
+    "finops",
+    "logicsrc",
+    "rocketride-server",
+    "ruview",
+    "claude-skills",
+    "session-recall",
+    "awesome-graph-engineering",
+    "novigo_langgraph",
+    "toolnexus",
+    "swift-a2a",
+    "ianptkcs",
+    "skills"
   ],
   "mcp_repos": [
     "https://github.com/bielacki/igdb-mcp-server",
@@ -6229,39 +5717,6 @@
     "https://github.com/netwrix/mcp-server-naa"
   ],
   "agent_repos": [
-    "https://github.com/jai0401/hackai_hack-230679",
-    "https://github.com/seaworld008/chronodesk",
-    "https://github.com/calbebop/batesian",
-    "https://github.com/chrono-meta/forge-harness",
-    "https://github.com/mahocommerce/vscode",
-    "https://github.com/ahlerjam/academic-research",
-    "https://github.com/noobclaw/client_matrix",
-    "https://github.com/abhigyanpatwari/gitnexus",
-    "https://github.com/elchemista/spectre_kinetic",
-    "https://github.com/isatimur/presentation-md",
-    "https://github.com/fenjo26/opengsc",
-    "https://github.com/nevermined-io/payments-py",
-    "https://github.com/dainagon89/base-agent-kit",
-    "https://github.com/warwicksong/hermes_a2a",
-    "https://github.com/agenticfinance-dev/agentic-finance-network",
-    "https://github.com/phenomenoner/a2a-superhub",
-    "https://github.com/atelier-nyaarium/switchboard",
-    "https://github.com/webforj/webforj-ai",
-    "https://github.com/wannabefro/claude-config",
-    "https://github.com/jmylchreest/aide",
-    "https://github.com/different-ai/openwork",
-    "https://github.com/mygentic-ai/cello-client",
-    "https://github.com/nirholas/extract-llms-docs",
-    "https://github.com/nirholas/lyra-intel",
-    "https://github.com/hudatou123/distributed-multi-agent-system-for-course-creation",
-    "https://github.com/xixihhhh/clipforge",
-    "https://github.com/ne11nn/cantos-plugin",
-    "https://github.com/savelev-sa/noname-mcp",
-    "https://github.com/zhuyanlong0091-prog/brain-creator",
-    "https://github.com/chlience/codex-kit",
-    "https://github.com/rachidsabah/agenticoshybrid",
-    "https://github.com/freshdollars23/claude-code-templates",
-    "https://github.com/vparsatwar-git/free-claude",
     "https://github.com/gaofeng21cn/med-autoscience",
     "https://github.com/skylarsabo/code-ops",
     "https://github.com/canhada-labs/ceo-orchestration",
@@ -6278,29 +5733,53 @@
     "https://github.com/tadeus123/airsup-chatgpt-app",
     "https://github.com/dshakes/lantern",
     "https://github.com/create-protocol/cr8",
-    "https://github.com/dbrentley/hollerback"
+    "https://github.com/dbrentley/hollerback",
+    "https://github.com/hortora/soredium",
+    "https://github.com/sompote/tigrimosr",
+    "https://github.com/terrylica/cc-skills",
+    "https://github.com/tai42ai/tai-skeleton",
+    "https://github.com/tboome33/obsidian-mcp-router",
+    "https://github.com/hukaichun/agentsouk",
+    "https://github.com/razel369/intentfence",
+    "https://github.com/softwaresalt/autoharness",
+    "https://github.com/mandubian/autonoetic",
+    "https://github.com/reddb-io/red-skills",
+    "https://github.com/jdhole/pkm-assistant",
+    "https://github.com/davekjohn/davekjohns-workshop",
+    "https://github.com/nullvoidundefined/claude-global-rules",
+    "https://github.com/tenzro/tenzro-a2a-server",
+    "https://github.com/dz3ai/allclaws",
+    "https://github.com/jasonadmin123/attestly",
+    "https://github.com/srotzin/hive-mcp-count",
+    "https://github.com/srotzin/hive-mcp-swap",
+    "https://github.com/srotzin/hive-mcp-evaluator",
+    "https://github.com/thinhkhuat/skill-concierge",
+    "https://github.com/yatinbhalla/flipkart-listing",
+    "https://github.com/manny864/finops",
+    "https://github.com/profullstack/logicsrc",
+    "https://github.com/rocketride-org/rocketride-server",
+    "https://github.com/souravsanyal1/ruview",
+    "https://github.com/tylerprogramming/claude-skills",
+    "https://github.com/absolutemode/session-recall",
+    "https://github.com/chaoyue0307/awesome-graph-engineering",
+    "https://github.com/avanibhandary/novigo_langgraph",
+    "https://github.com/muthuishere/toolnexus",
+    "https://github.com/no-problem-dev/swift-a2a",
+    "https://github.com/ianptkcs/ianptkcs",
+    "https://github.com/base44/skills"
   ],
   "agent_cards": [
-    "https://pkg.go.dev/github.com/calbebop/batesian/.well-known/agent.json",
-    "https://www.npmjs.com/package/@chrono-meta/fh-gate/.well-known/agent.json",
-    "https://mahocommerce.com/.well-known/agent.json",
-    "https://gitnexus.vercel.app/.well-known/agent.json",
-    "https://presentation-md.vercel.app/.well-known/agent.json",
-    "https://opengsc.org/.well-known/agent.json",
-    "https://nevermined-io.github.io/payments-py/.well-known/agent.json",
-    "https://base-agent-kit-pied.vercel.app/.well-known/agent.json",
-    "https://phenomenoner.github.io/a2a-superhub/.well-known/agent.json",
-    "https://jmylchreest.github.io/aide/.well-known/agent.json",
-    "https://openworklabs.com/.well-known/agent.json",
-    "https://llm.energy/.well-known/agent.json",
-    "https://lyra-intel.vercel.app/.well-known/agent.json",
-    "https://xixihhhh.github.io/clipforge/.well-known/agent.json",
-    "https://github.com/ne11nn/cantos/.well-known/agent.json",
     "https://chussum.github.io/cat-harness/.well-known/agent.json",
     "https://enablenext-client.vercel.app/.well-known/agent.json",
     "https://breezermm.com/.well-known/agent.json",
     "https://agentchat.me/.well-known/agent.json",
-    "https://dshakes.github.io/lantern/.well-known/agent.json"
+    "https://dshakes.github.io/lantern/.well-known/agent.json",
+    "https://agentpass-protocol.rmalka06.chatgpt.site/.well-known/agent.json",
+    "https://hive-mcp-gateway.onrender.com/.well-known/agent.json",
+    "https://logicsrc.com/.well-known/agent.json",
+    "https://ruview-ten.vercel.app/.well-known/agent.json",
+    "https://chaoyue0307.github.io/awesome-graph-engineering/.well-known/agent.json",
+    "https://muthuishere.github.io/toolnexus/.well-known/agent.json"
   ],
   "health": {
     "ok": true,
@@ -6342,7 +5821,7 @@
           "https://grok-agent-store.manhatton31.workers.dev/registry.json"
         ]
       },
-      "updated_at": "2026-07-31T13:04:59.006Z"
+      "updated_at": "2026-07-31T13:06:03.153Z"
     },
     "agent_registry": {
       "accepting_submissions": true,
@@ -6403,6 +5882,7 @@
     "github": "https://github.com/manhatton31-svg/grok-agent-store"
   },
   "errors": [
-    "/registry.json?limit=200: This operation was aborted"
+    "/registry.json?limit=200: This operation was aborted",
+    "/agents.json: This operation was aborted"
   ]
 }
