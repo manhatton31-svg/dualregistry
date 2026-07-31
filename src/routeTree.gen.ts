@@ -120,6 +120,7 @@ import { Route as ApiProductsStigmergyRouteImport } from './routes/api/products/
 import { Route as ApiProductsVerifyRouteImport } from './routes/api/products/verify'
 import { Route as ApiProductsWebhookRouteImport } from './routes/api/products/webhook'
 import { Route as ApiProductsWtpRouteImport } from './routes/api/products/wtp'
+import { Route as ApiProductsConnectorsDailyRouteImport } from './routes/api/products/connectors.daily'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -696,6 +697,12 @@ const ApiProductsWtpRoute = ApiProductsWtpRouteImport.update({
   path: '/api/products/wtp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsConnectorsDailyRoute =
+  ApiProductsConnectorsDailyRouteImport.update({
+    id: '/daily',
+    path: '/daily',
+    getParentRoute: () => ApiProductsConnectorsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -773,7 +780,7 @@ export interface FileRoutesByFullPath {
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
-  '/api/products/connectors': typeof ApiProductsConnectorsRoute
+  '/api/products/connectors': typeof ApiProductsConnectorsRouteWithChildren
   '/api/products/conversion': typeof ApiProductsConversionRoute
   '/api/products/conversion-pressure': typeof ApiProductsConversionPressureRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
@@ -809,6 +816,7 @@ export interface FileRoutesByFullPath {
   '/api/products/wtp': typeof ApiProductsWtpRoute
   '/api/funnel/': typeof ApiFunnelIndexRoute
   '/api/probes/': typeof ApiProbesIndexRoute
+  '/api/products/connectors/daily': typeof ApiProductsConnectorsDailyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -886,7 +894,7 @@ export interface FileRoutesByTo {
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
-  '/api/products/connectors': typeof ApiProductsConnectorsRoute
+  '/api/products/connectors': typeof ApiProductsConnectorsRouteWithChildren
   '/api/products/conversion': typeof ApiProductsConversionRoute
   '/api/products/conversion-pressure': typeof ApiProductsConversionPressureRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
@@ -922,6 +930,7 @@ export interface FileRoutesByTo {
   '/api/products/wtp': typeof ApiProductsWtpRoute
   '/api/funnel': typeof ApiFunnelIndexRoute
   '/api/probes': typeof ApiProbesIndexRoute
+  '/api/products/connectors/daily': typeof ApiProductsConnectorsDailyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1000,7 +1009,7 @@ export interface FileRoutesById {
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
-  '/api/products/connectors': typeof ApiProductsConnectorsRoute
+  '/api/products/connectors': typeof ApiProductsConnectorsRouteWithChildren
   '/api/products/conversion': typeof ApiProductsConversionRoute
   '/api/products/conversion-pressure': typeof ApiProductsConversionPressureRoute
   '/api/products/demo': typeof ApiProductsDemoRoute
@@ -1036,6 +1045,7 @@ export interface FileRoutesById {
   '/api/products/wtp': typeof ApiProductsWtpRoute
   '/api/funnel/': typeof ApiFunnelIndexRoute
   '/api/probes/': typeof ApiProbesIndexRoute
+  '/api/products/connectors/daily': typeof ApiProductsConnectorsDailyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1151,6 +1161,7 @@ export interface FileRouteTypes {
     | '/api/products/wtp'
     | '/api/funnel/'
     | '/api/probes/'
+    | '/api/products/connectors/daily'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1264,6 +1275,7 @@ export interface FileRouteTypes {
     | '/api/products/wtp'
     | '/api/funnel'
     | '/api/probes'
+    | '/api/products/connectors/daily'
   id:
     | '__root__'
     | '/'
@@ -1377,6 +1389,7 @@ export interface FileRouteTypes {
     | '/api/products/wtp'
     | '/api/funnel/'
     | '/api/probes/'
+    | '/api/products/connectors/daily'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1454,7 +1467,7 @@ export interface RootRouteChildren {
   ApiProductsAutocatalysisRoute: typeof ApiProductsAutocatalysisRoute
   ApiProductsCheckoutRoute: typeof ApiProductsCheckoutRoute
   ApiProductsConfirmRoute: typeof ApiProductsConfirmRoute
-  ApiProductsConnectorsRoute: typeof ApiProductsConnectorsRoute
+  ApiProductsConnectorsRoute: typeof ApiProductsConnectorsRouteWithChildren
   ApiProductsConversionRoute: typeof ApiProductsConversionRoute
   ApiProductsConversionPressureRoute: typeof ApiProductsConversionPressureRoute
   ApiProductsDemoRoute: typeof ApiProductsDemoRoute
@@ -2271,6 +2284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsWtpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/connectors/daily': {
+      id: '/api/products/connectors/daily'
+      path: '/daily'
+      fullPath: '/api/products/connectors/daily'
+      preLoaderRoute: typeof ApiProductsConnectorsDailyRouteImport
+      parentRoute: typeof ApiProductsConnectorsRoute
+    }
   }
 }
 
@@ -2283,6 +2303,19 @@ const ListRouteChildren: ListRouteChildren = {
 }
 
 const ListRouteWithChildren = ListRoute._addFileChildren(ListRouteChildren)
+
+interface ApiProductsConnectorsRouteChildren {
+  ApiProductsConnectorsDailyRoute: typeof ApiProductsConnectorsDailyRoute
+}
+
+const ApiProductsConnectorsRouteChildren: ApiProductsConnectorsRouteChildren = {
+  ApiProductsConnectorsDailyRoute: ApiProductsConnectorsDailyRoute,
+}
+
+const ApiProductsConnectorsRouteWithChildren =
+  ApiProductsConnectorsRoute._addFileChildren(
+    ApiProductsConnectorsRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -2361,7 +2394,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsAutocatalysisRoute: ApiProductsAutocatalysisRoute,
   ApiProductsCheckoutRoute: ApiProductsCheckoutRoute,
   ApiProductsConfirmRoute: ApiProductsConfirmRoute,
-  ApiProductsConnectorsRoute: ApiProductsConnectorsRoute,
+  ApiProductsConnectorsRoute: ApiProductsConnectorsRouteWithChildren,
   ApiProductsConversionRoute: ApiProductsConversionRoute,
   ApiProductsConversionPressureRoute: ApiProductsConversionPressureRoute,
   ApiProductsDemoRoute: ApiProductsDemoRoute,

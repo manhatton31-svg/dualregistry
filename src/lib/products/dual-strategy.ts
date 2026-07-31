@@ -58,6 +58,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       reciprocity: `${o}/api/products/reciprocity`,
       conversion_pressure: `${o}/api/products/conversion-pressure`,
       connectors: `${o}/api/products/connectors`,
+      connectors_daily: `${o}/api/products/connectors/daily`,
       stigmergy: `${o}/api/products/stigmergy`,
       autocatalysis: `${o}/api/products/autocatalysis`,
       first_principles: `${o}/api/products/first-principles`,

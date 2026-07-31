@@ -308,6 +308,7 @@ export function connectorsPublic(origin?: string) {
       feedback: `${o}/api/products/feedback`,
       compact_survey_ids: ["tried", "ux_friction", "product_one_ship"],
     },
+    daily_pick: `${o}/api/products/connectors/daily`,
     how_to_add_connector: {
       steps: [
         "Identify entity with humans or operators behind agents/MCPs",
