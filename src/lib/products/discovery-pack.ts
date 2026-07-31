@@ -14,7 +14,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
   return {
     origin: o,
     dual_strategy: true,
-    version: "2.3.0",
+    version: "2.4.0",
     llms_txt: `${o}/llms.txt`,
     llms_full: `${o}/llms-full.txt`,
     ai_txt: `${o}/ai.txt`,
@@ -62,6 +62,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
     match: `${o}/api/match`,
     reciprocity: `${o}/api/products/reciprocity`,
     conversion_pressure: `${o}/api/products/conversion-pressure`,
+    stigmergy: `${o}/api/products/stigmergy`,
     reply_capture: `${o}/api/products/reply-capture`,
     robots_agent: `${o}/robots-agent.txt`,
     protocol: `${o}/api/protocol`,
@@ -74,6 +75,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
         ? `GET ${o}/api/products/demo?listing_id=${encodeURIComponent(id)}`
         : `GET ${o}/api/products/demo?listing_id=YOUR_ID`,
       `POST ${o}/api/products/feedback`,
+      `tools/call leave_trace | sense_traces | follow_trail — stigmergic coordination`,
     ],
   };
 }

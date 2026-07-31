@@ -1,6 +1,6 @@
 /**
  * GET /api/feed — public activity feed (no PII)
- * New Live, founding seats left, unlock meter, dual strategy signal.
+ * New Live, founding seats left, unlock meter, dual strategy, stigmergy trails.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
@@ -58,6 +58,7 @@ export const Route = createFileRoute("/api/feed")({
             type: "founding_seats",
             remaining: ff.remaining,
             claimed: ff.claimed,
+            heat: ff.claimed > 0 ? "rising" : "open",
             at: new Date().toISOString(),
           });
         } catch {
@@ -80,10 +81,45 @@ export const Route = createFileRoute("/api/feed")({
           /* */
         }
 
+        // Stigmergic trails + agent marks on the feed
+        try {
+          const { stigmergyFeedItems, followTrail, STIGMERGY_VERSION } =
+            await import("@/lib/products/stigmergy");
+          const feedEv = await stigmergyFeedItems(12);
+          for (const ev of feedEv) {
+            items.push({
+              type: `stigmergy_${ev.type}`,
+              listing_id: ev.listing_id,
+              listing_b: ev.listing_b,
+              kind: ev.kind,
+              amount: ev.amount,
+              field: ev.field,
+              from: ev.from,
+              body: ev.body,
+              at: ev.at,
+              medium: "stigmergy",
+              version: STIGMERGY_VERSION,
+            });
+          }
+          const hot = await followTrail({ limit: 5, kind: "hot" });
+          if (hot.items.length) {
+            items.unshift({
+              type: "stigmergy_hot_trails",
+              version: STIGMERGY_VERSION,
+              trails: hot.items,
+              at: new Date().toISOString(),
+              note: "Follow hottest pheromone trails via tools/call follow_trail",
+            });
+          }
+        } catch {
+          /* */
+        }
+
         items.unshift({
           type: "dual_strategy",
-          mode: "outbound_plus_inbound",
-          note: "Outbound go-harder + inbound self-serve always on",
+          mode: "outbound_plus_inbound_plus_stigmergy",
+          version: "2.4.0",
+          note: "Outbound go-harder + inbound self-serve + stigmergic medium always on",
           at: new Date().toISOString(),
         });
 
@@ -92,9 +128,10 @@ export const Route = createFileRoute("/api/feed")({
             ok: true,
             title: "Dual Registry public activity",
             updated_at: new Date().toISOString(),
-            items: items.slice(0, 40),
+            items: items.slice(0, 50),
             discovery: pack,
             self_serve: pack.skill_json,
+            stigmergy: `${origin}/api/products/stigmergy`,
           },
           {
             headers: withDemoCtaHeaders(

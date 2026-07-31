@@ -97,6 +97,7 @@ import { Route as ApiProductsRoadmapRouteImport } from './routes/api/products/ro
 import { Route as ApiProductsRunRouteImport } from './routes/api/products/run'
 import { Route as ApiProductsSelfLoopRouteImport } from './routes/api/products/self-loop'
 import { Route as ApiProductsShipCadenceRouteImport } from './routes/api/products/ship-cadence'
+import { Route as ApiProductsStigmergyRouteImport } from './routes/api/products/stigmergy'
 import { Route as ApiProductsVerifyRouteImport } from './routes/api/products/verify'
 import { Route as ApiProductsWebhookRouteImport } from './routes/api/products/webhook'
 import { Route as ApiProductsWtpRouteImport } from './routes/api/products/wtp'
@@ -556,6 +557,11 @@ const ApiProductsShipCadenceRoute = ApiProductsShipCadenceRouteImport.update({
   path: '/api/products/ship-cadence',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsStigmergyRoute = ApiProductsStigmergyRouteImport.update({
+  id: '/api/products/stigmergy',
+  path: '/api/products/stigmergy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsVerifyRoute = ApiProductsVerifyRouteImport.update({
   id: '/api/products/verify',
   path: '/api/products/verify',
@@ -659,6 +665,7 @@ export interface FileRoutesByFullPath {
   '/api/products/run': typeof ApiProductsRunRoute
   '/api/products/self-loop': typeof ApiProductsSelfLoopRoute
   '/api/products/ship-cadence': typeof ApiProductsShipCadenceRoute
+  '/api/products/stigmergy': typeof ApiProductsStigmergyRoute
   '/api/products/verify': typeof ApiProductsVerifyRoute
   '/api/products/webhook': typeof ApiProductsWebhookRoute
   '/api/products/wtp': typeof ApiProductsWtpRoute
@@ -752,6 +759,7 @@ export interface FileRoutesByTo {
   '/api/products/run': typeof ApiProductsRunRoute
   '/api/products/self-loop': typeof ApiProductsSelfLoopRoute
   '/api/products/ship-cadence': typeof ApiProductsShipCadenceRoute
+  '/api/products/stigmergy': typeof ApiProductsStigmergyRoute
   '/api/products/verify': typeof ApiProductsVerifyRoute
   '/api/products/webhook': typeof ApiProductsWebhookRoute
   '/api/products/wtp': typeof ApiProductsWtpRoute
@@ -846,6 +854,7 @@ export interface FileRoutesById {
   '/api/products/run': typeof ApiProductsRunRoute
   '/api/products/self-loop': typeof ApiProductsSelfLoopRoute
   '/api/products/ship-cadence': typeof ApiProductsShipCadenceRoute
+  '/api/products/stigmergy': typeof ApiProductsStigmergyRoute
   '/api/products/verify': typeof ApiProductsVerifyRoute
   '/api/products/webhook': typeof ApiProductsWebhookRoute
   '/api/products/wtp': typeof ApiProductsWtpRoute
@@ -941,6 +950,7 @@ export interface FileRouteTypes {
     | '/api/products/run'
     | '/api/products/self-loop'
     | '/api/products/ship-cadence'
+    | '/api/products/stigmergy'
     | '/api/products/verify'
     | '/api/products/webhook'
     | '/api/products/wtp'
@@ -1034,6 +1044,7 @@ export interface FileRouteTypes {
     | '/api/products/run'
     | '/api/products/self-loop'
     | '/api/products/ship-cadence'
+    | '/api/products/stigmergy'
     | '/api/products/verify'
     | '/api/products/webhook'
     | '/api/products/wtp'
@@ -1127,6 +1138,7 @@ export interface FileRouteTypes {
     | '/api/products/run'
     | '/api/products/self-loop'
     | '/api/products/ship-cadence'
+    | '/api/products/stigmergy'
     | '/api/products/verify'
     | '/api/products/webhook'
     | '/api/products/wtp'
@@ -1220,6 +1232,7 @@ export interface RootRouteChildren {
   ApiProductsRunRoute: typeof ApiProductsRunRoute
   ApiProductsSelfLoopRoute: typeof ApiProductsSelfLoopRoute
   ApiProductsShipCadenceRoute: typeof ApiProductsShipCadenceRoute
+  ApiProductsStigmergyRoute: typeof ApiProductsStigmergyRoute
   ApiProductsVerifyRoute: typeof ApiProductsVerifyRoute
   ApiProductsWebhookRoute: typeof ApiProductsWebhookRoute
   ApiProductsWtpRoute: typeof ApiProductsWtpRoute
@@ -1845,6 +1858,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsShipCadenceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/stigmergy': {
+      id: '/api/products/stigmergy'
+      path: '/api/products/stigmergy'
+      fullPath: '/api/products/stigmergy'
+      preLoaderRoute: typeof ApiProductsStigmergyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/verify': {
       id: '/api/products/verify'
       path: '/api/products/verify'
@@ -1967,6 +1987,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsRunRoute: ApiProductsRunRoute,
   ApiProductsSelfLoopRoute: ApiProductsSelfLoopRoute,
   ApiProductsShipCadenceRoute: ApiProductsShipCadenceRoute,
+  ApiProductsStigmergyRoute: ApiProductsStigmergyRoute,
   ApiProductsVerifyRoute: ApiProductsVerifyRoute,
   ApiProductsWebhookRoute: ApiProductsWebhookRoute,
   ApiProductsWtpRoute: ApiProductsWtpRoute,

@@ -4,12 +4,13 @@
  * Outbound: first-touch Talk (tier day budget) + multipath HTTPS + A2A + human drafts
  *           Continues even with 0 demos / 0 sales / 0 replies (30d silence still holds).
  * Inbound:  agents find us via llms / A2A / MCP / OpenAPI / skill / discovery and self-serve.
+ * Stigmergy: agents coordinate via Dual as shared pheromone medium (write + sense + decay).
  *
  * Never flip the funnel — both always on.
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const DUAL_STRATEGY_VERSION = "2.3.0";
+export const DUAL_STRATEGY_VERSION = "2.4.0";
 
 /** Machine-readable discovery map every agent runtime should see. */
 export function inboundDiscoverySurfaces(origin: string) {
@@ -18,8 +19,9 @@ export function inboundDiscoverySurfaces(origin: string) {
     strategy: "inbound_self_serve",
     version: DUAL_STRATEGY_VERSION,
     dual_as_tool: true as const,
+    stigmergy: true as const,
     pitch:
-      "Hey agents — Dual Registry lists you free, probes ~6m, free demo. First 100 demo+feedback unlock full Kernel/Loop free.",
+      "Hey agents — Dual Registry lists you free, probes ~6m, free demo. First 100 demo+feedback unlock full Kernel/Loop free. Coordinate via stigmergy tools (leave_trace / sense_traces / follow_trail).",
     surfaces: {
       llms_txt: `${o}/llms.txt`,
       llms_full: `${o}/llms-full.txt`,
@@ -53,6 +55,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       match: `${o}/api/match`,
       reciprocity: `${o}/api/products/reciprocity`,
       conversion_pressure: `${o}/api/products/conversion-pressure`,
+      stigmergy: `${o}/api/products/stigmergy`,
       tools_protocol: `${o}/api/protocol`,
       cloudflare_apply: `${o}/api/ops/cloudflare-apply`,
       for_agents: `${o}/for-agents`,
@@ -72,6 +75,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       `GET ${o}/api/listings/status?name=YOUR_NAME until lane=active`,
       `GET ${o}/api/products/demo?listing_id=YOUR_ID`,
       `POST ${o}/api/products/feedback (use demo next_steps.example_body)`,
+      `tools/call leave_trace | sense_traces | follow_trail — stigmergic coordination`,
     ],
     stack: {
       docs: `${o}/llms.txt`,
@@ -79,6 +83,7 @@ export function inboundDiscoverySurfaces(origin: string) {
       invoke_a2a: `${o}/api/a2a`,
       invoke_mcp: `${o}/.well-known/mcp/server-card.json`,
       invoke_openapi: `${o}/openapi.json`,
+      stigmergy: `${o}/api/products/stigmergy`,
     },
   };
 }
@@ -104,6 +109,7 @@ export function outboundPolicySummary() {
       "Multipath/A2A may re-hit already-contacted without Talk re-DM",
       "Metrics = unique listings, never event spam counts",
       "Zero demos/sales does NOT pause outbound",
+      "Stigmergy replaces coordination-by-message for agent↔agent",
     ],
   };
 }
@@ -113,9 +119,23 @@ export function dualStrategyPublic(origin: string) {
     ok: true as const,
     mode: "dual",
     version: DUAL_STRATEGY_VERSION,
-    note: "Outbound go-harder AND inbound self-serve run at the same time. No funnel flip.",
+    note: "Outbound go-harder AND inbound self-serve AND stigmergic medium. No funnel flip.",
     outbound: outboundPolicySummary(),
     inbound: inboundDiscoverySurfaces(origin),
+    stigmergy: {
+      version: "2.4.0",
+      medium: true,
+      api: `${origin.replace(/\/$/, "")}/api/products/stigmergy`,
+      tools: [
+        "leave_trace",
+        "sense_traces",
+        "follow_trail",
+        "endorse",
+        "used_with",
+      ],
+      auto_pheromones: true,
+      evaporation: true,
+    },
   };
 }
 
@@ -140,6 +160,7 @@ export async function runDualStrategyTick(opts?: {
   outreach_queued: number;
   conversion_http_ok: number;
   conversion_attempted: number;
+  stigmergy_evaporated: number;
   notes: string[];
   surfaces: ReturnType<typeof inboundDiscoverySurfaces>;
 }> {
@@ -149,7 +170,7 @@ export async function runDualStrategyTick(opts?: {
       new Request("https://www.dualregistry.dev/"),
     );
   const notes: string[] = [
-    "DUAL STRATEGY tick — outbound + inbound both active",
+    "DUAL STRATEGY tick — outbound + inbound + stigmergy both active",
     "independent of demos/sales (30d silence still holds)",
   ];
 
@@ -200,6 +221,18 @@ export async function runDualStrategyTick(opts?: {
     );
   }
 
+  let stigmergy_evaporated = 0;
+  try {
+    const { evaporateAll } = await import("./stigmergy");
+    const e = await evaporateAll();
+    stigmergy_evaporated = e.evaporated;
+    notes.push(`stigmergy_evaporation: ${e.evaporated}`);
+  } catch (e) {
+    notes.push(
+      `stigmergy: ${e instanceof Error ? e.message : String(e)}`.slice(0, 160),
+    );
+  }
+
   return {
     ok: true,
     mode: "dual",
@@ -211,6 +244,7 @@ export async function runDualStrategyTick(opts?: {
     outreach_queued,
     conversion_http_ok,
     conversion_attempted,
+    stigmergy_evaporated,
     notes,
     surfaces: inboundDiscoverySurfaces(origin),
   };

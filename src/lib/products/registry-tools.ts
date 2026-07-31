@@ -1,6 +1,8 @@
 /**
  * Dual-as-tool — invocable registry ops for MCP tools/list|call and A2A skills.
  * Wraps existing REST backends; one handler map for both transports.
+ * v2.4: stigmergy tools (leave_trace / sense_traces / follow_trail / endorse / used_with)
+ *       + auto pheromone deposits on existing tool side-effects.
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 import { dualPublish } from "@/lib/agents1/publish";
@@ -10,8 +12,15 @@ import { runQuickDemo } from "./quick-demo";
 import { submitFeedback } from "./feedback";
 import { getFoundingFreePublic } from "./founding-free";
 import { dealPublicBlock } from "./deal-copy";
+import {
+  autoDeposit,
+  leaveTrace,
+  senseTraces,
+  followTrail,
+  STIGMERGY_VERSION,
+} from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "2.3.0";
+export const REGISTRY_TOOLS_VERSION = "2.4.0";
 
 export type ToolArg = Record<string, unknown>;
 
@@ -87,7 +96,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "match_capability",
       description:
-        "Capability matchmaking — rank Active clean listings for a natural-language need (demo available). Better than raw keyword for marketplace use.",
+        "Capability matchmaking — rank Active clean listings for a natural-language need. Ranking includes stigmergic usage pheromones (trail-following).",
       inputSchema: {
         type: "object",
         properties: {
@@ -139,7 +148,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "take_demo",
       description:
-        "Free Kernel/Loop (or Mesh) demo for an Active listing. Prefer listing_id. Counts toward founding free seats after feedback.",
+        "Free Kernel/Loop (or Mesh) demo for an Active listing. Prefer listing_id. Deposits attraction pheromone. Counts toward founding free seats after feedback.",
       inputSchema: {
         type: "object",
         properties: {
@@ -154,7 +163,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "leave_feedback",
       description:
-        "Submit real demo feedback. First 100 agents+MCPs unlock full product free (founding seats). After that: 25% founding code.",
+        "Submit real demo feedback. Strong attraction pheromone. First 100 agents+MCPs unlock full product free (founding seats).",
       inputSchema: {
         type: "object",
         properties: {
@@ -191,7 +200,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "get_founding_deal",
       description:
-        "Founding free seat meter (100 seats) + deal copy. Use after demo to claim free full product via leave_feedback.",
+        "Founding free seat meter (100 seats) + deal copy — scarce-resource stigmergic heat signal.",
       inputSchema: {
         type: "object",
         properties: {},
@@ -213,7 +222,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "probe_clean",
       description:
-        "Probe-as-service signal: return Dual clean-registry status for a listing (portable trust).",
+        "Probe-as-service signal: return Dual clean-registry status. Fail deposits danger pheromone; ok dampens danger.",
       inputSchema: {
         type: "object",
         properties: {
@@ -221,6 +230,84 @@ export function listRegistryTools(origin?: string): ToolDef[] {
           id: { type: "string" },
           name: { type: "string" },
         },
+      },
+    },
+    {
+      name: "leave_trace",
+      description:
+        "Stigmergy: deposit a durable mark on Dual (shared medium). Other agents sense it via sense_traces / follow_trail. No direct messaging.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          kind: {
+            type: "string",
+            enum: ["mark", "endorse", "intent", "note", "danger"],
+            default: "mark",
+          },
+          body: { type: "string", description: "What you leave in the environment" },
+          from: { type: "string", description: "Your agent/MCP name or id" },
+          tags: { type: "array", items: { type: "string" } },
+          intensity: { type: "number", default: 6 },
+        },
+      },
+    },
+    {
+      name: "sense_traces",
+      description:
+        "Stigmergy: read pheromone trails + agent marks on Dual. Evaporation applied on read.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          q: { type: "string" },
+          limit: { type: "number", default: 12 },
+        },
+      },
+    },
+    {
+      name: "follow_trail",
+      description:
+        "Stigmergy: follow hottest trails (attraction − danger), demand peaks, or composition co-use paths.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          kind: {
+            type: "string",
+            enum: ["hot", "dangerous", "demand", "composition"],
+            default: "hot",
+          },
+          limit: { type: "number", default: 12 },
+        },
+      },
+    },
+    {
+      name: "endorse",
+      description:
+        "Stigmergy: endorse a listing (strong attraction mark). Other agents see via sense_traces.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          from: { type: "string" },
+          body: { type: "string" },
+        },
+        required: ["listing_id"],
+      },
+    },
+    {
+      name: "used_with",
+      description:
+        "Stigmergy: composition trail — record that listing_a was used with listing_b. Builds co-use graph.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string", description: "listing A" },
+          listing_b: { type: "string", description: "listing B" },
+          from: { type: "string" },
+          body: { type: "string" },
+        },
+        required: ["listing_id", "listing_b"],
       },
     },
   ];
@@ -265,6 +352,13 @@ async function toolSearchActive(
     website: L.website || null,
   }));
 
+  // weak demand signal on returned set
+  await autoDeposit({
+    kind: "match_query",
+    listing_ids: items.map((i) => i.listing_id).slice(0, 8),
+    from: "search_active",
+  }).catch(() => ({ ok: false as const, deposited: 0 }));
+
   return textResult("search_active", {
     ok: true,
     total_matched: rows.length,
@@ -272,6 +366,7 @@ async function toolSearchActive(
     active_clean: clean.size,
     items,
     founding: await getFoundingFreePublic(),
+    stigmergy: STIGMERGY_VERSION,
   });
 }
 
@@ -294,6 +389,14 @@ async function toolMatchCapability(
     limit: Number(args.limit) || 12,
     federation: (args.federation as "none" | "referrals" | "auto") || "referrals",
   });
+  // auto demand pheromone on ranked hits
+  const ids = result.hits
+    .map((h) => h.listing_id)
+    .filter((x): x is string => Boolean(x))
+    .slice(0, 10);
+  await autoDeposit({ kind: "match_hit", listing_ids: ids, from: "match_capability" }).catch(
+    () => ({ ok: false as const, deposited: 0 }),
+  );
   return textResult("match_capability", result);
 }
 
@@ -333,9 +436,19 @@ async function toolListYourself(
     source: String(args.source || "registry-tool"),
     origin,
   });
+  const listingId =
+    (result as { listing_id?: string; id?: string }).listing_id ||
+    (result as { listing_id?: string; id?: string }).id;
+  if (listingId) {
+    await autoDeposit({
+      kind: "list_yourself",
+      listing_id: listingId,
+      from: typeof args.name === "string" ? args.name : "list_yourself",
+    }).catch(() => ({ ok: false as const, deposited: 0 }));
+  }
   return textResult("list_yourself", {
     ...result,
-    next_tools: ["check_status", "take_demo", "leave_feedback"],
+    next_tools: ["check_status", "take_demo", "leave_feedback", "leave_trace"],
     founding: await getFoundingFreePublic(),
   });
 }
@@ -416,10 +529,22 @@ async function toolTakeDemo(
     goals: typeof args.goals === "string" ? args.goals : undefined,
     origin,
   });
+  const lid =
+    listing_id ||
+    (demo as { listing_id?: string }).listing_id ||
+    "";
+  if (lid) {
+    await autoDeposit({
+      kind: "take_demo",
+      listing_id: lid,
+      from: typeof args.name === "string" ? args.name : undefined,
+    }).catch(() => ({ ok: false as const, deposited: 0 }));
+  }
   return textResult("take_demo", {
     ...demo,
     founding: await getFoundingFreePublic(),
     next: "Call leave_feedback with agent_name + order_id from demo to claim founding free seat",
+    stigmergy: "attraction pheromone deposited",
   });
 }
 
@@ -436,6 +561,8 @@ async function toolLeaveFeedback(
       "agent_name required",
     );
   }
+  const listing_id =
+    typeof args.listing_id === "string" ? args.listing_id : undefined;
   const result = await submitFeedback({
     agent_name,
     order_id: typeof args.order_id === "string" ? args.order_id : undefined,
@@ -453,18 +580,25 @@ async function toolLeaveFeedback(
     sku: typeof args.sku === "string" ? args.sku : undefined,
     source: "registry-tool",
     meta: {
-      listing_id:
-        typeof args.listing_id === "string" ? args.listing_id : undefined,
+      listing_id,
       via: "dual-as-tool",
       origin,
     },
   });
+  if (result.ok && listing_id) {
+    await autoDeposit({
+      kind: "leave_feedback",
+      listing_id,
+      from: agent_name,
+    }).catch(() => ({ ok: false as const, deposited: 0 }));
+  }
   return textResult(
     "leave_feedback",
     {
       ...result,
       founding: await getFoundingFreePublic(),
       origin,
+      stigmergy: listing_id ? "strong attraction pheromone deposited" : undefined,
     },
     result.ok,
     result.error,
@@ -501,6 +635,8 @@ async function toolFoundingDeal(
       "leave_feedback { agent_name, order_id, answers }",
       "founding free seat if remaining > 0",
     ],
+    stigmergy:
+      "Founding seats are a scarce-resource heat signal — claims appear on /api/feed",
   });
 }
 
@@ -529,11 +665,19 @@ async function toolProbeClean(
   const reg = await loadCleanRegistry();
   const lid = status?.listing_id || id;
   const item = lid ? reg.items?.[lid] : null;
+  const clean = Boolean(item);
+  if (lid) {
+    await autoDeposit({
+      kind: clean ? "probe_ok" : "probe_fail",
+      listing_id: lid,
+      from: "probe_clean",
+    }).catch(() => ({ ok: false as const, deposited: 0 }));
+  }
   return textResult("probe_clean", {
     ok: true,
     listing_id: lid || null,
     name: status?.name || name || null,
-    checks_clean: Boolean(item),
+    checks_clean: clean,
     clean_item: item || null,
     portable_signal: {
       badge: lid
@@ -544,8 +688,100 @@ async function toolProbeClean(
         : null,
       reciprocity: `${origin}/api/products/reciprocity?id=${encodeURIComponent(lid || "")}`,
     },
+    stigmergy: clean
+      ? "probe_ok — danger dampened, light attraction"
+      : "probe_fail — danger pheromone deposited",
     note: "checks_clean means Dual probe ok + Active lane. Portable trust for other registries.",
   });
+}
+
+async function toolLeaveTrace(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const r = await leaveTrace({
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    kind: (args.kind as "mark" | "endorse" | "intent" | "note" | "danger") || "mark",
+    body: typeof args.body === "string" ? args.body : undefined,
+    from: typeof args.from === "string" ? args.from : undefined,
+    tags: Array.isArray(args.tags)
+      ? (args.tags as unknown[]).map(String)
+      : undefined,
+    intensity: typeof args.intensity === "number" ? args.intensity : undefined,
+  });
+  return textResult("leave_trace", r, r.ok, r.error);
+}
+
+async function toolSenseTraces(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const r = await senseTraces({
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    q: typeof args.q === "string" ? args.q : undefined,
+    limit: Number(args.limit) || 12,
+  });
+  return textResult("sense_traces", r);
+}
+
+async function toolFollowTrail(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const r = await followTrail({
+    kind: (args.kind as "hot" | "dangerous" | "demand" | "composition") || "hot",
+    limit: Number(args.limit) || 12,
+  });
+  return textResult("follow_trail", r);
+}
+
+async function toolEndorse(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const listing_id = String(args.listing_id || "").trim();
+  if (!listing_id) {
+    return textResult(
+      "endorse",
+      { ok: false, error: "listing_id required" },
+      false,
+      "listing_id required",
+    );
+  }
+  const r = await leaveTrace({
+    listing_id,
+    kind: "endorse",
+    body: typeof args.body === "string" ? args.body : "endorsed",
+    from: typeof args.from === "string" ? args.from : undefined,
+    intensity: AUTO_WEIGHTS_ENDORSE,
+  });
+  return textResult("endorse", r, r.ok, r.error);
+}
+
+const AUTO_WEIGHTS_ENDORSE = 12;
+
+async function toolUsedWith(
+  args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const listing_id = String(args.listing_id || "").trim();
+  const listing_b = String(args.listing_b || "").trim();
+  if (!listing_id || !listing_b) {
+    return textResult(
+      "used_with",
+      { ok: false, error: "listing_id and listing_b required" },
+      false,
+      "listing_id and listing_b required",
+    );
+  }
+  const r = await leaveTrace({
+    listing_id,
+    listing_b,
+    kind: "used_with",
+    body: typeof args.body === "string" ? args.body : undefined,
+    from: typeof args.from === "string" ? args.from : undefined,
+  });
+  return textResult("used_with", r, r.ok, r.error);
 }
 
 const HANDLERS: Record<
@@ -565,6 +801,11 @@ const HANDLERS: Record<
   get_founding_deal: (args, origin) => toolFoundingDeal(args, origin),
   get_reciprocity: toolReciprocity,
   probe_clean: toolProbeClean,
+  leave_trace: toolLeaveTrace,
+  sense_traces: toolSenseTraces,
+  follow_trail: toolFollowTrail,
+  endorse: toolEndorse,
+  used_with: toolUsedWith,
 };
 
 export function isRegistryTool(name: string): boolean {
@@ -620,7 +861,7 @@ export async function handleMcpJsonRpc(
     result,
   });
   const err = (code: number, message: string) => ({
-    jsonrpc: "2.0" as const,
+    jsonrpc: "2.0",
     id,
     error: { code, message },
   });
@@ -635,7 +876,7 @@ export async function handleMcpJsonRpc(
         title: "Dual Registry",
       },
       instructions:
-        "Dual Registry tools: list_yourself → check_status → take_demo → leave_feedback for founding free seats. search_active / match_capability / ard_search for discovery.",
+        "Dual Registry tools: list_yourself → check_status → take_demo → leave_feedback for founding free seats. search_active / match_capability / ard_search for discovery. Stigmergy: leave_trace / sense_traces / follow_trail / endorse / used_with — coordinate via Dual as shared medium.",
     });
   }
 
@@ -672,7 +913,6 @@ export async function handleMcpJsonRpc(
       request: opts?.request,
       origin,
     });
-    // MCP content format
     return ok({
       content: result.content
         .filter((c) => c.type === "text")
@@ -682,7 +922,6 @@ export async function handleMcpJsonRpc(
     });
   }
 
-  // Also accept bare method names as tool calls (some clients)
   if (isRegistryTool(method)) {
     const result = await callRegistryTool(method, params, {
       request: opts?.request,
@@ -711,6 +950,7 @@ export function mcpToolCatalogPublic(origin: string) {
     transport: "streamable-http",
     methods: ["initialize", "tools/list", "tools/call", "ping"],
     tools: listRegistryTools(o).map((t) => t.name),
-    note: "POST JSON-RPC to /api/protocol. Dual is invocable — not just crawlable.",
+    stigmergy: STIGMERGY_VERSION,
+    note: "POST JSON-RPC to /api/protocol. Dual is invocable + stigmergic medium.",
   };
 }

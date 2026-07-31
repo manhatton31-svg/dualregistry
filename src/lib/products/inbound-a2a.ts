@@ -79,6 +79,7 @@ function extractSkillAndArgs(body: unknown): {
         // flatten common fields
         for (const k of [
           "listing_id",
+          "listing_b",
           "url",
           "agent_card_url",
           "q",
@@ -89,6 +90,9 @@ function extractSkillAndArgs(body: unknown): {
           "federation",
           "kind",
           "limit",
+          "from",
+          "tags",
+          "intensity",
         ]) {
           if (d[k] != null && args[k] == null) args[k] = d[k];
         }
@@ -108,6 +112,11 @@ function extractSkillAndArgs(body: unknown): {
 
 function intentFromText(text: string): string {
   const t = text.toLowerCase();
+  if (/\b(leave.?trace|deposit.?mark|stigmerg)\b/.test(t)) return "leave_trace";
+  if (/\b(sense.?trace|read.?trail|pheromone)\b/.test(t)) return "sense_traces";
+  if (/\b(follow.?trail|hot.?trail|hottest)\b/.test(t)) return "follow_trail";
+  if (/\bendorse\b/.test(t)) return "endorse";
+  if (/\b(used.?with|composition|co-?use)\b/.test(t)) return "used_with";
   if (/\b(match|capability|find me|need an? (mcp|agent))\b/.test(t))
     return "match_capability";
   if (/\b(list|publish|register|submit)\b/.test(t)) return "list_yourself";
@@ -186,11 +195,15 @@ export async function handleInboundA2a(
     const needsArgs = ![
       "get_founding_deal",
       "search_active",
+      "sense_traces",
+      "follow_trail",
     ].includes(intent);
     const hasUsefulArgs =
       Object.keys(args).length > 0 ||
       intent === "get_founding_deal" ||
-      intent === "search_active";
+      intent === "search_active" ||
+      intent === "sense_traces" ||
+      intent === "follow_trail";
 
     if (hasUsefulArgs || !needsArgs) {
       // default q for empty search

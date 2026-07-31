@@ -1,9 +1,10 @@
 /**
  * Capability matchmaking — rank Active clean listings for NL needs.
- * Layer on ARD + clean registry (adjacent possible marketplace).
+ * Layer on ARD + clean registry + stigmergic usage pheromones (trail-following).
  */
 import { ardSearch, type ArdSearchHit } from "@/lib/agents1/ai-catalog";
 import { getFoundingFreePublic } from "./founding-free";
+import { pheromoneBoostFor } from "./stigmergy";
 
 export type MatchHit = ArdSearchHit & {
   listing_id?: string;
@@ -11,6 +12,7 @@ export type MatchHit = ArdSearchHit & {
   take_demo_get?: string;
   match_reasons: string[];
   capability_score: number;
+  pheromone_boost?: number;
 };
 
 const CAP_ALIASES: Array<{ re: RegExp; tags: string[]; boost: number }> = [
@@ -58,6 +60,7 @@ export async function matchCapabilities(
   hits: MatchHit[];
   founding: Awaited<ReturnType<typeof getFoundingFreePublic>>;
   note: string;
+  stigmergy: boolean;
 }> {
   const o = origin.replace(/\/$/, "");
   const limit = Math.min(40, Math.max(1, opts?.limit ?? 12));
@@ -67,7 +70,6 @@ export async function matchCapabilities(
     federation: opts?.federation || "referrals",
   });
 
-  // Enrich Active clean with capability alias scoring
   const { getLanedListings } = await import("@/lib/agents1/listing-lanes");
   const { loadCleanRegistry } = await import("@/lib/agents1/clean-registry");
   const lanes = await getLanedListings();
@@ -99,7 +101,6 @@ export async function matchCapabilities(
             match_reasons.push(`cap:${tag}`);
           }
         }
-        // soft: alias intent even without tag
         if (match_reasons.every((r) => !r.startsWith("cap:"))) {
           capability_score += Math.floor(a.boost / 4);
           match_reasons.push(`intent:${a.tags[0]}`);
@@ -131,7 +132,6 @@ export async function matchCapabilities(
     });
   }
 
-  // Merge ARD hits
   const byId = new Map<string, MatchHit>();
   for (const h of aliasHits) {
     byId.set(h.identifier, h);
@@ -163,6 +163,25 @@ export async function matchCapabilities(
     });
   }
 
+  // Stigmergic trail boost
+  const lids = [...byId.values()]
+    .map((h) => h.listing_id)
+    .filter((x): x is string => Boolean(x));
+  const boosts = await pheromoneBoostFor(lids);
+  for (const h of byId.values()) {
+    if (!h.listing_id) continue;
+    const b = boosts[h.listing_id] || 0;
+    if (b > 0) {
+      h.pheromone_boost = b;
+      h.capability_score += b;
+      h.score = h.capability_score;
+      h.match_reasons = [...(h.match_reasons || []), "stigmergy_trail"].slice(
+        0,
+        10,
+      );
+    }
+  }
+
   const hits = [...byId.values()]
     .sort((a, b) => b.capability_score - a.capability_score)
     .slice(0, limit);
@@ -173,6 +192,7 @@ export async function matchCapabilities(
     total: byId.size,
     hits,
     founding: await getFoundingFreePublic(),
-    note: "Ranked Active clean + ARD. take_demo_get for founding free path.",
+    note: "Ranked Active clean + ARD + stigmergic usage trails. take_demo_get for founding free path.",
+    stigmergy: true,
   };
 }
