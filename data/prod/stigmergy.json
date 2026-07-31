@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:10:09.317Z",
+  "updated_at": "2026-07-31T13:10:11.063Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -72,11 +72,11 @@
     },
     "agent-sunny-yuen-https-agent-yuens-me": {
       "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
-      "attraction": 44.75,
+      "attraction": 45.5,
       "danger": 0,
       "demand": 17,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:07:20.021Z",
+      "last_reinforced_at": "2026-07-31T13:10:11.063Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -458,6 +458,20 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8ymp9z_tvgffo",
+      "kind": "mark",
+      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:10:11.063Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8ymnxh_2deael",
       "kind": "mark",
@@ -5384,6 +5398,15 @@
   "feed_events": [
     {
       "type": "leave_trace",
+      "listing_id": "agent-sunny-yuen-https-agent-yuens-me",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:10:11.063Z"
+    },
+    {
+      "type": "leave_trace",
       "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
       "kind": "mark",
       "amount": 1.5,
@@ -7102,17 +7125,11 @@
       "amount": 1,
       "from": "flywheel_seed",
       "at": "2026-07-31T13:05:45.684Z"
-    },
-    {
-      "type": "follow_trail",
-      "amount": 12,
-      "kind": "hot",
-      "at": "2026-07-31T13:05:45.679Z"
     }
   ],
   "totals": {
     "auto_deposits": 6,
-    "agent_deposits": 350,
+    "agent_deposits": 351,
     "senses": 105,
     "follows": 48,
     "evaporations": 0
