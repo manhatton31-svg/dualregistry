@@ -1,6 +1,6 @@
 {
   "version": "2.9.0",
-  "updated_at": "2026-07-31T13:02:00.011Z",
+  "updated_at": "2026-07-31T13:02:34.855Z",
   "pheromones": {
     "agent-agoragentic-https-agoragentic-com": {
       "listing_id": "agent-agoragentic-https-agoragentic-com",
@@ -38,11 +38,11 @@
     },
     "agent-agent-guild-https-agent-guild-5d5r-onrender-com": {
       "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
-      "attraction": 3.25,
+      "attraction": 4,
       "danger": 0,
       "demand": 7,
       "joined": 0,
-      "last_reinforced_at": "2026-07-31T13:01:56.036Z",
+      "last_reinforced_at": "2026-07-31T13:02:33.583Z",
       "event_counts": {
         "demos": 0,
         "feedback": 0,
@@ -191,6 +191,20 @@
     }
   },
   "marks": [
+    {
+      "id": "tr_ms8ycwa7_v32hph",
+      "kind": "mark",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "intensity": 1.5,
+      "at": "2026-07-31T13:02:33.583Z",
+      "tags": [
+        "read_residue",
+        "follow",
+        "near_zero"
+      ]
+    },
     {
       "id": "tr_ms8yc5zp_7h7cp7",
       "kind": "mark",
@@ -396,6 +410,27 @@
     }
   ],
   "feed_events": [
+    {
+      "type": "follow_trail",
+      "amount": 8,
+      "kind": "hot",
+      "at": "2026-07-31T13:02:34.855Z"
+    },
+    {
+      "type": "leave_trace",
+      "listing_id": "agent-agent-guild-https-agent-guild-5d5r-onrender-com",
+      "kind": "mark",
+      "amount": 1.5,
+      "from": "flywheel_follow",
+      "body": "follow residue",
+      "at": "2026-07-31T13:02:33.583Z"
+    },
+    {
+      "type": "follow_trail",
+      "amount": 8,
+      "kind": "hot",
+      "at": "2026-07-31T13:02:32.855Z"
+    },
     {
       "type": "follow_trail",
       "amount": 8,
@@ -608,9 +643,9 @@
   ],
   "totals": {
     "auto_deposits": 0,
-    "agent_deposits": 14,
+    "agent_deposits": 15,
     "senses": 2,
-    "follows": 6,
+    "follows": 8,
     "evaporations": 0
   }
 }
