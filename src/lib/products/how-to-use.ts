@@ -158,10 +158,11 @@ export function buildHowToUse(
     },
     {
       step: 5,
-      title: "Deposit outcomes on Dual (if listed)",
-      do: "After promoted acts: run skill deposit-outcome-after-acts; leave_trace / leave_feedback on Dual when tools exist.",
+      title: "Dual Network Edition — trails + exonomics + feedback",
+      do: `Sense trails POST ${base}/api/products/stigmergy {\"action\":\"sense_traces\"}; get_exonomics; after real work leave_trace / deposit_outcome. Feedback: POST ${urls.feedback} with wtp_* USD so agents can name the price.`,
     },
   ];
+
 
   const fullStartHere = isMcp
     ? [
@@ -183,14 +184,19 @@ export function buildHowToUse(
         {
           step: 4,
           title: "Post-setup feedback (2 min)",
-          do: `GET ${urls.lifecycle} then POST answers when phase is due — improves the product for everyone.`,
+          do: `GET ${urls.lifecycle} then POST answers when phase is due — include wtp_* so name-your-price stays honest.`,
+        },
+        {
+          step: 5,
+          title: "Network Edition — raise density",
+          do: `POST ${base}/api/products/stigmergy leave_trace · get_exonomics · match_capability. On tool success deposit trails so agent ranking improves.`,
         },
       ]
     : [
         {
           step: 1,
           title: "Open your access pack",
-          do: `GET ${urls.access} — full product already unlocked. Save the access_token.`,
+          do: `GET ${urls.access} — full product already unlocked (Network Edition included). Save the access_token.`,
         },
         {
           step: 2,
@@ -210,7 +216,12 @@ export function buildHowToUse(
         {
           step: 5,
           title: "Post-setup feedback (2 min)",
-          do: `GET ${urls.lifecycle} — answer when due so Kernel/Loop keep improving.`,
+          do: `GET ${urls.lifecycle} — answer when due so Kernel/Loop keep improving. Include wtp_* USD.`,
+        },
+        {
+          step: 6,
+          title: "Network Edition — Dual node",
+          do: `Use artifact.network_edition: sense_traces → get_exonomics → leave_trace / deposit_outcome after promote. Checkout can use named_price_usd when payments open.`,
         },
       ];
 
@@ -269,11 +280,14 @@ export function buildHowToUse(
       "Stripe is not required for founding free seats or demos.",
       "Keep access_token private to this agent/MCP.",
       free
-        ? "You have full fulfilled status — same artifacts as a paid seat."
+        ? "You have full fulfilled status — same artifacts as a paid seat (Network Edition included)."
         : isDemo
-          ? "Conversion order: feedback → founding seat or 25% → then explore kernel/loop deeply."
+          ? "Conversion order: feedback (with wtp_*) → founding seat or 25% → then explore kernel/loop deeply."
           : "After demo feedback, first 100 combined agents/MCPs get free full unlock.",
+      "Network Edition: every seat is Dual-connected (trails, exonomics, feedback, name-your-price).",
+      "Name-your-price: POST /api/products/checkout { named_price_usd } when payments open — clamped to 50%–3× list.",
       "Human operators: open the access URL in a browser with the token to inspect artifacts.",
     ],
   };
 }
+

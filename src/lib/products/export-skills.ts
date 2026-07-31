@@ -5,6 +5,7 @@
 import { createHash } from "node:crypto";
 import type { ProductOrder } from "./orders";
 import { PRODUCTS } from "./catalog";
+import { buildNetworkEdition } from "./network-edition";
 
 export type SkillFile = { path: string; content: string };
 
@@ -45,6 +46,10 @@ export function buildSkillsTree(order: ProductOrder): {
       `Status: ${order.status}`,
       `Access token: use Authorization: Bearer or ?token=`,
       "",
+      "## Network Edition",
+      "Every seat ships Dual-connected: sense_traces, leave_trace, get_exonomics, leave_feedback, name-your-price.",
+      "See `network_edition/SKILL.md` and artifact.network_edition.",
+      "",
       "## Install",
       "1. Unzip or copy this tree into your agent skills directory",
       "2. Claude Code: `.claude/skills/` or `~/.claude/skills/`",
@@ -53,6 +58,38 @@ export function buildSkillsTree(order: ProductOrder): {
       "Progressive disclosure: read each SKILL.md description first; load sibling files only when invoked.",
     ].join("\n"),
   });
+
+  // Shared Network Edition skill (all SKUs)
+  try {
+    const ne = buildNetworkEdition();
+    files.push({
+      path: `${root}/network_edition/SKILL.md`,
+      content: skillMd(
+        "dual-network-edition",
+        "Dual Network Edition: trails, exonomics, feedback, name-your-price for every Agents1 seat.",
+        ne.skill_md,
+      ),
+    });
+    files.push({
+      path: `${root}/network_edition/dual_node.json`,
+      content: JSON.stringify(
+        {
+          edition: ne.edition,
+          version: ne.version,
+          dual_node: ne.dual_node,
+          tools: ne.tools,
+          founding_path: ne.founding_path,
+          name_your_price: ne.name_your_price,
+          how_to_use: ne.how_to_use,
+        },
+        null,
+        2,
+      ),
+    });
+  } catch {
+    /* */
+  }
+
 
   if (arts.kernel) {
     const k = arts.kernel as {

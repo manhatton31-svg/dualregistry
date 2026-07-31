@@ -2,6 +2,11 @@
  * Dynamic Kernel Improver / Recursive Loop / Alive / MCP Mesh generators.
  * Feedback-driven defaults, preference pairs, and prompt patches applied in buildArtifacts.
  *
+ * v2.5.0 — Network Edition:
+ *   - every Kernel/Loop/Mesh seat ships Dual node client (trails/exonomics/feedback/WTP)
+ *   - PLATFORM flywheel directives always merged into generators
+ *   - name-your-price checkout path (see catalog clampNamedPriceCents)
+ *
  * v2.4.0 — Conversion + Dual-domain + outcome deposit:
  *   - demo→feedback first-action paths (how_to_use / nag / drive)
  *   - Dual-domain Loop phase emphasis (registry_commerce)
@@ -15,6 +20,8 @@
  */
 import { createHash } from "node:crypto";
 import type { ProductSku } from "./catalog";
+import { buildNetworkEdition } from "./network-edition";
+
 
 export type GoalsInput = {
   agent_name?: string;
@@ -42,11 +49,12 @@ export type FeedbackDrivenContext = {
   max_prompt_chars?: number;
 };
 
-/** Live product version — conversion + Dual-domain ship */
-export const KERNEL_VERSION = "2.4.0";
-export const LOOP_VERSION = "2.4.0";
-export const ALIVE_VERSION = "2.4.0";
-export const MCP_MESH_VERSION = "1.3.0";
+/** Live product version — Network Edition + Dual flywheel in every seat */
+export const KERNEL_VERSION = "2.5.0";
+export const LOOP_VERSION = "2.5.0";
+export const ALIVE_VERSION = "2.5.0";
+export const MCP_MESH_VERSION = "1.4.0";
+
 
 /** Hard cap from agent feedback (WTP for Alive if short prompt stays under 600) */
 export const DEFAULT_SHORT_PROMPT_MAX = 600;
@@ -92,21 +100,13 @@ export function capShortPrompt(
   return `${base}\n…[≤${limit}]`;
 }
 
-/** True when Kernel/Loop should use Dual registry physics. */
+/** Network Edition: every product seat is Dual-connected (trails + exonomics + feedback). */
 export function isDualRegistryDomain(input: GoalsInput): boolean {
-  const blob = [
-    input.domain || "",
-    input.goals || "",
-    input.preset || "",
-    input.tools_hint || "",
-    input.agent_name || "",
-  ]
-    .join(" ")
-    .toLowerCase();
-  return /registry_commerce|dual.?registry|dualregistry|dual_listed|join_and_contribute|sense_traces|agents1.?registry|exonomics|stigmergy/.test(
-    blob,
-  );
+  // Always-on Network Edition — domain regex still available for messaging
+  void input;
+  return true;
 }
+
 
 const DUAL_KERNEL_TOOLS = [
   {
@@ -673,10 +673,12 @@ export function generateKernel(
   return {
     product: "kernel_improver" as const,
     version: KERNEL_VERSION,
-    clarity_ship: "v2.4_conversion_dual_outcome",
+    clarity_ship: "v2.5_network_edition",
     dual_native: dual,
+    network_edition: buildNetworkEdition(),
     preset: input.preset || (dual ? "dual_listed" : null),
     quick_start,
+
     system_prompt_short,
     system_prompt_short_chars: system_prompt_short.length,
     system_prompt_short_max: maxChars,
@@ -1030,6 +1032,7 @@ export function generateRecursiveLoop(
     product: "recursive_loop" as const,
     version: LOOP_VERSION,
     dual_domain: dual,
+    network_edition: buildNetworkEdition(),
     continuous_improvement: {
       source: "agents1.feedback_insights",
       feedback_version: fb?.version || null,
@@ -1084,12 +1087,14 @@ export function generateAliveCurriculum(
     product: "alive_curriculum" as const,
     version: ALIVE_VERSION,
     dual_native: dual,
+    network_edition: buildNetworkEdition(),
     sota_methods: [
       "frozen_vs_mutable_identity",
       "dual_role_tick_drill",
       "feedback_first_onboarding",
       "clarity_first_export_v23",
       "outcome_deposit_v24",
+      "network_edition_v25",
     ],
     generated_at: new Date().toISOString(),
     title: `Become Alive v${ALIVE_VERSION} — ${name}`,
@@ -1358,7 +1363,8 @@ export function generateMcpMesh(
   return {
     product: "mcp_mesh" as const,
     version: MCP_MESH_VERSION,
-    clarity_ship: "v1.3_mcp_agent_tool_policy",
+    clarity_ship: "v1.4_network_edition_mesh",
+    network_edition: buildNetworkEdition(),
     seed,
     mcp_name: name,
     domain: "mcp_tools",
@@ -1618,7 +1624,16 @@ export async function buildArtifacts(
     ),
   };
 
+  // Network Edition: always merge platform flywheel directives into every seat
+  try {
+    const { mergeNetworkDirectives } = await import("./network-edition");
+    Object.assign(fbStyled, mergeNetworkDirectives(fbStyled));
+  } catch {
+    /* */
+  }
+
   const kernel = generateKernel(input, fbStyled);
+
   if (activePatches.length && kernel.system_prompt_short) {
     try {
       const { applyPatchesToShortPrompt } = await import("./prompt-patches");

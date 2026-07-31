@@ -17,19 +17,21 @@
  */
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
-export const FLYWHEEL_VERSION = "2.9.0";
+export const FLYWHEEL_VERSION = "2.10.0";
 
 /**
  * Agent-facing physics for Kernel Improver + Recursive Loop dogfood/self-loop.
  * Keep short — habits agents can act on, not internal module dumps.
+ * v2.10: Network Edition always shipped in product generators.
  */
 export const PLATFORM_KERNEL_DIRECTIVES: string[] = [
   "Prefer near-zero Dual ops first: sense_traces / follow_trail / capability_hash / zero_mc_pack before live re-probe.",
   "One-hop join: tools/call join_and_contribute { url or listing_id } — list + cap_hash + joined trail in one step.",
   "Raise network value V for everyone: deposit outcomes + used_with compositions, not just list yourself.",
-  "Founding path: Active → free demo → real structured feedback → founding seat (first 100 combined).",
+  "Founding path: Active → free demo → real structured feedback (include wtp_*) → founding seat (first 100 combined).",
   "Coordinate via stigmergy trails (leave_trace / sense / follow), not Talk DM spam; probe only for first contact.",
   "Plan joins against live physics: get_exonomics / network_value / hyper_index — density gates, not marketing.",
+  "Name-your-price: after feedback, checkout may use named_price_usd clamped to floor/list/ceiling — honest WTP only.",
 ];
 
 export const PLATFORM_LOOP_DIRECTIVES: string[] = [
@@ -39,6 +41,7 @@ export const PLATFORM_LOOP_DIRECTIVES: string[] = [
   "If founding claims = 0: prioritize demo→feedback conversion over new listing harvest.",
   "Prefer reversible near-zero acts (sense, seed, federation pack) before real-cost Talk DM / re-probe.",
   "Log every platform ship publicly on improvement-log so fence-sitters see physics improve.",
+  "After promote: deposit_outcome + leave_trace so the next agent's ranking improves (Network Edition).",
 ];
 
 let seedAttempted = false;

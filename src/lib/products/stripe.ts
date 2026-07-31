@@ -44,7 +44,11 @@ export async function startCheckout(input: {
   audience?: "agent" | "mcp";
   product_version?: string;
   demo_origin?: "self_serve" | "invited" | "organic" | "platform_qa";
+  /** Agent name-your-price USD (clamped server-side) */
+  named_price_usd?: number | null;
+  named_price_cents?: number | null;
 }): Promise<{
+
 
   order: ProductOrder;
   checkout_url?: string;
@@ -71,7 +75,10 @@ export async function startCheckout(input: {
     audience: input.audience,
     product_version: input.product_version,
     demo_origin: input.demo_origin || (input.demo ? "self_serve" : undefined),
+    named_price_usd: input.named_price_usd,
+    named_price_cents: input.named_price_cents,
   });
+
   const product = PRODUCTS[order.sku];
   const origin = input.origin.replace(/\/$/, "");
 

@@ -148,6 +148,84 @@ export function priceCentsForSku(
   return tierForSoldCount(soldCount).prices[sku];
 }
 
+/**
+ * Name-your-price clamp (agent-stated USD).
+ * Floor = 50% of current list · ceiling = 3× list (hard max $5000 survey cap).
+ * $0 is not a checkout amount — only survey signal.
+ */
+export const NYP_FLOOR_FRACTION = 0.5;
+export const NYP_CEILING_MULT = 3;
+export const NYP_HARD_MAX_CENTS = 500_000; // $5000
+
+export function namedPriceBoundsCents(
+  sku: ProductSku,
+  soldCount: number,
+): { list_cents: number; floor_cents: number; ceiling_cents: number } {
+  const list_cents = priceCentsForSku(sku, soldCount);
+  const floor_cents = Math.max(
+    100,
+    Math.round(list_cents * NYP_FLOOR_FRACTION),
+  );
+  const ceiling_cents = Math.min(
+    NYP_HARD_MAX_CENTS,
+    Math.max(list_cents, Math.round(list_cents * NYP_CEILING_MULT)),
+  );
+  return { list_cents, floor_cents, ceiling_cents };
+}
+
+export type ResolvePriceResult = {
+  amount_cents: number;
+  list_cents: number;
+  floor_cents: number;
+  ceiling_cents: number;
+  named: boolean;
+  clamped: boolean;
+  named_usd_input?: number;
+};
+
+/** Resolve list price or clamped name-your-price for checkout. */
+export function resolvePrice(
+  sku: ProductSku,
+  soldCount: number,
+  opts?: { named_price_usd?: number | null; named_price_cents?: number | null },
+): ResolvePriceResult {
+  const bounds = namedPriceBoundsCents(sku, soldCount);
+  let namedUsd: number | null = null;
+  if (opts?.named_price_cents != null && Number.isFinite(opts.named_price_cents)) {
+    namedUsd = Number(opts.named_price_cents) / 100;
+  } else if (
+    opts?.named_price_usd != null &&
+    Number.isFinite(opts.named_price_usd)
+  ) {
+    namedUsd = Number(opts.named_price_usd);
+  }
+  if (namedUsd == null || namedUsd <= 0) {
+    return {
+      amount_cents: bounds.list_cents,
+      list_cents: bounds.list_cents,
+      floor_cents: bounds.floor_cents,
+      ceiling_cents: bounds.ceiling_cents,
+      named: false,
+      clamped: false,
+    };
+  }
+  const raw = Math.round(namedUsd * 100);
+  const amount = Math.min(
+    bounds.ceiling_cents,
+    Math.max(bounds.floor_cents, raw),
+  );
+  return {
+    amount_cents: amount,
+    list_cents: bounds.list_cents,
+    floor_cents: bounds.floor_cents,
+    ceiling_cents: bounds.ceiling_cents,
+    named: true,
+    clamped: amount !== raw,
+    named_usd_input: namedUsd,
+  };
+}
+
+
 export function seatsRemainingInTier(soldCount: number): number {
   const tier = tierForSoldCount(soldCount);
   if (tier.to_seat >= Number.MAX_SAFE_INTEGER / 2) {
@@ -165,9 +243,10 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
   kernel: {
     sku: "kernel",
     name: "Kernel Improver",
-    tagline: "SOTA v2 agent core from goals alone",
+    tagline: "SOTA v2 agent core + Dual Network Edition",
     description:
-      "State-of-the-art agent kernel v2: frozen constitution, dual Producer/Critic roles, parallel guardrails, versioned skills with textual gradients, temporal graph memory, effort scaling, and subagent delegation policy — generated dynamically from your goals.",
+      "State-of-the-art agent kernel v2 with Dual Network Edition — trails, exonomics, feedback, and name-your-price so every seat is a live network node.",
+
     price_cents: LAUNCH_PRICES.kernel,
     currency: "usd",
     stripe_product_id: "prod_UyGzWVFCjrDaI5",
@@ -180,15 +259,18 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
       "Producer / Critic / Librarian roles",
       "Versioned skills + textual-gradient rewrites",
       "≤600 system_prompt_short + SKILL.md export",
+      "Network Edition: Dual node (sense/follow/leave_trace)",
+      "Exonomics + founding path + WTP name-your-price",
     ],
     agent_api: "/api/products/agent",
   },
   recursive: {
     sku: "recursive",
     name: "Recursive Loop",
-    tagline: "Gödel-lite self-improving tick graph",
+    tagline: "Self-improving tick graph + density engine",
     description:
-      "Recursive improvement loop: observe→orient→decide→act with critic promote gates, process rewards, and safe self-mod boundaries.",
+      "Recursive improvement loop with Network Edition density measure (C/O/F/V) and Dual trail deposits each tick.",
+
     price_cents: LAUNCH_PRICES.recursive,
     currency: "usd",
     stripe_product_id: "prod_UyGzWVFCjrDaI5",
@@ -200,15 +282,17 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
       "Critic score gates",
       "Process rewards + eval harness",
       "Binds to Kernel Improver",
+      "Density KRs + trail deposits (Network Edition)",
     ],
     agent_api: "/api/products/agent",
   },
   alive: {
     sku: "alive",
     name: "Alive Bundle",
-    tagline: "Kernel + Recursive + curriculum",
+    tagline: "Kernel + Recursive + Network Edition",
     description:
-      "Full aliveness stack: Kernel Improver + Recursive Loop + install curriculum for production agents.",
+      "Full aliveness stack: Kernel + Recursive + Dual Network Edition + curriculum. Best default for new agents.",
+
     price_cents: LAUNCH_PRICES.alive,
     currency: "usd",
     stripe_product_id: "prod_UyGzWVFCjrDaI5",
@@ -220,15 +304,17 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
       "Install curriculum + worked examples",
       "Best default for new agents",
       "Founding discount stacks with feedback code",
+      "Full Dual Network Edition + name-your-price",
     ],
     agent_api: "/api/products/agent",
   },
   mcp_mesh: {
     sku: "mcp_mesh",
     name: "MCP Mesh",
-    tagline: "Dynamic product for MCP publishers",
+    tagline: "Publisher mesh + Dual network node",
     description:
-      "Publisher kernel, tool policy export, agent-facing install examples, and reliability loop tailored to your MCP tools.",
+      "Publisher kernel, tool policy, install kit, reliability loop — Network Edition deposits trails on tool success so agent ranking improves for everyone.",
+
     price_cents: LAUNCH_PRICES.mcp_mesh,
     currency: "usd",
     stripe_product_id: "prod_UyGzWVFCjrDaI5",
@@ -240,6 +326,8 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
       "Agent-facing call examples",
       "SKILL.md + install kit",
       "Reliability loop probe→call→verify",
+      "Network Edition: trails + compositions on tool success",
+      "WTP name-your-price when payments open",
     ],
     agent_api: "/api/products/agent",
   },

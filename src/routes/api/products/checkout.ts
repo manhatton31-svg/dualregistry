@@ -1,28 +1,61 @@
 /**
  * POST /api/products/checkout — demo or Stripe paid checkout
+ * Name-your-price: named_price_usd (clamped 50%–3× list when payments open)
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { startCheckout } from "@/lib/products/stripe";
 import { publicOrder } from "@/lib/products/orders";
 import { getPaymentGate } from "@/lib/products/payment-gate";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
+import {
+  LAUNCH_PRICES,
+  namedPriceBoundsCents,
+  formatUsd,
+  type ProductSku,
+} from "@/lib/products/catalog";
 
 export const Route = createFileRoute("/api/products/checkout")({
   server: {
     handlers: {
       GET: async () => {
         const gate = await getPaymentGate();
+        const skus: ProductSku[] = ["kernel", "recursive", "alive", "mcp_mesh"];
+        const nyp = Object.fromEntries(
+          skus.map((sku) => {
+            const b = namedPriceBoundsCents(sku, 0);
+            return [
+              sku,
+              {
+                list: formatUsd(b.list_cents),
+                floor: formatUsd(b.floor_cents),
+                ceiling: formatUsd(b.ceiling_cents),
+              },
+            ];
+          }),
+        );
         return Response.json(
           {
-            name: "Agents1 product checkout",
+            name: "Agents1 product checkout — Network Edition",
             usage:
               gate.payments_open
-                ? "POST { sku, goals, demo?: boolean, audience?: agent|mcp, discount_code? }"
-                : "POST { sku, goals, demo: true } — demos only until 250 feedback agents + 250 feedback MCPs; feedback → 25% founding vault",
-            skus: ["kernel", "recursive", "alive", "mcp_mesh"],
+                ? "POST { sku, goals, demo?: boolean, audience?: agent|mcp, discount_code?, named_price_usd? }"
+                : "POST { sku, goals, demo: true } — demos only until 250 feedback agents + 250 feedback MCPs; feedback → 25% founding vault + WTP samples",
+            skus,
             payments_open: gate.payments_open,
+            network_edition: true,
+            name_your_price: {
+              field: "named_price_usd",
+              note: "Agents name USD; server clamps to [50% list, 3× list]. $0 is survey-only via feedback, not checkout.",
+              founding_list: {
+                kernel: formatUsd(LAUNCH_PRICES.kernel),
+                recursive: formatUsd(LAUNCH_PRICES.recursive),
+                alive: formatUsd(LAUNCH_PRICES.alive),
+                mcp_mesh: formatUsd(LAUNCH_PRICES.mcp_mesh),
+              },
+              bounds_at_founding: nyp,
+            },
             next_steps_on_demo:
-              "Response includes next_steps.example_body for POST /api/products/feedback",
+              "Response includes next_steps.example_body for POST /api/products/feedback (include wtp_* for name-your-price learning)",
           },
           { headers: { "access-control-allow-origin": "*" } },
         );
@@ -44,6 +77,9 @@ export const Route = createFileRoute("/api/products/checkout")({
           cost_mode?: string;
           audience?: string;
           demo_origin?: string;
+          named_price_usd?: number;
+          named_price_cents?: number;
+          amount_usd?: number;
         };
         try {
           body = await request.json();
@@ -69,6 +105,13 @@ export const Route = createFileRoute("/api/products/checkout")({
               ? "mcp"
               : "agent";
 
+          const named =
+            body.named_price_usd ??
+            body.amount_usd ??
+            (body.named_price_cents != null
+              ? body.named_price_cents / 100
+              : null);
+
           const result = await startCheckout({
             sku: body.sku,
             goals: body.goals,
@@ -89,6 +132,8 @@ export const Route = createFileRoute("/api/products/checkout")({
             audience,
             demo_origin:
               body.demo_origin === "invited" ? "invited" : "self_serve",
+            named_price_usd: named,
+            named_price_cents: body.named_price_cents,
           });
           try {
             const { trackFunnel } = await import(
@@ -109,13 +154,16 @@ export const Route = createFileRoute("/api/products/checkout")({
               order: {
                 ...publicOrder(result.order),
                 demo_origin: result.order.demo_origin,
+                name_your_price: result.order.meta?.name_your_price || false,
+                amount_cents: result.order.amount_cents,
               },
               payment_gate: result.payment_gate || gate,
               next_steps: result.next_steps,
+              network_edition: true,
               feedback_hint: result.next_steps
-                ? "POST /api/products/feedback with next_steps.example_body — soft 402 on access until done; 25% founding vault"
+                ? "POST /api/products/feedback with next_steps.example_body — include wtp_* USD; soft 402 on access until done; 25% founding vault"
                 : !gate.payments_open
-                  ? "POST /api/products/feedback after demo for 25% founding vault"
+                  ? "POST /api/products/feedback after demo for 25% founding vault + WTP learning"
                   : undefined,
             },
             {

@@ -11,7 +11,9 @@ import {
   resolveSku,
   priceCentsForSku,
   tierForSoldCount,
+  resolvePrice,
 } from "./catalog";
+
 import {
   buildArtifacts,
   type GoalsInput,
@@ -69,9 +71,10 @@ export type ProductOrder = {
    *  organic — reserved for external referrals
    */
   demo_origin?: "self_serve" | "invited" | "organic" | "platform_qa";
-  /** Internal flags e.g. platform_dogfood — never public */
+  /** Internal flags e.g. platform_dogfood, name_your_price — never public */
   meta?: Record<string, unknown>;
 };
+
 
 type Store = {
   orders: Record<string, ProductOrder>;
@@ -214,6 +217,9 @@ export async function createOrder(input: {
   audience?: "agent" | "mcp";
   product_version?: string;
   demo_origin?: "self_serve" | "invited" | "organic" | "platform_qa";
+  /** Agent-named USD — clamped server-side (50%–3× list) */
+  named_price_usd?: number | null;
+  named_price_cents?: number | null;
 }): Promise<ProductOrder> {
 
   const sku = resolveSku(input.sku);
@@ -231,7 +237,11 @@ export async function createOrder(input: {
   const product = PRODUCTS[sku];
   const sold = await countPaidSeats();
   const tier = tierForSoldCount(sold);
-  let amount = priceCentsForSku(sku, sold);
+  const priced = resolvePrice(sku, sold, {
+    named_price_usd: input.named_price_usd,
+    named_price_cents: input.named_price_cents,
+  });
+  let amount = priced.amount_cents;
   const amount_before = amount;
   let discount_percent: number | undefined;
   let discount_code: string | undefined;
@@ -290,10 +300,23 @@ export async function createOrder(input: {
     discount_code,
     discount_percent,
     amount_cents_before_discount:
-      discount_percent != null ? amount_before : undefined,
+      discount_percent != null || priced.named ? amount_before : undefined,
     cost_mode,
     audience: input.audience,
     product_version,
+    meta: {
+      network_edition: true,
+      ...(priced.named
+        ? {
+            name_your_price: true,
+            named_usd_input: priced.named_usd_input,
+            list_cents: priced.list_cents,
+            floor_cents: priced.floor_cents,
+            ceiling_cents: priced.ceiling_cents,
+            clamped: priced.clamped,
+          }
+        : {}),
+    },
   };
 
   s.orders[order.id] = order;
@@ -305,6 +328,7 @@ export async function createOrder(input: {
   await persist(s);
   return order;
 }
+
 
 export async function getOrder(id: string): Promise<ProductOrder | null> {
   return (await load()).orders[id] || null;
