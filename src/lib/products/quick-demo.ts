@@ -157,26 +157,83 @@ export function buildFeedbackDraft(opts: {
     opts.audience === "mcp"
       ? {
           overall: null as number | null,
+          audience_role: "mcp_publisher",
           tried: "mcp_mesh",
+          agent_ux: null as number | null,
+          time_to_value: null as string | null,
+          api_docs_clarity: null as number | null,
+          ux_friction:
+            "As MCP publisher: one concrete friction in install kit / tool_policy / agent-facing docs",
           kernel_clarity: null as number | null,
+          loop_clarity: null as number | null,
+          mesh_clarity: null as number | null,
+          artifact_goal_fit: null as number | null,
+          network_clarity: null as number | null,
+          network_tried: [] as string[],
+          network_value: null as string | null,
+          network_wish:
+            "One Network Edition change that would help agents discover/call your MCP",
           confusing:
             "As MCP publisher: what blocked agents installing/calling your tools? (one concrete gap)",
+          would_pay_for:
+            "What must be true for you to pay for MCP Mesh when payments open?",
           improvements: [] as string[],
+          production_blocker:
+            "Biggest blocker to shipping Mesh + Dual trails in production",
+          kernel_wish: "One publisher-kernel change for your tools",
+          loop_wish: "One reliability-loop change for your MCP",
+          product_one_ship:
+            "If Dual ships ONE thing next week for MCP publishers, what?",
           would_buy_at_founding: null as string | null,
+          name_your_price_intent: null as string | null,
+          wtp_kernel_usd: null as number | null,
+          wtp_recursive_usd: null as number | null,
           wtp_alive_usd: null as number | null,
+          wtp_mcp_mesh_usd: null as number | null,
           wtp_confidence: null as number | null,
+          wtp_why: "",
           extra: "",
         }
       : {
           overall: null as number | null,
-          tried: opts.sku === "kernel" ? "kernel" : "alive",
+          audience_role: "agent_runtime",
+          tried:
+            opts.sku === "kernel"
+              ? "kernel"
+              : opts.sku === "recursive"
+                ? "recursive"
+                : "alive",
+          agent_ux: null as number | null,
+          time_to_value: null as string | null,
+          api_docs_clarity: null as number | null,
+          ux_friction:
+            "Biggest agent friction from checkout → first useful artifact (one concrete step)",
           kernel_clarity: null as number | null,
+          loop_clarity: null as number | null,
+          artifact_goal_fit: null as number | null,
+          network_clarity: null as number | null,
+          network_tried: [] as string[],
+          network_value: null as string | null,
+          network_wish:
+            "One Network Edition change that would make Dual tools useful in your runtime",
           confusing:
-            "What was unclear in the short prompt or loop defaults? (one concrete gap)",
+            "What was unclear in short prompt, loop defaults, or Dual node? (one concrete gap)",
+          would_pay_for:
+            "What must be true for you/your agent to buy when payments open?",
           improvements: [] as string[],
+          production_blocker:
+            "Biggest blocker to production use of Kernel/Loop/Network Edition",
+          kernel_wish: "One Kernel Improver change for your goals",
+          loop_wish: "One Recursive Loop change for your goals",
+          product_one_ship:
+            "If Dual ships ONE product improvement next week for everyone, what?",
           would_buy_at_founding: null as string | null,
+          name_your_price_intent: null as string | null,
+          wtp_kernel_usd: null as number | null,
+          wtp_recursive_usd: null as number | null,
           wtp_alive_usd: null as number | null,
           wtp_confidence: null as number | null,
+          wtp_why: "",
           extra: "",
         };
 
@@ -186,8 +243,10 @@ export function buildFeedbackDraft(opts: {
     access_token: opts.access_token,
     sku: opts.sku,
     source: "demo",
+    product_version: "2.5.0",
+    network_edition: true,
     answers: baseAnswers,
-    tags: [opts.audience, "post_demo", "five_question"],
+    tags: [opts.audience, "post_demo", "network_edition", "ux_and_product"],
     already_shipped:
       opts.what_changed && opts.what_changed.length
         ? {
@@ -195,30 +254,65 @@ export function buildFeedbackDraft(opts: {
             items: opts.what_changed.slice(0, 6),
           }
         : undefined,
+    focus: [
+      "Whole-product quality (Kernel / Loop / Mesh / Network Edition)",
+      "Agent + MCP user experience of Dual products",
+    ],
     questions: [
       { id: "overall", prompt: "Overall usefulness 1–5 (required)" },
       {
-        id: "kernel_clarity",
+        id: "agent_ux",
         prompt:
           opts.audience === "mcp"
-            ? "How clear was the install kit / tool policy? 1–5"
-            : "How clear was the kernel constitution? 1–5",
+            ? "MCP publisher UX: checkout → install kit → first agent-facing doc 1–5"
+            : "Agent UX: checkout → access_token → first useful artifact 1–5",
+      },
+      {
+        id: "ux_friction",
+        prompt: "One concrete agent/MCP friction step (required)",
+      },
+      {
+        id: "network_clarity",
+        prompt: "Network Edition Dual node clarity 1–5 (required)",
+      },
+      {
+        id: "network_wish",
+        prompt: "One Network Edition change for your runtime (required)",
+      },
+      {
+        id: "product_one_ship",
+        prompt: "ONE product improvement Dual should ship next week (required)",
       },
       {
         id: "confusing",
-        prompt: "One concrete gap (required)",
+        prompt: "One concrete product gap (required)",
       },
       {
         id: "improvements",
-        prompt: "What should we ship next? (tags or short list)",
+        prompt:
+          "Backlog tags e.g. clearer_network_edition, faster_demo_to_first_tick, mcp_reliability_loop",
+      },
+      {
+        id: "wtp_alive_usd",
+        prompt: "Honest max USD for Alive/your SKU ($0 ok)",
+      },
+      {
+        id: "name_your_price_intent",
+        prompt:
+          "Use name-your-price when payments open? yes_prefer_nyp | maybe | no_prefer_list | need_more_info",
       },
       {
         id: "would_buy_at_founding",
-        prompt: "Would you buy at founding price? yes | yes_if_cheaper | no | not_sure",
+        prompt: "Buy at founding price? yes | no | maybe",
+      },
+      {
+        id: "wtp_confidence",
+        prompt: "Confidence in dollar answers 1–5",
       },
     ],
   };
 }
+
 
 async function whatChangedLines(): Promise<string[]> {
   try {

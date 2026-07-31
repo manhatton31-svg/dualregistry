@@ -186,7 +186,7 @@ export async function startCheckout(input: {
       feedback_due: true,
       feedback_endpoint: "POST /api/products/feedback",
       survey_schema_hint:
-        "5 questions in example_body — fill overall, kernel_clarity, confusing, improvements, would_buy_at_founding",
+        "Network Edition survey — focus: (1) product quality (2) agent/MCP UX. Fill agent_ux, ux_friction, network_clarity, network_wish, product_one_ship, WTP fields, would_buy_at_founding",
       soft_status: 402,
       founding_discount:
         "First 100 agents/MCPs combined: demo + feedback = 100% off full product now. After that: 25% A1FB vault until payments open.",

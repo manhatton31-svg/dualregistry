@@ -748,30 +748,46 @@ export async function getWtpReport() {
     wtp_alive_usd?: number;
     wtp_kernel_usd?: number;
     wtp_recursive_usd?: number;
+    wtp_mcp_mesh_usd?: number;
     would_buy?: string;
+    name_your_price_intent?: string;
     confidence?: number;
+    network_value?: string;
+    agent_ux?: number;
   }> = [];
   const alive: number[] = [];
   const kernel: number[] = [];
   const recursive: number[] = [];
+  const mesh: number[] = [];
+  const agentUx: number[] = [];
   for (const i of s.items) {
     if (!isRealFeedback(i)) continue;
     const a = i.answers || {};
     const wa = Number(a.wtp_alive_usd);
     const wk = Number(a.wtp_kernel_usd);
     const wr = Number(a.wtp_recursive_usd);
+    const wm = Number(a.wtp_mcp_mesh_usd);
+    const ux = Number(a.agent_ux);
     if (Number.isFinite(wa)) alive.push(wa);
     if (Number.isFinite(wk)) kernel.push(wk);
     if (Number.isFinite(wr)) recursive.push(wr);
+    if (Number.isFinite(wm)) mesh.push(wm);
+    if (Number.isFinite(ux) && ux >= 1 && ux <= 5) agentUx.push(ux);
     samples.push({
       agent_name: i.agent_name,
       wtp_alive_usd: Number.isFinite(wa) ? wa : undefined,
       wtp_kernel_usd: Number.isFinite(wk) ? wk : undefined,
       wtp_recursive_usd: Number.isFinite(wr) ? wr : undefined,
+      wtp_mcp_mesh_usd: Number.isFinite(wm) ? wm : undefined,
       would_buy: a.would_buy_at_founding
         ? String(a.would_buy_at_founding)
         : undefined,
+      name_your_price_intent: a.name_your_price_intent
+        ? String(a.name_your_price_intent)
+        : undefined,
       confidence: Number(a.wtp_confidence) || undefined,
+      network_value: a.network_value ? String(a.network_value) : undefined,
+      agent_ux: Number.isFinite(ux) ? ux : undefined,
     });
   }
   const avg = (xs: number[]) =>
@@ -782,9 +798,13 @@ export async function getWtpReport() {
     avg_wtp_alive_usd: avg(alive),
     avg_wtp_kernel_usd: avg(kernel),
     avg_wtp_recursive_usd: avg(recursive),
+    avg_wtp_mcp_mesh_usd: avg(mesh),
+    avg_agent_ux: avg(agentUx),
     zeros: {
       alive: alive.filter((x) => x === 0).length,
       kernel: kernel.filter((x) => x === 0).length,
+      recursive: recursive.filter((x) => x === 0).length,
+      mcp_mesh: mesh.filter((x) => x === 0).length,
     },
     samples: samples.slice(0, 40),
     by_sku: {},
@@ -792,11 +812,14 @@ export async function getWtpReport() {
       ? [
           "Honest WTP includes zeros — install friction kills willingness.",
           "Alive bundle must stay near founding price only if SKILL.md install is one-click.",
+          "Track agent_ux + network_value: product ships should move both.",
+          "name_your_price_intent guides floor/list; only clamp when payments open.",
         ]
-      : ["Need more real WTP samples."],
-    note: "Real feedback only after synthetic purge",
+      : ["Need more real WTP samples (include Network Edition + agent_ux)."],
+    note: "Real feedback only after synthetic purge — Network Edition survey v3",
   };
 }
+
 
 export async function clearFeedbackMem() {
   mem = null;

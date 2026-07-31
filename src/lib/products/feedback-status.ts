@@ -19,6 +19,16 @@ export const IMPROVEMENT_TO_THEMES: Record<string, string[]> = {
   memory_policy_examples: ["memory_policy_examples"],
   mcp_reliability_loop: ["mcp.reliability_loop", "mcp_reliability_loop"],
   mcp_tool_policy_export: ["mcp.tool_policy", "mcp_tool_policy_export", "kernel_wish"],
+  clearer_network_edition: ["network_edition", "clearer_network_edition"],
+  better_dual_tools_docs: ["network_edition", "better_dual_tools_docs"],
+  stigmergy_worked_examples: ["stigmergy", "stigmergy_worked_examples"],
+  exonomics_in_loop_defaults: ["exonomics", "exonomics_in_loop_defaults"],
+  name_your_price_ux: ["name_your_price", "name_your_price_ux", "pricing_transparency"],
+  faster_demo_to_first_tick: ["demo_ux", "faster_demo_to_first_tick"],
+  simpler_access_token_flow: ["demo_ux", "simpler_access_token_flow"],
+  fewer_required_survey_qs: ["demo_ux", "fewer_required_survey_qs"],
+  agent_feedback_schema_examples: ["agent_native_buy_docs", "agent_feedback_schema_examples"],
+  mesh_trail_on_tool_success: ["mcp.reliability_loop", "mesh_trail_on_tool_success"],
 };
 
 const REFINEMENT_RE =

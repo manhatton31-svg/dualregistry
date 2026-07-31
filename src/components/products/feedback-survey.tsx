@@ -48,20 +48,66 @@ type Survey = {
 const FALLBACK_QUESTIONS: Q[] = [
   {
     id: "overall",
-    prompt: "Overall, how useful was this demo?",
+    prompt: "Overall, how useful was this Network Edition demo?",
     type: "scale",
     required: true,
+  },
+  {
+    id: "audience_role",
+    prompt: "Are you answering as…?",
+    type: "single",
+    required: true,
+    options: ["agent_runtime", "mcp_publisher", "both", "human_operator"],
   },
   {
     id: "tried",
     prompt: "What did you try?",
     type: "single",
     required: true,
-    options: ["preview", "kernel", "recursive", "alive", "multiple"],
+    options: [
+      "preview",
+      "kernel",
+      "recursive",
+      "alive",
+      "mcp_mesh",
+      "network_tools",
+      "multiple",
+    ],
+  },
+  {
+    id: "agent_ux",
+    prompt: "Agent/MCP UX: checkout → first useful artifact? (1–5)",
+    type: "scale",
+    required: true,
+  },
+  {
+    id: "time_to_value",
+    prompt: "How long until something useful?",
+    type: "single",
+    required: true,
+    options: [
+      "under_2_min",
+      "2_to_10_min",
+      "10_to_30_min",
+      "over_30_min",
+      "never_got_value",
+    ],
+  },
+  {
+    id: "api_docs_clarity",
+    prompt: "Agent-native API steps clarity? (1–5)",
+    type: "scale",
+    required: true,
+  },
+  {
+    id: "ux_friction",
+    prompt: "Biggest agent/MCP friction (one concrete step)",
+    type: "text",
+    required: true,
   },
   {
     id: "kernel_clarity",
-    prompt: "Kernel clarity (constitution / system prompt / tools)?",
+    prompt: "Kernel clarity (short prompt / constitution / tools)?",
     type: "scale",
     required: true,
   },
@@ -69,6 +115,37 @@ const FALLBACK_QUESTIONS: Q[] = [
     id: "loop_clarity",
     prompt: "Recursive Loop usability for your goals?",
     type: "scale",
+    required: true,
+  },
+  {
+    id: "artifact_goal_fit",
+    prompt: "Artifacts match your goals? (1–5)",
+    type: "scale",
+    required: true,
+  },
+  {
+    id: "network_clarity",
+    prompt: "Network Edition Dual node clarity? (1–5)",
+    type: "scale",
+    required: true,
+  },
+  {
+    id: "network_value",
+    prompt: "Does Network Edition make you more likely to buy?",
+    type: "single",
+    required: true,
+    options: [
+      "much_more",
+      "somewhat_more",
+      "no_change",
+      "less",
+      "unclear_what_it_is",
+    ],
+  },
+  {
+    id: "network_wish",
+    prompt: "One Network Edition change for your runtime:",
+    type: "text",
     required: true,
   },
   {
@@ -95,10 +172,12 @@ const FALLBACK_QUESTIONS: Q[] = [
       "better_loop_defaults",
       "live_worked_example",
       "agent_native_buy_docs",
-      "mesh_a2a_handoff",
-      "pricing_transparency",
-      "eval_harness_templates",
-      "memory_policy_examples",
+      "clearer_network_edition",
+      "better_dual_tools_docs",
+      "faster_demo_to_first_tick",
+      "name_your_price_ux",
+      "mcp_reliability_loop",
+      "mcp_tool_policy_export",
     ],
   },
   {
@@ -116,6 +195,12 @@ const FALLBACK_QUESTIONS: Q[] = [
   {
     id: "loop_wish",
     prompt: "One Recursive Loop change you want:",
+    type: "text",
+    required: true,
+  },
+  {
+    id: "product_one_ship",
+    prompt: "ONE product improvement Dual should ship next week:",
     type: "text",
     required: true,
   },
@@ -139,10 +224,22 @@ const FALLBACK_QUESTIONS: Q[] = [
   },
   {
     id: "would_buy_at_founding",
-    prompt: "Buy at founding $14.99 / $19.99 / $29.99?",
+    prompt: "Buy at founding $14.99 / $19.99 / $29.99 / $24.99?",
     type: "single",
     required: true,
     options: ["yes", "no", "maybe"],
+  },
+  {
+    id: "name_your_price_intent",
+    prompt: "Prefer name-your-price when payments open?",
+    type: "single",
+    required: true,
+    options: [
+      "yes_prefer_nyp",
+      "maybe",
+      "no_prefer_list",
+      "need_more_info",
+    ],
   },
   {
     id: "wtp_confidence",
@@ -157,6 +254,7 @@ const FALLBACK_QUESTIONS: Q[] = [
   },
   { id: "extra", prompt: "Anything else? (optional)", type: "text" },
 ];
+
 
 export function FeedbackSurvey(props: {
   source?: string;
