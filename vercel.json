@@ -18,22 +18,6 @@
       "schedule": "15 */4 * * *"
     }
   ],
-  "functions": {
-    "api/cron/probe": {
-      "maxDuration": 90,
-      "memory": 2048
-    },
-    "api/cron/prefilter": {
-      "maxDuration": 60,
-      "memory": 2048
-    },
-    "api/dashboard": {
-      "maxDuration": 20
-    },
-    "api/**": {
-      "maxDuration": 15
-    }
-  },
   "headers": [
     {
       "source": "/llms.txt",
