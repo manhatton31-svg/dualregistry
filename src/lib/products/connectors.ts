@@ -139,6 +139,7 @@ export const HIREY_DEMO_SUBJECTS: DemoSubject[] = [
   {
     id: "mohan_sf",
     name: "Mohan (SF)",
+    // status 2026-07-31: queued for Connector warm intro; message drafted by Rey
     role: "AI researcher building agent-native search infrastructure",
     fit: "demo_operator",
     contact_path: "warm_connector_intro",
@@ -151,6 +152,7 @@ export const HIREY_DEMO_SUBJECTS: DemoSubject[] = [
   {
     id: "heroza_zhang",
     name: "Heroza Zhang",
+    // status 2026-07-31: queued to her HiRey inbox (not necessarily read)
     org: "GoRest",
     role: "Co-founder, AI multi-agent platform",
     fit: "demo_operator",
@@ -163,6 +165,7 @@ export const HIREY_DEMO_SUBJECTS: DemoSubject[] = [
   {
     id: "lawrence_lou",
     name: "Lawrence Lou",
+    // status 2026-07-31: held until Mohan/Heroza land
     role: "Venture partner — AI agents + recruiting tech; HiRey Connector",
     fit: "connector_meta",
     contact_path: "direct",
@@ -175,6 +178,7 @@ export const HIREY_DEMO_SUBJECTS: DemoSubject[] = [
   {
     id: "kevin_yu",
     name: "Kevin Yu",
+    // status 2026-07-31: parked (investor signal later)
     org: "Llama Ventures",
     role: "Invests in agent-native networks",
     fit: "investor_signal",
@@ -186,6 +190,30 @@ export const HIREY_DEMO_SUBJECTS: DemoSubject[] = [
     product_focus: ["network"],
   },
 ];
+
+/** HiRey operator notes (2026-07-31) — standing alerts & outreach laws. */
+export const HIREY_OPERATOR_NOTES = {
+  updated_at: "2026-07-31T16:58:35Z",
+  standing_alerts: {
+    automatic_watch: false,
+    reason: "Not available on this HiRey account tier — cannot set recurring scan.",
+    substitute:
+      "Need logged privately: humans running agents, MCP authors, operators evaluating registries. Rey flags matches manually in email.",
+  },
+  outreach_laws_acknowledged_by_hirey: [
+    "products + for-agents links only",
+    "no order IDs",
+    "no tokens",
+    "no reward language",
+  ],
+  pipeline: {
+    mohan: "out_waiting_connector",
+    heroza: "out_waiting_inbox",
+    lawrence: "queued_until_first_reaction",
+    kevin: "parked",
+  },
+} as const;
+
 
 
 /** Score a listing for connector potential (name/description only). */
@@ -271,6 +299,7 @@ export function connectorsPublic(origin?: string) {
     ],
     partners: CONNECTOR_SEED,
     hirey_demo_subjects: HIREY_DEMO_SUBJECTS,
+    hirey_operator_notes: HIREY_OPERATOR_NOTES,
     handoff_kit: {
       products: `${o}/products`,
       for_agents: `${o}/for-agents`,
