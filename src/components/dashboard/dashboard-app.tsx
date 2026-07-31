@@ -934,7 +934,7 @@ export function DashboardApp() {
               return (
                 <div className="space-y-1.5">
                   <p className="text-[11px] text-subtle">
-                    Clean only · top 5 per category (expand for all).
+                    Default All · pick a category to show only that one.
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     <button
@@ -983,7 +983,7 @@ export function DashboardApp() {
             })()}
             <div className="space-y-2">
               <p className="text-[11px] text-subtle">
-                Top 5 per category · expand for full list (25/page). JSON:{" "}
+                Top 5 shown · expand for full list (25/page). JSON:{" "}
                 <a
                   href="/api/listings/active"
                   className="text-accent underline"
@@ -997,6 +997,15 @@ export function DashboardApp() {
                 rows={tab === "mcp" ? mcpActiveRows : agentActiveRows}
                 showDemoCta
                 filterCategoryId={categoryFilter}
+                categoryLabel={
+                  categoryFilter
+                    ? (
+                        (tab === "mcp"
+                          ? lanes?.categories?.mcp
+                          : lanes?.categories?.agents) || []
+                      ).find((c) => c.id === categoryFilter)?.label
+                    : null
+                }
                 emptyLabel={
                   tab === "mcp" ? "No clean MCPs yet" : "No clean agents yet"
                 }

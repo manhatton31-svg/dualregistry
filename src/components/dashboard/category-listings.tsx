@@ -1,8 +1,8 @@
 /**
- * Group clean listings by category: top 5 visible, rest collapsed.
- * Expanded: 25 per page.
+ * Single active view: All (default) or one chosen category.
+ * Top 5 visible; expand → 25 per page.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,60 +35,43 @@ function sortTop(rows: ListingRow[]): ListingRow[] {
   });
 }
 
-type CatGroup = {
-  id: string;
-  label: string;
-  rows: ListingRow[];
-};
-
-function groupByCategory(rows: ListingRow[]): CatGroup[] {
-  const map = new Map<string, CatGroup>();
-  for (const r of rows) {
-    const id = r.category_id || "uncategorized";
-    const label = r.category_label || "Uncategorized";
-    let g = map.get(id);
-    if (!g) {
-      g = { id, label, rows: [] };
-      map.set(id, g);
-    }
-    g.rows.push(r);
-  }
-  const groups = [...map.values()].map((g) => ({
-    ...g,
-    rows: sortTop(g.rows),
-  }));
-  groups.sort((a, b) => {
-    const d = b.rows.length - a.rows.length;
-    if (d !== 0) return d;
-    return a.label.localeCompare(b.label);
-  });
-  return groups;
-}
-
-function CategorySection({
-  group,
+export function CategoryGroupedListings({
+  rows,
+  emptyLabel,
   showDemoCta,
-  /** When true (chip filter on one category), start expanded */
-  defaultExpanded,
+  /** null = All; otherwise only this category is shown */
+  filterCategoryId,
+  categoryLabel,
 }: {
-  group: CatGroup;
+  rows: ListingRow[];
+  emptyLabel: string;
   showDemoCta?: boolean;
-  defaultExpanded?: boolean;
+  filterCategoryId?: string | null;
+  /** Display label when a category chip is selected */
+  categoryLabel?: string | null;
 }) {
-  const total = group.rows.length;
+  const sorted = useMemo(() => sortTop(rows), [rows]);
+  const total = sorted.length;
   const needsCollapse = total > PREVIEW;
-  const [expanded, setExpanded] = useState(
-    Boolean(defaultExpanded && needsCollapse),
-  );
+  const title = filterCategoryId
+    ? categoryLabel || sorted[0]?.category_label || filterCategoryId
+    : "All";
+
+  const [expanded, setExpanded] = useState(false);
   const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    setExpanded(false);
+    setPage(0);
+  }, [filterCategoryId, total]);
 
   const visible = useMemo(() => {
     if (!needsCollapse || !expanded) {
-      return group.rows.slice(0, PREVIEW);
+      return sorted.slice(0, PREVIEW);
     }
     const start = page * PAGE;
-    return group.rows.slice(start, start + PAGE);
-  }, [group.rows, needsCollapse, expanded, page]);
+    return sorted.slice(start, start + PAGE);
+  }, [sorted, needsCollapse, expanded, page]);
 
   const pageCount = Math.max(1, Math.ceil(total / PAGE));
   const from = expanded ? page * PAGE + 1 : 1;
@@ -96,13 +79,17 @@ function CategorySection({
     ? Math.min(total, (page + 1) * PAGE)
     : Math.min(PREVIEW, total);
 
+  if (!rows.length) {
+    return <p className="text-sm text-subtle">{emptyLabel}</p>;
+  }
+
   return (
     <Card className="border-border/70">
       <CardHeader className="pb-2">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="min-w-0">
             <CardTitle className="text-sm">
-              {group.label}
+              {title}
               <span className="ml-1.5 tabular font-normal text-muted">
                 ({total})
               </span>
@@ -113,6 +100,8 @@ function CategorySection({
                 : expanded
                   ? `Showing ${from}–${to} of ${total}`
                   : `${total} listing${total === 1 ? "" : "s"}`}
+              {" · "}
+              {filterCategoryId ? "chosen category only" : "all categories"}
             </CardDescription>
           </div>
           {needsCollapse ? (
@@ -146,7 +135,7 @@ function CategorySection({
         <ListingTable
           rows={visible}
           showDemoCta={showDemoCta}
-          emptyLabel="No listings in this category"
+          emptyLabel={emptyLabel}
         />
         {expanded && needsCollapse && pageCount > 1 ? (
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/50 pt-3">
@@ -184,44 +173,11 @@ function CategorySection({
             )}
             onClick={() => setExpanded(true)}
           >
-            + {total - PREVIEW} more in {group.label}
+            + {total - PREVIEW} more
+            {filterCategoryId ? ` in ${title}` : ""}
           </button>
         ) : null}
       </CardContent>
     </Card>
-  );
-}
-
-export function CategoryGroupedListings({
-  rows,
-  emptyLabel,
-  showDemoCta,
-  /** Single category chip selected → expand that section by default */
-  filterCategoryId,
-}: {
-  rows: ListingRow[];
-  emptyLabel: string;
-  showDemoCta?: boolean;
-  filterCategoryId?: string | null;
-}) {
-  const groups = useMemo(() => groupByCategory(rows), [rows]);
-
-  if (!rows.length) {
-    return <p className="text-sm text-subtle">{emptyLabel}</p>;
-  }
-
-  return (
-    <div className="space-y-3">
-      {groups.map((g) => (
-        <CategorySection
-          key={`${g.id}:${filterCategoryId || "all"}`}
-          group={g}
-          showDemoCta={showDemoCta}
-          defaultExpanded={
-            Boolean(filterCategoryId) && filterCategoryId === g.id
-          }
-        />
-      ))}
-    </div>
   );
 }
