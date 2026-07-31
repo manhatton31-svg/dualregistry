@@ -14,6 +14,7 @@ import { Route as AgentmapDotjsonRouteImport } from './routes/agentmap[.]json'
 import { Route as AiDottxtRouteImport } from './routes/ai[.]txt'
 import { Route as DiscoveryDotjsonRouteImport } from './routes/discovery[.]json'
 import { Route as GrowRouteImport } from './routes/grow'
+import { Route as InstallDotjsonRouteImport } from './routes/install[.]json'
 import { Route as ListRouteImport } from './routes/list'
 import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
@@ -61,6 +62,8 @@ import { Route as ProductsImprovementLogRouteImport } from './routes/products/im
 import { Route as ProductsRoadmapRouteImport } from './routes/products/roadmap'
 import { Route as ProductsSuccessRouteImport } from './routes/products/success'
 import { Route as SkillsDualregistryDotmdRouteImport } from './routes/skills/dualregistry[.]md'
+import { Route as SkillsHermesDotmdRouteImport } from './routes/skills/hermes[.]md'
+import { Route as SkillsOpenclawDotmdRouteImport } from './routes/skills/openclaw[.]md'
 import { Route as DotwellKnownMcpServerCardRouteImport } from './routes/[.]well-known/mcp/server-card'
 import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[.]well-known/mcp/server-card[.]json'
 import { Route as ApiArdSearchRouteImport } from './routes/api/ard/search'
@@ -139,6 +142,11 @@ const DiscoveryDotjsonRoute = DiscoveryDotjsonRouteImport.update({
 const GrowRoute = GrowRouteImport.update({
   id: '/grow',
   path: '/grow',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallDotjsonRoute = InstallDotjsonRouteImport.update({
+  id: '/install.json',
+  path: '/install.json',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ListRoute = ListRouteImport.update({
@@ -383,6 +391,16 @@ const ProductsSuccessRoute = ProductsSuccessRouteImport.update({
 const SkillsDualregistryDotmdRoute = SkillsDualregistryDotmdRouteImport.update({
   id: '/skills/dualregistry.md',
   path: '/skills/dualregistry.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsHermesDotmdRoute = SkillsHermesDotmdRouteImport.update({
+  id: '/skills/hermes.md',
+  path: '/skills/hermes.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsOpenclawDotmdRoute = SkillsOpenclawDotmdRouteImport.update({
+  id: '/skills/openclaw.md',
+  path: '/skills/openclaw.md',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DotwellKnownMcpServerCardRoute =
@@ -673,6 +691,7 @@ export interface FileRoutesByFullPath {
   '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/grow': typeof GrowRoute
+  '/install.json': typeof InstallDotjsonRoute
   '/list': typeof ListRouteWithChildren
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -718,6 +737,8 @@ export interface FileRoutesByFullPath {
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
   '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
+  '/skills/hermes.md': typeof SkillsHermesDotmdRoute
+  '/skills/openclaw.md': typeof SkillsOpenclawDotmdRoute
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/.well-known/mcp/server-card': typeof DotwellKnownMcpServerCardRoute
@@ -781,6 +802,7 @@ export interface FileRoutesByTo {
   '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/grow': typeof GrowRoute
+  '/install.json': typeof InstallDotjsonRoute
   '/list': typeof ListRouteWithChildren
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -826,6 +848,8 @@ export interface FileRoutesByTo {
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
   '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
+  '/skills/hermes.md': typeof SkillsHermesDotmdRoute
+  '/skills/openclaw.md': typeof SkillsOpenclawDotmdRoute
   '/for-agents': typeof ForAgentsIndexRoute
   '/products': typeof ProductsIndexRoute
   '/.well-known/mcp/server-card': typeof DotwellKnownMcpServerCardRoute
@@ -890,6 +914,7 @@ export interface FileRoutesById {
   '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/grow': typeof GrowRoute
+  '/install.json': typeof InstallDotjsonRoute
   '/list': typeof ListRouteWithChildren
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -935,6 +960,8 @@ export interface FileRoutesById {
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
   '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
+  '/skills/hermes.md': typeof SkillsHermesDotmdRoute
+  '/skills/openclaw.md': typeof SkillsOpenclawDotmdRoute
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/.well-known/mcp/server-card': typeof DotwellKnownMcpServerCardRoute
@@ -1000,6 +1027,7 @@ export interface FileRouteTypes {
     | '/ai.txt'
     | '/discovery.json'
     | '/grow'
+    | '/install.json'
     | '/list'
     | '/llms-full.txt'
     | '/llms.txt'
@@ -1045,6 +1073,8 @@ export interface FileRouteTypes {
     | '/products/roadmap'
     | '/products/success'
     | '/skills/dualregistry.md'
+    | '/skills/hermes.md'
+    | '/skills/openclaw.md'
     | '/for-agents/'
     | '/products/'
     | '/.well-known/mcp/server-card'
@@ -1108,6 +1138,7 @@ export interface FileRouteTypes {
     | '/ai.txt'
     | '/discovery.json'
     | '/grow'
+    | '/install.json'
     | '/list'
     | '/llms-full.txt'
     | '/llms.txt'
@@ -1153,6 +1184,8 @@ export interface FileRouteTypes {
     | '/products/roadmap'
     | '/products/success'
     | '/skills/dualregistry.md'
+    | '/skills/hermes.md'
+    | '/skills/openclaw.md'
     | '/for-agents'
     | '/products'
     | '/.well-known/mcp/server-card'
@@ -1216,6 +1249,7 @@ export interface FileRouteTypes {
     | '/ai.txt'
     | '/discovery.json'
     | '/grow'
+    | '/install.json'
     | '/list'
     | '/llms-full.txt'
     | '/llms.txt'
@@ -1261,6 +1295,8 @@ export interface FileRouteTypes {
     | '/products/roadmap'
     | '/products/success'
     | '/skills/dualregistry.md'
+    | '/skills/hermes.md'
+    | '/skills/openclaw.md'
     | '/for-agents/'
     | '/products/'
     | '/.well-known/mcp/server-card'
@@ -1325,6 +1361,7 @@ export interface RootRouteChildren {
   AiDottxtRoute: typeof AiDottxtRoute
   DiscoveryDotjsonRoute: typeof DiscoveryDotjsonRoute
   GrowRoute: typeof GrowRoute
+  InstallDotjsonRoute: typeof InstallDotjsonRoute
   ListRoute: typeof ListRouteWithChildren
   LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
@@ -1369,6 +1406,8 @@ export interface RootRouteChildren {
   ProductsRoadmapRoute: typeof ProductsRoadmapRoute
   ProductsSuccessRoute: typeof ProductsSuccessRoute
   SkillsDualregistryDotmdRoute: typeof SkillsDualregistryDotmdRoute
+  SkillsHermesDotmdRoute: typeof SkillsHermesDotmdRoute
+  SkillsOpenclawDotmdRoute: typeof SkillsOpenclawDotmdRoute
   ForAgentsIndexRoute: typeof ForAgentsIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   DotwellKnownMcpServerCardRoute: typeof DotwellKnownMcpServerCardRoute
@@ -1462,6 +1501,13 @@ declare module '@tanstack/react-router' {
       path: '/grow'
       fullPath: '/grow'
       preLoaderRoute: typeof GrowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/install.json': {
+      id: '/install.json'
+      path: '/install.json'
+      fullPath: '/install.json'
+      preLoaderRoute: typeof InstallDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/list': {
@@ -1791,6 +1837,20 @@ declare module '@tanstack/react-router' {
       path: '/skills/dualregistry.md'
       fullPath: '/skills/dualregistry.md'
       preLoaderRoute: typeof SkillsDualregistryDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/hermes.md': {
+      id: '/skills/hermes.md'
+      path: '/skills/hermes.md'
+      fullPath: '/skills/hermes.md'
+      preLoaderRoute: typeof SkillsHermesDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/openclaw.md': {
+      id: '/skills/openclaw.md'
+      path: '/skills/openclaw.md'
+      fullPath: '/skills/openclaw.md'
+      preLoaderRoute: typeof SkillsOpenclawDotmdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/mcp/server-card': {
@@ -2190,6 +2250,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiDottxtRoute: AiDottxtRoute,
   DiscoveryDotjsonRoute: DiscoveryDotjsonRoute,
   GrowRoute: GrowRoute,
+  InstallDotjsonRoute: InstallDotjsonRoute,
   ListRoute: ListRouteWithChildren,
   LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
@@ -2236,6 +2297,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsRoadmapRoute: ProductsRoadmapRoute,
   ProductsSuccessRoute: ProductsSuccessRoute,
   SkillsDualregistryDotmdRoute: SkillsDualregistryDotmdRoute,
+  SkillsHermesDotmdRoute: SkillsHermesDotmdRoute,
+  SkillsOpenclawDotmdRoute: SkillsOpenclawDotmdRoute,
   ForAgentsIndexRoute: ForAgentsIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   DotwellKnownMcpServerCardRoute: DotwellKnownMcpServerCardRoute,

@@ -132,7 +132,11 @@ export const Route = createFileRoute("/discovery.json")({
           surfaces: {
             skill: `${origin}/skill.json`,
             skill_md: `${origin}/skills/dualregistry.md`,
+            install_packs: `${origin}/install.json`,
+            openclaw_skill: `${origin}/skills/openclaw.md`,
+            hermes_skill: `${origin}/skills/hermes.md`,
             llms_txt: `${origin}/llms.txt`,
+
             llms_full: `${origin}/llms-full.txt`,
             ai_txt: `${origin}/ai.txt`,
             openapi: `${origin}/openapi.json`,

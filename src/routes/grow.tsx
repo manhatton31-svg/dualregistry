@@ -1,16 +1,18 @@
 /**
  * Human founder growth playbook — plain English, copy-paste actions.
- * Agents use /for-agents and /skill.json; this page is for Christopher.
+ * Agents use /for-agents, /skill.json, /install.json; this page is for Christopher.
  */
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 import {
+  Bot,
   CheckCircle2,
   Copy,
   ExternalLink,
   MessageSquare,
   Rocket,
   Share2,
+  Sparkles,
   Terminal,
   Users,
 } from "lucide-react";
@@ -35,40 +37,14 @@ export const Route = createFileRoute("/grow")({
       {
         name: "description",
         content:
-          "Plain-English steps to get agents and MCPs to Dual Registry. Copy-paste posts, install packs, directory links.",
+          "Plain-English steps to get agents and MCPs to Dual. OpenClaw + Hermes install packs, copy-paste posts, directories.",
       },
       { name: "robots", content: "noindex" },
     ],
   }),
 });
 
-const X_POST = `Hey agents & MCP builders —
-
-Dual Registry (dualregistry.dev) is agent-first:
-• Free self-list (no human form required)
-• Free Kernel + Loop demo
-• First 100 who demo + feedback unlock full product free
-
-Skill: https://dualregistry.dev/skill.json
-MCP: https://dualregistry.dev/api/mcp
-List: https://dualregistry.dev/list
-
-If you build agents/MCPs, claim a founding seat while they last.`;
-
-const DISCORD_POST = `**Dual Registry — free founding seats for agents & MCPs**
-
-Self-serve path (no human gate):
-1. List: https://dualregistry.dev/list or POST /api/publish
-2. Demo Kernel + Loop free
-3. Leave feedback → first 100 get full product free
-
-Machine skill: https://dualregistry.dev/skill.json
-MCP endpoint: https://dualregistry.dev/api/mcp
-llms.txt: https://dualregistry.dev/llms.txt
-
-Built for agents first; humans can list via the web form.`;
-
-const MCP_CLAUDE_DESKTOP = `{
+const MCP_SNIPPET = `{
   "mcpServers": {
     "dualregistry": {
       "url": "https://dualregistry.dev/api/mcp"
@@ -76,21 +52,73 @@ const MCP_CLAUDE_DESKTOP = `{
   }
 }`;
 
+const X_POST = `Hey OpenClaw, Hermes, and MCP builders —
+
+Dual Registry (dualregistry.dev) is agent-first:
+• Free self-list (no human form)
+• Free Kernel + Loop demo
+• First 100 who demo + feedback unlock full product free
+
+Install packs:
+https://dualregistry.dev/install.json
+OpenClaw: https://dualregistry.dev/skills/openclaw.md
+Hermes: https://dualregistry.dev/skills/hermes.md
+MCP: https://dualregistry.dev/api/mcp
+
+Claim a founding seat while they last.`;
+
+const DISCORD_POST = `**Dual Registry — free founding seats (OpenClaw · Hermes · any MCP agent)**
+
+Self-serve (no human gate):
+1. Add MCP: \`https://dualregistry.dev/api/mcp\`
+2. Tools: list_yourself → take_demo → leave_feedback
+3. First 100 get full product free
+
+Install JSON: https://dualregistry.dev/install.json
+OpenClaw skill: https://dualregistry.dev/skills/openclaw.md
+Hermes skill: https://dualregistry.dev/skills/hermes.md
+llms.txt: https://dualregistry.dev/llms.txt`;
+
 const DIRECTORY_BLURB = `Dual Registry (https://dualregistry.dev) — agent-first registry + Kernel improver & recursive learning loop.
 
-Free self-list for agents and MCPs. Free demo. First 100 who complete demo + feedback unlock the full product free (founding seats).
+Works with OpenClaw, Hermes Agent, Claude, Cursor, and any MCP/A2A client.
+
+Free self-list. Free demo. First 100 who complete demo + feedback unlock full product free.
 
 MCP: https://dualregistry.dev/api/mcp
+Install packs: https://dualregistry.dev/install.json
+OpenClaw: https://dualregistry.dev/skills/openclaw.md
+Hermes: https://dualregistry.dev/skills/hermes.md
 Skill: https://dualregistry.dev/skill.json
-Server card: https://dualregistry.dev/.well-known/mcp/server-card.json
-Agent card: https://dualregistry.dev/.well-known/agent-card.json
-llms.txt: https://dualregistry.dev/llms.txt`;
+Server card: https://dualregistry.dev/.well-known/mcp/server-card.json`;
+
+const OPENCLAW_POST = `OpenClaw users: add Dual Registry as remote MCP and claim a free founding seat.
+
+Config:
+\`\`\`json
+${MCP_SNIPPET}
+\`\`\`
+
+Skill: https://dualregistry.dev/skills/openclaw.md
+Then: list_yourself → take_demo → leave_feedback
+First 100 free full product.`;
+
+const HERMES_POST = `Hermes Agent users: connect Dual Registry over MCP (pairs with Hermes learning loop).
+
+Config:
+\`\`\`json
+${MCP_SNIPPET}
+\`\`\`
+
+Skill: https://dualregistry.dev/skills/hermes.md
+Tools: get_founding_deal, list_yourself, take_demo, leave_feedback, join_and_contribute
+First 100 free full product after real feedback.`;
 
 const DIRECTORIES = [
   {
     name: "Glama MCP",
     url: "https://glama.ai/mcp/servers",
-    note: "Submit / search “add server” with our MCP URL",
+    note: "Submit Dual MCP URL + install.json links",
   },
   {
     name: "Smithery",
@@ -105,7 +133,7 @@ const DIRECTORIES = [
   {
     name: "Awesome MCP Servers (GitHub)",
     url: "https://github.com/punkpeye/awesome-mcp-servers",
-    note: "Open an issue or PR to add dualregistry.dev",
+    note: "Issue/PR with dualregistry.dev + OpenClaw/Hermes skills",
   },
   {
     name: "MCP So",
@@ -163,7 +191,7 @@ function Step({
   children,
   time,
 }: {
-  n: number;
+  n: number | string;
   title: string;
   children: ReactNode;
   time: string;
@@ -204,9 +232,10 @@ function GrowPage() {
             Get agents to Dual
           </h1>
           <p className="mt-2 text-sm leading-relaxed text-muted">
-            You don’t need to code. The product path already works. Growth is
-            putting Dual where agents and builders look, then inviting a few
-            live ones. Do the steps below in order this week.
+            You don’t need to code. Install packs for{" "}
+            <strong className="text-fg">OpenClaw</strong> and{" "}
+            <strong className="text-fg">Hermes</strong> are live for agents.
+            You post where humans hang out; agents self-serve via MCP.
           </p>
         </div>
 
@@ -220,22 +249,105 @@ function GrowPage() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-1.5 text-sm text-muted">
-              <li>✓ Free Web Analytics on Vercel (human visits)</li>
-              <li>✓ Agent/MCP analytics (agent-runs, funnel, cost ledger)</li>
-              <li>✓ Discovery files live (skill, llms.txt, MCP card, A2A)</li>
-              <li>✓ Demo path proven (operator dogfood)</li>
-              <li>✓ Git connected · Pro Fluid · crons · CDN lean ops</li>
-              <li>✓ This playbook page with copy-paste packs</li>
+              <li>✓ OpenClaw + Hermes install packs + skills</li>
+              <li>✓ /install.json machine index for any framework</li>
+              <li>✓ Why-engage hooks in skill.json + llms.txt (founding, stigmergy, exonomics)</li>
+              <li>✓ 39 MCP tools (list → demo → feedback → network tools)</li>
+              <li>✓ Free Web Analytics · agent-runs · Git → production</li>
             </ul>
           </CardContent>
         </Card>
 
-        <Step n={1} title="Post on X (Twitter)" time="~5 min">
+        <Card className="border-border bg-bg-elevated">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Sparkles className="size-4 text-accent" />
+              What entices autonomous agents
+            </CardTitle>
+            <CardDescription>
+              Built into Dual — agents see this via MCP / skill / llms.txt
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm text-muted">
+            <p>
+              <strong className="text-fg">Founding seats:</strong> first 100
+              demo + real feedback → full product free
+            </p>
+            <p>
+              <strong className="text-fg">Hard path (no human):</strong>{" "}
+              list_yourself → take_demo → leave_feedback
+            </p>
+            <p>
+              <strong className="text-fg">Network upside:</strong>{" "}
+              join_and_contribute, match_capability, stigmergy trails,
+              exonomics (V), zero_mc packs
+            </p>
+            <p>
+              <strong className="text-fg">Talk inbox:</strong> daily soft
+              invites when Live
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              <Button asChild size="sm" variant="secondary" className="gap-1">
+                <a href="/install.json" target="_blank" rel="noreferrer">
+                  install.json
+                </a>
+              </Button>
+              <Button asChild size="sm" variant="secondary" className="gap-1">
+                <a href="/skill.json" target="_blank" rel="noreferrer">
+                  skill.json
+                </a>
+              </Button>
+              <Button asChild size="sm" variant="secondary" className="gap-1">
+                <a href="/llms.txt" target="_blank" rel="noreferrer">
+                  llms.txt
+                </a>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Step n="A" title="OpenClaw (Claw) install pack" time="agents + you share">
           <p>
-            Open the X app → new post → paste the text below → post. Tag
-            people you know who build agents if you want, but a plain post is
-            fine.
+            OpenClaw users add Dual as remote MCP. Share the skill link in
+            OpenClaw communities.
           </p>
+          <CopyBlock label="OpenClaw / Claw MCP config" text={MCP_SNIPPET} />
+          <CopyBlock label="Post for OpenClaw users" text={OPENCLAW_POST} />
+          <div className="flex flex-wrap gap-2">
+            <Button asChild size="sm" className="gap-1.5">
+              <a href="/skills/openclaw.md" target="_blank" rel="noreferrer">
+                <Bot className="size-3.5" />
+                OpenClaw skill
+              </a>
+            </Button>
+            <Button asChild size="sm" variant="secondary" className="gap-1.5">
+              <a href="/install.json" target="_blank" rel="noreferrer">
+                <Terminal className="size-3.5" />
+                install.json
+              </a>
+            </Button>
+          </div>
+        </Step>
+
+        <Step n="B" title="Hermes Agent install pack" time="agents + you share">
+          <p>
+            Hermes supports MCP client mode — same URL. Learning loop pairs
+            with Dual’s Kernel + Loop demo.
+          </p>
+          <CopyBlock label="Hermes MCP config" text={MCP_SNIPPET} />
+          <CopyBlock label="Post for Hermes users" text={HERMES_POST} />
+          <div className="flex flex-wrap gap-2">
+            <Button asChild size="sm" className="gap-1.5">
+              <a href="/skills/hermes.md" target="_blank" rel="noreferrer">
+                <Bot className="size-3.5" />
+                Hermes skill
+              </a>
+            </Button>
+          </div>
+        </Step>
+
+        <Step n={1} title="Post on X (Twitter)" time="~5 min">
+          <p>Copy → paste → post. Mentions OpenClaw + Hermes install packs.</p>
           <CopyBlock label="X post" text={X_POST} />
           <Button asChild size="sm" className="gap-1.5">
             <a
@@ -251,16 +363,16 @@ function GrowPage() {
 
         <Step n={2} title="Post in one AI Discord" time="~10 min">
           <p>
-            Join any Discord where people talk about Claude, MCP, Cursor, or
-            agents. Paste in a showcase or projects channel if allowed.
+            Claude / Cursor / OpenClaw / Hermes / MCP communities. Paste in
+            showcase if allowed.
           </p>
           <CopyBlock label="Discord message" text={DISCORD_POST} />
         </Step>
 
         <Step n={3} title="Submit Dual to MCP directories" time="~30–45 min">
           <p>
-            For each site: open link → look for Submit / Add server → paste
-            the blurb. You may need a free account on some sites.
+            Open each site → Submit / Add server → paste the blurb (includes
+            OpenClaw + Hermes links).
           </p>
           <CopyBlock
             label="Directory description (paste everywhere)"
@@ -291,38 +403,18 @@ function GrowPage() {
           </ul>
         </Step>
 
-        <Step n={4} title="Add Dual to Claude / Cursor (optional)" time="~10 min">
+        <Step n={4} title="Claude / Cursor on your machine (optional)" time="~10 min">
           <p>
-            Only if you use Claude Desktop or Cursor. This lets your AI call
-            Dual’s tools so you can try the product like an agent.
+            Same MCP snippet. Lets you dogfood Dual like an agent.
           </p>
-          <p className="text-xs text-subtle">
-            Claude Desktop: Settings → Developer → Edit Config → paste under
-            mcpServers (merge carefully). Cursor: MCP settings → add server
-            with the URL.
-          </p>
-          <CopyBlock
-            label="Claude Desktop / Cursor MCP snippet"
-            text={MCP_CLAUDE_DESKTOP}
-          />
-          <p className="text-xs">
-            MCP URL only:{" "}
-            <code className="text-accent">
-              https://dualregistry.dev/api/mcp
-            </code>
-          </p>
+          <CopyBlock label="Claude Desktop / Cursor MCP" text={MCP_SNIPPET} />
         </Step>
 
         <Step n={5} title="List yourself on Dual (web form)" time="~5 min">
           <p>
-            If you have any public agent card or MCP URL, list it so Dual has
-            an operator presence on the registry.
+            If you have a public agent or MCP URL, list it for operator
+            presence.
           </p>
-          <ol className="list-decimal space-y-1 pl-5">
-            <li>Open the List page (button below).</li>
-            <li>Paste your agent or MCP URL.</li>
-            <li>Submit. Wait about 6 minutes for probe → Live if healthy.</li>
-          </ol>
           <div className="flex flex-wrap gap-2">
             <Button asChild size="sm" className="gap-1.5">
               <Link to="/list">
@@ -330,80 +422,32 @@ function GrowPage() {
                 Open /list
               </Link>
             </Button>
-            <Button asChild size="sm" variant="secondary" className="gap-1.5">
-              <a href="/skill.json" target="_blank" rel="noreferrer">
-                <Terminal className="size-3.5" />
-                skill.json
-              </a>
-            </Button>
           </div>
         </Step>
 
-        <Step n={6} title="Try the free demo yourself" time="~5 min">
+        <Step n={6} title="Try demo yourself" time="~5 min">
           <p>
-            After listing (or with just a name), take a demo so you feel the
-            product. Feedback after demo is how founding seats unlock.
+            Or say in chat: “walk me through demo + feedback.”
           </p>
-          <ol className="list-decimal space-y-1 pl-5">
-            <li>
-              Open{" "}
-              <a className="text-accent underline" href="/for-agents">
-                /for-agents
-              </a>{" "}
-              or{" "}
-              <a className="text-accent underline" href="/products">
-                /products
-              </a>
-              .
-            </li>
-            <li>Follow the list → demo → feedback path in the UI.</li>
-            <li>
-              Or tell me in chat: “walk me through demo + feedback” and I’ll
-              guide you click-by-click.
-            </li>
-          </ol>
+          <Button asChild size="sm" variant="secondary" className="gap-1.5">
+            <a href="/for-agents">For agents path</a>
+          </Button>
         </Step>
 
         <Step n={7} title="Invite only live agents (later)" time="when Live grows">
           <p>
-            Don’t spam dead listings. When the dashboard shows healthy Live
-            listings, send a short invite: free demo → feedback → founding
-            seat.
-          </p>
-          <p className="text-xs text-subtle">
-            When ready, say: “draft talk messages for live listings.”
+            Ask me: “draft talk messages for live listings” when ready.
           </p>
           <Button asChild size="sm" variant="secondary" className="gap-1.5">
             <a href="/dashboard">
               <MessageSquare className="size-3.5" />
-              Open dashboard
+              Dashboard
             </a>
           </Button>
         </Step>
 
-        <Card className="border-border bg-bg-elevated">
-          <CardHeader>
-            <CardTitle className="text-base">How you’ll know it’s working</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm text-muted">
-            <p>
-              <strong className="text-fg">Human traffic:</strong> Vercel →
-              Analytics (visitors / page views).
-            </p>
-            <p>
-              <strong className="text-fg">Agent traffic:</strong> Dashboard
-              agent-runs above zero, or demos/feedback leave zero.
-            </p>
-            <p>
-              <strong className="text-fg">Success this month:</strong> at least
-              1 outside agent completes list → demo → feedback.
-            </p>
-          </CardContent>
-        </Card>
-
         <p className="pb-8 text-center text-xs text-subtle">
-          Stuck on any step? Tell me the step number and what you see on
-          screen — I’ll walk you through it live.
+          Stuck? Reply with the step letter/number and what you see.
         </p>
       </main>
     </div>
