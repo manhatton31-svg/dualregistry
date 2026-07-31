@@ -1,6 +1,31 @@
 {
-  "updated_at": "2026-07-31T13:09:06.458Z",
+  "updated_at": "2026-07-31T13:09:09.302Z",
   "items": [
+    {
+      "id": "agtpub_e2e50435ad4a0367f5c6",
+      "kind": "agent",
+      "target": "https://khive.ai/.well-known/agent.json",
+      "handshake": "fail",
+      "reason": "card URL returned 404 — publish a valid card at that path",
+      "fix": [
+        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
+        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
+        "Do not return HTML, login walls, 404, or empty bodies.",
+        "After the card is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "agent",
+          "name": "",
+          "agent_card_url": ""
+        },
+        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-29T21:45:30.380Z",
+      "delisted_at": "2026-07-31T13:09:09.302Z"
+    },
     {
       "id": "mcp-duvomike-mcp-",
       "kind": "mcp",
@@ -7380,31 +7405,6 @@
       },
       "probed_at": "2026-07-29T21:45:42.449Z",
       "delisted_at": "2026-07-31T12:06:58.009Z"
-    },
-    {
-      "id": "agtpub_e2e50435ad4a0367f5c6",
-      "kind": "agent",
-      "target": "https://khive.ai/.well-known/agent.json",
-      "handshake": "fail",
-      "reason": "card URL returned 404 — publish a valid card at that path",
-      "fix": [
-        "Serve a valid Agent Card JSON at /.well-known/agent.json (HTTP 200, application/json).",
-        "Required fields: name, description, url (or endpoint), skills[] (or capabilities).",
-        "Do not return HTML, login walls, 404, or empty bodies.",
-        "After the card is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "agent",
-          "name": "",
-          "agent_card_url": ""
-        },
-        "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-29T21:45:30.380Z",
-      "delisted_at": "2026-07-31T12:06:57.943Z"
     },
     {
       "id": "mcp_afa5b4c88df096938527",
@@ -22579,6 +22579,7 @@
     }
   ],
   "active_ids": [
+    "agtpub_e2e50435ad4a0367f5c6",
     "mcp-duvomike-mcp-",
     "agtpub_c9f681ed01269c8bb357",
     "agtpub_923b4dbd684a67651df3",
@@ -22865,7 +22866,6 @@
     "agtpub_605d8588850b2606e2e2",
     "agtpub_46262b0fb3b0cb020f0d",
     "agtpub_98ffd8dc6b8a61a65e52",
-    "agtpub_e2e50435ad4a0367f5c6",
     "mcp_afa5b4c88df096938527",
     "mcp_5ba260e8045cd5795591",
     "mcp_e5aae261421c14d1bac6",
