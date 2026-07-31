@@ -1,10 +1,36 @@
 /**
  * Growth Scout monthly/daily spend guard — hard $25/mo ceiling by default.
  * Tracks xAI token estimates + attributed Fluid wall time for scout cycles.
+ * Conversion funnel + per-listing outcomes for ranking feedback.
  */
 import { loadDurableJson, saveDurableJson } from "@/lib/agents1/durable-json";
 
 const DURABLE = "growth-scout.json";
+
+export type ScoutOutcome = {
+  last_invite_at: string;
+  talk_ok: boolean;
+  http_ok: boolean;
+  name?: string;
+  kind?: string;
+  /** filled when reply-capture / demo later matches this listing */
+  replied_at?: string;
+  demo_taken_at?: string;
+  feedback_at?: string;
+};
+
+export type ScoutConversion = {
+  talk_ok: number;
+  http_ok: number;
+  both_ok: number;
+  failed: number;
+  stigmergy_deposits: number;
+  autocatalysis_bumps: number;
+  compositions_seeded: number;
+  /** month-scoped invite delivers (resets on month roll) */
+  month_talk_ok: number;
+  month_http_ok: number;
+};
 
 export type ScoutBudgetState = {
   month: string; // YYYY-MM UTC
@@ -20,6 +46,9 @@ export type ScoutBudgetState = {
   last_notes?: string[];
   /** listing_id → last invite ISO */
   invited: Record<string, string>;
+  /** listing_id → last invite outcome (learning loop) */
+  outcomes?: Record<string, ScoutOutcome>;
+  conversion?: ScoutConversion;
   /** allowlist registry state */
   allowlist?: {
     shareabot?: {
@@ -50,6 +79,20 @@ function utcDay() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function emptyConversion(): ScoutConversion {
+  return {
+    talk_ok: 0,
+    http_ok: 0,
+    both_ok: 0,
+    failed: 0,
+    stigmergy_deposits: 0,
+    autocatalysis_bumps: 0,
+    compositions_seeded: 0,
+    month_talk_ok: 0,
+    month_http_ok: 0,
+  };
+}
+
 function empty(): ScoutBudgetState {
   return {
     month: utcMonth(),
@@ -60,6 +103,8 @@ function empty(): ScoutBudgetState {
     day: utcDay(),
     day_invites: 0,
     invited: {},
+    outcomes: {},
+    conversion: emptyConversion(),
     allowlist: {},
     history: [],
     updated_at: new Date().toISOString(),
@@ -74,12 +119,22 @@ function roll(s: ScoutBudgetState): ScoutBudgetState {
     next = {
       ...empty(),
       invited: s.invited || {},
+      outcomes: s.outcomes || {},
       allowlist: s.allowlist || {},
       history: (s.history || []).slice(0, 40),
+      conversion: {
+        ...emptyConversion(),
+        // lifetime-ish counters kept across months for dashboard continuity
+        stigmergy_deposits: s.conversion?.stigmergy_deposits || 0,
+        autocatalysis_bumps: s.conversion?.autocatalysis_bumps || 0,
+        compositions_seeded: s.conversion?.compositions_seeded || 0,
+      },
     };
   } else if (s.day !== d) {
     next = { ...s, day: d, day_invites: 0 };
   }
+  if (!next.outcomes) next.outcomes = {};
+  if (!next.conversion) next.conversion = emptyConversion();
   return next;
 }
 
@@ -157,8 +212,49 @@ export function estimateXaiUsd(inputTokens: number, outputTokens: number): numbe
   return Number((inUsd + outUsd).toFixed(6));
 }
 
+export function ensureConversion(s: ScoutBudgetState): ScoutConversion {
+  if (!s.conversion) s.conversion = emptyConversion();
+  return s.conversion;
+}
+
+export function recordInviteOutcome(
+  s: ScoutBudgetState,
+  opts: {
+    listing_id: string;
+    name?: string;
+    kind?: string;
+    talk_ok: boolean;
+    http_ok: boolean;
+  },
+): ScoutBudgetState {
+  const next = { ...s };
+  next.outcomes = { ...(s.outcomes || {}) };
+  next.conversion = { ...ensureConversion(s) };
+  const at = new Date().toISOString();
+  next.outcomes[opts.listing_id] = {
+    ...(next.outcomes[opts.listing_id] || {}),
+    last_invite_at: at,
+    talk_ok: opts.talk_ok,
+    http_ok: opts.http_ok,
+    name: opts.name,
+    kind: opts.kind,
+  };
+  if (opts.talk_ok) {
+    next.conversion.talk_ok += 1;
+    next.conversion.month_talk_ok += 1;
+  }
+  if (opts.http_ok) {
+    next.conversion.http_ok += 1;
+    next.conversion.month_http_ok += 1;
+  }
+  if (opts.talk_ok && opts.http_ok) next.conversion.both_ok += 1;
+  if (!opts.talk_ok && !opts.http_ok) next.conversion.failed += 1;
+  return next;
+}
+
 export function scoutBudgetPublic(s: ScoutBudgetState) {
   const budget = monthlyBudgetUsd();
+  const conv = s.conversion || emptyConversion();
   return {
     month: s.month,
     month_usd: s.month_usd,
@@ -185,5 +281,19 @@ export function scoutBudgetPublic(s: ScoutBudgetState) {
     },
     xai_configured: Boolean(process.env.XAI_API_KEY?.trim()),
     moltbook_configured: Boolean(process.env.MOLTBOOK_API_KEY?.trim()),
+    conversion: {
+      invites: s.month_invites,
+      talk_ok: conv.month_talk_ok || conv.talk_ok || 0,
+      http_ok: conv.month_http_ok || conv.http_ok || 0,
+      both_ok: conv.both_ok || 0,
+      failed: conv.failed || 0,
+      stigmergy_deposits: conv.stigmergy_deposits || 0,
+      autocatalysis_bumps: conv.autocatalysis_bumps || 0,
+      compositions_seeded: conv.compositions_seeded || 0,
+      /** filled by getGrowthScoutStatus when reply-capture is available */
+      demos: 0,
+      feedback: 0,
+      replies: 0,
+    },
   };
 }

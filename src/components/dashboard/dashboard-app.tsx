@@ -236,7 +236,21 @@ type DashboardData = {
     };
     xai_configured?: boolean;
     moltbook_configured?: boolean;
+    conversion?: {
+      invites?: number;
+      talk_ok?: number;
+      http_ok?: number;
+      both_ok?: number;
+      failed?: number;
+      demos?: number;
+      feedback?: number;
+      replies?: number;
+      stigmergy_deposits?: number;
+      autocatalysis_bumps?: number;
+      compositions_seeded?: number;
+    };
   } | null;
+
 };
 
 const TABS = [
@@ -693,6 +707,50 @@ export function DashboardApp() {
                   xAI draft:{" "}
                   {growthScout.xai_configured ? "configured" : "template only"}
                 </p>
+                {growthScout.conversion ? (
+                  <div className="grid grid-cols-2 gap-2 pt-2 sm:grid-cols-4">
+                    <div className="rounded-[var(--radius-md)] border border-border/60 bg-bg/40 p-2">
+                      <p className="text-[10px] uppercase tracking-wide text-subtle">
+                        Funnel · invites
+                      </p>
+                      <p className="text-sm font-semibold tabular text-fg">
+                        {growthScout.conversion.invites ??
+                          growthScout.month_invites ??
+                          0}
+                      </p>
+                    </div>
+                    <div className="rounded-[var(--radius-md)] border border-border/60 bg-bg/40 p-2">
+                      <p className="text-[10px] uppercase tracking-wide text-subtle">
+                        Talk / HTTP
+                      </p>
+                      <p className="text-sm font-semibold tabular text-fg">
+                        {growthScout.conversion.talk_ok ?? 0}
+                        <span className="text-subtle"> / </span>
+                        {growthScout.conversion.http_ok ?? 0}
+                      </p>
+                    </div>
+                    <div className="rounded-[var(--radius-md)] border border-border/60 bg-bg/40 p-2">
+                      <p className="text-[10px] uppercase tracking-wide text-subtle">
+                        Replies → demos
+                      </p>
+                      <p className="text-sm font-semibold tabular text-fg">
+                        {growthScout.conversion.replies ?? 0}
+                        <span className="text-subtle"> → </span>
+                        {growthScout.conversion.demos ?? 0}
+                      </p>
+                    </div>
+                    <div className="rounded-[var(--radius-md)] border border-border/60 bg-bg/40 p-2">
+                      <p className="text-[10px] uppercase tracking-wide text-subtle">
+                        Feedback · trails
+                      </p>
+                      <p className="text-sm font-semibold tabular text-fg">
+                        {growthScout.conversion.feedback ?? 0}
+                        <span className="text-subtle"> · </span>
+                        {growthScout.conversion.stigmergy_deposits ?? 0}
+                      </p>
+                    </div>
+                  </div>
+                ) : null}
                 {growthScout.last_error ? (
                   <p className="text-warn">Last error: {growthScout.last_error}</p>
                 ) : null}
@@ -716,6 +774,7 @@ export function DashboardApp() {
                   </Button>
                 </div>
               </div>
+
             </CardContent>
           </Card>
         ) : null}

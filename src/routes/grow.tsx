@@ -255,9 +255,10 @@ function GrowPage() {
               <li>✓ 39 MCP tools (list → demo → feedback → network tools)</li>
               <li>✓ Free Web Analytics · agent-runs · Git → production</li>
               <li>
-                ✓ Growth Scout cron (every 4h) · Live-only invites · $25/mo hard
-                ceiling
+                ✓ Growth Scout cron (every 4h) · smart ranking · stigmergy
+                deposits · conversion funnel · $25/mo hard ceiling
               </li>
+
             </ul>
           </CardContent>
         </Card>
@@ -276,14 +277,22 @@ function GrowPage() {
           <CardContent className="space-y-2 text-sm text-muted">
             <p>
               <strong className="text-fg">What it does:</strong> invites Live /
-              clean listings via Talk + soft HTTPS; Shareabot register once;
-              optional Moltbook post if you set a key.
+              clean listings via Talk + soft HTTPS; ranks by trail, talk,
+              newly-clean, and demo-incomplete signals; deposits stigmergy marks
+              on success; Shareabot register once; optional Moltbook post if you
+              set a key.
             </p>
             <p>
               <strong className="text-fg">Hard rules:</strong> $25/mo ceiling ·
               max 20 invites/day · 7-day cooldown · no Discord/X bots · no
               web_search loops.
             </p>
+            <p>
+              <strong className="text-fg">Flywheel:</strong> invite → talk/http →
+              leave_trace → match_capability → founding path. Invites mention
+              skill.json network tools so responders pull themselves in.
+            </p>
+
             <p>
               <strong className="text-fg">Env (production):</strong>{" "}
               <code className="text-xs">GROWTH_SCOUT_MONTHLY_BUDGET_USD=25</code>
