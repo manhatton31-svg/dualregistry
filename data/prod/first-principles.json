@@ -1,6 +1,6 @@
 {
   "version": "2.7.0",
-  "updated_at": "2026-07-31T13:05:21.171Z",
+  "updated_at": "2026-07-31T13:05:24.089Z",
   "capabilities": {
     "cap_9775402bba2bc8a46d2f7a71": {
       "cap_hash": "cap_9775402bba2bc8a46d2f7a71",
@@ -19,8 +19,52 @@
       "updated_at": "2026-07-31T13:05:21.171Z"
     }
   },
-  "attestations": [],
+  "attestations": [
+    {
+      "id": "att_ms8ygji5_lxp9dj",
+      "type": "outcome",
+      "subject": "agtpub_c9870b79be7f4faab49c",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:05:23.644Z",
+      "expires_at": "2026-08-03T13:05:23.644Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ygian",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5Z2lhbiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzowNToyMy42NDRaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzowNToyMy42NDRaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6ImFndHB1Yl9jOTg3MGI3OWJlN2Y0ZmFhYjQ5YyIsInR5cGUiOiJvdXRjb21lIn0.V-VV5HowHQc-b3-nqW5jRD9Ul-aBqBxflNcJaXPpGNnxDP18NivhONz4pvJztdbriyMl1zO2VrQKtsun7SFBZQ",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:05:23.644Z\",\"issued_at\":\"2026-07-31T13:05:23.644Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"agtpub_c9870b79be7f4faab49c\",\"type\":\"outcome\"}"
+    },
+    {
+      "id": "att_ms8ygj3g_7tfwcs",
+      "type": "outcome",
+      "subject": "agtpub_0e58c1804b88f9a3de9e",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:05:22.006Z",
+      "expires_at": "2026-08-03T13:05:22.006Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ygian",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5Z2lhbiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzowNToyMi4wMDZaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzowNToyMi4wMDZaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6ImFndHB1Yl8wZTU4YzE4MDRiODhmOWEzZGU5ZSIsInR5cGUiOiJvdXRjb21lIn0.W4oKLy0Jnb3KDI_v0OR65fETsbY2QtONMcRUva41suhQdNzu9rfrN7olUEV6jzN6YkAJs2Nai5pWxvT0shBWUA",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:05:22.006Z\",\"issued_at\":\"2026-07-31T13:05:22.006Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"agtpub_0e58c1804b88f9a3de9e\",\"type\":\"outcome\"}"
+    }
+  ],
   "outcomes": [
+    {
+      "id": "out_ms8ygiex_t6s9",
+      "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
+      "ok": true,
+      "latency_ms": 60,
+      "quality": 0.75,
+      "kind": "probe_ok",
+      "from": "probe_tick",
+      "body": "handshake ok · https://base-agent-kit-pied.vercel.app/.well-known/agent.json",
+      "at": "2026-07-31T13:05:22.233Z"
+    },
     {
       "id": "out_ms8yggfy_oqu4",
       "listing_id": "agtpub_c9870b79be7f4faab49c",
@@ -45,15 +89,20 @@
   "identities": {},
   "liveness": {
     "agtpub_0e58c1804b88f9a3de9e": {
-      "last_signal_at": "2026-07-31T13:05:21.003Z",
+      "last_signal_at": "2026-07-31T13:05:24.089Z",
+      "source": "attestation:outcome",
+      "score": 0.6
+    },
+    "agtpub_c9870b79be7f4faab49c": {
+      "last_signal_at": "2026-07-31T13:05:22.633Z",
       "source": "outcome",
       "score": 0.3
     }
   },
   "totals": {
     "cap_hashes": 1,
-    "attestations": 0,
-    "outcomes": 2,
+    "attestations": 2,
+    "outcomes": 3,
     "identities": 0,
     "pipelines": 0,
     "attractor_picks": 1
