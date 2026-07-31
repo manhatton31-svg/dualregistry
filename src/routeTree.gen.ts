@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgentmapDotjsonRouteImport } from './routes/agentmap[.]json'
 import { Route as AiDottxtRouteImport } from './routes/ai[.]txt'
 import { Route as DiscoveryDotjsonRouteImport } from './routes/discovery[.]json'
+import { Route as GrowRouteImport } from './routes/grow'
 import { Route as ListRouteImport } from './routes/list'
 import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
@@ -133,6 +134,11 @@ const AiDottxtRoute = AiDottxtRouteImport.update({
 const DiscoveryDotjsonRoute = DiscoveryDotjsonRouteImport.update({
   id: '/discovery.json',
   path: '/discovery.json',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GrowRoute = GrowRouteImport.update({
+  id: '/grow',
+  path: '/grow',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ListRoute = ListRouteImport.update({
@@ -666,6 +672,7 @@ export interface FileRoutesByFullPath {
   '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
+  '/grow': typeof GrowRoute
   '/list': typeof ListRouteWithChildren
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -773,6 +780,7 @@ export interface FileRoutesByTo {
   '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
+  '/grow': typeof GrowRoute
   '/list': typeof ListRouteWithChildren
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -881,6 +889,7 @@ export interface FileRoutesById {
   '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
+  '/grow': typeof GrowRoute
   '/list': typeof ListRouteWithChildren
   '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
@@ -990,6 +999,7 @@ export interface FileRouteTypes {
     | '/agentmap.json'
     | '/ai.txt'
     | '/discovery.json'
+    | '/grow'
     | '/list'
     | '/llms-full.txt'
     | '/llms.txt'
@@ -1097,6 +1107,7 @@ export interface FileRouteTypes {
     | '/agentmap.json'
     | '/ai.txt'
     | '/discovery.json'
+    | '/grow'
     | '/list'
     | '/llms-full.txt'
     | '/llms.txt'
@@ -1204,6 +1215,7 @@ export interface FileRouteTypes {
     | '/agentmap.json'
     | '/ai.txt'
     | '/discovery.json'
+    | '/grow'
     | '/list'
     | '/llms-full.txt'
     | '/llms.txt'
@@ -1312,6 +1324,7 @@ export interface RootRouteChildren {
   AgentmapDotjsonRoute: typeof AgentmapDotjsonRoute
   AiDottxtRoute: typeof AiDottxtRoute
   DiscoveryDotjsonRoute: typeof DiscoveryDotjsonRoute
+  GrowRoute: typeof GrowRoute
   ListRoute: typeof ListRouteWithChildren
   LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
@@ -1442,6 +1455,13 @@ declare module '@tanstack/react-router' {
       path: '/discovery.json'
       fullPath: '/discovery.json'
       preLoaderRoute: typeof DiscoveryDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/grow': {
+      id: '/grow'
+      path: '/grow'
+      fullPath: '/grow'
+      preLoaderRoute: typeof GrowRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/list': {
@@ -2169,6 +2189,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgentmapDotjsonRoute: AgentmapDotjsonRoute,
   AiDottxtRoute: AiDottxtRoute,
   DiscoveryDotjsonRoute: DiscoveryDotjsonRoute,
+  GrowRoute: GrowRoute,
   ListRoute: ListRouteWithChildren,
   LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
