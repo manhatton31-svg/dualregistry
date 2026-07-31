@@ -1,6 +1,6 @@
 {
   "version": "2.7.0",
-  "updated_at": "2026-07-31T13:13:03.201Z",
+  "updated_at": "2026-07-31T13:13:04.421Z",
   "capabilities": {
     "cap_9775402bba2bc8a46d2f7a71": {
       "cap_hash": "cap_9775402bba2bc8a46d2f7a71",
@@ -20,6 +20,22 @@
     }
   },
   "attestations": [
+    {
+      "id": "att_ms8yqesx_a495yz",
+      "type": "outcome",
+      "subject": "mcp-ai-kontato-kontato-https-kontato-ai",
+      "claims": {
+        "ok": false,
+        "quality": 0.15,
+        "kind": "probe_fail"
+      },
+      "issued_at": "2026-07-31T13:13:04.112Z",
+      "expires_at": "2026-08-03T13:13:04.112Z",
+      "issuer": "https://dualregistry.dev",
+      "kid": "dualregistry-es256-ms8ypf76",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImR1YWxyZWdpc3RyeS1lczI1Ni1tczh5cGY3NiIsInR5cCI6IkpXVCIsImlzcyI6Imh0dHBzOi8vZHVhbHJlZ2lzdHJ5LmRldiJ9.eyJjbGFpbXMiOnsia2luZCI6InByb2JlX2ZhaWwiLCJvayI6ZmFsc2UsInF1YWxpdHkiOjAuMTV9LCJleHBpcmVzX2F0IjoiMjAyNi0wOC0wM1QxMzoxMzowNC4xMTJaIiwiaXNzdWVkX2F0IjoiMjAyNi0wNy0zMVQxMzoxMzowNC4xMTJaIiwiaXNzdWVyIjoiaHR0cHM6Ly9kdWFscmVnaXN0cnkuZGV2Iiwic3ViamVjdCI6Im1jcC1haS1rb250YXRvLWtvbnRhdG8taHR0cHMta29udGF0by1haSIsInR5cGUiOiJvdXRjb21lIn0.hEPm6tFzmFRmSfFfr-w1cXKn17ahGuD0PFs8G_DvL9Q63XVYo9V4suyx00vBMjY6ZmoMIQKCQH-Sgcnvy4ngsg",
+      "payload_canonical": "{\"claims\":{\"kind\":\"probe_fail\",\"ok\":false,\"quality\":0.15},\"expires_at\":\"2026-08-03T13:13:04.112Z\",\"issued_at\":\"2026-07-31T13:13:04.112Z\",\"issuer\":\"https://dualregistry.dev\",\"subject\":\"mcp-ai-kontato-kontato-https-kontato-ai\",\"type\":\"outcome\"}"
+    },
     {
       "id": "att_ms8yqb9p_yd5qkl",
       "type": "outcome",
@@ -765,14 +781,19 @@
       "last_signal_at": "2026-07-31T13:13:00.757Z",
       "source": "attestation:outcome",
       "score": 0.6
+    },
+    "mcp-ai-kontato-kontato-https-kontato-ai": {
+      "last_signal_at": "2026-07-31T13:13:04.421Z",
+      "source": "attestation:outcome",
+      "score": 0.6
     }
   },
   "totals": {
     "cap_hashes": 1,
-    "attestations": 24,
+    "attestations": 25,
     "outcomes": 25,
     "identities": 0,
     "pipelines": 0,
-    "attractor_picks": 7
+    "attractor_picks": 8
   }
 }
