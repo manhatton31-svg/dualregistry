@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-07-31T16:51:14.319Z",
+  "updated_at": "2026-07-31T17:26:40.980Z",
   "source": "https://grok-agent-store.manhatton31.workers.dev",
   "live": true,
-  "mcp_approved": 332,
-  "agents_approved": 509,
+  "mcp_approved": 53,
+  "agents_approved": 419,
   "mcp_target": 0,
   "agents_target": 0,
   "milestones": {
@@ -13,7 +13,7 @@
       "agents_approved": 0
     },
     "mcp": {
-      "approved": 332,
+      "approved": 53,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -21,7 +21,7 @@
       "unlimited": true
     },
     "agents": {
-      "approved": 509,
+      "approved": 419,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -41,7 +41,7 @@
         "https://grok-agent-store.manhatton31.workers.dev/registry.json"
       ]
     },
-    "updated_at": "2026-07-31T16:51:14.319Z"
+    "updated_at": "2026-07-31T17:26:24.627Z"
   },
   "mcp_items": [
     {
@@ -3376,7 +3376,7 @@
           "https://grok-agent-store.manhatton31.workers.dev/registry.json"
         ]
       },
-      "updated_at": "2026-07-31T16:51:14.223Z"
+      "updated_at": "2026-07-31T17:24:48.607Z"
     },
     "agent_registry": {
       "accepting_submissions": true,
@@ -3404,30 +3404,32 @@
         "cursor": {
           "github_last_comment_id": 5107319336,
           "gmail_last_internal_date": 1785261414604,
-          "updated_at": "2026-07-31T16:30:36.406Z"
+          "updated_at": "2026-07-31T17:00:20.291Z"
         },
         "last_run": {
-          "ran_at": "2026-07-31T16:30:35.893Z",
+          "ran_at": "2026-07-31T17:00:19.956Z",
           "github_new": 0,
           "gmail_new": 0,
+          "github_error": "GitHub 403: {\n\t\"message\": \"API rate limit exceeded for user ID 286506158. If you reach out to GitHub Support for help, please include the request ID 257E:109DCC:AE4B94:26E75C1:6A6CD4A4 and timestamp 2026-07-31 17",
           "approved": 0,
           "needs_review": 0,
           "rejected": 0
         },
         "agents_last_run": {
-          "ran_at": "2026-07-31T16:30:36.829Z",
+          "ran_at": "2026-07-31T17:00:20.814Z",
           "github_new": 0,
-          "repos_new": 8,
+          "repos_new": 0,
           "refreshed": 0,
-          "approved": 8,
+          "github_error": "GitHub 403: {\n\t\"message\": \"API rate limit exceeded for user ID 286506158. If you reach out to GitHub Support for help, please include the request ID 257E:109DCC:AE4FFF:26E859D:6A6CD4A4 and timestamp 2026-07-31 17",
+          "approved": 0,
           "needs_review": 0,
           "rejected": 0
         },
         "agents_cursor": {
           "github_last_comment_id": 0,
-          "search_offset": 141,
-          "last_refresh_at": "2026-07-31T16:30:36.829Z",
-          "updated_at": "2026-07-31T16:31:10.070Z"
+          "search_offset": 142,
+          "last_refresh_at": "2026-07-31T17:00:20.814Z",
+          "updated_at": "2026-07-31T17:01:16.054Z"
         }
       },
       "approved": 332
@@ -3435,5 +3437,9 @@
     "discovery": "https://grok-agent-store.manhatton31.workers.dev/discovery.json",
     "mcp": "https://grok-agent-store.manhatton31.workers.dev/mcp",
     "github": "https://github.com/manhatton31-svg/grok-agent-store"
-  }
+  },
+  "errors": [
+    "/registry.json?limit=200: This operation was aborted",
+    "/agents.json: This operation was aborted"
+  ]
 }
