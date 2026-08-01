@@ -1,6 +1,406 @@
 {
-  "updated_at": "2026-08-01T07:05:28.271Z",
+  "updated_at": "2026-08-01T09:16:18.684Z",
   "items": [
+    {
+      "id": "mcp-mcp-handler-https-github-com-vercel-mcp-handler-readme",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.469Z",
+      "delisted_at": "2026-08-01T09:16:18.684Z"
+    },
+    {
+      "id": "mcp-model-context-protocol-https-github-com-mcp-agents-model-context-protocol-re",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.469Z",
+      "delisted_at": "2026-08-01T09:16:18.622Z"
+    },
+    {
+      "id": "mcp-transcend-io-mcp-server-base-https-github-com-transcend-io-tools-tree-main-p",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.469Z",
+      "delisted_at": "2026-08-01T09:16:18.552Z"
+    },
+    {
+      "id": "mcp-transcend-io-mcp-server-admin-https-github-com-transcend-io-tools-tree-main-",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.469Z",
+      "delisted_at": "2026-08-01T09:16:18.476Z"
+    },
+    {
+      "id": "mcp-transcend-io-mcp-server-dsr-https-github-com-transcend-io-tools-tree-main-pa",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T17:48:49.902Z",
+      "delisted_at": "2026-08-01T09:16:18.412Z"
+    },
+    {
+      "id": "mcp-transcend-io-mcp-server-assessment-https-github-com-transcend-io-tools-tree-",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.469Z",
+      "delisted_at": "2026-08-01T09:16:18.339Z"
+    },
+    {
+      "id": "mcp-sentry-mcp-server-https-github-com-getsentry-sentry-mcp",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.468Z",
+      "delisted_at": "2026-08-01T09:16:18.278Z"
+    },
+    {
+      "id": "mcp-transcend-io-mcp-server-discovery-https-github-com-transcend-io-tools-tree-m",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.469Z",
+      "delisted_at": "2026-08-01T09:16:18.218Z"
+    },
+    {
+      "id": "mcp-transcend-io-mcp-server-consent-https-github-com-transcend-io-tools-tree-mai",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.469Z",
+      "delisted_at": "2026-08-01T09:16:18.156Z"
+    },
+    {
+      "id": "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp-read",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.469Z",
+      "delisted_at": "2026-08-01T09:16:18.088Z"
+    },
+    {
+      "id": "mcp-ui5-mcp-server-https-github-com-ui5-mcp-server-readme",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.469Z",
+      "delisted_at": "2026-08-01T09:16:18.024Z"
+    },
+    {
+      "id": "mcp-notionhq-notion-mcp-server-https-github-com-makenotion-notion-mcp-server-rea",
+      "kind": "mcp",
+      "target": "",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:41:26.468Z",
+      "delisted_at": "2026-08-01T09:16:17.962Z"
+    },
+    {
+      "id": "mcp-ai-ai-akari-agent-trust-receipt-https-github-com-ainoakari-ainoakari",
+      "kind": "mcp",
+      "target": "https://ai-akari.ai/mcp-trust",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:40:52.346Z",
+      "delisted_at": "2026-08-01T09:16:17.893Z"
+    },
+    {
+      "id": "mcp-ai-agentrapay-agentra-https-api-agentrapay-ai-mcp",
+      "kind": "mcp",
+      "target": "https://api.agentrapay.ai/mcp",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:40:52.346Z",
+      "delisted_at": "2026-08-01T09:16:17.830Z"
+    },
+    {
+      "id": "mcp-ai-agenticshelf-puroair-https-getpuroair-com",
+      "kind": "mcp",
+      "target": "https://api.agenticshelf.ai/m/puroair/mcp",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:40:52.346Z",
+      "delisted_at": "2026-08-01T09:16:17.768Z"
+    },
+    {
+      "id": "mcp-ai-agenticshelf-mcp-https-github-com-vboykocto-agentic-shelf",
+      "kind": "mcp",
+      "target": "https://api.agenticshelf.ai/mcp",
+      "handshake": "fail",
+      "reason": "live probe handshake failed",
+      "fix": [
+        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
+        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
+        "remote_url must accept MCP handshake (not a marketing HTML page).",
+        "After the endpoint is live, resubmit for approval probing."
+      ],
+      "resubmit": {
+        "method": "POST",
+        "url": "https://dualregistry.dev/api/publish",
+        "body_hint": {
+          "kind": "mcp",
+          "name": "",
+          "remote_url": ""
+        },
+        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
+      },
+      "probed_at": "2026-07-31T18:40:52.346Z",
+      "delisted_at": "2026-08-01T09:16:17.706Z"
+    },
     {
       "id": "mcp-ai-agenticshelf-graffeo-https-www-graffeo-com",
       "kind": "mcp",
@@ -24,7 +424,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:40:52.346Z",
-      "delisted_at": "2026-08-01T07:05:28.271Z"
+      "delisted_at": "2026-08-01T09:16:17.636Z"
     },
     {
       "id": "mcp-aihappey-mcp-https-github-com-achappey-aihappey-mcp",
@@ -49,7 +449,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T14:33:06.597Z",
-      "delisted_at": "2026-08-01T07:05:28.201Z"
+      "delisted_at": "2026-08-01T09:16:17.573Z"
     },
     {
       "id": "mcp-shipmail-mcp-https-github-com-shipmail-to-shipmail-mcp",
@@ -74,7 +474,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T17:10:55.399Z",
-      "delisted_at": "2026-08-01T07:05:28.125Z"
+      "delisted_at": "2026-08-01T09:16:17.509Z"
     },
     {
       "id": "mcp-ai-gtfi-groundtruth-https-gtfi-ai-for-agents",
@@ -99,7 +499,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.710Z",
-      "delisted_at": "2026-08-01T07:05:28.060Z"
+      "delisted_at": "2026-08-01T09:16:17.439Z"
     },
     {
       "id": "mcp-ai-groundroute-web-search-https-github-com-project-b-26-groundroute-mcp",
@@ -124,7 +524,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.710Z",
-      "delisted_at": "2026-08-01T07:05:27.987Z"
+      "delisted_at": "2026-08-01T09:16:17.378Z"
     },
     {
       "id": "mcp-ai-gossiper-shopify-admin-mcp-https-mcp-gossiper-io-mcp",
@@ -149,7 +549,7 @@
         "message": "Removed from Dual Registry: card URL timed out — ensure endpoint is publicly reachable. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T17:06:10.769Z",
-      "delisted_at": "2026-08-01T07:05:27.911Z"
+      "delisted_at": "2026-08-01T09:16:17.316Z"
     },
     {
       "id": "mcp-ai-good-sport-good-sport-https-good-sport-ai",
@@ -174,7 +574,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.710Z",
-      "delisted_at": "2026-08-01T07:05:27.845Z"
+      "delisted_at": "2026-08-01T09:16:17.255Z"
     },
     {
       "id": "mcp-ai-gondola-gondola-https-github-com-gondola-ai-gondola-api",
@@ -199,7 +599,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.710Z",
-      "delisted_at": "2026-08-01T07:05:27.775Z"
+      "delisted_at": "2026-08-01T09:16:17.185Z"
     },
     {
       "id": "mcp-ai-gomarble-mcp-api-https-apps-gomarble-ai-mcp-api-sse",
@@ -224,7 +624,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.710Z",
-      "delisted_at": "2026-08-01T07:05:27.707Z"
+      "delisted_at": "2026-08-01T09:16:17.124Z"
     },
     {
       "id": "mcp-ai-gigaverse-gigaverse-https-gigaverse-ai-developers",
@@ -249,7 +649,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.710Z",
-      "delisted_at": "2026-08-01T07:05:27.631Z"
+      "delisted_at": "2026-08-01T09:16:17.061Z"
     },
     {
       "id": "mcp-ai-getthroughline-throughline-https-getthroughline-ai",
@@ -274,7 +674,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.710Z",
-      "delisted_at": "2026-08-01T07:05:27.564Z"
+      "delisted_at": "2026-08-01T09:16:16.990Z"
     },
     {
       "id": "mcp-ai-getperspective-mcp-https-github-com-perspective-ai-mcp",
@@ -299,7 +699,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.710Z",
-      "delisted_at": "2026-08-01T07:05:27.492Z"
+      "delisted_at": "2026-08-01T09:16:16.924Z"
     },
     {
       "id": "mcp-ai-getminds-minds-https-getminds-ai-mcp",
@@ -324,7 +724,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.710Z",
-      "delisted_at": "2026-08-01T07:05:27.421Z"
+      "delisted_at": "2026-08-01T09:16:16.864Z"
     },
     {
       "id": "mcp-ai-geodesiclabs-governance-platform-https-app-geodesiclabs-ai-mcp",
@@ -349,7 +749,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.706Z",
-      "delisted_at": "2026-08-01T07:05:27.351Z"
+      "delisted_at": "2026-08-01T09:16:16.804Z"
     },
     {
       "id": "mcp-ai-genomicintelligence-genomic-intelligence-https-genomicintelligence-ai",
@@ -374,7 +774,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.706Z",
-      "delisted_at": "2026-08-01T07:05:27.285Z"
+      "delisted_at": "2026-08-01T09:16:16.736Z"
     },
     {
       "id": "mcp-ai-gemus-gemus-https-github-com-gemus-ai-gemus",
@@ -399,7 +799,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.706Z",
-      "delisted_at": "2026-08-01T07:05:27.211Z"
+      "delisted_at": "2026-08-01T09:16:16.671Z"
     },
     {
       "id": "mcp-ai-gavelin-mcp-https-github-com-gavelin-ai-mcp",
@@ -424,7 +824,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.706Z",
-      "delisted_at": "2026-08-01T07:05:27.135Z"
+      "delisted_at": "2026-08-01T09:16:16.608Z"
     },
     {
       "id": "mcp-ai-fugentic-service-provider-index-https-spi-fugentic-ai-mcp",
@@ -449,7 +849,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.706Z",
-      "delisted_at": "2026-08-01T07:05:27.068Z"
+      "delisted_at": "2026-08-01T09:16:16.539Z"
     },
     {
       "id": "mcp-ai-fugentic-mattest4-qyroac-https-mattest4-qyroac-mcp-fugentic-ai",
@@ -474,7 +874,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.706Z",
-      "delisted_at": "2026-08-01T07:05:27.004Z"
+      "delisted_at": "2026-08-01T09:16:16.477Z"
     },
     {
       "id": "mcp-ai-foura-mcp-https-github-com-fouradata-mcp",
@@ -499,7 +899,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:28:25.706Z",
-      "delisted_at": "2026-08-01T07:05:26.925Z"
+      "delisted_at": "2026-08-01T09:16:16.415Z"
     },
     {
       "id": "mcp-ai-forkmate-forkmate-https-github-com-shawnazar-forkmate",
@@ -524,7 +924,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.854Z"
+      "delisted_at": "2026-08-01T09:16:16.353Z"
     },
     {
       "id": "mcp-ai-fodda-topic-research-https-github-com-piers-fawkes-fodda-mcp",
@@ -549,7 +949,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.788Z"
+      "delisted_at": "2026-08-01T09:16:16.283Z"
     },
     {
       "id": "mcp-ai-fodda-mcp-server-https-github-com-piers-fawkes-fodda-mcp",
@@ -574,7 +974,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T16:57:03.980Z",
-      "delisted_at": "2026-08-01T07:05:26.721Z"
+      "delisted_at": "2026-08-01T09:16:16.221Z"
     },
     {
       "id": "mcp-ai-fodda-mcp-server-https-github-com-fodda-mcp-server",
@@ -599,7 +999,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.644Z"
+      "delisted_at": "2026-08-01T09:16:16.160Z"
     },
     {
       "id": "mcp-ai-fodda-expert-consult-https-github-com-piers-fawkes-fodda-mcp",
@@ -624,7 +1024,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.574Z"
+      "delisted_at": "2026-08-01T09:16:16.089Z"
     },
     {
       "id": "mcp-ai-fodda-earnings-intelligence-https-github-com-piers-fawkes-fodda-mcp",
@@ -649,7 +1049,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.507Z"
+      "delisted_at": "2026-08-01T09:16:16.028Z"
     },
     {
       "id": "mcp-ai-fodda-deep-research-https-github-com-piers-fawkes-fodda-mcp",
@@ -674,7 +1074,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.347Z"
+      "delisted_at": "2026-08-01T09:16:15.965Z"
     },
     {
       "id": "mcp-ai-fodda-brand-intelligence-https-github-com-piers-fawkes-fodda-mcp",
@@ -699,7 +1099,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.275Z"
+      "delisted_at": "2026-08-01T09:16:15.901Z"
     },
     {
       "id": "mcp-ai-fluxink-fci-mcp-https-mcp-fluxink-ai-servers-f6b6758dba6c4c92b83407a113fd",
@@ -724,7 +1124,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.207Z"
+      "delisted_at": "2026-08-01T09:16:15.832Z"
     },
     {
       "id": "mcp-ai-flowstep-mcp-https-docs-flowstep-ai-mcp-overview",
@@ -749,7 +1149,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.131Z"
+      "delisted_at": "2026-08-01T09:16:15.769Z"
     },
     {
       "id": "mcp-ai-flowcastle-flowcastle-https-github-com-flowcastle-telegram-bot-templates",
@@ -774,7 +1174,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.067Z"
+      "delisted_at": "2026-08-01T09:16:15.704Z"
     },
     {
       "id": "mcp-ai-fiuto-mcp-https-app-fiuto-ai",
@@ -799,7 +1199,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:26.004Z"
+      "delisted_at": "2026-08-01T09:16:15.619Z"
     },
     {
       "id": "mcp-ai-firmbrain-x402-services-https-x402-services-production-up-railway-app-api",
@@ -824,7 +1224,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:25.913Z"
+      "delisted_at": "2026-08-01T09:16:15.499Z"
     },
     {
       "id": "mcp-ai-finstat-finstat-https-finstat-ai",
@@ -849,7 +1249,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:25.834Z"
+      "delisted_at": "2026-08-01T09:16:15.432Z"
     },
     {
       "id": "mcp-ai-finestructure-fine-structure-https-finestructure-ai-api-mcp",
@@ -874,7 +1274,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:25.770Z"
+      "delisted_at": "2026-08-01T09:16:15.372Z"
     },
     {
       "id": "mcp-ai-findip-patent-search-https-mcp-findip-ai",
@@ -899,7 +1299,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:25.695Z"
+      "delisted_at": "2026-08-01T09:16:15.311Z"
     },
     {
       "id": "mcp-ai-fincontext-fincontext-https-fincontext-ai-mcp",
@@ -924,7 +1324,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:25.625Z"
+      "delisted_at": "2026-08-01T09:16:15.245Z"
     },
     {
       "id": "mcp-ai-filtrix-mcp-filtrix-ai-https-www-filtrix-ai-",
@@ -949,7 +1349,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:25.552Z"
+      "delisted_at": "2026-08-01T09:16:15.185Z"
     },
     {
       "id": "mcp-ai-filepad-filepad-https-api-filepad-ai-mcp",
@@ -974,7 +1374,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:25.485Z"
+      "delisted_at": "2026-08-01T09:16:15.123Z"
     },
     {
       "id": "mcp-ai-filegraph-document-processing-https-github-com-filegraph-docconvert",
@@ -999,7 +1399,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T16:33:14.800Z",
-      "delisted_at": "2026-08-01T07:05:25.413Z"
+      "delisted_at": "2026-08-01T09:16:15.062Z"
     },
     {
       "id": "agent-crewai-https-github-com-crewaiinc-crewai",
@@ -1024,7 +1424,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.468Z",
-      "delisted_at": "2026-08-01T07:05:25.344Z"
+      "delisted_at": "2026-08-01T09:16:14.995Z"
     },
     {
       "id": "agent-autogen-https-github-com-microsoft-autogen",
@@ -1049,7 +1449,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.468Z",
-      "delisted_at": "2026-08-01T07:05:25.271Z"
+      "delisted_at": "2026-08-01T09:16:14.934Z"
     },
     {
       "id": "agent-langgraph-https-github-com-langchain-ai-langgraph",
@@ -1074,7 +1474,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.468Z",
-      "delisted_at": "2026-08-01T07:05:25.205Z"
+      "delisted_at": "2026-08-01T09:16:14.872Z"
     },
     {
       "id": "agent-nexez-https-nexez-ai",
@@ -1099,7 +1499,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T18:34:27.923Z",
-      "delisted_at": "2026-08-01T07:05:25.127Z"
+      "delisted_at": "2026-08-01T09:16:14.805Z"
     },
     {
       "id": "agent-pictomancer-ai-https-api-pictomancer-ai",
@@ -1124,7 +1524,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T18:34:27.967Z",
-      "delisted_at": "2026-08-01T07:05:25.064Z"
+      "delisted_at": "2026-08-01T09:16:14.744Z"
     },
     {
       "id": "agent-multigen-https-github-com-lingyuanli-multigen",
@@ -1149,7 +1549,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:40:51.067Z",
-      "delisted_at": "2026-08-01T07:05:24.992Z"
+      "delisted_at": "2026-08-01T09:16:14.683Z"
     },
     {
       "id": "agent-piqrypt-https-github-com-piqrypt-piqrypt",
@@ -1174,7 +1574,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:40:51.067Z",
-      "delisted_at": "2026-08-01T07:05:24.927Z"
+      "delisted_at": "2026-08-01T09:16:14.611Z"
     },
     {
       "id": "agent-aria-https-github-com-wiqilee-aria",
@@ -1199,7 +1599,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:40:51.067Z",
-      "delisted_at": "2026-08-01T07:05:24.847Z"
+      "delisted_at": "2026-08-01T09:16:14.543Z"
     },
     {
       "id": "agent-swarmtrade-https-github-com-tjcrowley-swarmtrade",
@@ -1224,7 +1624,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:40:51.067Z",
-      "delisted_at": "2026-08-01T07:05:24.784Z"
+      "delisted_at": "2026-08-01T09:16:14.482Z"
     },
     {
       "id": "agent-a2aapp-https-github-com-tanaikech-a2aapp",
@@ -1249,7 +1649,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.468Z",
-      "delisted_at": "2026-08-01T07:05:24.712Z"
+      "delisted_at": "2026-08-01T09:16:14.420Z"
     },
     {
       "id": "agent-agent2agent-doc-https-github-com-ai-boost-agent2agent-doc",
@@ -1274,7 +1674,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.468Z",
-      "delisted_at": "2026-08-01T07:05:24.640Z"
+      "delisted_at": "2026-08-01T09:16:14.352Z"
     },
     {
       "id": "agent-a2a-docs-zh-https-github-com-sxhxliang-a2a-docs-zh",
@@ -1299,7 +1699,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.468Z",
-      "delisted_at": "2026-08-01T07:05:24.569Z"
+      "delisted_at": "2026-08-01T09:16:14.288Z"
     },
     {
       "id": "mcp-openagent-https-github-com-the-open-agent-openagent",
@@ -1324,7 +1724,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.469Z",
-      "delisted_at": "2026-08-01T07:05:24.505Z"
+      "delisted_at": "2026-08-01T09:16:14.226Z"
     },
     {
       "id": "mcp-holaos-https-github-com-holaboss-ai-holaos",
@@ -1349,7 +1749,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.469Z",
-      "delisted_at": "2026-08-01T07:05:24.440Z"
+      "delisted_at": "2026-08-01T09:16:14.165Z"
     },
     {
       "id": "mcp-magic-mcp-https-github-com-21st-dev-magic-mcp",
@@ -1374,7 +1774,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.469Z",
-      "delisted_at": "2026-08-01T07:05:24.362Z"
+      "delisted_at": "2026-08-01T09:16:14.095Z"
     },
     {
       "id": "mcp-awesome-mcp-servers-https-github-com-appcypher-awesome-mcp-servers",
@@ -1399,7 +1799,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.469Z",
-      "delisted_at": "2026-08-01T07:05:24.288Z"
+      "delisted_at": "2026-08-01T09:16:14.034Z"
     },
     {
       "id": "mcp-semble-https-github-com-minishlab-semble",
@@ -1424,7 +1824,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.469Z",
-      "delisted_at": "2026-08-01T07:05:24.225Z"
+      "delisted_at": "2026-08-01T09:16:13.973Z"
     },
     {
       "id": "mcp-xcodebuildmcp-https-github-com-getsentry-xcodebuildmcp",
@@ -1449,7 +1849,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.469Z",
-      "delisted_at": "2026-08-01T07:05:24.145Z"
+      "delisted_at": "2026-08-01T09:16:13.906Z"
     },
     {
       "id": "mcp-cursor-talk-to-figma-mcp-https-github-com-grab-cursor-talk-to-figma-mcp",
@@ -1474,7 +1874,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.469Z",
-      "delisted_at": "2026-08-01T07:05:24.071Z"
+      "delisted_at": "2026-08-01T09:16:13.845Z"
     },
     {
       "id": "mcp-firecrawl-mcp-server-https-github-com-firecrawl-firecrawl-mcp-server",
@@ -1499,7 +1899,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.469Z",
-      "delisted_at": "2026-08-01T07:05:24.005Z"
+      "delisted_at": "2026-08-01T09:16:13.784Z"
     },
     {
       "id": "mcp_afa5b4c88df096938527",
@@ -1524,7 +1924,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.927Z"
+      "delisted_at": "2026-08-01T09:16:13.721Z"
     },
     {
       "id": "mcp_5ba260e8045cd5795591",
@@ -1549,7 +1949,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.852Z"
+      "delisted_at": "2026-08-01T09:16:13.652Z"
     },
     {
       "id": "mcp_e5aae261421c14d1bac6",
@@ -1574,7 +1974,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.787Z"
+      "delisted_at": "2026-08-01T09:16:13.590Z"
     },
     {
       "id": "mcp_7693bd99a6c9ebfc9900",
@@ -1599,7 +1999,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.723Z"
+      "delisted_at": "2026-08-01T09:16:13.530Z"
     },
     {
       "id": "mcp_795ab33a77fb6a2ae08e",
@@ -1624,7 +2024,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.643Z"
+      "delisted_at": "2026-08-01T09:16:13.461Z"
     },
     {
       "id": "mcp_b9cdf09e96a5f33ab441",
@@ -1649,7 +2049,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.572Z"
+      "delisted_at": "2026-08-01T09:16:13.394Z"
     },
     {
       "id": "mcp_b187d8bf714e530e1b5b",
@@ -1674,7 +2074,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.505Z"
+      "delisted_at": "2026-08-01T09:16:13.333Z"
     },
     {
       "id": "mcp_a84800d78fe0e5bc6539",
@@ -1699,7 +2099,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.432Z"
+      "delisted_at": "2026-08-01T09:16:13.271Z"
     },
     {
       "id": "mcp_a79e0b920eae4a357235",
@@ -1724,7 +2124,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.354Z"
+      "delisted_at": "2026-08-01T09:16:13.204Z"
     },
     {
       "id": "mcp_811b895a5481cf4a13eb",
@@ -1749,7 +2149,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.288Z"
+      "delisted_at": "2026-08-01T09:16:13.142Z"
     },
     {
       "id": "mcp_993de53e72c83c2326c1",
@@ -1774,7 +2174,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.221Z"
+      "delisted_at": "2026-08-01T09:16:13.080Z"
     },
     {
       "id": "mcp_20b0c8a9bbbf60538335",
@@ -1799,7 +2199,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:23.068Z"
+      "delisted_at": "2026-08-01T09:16:13.013Z"
     },
     {
       "id": "agtpub_e215818c3a6a96bf036f",
@@ -1824,7 +2224,7 @@
         "message": "Removed from Dual Registry: partial card — incomplete agent-card or MCP server-card JSON. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T06:37:25.798Z",
-      "delisted_at": "2026-08-01T07:05:22.992Z"
+      "delisted_at": "2026-08-01T09:16:12.952Z"
     },
     {
       "id": "agtpub_dcea45b5985e0b3e4fab",
@@ -1849,7 +2249,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T06:37:25.523Z",
-      "delisted_at": "2026-08-01T07:05:22.925Z"
+      "delisted_at": "2026-08-01T09:16:12.891Z"
     },
     {
       "id": "agtpub_455ce42e2c9c2a7939d3",
@@ -1874,7 +2274,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T06:37:25.255Z",
-      "delisted_at": "2026-08-01T07:05:22.853Z"
+      "delisted_at": "2026-08-01T09:16:12.830Z"
     },
     {
       "id": "agtpub_ee47c1931591609009cf",
@@ -1899,7 +2299,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T06:37:25.195Z",
-      "delisted_at": "2026-08-01T07:05:22.787Z"
+      "delisted_at": "2026-08-01T09:16:12.763Z"
     },
     {
       "id": "agtpub_c41648349199fcc08363",
@@ -1924,7 +2324,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T06:37:23.386Z",
-      "delisted_at": "2026-08-01T07:05:22.708Z"
+      "delisted_at": "2026-08-01T09:16:12.701Z"
     },
     {
       "id": "agtpub_1caa2aa3dd8119523a4a",
@@ -1949,7 +2349,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T06:37:23.295Z",
-      "delisted_at": "2026-08-01T07:05:22.645Z"
+      "delisted_at": "2026-08-01T09:16:12.637Z"
     },
     {
       "id": "mcp_1eb09fd555b37dd91789",
@@ -1974,7 +2374,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:22.574Z"
+      "delisted_at": "2026-08-01T09:16:12.569Z"
     },
     {
       "id": "mcp_51a15cf3ee55a61f6251",
@@ -1999,7 +2399,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:22.504Z"
+      "delisted_at": "2026-08-01T09:16:12.508Z"
     },
     {
       "id": "mcp_abbe3ef39eb92e47d26c",
@@ -2024,7 +2424,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:22.432Z"
+      "delisted_at": "2026-08-01T09:16:12.446Z"
     },
     {
       "id": "agtpub_db071a3747a40a840a8c",
@@ -2049,7 +2449,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T03:47:17.468Z",
-      "delisted_at": "2026-08-01T07:05:22.368Z"
+      "delisted_at": "2026-08-01T09:16:12.385Z"
     },
     {
       "id": "mcp_eb6604d6549c3918008c",
@@ -2074,7 +2474,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:22.301Z"
+      "delisted_at": "2026-08-01T09:16:12.316Z"
     },
     {
       "id": "mcp_d489373dd8874c8bc31a",
@@ -2099,7 +2499,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:22.223Z"
+      "delisted_at": "2026-08-01T09:16:12.256Z"
     },
     {
       "id": "mcp_fe657f21568f42549bee",
@@ -2124,7 +2524,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:22.152Z"
+      "delisted_at": "2026-08-01T09:16:12.196Z"
     },
     {
       "id": "mcp_0a32844aeb66afdd1eaa",
@@ -2149,7 +2549,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:22.084Z"
+      "delisted_at": "2026-08-01T09:16:12.069Z"
     },
     {
       "id": "mcp_389c41920721e9bd6631",
@@ -2174,7 +2574,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:22.008Z"
+      "delisted_at": "2026-08-01T09:16:12.001Z"
     },
     {
       "id": "agtpub_ce0cd362f4d521662080",
@@ -2199,7 +2599,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T03:29:57.236Z",
-      "delisted_at": "2026-08-01T07:05:21.943Z"
+      "delisted_at": "2026-08-01T09:16:11.939Z"
     },
     {
       "id": "mcp_f289aeb8b70427104eb6",
@@ -2224,7 +2624,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:21.872Z"
+      "delisted_at": "2026-08-01T09:16:11.878Z"
     },
     {
       "id": "mcp_52ffb4a7a55c30f8ffed",
@@ -2249,7 +2649,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:21.806Z"
+      "delisted_at": "2026-08-01T09:16:11.816Z"
     },
     {
       "id": "mcp_9f6f323a6662abe4fee3",
@@ -2274,7 +2674,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T17:36:36.923Z",
-      "delisted_at": "2026-08-01T07:05:21.727Z"
+      "delisted_at": "2026-08-01T09:16:11.747Z"
     },
     {
       "id": "agtpub_93a55a245189e3403932",
@@ -2299,7 +2699,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T02:03:07.322Z",
-      "delisted_at": "2026-08-01T07:05:21.664Z"
+      "delisted_at": "2026-08-01T09:16:11.686Z"
     },
     {
       "id": "mcp-tinyfish-ai-web-agent-",
@@ -2324,7 +2724,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:54:01.528Z",
-      "delisted_at": "2026-08-01T07:05:21.592Z"
+      "delisted_at": "2026-08-01T09:16:11.624Z"
     },
     {
       "id": "agtpub_10262232c734848fc8f6",
@@ -2349,7 +2749,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:36:00.918Z",
-      "delisted_at": "2026-08-01T07:05:21.522Z"
+      "delisted_at": "2026-08-01T09:16:11.556Z"
     },
     {
       "id": "agent-agentup-https-github-com-lukasb3863-agentup",
@@ -2374,7 +2774,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:36:00.918Z",
-      "delisted_at": "2026-08-01T07:05:21.448Z"
+      "delisted_at": "2026-08-01T09:16:11.494Z"
     },
     {
       "id": "agtpub_195ea387a17a06f7fe96",
@@ -2399,7 +2799,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:00:00.860Z",
-      "delisted_at": "2026-08-01T07:05:21.383Z"
+      "delisted_at": "2026-08-01T09:16:11.431Z"
     },
     {
       "id": "agent-bfa-sdk-https-github-com-sandrog1977-bfa-sdk",
@@ -2424,7 +2824,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T01:00:00.860Z",
-      "delisted_at": "2026-08-01T07:05:21.309Z"
+      "delisted_at": "2026-08-01T09:16:11.369Z"
     },
     {
       "id": "agtpub_6991e4a5ad724d275bba",
@@ -2449,7 +2849,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:54:02.446Z",
-      "delisted_at": "2026-08-01T07:05:21.232Z"
+      "delisted_at": "2026-08-01T09:16:11.300Z"
     },
     {
       "id": "agtpub_231f73307bdb9e0a2ad2",
@@ -2474,7 +2874,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:36:00.902Z",
-      "delisted_at": "2026-08-01T07:05:21.165Z"
+      "delisted_at": "2026-08-01T09:16:11.238Z"
     },
     {
       "id": "agent-a2a-java-sdk-spring-https-github-com-goodfriend2ks-a2a-java-sdk-spring",
@@ -2499,7 +2899,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:36:00.902Z",
-      "delisted_at": "2026-08-01T07:05:21.095Z"
+      "delisted_at": "2026-08-01T09:16:11.176Z"
     },
     {
       "id": "agtpub_34961b3d0e59f1783de4",
@@ -2524,7 +2924,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:18:00.832Z",
-      "delisted_at": "2026-08-01T07:05:21.012Z"
+      "delisted_at": "2026-08-01T09:16:11.108Z"
     },
     {
       "id": "agent-maf-a2a-https-github-com-thousandfacedhero-maf-a2a",
@@ -2549,7 +2949,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:18:00.832Z",
-      "delisted_at": "2026-08-01T07:05:20.947Z"
+      "delisted_at": "2026-08-01T09:16:11.046Z"
     },
     {
       "id": "agtpub_0affb04e5feef5a50d10",
@@ -2574,7 +2974,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-30T00:00:04.094Z",
-      "delisted_at": "2026-08-01T07:05:20.883Z"
+      "delisted_at": "2026-08-01T09:16:10.985Z"
     },
     {
       "id": "agtpub_56ae20f0e1fb4b171294",
@@ -2599,7 +2999,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:54:00.956Z",
-      "delisted_at": "2026-08-01T07:05:20.808Z"
+      "delisted_at": "2026-08-01T09:16:10.922Z"
     },
     {
       "id": "agent-a2a-playground-https-github-com-alis-exchange-a2a-playground",
@@ -2624,7 +3024,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:54:00.956Z",
-      "delisted_at": "2026-08-01T07:05:20.728Z"
+      "delisted_at": "2026-08-01T09:16:10.855Z"
     },
     {
       "id": "agtpub_6b1009d884a24c78aa41",
@@ -2649,7 +3049,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:48:00.828Z",
-      "delisted_at": "2026-08-01T07:05:20.655Z"
+      "delisted_at": "2026-08-01T09:16:10.795Z"
     },
     {
       "id": "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a",
@@ -2674,7 +3074,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-31T18:41:26.468Z",
-      "delisted_at": "2026-08-01T07:05:20.588Z"
+      "delisted_at": "2026-08-01T09:16:10.734Z"
     },
     {
       "id": "agtpub_e968362d5f4a6bcb6983",
@@ -2699,7 +3099,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:41:48.513Z",
-      "delisted_at": "2026-08-01T07:05:20.428Z"
+      "delisted_at": "2026-08-01T09:16:10.665Z"
     },
     {
       "id": "agent-llm-https-github-com-r-uby-dev-llm",
@@ -2724,7 +3124,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:41:48.513Z",
-      "delisted_at": "2026-08-01T07:05:20.365Z"
+      "delisted_at": "2026-08-01T09:16:10.604Z"
     },
     {
       "id": "agtpub_6210a208b4f0fd280b73",
@@ -2749,7 +3149,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:30:00.791Z",
-      "delisted_at": "2026-08-01T07:05:20.292Z"
+      "delisted_at": "2026-08-01T09:16:10.543Z"
     },
     {
       "id": "agent-awesome-adk-https-github-com-rashraj-awesome-adk",
@@ -2774,7 +3174,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:30:00.791Z",
-      "delisted_at": "2026-08-01T07:05:20.220Z"
+      "delisted_at": "2026-08-01T09:16:10.481Z"
     },
     {
       "id": "agtpub_8b42ade04783cec42700",
@@ -2799,7 +3199,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:18:00.881Z",
-      "delisted_at": "2026-08-01T07:05:20.147Z"
+      "delisted_at": "2026-08-01T09:16:10.411Z"
     },
     {
       "id": "agent-a2a4j-https-github-com-pheonixhkbxoic-a2a4j",
@@ -2824,7 +3224,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:18:00.881Z",
-      "delisted_at": "2026-08-01T07:05:20.074Z"
+      "delisted_at": "2026-08-01T09:16:10.351Z"
     },
     {
       "id": "agtpub_e926e55b11f093fb6364",
@@ -2849,7 +3249,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:12:00.822Z",
-      "delisted_at": "2026-08-01T07:05:20.008Z"
+      "delisted_at": "2026-08-01T09:16:10.290Z"
     },
     {
       "id": "agent-songgenerationa2a-https-github-com-shiv33ndu-songgenerationa2a",
@@ -2874,7 +3274,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T23:12:00.822Z",
-      "delisted_at": "2026-08-01T07:05:19.927Z"
+      "delisted_at": "2026-08-01T09:16:10.223Z"
     },
     {
       "id": "agtpub_d062f0839db5e1d50d1e",
@@ -2899,7 +3299,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:55:34.014Z",
-      "delisted_at": "2026-08-01T07:05:19.864Z"
+      "delisted_at": "2026-08-01T09:16:10.163Z"
     },
     {
       "id": "agent-the-stall-https-the-stall-intuitek-ai",
@@ -2924,7 +3324,7 @@
         "message": "Removed from Dual Registry: live probe handshake failed. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:55:34.014Z",
-      "delisted_at": "2026-08-01T07:05:19.793Z"
+      "delisted_at": "2026-08-01T09:16:10.101Z"
     },
     {
       "id": "agtpub_adee5f3ade099f842913",
@@ -2949,7 +3349,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:42:01.526Z",
-      "delisted_at": "2026-08-01T07:05:19.711Z"
+      "delisted_at": "2026-08-01T09:16:10.040Z"
     },
     {
       "id": "agtpub_4505eaa93e316d2ea4f2",
@@ -2974,7 +3374,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:36:01.260Z",
-      "delisted_at": "2026-08-01T07:05:19.645Z"
+      "delisted_at": "2026-08-01T09:16:09.971Z"
     },
     {
       "id": "agtpub_8c8b6567f19495419a30",
@@ -2999,7 +3399,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:30:00.789Z",
-      "delisted_at": "2026-08-01T07:05:19.574Z"
+      "delisted_at": "2026-08-01T09:16:09.909Z"
     },
     {
       "id": "agtpub_44420010dbccc9fce717",
@@ -3024,7 +3424,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:24:04.482Z",
-      "delisted_at": "2026-08-01T07:05:19.504Z"
+      "delisted_at": "2026-08-01T09:16:09.848Z"
     },
     {
       "id": "agtpub_19b5c225f314b425634c",
@@ -3049,7 +3449,7 @@
         "message": "Removed from Dual Registry: card URL paywalled/blocked (402). Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:18:00.827Z",
-      "delisted_at": "2026-08-01T07:05:19.427Z"
+      "delisted_at": "2026-08-01T09:16:09.779Z"
     },
     {
       "id": "agtpub_dad2035f1c5862896e17",
@@ -3074,7 +3474,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:13:14.028Z",
-      "delisted_at": "2026-08-01T07:05:19.361Z"
+      "delisted_at": "2026-08-01T09:16:09.717Z"
     },
     {
       "id": "agtpub_279c88c667456f4fcc59",
@@ -3099,7 +3499,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:12:01.583Z",
-      "delisted_at": "2026-08-01T07:05:19.288Z"
+      "delisted_at": "2026-08-01T09:16:09.656Z"
     },
     {
       "id": "agtpub_efe2d008b63c96157697",
@@ -3124,7 +3524,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:06:01.558Z",
-      "delisted_at": "2026-08-01T07:05:19.211Z"
+      "delisted_at": "2026-08-01T09:16:09.593Z"
     },
     {
       "id": "agtpub_86c4f439a1554fe420d4",
@@ -3149,7 +3549,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T22:00:00.843Z",
-      "delisted_at": "2026-08-01T07:05:19.145Z"
+      "delisted_at": "2026-08-01T09:16:09.524Z"
     },
     {
       "id": "agtpub_3a9582f56016cfa2a813",
@@ -3174,7 +3574,7 @@
         "message": "Removed from Dual Registry: card URL paywalled/blocked (402). Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:54:00.758Z",
-      "delisted_at": "2026-08-01T07:05:19.081Z"
+      "delisted_at": "2026-08-01T09:16:09.464Z"
     },
     {
       "id": "agtpub_84d99fc99dfd5819977e",
@@ -3199,7 +3599,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:48:00.796Z",
-      "delisted_at": "2026-08-01T07:05:18.985Z"
+      "delisted_at": "2026-08-01T09:16:09.389Z"
     },
     {
       "id": "agtpub_605d8588850b2606e2e2",
@@ -3224,7 +3624,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:45:44.955Z",
-      "delisted_at": "2026-08-01T07:05:18.895Z"
+      "delisted_at": "2026-08-01T09:16:09.310Z"
     },
     {
       "id": "agtpub_46262b0fb3b0cb020f0d",
@@ -3249,7 +3649,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:45:43.728Z",
-      "delisted_at": "2026-08-01T07:05:18.824Z"
+      "delisted_at": "2026-08-01T09:16:09.242Z"
     },
     {
       "id": "agtpub_98ffd8dc6b8a61a65e52",
@@ -3274,7 +3674,7 @@
         "message": "Removed from Dual Registry: URL returned HTML/non-card body — serve JSON agent-card or MCP server-card. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:45:42.449Z",
-      "delisted_at": "2026-08-01T07:05:18.752Z"
+      "delisted_at": "2026-08-01T09:16:09.179Z"
     },
     {
       "id": "agtpub_e2e50435ad4a0367f5c6",
@@ -3299,7 +3699,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your Agent Card, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T21:45:30.380Z",
-      "delisted_at": "2026-08-01T07:05:18.653Z"
+      "delisted_at": "2026-08-01T09:16:09.112Z"
     },
     {
       "id": "mcp-duvomike-mcp-",
@@ -3324,7 +3724,7 @@
         "message": "Removed from Dual Registry: card URL returned 404 — publish a valid card at that path. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
       },
       "probed_at": "2026-07-29T20:08:20.461Z",
-      "delisted_at": "2026-08-01T07:05:18.553Z"
+      "delisted_at": "2026-08-01T09:16:09.018Z"
     },
     {
       "id": "agent-artinet-sdk-https-github-com-the-artinet-project-artinet-sdk",
@@ -4100,406 +4500,6 @@
       },
       "probed_at": "2026-07-31T18:30:57.301Z",
       "delisted_at": "2026-07-31T18:31:14.413Z"
-    },
-    {
-      "id": "mcp-mcp-handler-https-github-com-vercel-mcp-handler-readme",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:14.343Z"
-    },
-    {
-      "id": "mcp-model-context-protocol-https-github-com-mcp-agents-model-context-protocol-re",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:14.269Z"
-    },
-    {
-      "id": "mcp-transcend-io-mcp-server-base-https-github-com-transcend-io-tools-tree-main-p",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:14.198Z"
-    },
-    {
-      "id": "mcp-transcend-io-mcp-server-admin-https-github-com-transcend-io-tools-tree-main-",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:14.130Z"
-    },
-    {
-      "id": "mcp-transcend-io-mcp-server-dsr-https-github-com-transcend-io-tools-tree-main-pa",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T17:48:49.902Z",
-      "delisted_at": "2026-07-31T18:31:14.058Z"
-    },
-    {
-      "id": "mcp-transcend-io-mcp-server-assessment-https-github-com-transcend-io-tools-tree-",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.981Z"
-    },
-    {
-      "id": "mcp-sentry-mcp-server-https-github-com-getsentry-sentry-mcp",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.912Z"
-    },
-    {
-      "id": "mcp-transcend-io-mcp-server-discovery-https-github-com-transcend-io-tools-tree-m",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.844Z"
-    },
-    {
-      "id": "mcp-transcend-io-mcp-server-consent-https-github-com-transcend-io-tools-tree-mai",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.770Z"
-    },
-    {
-      "id": "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp-read",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.701Z"
-    },
-    {
-      "id": "mcp-ui5-mcp-server-https-github-com-ui5-mcp-server-readme",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.632Z"
-    },
-    {
-      "id": "mcp-notionhq-notion-mcp-server-https-github-com-makenotion-notion-mcp-server-rea",
-      "kind": "mcp",
-      "target": "",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.563Z"
-    },
-    {
-      "id": "mcp-ai-ai-akari-agent-trust-receipt-https-github-com-ainoakari-ainoakari",
-      "kind": "mcp",
-      "target": "https://ai-akari.ai/mcp-trust",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.474Z"
-    },
-    {
-      "id": "mcp-ai-agentrapay-agentra-https-api-agentrapay-ai-mcp",
-      "kind": "mcp",
-      "target": "https://api.agentrapay.ai/mcp",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.405Z"
-    },
-    {
-      "id": "mcp-ai-agenticshelf-puroair-https-getpuroair-com",
-      "kind": "mcp",
-      "target": "https://api.agenticshelf.ai/m/puroair/mcp",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.334Z"
-    },
-    {
-      "id": "mcp-ai-agenticshelf-mcp-https-github-com-vboykocto-agentic-shelf",
-      "kind": "mcp",
-      "target": "https://api.agenticshelf.ai/mcp",
-      "handshake": "fail",
-      "reason": "live probe handshake failed",
-      "fix": [
-        "Serve a valid MCP server card or streamable endpoint at your MCP remote_url / server-card (HTTP 200).",
-        "Prefer /.well-known/mcp/server-card.json with name + transport/url.",
-        "remote_url must accept MCP handshake (not a marketing HTML page).",
-        "After the endpoint is live, resubmit for approval probing."
-      ],
-      "resubmit": {
-        "method": "POST",
-        "url": "https://dualregistry.dev/api/publish",
-        "body_hint": {
-          "kind": "mcp",
-          "name": "",
-          "remote_url": ""
-        },
-        "message": "Removed from Dual Registry: live probe handshake failed. Fix your MCP card/endpoint, then POST /api/publish to resubmit for approval."
-      },
-      "probed_at": "2026-07-31T18:30:57.301Z",
-      "delisted_at": "2026-07-31T18:31:13.260Z"
     },
     {
       "id": "mcp-ellmos-codecommander-mcp-https-github-com-ellmos-ai-ellmos-codecommander-mcp",
@@ -25181,6 +25181,22 @@
     }
   ],
   "active_ids": [
+    "mcp-mcp-handler-https-github-com-vercel-mcp-handler-readme",
+    "mcp-model-context-protocol-https-github-com-mcp-agents-model-context-protocol-re",
+    "mcp-transcend-io-mcp-server-base-https-github-com-transcend-io-tools-tree-main-p",
+    "mcp-transcend-io-mcp-server-admin-https-github-com-transcend-io-tools-tree-main-",
+    "mcp-transcend-io-mcp-server-dsr-https-github-com-transcend-io-tools-tree-main-pa",
+    "mcp-transcend-io-mcp-server-assessment-https-github-com-transcend-io-tools-tree-",
+    "mcp-sentry-mcp-server-https-github-com-getsentry-sentry-mcp",
+    "mcp-transcend-io-mcp-server-discovery-https-github-com-transcend-io-tools-tree-m",
+    "mcp-transcend-io-mcp-server-consent-https-github-com-transcend-io-tools-tree-mai",
+    "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp-read",
+    "mcp-ui5-mcp-server-https-github-com-ui5-mcp-server-readme",
+    "mcp-notionhq-notion-mcp-server-https-github-com-makenotion-notion-mcp-server-rea",
+    "mcp-ai-ai-akari-agent-trust-receipt-https-github-com-ainoakari-ainoakari",
+    "mcp-ai-agentrapay-agentra-https-api-agentrapay-ai-mcp",
+    "mcp-ai-agenticshelf-puroair-https-getpuroair-com",
+    "mcp-ai-agenticshelf-mcp-https-github-com-vboykocto-agentic-shelf",
     "mcp-ai-agenticshelf-graffeo-https-www-graffeo-com",
     "mcp-aihappey-mcp-https-github-com-achappey-aihappey-mcp",
     "mcp-shipmail-mcp-https-github-com-shipmail-to-shipmail-mcp",
@@ -25345,22 +25361,6 @@
     "mcp-remotion-mcp-https-github-com-remotion-dev-remotion-tree-main-packages-mcp",
     "mcp-traceloop-instrumentation-mcp-https-github-com-traceloop-openllmetry-js-tree",
     "mcp-langchain-mcp-adapters-https-github-com-langchain-ai-langchainjs-tree-main-l",
-    "mcp-mcp-handler-https-github-com-vercel-mcp-handler-readme",
-    "mcp-model-context-protocol-https-github-com-mcp-agents-model-context-protocol-re",
-    "mcp-transcend-io-mcp-server-base-https-github-com-transcend-io-tools-tree-main-p",
-    "mcp-transcend-io-mcp-server-admin-https-github-com-transcend-io-tools-tree-main-",
-    "mcp-transcend-io-mcp-server-dsr-https-github-com-transcend-io-tools-tree-main-pa",
-    "mcp-transcend-io-mcp-server-assessment-https-github-com-transcend-io-tools-tree-",
-    "mcp-sentry-mcp-server-https-github-com-getsentry-sentry-mcp",
-    "mcp-transcend-io-mcp-server-discovery-https-github-com-transcend-io-tools-tree-m",
-    "mcp-transcend-io-mcp-server-consent-https-github-com-transcend-io-tools-tree-mai",
-    "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp-read",
-    "mcp-ui5-mcp-server-https-github-com-ui5-mcp-server-readme",
-    "mcp-notionhq-notion-mcp-server-https-github-com-makenotion-notion-mcp-server-rea",
-    "mcp-ai-ai-akari-agent-trust-receipt-https-github-com-ainoakari-ainoakari",
-    "mcp-ai-agentrapay-agentra-https-api-agentrapay-ai-mcp",
-    "mcp-ai-agenticshelf-puroair-https-getpuroair-com",
-    "mcp-ai-agenticshelf-mcp-https-github-com-vboykocto-agentic-shelf",
     "mcp-ellmos-codecommander-mcp-https-github-com-ellmos-ai-ellmos-codecommander-mcp",
     "mcp-ellmos-clatcher-mcp-https-github-com-ellmos-ai-ellmos-clatcher-mcp",
     "mcp-ellmos-controlcenter-mcp-https-github-com-ellmos-ai-ellmos-controlcenter-mcp",
