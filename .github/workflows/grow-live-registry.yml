@@ -56,14 +56,14 @@ jobs:
           set -euo pipefail
           git config user.name "dualregistry-grower"
           git config user.email "grower@dualregistry.dev"
-          git add data/prod/clean-registry.json data/prod/live-counters.json
+          # data/ is gitignored; force-add tracked prod floors
+          git add -f data/prod/clean-registry.json data/prod/live-counters.json
           if git diff --staged --quiet; then
             echo "No clean-registry changes"
             exit 0
           fi
           COUNTS=$(python3 -c "import json;d=json.load(open('data/prod/clean-registry.json'));c=d.get('counts')or{};print(f\"total={c.get('total')} mcp={c.get('mcp')} agents={c.get('agents')}\")")
           git commit -m "chore(prod): grow live clean-registry ${COUNTS}"
-          # Rebase if durable counter bots raced
           for i in 1 2 3; do
             git pull --rebase origin main || true
             if git push origin HEAD:main; then
