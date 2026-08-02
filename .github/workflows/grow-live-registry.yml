@@ -1,0 +1,76 @@
+# Raise Live (clean-registry) multiple times per hour with real MCPs/agents.
+# Production hydrates data/prod/clean-registry.json from GitHub raw.
+# Does not depend on Vercel probe deploy.
+name: Grow Live registry
+
+on:
+  schedule:
+    # Every 15 minutes → Live can climb 4×/hour
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+    inputs:
+      max_new:
+        description: "Max new clean listings this run"
+        required: false
+        default: "40"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: grow-live-registry
+  cancel-in-progress: false
+
+jobs:
+  grow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Grow clean-registry (probe real remotes)
+        env:
+          GROW_MAX_NEW: ${{ github.event.inputs.max_new || '40' }}
+          GROW_CONCURRENCY: "8"
+          GROW_OFFICIAL_LIMIT: "800"
+        run: |
+          set -euo pipefail
+          node scripts/grow-clean-registry.mjs | tee /tmp/grow.log
+          python3 - <<'PY'
+          import json
+          d=json.load(open("data/prod/clean-registry.json"))
+          print("clean counts", d.get("counts"))
+          print("items", len(d.get("items") or {}))
+          PY
+
+      - name: Commit + push if raised
+        run: |
+          set -euo pipefail
+          git config user.name "dualregistry-grower"
+          git config user.email "grower@dualregistry.dev"
+          git add data/prod/clean-registry.json data/prod/live-counters.json
+          if git diff --staged --quiet; then
+            echo "No clean-registry changes"
+            exit 0
+          fi
+          COUNTS=$(python3 -c "import json;d=json.load(open('data/prod/clean-registry.json'));c=d.get('counts')or{};print(f\"total={c.get('total')} mcp={c.get('mcp')} agents={c.get('agents')}\")")
+          git commit -m "chore(prod): grow live clean-registry ${COUNTS}"
+          # Rebase if durable counter bots raced
+          for i in 1 2 3; do
+            git pull --rebase origin main || true
+            if git push origin HEAD:main; then
+              echo "Pushed Live growth: ${COUNTS}"
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "Push failed after retries" >&2
+          exit 1
