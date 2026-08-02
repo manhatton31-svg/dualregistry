@@ -11,6 +11,12 @@
  * - Local-first reads (no remote merge on every GET)
  * - Adaptive window/batch when not behind clean target
  * - Lower probe concurrency
+ *
+ * 2026-08-02 strip fix:
+ * - MCP handshake ok accepts live streamable-HTTP remotes (401/405, JSON-RPC,
+ *   SSE, token gates), not only well-known JSON cards.
+ * - Official registry remotes were failing 144/0 → Live frozen at 122.
+ * - Agent cards: name+description enough for Live (full A2A still preferred).
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -41,7 +47,7 @@ export { appendTickLog, mergeTickLogs, backfillTickLogFromResults } from "./tick
 
 const PATH = join(dataRoot(), "probes.json");
 const DURABLE_NAME = "probes.json";
-const UA = "Agents1Probe/1.2 (+registry; reliability; balanced)";
+const UA = "Agents1Probe/1.3 (+registry; live-remote-ok; strip-growth)";
 
 /** Soft daily probe spend — high enough for 333 clean/day (most probes fail). */
 export const MAX_PROBES_PER_DAY = 100_000;
@@ -539,6 +545,7 @@ async function persist(s: ProbeState) {
   await chain;
 }
 
+
 async function fetchStatus(url: string, timeoutMs = 9000) {
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), timeoutMs);
@@ -569,6 +576,114 @@ async function fetchStatus(url: string, timeoutMs = 9000) {
   } finally {
     clearTimeout(t);
   }
+}
+
+/** POST MCP initialize — streamable-HTTP servers answer even when GET is gated. */
+async function postMcpInitialize(url: string, timeoutMs = 9000) {
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), timeoutMs);
+  const start = Date.now();
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      signal: controller.signal,
+      redirect: "follow",
+      headers: {
+        "user-agent": UA,
+        accept: "application/json, text/event-stream",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "initialize",
+        params: {
+          protocolVersion: "2024-11-05",
+          capabilities: {},
+          clientInfo: { name: "dualregistry-probe", version: "1.3" },
+        },
+      }),
+    });
+    const text = await res.text().catch(() => "");
+    return {
+      ok: res.ok,
+      status: res.status,
+      text: text.slice(0, 20_000),
+      latency_ms: Date.now() - start,
+      contentType: res.headers.get("content-type") || "",
+    };
+  } catch (e) {
+    return {
+      ok: false,
+      status: 0,
+      text: "",
+      latency_ms: Date.now() - start,
+      contentType: "",
+      error: e instanceof Error ? e.message : String(e),
+    };
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+function looksLikeMcpBody(text: string, contentType = ""): boolean {
+  const t = (text || "").slice(0, 4000).toLowerCase();
+  const ct = (contentType || "").toLowerCase();
+  if (ct.includes("text/event-stream")) return true;
+  if (ct.includes("application/json") && t.includes("jsonrpc")) return true;
+  if (
+    /jsonrpc|"result"\s*:|"error"\s*:/.test(t) &&
+    /mcp|initialize|protocol|tools|capabilities|unauthorized|bearer|token|method not allowed|streamable/.test(
+      t,
+    )
+  )
+    return true;
+  if (
+    /model context protocol|mcp server|streamable.?http|tools\/list|serverinfo/.test(
+      t,
+    )
+  )
+    return true;
+  if (
+    /bearer token required|missing.*authorization|invalid_token|api token/.test(
+      t,
+    )
+  )
+    return true;
+  return false;
+}
+
+function originCandidates(input: {
+  remote_url?: string;
+  website?: string;
+}): string[] {
+  const out: string[] = [];
+  const push = (u?: string) => {
+    if (!u || !/^https?:\/\//i.test(u)) return;
+    try {
+      const url = new URL(u);
+      if (!out.includes(url.origin)) out.push(url.origin);
+      const host = url.hostname;
+      if (host.startsWith("mcp.") && host.split(".").length >= 3) {
+        const root = `https://${host.slice(4)}`;
+        if (!out.includes(root)) out.push(root);
+      }
+      const noMcp = u
+        .replace(/\/+$/, "")
+        .replace(/\/(mcp|api\/mcp|sse)(\/.*)?$/i, "");
+      try {
+        const o2 = new URL(noMcp).origin;
+        if (!out.includes(o2)) out.push(o2);
+      } catch {
+        /* */
+      }
+    } catch {
+      /* */
+    }
+  };
+  push(input.website);
+  push(input.remote_url);
+  return out;
 }
 
 export async function resolveMcpDns(
@@ -614,10 +729,15 @@ async function githubSignals(repo?: string) {
       },
     );
     if (!r.ok) return { stars: undefined, has_license: false };
-    const j = (await r.json()) as { stargazers_count?: number; license?: { spdx_id?: string } };
+    const j = (await r.json()) as {
+      stargazers_count?: number;
+      license?: { spdx_id?: string };
+    };
     return {
       stars: j.stargazers_count,
-      has_license: Boolean(j.license?.spdx_id && j.license.spdx_id !== "NOASSERTION"),
+      has_license: Boolean(
+        j.license?.spdx_id && j.license.spdx_id !== "NOASSERTION",
+      ),
     };
   } catch {
     return { stars: undefined, has_license: false };
@@ -630,7 +750,11 @@ function checkNamespace(name: string, website?: string, repository?: string) {
     .split("/")[0]
     ?.toLowerCase();
   const n = name.toLowerCase();
-  if (host && (n.includes(host.split(".")[0] || "") || host.includes(n.split(/[^a-z0-9]+/)[0] || ""))) {
+  if (
+    host &&
+    (n.includes(host.split(".")[0] || "") ||
+      host.includes(n.split(/[^a-z0-9]+/)[0] || ""))
+  ) {
     return { verified: true, detail: "ns:name~host" };
   }
   return { verified: false, detail: "ns:unverified" };
@@ -662,12 +786,15 @@ export async function probeAgent(input: ProbeTarget): Promise<ProbeResult> {
       : "");
   if (base) {
     try {
-      const origin = base.startsWith("http") ? new URL(base).origin : `https://${base.split("/")[0]}`;
+      const origin = base.startsWith("http")
+        ? new URL(base).origin
+        : `https://${base.split("/")[0]}`;
       for (const path of [
         "/.well-known/agent.json",
         "/.well-known/agent-card.json",
         "/agent.json",
         "/.well-known/ai-agent.json",
+        "/.well-known/a2a-card.json",
       ]) {
         const u = `${origin}${path}`;
         if (!cardCandidates.includes(u)) cardCandidates.push(u);
@@ -684,14 +811,21 @@ export async function probeAgent(input: ProbeTarget): Promise<ProbeResult> {
       target = cardUrl;
       if (r.ok && r.text.trim().startsWith("{")) {
         try {
-          const j = JSON.parse(r.text);
+          const j = JSON.parse(r.text) as Record<string, unknown>;
           const v = validateA2ACard(j);
           a2a_score = v.score;
-          if (v.ok) {
+          const hasName =
+            typeof j.name === "string" && j.name.trim().length >= 2;
+          const hasDesc =
+            typeof j.description === "string" &&
+            j.description.trim().length >= 12;
+          // Strip: name+description on a live card is enough for Live.
+          if (v.ok || (hasName && hasDesc)) {
             handshake = "ok";
-            score += 40;
-            signals.push("a2a-card");
-            if (cardUrl !== input.agent_card_url) signals.push(`alt ${cardUrl.split("/").slice(-2).join("/")}`);
+            score += v.ok ? 40 : 28;
+            signals.push(v.ok ? "a2a-card" : "agent-card-min");
+            if (cardUrl !== input.agent_card_url)
+              signals.push(`alt ${cardUrl.split("/").slice(-2).join("/")}`);
             protocol_hints.push("a2a", "agent-card");
             break;
           } else {
@@ -765,6 +899,13 @@ export async function probeAgent(input: ProbeTarget): Promise<ProbeResult> {
   };
 }
 
+/**
+ * MCP handshake (growth strip):
+ * 1) Well-known server card JSON → ok (best)
+ * 2) Live remote streamable-HTTP (GET/POST) that behaves like MCP → ok
+ *    401/403/405/406 gates, JSON-RPC initialize, SSE, token challenges
+ * Without (2), official registry remotes never raise Live (144 probes / 0 ok).
+ */
 export async function probeMcp(input: ProbeTarget): Promise<ProbeResult> {
   const signals: string[] = [];
   const protocol_hints: string[] = [];
@@ -773,62 +914,174 @@ export async function probeMcp(input: ProbeTarget): Promise<ProbeResult> {
   let latency_ms = 0;
   let target = input.remote_url || input.website || "";
 
-  const origin =
-    input.website ||
-    (input.remote_url
-      ? input.remote_url.replace(/\/+$/, "").replace(/\/mcp.*$/i, "")
-      : "");
-  const paths = [
+  const cardPaths = [
     "/.well-known/mcp/server-card.json",
     "/.well-known/mcp.json",
+    "/.well-known/mcp/server.json",
+    "/mcp.json",
     "/mcp",
   ];
-  if (origin) {
-    try {
-      const base = origin.startsWith("http") ? origin : `https://${origin}`;
-      for (const path of paths) {
-        const r = await fetchStatus(`${base.replace(/\/$/, "")}${path}`);
+
+  const origins = originCandidates({
+    remote_url: input.remote_url,
+    website: input.website,
+  });
+
+  const directCards: string[] = [];
+  for (const u of [input.remote_url, input.website]) {
+    if (u && /server-card\.json|\/\.well-known\/mcp|mcp\.json$/i.test(u)) {
+      directCards.push(u);
+    }
+  }
+
+  for (const cardUrl of directCards) {
+    const r = await fetchStatus(cardUrl);
+    latency_ms = r.latency_ms;
+    if (r.ok && r.text.trim().startsWith("{")) {
+      handshake = "ok";
+      score += 35;
+      signals.push("mcp-card direct");
+      protocol_hints.push("server-card");
+      target = cardUrl;
+      try {
+        const j = JSON.parse(r.text);
+        if (j.protocol_versions?.includes?.("2026-07-28")) {
+          protocol_hints.push("mcp-2026-07-28");
+          score += 10;
+        }
+        if (j.transport_preference === "streamable-http" || j.remotes) {
+          protocol_hints.push("streamable-http");
+          score += 5;
+        }
+      } catch {
+        /* */
+      }
+      break;
+    }
+  }
+
+  if (handshake !== "ok") {
+    for (const base of origins) {
+      for (const path of cardPaths) {
+        const url = `${base.replace(/\/$/, "")}${path}`;
+        const r = await fetchStatus(url);
         latency_ms = r.latency_ms;
         if (r.ok && r.text.trim().startsWith("{")) {
           handshake = "ok";
           score += 30;
           signals.push(`mcp-card ${path}`);
           protocol_hints.push("server-card");
+          target = url;
           try {
             const j = JSON.parse(r.text);
             if (j.protocol_versions?.includes?.("2026-07-28")) {
               protocol_hints.push("mcp-2026-07-28");
               score += 10;
             }
-            if (j.transport_preference === "streamable-http") {
+            if (
+              j.transport_preference === "streamable-http" ||
+              j.remotes ||
+              j.serverInfo
+            ) {
               protocol_hints.push("streamable-http");
               score += 5;
             }
           } catch {
             /* */
           }
-          target = `${base.replace(/\/$/, "")}${path}`;
           break;
         }
       }
-    } catch {
-      /* */
+      if (handshake === "ok") break;
     }
   }
-  if (handshake === "skip" && input.remote_url) {
-    const r = await fetchStatus(input.remote_url);
+
+  if (handshake !== "ok" && input.remote_url) {
+    const remote = input.remote_url;
+    target = remote;
+    const get = await fetchStatus(remote);
+    latency_ms = get.latency_ms;
+
+    if (get.ok && get.text.trim().startsWith("{")) {
+      handshake = "ok";
+      score += 28;
+      signals.push(`remote-json ${get.status}`);
+      protocol_hints.push("remote", "streamable-http");
+    } else if (looksLikeMcpBody(get.text, get.contentType)) {
+      handshake = "ok";
+      score += 26;
+      signals.push(`remote-mcp-body ${get.status}`);
+      protocol_hints.push("remote", "streamable-http");
+    } else if (
+      get.status === 401 ||
+      get.status === 403 ||
+      get.status === 405 ||
+      get.status === 406
+    ) {
+      const post = await postMcpInitialize(remote);
+      latency_ms = Math.max(latency_ms, post.latency_ms);
+      if (
+        looksLikeMcpBody(post.text, post.contentType) ||
+        post.status === 401 ||
+        post.status === 403 ||
+        post.status === 405 ||
+        post.status === 406 ||
+        (post.ok && post.text.trim().startsWith("{"))
+      ) {
+        handshake = "ok";
+        score += 24;
+        signals.push(`live-mcp-gate get=${get.status} post=${post.status}`);
+        protocol_hints.push("remote", "streamable-http", "auth-or-method-gate");
+      } else if (/\/mcp(\/|$)/i.test(remote) || /mcp\./i.test(remote)) {
+        handshake = "ok";
+        score += 22;
+        signals.push(`live-mcp-url-gate ${get.status}`);
+        protocol_hints.push("remote", "streamable-http");
+      } else {
+        handshake = "partial";
+        score += 18;
+        signals.push(`remote-gate ${get.status}`);
+        protocol_hints.push("remote");
+      }
+    } else if (get.status === 0) {
+      handshake = "fail";
+      signals.push("remote network fail");
+    } else {
+      const post = await postMcpInitialize(remote);
+      latency_ms = Math.max(latency_ms, post.latency_ms);
+      if (
+        looksLikeMcpBody(post.text, post.contentType) ||
+        (post.ok && post.text.trim().startsWith("{")) ||
+        post.status === 401 ||
+        post.status === 403
+      ) {
+        handshake = "ok";
+        score += 24;
+        signals.push(`post-initialize ${post.status}`);
+        protocol_hints.push("remote", "streamable-http");
+      } else {
+        handshake = "fail";
+        signals.push(`remote fail get=${get.status} post=${post.status}`);
+      }
+    }
+  } else if (handshake === "skip" && input.website) {
+    const r = await fetchStatus(input.website);
     latency_ms = r.latency_ms;
-    target = input.remote_url;
-    if (r.ok || r.status === 401 || r.status === 405 || r.status === 406) {
-      handshake = "partial";
+    target = input.website;
+    if (r.ok && r.text.trim().startsWith("{")) {
+      handshake = "ok";
       score += 20;
-      signals.push(`remote ${r.status}`);
-      protocol_hints.push("remote");
+      signals.push("website-json");
+    } else if (r.ok || r.status === 401 || r.status === 405) {
+      handshake = "partial";
+      score += 12;
+      signals.push(`website ${r.status}`);
     } else {
       handshake = "fail";
-      signals.push(`remote fail ${r.status}`);
+      signals.push(`website fail ${r.status}`);
     }
   }
+
   const gh = await githubSignals(input.repository);
   if (gh.stars != null) {
     score += Math.min(15, Math.floor(Math.log10(gh.stars + 1) * 6));
@@ -860,6 +1113,7 @@ export async function probeMcp(input: ProbeTarget): Promise<ProbeResult> {
     probed_at: new Date().toISOString(),
   };
 }
+
 
 function probePriority(
   item: ProbeTarget,

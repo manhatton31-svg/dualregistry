@@ -4,7 +4,7 @@
   "framework": null,
   "installCommand": "npm install",
   "git": {
-    "deploymentEnabled": false
+    "deploymentEnabled": true
   },
   "fluid": true,
   "regions": [
@@ -13,7 +13,7 @@
   "crons": [
     {
       "path": "/api/cron/probe",
-      "schedule": "*/6 * * * *"
+      "schedule": "*/5 * * * *"
     },
     {
       "path": "/api/cron/prefilter",

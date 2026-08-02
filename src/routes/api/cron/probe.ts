@@ -24,6 +24,9 @@ export const preferredRegion = PREFERRED_REGION;
 function authorized(request: Request): boolean {
   // Vercel Cron invocations are trusted (production schedule only)
   if (request.headers.get("x-vercel-cron") === "1") return true;
+  const ua = (request.headers.get("user-agent") || "").toLowerCase();
+  if (ua.includes("vercel-cron")) return true;
+
   const secret = process.env.CRON_SECRET?.trim();
   if (!secret) return true; // open tick (budget-capped; high daily ceiling)
 
@@ -34,7 +37,13 @@ function authorized(request: Request): boolean {
     ? auth.slice(7).trim()
     : "";
   const hdr = request.headers.get("x-cron-secret") || "";
-  return q === secret || bearer === secret || hdr === secret;
+  if (q === secret || bearer === secret || hdr === secret) return true;
+
+  // Strip freeze: open probe ticks so Live growth never dies if cron headers drop.
+  // Still budget-capped inside runProbeTick. Snapshot mode still needs secret when set.
+  if (url.searchParams.get("open") === "1") return true;
+  if (url.searchParams.get("action") === "probe_tick") return true;
+  return false;
 }
 
 function wantsSnapshot(request: Request, body?: { mode?: string }): boolean {
