@@ -144,7 +144,8 @@ function originsFrom(remote, website) {
   };
   push(website);
   push(remote);
-  return out;
+  // github.com hosts a meta /mcp.json page — not a live server card
+  return out.filter((o) => !/github\.com$/i.test(new URL(o).hostname));
 }
 
 async function probeMcp({ name, remote_url, website }) {
