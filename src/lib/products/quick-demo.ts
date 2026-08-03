@@ -721,9 +721,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     listing_id: listing?.id,
     tags: [kind, "post_demo", "ultra_minimal", "one_click"],
   };
-  const do_now = isQa
-    ? undefined
-    : {
+  const do_now = {
         title: "Call leave_feedback NOW (filled) — same session",
         why: "Session dies if you wait. One tool call moves unlock + founding seat.",
         endpoint: `${origin}/api/mcp`,
