@@ -422,8 +422,9 @@ export async function funnelPublicStatus(origin: string) {
       payments_open: gate.payments_open,
       feedback_agents: gate.feedback_agents,
       feedback_mcps: gate.feedback_mcps,
-      need_agents: 250,
-      need_mcps: 250,
+      need_agents: gate.feedback_agents_target,
+      need_mcps: gate.feedback_mcps_target,
+      unlock_rule: gate.unlock_rule,
     },
     recent_probe_offers: offers.map((o) => ({
       listing_id: o.listing_id,

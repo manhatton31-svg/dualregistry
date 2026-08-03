@@ -196,24 +196,20 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
   let unlock = {
     feedback_agents: 0,
     feedback_mcps: 0,
-    target_agents: 250,
-    target_mcps: 250,
+    target_agents: 10,
+    target_mcps: 5,
     payments_open: false,
   };
   try {
-    const eng = await getProductEngagement();
-    unlock = {
-      feedback_agents: eng.feedback_agent_only ?? 0,
-      feedback_mcps: eng.feedback_mcps ?? 0,
-      target_agents: 250,
-      target_mcps: 250,
-      payments_open: false,
-    };
-    const { getPaymentGate } = await import("./payment-gate");
+    const { getPaymentGate, PAYMENT_UNLOCK_TARGET } = await import("./payment-gate");
     const g = await getPaymentGate();
-    unlock.payments_open = g.payments_open;
-    unlock.feedback_agents = g.feedback_agents;
-    unlock.feedback_mcps = g.feedback_mcps;
+    unlock = {
+      feedback_agents: g.feedback_agents,
+      feedback_mcps: g.feedback_mcps,
+      target_agents: g.feedback_agents_target ?? PAYMENT_UNLOCK_TARGET.feedback_agents,
+      target_mcps: g.feedback_mcps_target ?? PAYMENT_UNLOCK_TARGET.feedback_mcps,
+      payments_open: g.payments_open,
+    };
   } catch {
     /* */
   }
