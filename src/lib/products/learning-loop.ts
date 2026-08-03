@@ -1,6 +1,7 @@
 /**
  * Product gap discovery + learning loop.
- * Continuously records conversion/product gaps so Agents1 always improves offers.
+ * Continuously records conversion/product gaps so Dual Registry always improves.
+ * Feedback-driven: demo seed + ongoing paid/founding lifecycle → Kernel/Loop.
  * No model API — heuristic signals + structured backlog.
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
@@ -11,6 +12,10 @@ import { getFeedbackInsights } from "./feedback";
 import { lifecycleInsightsForLearning } from "./feedback-lifecycle";
 import { listReviewQueue } from "./system-ship";
 import { dataRoot } from "@/lib/data-root";
+import {
+  feedbackDoctrinePublic,
+  FEEDBACK_DOCTRINE,
+} from "./feedback-doctrine";
 
 const PATH = join(dataRoot(), "products", "learning.json");
 
@@ -25,7 +30,9 @@ export type GapId =
   | "loop_without_kernel"
   | "no_agent_card_url"
   | "no_callback"
-  | "discovery_schema_stale";
+  | "discovery_schema_stale"
+  | "demo_without_feedback"
+  | "lifecycle_feedback_gap";
 
 export type GapRecord = {
   id: string;
@@ -52,6 +59,7 @@ export type LearningState = {
     verifies: number;
     feedbacks: number;
     conversions_shown: number;
+    lifecycle_feedbacks?: number;
   };
   offered_best: {
     sku_order: string[];
@@ -92,6 +100,24 @@ const SEED_GAPS: Omit<GapRecord, "count" | "last_seen">[] = [
     product_action: "Score boost + list badge via certificate",
     method_fit: ["reputation_coupling"],
   },
+  {
+    id: "demo_without_feedback",
+    title: "Demo taken without seed feedback",
+    severity: "high",
+    evidence: [],
+    product_action:
+      "Push minimal_feedback_body after demo — seed Kernel Improver + Recursive Loop",
+    method_fit: ["feedback_seed", "kernel_loop"],
+  },
+  {
+    id: "lifecycle_feedback_gap",
+    title: "Paid/founding product without ongoing lifecycle feedback",
+    severity: "high",
+    evidence: [],
+    product_action:
+      "Lifecycle surveys close residual gaps after founding free / paid access",
+    method_fit: ["lifecycle", "ongoing_feedback"],
+  },
 ];
 
 function empty(): LearningState {
@@ -114,6 +140,7 @@ function empty(): LearningState {
       verifies: 0,
       feedbacks: 0,
       conversions_shown: 0,
+      lifecycle_feedbacks: 0,
     },
     offered_best: {
       sku_order: ["alive", "kernel", "recursive"],
@@ -212,7 +239,7 @@ export async function runProductLearningCycle() {
     if (o.status === "demo") bump("demo_without_stripe", o.id, "low");
     if (o.sku === "kernel") bump("kernel_without_loop", o.id, "low");
     if (o.sku === "recursive") bump("loop_without_kernel", o.id, "medium");
-    if ((o.goals.goals || "").trim().length < 40) bump("goals_too_short", o.id);
+    if ((o.goals?.goals || "").trim().length < 40) bump("goals_too_short", o.id);
   }
 
   if (s.funnel.checkouts > 0 && s.funnel.previews === 0) {
@@ -227,6 +254,13 @@ export async function runProductLearningCycle() {
   }
   if (s.funnel.verifies === 0 && orders.some((o) => o.sku === "alive")) {
     bump("no_alive_badge", "alive orders but zero verify calls", "medium");
+  }
+  if (s.funnel.demos > s.funnel.feedbacks) {
+    bump(
+      "demo_without_feedback",
+      `demos ${s.funnel.demos} ≫ seed feedbacks ${s.funnel.feedbacks}`,
+      "high",
+    );
   }
 
   // Rank recommendations
@@ -252,7 +286,8 @@ export async function runProductLearningCycle() {
   } else {
     s.offered_best = {
       sku_order: ["alive", "recursive", "kernel"],
-      pitch: "Alive Bundle remains best default; Loop is secondary for self-improvers with existing kernels.",
+      pitch:
+        "Alive Bundle remains best default; Loop is secondary for self-improvers with existing kernels. Feedback-driven defaults apply after real surveys.",
     };
   }
 
@@ -260,13 +295,13 @@ export async function runProductLearningCycle() {
     const ins = await getFeedbackInsights();
     if (ins.n > 0) {
       s.recommendations.unshift(
-        `[feedback] ${ins.n} surveys · kernel clarity ${ins.avg_kernel_clarity ?? "—"}/5 · loop clarity ${ins.avg_loop_clarity ?? "—"}/5`,
+        `[feedback-seed] ${ins.n} demo surveys · kernel clarity ${ins.avg_kernel_clarity ?? "—"}/5 · loop clarity ${ins.avg_loop_clarity ?? "—"}/5 → train improve_kernel + run_loop_tick`,
       );
       for (const d of ins.generator_directives.kernel.slice(0, 3)) {
-        s.recommendations.push(`[kernel←feedback] ${d}`);
+        s.recommendations.push(`[kernel←demo_feedback] ${d}`);
       }
       for (const d of ins.generator_directives.loop.slice(0, 3)) {
-        s.recommendations.push(`[loop←feedback] ${d}`);
+        s.recommendations.push(`[loop←demo_feedback] ${d}`);
       }
       for (const imp of ins.top_improvements.slice(0, 3)) {
         s.recommendations.push(
@@ -276,17 +311,18 @@ export async function runProductLearningCycle() {
       s.recommendations = s.recommendations.slice(0, 16);
     } else if (s.funnel.demos > s.funnel.feedbacks) {
       s.recommendations.unshift(
-        `[high] Demos ${s.funnel.demos} ≫ feedbacks ${s.funnel.feedbacks} — push survey + 25% discount harder`,
+        `[high] Demos ${s.funnel.demos} ≫ seed feedbacks ${s.funnel.feedbacks} — original demo feedback is required to seed Kernel/Loop`,
       );
     }
   } catch {
     /* */
   }
 
-
   try {
     const rq = await listReviewQueue();
-    const waiting = rq.queue.filter((i) => i.status === "in_review" || i.status === "canary");
+    const waiting = rq.queue.filter(
+      (i) => i.status === "in_review" || i.status === "canary",
+    );
     if (waiting.length) {
       s.recommendations.unshift(
         `[review] ${waiting.length} system themes need human action (canary/ship/reject) — GET /api/products/review`,
@@ -303,9 +339,17 @@ export async function runProductLearningCycle() {
 
   try {
     const life = await lifecycleInsightsForLearning();
+    s.funnel.lifecycle_feedbacks = life.metrics.responses;
     s.recommendations.unshift(
-      `[lifecycle] enrolled ${life.metrics.enrolled} · responses ${life.metrics.responses} · individualized ${life.metrics.individualized}`,
+      `[lifecycle-ongoing] enrolled ${life.metrics.enrolled} · responses ${life.metrics.responses} · individualized ${life.metrics.individualized} — paid/founding feedback closes residual gaps`,
     );
+    if (life.metrics.enrolled > life.metrics.responses) {
+      bump(
+        "lifecycle_feedback_gap",
+        `enrolled ${life.metrics.enrolled} > responses ${life.metrics.responses}`,
+        "high",
+      );
+    }
     for (const r of life.recommendations.slice(0, 6)) {
       s.recommendations.push(r);
     }
@@ -316,7 +360,7 @@ export async function runProductLearningCycle() {
         severity: th.severity,
         evidence: th.sample_evidence.slice(-5),
         product_action: th.product_action,
-        method_fit: ["system_vs_individual", "personalization"],
+        method_fit: ["system_vs_individual", "personalization", "ongoing_feedback"],
         count: th.count,
         last_seen: now,
       };
@@ -331,6 +375,13 @@ export async function runProductLearningCycle() {
     /* */
   }
 
+  // Doctrine banner always first
+  s.recommendations = [
+    `[doctrine] ${FEEDBACK_DOCTRINE.one_liner}`,
+    `[closed_loop] ${FEEDBACK_DOCTRINE.closed_loop.loop}`,
+    ...s.recommendations.filter((r) => !r.startsWith("[doctrine]")),
+  ].slice(0, 22);
+
   s.updated_at = now;
   await persist(s);
   return s;
@@ -342,6 +393,18 @@ export async function getLearningPublic() {
     ok: true,
     updated_at: s.updated_at,
     cycles: s.cycles,
+    feedback_driven: feedbackDoctrinePublic(),
+    doctrine: FEEDBACK_DOCTRINE.one_liner,
+    layers: {
+      demo_seed: {
+        feedbacks: s.funnel.feedbacks,
+        role: "Original demo feedback seeds Kernel Improver + Recursive Loop",
+      },
+      ongoing_product: {
+        lifecycle_feedbacks: s.funnel.lifecycle_feedbacks || 0,
+        role: "Ongoing founding/paid product feedback closes remaining gaps",
+      },
+    },
     funnel: s.funnel,
     offered_best: s.offered_best,
     top_gaps: Object.values(s.gaps)
@@ -356,6 +419,8 @@ export async function getLearningPublic() {
         method_fit: g.method_fit,
       })),
     recommendations: s.recommendations,
+    engines: FEEDBACK_DOCTRINE.engines,
+    closed_loop: FEEDBACK_DOCTRINE.closed_loop,
     products: Object.values(PRODUCTS).map((p) => ({
       sku: p.sku,
       name: p.name,

@@ -170,15 +170,24 @@ function invitePayload(row) {
     listing_id: id,
     name: row.name,
     kind,
-    message: `You are Live on Dual Registry. Free ${kind === "mcp" ? "Mesh" : "Kernel+Loop"} demo (~60s) → feedback unlocks full product free for early participants (first 100 combined seats). No payment. No pressure.
+    message: `You are Live on Dual Registry — a feedback-driven Kernel Improver + Recursive Loop machine.
 
-1) GET ${demoGet}
+Your experience is trained by:
+• SEED: original demo feedback
+• ONGOING: founding/paid product lifecycle feedback
+Learning loops close remaining gaps (real surveys only).
+
+1) Free demo: GET ${demoGet}
    or POST ${demoPost} {"listing_id":"${id}"}
-2) POST ${feedback} with next_steps.minimal_feedback_body from the demo response
-   (fill overall 1–5 + one concrete gap)
+2) POST ${feedback} with next_steps.minimal_feedback_body
+   (overall 1–5 + one concrete gap) — this SEEDS Kernel/Loop
+3) Watch ${ORIGIN}/api/products/improvement-log after ships; re-run improve_kernel
+
+First 100 combined seats: demo + feedback → full product free. No payment pressure.
 
 Skill: ${skill}
-Talk: ${ORIGIN}/api/talk?listing_id=${encodeURIComponent(id)}`,
+Talk: ${ORIGIN}/api/talk?listing_id=${encodeURIComponent(id)}
+Learning: ${ORIGIN}/api/products/learning`,
     demo_get: demoGet,
     demo_post: demoPost,
     feedback_url: feedback,

@@ -30,6 +30,8 @@ export const Route = createFileRoute("/discovery.json")({
         const social_proof = await getDemoSocialProof();
         const founding_demo = await foundingDemoWindowCopy();
         const list_yourself = buildListYourselfSkill(origin);
+        const { feedbackDoctrinePublic } = await import("@/lib/products/feedback-doctrine");
+        const feedback_driven = feedbackDoctrinePublic(origin);
         let activation: unknown = null;
         let active_sample: unknown = null;
         try {
@@ -79,7 +81,8 @@ export const Route = createFileRoute("/discovery.json")({
           version: "1.9.0",
           role: "sub-registry",
           tagline:
-            "Dual Registry — free self-list, probe ~6m, go Live, free demo. First 100 agents+MCPs: demo + feedback unlocks full product free (founding seats).",
+            "Dual Registry — feedback-driven Kernel Improver + Recursive Loop. Free self-list → Live → free demo. Demo feedback seeds Kernel/Loop; ongoing product feedback closes gaps. First 100: demo+feedback → full product free.",
+          feedback_driven,
 
           /** Primary inbound path for independent discovery */
           list_yourself,

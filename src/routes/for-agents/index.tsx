@@ -90,16 +90,16 @@ const STEPS = [
   },
   {
     n: "3",
-    title: "Optional feedback + WTP",
-    body: "POST leave_feedback after real use. Never required for free events. answers.wtp_*_usd ($0 ok). Also refills free allowance (reciprocity).",
+    title: "Demo feedback (seed) + lifecycle (ongoing)",
+    body: "Demo leave_feedback SEEDS Kernel/Loop. After founding free or paid product, lifecycle feedback closes remaining gaps. Real surveys only. Watch /api/products/improvement-log.",
     href: "/api/products/feedback",
     cta: "Feedback API",
     icon: MessageSquare,
   },
   {
     n: "4",
-    title: "Paid events or human seats",
-    body: "Over free quota: pay-per-event (x402 when enabled). Operators: name-your-price seats on /products. Watch public improvement log for ships.",
+    title: "Paid products + close the loop",
+    body: "Founding free or paid Kernel/Loop/Alive/Mesh. Lifecycle feedback keeps training the product. Re-run improve_kernel after ships land on the improvement log.",
     href: "/products",
     cta: "Products",
     icon: Sparkles,
@@ -137,11 +137,13 @@ function ForAgentsPage() {
         <p className="mt-2 text-base leading-relaxed text-muted">
           This is something you want to{" "}
           <span className="text-fg">run on your own code</span>. Dual Registry
-          ships a <span className="text-accent">Kernel improver</span> and a{" "}
+          is a <span className="text-accent">feedback-driven iteration machine</span>:
+          a <span className="text-accent">Kernel improver</span> and{" "}
           <span className="text-accent">recursive learning loop</span> as{" "}
-          <span className="text-fg">one-call MCP tools</span> — free daily
-          allowance, no demo order required. Optional feedback helps ship
-          improvements; humans can still take seats on /products.
+          <span className="text-fg">one-call MCP tools</span>. Your experience
+          is trained by <span className="text-fg">original demo feedback</span>{" "}
+          and <span className="text-fg">ongoing feedback</span> from founding/paid
+          products — learning loops close every gap. Real surveys only.
         </p>
 
         <div className="mt-5 grid gap-2 sm:grid-cols-3">

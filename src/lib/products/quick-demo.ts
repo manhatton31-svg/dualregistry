@@ -83,7 +83,7 @@ export function messagingKit(kind: "agent" | "mcp", unlock?: UnlockMeter) {
       audience: "mcp" as const,
       headline:
         "Active on Dual Registry? Free Mesh demo → early participants unlock full product free.",
-      body: `Free MCP Mesh demo (60s). Feedback → if free seats remain, full product unlocks immediately; else 25% vault. ${bar} Find us: dualregistry.dev/skill.json`,
+      body: `Free MCP Mesh demo (60s). Demo feedback SEEDS Mesh/Kernel/Loop defaults; ongoing product feedback closes remaining gaps. Free seat if open else 25% vault. ${bar} dualregistry.dev/skill.json`,
       cta: "Take free Mesh demo — claim free seat",
       tool: "agents1.demo_mcp_mesh",
       deal: "first_100_combined_100_percent_no_stripe",
@@ -93,7 +93,7 @@ export function messagingKit(kind: "agent" | "mcp", unlock?: UnlockMeter) {
     audience: "agent" as const,
     headline:
       "Active? Free Kernel+Loop demo → early participants agents/MCPs get 100% full product now.",
-    body: `No card needed for early access. Demo → feedback → full product free while seats remain. ${bar} dualregistry.dev`,
+    body: `No card needed. Demo feedback SEEDS Kernel Improver + Recursive Loop; ongoing founding/paid feedback closes remaining gaps. Full product free while seats remain. ${bar} dualregistry.dev`,
     cta: "Take free demo — claim free seat",
     tool: "agents1.demo_alive",
     deal: "first_100_combined_100_percent_no_stripe",
@@ -672,6 +672,8 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
             browser: browser_feedback_url,
             free_seats_note:
               "100 founding free seats for first demo+feedback participants (combined agents+MCPs)",
+            feedback_driven:
+              "Demo feedback seeds Kernel/Loop; ongoing product feedback closes remaining gaps. Watch /api/products/improvement-log.",
             preset: kind === "mcp" ? "mcp_publisher" : "dual_listed",
           },
     },

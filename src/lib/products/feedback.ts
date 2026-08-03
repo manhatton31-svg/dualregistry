@@ -716,7 +716,8 @@ export async function submitFeedback(input: {
     funnel: {
       stage: isFree ? "full_product_free" : "discount",
       loop: isFree
-        ? "demo → feedback → 100% free full product → lifecycle feedback"
+        ? "demo → feedback (seed) → 100% free full product → lifecycle feedback (ongoing) → Kernel/Loop ships close gaps"
+
         : "demo → feedback → discount → buy",
       next: isFree
         ? "Use access_token / order artifacts — post-setup feedback is due"
@@ -735,8 +736,9 @@ export async function submitFeedback(input: {
       ? freeGrant!.message
       : `Thanks — ${discount.percent_off}% founding code ${discount.code} vaulted. Real feedback only. First 100 demo+feedback participants get 100% off full product immediately.`,
     thanks: isFree
-      ? `100% free full product — seat claimed.`
-      : `Thanks — ${discount.percent_off}% founding code vaulted.`,
+      ? `100% free full product — seat claimed. Your demo feedback SEEDS Kernel Improver + Recursive Loop; ongoing lifecycle feedback will close remaining gaps. Watch /api/products/improvement-log.`
+      : `Thanks — ${discount.percent_off}% founding code vaulted. Demo feedback SEEDS Kernel/Loop; after product use, lifecycle feedback closes remaining gaps. Real surveys only.`,
+
     theme_progress: null as null,
   };
 }

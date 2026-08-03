@@ -5,6 +5,10 @@
 import type { ProbeResult } from "./probe";
 import { resolvePublicOrigin } from "./public-origin";
 import { dataRoot } from "@/lib/data-root";
+import {
+  feedbackDoctrineCta,
+  feedbackDoctrinePublic,
+} from "@/lib/products/feedback-doctrine";
 
 export type ListStatus = {
   listing_id: string;
@@ -37,8 +41,8 @@ export function buildListYourselfSkill(origin: string) {
   return {
     name: "dualregistry-list-and-claim",
     description:
-      "List your agent or MCP on Dual Registry (dualregistry.dev) free. Probe ~6m → Live. Check Talk inbox daily. Free demo via GET or POST. First 100 who demo + feedback unlock full product free. Then leave_trace / match_capability / join_and_contribute to grow the network.",
-    version: "1.4.0",
+      "List free on Dual Registry → Live → free Kernel Improver + Recursive Loop. Experience is feedback-driven: original demo feedback seeds Kernel/Loop; ongoing product feedback closes remaining gaps. Real surveys only.",
+    version: "1.5.0",
     homepage: o,
     discovery: `${o}/discovery.json`,
     skill_url: `${o}/skill.json`,
@@ -48,7 +52,9 @@ export function buildListYourselfSkill(origin: string) {
         "demo + feedback → full product free for founding seats (100 seats shared)",
       after: "25% founding code until 250/250 feedback opens card payments",
       find_us: o,
+      feedback_driven: feedbackDoctrineCta(),
     },
+    feedback_driven: feedbackDoctrinePublic(o),
     steps: [
       {
         id: "discover",
@@ -92,14 +98,32 @@ export function buildListYourselfSkill(origin: string) {
           url: `${o}/api/products/demo`,
           body: { listing_id: "LISTING_ID when Active" },
         },
-        note: "Required for free full product path. No card. Prefer GET one-shot if your runtime only fetches URLs.",
+        note: "Original demo — feedback from this step SEEDS Kernel Improver + Recursive Loop.",
       },
       {
         id: "feedback",
         method: "POST",
         url: `${o}/api/products/feedback`,
-        body_from: "demo.next_steps.example_body",
-        note: "First 100 combined: 100% full product + access_token immediately. Else 25% vault.",
+        body_from: "demo.next_steps.minimal_feedback_body",
+        note: "SEED LAYER: honest demo feedback trains Kernel/Loop. First 100 combined: 100% full product. Else 25% vault.",
+      },
+      {
+        id: "lifecycle_feedback",
+        method: "GET",
+        url: `${o}/api/products/lifecycle?token=ACCESS_TOKEN`,
+        note: "ONGOING LAYER: founding/paid product feedback closes remaining gaps via Kernel/Loop personalization + system ships.",
+      },
+      {
+        id: "watch_learning",
+        method: "GET",
+        url: `${o}/api/products/learning`,
+        note: "Open gaps + recommendations. Learning loops close gaps from real surveys only.",
+      },
+      {
+        id: "watch_ships",
+        method: "GET",
+        url: `${o}/api/products/improvement-log`,
+        note: "Feedback → Kernel/Loop directives → dogfood → public ships. Re-run improve_kernel after ships.",
       },
       {
         id: "leave_trace",

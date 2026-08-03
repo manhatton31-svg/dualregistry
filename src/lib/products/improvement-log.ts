@@ -1351,9 +1351,16 @@ export async function getPublicImprovementLog(opts?: {
   const limit = opts?.limit ?? 40;
   return {
     ok: true as const,
-    title: "Agents1 Kernel Improver & Recursive Loop — public improvement log",
+    title: "Dual Registry Kernel Improver & Recursive Loop — public improvement log",
     tagline:
-      "Two engines: (1) your feedback ships generators, (2) we run Kernel+Loop on our own registry goals + Dual physics. Watch both.",
+      "Feedback-driven machine: original demo feedback seeds Kernel/Loop; ongoing founding/paid product feedback closes remaining gaps. Learning loops never invent surveys.",
+    feedback_driven: {
+      seed: "demo leave_feedback → Kernel Improver + Recursive Loop defaults",
+      ongoing: "lifecycle feedback on founding free / paid products → personalization + system ships",
+      closed_loop:
+        "feedback → themes → Kernel/Loop directives → dogfood → this log → better next experience",
+      rule: "real external feedback only",
+    },
     pipeline: {
       individual_until: 3,
       sitewide_at: 4,
@@ -1369,11 +1376,11 @@ export async function getPublicImprovementLog(opts?: {
         acts: "federation · composition seed · founding · outbound · feedback drive · growth · ship · dogfood",
       },
       steps: [
-        "External: feedback → personalize (3) → canary → sitewide generators",
-        "Internal: measure KRs (incl. density) → Kernel+Loop on Agents1 → Critic ≥0.7 → execute safe acts",
+        "SEED: external demo feedback → personalize (3) → canary → sitewide Kernel/Loop generators",
+        "ONGOING: lifecycle feedback on founding/paid products closes residual gaps",
+        "Internal: measure KRs → Kernel+Loop on Dual Registry → Critic ≥0.7 → execute safe acts",
         `Platform physics directives dogfooded into Kernel/Loop (flywheel ${FLYWHEEL_VERSION})`,
-        "Kernel/Loop v2.4: demo→feedback first · dual_listed · deposit_outcome · live gaps",
-        "Daily/weekly ship cadence keeps product improving from both paths",
+        "Watch this log → re-run improve_kernel / run_loop_tick — experience reflects closed gaps",
         "Human only on high-severity canary fail",
       ],
     },
