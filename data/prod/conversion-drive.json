@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-08-03T00:37:46.339Z",
+  "updated_at": "2026-08-03T04:21:30.971Z",
   "day": "2026-08-03",
   "day_invites": 120,
-  "day_nags": 21,
+  "day_nags": 23,
   "day_talk": 92,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
@@ -1367,6 +1367,24 @@
       "talk_ok": true,
       "status": 405,
       "target": "https://base-agent-kit-pied.vercel.app/.well-known/agent.json"
+    },
+    "ord_msco3wyd_5a07626a": {
+      "at": "2026-08-03T04:21:27.698Z",
+      "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
+      "origin": "self_serve",
+      "http_ok": true,
+      "talk_ok": true,
+      "status": 405,
+      "target": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json"
+    },
+    "ord_msclhcmu_afed0825": {
+      "at": "2026-08-03T04:21:28.160Z",
+      "listing_id": "mcp-adadvisor-mcp-server-api-adadvisor-ai-well-known-mcp-server-card-json",
+      "origin": "self_serve",
+      "http_ok": true,
+      "talk_ok": true,
+      "status": 200,
+      "target": "https://api.adadvisor.ai/.well-known/mcp/server-card.json"
     }
   },
   "talked": {
@@ -1531,7 +1549,7 @@
       "ok": true
     },
     "social:2026-08-03": {
-      "at": "2026-08-03T00:36:26.515Z",
+      "at": "2026-08-03T04:21:30.971Z",
       "ok": true
     },
     "mcp-ai-analyticslegends-sap-analytics-https-analyticslegends-ai": {
@@ -1746,17 +1764,18 @@
   "totals": {
     "invites": 120,
     "invite_http_ok": 118,
-    "nags": 21,
-    "nag_http_ok": 21,
+    "nags": 23,
+    "nag_http_ok": 23,
     "talk_inbox": 92,
-    "social": 1,
-    "runs": 5
+    "social": 2,
+    "runs": 6
   },
   "last_notes": [
-    "eligible never-demoed 135 (agents 0 mcp 135) · inviting 2 (day 118/120)",
-    "invite mcp mcp-competitor-tracking-trends-mcp-https-t → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-content-strategy-trends-mcp-https-tren → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
-    "feedback nags queued 0 (day 21/60)"
+    "eligible never-demoed 173 (agents 0 mcp 173) · inviting 0 (day 120/120)",
+    "feedback nags queued 2 (day 21/60)",
+    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk ok",
+    "nag self_serve AdAdvisor MCP Server → http 200 talk ok",
+    "social post → ok"
   ],
-  "last_run_at": "2026-08-03T00:37:46.339Z"
+  "last_run_at": "2026-08-03T04:21:30.971Z"
 }
