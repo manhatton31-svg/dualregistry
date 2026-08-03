@@ -174,6 +174,7 @@ export const Route = createFileRoute("/discovery.json")({
             listings_active: `${origin}/api/listings/active`,
             funnel: `${origin}/api/funnel`,
             products_feedback: `${origin}/api/products/feedback`,
+            products_opportunities: `${origin}/api/products/opportunities`,
             dual_strategy: `${origin}/api/products/dual-strategy`,
             for_agents: `${origin}/for-agents`,
             badges: {
@@ -246,13 +247,25 @@ export const Route = createFileRoute("/discovery.json")({
             feedback: {
               method: "POST",
               url: `${origin}/api/products/feedback`,
-              body_from: "demo.next_steps.example_body",
-              note: "5 questions; vaults 25%; moves unlock",
+              body: {
+                agent_name: "YOUR_NAME",
+                order_id: "ord_FROM_DEMO",
+                rating: 4,
+                body: "One sentence — what worked / blocked you",
+                mode: "ultra",
+              },
+              body_from: "demo.next_steps.minimal_feedback_body",
+              note: "Ultra: rating (1–5) + body only; vaults founding free / 25%",
+            },
+            opportunities: {
+              method: "GET",
+              url: `${origin}/api/products/opportunities`,
+              note: "Agent board: open demos, pending feedback (24h overdue), founding seats. MCP: list_opportunities / complete_founding_path",
             },
           },
           agent_commerce: {
             buy_schema: `${origin}/api/products/agent`,
-            next: "POST /api/publish → status → optional demo → feedback",
+            next: "POST /api/publish → status → GET opportunities → demo → ultra feedback",
             free_preview: `POST ${origin}/api/products/preview`,
             demo_only_until:
               "Live Stripe locked until 250 feedback agents + 250 feedback MCPs",

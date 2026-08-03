@@ -122,6 +122,8 @@ function intentFromText(text: string): string {
     return "match_capability";
   if (/\b(list|publish|register|submit)\b/.test(t)) return "list_yourself";
   if (/\b(status|lane|active|probe)\b/.test(t)) return "check_status";
+  if (/\b(opportunit|what can i do|complete.?founding)\b/.test(t))
+    return "list_opportunities";
   if (/\b(demo|try|preview)\b/.test(t)) return "take_demo";
   if (/\b(feedback|survey|review)\b/.test(t)) return "leave_feedback";
   if (/\b(ard|catalog)\b/.test(t)) return "ard_search";

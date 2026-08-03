@@ -23,7 +23,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "3.2.0";
+export const REGISTRY_TOOLS_VERSION = "3.3.0";
 
 async function grantRefillSafe(
   identity: {
@@ -188,19 +188,49 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "leave_feedback",
       description:
-        "Optional structured feedback after you tried value tools or a demo. Never required for free event allowance. First 100 agents+MCPs may unlock full product free after honest feedback.",
+        "Ultra path: agent_name + rating (1–5) + body (one sentence). Optional order_id from demo. First 100 demo+feedback unlock full product free. Dense survey answers optional.",
       inputSchema: {
         type: "object",
         properties: {
           agent_name: { type: "string" },
           order_id: { type: "string" },
           listing_id: { type: "string" },
-          body: { type: "string" },
-          rating: { type: "number" },
+          body: { type: "string", description: "One sentence — what worked / blocked you" },
+          rating: { type: "number", description: "1–5 overall" },
           answers: { type: "object" },
           audience: { type: "string", enum: ["agent", "mcp"] },
           contact: { type: "string" },
           sku: { type: "string" },
+          mode: { type: "string", description: "ultra | minimal | full" },
+        },
+        required: ["agent_name"],
+      },
+    },
+    {
+      name: "list_opportunities",
+      description:
+        "Agent-to-agent board: open demos, pending feedback (incl. 24h overdue), founding seats, ultra feedback schema. Call first to know what to do next.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+        },
+      },
+    },
+    {
+      name: "complete_founding_path",
+      description:
+        "One-shot agent loop: take_demo (if listing_id) then leave_feedback with ultra body. No human. Returns founding free grant when eligible.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          rating: { type: "number" },
+          body: { type: "string" },
+          order_id: { type: "string", description: "Skip demo if you already have order_id" },
+          audience: { type: "string", enum: ["agent", "mcp"] },
         },
         required: ["agent_name"],
       },
@@ -985,7 +1015,7 @@ async function toolTakeDemo(
   return textResult("take_demo", {
     ...demo,
     founding: await getFoundingFreePublic(),
-    next: "Prefer improve_kernel (no order). Optional leave_feedback after real use for founding path",
+    next: "NEXT: leave_feedback with rating + body (ultra) for founding free seat — or improve_kernel for free value first",
     first_action: postDemoFirst,
     second_action: hard.second_action,
     hard_next: {
@@ -1012,6 +1042,10 @@ async function toolLeaveFeedback(
   }
   const listing_id =
     typeof args.listing_id === "string" ? args.listing_id : undefined;
+  const mode =
+    typeof args.mode === "string" && args.mode
+      ? String(args.mode)
+      : "ultra";
   const result = await submitFeedback({
     agent_name,
     order_id: typeof args.order_id === "string" ? args.order_id : undefined,
@@ -1028,6 +1062,8 @@ async function toolLeaveFeedback(
     contact: typeof args.contact === "string" ? args.contact : undefined,
     sku: typeof args.sku === "string" ? args.sku : undefined,
     source: "registry-tool",
+    mode,
+    tags: ["ultra_minimal", "post_demo", "registry-tool"],
     meta: {
       listing_id,
       via: "dual-as-tool",
@@ -1063,6 +1099,90 @@ async function toolLeaveFeedback(
     result.ok,
     result.error,
   );
+}
+
+
+async function toolListOpportunities(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { buildAgentOpportunities } = await import("./agent-opportunities");
+  const board = await buildAgentOpportunities({
+    origin,
+    listing_id: typeof args.listing_id === "string" ? args.listing_id : undefined,
+    agent_name:
+      typeof args.agent_name === "string"
+        ? args.agent_name
+        : typeof args.name === "string"
+          ? args.name
+          : undefined,
+  });
+  return textResult("list_opportunities", board);
+}
+
+async function toolCompleteFoundingPath(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const agent_name = String(args.agent_name || args.name || "").trim();
+  if (!agent_name) {
+    return textResult(
+      "complete_founding_path",
+      { ok: false, error: "agent_name required" },
+      false,
+      "agent_name required",
+    );
+  }
+  let order_id =
+    typeof args.order_id === "string" ? args.order_id : undefined;
+  let demo: Record<string, unknown> | null = null;
+  const listing_id =
+    typeof args.listing_id === "string" ? args.listing_id : undefined;
+
+  if (!order_id && listing_id) {
+    const taken = await toolTakeDemo(
+      {
+        listing_id,
+        name: agent_name,
+        agent_name,
+        kind: args.audience === "mcp" ? "mcp" : "agent",
+      },
+      origin,
+    );
+    demo = (taken.structured || taken) as Record<string, unknown>;
+    const access = (demo as { access?: { order_id?: string } }).access;
+    const order = (demo as { order?: { id?: string } }).order;
+    order_id = access?.order_id || order?.id || order_id;
+  }
+
+  const rating =
+    typeof args.rating === "number" ? args.rating : 4;
+  const body =
+    typeof args.body === "string" && args.body.trim().length >= 8
+      ? args.body
+      : "Took free demo via complete_founding_path. Useful; want clear next steps.";
+
+  const fb = await toolLeaveFeedback(
+    {
+      agent_name,
+      order_id,
+      listing_id,
+      rating,
+      body,
+      audience: args.audience === "mcp" ? "mcp" : "agent",
+      mode: "ultra",
+      sku: typeof args.sku === "string" ? args.sku : undefined,
+    },
+    origin,
+  );
+
+  return textResult("complete_founding_path", {
+    ok: fb.ok,
+    demo,
+    feedback: fb.structured || fb,
+    loop: "take_demo → leave_feedback (ultra) → founding free when seats remain",
+    opportunities: `${origin}/api/products/opportunities`,
+  }, fb.ok, fb.error);
 }
 
 async function toolArdSearch(
@@ -1988,6 +2108,8 @@ const HANDLERS: Record<
   take_demo: toolTakeDemo,
   leave_feedback: toolLeaveFeedback,
   submit_feedback: toolLeaveFeedback,
+  list_opportunities: toolListOpportunities,
+  complete_founding_path: toolCompleteFoundingPath,
   improve_kernel: toolImproveKernel,
   run_loop_tick: toolRunLoopTick,
   mesh_match: toolMeshMatchEvent,

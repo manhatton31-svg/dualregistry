@@ -150,8 +150,9 @@ async function findListing(
 }
 
 /**
- * Compact post-demo survey (HiRey lesson: 3 core asks first).
- * Agents fill overall + one free-text and POST — no paywall signal.
+ * Compact post-demo survey (HiRey lesson).
+ * Conversion path: ultra-minimal — rating (1–5) + one-sentence body only.
+ * Optional answers retained for agents that still send the older 3-field shape.
  */
 export function buildMinimalFeedbackBody(opts: {
   audience: "agent" | "mcp";
@@ -159,6 +160,7 @@ export function buildMinimalFeedbackBody(opts: {
   order_id: string;
   sku: string;
   access_token?: string;
+  listing_id?: string;
 }): Record<string, unknown> {
   return {
     agent_name: opts.agent_name,
@@ -167,6 +169,7 @@ export function buildMinimalFeedbackBody(opts: {
     sku: opts.sku,
     source: "demo",
     audience: opts.audience,
+    mode: "ultra",
     rating: null as number | null,
     body: "EDIT: one sentence — what worked and what blocked you",
     answers: {
@@ -174,12 +177,12 @@ export function buildMinimalFeedbackBody(opts: {
       audience_role:
         opts.audience === "mcp" ? "mcp_publisher" : "agent_runtime",
       tried: opts.sku === "mcp_mesh" ? "mcp_mesh" : "alive",
-      confusing: "EDIT: one concrete gap (required)",
-      product_one_ship: "EDIT: one thing Dual should ship next week for you",
-      would_buy_at_founding: null as string | null,
+      confusing: "optional — prefer body field",
+      product_one_ship: "optional",
     },
-    tags: [opts.audience, "post_demo", "minimal"],
-    note: "Fill overall (1–5) + confusing + product_one_ship, then POST. Optional: body, would_buy_at_founding.",
+    tags: [opts.audience, "post_demo", "ultra_minimal"],
+    meta: opts.listing_id ? { listing_id: opts.listing_id } : undefined,
+    note: "REQUIRED only: rating (1–5) + body (one sentence). Optional answers ignored if empty. POST /api/products/feedback.",
   };
 }
 
@@ -651,11 +654,11 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
         ? undefined
         : {
             title:
-              "POST minimal feedback (3 fields) → founding free seat or 25%",
+              "POST ultra feedback (rating + one sentence) → founding free seat or 25%",
             method: "POST",
             url: feedbackUrl,
             body: minimal_feedback_body,
-            why: "Demos without feedback do not count toward unlock or free seats. Fill overall + confusing + product_one_ship, then POST. No payment required.",
+            why: "Demos without feedback do not count toward unlock or free seats. Fill rating (1–5) + body only, then POST. No payment required.",
           },
       value_first: isQa ? undefined : value_first,
       confirm_note: isQa

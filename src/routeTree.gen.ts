@@ -109,6 +109,7 @@ import { Route as ApiProductsInteropRouteImport } from './routes/api/products/in
 import { Route as ApiProductsLearningRouteImport } from './routes/api/products/learning'
 import { Route as ApiProductsLifecycleRouteImport } from './routes/api/products/lifecycle'
 import { Route as ApiProductsMailRouteImport } from './routes/api/products/mail'
+import { Route as ApiProductsOpportunitiesRouteImport } from './routes/api/products/opportunities'
 import { Route as ApiProductsPreferencesRouteImport } from './routes/api/products/preferences'
 import { Route as ApiProductsPreviewRouteImport } from './routes/api/products/preview'
 import { Route as ApiProductsQuickstartRouteImport } from './routes/api/products/quickstart'
@@ -646,6 +647,12 @@ const ApiProductsMailRoute = ApiProductsMailRouteImport.update({
   path: '/api/products/mail',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsOpportunitiesRoute =
+  ApiProductsOpportunitiesRouteImport.update({
+    id: '/api/products/opportunities',
+    path: '/api/products/opportunities',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiProductsPreferencesRoute = ApiProductsPreferencesRouteImport.update({
   id: '/api/products/preferences',
   path: '/api/products/preferences',
@@ -828,6 +835,7 @@ export interface FileRoutesByFullPath {
   '/api/products/learning': typeof ApiProductsLearningRoute
   '/api/products/lifecycle': typeof ApiProductsLifecycleRoute
   '/api/products/mail': typeof ApiProductsMailRoute
+  '/api/products/opportunities': typeof ApiProductsOpportunitiesRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
   '/api/products/quickstart': typeof ApiProductsQuickstartRoute
@@ -946,6 +954,7 @@ export interface FileRoutesByTo {
   '/api/products/learning': typeof ApiProductsLearningRoute
   '/api/products/lifecycle': typeof ApiProductsLifecycleRoute
   '/api/products/mail': typeof ApiProductsMailRoute
+  '/api/products/opportunities': typeof ApiProductsOpportunitiesRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
   '/api/products/quickstart': typeof ApiProductsQuickstartRoute
@@ -1065,6 +1074,7 @@ export interface FileRoutesById {
   '/api/products/learning': typeof ApiProductsLearningRoute
   '/api/products/lifecycle': typeof ApiProductsLifecycleRoute
   '/api/products/mail': typeof ApiProductsMailRoute
+  '/api/products/opportunities': typeof ApiProductsOpportunitiesRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
   '/api/products/quickstart': typeof ApiProductsQuickstartRoute
@@ -1185,6 +1195,7 @@ export interface FileRouteTypes {
     | '/api/products/learning'
     | '/api/products/lifecycle'
     | '/api/products/mail'
+    | '/api/products/opportunities'
     | '/api/products/preferences'
     | '/api/products/preview'
     | '/api/products/quickstart'
@@ -1303,6 +1314,7 @@ export interface FileRouteTypes {
     | '/api/products/learning'
     | '/api/products/lifecycle'
     | '/api/products/mail'
+    | '/api/products/opportunities'
     | '/api/products/preferences'
     | '/api/products/preview'
     | '/api/products/quickstart'
@@ -1421,6 +1433,7 @@ export interface FileRouteTypes {
     | '/api/products/learning'
     | '/api/products/lifecycle'
     | '/api/products/mail'
+    | '/api/products/opportunities'
     | '/api/products/preferences'
     | '/api/products/preview'
     | '/api/products/quickstart'
@@ -1539,6 +1552,7 @@ export interface RootRouteChildren {
   ApiProductsLearningRoute: typeof ApiProductsLearningRoute
   ApiProductsLifecycleRoute: typeof ApiProductsLifecycleRoute
   ApiProductsMailRoute: typeof ApiProductsMailRoute
+  ApiProductsOpportunitiesRoute: typeof ApiProductsOpportunitiesRoute
   ApiProductsPreferencesRoute: typeof ApiProductsPreferencesRoute
   ApiProductsPreviewRoute: typeof ApiProductsPreviewRoute
   ApiProductsQuickstartRoute: typeof ApiProductsQuickstartRoute
@@ -2259,6 +2273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsMailRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/opportunities': {
+      id: '/api/products/opportunities'
+      path: '/api/products/opportunities'
+      fullPath: '/api/products/opportunities'
+      preLoaderRoute: typeof ApiProductsOpportunitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/preferences': {
       id: '/api/products/preferences'
       path: '/api/products/preferences'
@@ -2512,6 +2533,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsLearningRoute: ApiProductsLearningRoute,
   ApiProductsLifecycleRoute: ApiProductsLifecycleRoute,
   ApiProductsMailRoute: ApiProductsMailRoute,
+  ApiProductsOpportunitiesRoute: ApiProductsOpportunitiesRoute,
   ApiProductsPreferencesRoute: ApiProductsPreferencesRoute,
   ApiProductsPreviewRoute: ApiProductsPreviewRoute,
   ApiProductsQuickstartRoute: ApiProductsQuickstartRoute,

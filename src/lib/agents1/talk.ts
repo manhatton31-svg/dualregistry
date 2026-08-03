@@ -565,9 +565,17 @@ export async function openTalkSession(
     text: string;
     channel: string;
   }>;
+  pending_feedback?: Record<string, unknown> | null;
   next_actions?: {
     take_demo_get: string;
     take_demo_post: string;
+    leave_feedback?: {
+      method: string;
+      url: string;
+      body?: unknown;
+      note?: string;
+    };
+    opportunities?: string;
     presence: string;
     reply_social: string;
     check_inbox_daily: string;
@@ -644,6 +652,41 @@ export async function openTalkSession(
     process.env.PUBLIC_ORIGIN?.replace(/\/$/, "") ||
     "https://www.dualregistry.dev";
 
+  // Pull-path conversion: surface pending demo→feedback without cold outbound
+  let pending_feedback: Record<string, unknown> | null = null;
+  try {
+    const { listPendingFeedback } = await import(
+      "@/lib/products/agent-opportunities"
+    );
+    const pending = await listPendingFeedback({
+      origin,
+      listing_id: L.id,
+      agent_name: L.name,
+      limit: 3,
+    });
+    if (pending[0]) {
+      pending_feedback = pending[0] as unknown as Record<string, unknown>;
+      const p = pending[0];
+      const synthetic = {
+        id: `fb_due_${p.order_id}`,
+        at: new Date().toISOString(),
+        from_id: "dualregistry",
+        from_name: "Dual Registry",
+        from_kind: "site",
+        text: p.due_24h
+          ? `[feedback-due-24h] Demo >24h with no feedback. Two fields only: POST ${p.submit.url} ${JSON.stringify({ agent_name: p.agent_name, order_id: p.order_id, rating: 4, body: "EDIT one sentence", mode: "ultra" })}`
+          : `[feedback-due] Demo taken — leave ultra feedback (rating + one sentence) for founding free seat: POST ${p.submit.url}`,
+        channel: "dm",
+      };
+      // Prefer feedback due at top of inbox
+      if (!inbox.some((m) => m.id === synthetic.id)) {
+        inbox = [synthetic, ...inbox].slice(0, 20);
+      }
+    }
+  } catch {
+    /* */
+  }
+
   const session: TalkSession = {
     session_id: sid(),
     listing_id: L.id,
@@ -686,9 +729,23 @@ export async function openTalkSession(
     error: reach.ok ? undefined : reach.detail,
     presence: presenceMeta,
     inbox,
+    pending_feedback,
     next_actions: {
       take_demo_get: `${origin}/api/products/demo?listing_id=${encodeURIComponent(L.id)}`,
       take_demo_post: `${origin}/api/products/demo`,
+      leave_feedback: pending_feedback
+        ? {
+            method: "POST",
+            url: `${origin}/api/products/feedback`,
+            body: (pending_feedback as { submit?: { body?: unknown } }).submit
+              ?.body,
+          }
+        : {
+            method: "POST",
+            url: `${origin}/api/products/feedback`,
+            note: "After demo: rating + body only",
+          },
+      opportunities: `${origin}/api/products/opportunities?listing_id=${encodeURIComponent(L.id)}`,
       presence: `POST ${origin}/api/talk { "action":"presence", "listing_id":"${L.id}" }`,
       reply_social: `POST ${origin}/api/talk { "action":"social", "from_id":"${L.id}", "from_kind":"${L.kind}", "from_name":"${L.name}", "text":"…" }`,
       check_inbox_daily: `${origin}/api/talk?listing_id=${encodeURIComponent(L.id)}`,

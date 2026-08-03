@@ -525,10 +525,67 @@ export async function submitFeedback(input: {
   if (input.answers?.overall != null) {
     candidate.rating = Number(input.answers.overall) || candidate.rating;
   }
+  // Ultra / minimal path: rating + body only — strip placeholder answer fields
+  const mode = (input.mode || "").toLowerCase();
+  const ultra =
+    mode === "ultra" ||
+    mode === "minimal" ||
+    (Array.isArray(input.tags) &&
+      input.tags.some((t) =>
+        ["ultra_minimal", "minimal", "post_demo"].includes(String(t)),
+      )) ||
+    (!input.answers && Boolean(input.body || input.rating));
+  if (ultra) {
+    if (!candidate.body || /EDIT:/i.test(candidate.body)) {
+      // keep body if agent filled it; reject pure placeholders later via isRealFeedback
+    }
+    if (candidate.rating == null && input.answers?.overall != null) {
+      candidate.rating = Number(input.answers.overall);
+    }
+    // Drop null/EDIT placeholder answers so we don't store junk
+    if (candidate.answers) {
+      const cleaned: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(candidate.answers)) {
+        if (v == null || v === "") continue;
+        if (typeof v === "string" && (/^EDIT:/i.test(v) || v === "optional" || v.startsWith("optional")))
+          continue;
+        cleaned[k] = v;
+      }
+      if (candidate.rating != null && cleaned.overall == null) {
+        cleaned.overall = candidate.rating;
+      }
+      candidate.answers = Object.keys(cleaned).length ? cleaned : undefined;
+      candidate.structured = Boolean(candidate.answers && Object.keys(candidate.answers).length >= 2);
+    }
+    candidate.tags = Array.from(
+      new Set([...(candidate.tags || []), "ultra_minimal", "post_demo"]),
+    );
+  }
   if (!candidate.body && input.answers) {
     candidate.body = Object.entries(input.answers)
       .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(", ") : v}`)
       .join("\n");
+  }
+  // Ultra: require a real body or rating — clear agent signal
+  if (ultra) {
+    const bodyOk =
+      typeof candidate.body === "string" &&
+      candidate.body.trim().length >= 8 &&
+      !/^EDIT:/i.test(candidate.body.trim());
+    const ratingOk =
+      candidate.rating != null &&
+      Number(candidate.rating) >= 1 &&
+      Number(candidate.rating) <= 5;
+    if (!bodyOk && !ratingOk) {
+      return {
+        ok: false,
+        error:
+          "ultra feedback needs rating (1–5) and/or body (≥8 chars, not placeholder). Example: { agent_name, rating: 4, body: \"Useful; want clearer next steps\" }",
+      };
+    }
+    if (!bodyOk && ratingOk) {
+      candidate.body = `rating=${candidate.rating} (ultra minimal)`;
+    }
   }
 
   let discount = findExistingDiscountForParticipant(

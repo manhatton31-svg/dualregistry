@@ -4,23 +4,24 @@
 # Sandbox dashboard mirrors production metrics — do NOT run a local probe
 # worker here (it desynced used/last/next from the phone site).
 set -eu
-cd /workspace
+cd /workspace/dualregistry
 mkdir -p /workspace/data/growth /workspace/data/products /workspace/screenshots /tmp
+mkdir -p data/growth data/products
 
 # Stop any legacy local probe workers (source of sandbox vs phone mismatch)
-if [ -f /workspace/data/growth/probe-worker.pid ]; then
-  wpid=$(cat /workspace/data/growth/probe-worker.pid 2>/dev/null || true)
+if [ -f data/growth/probe-worker.pid ]; then
+  wpid=$(cat data/growth/probe-worker.pid 2>/dev/null || true)
   if [ -n "${wpid:-}" ]; then
     kill "$wpid" 2>/dev/null || true
   fi
-  rm -f /workspace/data/growth/probe-worker.pid
+  rm -f data/growth/probe-worker.pid
 fi
-if [ -f /workspace/data/growth/probe-watchdog.pid ]; then
-  wdpid=$(cat /workspace/data/growth/probe-watchdog.pid 2>/dev/null || true)
+if [ -f data/growth/probe-watchdog.pid ]; then
+  wdpid=$(cat data/growth/probe-watchdog.pid 2>/dev/null || true)
   if [ -n "${wdpid:-}" ]; then
     kill "$wdpid" 2>/dev/null || true
   fi
-  rm -f /workspace/data/growth/probe-watchdog.pid
+  rm -f data/growth/probe-watchdog.pid
 fi
 pkill -f 'scripts/probe-worker.mjs' 2>/dev/null || true
 pkill -f 'scripts/probe-watchdog.sh' 2>/dev/null || true

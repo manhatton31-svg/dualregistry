@@ -14,7 +14,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
   return {
     origin: o,
     dual_strategy: true,
-    version: "2.7.0",
+    version: "2.8.0",
     llms_txt: `${o}/llms.txt`,
     llms_full: `${o}/llms-full.txt`,
     ai_txt: `${o}/ai.txt`,
@@ -33,6 +33,9 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
     mcp_protocol_alias: `${o}/api/protocol`,
     mcp_well_known: `${o}/.well-known/mcp.json`,
     discovery_pack_api: `${o}/api/products/discovery-pack`,
+    opportunities: id
+      ? `${o}/api/products/opportunities?listing_id=${encodeURIComponent(id)}`
+      : `${o}/api/products/opportunities`,
     founding_dogfood: `${o}/api/products/founding-dogfood`,
     a2a_rpc: `${o}/api/a2a`,
     ard_search: `${o}/api/ard/search`,
@@ -82,10 +85,13 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
       `GET ${o}/skill.json`,
       `POST ${o}/api/mcp tools/call list_yourself OR POST ${o}/api/publish`,
       `GET ${o}/api/listings/status?name=YOUR_NAME until lane=active`,
+      `GET ${o}/api/products/opportunities` +
+        (id ? `?listing_id=${encodeURIComponent(id)}` : "") +
+        ` — agent board: open demos + pending feedback`,
       id
         ? `POST ${o}/api/mcp tools/call take_demo {listing_id:${encodeURIComponent(id)}}`
         : `POST ${o}/api/mcp tools/call take_demo {listing_id:YOUR_ID}`,
-      `POST ${o}/api/mcp tools/call leave_feedback FIRST (founding seat / 25%)`,
+      `POST ${o}/api/mcp tools/call leave_feedback {agent_name, rating, body} OR complete_founding_path — ultra: 2 fields only`,
       `tools/call leave_trace | sense_traces | follow_trail — stigmergic coordination`,
     ],
   };
@@ -106,6 +112,7 @@ export function discoveryLinkHeader(
 ): string {
   const p = discoveryPack(origin, listingId);
   return [
+    `<${p.opportunities}>; rel="https://dualregistry.dev/rel/opportunities"; title="Agent opportunities board"`,
     `<${p.demo_get}>; rel="https://dualregistry.dev/rel/demo"; title="Free demo GET"`,
     `<${p.skill_json}>; rel="https://dualregistry.dev/rel/skill"; title="skill.json"`,
     `<${p.agent_card_iana}>; rel="agent-card"; title="A2A agent-card.json"`,

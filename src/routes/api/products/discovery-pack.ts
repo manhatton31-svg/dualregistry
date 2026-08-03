@@ -68,7 +68,7 @@ export const Route = createFileRoute("/api/products/discovery-pack")({
                 },
                 { origin, listing_id },
               ),
-              fingerprint: `discovery-pack|${origin}|${listing_id || ""}|v1`,
+              fingerprint: `discovery-pack|${origin}|${listing_id || ""}|v2`,
             });
           },
         ),

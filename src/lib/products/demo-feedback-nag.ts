@@ -8,7 +8,7 @@
  */
 import type { ProductOrder } from "./orders";
 import { listFeedback } from "./feedback";
-import { buildFeedbackDraft, getUnlockMeter, messagingKit } from "./quick-demo";
+import { buildFeedbackDraft, buildMinimalFeedbackBody, getUnlockMeter, messagingKit } from "./quick-demo";
 
 export type DemoFeedbackNag = {
   soft_status: 402;
@@ -136,6 +136,13 @@ export async function demoFeedbackDue(
     access_token: order.access_token,
     what_changed,
   });
+  const minimal_feedback_body = buildMinimalFeedbackBody({
+    audience: aud,
+    agent_name: name,
+    order_id: order.id,
+    sku: order.sku,
+    access_token: order.access_token,
+  });
 
   return {
     soft_status: 402,
@@ -143,8 +150,8 @@ export async function demoFeedbackDue(
     message: invited
       ? `Soft reminder: finish free demo. Confirm (POST /api/products/demo-confirm) or re-take demo, then POST feedback FIRST for 25% / founding seat.`
       : aud === "mcp"
-        ? `Soft reminder: MCP feedback due NOW. ${messaging.headline} Completing vaults 25% and ${unlock?.you_move_the_bar || "moves unlock"}. Do this before exploring Mesh artifacts further.`
-        : `Soft reminder: agent feedback due NOW. ${messaging.headline} Completing vaults 25% and ${unlock?.you_move_the_bar || "moves unlock"}. Do this before deep kernel use.`,
+        ? `Soft reminder: MCP feedback due NOW. Two fields only (rating + body). ${messaging.headline}`
+        : `Soft reminder: agent feedback due NOW. Two fields only (rating + body). ${messaging.headline}`,
     order_id: order.id,
     access_token: order.access_token,
     audience: aud,
@@ -155,13 +162,14 @@ export async function demoFeedbackDue(
     feedback_endpoint: "POST /api/products/feedback",
     product_version: order.product_version,
     founding_discount:
-      "25% A1FB vault after real survey (redeems at checkout when payments open)",
+      "First 100: 100% free after demo+feedback; else 25% A1FB vault",
     first_action: {
-      title: "POST structured feedback (primary conversion act)",
+      title: "POST ultra feedback (rating + one sentence) — primary conversion",
       method: "POST",
       url: "/api/products/feedback",
-      body: example_body,
+      body: minimal_feedback_body,
     },
+    minimal_feedback_body,
     buy_when_open: {
       method: "POST",
       url: "/api/products/checkout",

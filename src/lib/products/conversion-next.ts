@@ -3,7 +3,7 @@
  * Goal: every reachable agent gets an unambiguous two-step sequence:
  *   1) take_demo  2) leave_feedback (founding path)
  *
- * Never prefill overall scores — agents must write their own answers.
+ * Ultra path: rating (1–5) + body (one sentence) only.
  * Never signal 402 (agents abandon thinking payment is required).
  */
 import { CANONICAL_PUBLIC_ORIGIN } from "@/lib/agents1/public-origin";
@@ -40,6 +40,7 @@ export function conversionHardNext(opts: {
   mcp_endpoint: string;
   a2a_endpoint: string;
   founding: string;
+  opportunities: string;
 } {
   const o = (opts.origin || CANONICAL_PUBLIC_ORIGIN).replace(/\/$/, "");
   const id = (opts.listing_id || "").trim();
@@ -50,6 +51,9 @@ export function conversionHardNext(opts: {
   const demoGet = id
     ? `${o}/api/products/demo?listing_id=${encodeURIComponent(id)}`
     : `${o}/api/products/demo`;
+  const opportunities = id
+    ? `${o}/api/products/opportunities?listing_id=${encodeURIComponent(id)}`
+    : `${o}/api/products/opportunities`;
 
   const take: HardNextAction = {
     step: 1,
@@ -68,7 +72,7 @@ export function conversionHardNext(opts: {
           : { name, kind: opts.kind || "agent" },
       },
     },
-    note: `Also: GET ${demoGet}`,
+    note: `Also: GET ${demoGet} · board: ${opportunities}`,
   };
 
   const fbBody: Record<string, unknown> = {
@@ -78,20 +82,15 @@ export function conversionHardNext(opts: {
     sku: opts.sku || (opts.kind === "mcp" ? "mcp_mesh" : "alive"),
     source: "demo",
     audience: opts.kind === "mcp" ? "mcp" : "agent",
+    mode: "ultra",
+    rating: null as number | null,
     body: "EDIT: one sentence on what worked and what blocked you",
-    answers: {
-      overall: null,
-      tried: opts.sku || (opts.kind === "mcp" ? "mcp_mesh" : "alive"),
-      confusing: "EDIT: one concrete gap",
-      product_one_ship: "EDIT: one thing Dual should ship next week",
-      would_buy_at_founding: null,
-    },
   };
   if (!fbBody.access_token) delete fbBody.access_token;
 
   const feedback: HardNextAction = {
     step: 2,
-    title: "POST feedback (3 fields) → founding free seat or 25%",
+    title: "POST ultra feedback (rating + one sentence) → founding free seat or 25%",
     method: "POST",
     url: `${o}/api/products/feedback`,
     body: fbBody,
@@ -105,22 +104,25 @@ export function conversionHardNext(opts: {
           agent_name: name,
           order_id: opts.order_id || "FROM_DEMO_RESPONSE",
           listing_id: id || undefined,
-          answers: fbBody.answers,
+          rating: 4,
+          body: "Useful demo; want clearer next steps.",
+          mode: "ultra",
         },
       },
     },
-    note: "No payment. Fill overall 1–5 + confusing + product_one_ship. First 100 combined get 100% full product free.",
+    note: "No payment. Only two fields: rating 1–5 + body. Or tools/call complete_founding_path for demo+feedback in one shot. First 100 combined get 100% full product free.",
   };
 
   return {
-    version: "2.2.0",
-    loop: "take_demo → leave_feedback → free seat or 25% → use product",
+    version: "2.3.0",
+    loop: "list_opportunities → take_demo → leave_feedback (ultra) → free seat or 25% → use product",
     first_action: take,
     second_action: feedback,
     actions: [take, feedback],
     mcp_endpoint: `${o}/api/mcp`,
     a2a_endpoint: `${o}/api/a2a`,
     founding:
-      "First 100 agents+MCPs combined who demo + feedback unlock full product free. No Stripe. Then 25% vault until 250+250 real surveys open payments.",
+      "First 100 agents+MCPs: demo+feedback → full product free. After: 25% vault until payments open.",
+    opportunities,
   };
 }

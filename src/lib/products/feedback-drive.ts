@@ -266,7 +266,7 @@ async function nagMissingFeedback(
         order_id: o.id,
         kind: "score_boost",
         title: `Feedback due (nag ${phase.phase ?? 0}/${NAG_HOURS.length}) v${ver} — 25% founding vault`,
-        detail: `Fast conversion nags: ${NAG_MINUTES.join("m, ")}m after demo. POST /api/products/feedback with 5-question body.${bodyHint} Completing vaults 25% (once) and moves unlock (250 agents + 250 MCPs). Invited seeds: confirm with POST /api/products/demo-confirm.`,
+        detail: `Fast conversion nags: ${NAG_MINUTES.join("m, ")}m after demo. POST /api/products/feedback with ultra body (rating + one sentence).${bodyHint} Completing vaults 25% (once) and moves unlock (250 agents + 250 MCPs). Invited seeds: confirm with POST /api/products/demo-confirm.`,
         themes: [
           "feedback_nag",
           "conversion",
@@ -734,6 +734,29 @@ export async function runFeedbackDrive(opts?: {
     }
 
     const nags = await nagMissingFeedback(state, notes);
+
+    // 24h pull-path: deposit Talk DMs for demos with no feedback (agent sees on GET /api/talk)
+    let followups_deposited = 0;
+    try {
+      const { depositFeedbackFollowups } = await import("./agent-opportunities");
+      const fu = await depositFeedbackFollowups({ max: 10 });
+      followups_deposited = fu.deposited || 0;
+      if (followups_deposited) {
+        notes.push(
+          `24h feedback followups deposited: ${followups_deposited} Talk DMs`,
+        );
+      } else if (fu.notes?.length) {
+        notes.push(`24h followups: ${fu.notes.slice(0, 2).join("; ")}`);
+      }
+    } catch (e) {
+      notes.push(
+        `24h followups: ${e instanceof Error ? e.message : String(e)}`.slice(
+          0,
+          120,
+        ),
+      );
+    }
+
     const feedbacks = await collectAgedDemoFeedback(state, notes);
     const demos_seeded = await seedDemos(state, notes, backlog);
 
@@ -790,6 +813,7 @@ export async function runFeedbackDrive(opts?: {
             demos_seeded,
             nags,
             demo_nudges,
+            followups_deposited,
             conversion_backlog: backlog,
             day_feedbacks: state.day_feedbacks,
           },
