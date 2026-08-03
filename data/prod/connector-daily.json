@@ -1,7 +1,15 @@
 {
   "version": "1.1.0",
-  "updated_at": "2026-07-31T17:30:52.438Z",
+  "updated_at": "2026-08-03T19:05:11.923Z",
   "history": [
+    {
+      "day": "2026-08-03",
+      "partner_id": "manual_research",
+      "partner_name": "Manual research day",
+      "hirey_likeness": 0,
+      "status": "prepped",
+      "prepped_at": "2026-08-03T19:05:11.923Z"
+    },
     {
       "day": "2026-07-31",
       "partner_id": "agoragentic",
@@ -13,44 +21,79 @@
   ],
   "auto_send_to_targets": false,
   "last_prep": {
-    "day": "2026-07-31",
+    "day": "2026-08-03",
     "pick": {
-      "day": "2026-07-31",
+      "day": "2026-08-03",
       "partner": {
-        "id": "agoragentic",
-        "name": "Agoragentic",
-        "kind": "agent_marketplace",
-        "role": "Agent marketplace (USDC tasks) — operators who already buy/sell agent work",
-        "listing_id": "agent-agoragentic-https-agoragentic-com",
-        "homepage": "https://agoragentic.com",
-        "engage": "warm_intro_request",
-        "status": "candidate",
-        "notes": "Prior probes showed limited preflight; treat as human-operator channel, not cold A2A spam."
+        "id": "manual_research",
+        "name": "Manual research day",
+        "kind": "dev_community",
+        "role": "No HiRey-class partner cleared the quality gate — operator finds one human network",
+        "engage": "operator_manual",
+        "status": "candidate"
       },
-      "hirey_likeness": 16,
+      "hirey_likeness": 0,
       "traits": [
-        "human_operator",
-        "marketplace",
-        "kind_marketplace",
-        "engage_warm"
+        "research",
+        "quality_gate"
       ],
-      "why": "Cleared quality gate (score 16 ≥ 14; traits: human_operator, marketplace, kind_marketplace, engage_warm). One warm first-touch only.",
+      "why": "Quality gate: 8 ranked but none cleared min score 14 + human/marketplace traits. Research day — do not force a weak pick.",
       "action": {
-        "step": "Send ONE warm email/operator note. Offer reciprocity: free list + honest product path. Ask for intros to humans who run agents, not for them to fake survey scores.",
+        "step": "Spend 15 minutes: AI people network, agent marketplace operator, MCP directory maintainer, or ask Rey for peers. Add to CONNECTOR_SEED only when a human inbox exists.",
         "do_not": [
-          "No second email the same day",
-          "No order IDs or access tokens",
-          "No 'first 100 free' reward language",
-          "No asking their agent to POST /api/products/feedback",
-          "No multipath/Talk auto-blast"
+          "Do not cold-blast Active agents",
+          "Do not mint order IDs",
+          "Do not ask bots to POST feedback",
+          "Do not force a weak discovery listing just to hit quota"
         ],
         "draft": {
-          "subject": "Dual Registry × Agoragentic — warm intros only",
-          "body": "Partner note for Agoragentic (not a survey request).\n\nDual Registry (dualregistry.dev) lists agents & MCPs free, probes them live,\nand ships Kernel Improver / Recursive Loop / MCP Mesh with Network Edition.\n\nWe are not asking you to POST synthetic feedback.\nWe are looking for warm introductions to:\n  • humans who run agents (can open a browser ~5 min)\n  • MCP authors who want a free Mesh demo\n\nOne link to share (no order IDs, no tokens):\n  https://www.dualregistry.dev/products\n  skill: https://www.dualregistry.dev/skill.json\n  for agents: https://www.dualregistry.dev/for-agents\n\nQuiet policy: one touch, ignore if not relevant.\n— Dual Registry",
+          "subject": "(no draft — research day)",
+          "body": "",
           "demo_link": "https://www.dualregistry.dev/products"
         }
       },
-      "queue_after": []
+      "queue_after": [
+        {
+          "id": "agent-law-ai-https-mcp-law-ai",
+          "name": "law-ai",
+          "score": 14
+        },
+        {
+          "id": "agtpub_1d3583031bd03b157c3c",
+          "name": "law-ai",
+          "score": 14
+        },
+        {
+          "id": "agent_guild",
+          "name": "Agent Guild",
+          "score": 10
+        },
+        {
+          "id": "not_human_search",
+          "name": "Not Human Search",
+          "score": 9
+        },
+        {
+          "id": "grok_agent_store",
+          "name": "Grok Agent Store",
+          "score": 8
+        },
+        {
+          "id": "official_mcp_registry",
+          "name": "Official MCP Registry",
+          "score": 4
+        },
+        {
+          "id": "shareabot",
+          "name": "Shareabot",
+          "score": 4
+        },
+        {
+          "id": "moltbook",
+          "name": "Moltbook",
+          "score": 2
+        }
+      ]
     },
     "operator_notified": false
   }
