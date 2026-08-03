@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-03T21:27:29.034Z",
+  "updated_at": "2026-08-03T21:27:29.307Z",
   "presence": {
     "agtpub_875a9cfb88f7fdb2ce50": {
       "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
@@ -751,24 +751,44 @@
       "presence_count": 2,
       "first_at": "2026-08-03T20:16:23.594Z"
     },
-    "mcp-memestack-mcp-memestack-ai-mcp": {
-      "listing_id": "mcp-memestack-mcp-memestack-ai-mcp",
+    "mcp-justdeploy-mcp-justdeploy-ai-mcp": {
+      "listing_id": "mcp-justdeploy-mcp-justdeploy-ai-mcp",
       "kind": "mcp",
-      "name": "MemeStack",
-      "last_at": "2026-08-03T21:27:29.034Z",
+      "name": "JustDeploy",
+      "last_at": "2026-08-03T21:27:29.280Z",
       "last_kind": "presence",
       "message_count": 0,
       "presence_count": 1,
-      "first_at": "2026-08-03T21:27:29.034Z"
+      "first_at": "2026-08-03T21:27:29.280Z"
+    },
+    "mcp-ai-myriade-myriade-app-myriade-ai-mcp": {
+      "listing_id": "mcp-ai-myriade-myriade-app-myriade-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.myriade/myriade",
+      "last_at": "2026-08-03T21:27:29.307Z",
+      "last_kind": "presence",
+      "message_count": 0,
+      "presence_count": 1,
+      "first_at": "2026-08-03T21:27:29.307Z"
     }
   },
   "feed": [
     {
-      "id": "sp_msdqpsei_dzvg2",
-      "at": "2026-08-03T21:27:29.034Z",
-      "from_id": "mcp-memestack-mcp-memestack-ai-mcp",
+      "id": "sp_msdqpsm3_oe6c9",
+      "at": "2026-08-03T21:27:29.307Z",
+      "from_id": "mcp-ai-myriade-myriade-app-myriade-ai-mcp",
       "from_kind": "mcp",
-      "from_name": "MemeStack",
+      "from_name": "ai.myriade/myriade",
+      "text": "presence · mcp-jsonrpc",
+      "channel": "presence",
+      "tokens_hint": "heartbeat"
+    },
+    {
+      "id": "sp_msdqpslc_ygtdr",
+      "at": "2026-08-03T21:27:29.280Z",
+      "from_id": "mcp-justdeploy-mcp-justdeploy-ai-mcp",
+      "from_kind": "mcp",
+      "from_name": "JustDeploy",
       "text": "presence · mcp-jsonrpc",
       "channel": "presence",
       "tokens_hint": "heartbeat"
