@@ -2,6 +2,32 @@
   "day": "2026-08-03",
   "runs": [
     {
+      "id": "run_msdh72zd_hslqqm",
+      "title": "tools/call get_acceleration",
+      "tool": "get_acceleration",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T17:00:59.737Z",
+      "ended_at": "2026-08-03T17:00:59.737Z",
+      "duration_ms": 1,
+      "usd_estimate": 6.414444444444444e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_msdgrewr_lxsdlw",
+      "title": "tools/call network_sense",
+      "tool": "network_sense",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T16:48:48.698Z",
+      "ended_at": "2026-08-03T16:48:48.698Z",
+      "duration_ms": 49,
+      "usd_estimate": 0.0000017774444444444445,
+      "meta": {
+        "listing_id": "agent-dual-registry-www-dualregistry-dev-well-known-agent-json"
+      }
+    },
+    {
       "id": "run_msddbmap_9pq90z",
       "title": "tools/call network_sense",
       "tool": "network_sense",
@@ -544,12 +570,12 @@
     }
   ],
   "totals": {
-    "n": 41,
-    "ok": 34,
+    "n": 43,
+    "ok": 36,
     "error": 7,
     "skipped": 0,
-    "duration_ms": 7217,
+    "duration_ms": 7267,
     "token_usage": 0
   },
-  "updated_at": "2026-08-03T15:12:33.108Z"
+  "updated_at": "2026-08-03T17:00:59.977Z"
 }
