@@ -8,6 +8,7 @@ import {
   getConversionPressureStatus,
   runConversionPressure,
 } from "@/lib/products/conversion-pressure";
+import { enableOpsForceWave } from "@/lib/products/outbound-quiet";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
 
 export const Route = createFileRoute("/api/products/conversion-pressure")({
@@ -31,7 +32,13 @@ export const Route = createFileRoute("/api/products/conversion-pressure")({
       },
       POST: async ({ request }) => {
         const origin = resolvePublicOrigin(request);
-        let body: { max?: number; dry?: boolean } = {};
+        let body: {
+          max?: number;
+          dry?: boolean;
+          force_outbound?: boolean;
+          force?: boolean;
+          wave_ms?: number;
+        } = {};
         try {
           body = await request.json();
         } catch {
@@ -42,10 +49,19 @@ export const Route = createFileRoute("/api/products/conversion-pressure")({
             headers: { "cache-control": "no-store" },
           });
         }
+        let wave: { until: string; ms: number } | undefined;
+        if (body.force_outbound === true || body.force === true) {
+          wave = enableOpsForceWave(
+            typeof body.wave_ms === "number" ? body.wave_ms : 10 * 60_000,
+          );
+        }
         const result = await runConversionPressure({
           origin,
           max: body.max,
         });
+        if (wave) {
+          (result as { ops_force_wave?: unknown }).ops_force_wave = wave;
+        }
         return Response.json(result, {
           headers: withDemoCtaHeaders(
             {

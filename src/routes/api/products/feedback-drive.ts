@@ -8,6 +8,7 @@ import {
   getFeedbackDriveStatus,
   runFeedbackDrive,
 } from "@/lib/products/feedback-drive";
+import { enableOpsForceWave } from "@/lib/products/outbound-quiet";
 
 export const Route = createFileRoute("/api/products/feedback-drive")({
   server: {
@@ -32,11 +33,19 @@ export const Route = createFileRoute("/api/products/feedback-drive")({
       },
       POST: async ({ request }) => {
         let force = false;
+        let forceOutbound = false;
         try {
-          const body = (await request.json()) as { force?: boolean };
+          const body = (await request.json()) as {
+            force?: boolean;
+            force_outbound?: boolean;
+          };
           force = body.force === true;
+          forceOutbound = body.force_outbound === true;
         } catch {
           /* */
+        }
+        if (force || forceOutbound) {
+          enableOpsForceWave(10 * 60_000);
         }
         const result = await runFeedbackDrive({ force });
         const status = await getFeedbackDriveStatus();

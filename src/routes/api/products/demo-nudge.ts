@@ -12,6 +12,7 @@ import {
 } from "@/lib/products/demo-nudge";
 import { withDemoCtaHeaders } from "@/lib/products/demo-cta-headers";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
+import { enableOpsForceWave } from "@/lib/products/outbound-quiet";
 
 export const Route = createFileRoute("/api/products/demo-nudge")({
   server: {
@@ -47,6 +48,7 @@ export const Route = createFileRoute("/api/products/demo-nudge")({
         try {
           const body = (await request.json()) as {
             force?: boolean;
+            force_outbound?: boolean;
             max?: number;
             broadcast?: boolean;
             multipath?: boolean;
@@ -56,7 +58,7 @@ export const Route = createFileRoute("/api/products/demo-nudge")({
             priority_ids?: string[];
             mode?: string;
           };
-          force = body.force === true;
+          force = body.force === true || body.force_outbound === true;
           if (typeof body.max === "number") max = body.max;
           if (typeof body.broadcast === "boolean") broadcast = body.broadcast;
           multipath =
@@ -75,6 +77,11 @@ export const Route = createFileRoute("/api/products/demo-nudge")({
           }
         } catch {
           /* empty body ok */
+        }
+
+        // Operator conversion wave (time-boxed quiet bypass)
+        if (force) {
+          enableOpsForceWave(10 * 60_000);
         }
 
         if (presenceHarder) {

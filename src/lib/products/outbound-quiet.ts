@@ -27,8 +27,27 @@ function isOn(v: string | undefined): boolean {
   return v === "1" || v === "true" || v === "on" || v === "yes";
 }
 
+/** Time-boxed operator force wave (in-process). Used when ops POST force_outbound. */
+let opsForceWaveUntil = 0;
+
+/** Enable cold contact for a short window (default 10 min). */
+export function enableOpsForceWave(ms = 10 * 60_000): {
+  until: string;
+  ms: number;
+} {
+  const cap = Math.min(30 * 60_000, Math.max(60_000, ms));
+  opsForceWaveUntil = Date.now() + cap;
+  return { until: new Date(opsForceWaveUntil).toISOString(), ms: cap };
+}
+
+export function opsForceWaveActive(): boolean {
+  return Date.now() < opsForceWaveUntil;
+}
+
 /** Cold outbound contact (Talk DM, multipath invite, A2A push, scout invite). */
 export function isOutboundQuiet(): boolean {
+  // Explicit operator force wave — time-boxed, process-local
+  if (opsForceWaveActive()) return false;
   const v = envFlag("OUTBOUND_QUIET");
   // Explicit off only — default quiet for safety
   if (isOff(v)) return false;
@@ -40,6 +59,8 @@ export function isOutboundQuiet(): boolean {
  * Default OFF — self-serve demos still mint via agent-initiated checkout.
  */
 export function allowMintInvitedOrders(): boolean {
+  // Time-boxed ops wave may mint invited demo seeds (still require real feedback)
+  if (opsForceWaveActive()) return true;
   // Quiet implies no auto-mint even if MINT_INVITED_ORDERS is set
   if (isOutboundQuiet()) return false;
   return isOn(envFlag("MINT_INVITED_ORDERS"));
@@ -81,6 +102,9 @@ export function quietPolicyPublic() {
     reenable: {
       cold_contact: "Set OUTBOUND_QUIET=0 on the host",
       auto_orders: "Set OUTBOUND_QUIET=0 and MINT_INVITED_ORDERS=1",
+      ops_force_wave:
+        "POST /api/products/conversion-pressure { force_outbound: true, max: 15 } starts a 10m wave",
     },
+    ops_force_wave_active: opsForceWaveActive(),
   };
 }
