@@ -2,6 +2,91 @@
   "day": "2026-08-03",
   "runs": [
     {
+      "id": "run_mscm5y1d_we6ovw",
+      "title": "tools/call export_skills",
+      "tool": "export_skills",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T02:32:18.577Z",
+      "ended_at": "2026-08-03T02:32:18.577Z",
+      "duration_ms": 4,
+      "usd_estimate": 6.946666666666667e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_mscm5kt3_ngj633",
+      "title": "tools/call run_loop_tick",
+      "tool": "run_loop_tick",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T02:32:01.431Z",
+      "ended_at": "2026-08-03T02:32:01.431Z",
+      "duration_ms": 2,
+      "usd_estimate": 6.473333333333333e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_mscm5kj9_da9ohr",
+      "title": "tools/call export_skills",
+      "tool": "export_skills",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T02:32:01.077Z",
+      "ended_at": "2026-08-03T02:32:01.077Z",
+      "duration_ms": 3,
+      "usd_estimate": 6.887777777777778e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_mscm5k9d_yjrah9",
+      "title": "tools/call install_product",
+      "tool": "install_product",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T02:32:00.721Z",
+      "ended_at": "2026-08-03T02:32:00.721Z",
+      "duration_ms": 1,
+      "usd_estimate": 6.414444444444444e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_mscm4oyt_1v7jdz",
+      "title": "tools/call take_demo",
+      "tool": "take_demo",
+      "trigger": "mcp",
+      "status": "error",
+      "started_at": "2026-08-03T02:31:20.165Z",
+      "ended_at": "2026-08-03T02:31:20.165Z",
+      "duration_ms": 0,
+      "usd_estimate": 6e-7,
+      "error": "listing_id required",
+      "meta": {}
+    },
+    {
+      "id": "run_mscm2e0g_862fa0",
+      "title": "tools/call run_loop_tick",
+      "tool": "run_loop_tick",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T02:29:32.656Z",
+      "ended_at": "2026-08-03T02:29:32.656Z",
+      "duration_ms": 7,
+      "usd_estimate": 7.834444444444444e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_mscm2do2_71kdv2",
+      "title": "tools/call export_skills",
+      "tool": "export_skills",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T02:29:32.210Z",
+      "ended_at": "2026-08-03T02:29:32.210Z",
+      "duration_ms": 6,
+      "usd_estimate": 7.42e-7,
+      "meta": {}
+    },
+    {
       "id": "run_mscm2dcn_wmj7rb",
       "title": "tools/call install_product",
       "tool": "install_product",
@@ -55,12 +140,12 @@
     }
   ],
   "totals": {
-    "n": 4,
-    "ok": 2,
-    "error": 2,
+    "n": 11,
+    "ok": 8,
+    "error": 3,
     "skipped": 0,
-    "duration_ms": 197,
+    "duration_ms": 220,
     "token_usage": 0
   },
-  "updated_at": "2026-08-03T02:29:32.004Z"
+  "updated_at": "2026-08-03T02:32:18.817Z"
 }
