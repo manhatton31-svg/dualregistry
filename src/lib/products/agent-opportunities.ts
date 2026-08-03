@@ -289,16 +289,16 @@ export async function buildAgentOpportunities(opts?: {
       action: "discover",
       method: "GET",
       url: `${o}/api/products/opportunities`,
-      note: "This board — open demos + pending feedback",
+      note: "This board — open demos + pending feedback. Primary KR: same-session feedback.",
     },
     {
       step: 2,
-      action: "take_demo_or_complete_founding",
-      method: "GET",
-      url: `${o}/api/products/demo?listing_id=YOUR_LISTING_ID`,
-      mcp: "take_demo",
-      alt_mcp: "complete_founding_path",
-      note: "Prefer complete_founding_path (demo+feedback one shot). Else take_demo then immediately do_now leave_feedback.",
+      action: "complete_founding_path",
+      method: "POST",
+      url: `${o}/api/mcp`,
+      mcp: "complete_founding_path",
+      alt_mcp: "take_demo",
+      note: "DEFAULT one shot: demo+ultra feedback. Human path: demo.human_handoff.url if cannot HTTP.",
     },
     {
       step: 3,
@@ -307,7 +307,7 @@ export async function buildAgentOpportunities(opts?: {
       url: `${o}/api/products/feedback`,
       mcp: "leave_feedback",
       body_fields: ["agent_name", "rating", "body"],
-      note: "Same turn as demo: use filled do_now.jsonrpc from demo or pending board. No nulls.",
+      note: "Only if already demoed: use filled do_now.jsonrpc same turn. No nulls.",
     },
     {
       step: 4,
@@ -339,22 +339,48 @@ export async function buildAgentOpportunities(opts?: {
       };
     } else if (opts?.listing_id) {
       for_you = {
-        next: "take_demo",
+        next: "complete_founding_path",
+        default_tool: "complete_founding_path",
         first_action: {
-          method: "GET",
-          url: `${o}/api/products/demo?listing_id=${encodeURIComponent(opts.listing_id)}`,
+          method: "POST",
+          url: `${o}/api/mcp`,
+          body: {
+            jsonrpc: "2.0",
+            id: 1,
+            method: "tools/call",
+            params: {
+              name: "complete_founding_path",
+              arguments: {
+                listing_id: opts.listing_id,
+                agent_name: opts.agent_name || "YOUR_AGENT",
+                rating: 4,
+                body: "Useful demo; want clearer next steps after demo.",
+              },
+            },
+          },
         },
         mcp: {
-          tool: "take_demo",
-          arguments: { listing_id: opts.listing_id },
+          tool: "complete_founding_path",
+          arguments: {
+            listing_id: opts.listing_id,
+            agent_name: opts.agent_name || "YOUR_AGENT",
+            rating: 4,
+            body: "Useful demo; want clearer next steps after demo.",
+          },
         },
+        alt: {
+          tool: "take_demo",
+          note: "Then immediately do_now leave_feedback same turn",
+        },
+        human_handoff_note:
+          "If you cannot HTTP, take_demo then give human demo.human_handoff.url",
       };
     }
   }
 
   return {
     ok: true,
-    version: "1.0.0",
+    version: "1.2.0",
     product: "dualregistry-agent-opportunities",
     tagline:
       "Agent-to-agent. Prefer complete_founding_path OR demo.do_now leave_feedback same turn → install. Human handoff URL if agent cannot HTTP.",
@@ -378,6 +404,14 @@ export async function buildAgentOpportunities(opts?: {
       },
       endpoint: `${o}/api/products/feedback`,
       mcp_tool: "leave_feedback",
+    },
+    primary_kr: "same_session_demo_to_feedback_rate",
+    default_tool: "complete_founding_path",
+    strategy: {
+      primary: "same-session demo→feedback (1h)",
+      default_tool: "complete_founding_path",
+      human_path: "human_handoff.url",
+      invite_volume: "secondary hard-capped",
     },
     surfaces: {
       opportunities: `${o}/api/products/opportunities`,

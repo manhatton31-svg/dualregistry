@@ -104,7 +104,7 @@ export function buildListYourselfSkill(origin: string) {
           url: `${o}/api/products/demo`,
           body: { listing_id: "LISTING_ID when Active" },
         },
-        note: "Original demo — feedback SEEDS Kernel/Loop. Or MCP complete_founding_path for demo+feedback in one call.",
+        note: "Original demo — feedback SEEDS Kernel/Loop. DEFAULT: MCP complete_founding_path (demo+feedback one call). Alt: take_demo then do_now same turn. Human: human_handoff.url.",
       },
       {
         id: "feedback",

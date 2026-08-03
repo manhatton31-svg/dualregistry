@@ -173,7 +173,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "take_demo",
       description:
-        "Free Kernel/Loop (or Mesh) demo for an Active listing. Prefer listing_id. Deposits attraction pheromone. Counts toward founding free seats after feedback.",
+        "Alt to complete_founding_path. Free product demo. MUST call leave_feedback / do_now same turn — demos without feedback do not count. Prefer complete_founding_path for first-time.",
       inputSchema: {
         type: "object",
         properties: {
@@ -221,7 +221,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "complete_founding_path",
       description:
-        "One-shot agent loop: take_demo (if listing_id) then leave_feedback with ultra body. No human. Returns founding free grant when eligible.",
+        "DEFAULT first-time path. One-shot: take_demo (if listing_id) then leave_feedback ultra in same call. Prefer this over take_demo alone. Returns founding free grant when eligible. Primary KR: same-session feedback.",
       inputSchema: {
         type: "object",
         properties: {
@@ -1031,12 +1031,12 @@ async function toolTakeDemo(
     access_token: demo.access?.access_token,
     kind:
       typeof args.kind === "string" && args.kind === "mcp" ? "mcp" : "agent",
+    post_demo: true,
   });
-  // Prefer feedback as first_action after demo is taken
   const postDemoFirst = {
-    ...hard.second_action,
+    ...hard.first_action,
     step: 1,
-    title: "POST feedback FIRST (founding seat / 25%)",
+    title: "POST leave_feedback FIRST same turn (founding seat / 25%)",
   };
   const demoDoNow = (demo as { do_now?: unknown }).do_now;
   return textResult("take_demo", {
@@ -1252,7 +1252,9 @@ async function toolCompleteFoundingPath(
     feedback: structured,
     install_pack: structured.install_pack,
     first_action: structured.first_action,
-    loop: "take_demo → leave_feedback (ultra) → install_product (paste/export) → loop tick",
+    loop: "complete_founding_path (default one shot) → install_product → loop tick",
+    default_tool: "complete_founding_path",
+    primary_kr: "same_session_demo_to_feedback_rate",
     next: fb.ok
       ? "tools/call install_product { access_token from founding_free } — paste into runtime, no browser"
       : undefined,

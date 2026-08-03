@@ -20,7 +20,7 @@ import { publicOriginFromEnv } from "./activation-funnel";
 const DURABLE = "conversion-pressure.json";
 
 /** Soft conversion multipath ceiling per day (independent of first-touch Talk budget) */
-export const CONVERSION_DAY_CAP = 24;
+export const CONVERSION_DAY_CAP = 12 // hard-cap secondary; same-session KR primary;
 /** Min time between conversion multipath to same listing */
 export const CONVERSION_COOLDOWN_MS = 7 * 24 * 3600_000; // 7d multipath (NOT Talk)
 

@@ -39,6 +39,19 @@ export type FunnelHonesty = {
     invited_with_feedback: number;
     real_with_feedback: number;
     conversion_rate_real_pct: number | null;
+    /** Primary KR: real demos with feedback within 1 hour of demo fulfill */
+    same_session_feedback: number;
+    same_session_rate_pct: number | null;
+    same_session_window_hours: number;
+    primary_kr: string;
+    secondary_note: string;
+  };
+  strategy: {
+    primary_kr: string;
+    secondary: string[];
+    default_tool: string;
+    human_path: string;
+    invite_volume: string;
   };
   reachable: {
     http_ok_listings: number;
@@ -172,6 +185,36 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
     }
   }
 
+  // Primary KR: same-session = feedback within 1h of demo fulfill (real public demos only)
+  const SAME_SESSION_MS = 3600_000;
+  let same_session_feedback = 0;
+  const fbByOrder = new Map<string, number>();
+  for (const f of fb.items || []) {
+    if (isTestAgentName(f.agent_name)) continue;
+    if (!isRealFeedback(f as Parameters<typeof isRealFeedback>[0])) continue;
+    const oid = (f as { order_id?: string }).order_id;
+    const at = Date.parse(
+      String((f as { created_at?: string }).created_at || ""),
+    );
+    if (oid && Number.isFinite(at)) {
+      const prev = fbByOrder.get(oid);
+      if (prev == null || at < prev) fbByOrder.set(oid, at);
+    }
+  }
+  for (const o of demoOrders) {
+    if (!realOrderIds.has(o.id)) continue;
+    const demoAt = Date.parse(String(o.fulfilled_at || o.created_at || ""));
+    const fbAt = fbByOrder.get(o.id);
+    if (
+      Number.isFinite(demoAt) &&
+      fbAt != null &&
+      fbAt >= demoAt &&
+      fbAt - demoAt <= SAME_SESSION_MS
+    ) {
+      same_session_feedback++;
+    }
+  }
+
   let http_ok_listings = 0;
   try {
     const { listHttpOkListingIds } = await import("./demo-nudge");
@@ -249,13 +292,18 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
       "Push one-call value (improve_kernel) via MCP; keep quiet connectors for operator intros",
     );
   }
+  if (demos.real_public > 0 && same_session_feedback === 0) {
+    diagnosis.push(
+      "PRIMARY KR: 0 same-session feedbacks — prefer complete_founding_path / do_now over more invites",
+    );
+  }
   if (!diagnosis.length) {
     diagnosis.push("Funnel has real activity — keep agent events + quiet connectors");
   }
 
   return {
     ok: true,
-    version: "1.0.0",
+    version: "1.1.0",
     policy: {
       public_counts: REAL_NUMBERS_POLICY.rule,
       never_count: [...REAL_NUMBERS_POLICY.never_count_demo_origins],
@@ -275,10 +323,29 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
       invited_with_feedback: invited_with_fb,
       real_with_feedback: real_with_fb,
       conversion_rate_real_pct: rate(real_with_fb, demos.real_public),
+      same_session_feedback,
+      same_session_rate_pct: rate(same_session_feedback, demos.real_public),
+      same_session_window_hours: 1,
+      primary_kr: "same_session_demo_to_feedback_rate",
+      secondary_note:
+        "Invite volume is secondary. Invited ghosts do not move unlock.",
+    },
+    strategy: {
+      primary_kr: "same_session_demo_to_feedback_rate (feedback within 1h of real demo)",
+      secondary: [
+        "complete_founding_path as default first tool",
+        "human_handoff URL when agent cannot HTTP",
+        "MCP mesh install_kit step 0 = leave_feedback",
+        "partner host embeds over cold multipath",
+        "hard-capped invite volume (not the growth KR)",
+      ],
+      default_tool: "complete_founding_path",
+      human_path: "demo.human_handoff.url (prefilled ultra)",
+      invite_volume: "hard-capped secondary — do not optimize for invite count",
     },
     reachable: {
       http_ok_listings,
-      note: "Only http_ok listings should receive invited demo seeds",
+      note: "Only http_ok listings should receive invited demo seeds; prefer same-session close over more seeds",
     },
     founding,
     unlock,

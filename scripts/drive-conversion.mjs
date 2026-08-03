@@ -23,10 +23,10 @@ const CLEAN_PATH = "data/prod/clean-registry.json";
 const ORDERS_PATH = "data/prod/products-orders.json";
 const FEEDBACK_PATH = "data/prod/products-feedback.json";
 
-const MAX_INVITES = Number(process.env.CONV_MAX_INVITES || 36);
-const MAX_NAGS = Number(process.env.CONV_MAX_NAGS || 20);
-const DAY_MAX_INVITES = Number(process.env.CONV_DAY_MAX || 120);
-const DAY_MAX_NAGS = Number(process.env.CONV_DAY_NAG_MAX || 60);
+const MAX_INVITES = Number(process.env.CONV_MAX_INVITES || 12);
+const MAX_NAGS = Number(process.env.CONV_MAX_NAGS || 16);
+const DAY_MAX_INVITES = Number(process.env.CONV_DAY_MAX || 24);
+const DAY_MAX_NAGS = Number(process.env.CONV_DAY_NAG_MAX || 32);
 const COOLDOWN_MS = 30 * 24 * 3600_000;
 const NAG_COOLDOWN_MS = 6 * 3600_000; // re-nag every 6h max
 const TIMEOUT = 9000;

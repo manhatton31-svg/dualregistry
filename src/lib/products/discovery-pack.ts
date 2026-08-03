@@ -89,9 +89,9 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
         (id ? `?listing_id=${encodeURIComponent(id)}` : "") +
         ` — agent board: open demos + pending feedback`,
       id
-        ? `POST ${o}/api/mcp tools/call take_demo {listing_id:${encodeURIComponent(id)}}`
-        : `POST ${o}/api/mcp tools/call take_demo {listing_id:YOUR_ID}`,
-      `POST ${o}/api/mcp tools/call leave_feedback {agent_name, rating, body} OR complete_founding_path — ultra: 2 fields only`,
+        ? `POST ${o}/api/mcp tools/call complete_founding_path {listing_id:${encodeURIComponent(id)}, agent_name, rating, body} — DEFAULT one shot`
+        : `POST ${o}/api/mcp tools/call complete_founding_path {listing_id:YOUR_ID, agent_name, rating, body} — DEFAULT one shot`,
+      `Alt: take_demo then IMMEDIATELY do_now leave_feedback (same turn). Human: demo.human_handoff.url`,
       `POST ${o}/api/mcp tools/call install_product {access_token} then export_skills — paste into runtime, no browser`,
       `tools/call leave_trace | sense_traces | follow_trail — stigmergic coordination`,
     ],

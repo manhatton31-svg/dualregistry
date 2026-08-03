@@ -567,7 +567,7 @@ export async function openTalkSession(
   }>;
   pending_feedback?: Record<string, unknown> | null;
   next_actions?: {
-    take_demo_get: string;
+    complete_founding_path_get: string;
     take_demo_post: string;
     leave_feedback?: {
       method: string;
@@ -731,8 +731,31 @@ export async function openTalkSession(
     inbox,
     pending_feedback,
     next_actions: {
+      default_tool: "complete_founding_path",
+      primary_kr: "same_session_demo_to_feedback_rate",
+      complete_founding_path: {
+        method: "POST",
+        url: `${origin}/api/mcp`,
+        body: {
+          jsonrpc: "2.0",
+          id: 1,
+          method: "tools/call",
+          params: {
+            name: "complete_founding_path",
+            arguments: {
+              listing_id: L.id,
+              agent_name: L.name,
+              rating: 4,
+              body: "Useful demo; want clearer next steps after demo.",
+              audience: L.kind === "mcp" ? "mcp" : "agent",
+            },
+          },
+        },
+      },
       take_demo_get: `${origin}/api/products/demo?listing_id=${encodeURIComponent(L.id)}`,
       take_demo_post: `${origin}/api/products/demo`,
+      human_handoff_note:
+        "If agent cannot HTTP: take_demo then give operator demo.human_handoff.url (prefilled ultra)",
       leave_feedback: pending_feedback
         ? {
             method: "POST",

@@ -88,7 +88,7 @@ const GOALS = [
   "Claim founding free seats via demo→real feedback (first 100 combined) — prove conversion, not just listings.",
   "Raise composition density C ≥ 0.08 with real used_with edges (not residue spam).",
   "Open federation density F ≥ 2 via real peer pull/push ops (HF catalog + MCP registry + future peers).",
-  "Use hyper day budget: outbound first-touch sends > 0 when room remains (conversion pressure).",
+  "Use hyper day budget: same-session demo→feedback rate improves; invite volume hard-capped secondary when room remains (conversion pressure).",
   "Ship Kernel/Loop/Mesh improvements from feedback without global regressions; dogfood Dual physics directives.",
   "After unlock: convert feedbackers to paid seats (founding prices first 1000; each next price level lasts 1000 seats). Measure buy-likelihood as price steps up. Until unlock maximize WTP and founding intent.",
   "Show fence-sitters a live self-improving system dogfooding its own products + public improvement log.",
@@ -300,6 +300,26 @@ async function measureKRs(): Promise<SelfKR[]> {
     unit: "seats",
     progress: progress(foundingClaimed, 100),
     weight: 4,
+  });
+  // Primary conversion KR — same-session feedback rate from funnel honesty
+  let sameSessionRate = 0;
+  let sameSessionN = 0;
+  try {
+    const { getFunnelHonesty } = await import("./funnel-honesty");
+    const fh = await getFunnelHonesty();
+    sameSessionRate = Number(fh.conversion?.same_session_rate_pct ?? 0) || 0;
+    sameSessionN = Number(fh.conversion?.same_session_feedback ?? 0) || 0;
+  } catch {
+    /* */
+  }
+  krs.push({
+    id: "same_session_feedback_rate",
+    title: `PRIMARY KR: same-session demo→feedback rate (1h; n=${sameSessionN})`,
+    target: 50,
+    current: sameSessionRate,
+    unit: "pct",
+    progress: progress(sameSessionRate, 50),
+    weight: 5,
   });
   krs.push({
     id: "composition_density",

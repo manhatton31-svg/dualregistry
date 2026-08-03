@@ -28,11 +28,11 @@ import { allowMintInvitedOrders, allowGoHarderOutbound } from "./outbound-quiet"
 const PATH = join(dataRoot(), "products", "feedback-drive.json");
 
 /** Paired: every feedback requires a demo. Prefer conversion when backlog is high. */
-const MAX_NAGS_PER_CYCLE = 40;
-const MAX_DEMOS_PER_CYCLE = 12;
+const MAX_NAGS_PER_CYCLE = 20; // nags ok; prefer same-session close
+const MAX_DEMOS_PER_CYCLE = 4; // hard-cap: invites secondary to same-session KR
 const MAX_FEEDBACKS_PER_CYCLE = 30;
 const MAX_FEEDBACKS_PER_DAY = 400;
-const MAX_DEMOS_PER_DAY = 250;
+const MAX_DEMOS_PER_DAY = 24; // hard-cap secondary KR — not growth target
 const DEMO_AGE_MS_BEFORE_AUTO_FB = 60 * 1000;
 
 const MIN_CYCLE_GAP_MS = 90 * 1000;

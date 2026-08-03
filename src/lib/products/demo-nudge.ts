@@ -30,14 +30,14 @@ import { allowDemoNudges } from "./outbound-quiet";
 const DURABLE_NAME = "demo-nudge.json";
 
 /** Share of eligible (never-contacted) per cycle */
-export const NUDGE_ACTIVE_SHARE = 0.12;
+export const NUDGE_ACTIVE_SHARE = 0.05;
 /** Hard ceiling on a single cycle send (after day room) */
-export const MAX_NUDGES_PER_CYCLE_CAP = 16;
+export const MAX_NUDGES_PER_CYCLE_CAP = 8; // hard-cap: invite volume secondary
 /**
  * Absolute ceiling across all tiers (333+ proportional clamps here).
  * @deprecated prefer dayBudgetForActive(active).day_budget
  */
-export const MAX_FIRST_TOUCHES_PER_DAY = 80;
+export const MAX_FIRST_TOUCHES_PER_DAY = 24; // hard-cap secondary KR
 /** @deprecated — use MAX_NUDGES_PER_CYCLE_CAP */
 export const MAX_NUDGES_PER_CYCLE = 16;
 export const MIN_NUDGES_PER_CYCLE = 0;

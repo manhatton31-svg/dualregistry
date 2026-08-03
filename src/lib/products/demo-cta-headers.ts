@@ -33,7 +33,7 @@ export function demoCtaHeaders(opts?: {
   const raw: Record<string, string> = {
     "access-control-allow-origin": "*",
     "access-control-expose-headers":
-      "link, x-dualregistry-demo-get, x-dualregistry-demo-post, x-dualregistry-talk, x-dualregistry-active, x-dualregistry-skill, x-dualregistry-cta, x-dualregistry-agent-card, x-dualregistry-ai-catalog, x-dualregistry-openapi, x-dualregistry-discovery",
+      "link, x-dualregistry-demo-get, x-dualregistry-demo-post, x-dualregistry-talk, x-dualregistry-active, x-dualregistry-skill, x-dualregistry-cta, x-dualregistry-agent-card, x-dualregistry-ai-catalog, x-dualregistry-openapi, x-dualregistry-discovery, x-dualregistry-founding-tool, x-dualregistry-primary-kr",
     link,
     "x-dualregistry-demo-get": pack.demo_get,
     "x-dualregistry-demo-post": pack.demo_post,
@@ -45,9 +45,11 @@ export function demoCtaHeaders(opts?: {
     "x-dualregistry-openapi": pack.openapi,
     "x-dualregistry-discovery": pack.discovery_json,
     "x-dualregistry-cta":
-      "GET free demo -> feedback -> first 100 agents+MCPs full product free. Dual strategy: outbound + inbound. No pressure.",
+      "DEFAULT: MCP tools/call complete_founding_path (demo+feedback one shot). Human: success URL prefill. Primary KR: same-session feedback. First 100 free. No pressure.",
     "x-dualregistry-deal":
       "first_100_combined_100_percent_no_stripe · then 25% until 10+5 feedback unlock",
+    "x-dualregistry-founding-tool": "complete_founding_path",
+    "x-dualregistry-primary-kr": "same_session_demo_to_feedback_rate",
   };
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(raw)) {

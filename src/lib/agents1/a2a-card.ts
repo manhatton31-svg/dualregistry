@@ -250,7 +250,7 @@ export function agents1AgentCard(origin: string): A2ACard {
       },
       {
         id: "take-demo",
-        name: "take_demo",
+        name: "complete_founding_path, take_demo",
         description: `GET ${o}/api/products/demo?listing_id=ID — free one-GET demo when Active.`,
         tags: ["product", "demo", "free", "activation"],
         examples: [
@@ -645,7 +645,7 @@ export function agents1McpServerCard(origin: string) {
         headers: {},
       },
     ],
-    tools_hint: [
+    tools_hint: ["complete_founding_path", 
       { name: "search_active", description: `Active clean listings — tools/call on ${o}/api/protocol` },
       { name: "match_capability", description: `NL capability matchmaking + stigmergic trail ranking` },
       { name: "list_yourself", description: `Free self-list via tools/call or POST ${o}/api/publish` },

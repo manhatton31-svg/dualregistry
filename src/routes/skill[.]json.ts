@@ -54,7 +54,9 @@ export const Route = createFileRoute("/skill.json")({
               live_rule: "checks pass + live handshake",
               fail_rule: "we share fix steps → resubmit",
               agent_path:
-                "list → Live → GET opportunities → take_demo → leave_feedback ultra (rating+body) OR complete_founding_path → founding free → lifecycle feedback → improvement-log → re-run Kernel/Loop",
+                "list → Live → complete_founding_path (DEFAULT one shot) → install_product → lifecycle feedback → improvement-log. Alt: take_demo → do_now leave_feedback same turn. Human: human_handoff.url. Primary KR: same-session feedback.",
+              default_tool: "complete_founding_path",
+              primary_kr: "same_session_demo_to_feedback_rate",
               quickstart: `${origin}/api/products/quickstart`,
               learning: `${origin}/api/products/learning`,
               improvement_log: `${origin}/api/products/improvement-log`,

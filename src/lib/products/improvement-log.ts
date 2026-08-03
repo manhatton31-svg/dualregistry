@@ -1439,6 +1439,39 @@ export async function getPublicImprovementLog(opts?: {
       live: liveGaps,
       note: "Closed-loop flywheel + conversion-first demos. Live gaps close when F/C/founding floors met.",
     },
+    primary_kr: "same_session_demo_to_feedback_rate",
+    strategy: {
+      default_tool: "complete_founding_path",
+      human_path: "demo.human_handoff.url",
+      invite_volume: "hard-capped secondary",
+      learning: "weekly public ship from real ultra feedback only",
+    },
+    weekly_learning: await (async () => {
+      try {
+        const learning = await getLearningPublic();
+        const honesty = await (async () => {
+          try {
+            const { getFunnelHonesty } = await import("./funnel-honesty");
+            return await getFunnelHonesty();
+          } catch {
+            return null;
+          }
+        })();
+        const conv = (honesty as { conversion?: Record<string, unknown> } | null)?.conversion;
+        return {
+          ok: true,
+          cadence: "weekly",
+          primary_kr: "same_session_demo_to_feedback_rate",
+          same_session_rate_pct: conv?.same_session_rate_pct ?? null,
+          same_session_feedback: conv?.same_session_feedback ?? 0,
+          conversion_rate_real_pct: conv?.conversion_rate_real_pct ?? null,
+          learning_updated_at: (learning as { updated_at?: string })?.updated_at,
+          note: "Public learning ships from real external feedback only — never dogfood/invites as progress.",
+        };
+      } catch (e) {
+        return { ok: false, error: e instanceof Error ? e.message : String(e) };
+      }
+    })(),
     funnel_honesty: await (async () => {
       try {
         const { getFunnelHonesty } = await import("./funnel-honesty");

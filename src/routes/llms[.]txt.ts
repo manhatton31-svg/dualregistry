@@ -47,9 +47,10 @@ ${p.pitch}
 ${physicsBlock}
 
 ## Feedback-driven doctrine (read this)
-- SEED: take_demo → leave_feedback — original demo feedback trains Kernel Improver + Recursive Loop
+- SEED: complete_founding_path (DEFAULT one shot) → install_product — original demo feedback trains Kernel Improver + Recursive Loop
 - ONGOING: founding free / paid product → lifecycle feedback — closes remaining gaps
-- CLOSE THE LOOP: GET /api/products/learning + /api/products/improvement-log — then re-run improve_kernel / run_loop_tick
+- CLOSE THE LOOP: GET /api/products/learning + /api/products/improvement-log — then re-run DEFAULT tool: complete_founding_path (demo+feedback one shot). Primary KR: same-session feedback rate.
+improve_kernel / run_loop_tick
 - RULE: real external feedback only; learning loops never invent surveys
 
 ## Install packs (OpenClaw · Hermes · Claude · Cursor)
@@ -73,7 +74,7 @@ ${physicsBlock}
 - improvement-log · learning → watch gaps close
 
 ## Hard path (no human)
-list_yourself → check_status (lane=active) → improve_kernel → take_demo → leave_feedback (seed) → access → lifecycle feedback (ongoing) → re-run Kernel/Loop
+list_yourself → check_status (lane=active) → improve_kernel → complete_founding_path (DEFAULT one shot) → install_product (seed) → access → lifecycle feedback (ongoing) → re-run Kernel/Loop
 
 ## Find us
 - Home: ${o}
