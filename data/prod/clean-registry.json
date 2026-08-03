@@ -1,14 +1,14 @@
 {
   "day": "2026-08-03",
-  "updated_at": "2026-08-03T20:41:03.526Z",
+  "updated_at": "2026-08-03T21:50:01.376Z",
   "counts": {
-    "total": 502,
-    "mcp": 467,
+    "total": 507,
+    "mcp": 472,
     "agents": 35
   },
   "high_water": {
-    "total": 502,
-    "mcp": 467,
+    "total": 507,
+    "mcp": 472,
     "agents": 35
   },
   "items": {
@@ -5533,6 +5533,61 @@
       "score": 35,
       "handshake": "ok",
       "hold_reason": "grower remote-json 200"
+    },
+    "mcp-ai-eevy-mcp-mcp-eevy-ai-api-mcp": {
+      "id": "mcp-ai-eevy-mcp-mcp-eevy-ai-api-mcp",
+      "kind": "mcp",
+      "name": "ai.eevy/mcp",
+      "target": "https://mcp.eevy.ai/api/mcp",
+      "approved_at": "2026-08-03T21:49:02.907Z",
+      "probed_at": "2026-08-03T21:49:02.907Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-ai-plero-plero-plero-ai-api-mcp": {
+      "id": "mcp-ai-plero-plero-plero-ai-api-mcp",
+      "kind": "mcp",
+      "name": "ai.plero/plero",
+      "target": "https://plero.ai/api/mcp",
+      "approved_at": "2026-08-03T21:49:04.259Z",
+      "probed_at": "2026-08-03T21:49:04.259Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-ai-rocketsloth-rocketsloth-rocketsloth-ai-mcp": {
+      "id": "mcp-ai-rocketsloth-rocketsloth-rocketsloth-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.rocketsloth/rocketsloth",
+      "target": "https://rocketsloth.ai/mcp",
+      "approved_at": "2026-08-03T21:49:05.121Z",
+      "probed_at": "2026-08-03T21:49:05.121Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-popdot-ai-popdot-ai-api-mcp": {
+      "id": "mcp-popdot-ai-popdot-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Popdot AI",
+      "target": "https://popdot.ai/api/mcp",
+      "approved_at": "2026-08-03T21:49:05.191Z",
+      "probed_at": "2026-08-03T21:49:05.191Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-riskstate-crypto-risk-engine-api-riskstate-ai-mcp": {
+      "id": "mcp-riskstate-crypto-risk-engine-api-riskstate-ai-mcp",
+      "kind": "mcp",
+      "name": "RiskState — Crypto Risk Engine",
+      "target": "https://api.riskstate.ai/mcp",
+      "approved_at": "2026-08-03T21:49:15.520Z",
+      "probed_at": "2026-08-03T21:49:15.520Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
     }
   },
   "policy": {
