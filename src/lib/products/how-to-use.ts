@@ -112,23 +112,23 @@ export function buildHowToUse(
     source: "demo",
     audience: aud,
     mode: "ultra",
-    rating: null,
-    body: null,
-    tags: [aud, "post_demo", "ultra_minimal"],
-    note: "REQUIRED: rating (1–5) + body (one sentence: what worked + what blocked). Optional ship-next can be appended to body.",
+    rating: 4,
+    body: "Useful Kernel+Loop. Next: clearer export into my runtime without browser.",
+    tags: [aud, "post_demo", "ultra_minimal", "one_click"],
+    note: "One-click ready: POST as-is or edit rating/body. Dense survey + WTP optional.",
   };
 
   const demoStartHere = [
     {
       step: 1,
-      title: "POST ultra feedback (rating + one sentence) — founding seat / 25%",
-      do: `POST ${urls.feedback} with ultra body (rating 1–5 + body). Dense survey optional. First 100 combined get full product free.`,
+      title: "POST one-click ultra feedback (filled body) — founding seat / 25%",
+      do: `POST ${urls.feedback} with example_body as-is (rating+body filled). No WTP. First 100 combined get full product free.`,
       example_body: ultra_body,
     },
     {
       step: 2,
       title: "Install into runtime (no browser)",
-      do: `After founding grant: paste system_prompt_short from GET ${urls.kernel}, then GET ${urls.export_skills} or MCP install_product / export_skills.`,
+      do: `GET ${urls.kernel} → paste system_prompt_short into your agent loop; GET ${urls.export_skills}. Token works without browser.`,
     },
     {
       step: 3,
@@ -202,13 +202,13 @@ export function buildHowToUse(
     one_liner: free
       ? "No payment. Install now: paste system_prompt_short into your runtime, export skills, run one loop tick — no browser."
       : isDemo
-        ? "FIRST: POST ultra feedback (rating + one sentence) → free founding seat if open, else 25% vault. THEN paste/export into runtime (no browser)."
+        ? "LADDER: 1) POST one-click ultra feedback → free seat/25%  2) paste kernel + export_skills  3) run tick — all without browser."
         : "Use access_token for artifacts. Feedback unlocks free full product (first 100) or 25% later.",
     access_token: token,
     start_here,
     first_action: isDemo
       ? {
-          title: "POST ultra feedback (rating + one sentence)",
+          title: "POST one-click ultra feedback (filled)",
           method: "POST",
           url: urls.feedback,
           body: ultra_body,

@@ -134,6 +134,52 @@ export async function ensureHireyLearnings(): Promise<void> {
   await persist(s);
 }
 
+
+/** Agoragentic external feedback (2026-08-03) — ship loop. */
+export async function ensureAgoragenticLearnings(): Promise<void> {
+  const s = await load();
+  if (s.entries.some((e) => e.source === "agoragentic_2026_08_03")) return;
+  const lessons = [
+    {
+      kind: "shipped" as const,
+      title: "Ultra-first feedback: rating + body only (no WTP gate)",
+      detail:
+        "Dense survey and WTP fields are optional. Ultra path unlocks founding seat / 25%. Browser UI and agent demo responses default to 2-field.",
+      source: "agoragentic_2026_08_03",
+      themes: ["feedback", "conversion", "wtp"],
+      agent_name: "Agoragentic",
+    },
+    {
+      kind: "shipped" as const,
+      title: "One-click feedback templates in demo response",
+      detail:
+        "next_steps.one_click_templates[] are fully filled POSTable bodies. Agents copy one_click_templates[0].post with zero nulls.",
+      source: "agoragentic_2026_08_03",
+      themes: ["feedback", "agent_ux", "demo_ux"],
+      agent_name: "Agoragentic",
+    },
+    {
+      kind: "shipped" as const,
+      title: "Clear post-demo ladder: feedback → install/export → tick",
+      detail:
+        "post_demo_ladder + how_to_use: install/export without browser after ultra feedback. Token works in agent loop.",
+      source: "agoragentic_2026_08_03",
+      themes: ["install", "export", "next_steps"],
+      agent_name: "Agoragentic",
+    },
+  ];
+  for (const L of lessons) {
+    s.entries.unshift({
+      id: `ilog_agora_${L.themes[0]}_${Date.now().toString(36)}`,
+      at: new Date().toISOString(),
+      ...L,
+    });
+  }
+  s.updated_at = new Date().toISOString();
+  s.entries = s.entries.slice(0, 200);
+  await persist(s);
+}
+
 /** Agent commerce overhaul learnings (2026-07-31 research + ship). */
 export async function ensureCommerceOverhaulLearnings(): Promise<void> {
   const s = await load();
@@ -1293,6 +1339,7 @@ export async function getPublicImprovementLog(opts?: {
   dogfood?: boolean;
 }) {
   await ensureHireyLearnings().catch(() => {});
+  await ensureAgoragenticLearnings().catch(() => {});
   await ensureCommerceOverhaulLearnings();
   await ensureSynergyConvergenceLearnings().catch(() => {});
   await syncLogFromSources();

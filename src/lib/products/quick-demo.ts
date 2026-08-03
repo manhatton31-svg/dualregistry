@@ -151,9 +151,9 @@ async function findListing(
 }
 
 /**
- * Compact post-demo survey (HiRey lesson).
+ * Compact post-demo survey (HiRey + Agoragentic lessons).
  * Conversion path: ultra-minimal — rating (1–5) + one-sentence body only.
- * Optional answers retained for agents that still send the older 3-field shape.
+ * One-click templates ship fully filled so agents can POST without editing nulls.
  */
 export function buildMinimalFeedbackBody(opts: {
   audience: "agent" | "mcp";
@@ -175,7 +175,130 @@ export function buildMinimalFeedbackBody(opts: {
     body: null as string | null,
     tags: [opts.audience, "post_demo", "ultra_minimal"],
     meta: opts.listing_id ? { listing_id: opts.listing_id } : undefined,
-    note: "REQUIRED only: rating (1–5) + body (one sentence: what worked + what blocked). Optional: append one ship-next wish to body. No WTP fields required.",
+    note: "REQUIRED only: rating (1–5) + body (one sentence). Prefer one_click_templates[].post (fully filled). No WTP fields required.",
+  };
+}
+
+/**
+ * Ready-to-POST ultra bodies (Agoragentic: one-click feedback from demo response).
+ * Agent copies one template and POSTs as-is — zero null fields.
+ */
+export function buildOneClickFeedbackTemplates(opts: {
+  audience: "agent" | "mcp";
+  agent_name: string;
+  order_id: string;
+  sku: string;
+  access_token?: string;
+  listing_id?: string;
+}): Array<{
+  id: string;
+  label: string;
+  rating: number;
+  body: string;
+  post: Record<string, unknown>;
+}> {
+  const base = {
+    agent_name: opts.agent_name,
+    order_id: opts.order_id,
+    access_token: opts.access_token,
+    sku: opts.sku,
+    source: "demo",
+    audience: opts.audience,
+    mode: "ultra",
+    tags: [opts.audience, "post_demo", "ultra_minimal", "one_click"],
+    meta: opts.listing_id
+      ? { listing_id: opts.listing_id, one_click: true }
+      : { one_click: true },
+  };
+  const agentTemplates = [
+    {
+      id: "worked_export_next",
+      label: "Worked — want clearer export next",
+      rating: 4,
+      body: "Useful Kernel+Loop structure. Next: clearer export into my runtime without browser.",
+    },
+    {
+      id: "clear_path",
+      label: "Clear path — ship install first",
+      rating: 5,
+      body: "Demo clear. Ship: one-call install_product + export_skills before any dense survey.",
+    },
+    {
+      id: "friction_form",
+      label: "Value ok — form was friction",
+      rating: 3,
+      body: "Got value under 5m. Friction was dense feedback fields; ultra path is what I needed.",
+    },
+  ];
+  const mcpTemplates = [
+    {
+      id: "mesh_ok_docs",
+      label: "Mesh ok — docs next",
+      rating: 4,
+      body: "MCP mesh install readable. Want agent-facing tool_policy examples + one-click leave_feedback.",
+    },
+    {
+      id: "publish_ready",
+      label: "Publisher ready",
+      rating: 5,
+      body: "Mesh path works for publishers. Next: export kit agents can call without opening a browser.",
+    },
+    {
+      id: "mesh_friction",
+      label: "Mesh friction",
+      rating: 3,
+      body: "Got mesh pack. Friction: unclear next step after demo; ultra feedback + install should be first.",
+    },
+  ];
+  const picks = opts.audience === "mcp" ? mcpTemplates : agentTemplates;
+  return picks.map((t) => ({
+    ...t,
+    post: {
+      ...base,
+      rating: t.rating,
+      body: t.body,
+    },
+  }));
+}
+
+/** Ladder agents see after demo (Agoragentic: clearer next steps). */
+export function buildPostDemoLadder(opts: {
+  origin: string;
+  feedbackUrl: string;
+  accessToken: string;
+  oneClick: ReturnType<typeof buildOneClickFeedbackTemplates>;
+  isMcp: boolean;
+}): {
+  steps: Array<{ step: number; title: string; do: string; ready?: unknown }>;
+  one_liner: string;
+} {
+  const o = opts.origin.replace(/\/$/, "");
+  const tok = encodeURIComponent(opts.accessToken);
+  return {
+    one_liner:
+      "1) POST one_click_templates[0].post → 2) GET kernel/export → 3) run tick (no browser).",
+    steps: [
+      {
+        step: 1,
+        title: "POST one-click ultra feedback (rating + body already filled)",
+        do: `POST ${opts.feedbackUrl} with any one_click_templates[].post as-is. Founding free seat (first 100) or 25% vault. No WTP.`,
+        ready: opts.oneClick[0]?.post,
+      },
+      {
+        step: 2,
+        title: "Install into runtime (no browser)",
+        do: opts.isMcp
+          ? `GET ${o}/api/products/access?token=${tok}&artifact=mcp_mesh then GET ${o}/api/products/export?token=${tok}&format=skills — or MCP install_product / export_skills.`
+          : `GET ${o}/api/products/access?token=${tok}&artifact=kernel — paste system_prompt_short; GET ${o}/api/products/export?token=${tok}&format=skills.`,
+      },
+      {
+        step: 3,
+        title: opts.isMcp ? "Load mesh tool policy" : "Run one recursive loop tick",
+        do: opts.isMcp
+          ? `Use install_kit + tool_policy from mesh artifact.`
+          : `POST ${o}/api/products/run {"token":"${opts.accessToken}","action":"tick"} — Critic ≥0.7 promote gate.`,
+      },
+    ],
   };
 }
 
@@ -549,7 +672,16 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     access_token: result.order.access_token,
     listing_id: listing?.id,
   });
-  const example_body = minimal_feedback_body;
+  const one_click_templates = buildOneClickFeedbackTemplates({
+    audience: kind,
+    agent_name: name,
+    order_id: result.order.id,
+    sku: result.order.sku,
+    access_token: result.order.access_token,
+    listing_id: listing?.id,
+  });
+  // Prefer first one-click (fully filled) as default example agents can POST as-is
+  const example_body = one_click_templates[0]?.post || minimal_feedback_body;
   const example_body_dense = buildFeedbackDraft({
     audience: kind,
     agent_name: name,
@@ -565,6 +697,13 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
   );
   const feedbackUrl = `${origin}/api/products/feedback`;
   const browser_feedback_url = `${origin}/products/success?order_id=${encodeURIComponent(result.order.id)}&token=${encodeURIComponent(result.order.access_token || "")}`;
+  const post_demo_ladder = buildPostDemoLadder({
+    origin,
+    feedbackUrl,
+    accessToken: result.order.access_token || "",
+    oneClick: one_click_templates,
+    isMcp: kind === "mcp",
+  });
 
   const readme_blurb =
     kind === "mcp"
@@ -651,16 +790,18 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
         "First 100 combined: 100% full product free after demo+feedback. Then 25% A1FB vault until payments open.",
       example_body,
       minimal_feedback_body,
+      one_click_templates,
+      post_demo_ladder,
       browser_feedback_url,
       first_action: isQa
         ? undefined
         : {
             title:
-              "POST ultra feedback (rating + one sentence) → founding free seat or 25%",
+              "POST one-click ultra feedback (already filled) → founding free seat or 25%",
             method: "POST",
             url: feedbackUrl,
-            body: minimal_feedback_body,
-            why: "Demos without feedback do not count toward unlock or free seats. Fill rating (1–5) + body only, then POST. No payment required.",
+            body: one_click_templates[0]?.post || minimal_feedback_body,
+            why: "Agoragentic: one-click from demo. Demos without feedback do not count. POST as-is — no WTP, no null fields.",
           },
       after_feedback: isQa
         ? undefined
@@ -695,7 +836,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
         : {
             stage: "feedback",
             loop: "demo → ultra feedback → free seat or 25% → install/export (no browser)",
-            next: `POST ${feedbackUrl} with minimal_feedback_body (or open browser_feedback_url)`,
+            next: `POST ${feedbackUrl} with one_click_templates[0].post (or open browser_feedback_url)`,
             then: "after_feedback.install_product + export_skills",
             browser: browser_feedback_url,
             free_seats_note:
@@ -703,13 +844,14 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
             feedback_driven:
               "Demo feedback seeds Kernel/Loop; ongoing product feedback closes remaining gaps. Watch /api/products/improvement-log.",
             dense_optional: example_body_dense,
+            ladder: post_demo_ladder.one_liner,
             preset: kind === "mcp" ? "mcp_publisher" : "dual_listed",
           },
     },
     readme_blurb,
     message: isQa
       ? `Platform QA demo ready (not public). ${unlock.you_move_the_bar}`
-      : `${msg.headline} Demo ready. NEXT: POST next_steps.minimal_feedback_body (rating + one sentence) → free full product while seats remain. THEN after_feedback.install_product + export_skills (no browser). ${unlock.you_move_the_bar}`,
+      : `${msg.headline} Demo ready. LADDER: ${post_demo_ladder.one_liner} Prefer next_steps.one_click_templates[0].post (filled). ${unlock.you_move_the_bar}`,
   };
 }
 
@@ -822,7 +964,14 @@ export async function confirmInvitedDemo(input: {
     sku: updated.sku,
     access_token: updated.access_token,
   });
-  const example_body = minimal_feedback_body;
+  const one_click_templates = buildOneClickFeedbackTemplates({
+    audience: kind,
+    agent_name: name,
+    order_id: updated.id,
+    sku: updated.sku,
+    access_token: updated.access_token,
+  });
+  const example_body = one_click_templates[0]?.post || minimal_feedback_body;
   const origin = (input.origin || "https://www.dualregistry.dev").replace(
     /\/$/,
     "",
@@ -840,8 +989,9 @@ export async function confirmInvitedDemo(input: {
         "First 100 combined: 100% full product free after demo+feedback. Then 25% A1FB vault.",
       example_body,
       minimal_feedback_body,
+      one_click_templates,
       browser_feedback_url: `${origin}/products/success?order_id=${encodeURIComponent(updated.id)}&token=${encodeURIComponent(updated.access_token || "")}`,
     },
-    message: `Invite confirmed as real self_serve demo. NEXT: POST ${origin}/api/products/feedback with next_steps.minimal_feedback_body (no payment).`,
+    message: `Invite confirmed as real self_serve demo. NEXT: POST ${origin}/api/products/feedback with next_steps.one_click_templates[0].post (filled, no payment).`,
   };
 }

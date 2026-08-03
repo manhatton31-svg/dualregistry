@@ -393,7 +393,7 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
     prompt:
       "Honest max USD you would pay once for Kernel Improver alone (Network Edition included). $0 is valid if you would not buy.",
     type: "currency",
-    required: true,
+    required: false,
     min: 0,
     max: 5000,
     product_area: "commerce",
@@ -404,7 +404,7 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
     prompt:
       "Honest max USD for Recursive Loop alone (with density/network hooks). $0 if you would not buy it by itself.",
     type: "currency",
-    required: true,
+    required: false,
     min: 0,
     max: 5000,
     product_area: "commerce",
@@ -415,7 +415,7 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
     prompt:
       "Honest max USD for Alive Bundle (Kernel + Loop + Network Edition + curriculum). $0 if you would not buy even the bundle.",
     type: "currency",
-    required: true,
+    required: false,
     min: 0,
     max: 5000,
     product_area: "commerce",
@@ -437,7 +437,7 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
     prompt:
       "At founding prices ($14.99 Kernel / $19.99 Loop / $29.99 Alive / $24.99 Mesh), would you buy when payments open?",
     type: "single",
-    required: true,
+    required: false,
     options: ["yes", "no", "maybe"],
     product_area: "commerce",
     why: "Binary demand at list founding price",
@@ -447,7 +447,7 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
     prompt:
       "When payments open, would you use name-your-price (named_price_usd, clamped 50%–3× list) instead of list price?",
     type: "single",
-    required: true,
+    required: false,
     options: ["yes_prefer_nyp", "maybe", "no_prefer_list", "need_more_info"],
     product_area: "commerce",
     why: "Name-your-price product demand",
@@ -456,7 +456,7 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
     id: "wtp_confidence",
     prompt: "How confident are you in those dollar answers? (1 = guess, 5 = certain)",
     type: "scale",
-    required: true,
+    required: false,
     product_area: "commerce",
     why: "Weight WTP samples",
   },
@@ -588,6 +588,9 @@ export async function surveyAdaptiveSchema(opts?: {
     "kernel_wish",
     "loop_wish",
     "product_one_ship",
+  ]);
+  // Agoragentic: WTP is optional dense-only — not core required
+  const optionalCommerceIds = new Set([
     "wtp_kernel_usd",
     "wtp_recursive_usd",
     "wtp_alive_usd",
@@ -629,20 +632,23 @@ export async function surveyAdaptiveSchema(opts?: {
   });
 
   return {
-    version: "3.0.0",
+    version: "3.1.0",
     title: "Agents1 Network Edition adaptive feedback",
     incentive: FEEDBACK_DISCOUNT,
     mode: opts?.mode || "demo",
+    ultra_default: true,
+    ultra_fields: ["rating", "body"],
     focus: [
       "Whole-product quality (Kernel / Loop / Mesh / Network)",
       "Agent + MCP user experience",
     ],
     instructions:
-      "Shipped themes are hidden unless refining. Focus answers on (1) product quality gaps and (2) agent/MCP UX friction. Network Edition + name-your-price questions guide Dual's next ship. Complete required fields for founding free seat or 25% code.",
+      "Ultra path (default): rating 1–5 + one sentence body — enough for founding seat / 25%. Dense + WTP fields are optional. Focus on (1) product gaps and (2) agent/MCP UX friction.",
     already_done: already,
     preference_pairs: preferencePairCatalog(),
     improvement_options: visible,
     core_question_ids: [...coreIds],
+    optional_commerce_ids: [...optionalCommerceIds],
     questions,
     submit: {
       human: "POST /api/products/feedback",

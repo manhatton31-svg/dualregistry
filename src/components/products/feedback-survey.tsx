@@ -275,6 +275,10 @@ export function FeedbackSurvey(props: {
   const [thanks, setThanks] = useState<string | null>(null);
   const [code, setCode] = useState<string | null>(null);
   const [step, setStep] = useState(0);
+  const [ultraDone, setUltraDone] = useState(false);
+  const [ultraRating, setUltraRating] = useState<number | null>(null);
+  const [ultraBody, setUltraBody] = useState("");
+  const [showDense, setShowDense] = useState(false);
 
   useEffect(() => {
     void fetch("/api/products/feedback")
@@ -293,16 +297,21 @@ export function FeedbackSurvey(props: {
       .catch(() => setSurvey({ questions: FALLBACK_QUESTIONS }));
   }, []);
 
-  /** Post-demo close path: 3 core asks first (HiRey lesson) */
+  /** Post-demo close path: 3 core asks if expanding dense */
   const COMPACT_IDS = new Set([
     "tried",
     "ux_friction",
     "product_one_ship",
   ]);
 
-  const questions = (survey?.questions || FALLBACK_QUESTIONS).filter((qq) =>
-    props.compact ? COMPACT_IDS.has(qq.id) : true,
-  );
+  const questions = (survey?.questions || FALLBACK_QUESTIONS).filter((qq) => {
+    if (qq.id?.startsWith("wtp_") || qq.id === "would_buy_at_founding" || qq.id === "name_your_price_intent") {
+      // WTP always optional / dense-only
+      return showDense && !props.compact;
+    }
+    if (props.compact) return COMPACT_IDS.has(qq.id);
+    return showDense; // dense only after ultra or explicit expand
+  });
   const q = questions[step];
   const total = questions.length;
 
@@ -330,6 +339,42 @@ export function FeedbackSurvey(props: {
       if (!Number.isFinite(n) || n < 0) return false;
     }
     return true;
+  }
+
+  async function submitUltra() {
+    if (ultraRating == null || ultraBody.trim().length < 8) return;
+    setBusy(true);
+    setThanks(null);
+    setCode(null);
+    try {
+      const res = await fetch("/api/products/feedback", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          mode: "ultra",
+          rating: ultraRating,
+          body: ultraBody.trim(),
+          source: props.source || "demo",
+          order_id: props.orderId,
+          sku: props.sku,
+          agent_name: props.agentName || undefined,
+          tags: ["ultra_minimal", "post_demo", "browser_ultra"],
+          contact: contact || undefined,
+        }),
+      });
+      const j = await res.json();
+      if (j.ok) {
+        setUltraDone(true);
+        setThanks(j.thanks || "Thanks — ultra feedback locked in.");
+        if (j.discount?.code) setCode(j.discount.code);
+      } else {
+        setThanks(j.error || "Could not submit");
+      }
+    } catch (e) {
+      setThanks(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function submitAll() {
@@ -402,6 +447,67 @@ export function FeedbackSurvey(props: {
         <Button size="sm" variant="secondary" onClick={() => setThanks(null)}>
           Continue optional questions
         </Button>
+      </div>
+    );
+  }
+
+  // Ultra-first gate (Agoragentic ship)
+  if (!ultraDone && !showDense) {
+    return (
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="accent" className="gap-1">
+            <Gift className="h-3 w-3" />
+            Ultra feedback — 2 fields
+          </Badge>
+          <span className="text-[11px] text-subtle">Founding seat / 25% · no WTP</span>
+        </div>
+        <p className="text-[11px] text-muted">
+          Rating + one sentence is enough. Dense survey and WTP are optional after.
+        </p>
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-fg">Overall usefulness (1–5)</p>
+          <div className="grid grid-cols-5 gap-2">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setUltraRating(n)}
+                className={cn(
+                  "min-h-11 rounded-[var(--radius-sm)] text-sm touch-manipulation",
+                  ultraRating === n
+                    ? "bg-accent font-medium text-bg"
+                    : "border border-border text-muted",
+                )}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-fg">One sentence: what worked + what blocked</p>
+          <textarea
+            value={ultraBody}
+            onChange={(e) => setUltraBody(e.target.value)}
+            rows={2}
+            className="w-full rounded-[var(--radius-sm)] border border-border bg-bg px-3 py-2 text-sm text-fg outline-none focus:border-accent"
+            placeholder="e.g. Useful Kernel; want clearer export into my runtime"
+          />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            size="sm"
+            disabled={busy || ultraRating == null || ultraBody.trim().length < 8}
+            onClick={() => void submitUltra()}
+          >
+            {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Submit ultra feedback"}
+          </Button>
+          <Button size="sm" variant="secondary" onClick={() => setShowDense(true)}>
+            Open dense survey (optional)
+          </Button>
+        </div>
+        {thanks ? <p className="text-xs text-muted">{thanks}</p> : null}
       </div>
     );
   }
