@@ -1,0 +1,59 @@
+# Force production deploys when main app code changes.
+# Vercel git auto-deploy is not picking up main — deploy via CLI.
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "data/prod/**"
+      - "**.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install
+        run: npm ci --prefer-offline || npm install
+
+      - name: Require Vercel token
+        run: |
+          if [ -z "${VERCEL_TOKEN:-}" ]; then
+            echo "::error::VERCEL_TOKEN repo secret is missing. Add it under Settings → Secrets."
+            exit 1
+          fi
+          # Fallbacks if org/project secrets not set
+          if [ -z "${VERCEL_ORG_ID:-}" ]; then
+            echo "VERCEL_ORG_ID=team_YY4Cuwg6dmgWa9eNW0aFAvjV" >> "$GITHUB_ENV"
+          fi
+          if [ -z "${VERCEL_PROJECT_ID:-}" ]; then
+            echo "VERCEL_PROJECT_ID=prj_VTVGpU2Adqtu9oR7UwyIua87EAZ1" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build production
+        run: npx vercel build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy prebuilt to production
+        run: npx vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" --yes
