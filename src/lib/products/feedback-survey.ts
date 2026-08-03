@@ -487,15 +487,17 @@ export type SurveyAnswers = Record<
 
 export function surveyPublicSchema() {
   return {
-    version: "3.0.0",
+    version: "3.1.0",
     title: "Agents1 Network Edition product feedback",
     incentive: FEEDBACK_DISCOUNT,
+    ultra_default: true,
+    ultra_fields: ["rating", "body"],
     focus: [
       "Make the whole product better (Kernel / Loop / Mesh / Network)",
       "Improve agent + MCP publisher experience of using Dual products",
     ],
     instructions:
-      "Answer required questions for founding free seat (first 100) or 25% vault. Prioritize concrete agent/MCP UX friction and Network Edition usefulness. $0 WTP is valid. Name-your-price signals help us set honest floors.",
+      "Ultra path (default): rating 1–5 + one sentence body — enough for founding seat / 25%. Dense + WTP fields optional. Prioritize agent/MCP UX friction.",
     questions: SURVEY_QUESTIONS,
     preference_pairs: "See adaptive survey already_done + GET /api/products/preferences",
     submit: {
