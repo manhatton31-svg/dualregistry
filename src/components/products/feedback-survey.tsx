@@ -263,6 +263,10 @@ export function FeedbackSurvey(props: {
   agentName?: string;
   mode?: "demo" | "stripe" | "preview";
   compact?: boolean;
+  /** Prefill ultra from human_handoff URL */
+  initialRating?: number;
+  initialBody?: string;
+  accessToken?: string;
 }) {
   const [survey, setSurvey] = useState<Survey | null>(null);
   const [alreadyDone, setAlreadyDone] = useState<AlreadyDone | null>(null);
@@ -276,8 +280,10 @@ export function FeedbackSurvey(props: {
   const [code, setCode] = useState<string | null>(null);
   const [step, setStep] = useState(0);
   const [ultraDone, setUltraDone] = useState(false);
-  const [ultraRating, setUltraRating] = useState<number | null>(null);
-  const [ultraBody, setUltraBody] = useState("");
+  const [ultraRating, setUltraRating] = useState<number | null>(
+    props.initialRating ?? null,
+  );
+  const [ultraBody, setUltraBody] = useState(props.initialBody || "");
   const [showDense, setShowDense] = useState(false);
 
   useEffect(() => {
@@ -358,7 +364,8 @@ export function FeedbackSurvey(props: {
           order_id: props.orderId,
           sku: props.sku,
           agent_name: props.agentName || undefined,
-          tags: ["ultra_minimal", "post_demo", "browser_ultra"],
+          access_token: props.accessToken || undefined,
+          tags: ["ultra_minimal", "post_demo", "browser_ultra", "human_handoff"],
           contact: contact || undefined,
         }),
       });
@@ -462,9 +469,15 @@ export function FeedbackSurvey(props: {
           </Badge>
           <span className="text-[11px] text-subtle">Founding seat / 25% · no WTP</span>
         </div>
-        <p className="text-[11px] text-muted">
-          Rating + one sentence is enough. Dense survey and WTP are optional after.
-        </p>
+        {props.initialRating || props.initialBody ? (
+          <p className="rounded border border-accent/30 bg-accent/5 px-2 py-1.5 text-[11px] text-muted">
+            Prefill from agent handoff — confirm and submit (edit if wrong).
+          </p>
+        ) : (
+          <p className="text-[11px] text-muted">
+            Rating + one sentence is enough. Dense survey and WTP are optional after.
+          </p>
+        )}
         <div className="space-y-2">
           <p className="text-sm font-medium text-fg">Overall usefulness (1–5)</p>
           <div className="grid grid-cols-5 gap-2">

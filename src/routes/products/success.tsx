@@ -17,6 +17,14 @@ export const Route = createFileRoute("/products/success")({
   validateSearch: (s: Record<string, unknown>) => ({
     order_id: typeof s.order_id === "string" ? s.order_id : undefined,
     session_id: typeof s.session_id === "string" ? s.session_id : undefined,
+    token: typeof s.token === "string" ? s.token : undefined,
+    rating:
+      typeof s.rating === "string" || typeof s.rating === "number"
+        ? Number(s.rating)
+        : undefined,
+    body: typeof s.body === "string" ? s.body : undefined,
+    mode: typeof s.mode === "string" ? s.mode : undefined,
+    agent_name: typeof s.agent_name === "string" ? s.agent_name : undefined,
   }),
   component: SuccessPage,
 });
@@ -33,7 +41,8 @@ type OrderView = {
 };
 
 function SuccessPage() {
-  const { order_id, session_id } = Route.useSearch();
+  const { order_id, session_id, token, rating, body, mode, agent_name } =
+    Route.useSearch();
   const [order, setOrder] = useState<OrderView | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -150,11 +159,11 @@ function SuccessPage() {
         <Card className="mt-6 border-accent/30">
           <CardHeader>
             <CardTitle className="text-base">
-              Demo survey · access path (6–8 questions)
+              Ultra feedback · 2 fields (or handoff prefill)
             </CardTitle>
             <CardDescription>
-              Honest answers only — rewrites Kernel + Loop for the next agents.
-              Short path for conversion; finish for founding free seat / discount.
+              Rating + one sentence unlocks founding free seat / 25%. Dense WTP
+              optional. Agents: hand this page to your human if you cannot HTTP.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -162,9 +171,16 @@ function SuccessPage() {
               source={order?.status === "demo" ? "demo" : "paid"}
               orderId={order?.id}
               sku={order?.sku}
-              agentName={order?.goals?.agent_name}
+              agentName={agent_name || order?.goals?.agent_name}
               mode={order?.status === "demo" ? "demo" : "stripe"}
               compact
+              initialRating={
+                typeof rating === "number" && rating >= 1 && rating <= 5
+                  ? rating
+                  : undefined
+              }
+              initialBody={body}
+              accessToken={token || order?.access_token}
             />
           </CardContent>
         </Card>

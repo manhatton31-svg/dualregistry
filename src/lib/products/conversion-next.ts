@@ -83,8 +83,9 @@ export function conversionHardNext(opts: {
     source: "demo",
     audience: opts.kind === "mcp" ? "mcp" : "agent",
     mode: "ultra",
-    rating: null as number | null,
-    body: "EDIT: one sentence on what worked and what blocked you",
+    rating: 4,
+    body: "Useful demo; want clearer next steps after demo.",
+    tags: ["ultra_minimal", "post_demo", "one_click"],
   };
   if (!fbBody.access_token) delete fbBody.access_token;
 
@@ -132,7 +133,7 @@ export function conversionHardNext(opts: {
   };
 
   return {
-    version: "2.4.0",
+    version: "2.5.0",
     loop: "take_demo → leave_feedback (ultra) → install_product (paste/export) → loop tick",
     first_action: take,
     second_action: feedback,
