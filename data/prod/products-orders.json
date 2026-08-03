@@ -46036,6 +46036,31 @@
       "meta": {
         "network_edition": true
       }
+    },
+    "ord_msclhcmu_afed0825": {
+      "id": "ord_msclhcmu_afed0825",
+      "sku": "mcp_mesh",
+      "status": "pending",
+      "demo_origin": "self_serve",
+      "goals": {
+        "agent_name": "AdAdvisor MCP Server",
+        "goals": "MCP server: AdAdvisor MCP Server\nTeach agents to discover and call this MCP's tools safely.\nPrefer least-privilege tool use; never invent tool results.\nSurface clear errors when the MCP is down or rate-limited.\nProduce short install + example call patterns for this server.\nProtect secrets and user data when tools touch external systems.",
+        "domain": "mcp_tools",
+        "preset": "mcp_publisher"
+      },
+      "access_token": "a1_x0YuTT-7TKA7OQLBqtNWi8vFrCp7yrY6",
+      "amount_cents": 2499,
+      "currency": "usd",
+      "seat_number": 1,
+      "price_tier_id": "founding_1000",
+      "price_tier_label": "Founding · first 1000 seats",
+      "created_at": "2026-08-03T02:13:11.094Z",
+      "idempotency_key": "demo:quick:mcp-adadvisor-mcp-server-api-adadvisor-ai-well-known-mcp-server-card-json:mcp_mesh",
+      "audience": "mcp",
+      "product_version": "1.4.0",
+      "meta": {
+        "network_edition": true
+      }
     }
   },
   "by_token": {
@@ -46061,7 +46086,8 @@
     "a1_k-eJtjs1N_WYpoWWBTzco9LM32gb2Gno": "ord_msc74jic_075fd308",
     "a1_OWXuXvytWgmJV-Y48CxbWW8ZJxa4MPvv": "ord_mscen9hh_408c8fe7",
     "a1_Owg1nUbAZYb_7jiaXwrQUBqCVa-hPRjW": "ord_mscep388_dd785139",
-    "a1_3-zJG1tT0YS1-tIDyUOgZa9KFf37B4B4": "ord_mschse1c_17a02e45"
+    "a1_3-zJG1tT0YS1-tIDyUOgZa9KFf37B4B4": "ord_mschse1c_17a02e45",
+    "a1_x0YuTT-7TKA7OQLBqtNWi8vFrCp7yrY6": "ord_msclhcmu_afed0825"
   },
   "by_idempotency": {
     "demo:probe-ok:agent:agtpub_875a9cfb88f7fdb2ce50": "ord_ms8yj9zq_bd731a72",
@@ -46085,7 +46111,8 @@
     "demo:quick:agent-law-ai-https-mcp-law-ai:alive": "ord_msc74jic_075fd308",
     "demo:quick:agtpub_ae427eacf129a7ad16a0:alive": "ord_mscen9hh_408c8fe7",
     "demo:quick:mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp:mcp_mesh": "ord_mscep388_dd785139",
-    "demo:quick:agent:alive": "ord_mschse1c_17a02e45"
+    "demo:quick:agent:alive": "ord_mschse1c_17a02e45",
+    "demo:quick:mcp-adadvisor-mcp-server-api-adadvisor-ai-well-known-mcp-server-card-json:mcp_mesh": "ord_msclhcmu_afed0825"
   },
-  "updated_at": "2026-08-03T00:29:47.664Z"
+  "updated_at": "2026-08-03T02:13:11.094Z"
 }
