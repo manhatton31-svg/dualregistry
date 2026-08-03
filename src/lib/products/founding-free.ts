@@ -2,6 +2,9 @@
  * First 100 agents + MCPs (combined) who complete demo → feedback get 100% off
  * the full product immediately (not vaulted until payments open).
  * After seat 100, feedback still earns the standard 25% founding code.
+ *
+ * Durable via data/prod/founding-free.json (GitHub CAS hydrate) so Vercel
+ * restarts don't zero the public claimed meter after a real claim.
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -13,6 +16,7 @@ export const FOUNDING_FREE_PERCENT = 100;
 export const FOUNDING_FREE_CODE_PREFIX = "A1FREE";
 
 const PATH = join(dataRoot(), "products", "founding-free.json");
+const DURABLE_NAME = "founding-free.json";
 
 export type FoundingFreeClaim = {
   seat: number;
@@ -45,6 +49,23 @@ function empty(): Store {
 async function load(): Promise<Store> {
   if (mem) return mem;
   try {
+    const { loadDurableJson } = await import("@/lib/agents1/durable-json");
+    const remote = await loadDurableJson<Partial<Store>>(DURABLE_NAME, () =>
+      ({}),
+    );
+    if (remote && Array.isArray(remote.claims) && remote.claims.length) {
+      mem = {
+        ...empty(),
+        ...remote,
+        claims: remote.claims,
+        seats: FOUNDING_FREE_SEATS,
+      };
+      return mem;
+    }
+  } catch {
+    /* */
+  }
+  try {
     const raw = await readFile(PATH, "utf8");
     const parsed = JSON.parse(raw) as Partial<Store>;
     const next: Store = {
@@ -54,7 +75,7 @@ async function load(): Promise<Store> {
       seats: FOUNDING_FREE_SEATS,
     };
     mem = next;
-    return next;
+    return mem;
   } catch {
     mem = empty();
     return mem;
@@ -62,6 +83,10 @@ async function load(): Promise<Store> {
 }
 
 async function persist(s: Store) {
+  // refuse wipe of known claims
+  if (mem && (mem.claims?.length || 0) > 0 && (s.claims?.length || 0) === 0) {
+    return;
+  }
   mem = s;
   s.updated_at = new Date().toISOString();
   chain = chain.then(async () => {
@@ -69,6 +94,18 @@ async function persist(s: Store) {
     const tmp = `${PATH}.${process.pid}.tmp`;
     await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
     await rename(tmp, PATH);
+    try {
+      if (process.env.VERCEL || process.env.AGENTS1_CANONICAL_WRITER === "1") {
+        const { saveDurableJson } = await import("@/lib/agents1/durable-json");
+        await saveDurableJson(DURABLE_NAME, {
+          updated_at: s.updated_at,
+          seats: FOUNDING_FREE_SEATS,
+          claims: (s.claims || []).slice(-200),
+        });
+      }
+    } catch {
+      /* */
+    }
   });
   await chain;
 }
