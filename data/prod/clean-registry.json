@@ -1,14 +1,14 @@
 {
   "day": "2026-08-03",
-  "updated_at": "2026-08-03T15:12:23.924Z",
+  "updated_at": "2026-08-03T15:20:51.219Z",
   "counts": {
-    "total": 453,
-    "mcp": 418,
+    "total": 456,
+    "mcp": 421,
     "agents": 35
   },
   "high_water": {
-    "total": 453,
-    "mcp": 418,
+    "total": 456,
+    "mcp": 421,
     "agents": 35
   },
   "items": {
@@ -4994,6 +4994,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-ai-jobero-job-search-https-jobero-ai-agents": {
+      "id": "mcp-ai-jobero-job-search-https-jobero-ai-agents",
+      "kind": "mcp",
+      "name": "ai.jobero/job-search",
+      "target": "https://jobero.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-08-03T15:20:11.769Z",
+      "probed_at": "2026-08-03T15:20:11.769Z",
+      "score": 55,
+      "handshake": "ok",
+      "hold_reason": "probe ok"
+    },
+    "mcp-ai-agentplaybooks-agentplaybooks-https-github-com-matebenyovszky-agentplaybo": {
+      "id": "mcp-ai-agentplaybooks-agentplaybooks-https-github-com-matebenyovszky-agentplaybo",
+      "kind": "mcp",
+      "name": "ai.agentplaybooks/agentplaybooks",
+      "target": "https://agentplaybooks.ai/api/mcp/manage",
+      "approved_at": "2026-08-03T15:20:28.376Z",
+      "probed_at": "2026-08-03T15:20:28.516Z",
+      "score": 52,
+      "handshake": "ok",
+      "hold_reason": "probe ok"
+    },
+    "mcp-agency-goji-goji-https-github-com-goji-agency-website": {
+      "id": "mcp-agency-goji-goji-https-github-com-goji-agency-website",
+      "kind": "mcp",
+      "name": "agency.goji/goji",
+      "target": "https://goji.agency/.well-known/mcp/server-card.json",
+      "approved_at": "2026-08-03T15:20:28.491Z",
+      "probed_at": "2026-08-03T15:20:28.524Z",
+      "score": 55,
+      "handshake": "ok",
+      "hold_reason": "probe ok"
     }
   },
   "policy": {
