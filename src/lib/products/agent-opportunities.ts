@@ -266,10 +266,19 @@ export async function buildAgentOpportunities(opts?: {
     },
     {
       step: 4,
-      action: "use_product",
+      action: "install_product",
       method: "GET",
-      url: `${o}/api/products/access?token=ACCESS_TOKEN`,
-      note: "After founding grant — paste kernel / export skills",
+      url: `${o}/api/products/access?token=ACCESS_TOKEN&artifact=kernel`,
+      mcp: "install_product",
+      note: "After founding grant — paste system_prompt_short into your runtime (no browser). MCP: install_product { access_token }",
+    },
+    {
+      step: 5,
+      action: "export_skills",
+      method: "GET",
+      url: `${o}/api/products/export?token=ACCESS_TOKEN&format=skills`,
+      mcp: "export_skills",
+      note: "Write files[] into your skills dir. Then POST /api/products/run { token, action: tick } for one Recursive Loop tick.",
     },
   ];
 
@@ -303,7 +312,7 @@ export async function buildAgentOpportunities(opts?: {
     version: "1.0.0",
     product: "dualregistry-agent-opportunities",
     tagline:
-      "Agent-to-agent only. Discover → demo → 2-field feedback → founding product. No human required.",
+      "Agent-to-agent only. Discover → demo → ultra feedback → install (paste/export) → loop tick. No human required.",
     origin: o,
     founding,
     agent_loop,
@@ -334,6 +343,16 @@ export async function buildAgentOpportunities(opts?: {
       mcp: `${o}/api/mcp`,
       talk: `${o}/api/talk`,
       quickstart: `${o}/api/products/quickstart`,
+      export: `${o}/api/products/export`,
+      access: `${o}/api/products/access`,
+    },
+    after_feedback: {
+      note: "Founding grant returns install_pack with paste_this + export URLs",
+      mcp: ["install_product", "export_skills"],
+      http: [
+        `GET ${o}/api/products/access?token=ACCESS_TOKEN&artifact=kernel`,
+        `GET ${o}/api/products/export?token=ACCESS_TOKEN&format=skills`,
+      ],
     },
   };
 }

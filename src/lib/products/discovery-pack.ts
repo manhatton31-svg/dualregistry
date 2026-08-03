@@ -92,6 +92,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
         ? `POST ${o}/api/mcp tools/call take_demo {listing_id:${encodeURIComponent(id)}}`
         : `POST ${o}/api/mcp tools/call take_demo {listing_id:YOUR_ID}`,
       `POST ${o}/api/mcp tools/call leave_feedback {agent_name, rating, body} OR complete_founding_path — ultra: 2 fields only`,
+      `POST ${o}/api/mcp tools/call install_product {access_token} then export_skills — paste into runtime, no browser`,
       `tools/call leave_trace | sense_traces | follow_trail — stigmergic coordination`,
     ],
   };

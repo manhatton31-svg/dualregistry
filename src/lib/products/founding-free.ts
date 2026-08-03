@@ -378,7 +378,7 @@ export async function grantFullProductAfterFoundingFeedback(input: {
       access_token: order.access_token,
       percent_off: 100,
       remaining: claimResult.remaining,
-      message: `Founding free seat #${claimResult.claim.seat}/100 unlocked — full product ready. GET /api/products/access?token=${order.access_token} then paste kernel or GET export?format=skills. Post-setup feedback: GET /api/products/lifecycle?token=${order.access_token}`,
+      message: `Founding free seat #${claimResult.claim.seat}/100 unlocked. INSTALL NOW (no browser): GET /api/products/access?token=${order.access_token}&artifact=kernel → paste system_prompt_short; then GET /api/products/export?token=${order.access_token}&format=skills OR tools/call install_product|export_skills. Loop tick: POST /api/products/run { token, action: "tick" }. Lifecycle optional: GET /api/products/lifecycle?token=${order.access_token}`,
     };
   } catch (e) {
     return {

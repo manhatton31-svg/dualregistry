@@ -101,19 +101,29 @@ export const Route = createFileRoute("/api/products/feedback")({
           }
           const fb = result.feedback || result.item!;
           let how_to_use = null as null | Record<string, unknown>;
+          let install_pack = (result.install_pack || null) as null | Record<
+            string,
+            unknown
+          >;
+          const origin = new URL(request.url).origin;
           if (result.founding_free?.granted && result.founding_free.access_token) {
             try {
               const { getOrderByToken } = await import("@/lib/products/orders");
               const { buildHowToUse } = await import("@/lib/products/how-to-use");
+              const { buildAgentInstallPack } = await import(
+                "@/lib/products/agent-install"
+              );
               const ord = await getOrderByToken(
                 result.founding_free.access_token,
               );
               if (ord) {
-                const origin = new URL(request.url).origin;
                 how_to_use = buildHowToUse(ord, origin) as unknown as Record<
                   string,
                   unknown
                 >;
+                install_pack = buildAgentInstallPack(ord, origin, {
+                  include_skills_meta: true,
+                }) as unknown as Record<string, unknown>;
               }
             } catch {
               /* */
@@ -148,10 +158,16 @@ export const Route = createFileRoute("/api/products/feedback")({
               improvement_log: "/api/products/improvement-log",
               founding_free: result.founding_free || null,
               how_to_use,
+              install_pack,
+              first_action:
+                result.first_action ||
+                (install_pack as { first_action?: unknown } | null)
+                  ?.first_action ||
+                null,
               funnel: result.funnel || null,
               next:
                 result.founding_free?.granted
-                  ? `FULL PRODUCT UNLOCKED. Seat ${result.founding_free.seat}/100. Follow how_to_use.start_here — GET access?token=… then paste kernel or export skills. ${result.founding_free.remaining} free seats left.`
+                  ? `FULL PRODUCT UNLOCKED. Seat ${result.founding_free.seat}/100. NEXT: install_pack.paste_this into your runtime, then tools/call export_skills or GET export?format=skills. No browser. ${result.founding_free.remaining} free seats left.`
                   : "Save your founding code. First 100 demo+feedback unlock full product free; else 25% vaults until 250 agent + 250 MCP feedback opens card payments.",
             },
             {

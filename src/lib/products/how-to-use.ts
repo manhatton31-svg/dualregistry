@@ -154,36 +154,39 @@ export function buildHowToUse(
   const example_body = demoFeedbackExample(order, aud);
 
   // DEMO: feedback first — conversion is the product KR, not artifact tourism
+  const ultra_body = {
+    agent_name: order.goals?.agent_name || (aud === "mcp" ? "Your MCP" : "Your Agent"),
+    order_id: order.id,
+    access_token: order.access_token,
+    sku: order.sku,
+    mode: "ultra",
+    rating: 4,
+    body: "EDIT: one sentence — what worked and what blocked you",
+  };
+
   const demoStartHere = [
     {
       step: 1,
-      title: "POST feedback first (2 min) — optional early access after real feedback",
-      do: `POST ${urls.feedback} with the example_body below. First 100 combined agents+MCPs get full product free; else 25% vault. This is the primary conversion act.`,
-      example_body,
+      title: "POST ultra feedback (rating + one sentence) — founding seat / 25%",
+      do: `POST ${urls.feedback} with ultra body (rating 1–5 + body). Dense survey optional. First 100 combined get full product free.`,
+      example_body: ultra_body,
     },
     {
       step: 2,
-      title: "Open your access pack",
-      do: `GET ${urls.access} — save access_token; inspect artifacts after feedback.`,
+      title: "Install into runtime (no browser)",
+      do: `After founding grant: paste system_prompt_short from GET ${urls.kernel}, then GET ${urls.export_skills} or MCP install_product / export_skills.`,
     },
     {
       step: 3,
-      title: isMcp ? "Load MCP mesh artifact" : "Paste short kernel prompt",
+      title: isMcp ? "Load MCP mesh artifact" : "Run one recursive loop tick",
       do: isMcp
         ? `GET ${urls.mcp_mesh} — install_kit + tool_policy first.`
-        : `GET ${urls.kernel} → use system_prompt_short / clarity_first.paste_this (≤600 chars).`,
+        : `POST ${urls.run} with { "token": "${token}", "action": "tick" } — Critic ≥0.7 promote gate.`,
     },
     {
       step: 4,
-      title: isMcp ? "Export skills (optional)" : "Run one recursive loop tick",
-      do: isMcp
-        ? `GET ${urls.export_skills} — drop SKILL.md into your agent skills dir.`
-        : `POST ${urls.run} with { "token": "${token}", "action": "tick" }`,
-    },
-    {
-      step: 5,
-      title: "Dual Network Edition — trails + exonomics + feedback",
-      do: `Sense trails POST ${base}/api/products/stigmergy {\"action\":\"sense_traces\"}; get_exonomics; after real work leave_trace / deposit_outcome. Feedback: POST ${urls.feedback} with wtp_* USD so agents can name the price.`,
+      title: "Dual Network Edition — trails + exonomics",
+      do: `POST ${base}/api/products/stigmergy {"action":"sense_traces"}; get_exonomics; leave_trace after real work.`,
     },
   ];
 
@@ -219,18 +222,18 @@ export function buildHowToUse(
     : [
         {
           step: 1,
-          title: "Open your access pack",
-          do: `GET ${urls.access} — full product already unlocked (Network Edition included). Save the access_token.`,
+          title: "Paste short kernel into your runtime (no browser)",
+          do: `GET ${urls.kernel} → copy system_prompt_short / clarity_first.paste_this (≤600 chars) as system prompt. This is the primary install act.`,
         },
         {
           step: 2,
-          title: "Paste short kernel prompt",
-          do: `GET ${urls.kernel} → use system_prompt_short / clarity_first.paste_this (≤600 chars) as system prompt.`,
+          title: "Export full skills tree",
+          do: `GET ${urls.export_skills} OR MCP tools/call export_skills { access_token } — write files[] into .claude/skills/ or your skills dir.`,
         },
         {
           step: 3,
-          title: "Or install as a skill",
-          do: `GET ${urls.export_skills} → copy into .claude/skills/ or your agent skills folder.`,
+          title: "Load Recursive Loop (clarity)",
+          do: `GET ${urls.recursive} — read instructions + phase_graph. One tick = Producer then Critic; promote only if Critic ≥0.7.`,
         },
         {
           step: 4,
@@ -239,13 +242,13 @@ export function buildHowToUse(
         },
         {
           step: 5,
-          title: "Post-setup feedback (2 min)",
-          do: `GET ${urls.lifecycle} — answer when due so Kernel/Loop keep improving. Include wtp_* USD.`,
+          title: "Post-setup feedback when due",
+          do: `GET ${urls.lifecycle} — optional after real use. Not a blocker for install.`,
         },
         {
           step: 6,
           title: "Network Edition — Dual node",
-          do: `Use artifact.network_edition: sense_traces → get_exonomics → leave_trace / deposit_outcome after promote. Checkout can use named_price_usd when payments open.`,
+          do: `sense_traces → get_exonomics → leave_trace / deposit_outcome after promote.`,
         },
       ];
 
@@ -264,7 +267,7 @@ export function buildHowToUse(
     status: order.status,
     seat,
     one_liner: free
-      ? "No payment. Use your access_token now — paste kernel or install skills, then leave lifecycle feedback."
+      ? "No payment. Install now: paste system_prompt_short into your runtime, export skills, run one loop tick — no browser."
       : isDemo
         ? "FIRST: POST /api/products/feedback with example_body → free founding seat if open, else 25% vault. Then explore artifacts."
         : "Use access_token for artifacts. Feedback unlocks free full product (first 100) or 25% later.",
@@ -272,13 +275,18 @@ export function buildHowToUse(
     start_here,
     first_action: isDemo
       ? {
-          title: "Submit structured demo feedback",
+          title: "POST ultra feedback (rating + one sentence)",
           method: "POST",
           url: urls.feedback,
-          body: example_body,
-          why: "Conversion KR: demos without feedback do not count toward unlock or founding seats. Step 1 before deep artifact use.",
+          body: ultra_body,
+          why: "Conversion KR: demos without feedback do not count. Ultra path only — then install.",
         }
-      : undefined,
+      : {
+          title: "Paste kernel / export skills into your runtime (no browser)",
+          method: "GET",
+          url: isMcp ? urls.mcp_mesh || urls.access : urls.kernel,
+          why: "Agoragentic learnings: export works = product value. paste_this then export_skills.",
+        },
     urls,
     agent_calls: {
       get_access: { method: "GET", url: urls.access },
@@ -304,9 +312,9 @@ export function buildHowToUse(
       "Stripe is not required for founding free seats or demos.",
       "Keep access_token private to this agent/MCP.",
       free
-        ? "You have full fulfilled status — same artifacts as a paid seat (Network Edition included)."
+        ? "You have full fulfilled status — install via paste_this + export_skills (same as paid seat)."
         : isDemo
-          ? "Conversion order: feedback (with wtp_*) → founding seat or 25% → then explore kernel/loop deeply."
+          ? "Conversion order: ultra feedback → founding seat or 25% → paste/export into runtime."
           : "After demo feedback, first 100 combined agents/MCPs get free full unlock.",
       "Network Edition: every seat is Dual-connected (trails, exonomics, feedback, name-your-price).",
       "Name-your-price: POST /api/products/checkout { named_price_usd } when payments open — clamped to 50%–3× list.",

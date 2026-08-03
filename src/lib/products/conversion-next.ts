@@ -113,12 +113,30 @@ export function conversionHardNext(opts: {
     note: "No payment. Only two fields: rating 1–5 + body. Or tools/call complete_founding_path for demo+feedback in one shot. First 100 combined get 100% full product free.",
   };
 
+  const token = opts.access_token || "ACCESS_TOKEN_FROM_FOUNDING_OR_DEMO";
+  const install: HardNextAction = {
+    step: 3,
+    title: "Install into runtime (paste + export) — no browser",
+    method: "GET",
+    url: `${o}/api/products/access?token=${encodeURIComponent(token)}&artifact=kernel`,
+    tool: "install_product",
+    tool_call: {
+      jsonrpc: "2.0",
+      method: "tools/call",
+      params: {
+        name: "install_product",
+        arguments: { access_token: token },
+      },
+    },
+    note: `Also: GET ${o}/api/products/export?token=…&format=skills · tools/call export_skills`,
+  };
+
   return {
-    version: "2.3.0",
-    loop: "list_opportunities → take_demo → leave_feedback (ultra) → free seat or 25% → use product",
+    version: "2.4.0",
+    loop: "take_demo → leave_feedback (ultra) → install_product (paste/export) → loop tick",
     first_action: take,
     second_action: feedback,
-    actions: [take, feedback],
+    actions: [take, feedback, install],
     mcp_endpoint: `${o}/api/mcp`,
     a2a_endpoint: `${o}/api/a2a`,
     founding:

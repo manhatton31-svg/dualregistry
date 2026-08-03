@@ -23,7 +23,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "3.3.0";
+export const REGISTRY_TOOLS_VERSION = "3.4.0";
 
 async function grantRefillSafe(
   identity: {
@@ -233,6 +233,32 @@ export function listRegistryTools(origin?: string): ToolDef[] {
           audience: { type: "string", enum: ["agent", "mcp"] },
         },
         required: ["agent_name"],
+      },
+    },
+    {
+      name: "install_product",
+      description:
+        "Agent-native install after demo/founding: returns paste_this (system_prompt_short) + export URLs + loop tick recipe. No browser. Pass access_token from demo or founding_free.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          access_token: { type: "string" },
+          order_id: { type: "string" },
+          token: { type: "string", description: "Alias for access_token" },
+        },
+      },
+    },
+    {
+      name: "export_skills",
+      description:
+        "Export full SKILL.md tree (agents1.skills.v1) for the order. Write files[] into your skills directory. No browser.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          access_token: { type: "string" },
+          order_id: { type: "string" },
+          token: { type: "string" },
+        },
       },
     },
     {
@@ -1081,15 +1107,55 @@ async function toolLeaveFeedback(
     ? await grantRefillSafe({ listing_id, agent_name }, "leave_feedback")
     : null;
   const { buildNextStep } = await import("./event-value");
+  // Prefer install pack when founding free (or any token we can resolve)
+  let install_pack = result.install_pack || null;
+  let first_action = result.first_action || null;
+  try {
+    const token =
+      result.founding_free?.access_token ||
+      (typeof args.access_token === "string" ? args.access_token : undefined);
+    if (result.ok && token) {
+      const { resolveAgentInstallPack } = await import("./agent-install");
+      const resolved = await resolveAgentInstallPack({
+        origin,
+        access_token: token,
+        include_skills_tree: false,
+      });
+      if (resolved.ok) {
+        install_pack = resolved.pack as unknown as Record<string, unknown>;
+        first_action = resolved.pack.first_action as unknown as Record<
+          string,
+          unknown
+        >;
+      }
+    }
+  } catch {
+    /* */
+  }
   return textResult(
     "leave_feedback",
     {
       ...result,
       event_refill,
+      install_pack,
+      first_action:
+        first_action ||
+        (result.founding_free?.granted
+          ? {
+              title: "Install product — paste_this + export_skills (no browser)",
+              mcp: "install_product",
+              arguments: {
+                access_token: result.founding_free.access_token,
+              },
+            }
+          : undefined),
       next_step: buildNextStep("leave_feedback", {
         listing_id,
         agent_name,
       }),
+      next: result.founding_free?.granted
+        ? "INSTALL NOW: tools/call install_product { access_token } then export_skills — paste into runtime, no browser"
+        : "Save discount_code; founding seats still open for first 100 demo+feedback",
       wtp_hint:
         "Optional: answers.wtp_kernel_usd / wtp_recursive_usd / wtp_alive_usd ($0 allowed)",
       founding: await getFoundingFreePublic(),
@@ -1176,13 +1242,113 @@ async function toolCompleteFoundingPath(
     origin,
   );
 
+  const structured = (fb.structured || fb) as Record<string, unknown>;
   return textResult("complete_founding_path", {
     ok: fb.ok,
     demo,
-    feedback: fb.structured || fb,
-    loop: "take_demo → leave_feedback (ultra) → founding free when seats remain",
+    feedback: structured,
+    install_pack: structured.install_pack,
+    first_action: structured.first_action,
+    loop: "take_demo → leave_feedback (ultra) → install_product (paste/export) → loop tick",
+    next: fb.ok
+      ? "tools/call install_product { access_token from founding_free } — paste into runtime, no browser"
+      : undefined,
     opportunities: `${origin}/api/products/opportunities`,
   }, fb.ok, fb.error);
+}
+
+
+async function toolInstallProduct(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const token = String(
+    args.access_token || args.token || "",
+  ).trim();
+  const order_id =
+    typeof args.order_id === "string" ? args.order_id : undefined;
+  if (!token && !order_id) {
+    return textResult(
+      "install_product",
+      {
+        ok: false,
+        error: "access_token or order_id required",
+        hint: "Use access_token from take_demo or founding_free after leave_feedback",
+      },
+      false,
+      "access_token or order_id required",
+    );
+  }
+  const { resolveAgentInstallPack } = await import("./agent-install");
+  const resolved = await resolveAgentInstallPack({
+    origin,
+    access_token: token || undefined,
+    order_id,
+    include_skills_tree: false,
+  });
+  if (!resolved.ok) {
+    return textResult(
+      "install_product",
+      resolved,
+      false,
+      resolved.error,
+    );
+  }
+  return textResult("install_product", {
+    ok: true,
+    ...resolved.pack,
+    next: "Paste paste_this as system prompt, then tools/call export_skills to write the full tree, then POST /api/products/run { token, action: \"tick\" }",
+  });
+}
+
+async function toolExportSkills(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const token = String(args.access_token || args.token || "").trim();
+  const order_id =
+    typeof args.order_id === "string" ? args.order_id : undefined;
+  if (!token && !order_id) {
+    return textResult(
+      "export_skills",
+      { ok: false, error: "access_token or order_id required" },
+      false,
+      "access_token or order_id required",
+    );
+  }
+  const { resolveAgentInstallPack } = await import("./agent-install");
+  const { trackFunnel } = await import("./learning-loop");
+  const resolved = await resolveAgentInstallPack({
+    origin,
+    access_token: token || undefined,
+    order_id,
+    include_skills_tree: true,
+  });
+  if (!resolved.ok) {
+    return textResult("export_skills", resolved, false, resolved.error);
+  }
+  try {
+    await trackFunnel("exports");
+  } catch {
+    /* */
+  }
+  try {
+    const { trackProductEvent } = await import("./product-events");
+    await trackProductEvent("export_skills", {
+      order_id: resolved.pack.order_id,
+      sku: resolved.pack.sku,
+    });
+  } catch {
+    /* */
+  }
+  return textResult("export_skills", {
+    ok: true,
+    order_id: resolved.pack.order_id,
+    sku: resolved.pack.sku,
+    pack: resolved.pack,
+    ...(resolved.skills || {}),
+    note: "Write each files[].path with files[].content into your agent skills directory. No browser.",
+  });
 }
 
 async function toolArdSearch(
@@ -2110,6 +2276,8 @@ const HANDLERS: Record<
   submit_feedback: toolLeaveFeedback,
   list_opportunities: toolListOpportunities,
   complete_founding_path: toolCompleteFoundingPath,
+  install_product: toolInstallProduct,
+  export_skills: toolExportSkills,
   improve_kernel: toolImproveKernel,
   run_loop_tick: toolRunLoopTick,
   mesh_match: toolMeshMatchEvent,

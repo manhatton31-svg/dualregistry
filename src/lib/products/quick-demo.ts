@@ -439,6 +439,12 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
       body: Record<string, unknown>;
       why: string;
     };
+    after_feedback?: {
+      title: string;
+      note: string;
+      install_product: Record<string, unknown>;
+      export_skills: Record<string, unknown>;
+    };
     value_first?: {
       title: string;
       method: string;
@@ -659,6 +665,28 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
             url: feedbackUrl,
             body: minimal_feedback_body,
             why: "Demos without feedback do not count toward unlock or free seats. Fill rating (1–5) + body only, then POST. No payment required.",
+          },
+      after_feedback: isQa
+        ? undefined
+        : {
+            title: "Install into runtime (no browser)",
+            note: "After founding grant or with demo token: paste system_prompt_short, export skills, run one loop tick.",
+            install_product: {
+              method: "GET",
+              url: `${origin}/api/products/access?token=${encodeURIComponent(result.order.access_token || "")}&artifact=kernel`,
+              mcp: {
+                tool: "install_product",
+                arguments: { access_token: result.order.access_token },
+              },
+            },
+            export_skills: {
+              method: "GET",
+              url: `${origin}/api/products/export?token=${encodeURIComponent(result.order.access_token || "")}&format=skills`,
+              mcp: {
+                tool: "export_skills",
+                arguments: { access_token: result.order.access_token },
+              },
+            },
           },
       value_first: isQa ? undefined : value_first,
       confirm_note: isQa

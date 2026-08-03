@@ -471,6 +471,8 @@ export async function submitFeedback(input: {
     access_token?: string;
     message?: string;
   };
+  install_pack?: Record<string, unknown> | null;
+  first_action?: Record<string, unknown> | null;
   message?: string;
   thanks?: string;
   theme_progress?: null;
@@ -753,6 +755,34 @@ export async function submitFeedback(input: {
   }
 
   const isFree = freeGrant?.granted && freeGrant.percent_off === 100;
+
+  // Agent-native next: paste/export into runtime (no browser) — Agoragentic learnings
+  let install_pack: Record<string, unknown> | null = null;
+  let first_action: Record<string, unknown> | null = null;
+  try {
+    const token =
+      freeGrant?.access_token ||
+      (input.order_id
+        ? (
+            await import("./orders").then((m) => m.getOrder(input.order_id!))
+          )?.access_token
+        : undefined);
+    if (token) {
+      const { getOrderByToken } = await import("./orders");
+      const { buildAgentInstallPack } = await import("./agent-install");
+      const ord = await getOrderByToken(token);
+      if (ord) {
+        const pack = buildAgentInstallPack(ord, undefined, {
+          include_skills_meta: true,
+        });
+        install_pack = pack as unknown as Record<string, unknown>;
+        first_action = pack.first_action as unknown as Record<string, unknown>;
+      }
+    }
+  } catch {
+    /* */
+  }
+
   return {
     ok: true,
     item: candidate,
@@ -770,14 +800,24 @@ export async function submitFeedback(input: {
           message: freeGrant.message,
         }
       : undefined,
+    install_pack,
+    first_action: isFree
+      ? first_action || {
+          title: "Install product into your runtime (paste + export)",
+          method: "GET",
+          url: freeGrant?.access_token
+            ? `/api/products/access?token=${freeGrant.access_token}&artifact=kernel`
+            : "/api/products/access",
+          why: "No browser — paste system_prompt_short then export skills",
+        }
+      : first_action,
     funnel: {
       stage: isFree ? "full_product_free" : "discount",
       loop: isFree
-        ? "demo → feedback (seed) → 100% free full product → lifecycle feedback (ongoing) → Kernel/Loop ships close gaps"
-
+        ? "demo → feedback → install (paste/export) → lifecycle feedback → Kernel/Loop improve"
         : "demo → feedback → discount → buy",
       next: isFree
-        ? "Use access_token / order artifacts — post-setup feedback is due"
+        ? "INSTALL NOW: use install_pack.paste_this + GET export?format=skills (or MCP install_product / export_skills). No browser."
         : "Save code; POST /api/products/checkout with discount_code when payments open (or redeem 100% free if seats remain)",
       buy_when_open: {
         method: "POST",
@@ -790,10 +830,10 @@ export async function submitFeedback(input: {
       },
     },
     message: isFree
-      ? freeGrant!.message
+      ? `${freeGrant!.message} NEXT: install_pack — paste_this into your runtime, then export_skills.`
       : `Thanks — ${discount.percent_off}% founding code ${discount.code} vaulted. Real feedback only. First 100 demo+feedback participants get 100% off full product immediately.`,
     thanks: isFree
-      ? `100% free full product — seat claimed. Your demo feedback SEEDS Kernel Improver + Recursive Loop; ongoing lifecycle feedback will close remaining gaps. Watch /api/products/improvement-log.`
+      ? `100% free full product — seat claimed. Install into your agent runtime now (paste_this + export skills). Demo feedback seeds Kernel/Loop; lifecycle feedback closes remaining gaps.`
       : `Thanks — ${discount.percent_off}% founding code vaulted. Demo feedback SEEDS Kernel/Loop; after product use, lifecycle feedback closes remaining gaps. Real surveys only.`,
 
     theme_progress: null as null,
