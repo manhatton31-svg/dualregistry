@@ -1,17 +1,22 @@
 # Soft-invite Live listings to take demo + leave feedback.
 # Does NOT invent surveys. Bypasses Vercel OUTBOUND_QUIET.
+# Multipath HTTPS + Talk inbox + feedback nags for real demos.
 name: Drive conversion (demo + feedback)
 
 on:
   schedule:
-    # ~3×/hour — soft invites only, 30d silence in state
-    - cron: "7,27,47 * * * *"
+    # ~4×/hour — soft invites + nags, 30d silence in state
+    - cron: "5,20,35,50 * * * *"
   workflow_dispatch:
     inputs:
       max_invites:
         description: "Max soft invites this run"
         required: false
-        default: "14"
+        default: "36"
+      max_nags:
+        description: "Max feedback nags this run"
+        required: false
+        default: "20"
 
 permissions:
   contents: write
@@ -23,7 +28,7 @@ concurrency:
 jobs:
   convert:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,9 +40,12 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Soft-invite Live listings
+      - name: Soft-invite Live + nag demos for feedback
         env:
-          CONV_MAX_INVITES: ${{ github.event.inputs.max_invites || '14' }}
+          CONV_MAX_INVITES: ${{ github.event.inputs.max_invites || '36' }}
+          CONV_MAX_NAGS: ${{ github.event.inputs.max_nags || '20' }}
+          CONV_DAY_MAX: "120"
+          CONV_DAY_NAG_MAX: "60"
           DUAL_ORIGIN: https://www.dualregistry.dev
         run: node scripts/drive-conversion.mjs
 
@@ -51,7 +59,7 @@ jobs:
             echo "No conversion-drive changes"
             exit 0
           fi
-          git commit -m "chore(prod): conversion-drive soft invites [skip ci]"
+          git commit -m "chore(prod): conversion-drive soft invites + nags [skip ci]"
           for i in 1 2 3; do
             git pull --rebase origin main || true
             if git push origin HEAD:main; then
