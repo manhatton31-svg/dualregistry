@@ -2,6 +2,90 @@
   "day": "2026-08-03",
   "runs": [
     {
+      "id": "run_msdbnbkr_g5q7tv",
+      "title": "tools/call list_event_pricing",
+      "tool": "list_event_pricing",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T14:25:39.675Z",
+      "ended_at": "2026-08-03T14:25:39.675Z",
+      "duration_ms": 0,
+      "usd_estimate": 6e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_msdbi9zy_74xkb9",
+      "title": "tools/call sense_traces",
+      "tool": "sense_traces",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T14:21:44.350Z",
+      "ended_at": "2026-08-03T14:21:44.350Z",
+      "duration_ms": 26,
+      "usd_estimate": 0.0000012153333333333332,
+      "meta": {}
+    },
+    {
+      "id": "run_msdbi9p3_6t86q2",
+      "title": "tools/call seed_compositions",
+      "tool": "seed_compositions",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T14:21:43.959Z",
+      "ended_at": "2026-08-03T14:21:43.959Z",
+      "duration_ms": 487,
+      "usd_estimate": 0.000012143444444444445,
+      "meta": {}
+    },
+    {
+      "id": "run_msdbi91l_8yh7ut",
+      "title": "tools/call network_sense",
+      "tool": "network_sense",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T14:21:43.113Z",
+      "ended_at": "2026-08-03T14:21:43.113Z",
+      "duration_ms": 124,
+      "usd_estimate": 0.000003534666666666667,
+      "meta": {}
+    },
+    {
+      "id": "run_msdbi8n0_57ljdj",
+      "title": "tools/call list_opportunities",
+      "tool": "list_opportunities",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T14:21:42.588Z",
+      "ended_at": "2026-08-03T14:21:42.588Z",
+      "duration_ms": 274,
+      "usd_estimate": 0.000007084666666666667,
+      "meta": {}
+    },
+    {
+      "id": "run_msdbi84h_wf1qnr",
+      "title": "tools/call get_founding_deal",
+      "tool": "get_founding_deal",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T14:21:41.921Z",
+      "ended_at": "2026-08-03T14:21:41.921Z",
+      "duration_ms": 1,
+      "usd_estimate": 6.414444444444444e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_msdbi7ue_d46m5b",
+      "title": "tools/call list_event_pricing",
+      "tool": "list_event_pricing",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-03T14:21:41.558Z",
+      "ended_at": "2026-08-03T14:21:41.558Z",
+      "duration_ms": 1,
+      "usd_estimate": 6.414444444444444e-7,
+      "meta": {}
+    },
+    {
       "id": "run_msdbhkqy_vf8wrf",
       "title": "tools/call list_event_pricing",
       "tool": "list_event_pricing",
@@ -164,12 +248,12 @@
     }
   ],
   "totals": {
-    "n": 13,
-    "ok": 10,
+    "n": 20,
+    "ok": 17,
     "error": 3,
     "skipped": 0,
-    "duration_ms": 779,
+    "duration_ms": 1692,
     "token_usage": 0
   },
-  "updated_at": "2026-08-03T14:21:12.026Z"
+  "updated_at": "2026-08-03T14:25:39.866Z"
 }
