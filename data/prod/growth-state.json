@@ -1,10 +1,10 @@
 {
   "version": 3,
-  "updated_at": "2026-08-03T15:32:52.283Z",
+  "updated_at": "2026-08-03T16:04:02.646Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
-    "running": true,
+    "running": false,
     "next_run_at": "2026-08-03T15:26:42.700Z",
     "last_run_at": "2026-08-03T15:20:42.700Z"
   },
@@ -2055,12 +2055,10 @@
       "quality_hints": [
         "server.json",
         "github-search",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-mcp-https-github-com-tracyhq-mcp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 1,
       "discovered_at": "2026-08-03T15:20:25.877Z",
       "updated_at": "2026-08-03T15:20:42.976Z",
