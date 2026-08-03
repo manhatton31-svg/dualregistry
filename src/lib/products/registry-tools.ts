@@ -2098,6 +2098,33 @@ function paymentFromArgs(args: ToolArg): {
   };
 }
 
+async function toolCoSignFounding(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { coSignFounding } = await import("./engagement-incentives");
+  const from_kind = args.from_kind === "mcp" ? "mcp" : "agent";
+  const r = await coSignFounding({
+    from_listing_id: String(args.from_listing_id || ""),
+    from_name: String(args.from_name || args.agent_name || ""),
+    from_kind,
+    partner_listing_id: String(args.partner_listing_id || ""),
+    partner_name:
+      typeof args.partner_name === "string" ? args.partner_name : undefined,
+    origin,
+  });
+  return textResult("co_sign_founding", r, r.ok, r.error);
+}
+
+async function toolGetCoSignPairs(
+  _args: ToolArg,
+  _origin: string,
+): Promise<ToolResult> {
+  const { getCoSignPublic } = await import("./engagement-incentives");
+  const r = await getCoSignPublic();
+  return textResult("get_co_sign_pairs", r, true);
+}
+
 async function toolImproveKernel(
   args: ToolArg,
   origin: string,

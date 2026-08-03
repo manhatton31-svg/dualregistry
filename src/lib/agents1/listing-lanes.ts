@@ -870,27 +870,33 @@ export async function getLanedListings(): Promise<{
       "@/lib/products/quick-demo"
     );
     const badges = await listingEngagementBadges();
+    const { badgeFromEngagement, sortKeyForListing } = await import(
+      "@/lib/products/engagement-incentives"
+    );
     const norm = (s: string) =>
       s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     const apply = (rows: LanedListing[]) => {
       for (const r of rows) {
         const b = badges.get(norm(r.name));
-        if (!b) continue;
-        (r as LanedListing & {
+        const eng = badgeFromEngagement(b);
+        const row = r as LanedListing & {
           demoed?: boolean;
           feedbacked?: boolean;
           founder_n?: number;
-        }).demoed = b.demoed;
-        (r as LanedListing & { feedbacked?: boolean }).feedbacked = b.feedbacked;
-        if (b.founder_n)
-          (r as LanedListing & { founder_n?: number }).founder_n = b.founder_n;
+          founding_verified?: boolean;
+          badge?: string;
+          rank_delta?: number;
+        };
+        row.demoed = eng.demoed;
+        row.feedbacked = eng.feedbacked;
+        row.founding_verified = eng.founding_verified;
+        row.badge = eng.badge;
+        row.rank_delta = eng.rank_delta;
+        if (b?.founder_n) row.founder_n = b.founder_n;
       }
     };
     apply(mcp_active);
     apply(agents_active);
-    const { sortKeyForListing } = await import(
-      "@/lib/products/engagement-incentives"
-    );
     mcp_active.sort(
       (a, b) =>
         sortKeyForListing(b as never) - sortKeyForListing(a as never),
