@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-03T00:37:12.781Z",
+  "updated_at": "2026-08-03T00:37:46.339Z",
   "day": "2026-08-03",
-  "day_invites": 118,
+  "day_invites": 120,
   "day_nags": 21,
-  "day_talk": 90,
+  "day_talk": 92,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -1156,6 +1156,26 @@
       "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-competitor-tracking-trends-mcp-https-trendsmcp-ai": {
+      "at": "2026-08-03T00:37:45.785Z",
+      "name": "mcp-competitor-tracking-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-content-strategy-trends-mcp-https-trendsmcp-ai": {
+      "at": "2026-08-03T00:37:45.803Z",
+      "name": "mcp-content-strategy-trends-mcp-https-trendsmcp-ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://trendsmcp.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -1713,68 +1733,30 @@
     "mcp-crypto-trends-mcp-https-trendsmcp-ai": {
       "at": "2026-08-03T00:37:10.961Z",
       "ok": false
+    },
+    "mcp-competitor-tracking-trends-mcp-https-trendsmcp-ai": {
+      "at": "2026-08-03T00:37:45.785Z",
+      "ok": false
+    },
+    "mcp-content-strategy-trends-mcp-https-trendsmcp-ai": {
+      "at": "2026-08-03T00:37:45.803Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 118,
-    "invite_http_ok": 116,
+    "invites": 120,
+    "invite_http_ok": 118,
     "nags": 21,
     "nag_http_ok": 21,
-    "talk_inbox": 90,
+    "talk_inbox": 92,
     "social": 1,
-    "runs": 4
+    "runs": 5
   },
   "last_notes": [
-    "eligible never-demoed 185 (agents 0 mcp 185) · inviting 50 (day 68/120)",
-    "invite mcp mcp-ai-analyticslegends-sap-analytics-http → http 405 talk ok https://analyticslegends.ai/.well-known/mcp.json",
-    "invite mcp mcp-ai-calendarmcp-server-https-github-com → http 405 talk ok https://calendarmcp.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-childanxiety-library-https-childanx → http 405 talk ok https://childanxiety.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-childadhd-library-https-childadhd-a → http 405 talk ok https://childadhd.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-beatbandit-beatbandit-https-beatban → http 405 talk ok https://beatbandit.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-radixia-blog-https-github-com-radix → http 405 talk ok https://www.radixia.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-borealhost-mcp-https-github-com-ala → http 200 talk ok https://borealhost.ai/.well-known/mcp.json",
-    "invite mcp mcp-ai-relaystation-relaystation-https-rel → http 200 talk — https://relaystation.ai/.well-known/mcp.json",
-    "invite mcp mcp-ai-rallyprop-gov-funding-https-mcp-ral → http 401 talk ok https://mcp.rallyprop.ai/?key={api_key}/.well-known/mcp/server-card.json",
-    "invite mcp ai.meacheal/mrc-data → http 200 talk ok https://api.meacheal.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-satoshidata-wallet-intelligence-htt → http 405 talk ok https://satoshidata.ai/.well-known/mcp.json",
-    "invite mcp mcp-ai-childpsychiatry-library-https-child → http 405 talk ok https://childpsychiatry.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-maxcv-resume-https-maxcv-ai → http 200 talk ok https://maxcv.ai/mcp",
-    "invite mcp mcp-ai-masnavi-masnavi-https-github-com-sh → http 405 talk ok https://masnavi.ai/.well-known/mcp.json",
-    "invite mcp mcp-ai-mitosislabs-mitosis-https-github-co → http 405 talk ok https://mitosislabs.ai/.well-known/mcp/server-card.json",
-    "invite mcp ai.offerhopper.mcp/shopping-optimizer → http 405 talk — https://offerhopper.ai/.well-known/mcp.json",
-    "invite mcp mcp-ai-readypermit-geo-https-github-com-ga → http 200 talk — https://readypermit.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-ninar-ninar-https-github-com-ninar- → http 202 talk ok https://ninar.ai/mcp",
-    "invite mcp ai.odei/connect → http 405 talk ok https://api.odei.ai/.well-known/mcp.json",
-    "invite mcp mcp-ai-hirey-hi-https-hirey-ai → http 200 talk ok https://hirey.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-nothumansearch-search-https-nothuma → http 200 talk ok https://nothumansearch.ai/.well-known/mcp.json",
-    "invite mcp @apify/actors-mcp-server → http 200 talk ok https://mcp.apify.com/.well-known/mcp/server-card.json",
-    "invite mcp mcp_b2a9c068d04c242614bc → http 405 talk ok https://beatbandit.ai/.well-known/mcp/server-card.json",
-    "invite mcp hi → http 200 talk ok https://hirey.ai/.well-known/mcp/server-card.json",
-    "invite mcp Kifly — Agentic Commerce & Payments → http 405 talk ok https://kifly.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-sharebench-registry-https-sharebenc → http 200 talk ok https://sharebench.ai/.well-known/mcp/server-card.json",
-    "invite mcp dynamic-feed → http 405 talk ok https://dynamicfeed.ai/.well-known/mcp/server-card.json",
-    "invite mcp Bring Your AI → http 200 talk ok https://bringyour.ai/.well-known/mcp.json",
-    "invite mcp ai.marketcore/mcp · r1 → http 200 talk — https://mcp.marketcore.ai/.well-known/mcp/server-card.json",
-    "invite mcp ai.iturri/market-data → http 200 talk ok https://iturri.ai/mcp",
-    "invite mcp ai.justpublish/just-publish → http 200 talk ok https://justpublish.ai/.well-known/mcp/server-card.json",
-    "invite mcp ai.joinmultiplayer/gpu → http 202 talk ok https://joinmultiplayer.ai/mcp",
-    "invite mcp ai.marketintell/marketintell · r2 → http 200 talk ok https://marketintell.ai/.well-known/mcp/server-card.json",
-    "invite mcp GVRN Incorporation → http 405 talk ok https://www.gvrn.ai/.well-known/mcp.json",
-    "invite mcp ai.marketintell/marketintell · r1 → http 200 talk ok https://marketintell.ai/.well-known/mcp/server-card.json",
-    "invite mcp ai.justdomain/just-domain → http 405 talk ok https://justdomain.ai/.well-known/mcp/server-card.json",
-    "invite mcp ai.kifly/mcp → http 405 talk ok https://kifly.ai/.well-known/mcp/server-card.json",
-    "invite mcp BeatBandit MCP → http 405 talk ok https://beatbandit.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ai-corduroy-labs-updates-https-corduro → http 405 talk ok https://corduroy-labs.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-https-hirey-ai-https-hirey-ai → http 200 talk ok https://hirey.ai/.well-known/mcp/server-card.json",
-    "invite mcp BorealHost → http 200 talk ok https://borealhost.ai/.well-known/mcp.json",
-    "invite mcp mcp-npm-trends-mcp-https-trendsmcp-ai → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
-    "invite mcp ai.dynamicfeed/dynamic-feed · r2 → http 405 talk ok https://dynamicfeed.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-reddit-trends-mcp-https-trendsmcp-ai → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-news-volume-trends-mcp-https-trendsmcp → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-news-sentiment-trends-mcp-https-trends → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-market-research-trends-mcp-https-trend → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-google-trends-mcp-https-trendsmcp-ai → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
-    "invite mcp mcp-ecommerce-trends-mcp-https-trendsmcp-a → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json"
+    "eligible never-demoed 135 (agents 0 mcp 135) · inviting 2 (day 118/120)",
+    "invite mcp mcp-competitor-tracking-trends-mcp-https-t → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
+    "invite mcp mcp-content-strategy-trends-mcp-https-tren → http 200 talk — https://trendsmcp.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 21/60)"
   ],
-  "last_run_at": "2026-08-03T00:37:12.781Z"
+  "last_run_at": "2026-08-03T00:37:46.339Z"
 }
