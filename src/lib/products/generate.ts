@@ -694,14 +694,14 @@ export function generateKernel(
       "Domain eval checks present for g1+",
       dual
         ? "Dual near-zero tools known (sense / follow / join)"
-        : "Payments policy understood (demos free until 250+250 feedback)",
+        : "Payments policy understood (demos free until 10+5 feedback)",
     ],
     tools_least_privilege,
     domain_eval_checks,
     boot_sequence,
     payments_notice: {
       demos_free: true,
-      payments_open_when: "250 feedback agents + 250 feedback MCPs",
+      payments_open_when: "10 feedback agents + 5 feedback MCPs",
       founding_prices_usd: {
         kernel: 14.99,
         recursive: 19.99,
@@ -1159,7 +1159,7 @@ export function generateAliveCurriculum(
       "3. Run kernel.worked_example_first_goal once (includes outcome deposit).",
       "4. Expand full system_prompt only if context allows.",
       "5. Loop: promote_gate then deposit_outcome; safety_flags=0.",
-      "6. Payments: demos free until 250 agent + 250 MCP feedback.",
+      "6. Payments: demos free until 10 agent + 5 MCP feedback.",
       dual
         ? "7. Dual-native: near-zero trails first; founding via demo+feedback."
         : "",

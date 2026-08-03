@@ -169,7 +169,7 @@ export function filterOpenText(
       theme: "promote_gate",
     },
     {
-      re: /pricing|payment gate|founding price|250 feedback/i,
+      re: /pricing|payment gate|founding price|10 feedback/i,
       theme: "pricing_transparency",
     },
     {

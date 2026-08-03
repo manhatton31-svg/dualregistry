@@ -5,7 +5,7 @@
  *   External: agent/MCP surveys → themes → generators
  *   Internal: OUR goals → Kernel Improver + Recursive Loop → safe operational acts
  *
- * Goals: more MCPs, more agents, more demos, more feedback (250/250 unlock),
+ * Goals: more MCPs, more agents, more demos, more feedback (10/5 payment unlock),
  * density physics (C/O/F), founding claims, outbound conversion, then paid seats —
  * publicly logged so fence-sitters see the system work on itself.
  */
@@ -84,7 +84,7 @@ const GOALS = [
   "Grow the Agents1 MCP registry with checks-clean listings (unlimited, zero dupes).",
   "Grow the Agents1 agent registry with checks-clean listings (unlimited, zero dupes).",
   "Convert listed MCPs and agents into free product demos (unlimited demos; Kernel, Loop, Alive, Mesh).",
-  "Collect structured feedback from demos — 250 agent + 250 MCP before payments open.",
+  "Collect structured feedback from demos — 10 agent + 5 MCP before payments open.",
   "Claim founding free seats via demo→real feedback (first 100 combined) — prove conversion, not just listings.",
   "Raise composition density C ≥ 0.08 with real used_with edges (not residue spam).",
   "Open federation density F ≥ 2 via real peer pull/push ops (HF catalog + MCP registry + future peers).",
@@ -277,19 +277,19 @@ async function measureKRs(): Promise<SelfKR[]> {
   krs.push({
     id: "feedback_agents",
     title: "Agent REAL feedback toward unlock (primary KR)",
-    target: 250,
+    target: 10,
     current: fbAgents,
     unit: "agents",
-    progress: progress(fbAgents, 250),
+    progress: progress(fbAgents, 10),
     weight: 3,
   });
   krs.push({
     id: "feedback_mcps",
     title: "MCP REAL feedback toward unlock (primary KR)",
-    target: 250,
+    target: 5,
     current: fbMcps,
     unit: "mcps",
-    progress: progress(fbMcps, 250),
+    progress: progress(fbMcps, 5),
     weight: 3,
   });
   krs.push({
@@ -685,7 +685,7 @@ export async function runSelfLoop(opts?: {
         goals: goalsText,
         domain: "registry_commerce",
         constraints:
-          "Free-tier/paid CF budgets; no invented payments; demos free until 250+250 feedback; prefer near-zero Dual ops.",
+          "Free-tier/paid CF budgets; no invented payments; demos free until 10+5 feedback; prefer near-zero Dual ops.",
         success_metrics:
           "MCP+agent growth, C≥0.08, F≥2, founding claims, demo→feedback, outbound under cap, post-unlock paid seats.",
       },

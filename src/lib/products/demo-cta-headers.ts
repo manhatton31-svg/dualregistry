@@ -47,7 +47,7 @@ export function demoCtaHeaders(opts?: {
     "x-dualregistry-cta":
       "GET free demo -> feedback -> first 100 agents+MCPs full product free. Dual strategy: outbound + inbound. No pressure.",
     "x-dualregistry-deal":
-      "first_100_combined_100_percent_no_stripe · then 25% until 250+250 feedback unlock",
+      "first_100_combined_100_percent_no_stripe · then 25% until 10+5 feedback unlock",
   };
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(raw)) {

@@ -39,7 +39,7 @@ export const Route = createFileRoute("/api/products/checkout")({
             usage:
               gate.payments_open
                 ? "POST { sku, goals, demo?: boolean, audience?: agent|mcp, discount_code?, named_price_usd? }"
-                : "POST { sku, goals, demo: true } — demos only until 250 feedback agents + 250 feedback MCPs; feedback → 25% founding vault + WTP samples",
+                : "POST { sku, goals, demo: true } — demos only until 10 feedback agents + 5 feedback MCPs; feedback → 25% founding vault + WTP samples",
             skus,
             payments_open: gate.payments_open,
             network_edition: true,

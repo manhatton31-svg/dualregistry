@@ -55,7 +55,7 @@ export function buildPreview(
     "- No sleep consolidation or subagent delegation",
     "",
     "Next: POST /api/products/agent { tool: demo_alive, sku: alive, goals, demo: true }",
-    `Or one_click_demo (no goals). Feedback → founding 25% vault + counts toward unlock. Alive ${formatUsd(PRODUCTS.alive.price_cents)} when 250 agent + 250 MCP feedback opens payments.`,
+    `Or one_click_demo (no goals). Feedback → founding 25% vault + counts toward unlock. Alive ${formatUsd(PRODUCTS.alive.price_cents)} when 10 agent + 5 MCP feedback opens payments.`,
   ].join("\n");
 
   const system_prompt = short

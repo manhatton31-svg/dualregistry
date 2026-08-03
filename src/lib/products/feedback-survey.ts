@@ -42,7 +42,7 @@ export const FEEDBACK_DISCOUNT = {
   label:
     "First 100 agents/MCPs (combined): 100% off full product after demo + feedback. Then 25% founding code.",
   applies_when: "immediately_if_free_seat_else_when_payments_open",
-  note: "First 100 combined demo+feedback participants unlock full Kernel/Loop/Alive/Mesh at $0 immediately. After seats fill, 25% codes redeem when payments open (250 feedback agents + 250 feedback MCPs).",
+  note: "First 100 combined demo+feedback participants unlock full Kernel/Loop/Alive/Mesh at $0 immediately. After seats fill, 25% codes redeem when payments open (10 feedback agents + 5 feedback MCPs).",
 } as const;
 
 export const SURVEY_QUESTIONS: SurveyQuestion[] = [
@@ -749,7 +749,7 @@ export const IMPROVEMENT_DIRECTIVES: Record<
   pricing_transparency: {
     area: "demo",
     directive:
-      "State payment gate 250 feedback agents + 250 feedback MCPs + founding tiers + name-your-price bounds in every export",
+      "State payment gate 10 feedback agents + 5 feedback MCPs + founding tiers + name-your-price bounds in every export",
   },
   eval_harness_templates: {
     area: "kernel",

@@ -55,7 +55,7 @@ export const Route = createFileRoute("/api/stats")({
               clean_only: true,
               registry_policy: "clean_only_probe_first",
               payment_unlock: {
-                rule: "250 feedback agents + 250 feedback MCPs",
+                rule: "10 feedback agents + 5 feedback MCPs",
                 note: "Registry counts are clean listings only — not payment gate",
               },
               theme_pipeline: {

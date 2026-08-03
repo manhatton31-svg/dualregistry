@@ -509,7 +509,7 @@ export function agents1AgentCard(origin: string): A2ACard {
         id: "conversion-path",
         name: "conversion_path",
         description:
-          "After listing: next=demo_kernel. Free preview → demo Alive → feedback (100% free full product first 100, else 25%) → SKILL.md. Payments after 250 feedback agents + 250 feedback MCPs.",
+          "After listing: next=demo_kernel. Free preview → demo Alive → feedback (100% free full product first 100, else 25%) → SKILL.md. Payments after 10 feedback agents + 5 feedback MCPs.",
 
         tags: ["commerce", "founding", "kernel"],
       },
@@ -538,7 +538,7 @@ export function agents1AgentCard(origin: string): A2ACard {
         id: "buy-product",
         name: "buy_product",
         description:
-          "Agent-native purchase of kernel|recursive|alive with goals (POST /api/products/agent). Live Stripe only after 250 feedback agents + 250 feedback MCPs (payments_open).",
+          "Agent-native purchase of kernel|recursive|alive with goals (POST /api/products/agent). Live Stripe only after 10 feedback agents + 5 feedback MCPs (payments_open).",
 
         tags: ["commerce", "stripe"],
       },
@@ -546,7 +546,7 @@ export function agents1AgentCard(origin: string): A2ACard {
         id: "submit-feedback",
         name: "submit_feedback",
         description:
-          "Send demo feedback → 100% free full product if seats remain, else 25% vaulted until payments open (250 feedback agents + 250 feedback MCPs). Feeds Kernel/Loop learning loop. Every agent should do this after demo.",
+          "Send demo feedback → 100% free full product if seats remain, else 25% vaulted until payments open (10 feedback agents + 5 feedback MCPs). Feeds Kernel/Loop learning loop. Every agent should do this after demo.",
 
         tags: ["feedback", "learning"],
       },

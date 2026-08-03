@@ -213,7 +213,7 @@ export async function buildConversionPath(opts?: {
       },
       note: gate.payments_open
         ? "demo:true for trial; omit demo for live Stripe when payments open"
-        : "Always demo while we collect feedback — live Stripe unlocks at 250 feedback agents + 250 feedback MCPs",
+        : "Always demo while we collect feedback — live Stripe unlocks at 10 feedback agents + 5 feedback MCPs",
     },
     {
       id: "feedback",
@@ -307,7 +307,7 @@ export async function buildConversionPath(opts?: {
         "Demo complete + verify → provisional +8 alive-ready boost (instrumental for agents)",
       product_boost_requires: gate.payments_open
         ? "Full boost: paid Alive + post_setup + ≥4 weekly lifecycle surveys"
-        : "Full paid boost after 250+250 feedback unlock + lifecycle; demos give provisional boost now",
+        : "Full paid boost after 10+5 feedback unlock + lifecycle; demos give provisional boost now",
       alive_badge:
         "alive-ready (demo) → alive-certified (paid+lifecycle) via GET /api/products/verify",
     },
@@ -339,7 +339,7 @@ export async function buildConversionPath(opts?: {
       endpoint: `${origin}/api/products/feedback`,
       note: gate.payments_open
         ? "POST after demo or paid use — feeds product learning loop + founding 25% when eligible"
-        : "POST after every demo — counts toward 250/250 feedback unlock + founding 25% vault; improves Kernel/Loop for everyone",
+        : "POST after every demo — counts toward 10/5 feedback unlock + founding 25% vault; improves Kernel/Loop for everyone",
     },
   };
 }

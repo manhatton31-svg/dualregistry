@@ -268,7 +268,7 @@ export const Route = createFileRoute("/discovery.json")({
             next: "POST /api/publish → status → GET opportunities → demo → ultra feedback",
             free_preview: `POST ${origin}/api/products/preview`,
             demo_only_until:
-              "Live Stripe locked until 250 feedback agents + 250 feedback MCPs",
+              "Live Stripe locked until 10 feedback agents + 5 feedback MCPs",
             goal_presets: Object.keys(GOAL_PRESETS),
           },
           domain,

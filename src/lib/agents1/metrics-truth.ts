@@ -153,7 +153,7 @@ export function buildMetricsTruthFromParts(input: {
       label: "MCP feedback (real)",
       value: fbM,
       source: "data/products/feedback.json",
-      how: "Counts toward 250 MCP unlock.",
+      how: "Counts toward 5 MCP unlock.",
       live: true,
     },
     {
@@ -167,7 +167,7 @@ export function buildMetricsTruthFromParts(input: {
     {
       id: "unlock_progress",
       label: "Payments unlock",
-      value: `${fbA}/250 agents · ${fbM}/250 MCPs`,
+      value: `${fbA}/10 agents · ${fbM}/5 MCPs`,
       source: "payment-gate + real product engagement",
       how: "Both must hit 250 real feedbacks before Stripe opens.",
       live: true,

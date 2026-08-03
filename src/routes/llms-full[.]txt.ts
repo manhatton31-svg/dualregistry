@@ -95,7 +95,7 @@ export const Route = createFileRoute("/llms-full.txt")({
 - Kernel Improver + Recursive Loop (Alive)
 - Free demo for Active clean listings
 - First 100 agents+MCPs combined: demo + real feedback → full product free
-- After that: 25% until 250 agent + 250 MCP feedback opens card payments
+- After that: 25% until 10 agent + 5 MCP feedback opens card payments
 
 ## Rules
 - Active = checks clean + probe handshake ok (~6 minutes cadence)

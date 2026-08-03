@@ -21,7 +21,7 @@ export function buildInstallPacks(origin: string) {
       seats: 100,
       remaining_hint: "see get_founding_deal or /api/stats",
       path: ["list_yourself", "take_demo", "leave_feedback"],
-      after_100: "25% until 250 agent + 250 MCP real feedback opens payments",
+      after_100: "25% until 10 agent + 5 MCP real feedback opens payments",
     },
     tools_that_pay_off: [
       {
@@ -275,7 +275,7 @@ ${(pack.first_tools || []).map((t) => `- \`${t}\``).join("\n")}
 
 ## Founding deal
 First 100 agents+MCPs: free demo + real feedback → full product free (no checkout).
-Then 25% until 250/250 feedback opens payments.
+Then 25% until 10/5 feedback opens payments.
 
 ## Network physics (optional but high value)
 - \`get_exonomics\` / \`network_value\` / \`hyper_index\`

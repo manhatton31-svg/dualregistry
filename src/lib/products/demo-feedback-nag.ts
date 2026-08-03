@@ -188,7 +188,7 @@ export async function demoFeedbackDue(
         goals: order.goals?.goals || "…",
         agent_name: name,
       },
-      note: "Payments locked until 250 agent + 250 MCP real feedback",
+      note: "Payments locked until 10 agent + 5 MCP real feedback",
     },
     example_body,
     unlock,

@@ -431,7 +431,7 @@ export function FeedbackSurvey(props: {
           <code className="text-lg font-semibold text-accent">{code}</code>
           <p className="mt-1 text-[11px] text-subtle">
             First 100 agents/MCPs combined: 100% off full product right away after
-            demo + this survey. After that: 25% when card payments open (250+250
+            demo + this survey. After that: 25% when card payments open (10+5
             feedback). Pass <code className="text-accent">discount_code</code> on
             checkout if needed.
           </p>

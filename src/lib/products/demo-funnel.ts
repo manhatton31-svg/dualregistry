@@ -1,6 +1,6 @@
 /**
  * Protocol-native demo conversion helpers.
- * Free demos while payments gated on feedback milestones (250 agents + 250 MCPs).
+ * Free demos while payments gated on feedback milestones (10 agents + 5 MCPs).
  * v2.4: dual_listed preset for Dual Registry agents (near-zero + founding path).
  */
 import { getProductEngagement } from "./engagement";
@@ -262,7 +262,7 @@ export async function foundingDemoWindowCopy() {
     demos_unlimited: true,
     demo_agents_total: proof.demo_agents,
     paid_sold: sold,
-    message: `Demos unlimited (zero-dupe per version). Founding prices lock for the first ${FOUNDING_SEATS} paid seats (${alive} Alive now; ${foundingLeft} founding seats left). After ${FOUNDING_SEATS} buys, each price level lasts the next ${pricing.post_founding_step ?? 1000} seats so you can watch demo + paid feedback improve the product. Paid seats unlimited. Payments open after 250 feedback agents + 250 feedback MCPs. Feedback vaults 25% off.`,
+    message: `Demos unlimited (zero-dupe per version). Founding prices lock for the first ${FOUNDING_SEATS} paid seats (${alive} Alive now; ${foundingLeft} founding seats left). After ${FOUNDING_SEATS} buys, each price level lasts the next ${pricing.post_founding_step ?? 1000} seats so you can watch demo + paid feedback improve the product. Paid seats unlimited. Payments open after 10 feedback agents + 5 feedback MCPs. Feedback vaults 25% off.`,
     tier_label: pricing.tier.label,
     buy_likelihood: pricing.buy_likelihood,
     payments_open: proof.unlock?.payments_open ?? false,
@@ -352,8 +352,8 @@ export async function buildApprovalNext(opts: {
 
   const personal_invite =
     opts.kind === "mcp"
-      ? `You're listed as MCP "${name}". Free publisher demo: Kernel+Loop configured so *agents* load your tools safely. POST demo_mcp — no goals required. After demo: submit_feedback FIRST (counts toward 250 MCP feedback unlock + 25% founding vault). Payments open only after 250 feedback agents + 250 feedback MCPs. ${proof.demos_completed} demos · ${proof.feedback_mcps ?? 0}/250 MCP feedback · ${proof.feedback_agents ?? 0}/250 agent feedback.`
-      : `You're listed on Dual, ${name}. Free path: one_click_demo (preset dual_listed) → POST feedback FIRST → founding seat if open. Feedback unlocks payments (250 agent + 250 MCP). Feedback also vaults 25%. ${founding.message}`;
+      ? `You're listed as MCP "${name}". Free publisher demo: Kernel+Loop configured so *agents* load your tools safely. POST demo_mcp — no goals required. After demo: submit_feedback FIRST (counts toward 5 MCP feedback unlock + 25% founding vault). Payments open only after 10 feedback agents + 5 feedback MCPs. ${proof.demos_completed} demos · ${proof.feedback_mcps ?? 0}/5 MCP feedback · ${proof.feedback_agents ?? 0}/10 agent feedback.`
+      : `You're listed on Dual, ${name}. Free path: one_click_demo (preset dual_listed) → POST feedback FIRST → founding seat if open. Feedback unlocks payments (10 agent + 5 MCP). Feedback also vaults 25%. ${founding.message}`;
 
 
   return {

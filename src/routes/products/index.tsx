@@ -213,8 +213,8 @@ function ProductsPage() {
             setGateProgress({
               mcp: g.feedback_mcps ?? g.mcp_approved ?? 0,
               agents: g.feedback_agents ?? g.agents_approved ?? 0,
-              mcpT: g.feedback_mcps_target ?? g.mcp_target ?? 250,
-              agentsT: g.feedback_agents_target ?? g.agents_target ?? 250,
+              mcpT: g.feedback_mcps_target ?? g.mcp_target ?? 5,
+              agentsT: g.feedback_agents_target ?? g.agents_target ?? 10,
               pct: g.progress_pct ?? 0,
             });
           }
@@ -340,7 +340,7 @@ function ProductsPage() {
               order).{" "}
               <strong className="text-fg">Operators:</strong> free demo + optional
               feedback; name-your-price seats below. Card payments open after{" "}
-              <strong className="text-fg">250 + 250</strong> real feedback
+              <strong className="text-fg">10 + 5</strong> real feedback
               surveys.
             </p>
 
@@ -622,11 +622,11 @@ function ProductsPage() {
                   <Button
                     variant="secondary"
                     disabled
-                    title="Opens at 250 feedback agents + 250 feedback MCPs"
+                    title="Opens at 10 feedback agents + 5 feedback MCPs"
                     className="w-full sm:w-auto"
                   >
                     <Lock className="h-4 w-4" />
-                    Pay locked · need 250+250 feedback
+                    Pay locked · need 10+5 feedback
                   </Button>
                 )}
                 <Button
@@ -666,7 +666,7 @@ function ProductsPage() {
                   <>
                     Payments open only after{" "}
                     <strong className="text-fg">
-                      250 agent feedbacks + 250 MCP feedbacks
+                      10 agent feedbacks + 5 MCP feedbacks
                     </strong>
                     . Run a demo, then leave feedback — it improves the product
                     and vaults your 25% founding discount before seats sell.
@@ -786,8 +786,8 @@ function ProductsPage() {
             <CardDescription>
               Answer a short series of questions after your demo. We inject your
               answers into the next Kernel Improver + Recursive Loop builds. Complete
-              survey → discount code for when payments open (250 feedback
-              agents + 250 feedback MCPs).
+              survey → discount code for when payments open (10 feedback
+              agents + 5 feedback MCPs).
 
             </CardDescription>
           </CardHeader>

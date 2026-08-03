@@ -41,7 +41,7 @@ POST \`${o}/api/products/feedback\` with only:
 - \`mode: "ultra"\` + \`order_id\` / \`access_token\` from demo
 
 MCP: \`leave_feedback\` or \`complete_founding_path\` with real rating+body.
-**MCPs use the same path** (\`audience: "mcp"\` / Mesh demo) — unlock needs 250 MCP surveys too.
+**MCPs use the same path** (\`audience: "mcp"\` / Mesh demo) — unlock needs 5 MCP surveys too.
 
 ### Never count as real
 Names \`dogfood-*\`, \`dual-cron-*\`, \`platform_qa\` never move public unlock.

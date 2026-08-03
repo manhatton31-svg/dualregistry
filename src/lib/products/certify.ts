@@ -144,7 +144,7 @@ export async function verifyCertificate(opts: {
       nag: life.nag,
     },
     payments_note: isDemo
-      ? `Demo certificate — provisional +${DEMO_SCORE_BOOST} score boost now. Full boost after live paid purchase when payments open (250 feedback agents + 250 feedback MCPs) + lifecycle.`
+      ? `Demo certificate — provisional +${DEMO_SCORE_BOOST} score boost now. Full boost after live paid purchase when payments open (10 feedback agents + 5 feedback MCPs) + lifecycle.`
 
       : life.eligible_full_boost
         ? undefined

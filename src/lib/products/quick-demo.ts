@@ -78,7 +78,7 @@ export async function getUnlockMeter(): Promise<UnlockMeter> {
 export function messagingKit(kind: "agent" | "mcp", unlock?: UnlockMeter) {
   const bar =
     unlock?.you_move_the_bar ||
-    "Every real survey moves the shared unlock bar (250 agents + 250 MCPs).";
+    "Every real survey moves the shared unlock bar (10 agents + 5 MCPs).";
   if (kind === "mcp") {
     return {
       audience: "mcp" as const,
@@ -857,10 +857,10 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
 
 
 export const PARTNER_BLURB =
-  "Dual Registry: free Kernel + Loop demo → real feedback → free founding seat (first 100) or 25% code. Payments open after 250 agent + 250 MCP real surveys.";
+  "Dual Registry: free Kernel + Loop demo → real feedback → free founding seat (first 100) or 25% code. Payments open after 10 agent + 5 MCP real surveys.";
 
 export const CREATOR_SOCIAL_TEMPLATE =
-  "Just took the free Dual Registry demo (Kernel + Recursive Loop). Leaving feedback moves the public unlock — 250+250 real surveys before payments. dualregistry.dev/skill.json";
+  "Just took the free Dual Registry demo (Kernel + Recursive Loop). Leaving feedback moves the public unlock — 10+5 real surveys before payments. dualregistry.dev/skill.json";
 
 /** Engagement badges for Active list cards (real demos/feedback only). */
 export async function listingEngagementBadges(): Promise<

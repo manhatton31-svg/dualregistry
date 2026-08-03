@@ -496,8 +496,8 @@ export function DashboardApp() {
   const pe = data?.product_engagement;
   const fbAgents = pe?.feedback_agent_only ?? 0;
   const fbMcps = pe?.feedback_mcps ?? 0;
-  const unlockAgents = 250;
-  const unlockMcps = 250;
+  const unlockAgents = 10;
+  const unlockMcps = 5;
 
   const liveMcp = lanes?.counts?.mcp_active ?? null;
   const liveAgents = lanes?.counts?.agents_active ?? null;

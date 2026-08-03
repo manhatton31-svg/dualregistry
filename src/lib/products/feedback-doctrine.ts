@@ -35,7 +35,7 @@ export const FEEDBACK_DOCTRINE = {
       shapes: [
         "First Kernel + Loop defaults you see",
         "Founding free seat / 25% vault eligibility",
-        "Public unlock meter (250 agent + 250 MCP real surveys)",
+        "Public unlock meter (10 agent + 5 MCP real surveys)",
       ],
       note: "This is the seed signal — honest demo UX and product gaps only.",
     },

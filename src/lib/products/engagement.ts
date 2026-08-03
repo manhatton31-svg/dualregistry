@@ -1,7 +1,7 @@
 /**
  * Product engagement metrics.
  * Public demos = REAL only (self_serve | organic) created after metrics-reset epoch.
- * System invited seeds never count. Unlock: 250 agent + 250 MCP real feedback.
+ * System invited seeds never count. Unlock: 10 agent + 5 MCP real feedback.
  * Communication block = soft demo nudges + Talk replies (never padded).
  */
 import { readFile } from "node:fs/promises";

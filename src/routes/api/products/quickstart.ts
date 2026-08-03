@@ -100,7 +100,7 @@ export const Route = createFileRoute("/api/products/quickstart")({
                 "reciprocity refill (leave_feedback | leave_trace | endorse | deposit_outcome)",
                 "wait UTC day reset",
                 "x402: X-PAYMENT / payment_proof when server has X402_ENABLED=1",
-                "human seats: /products (card checkout gated by 250+250 real feedback)",
+                "human seats: /products (card checkout gated by 10+5 real feedback)",
               ],
             },
             catalog: listEventCatalogPublic(),

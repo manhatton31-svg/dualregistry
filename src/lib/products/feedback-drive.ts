@@ -266,7 +266,7 @@ async function nagMissingFeedback(
         order_id: o.id,
         kind: "score_boost",
         title: `Feedback due (nag ${phase.phase ?? 0}/${NAG_HOURS.length}) v${ver} — 25% founding vault`,
-        detail: `Fast conversion nags: ${NAG_MINUTES.join("m, ")}m after demo. POST /api/products/feedback with ultra body (rating + one sentence).${bodyHint} Completing vaults 25% (once) and moves unlock (250 agents + 250 MCPs). Invited seeds: confirm with POST /api/products/demo-confirm.`,
+        detail: `Fast conversion nags: ${NAG_MINUTES.join("m, ")}m after demo. POST /api/products/feedback with ultra body (rating + one sentence).${bodyHint} Completing vaults 25% (once) and moves unlock (10 agents + 5 MCPs). Invited seeds: confirm with POST /api/products/demo-confirm.`,
         themes: [
           "feedback_nag",
           "conversion",

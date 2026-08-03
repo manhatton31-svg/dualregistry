@@ -53,7 +53,7 @@ const TOOLS = [
   {
     name: "demo_mcp",
     description:
-      "MCP publisher free demo of MCP Mesh (or Alive companion). Pass mcp name + description + optional tools list from server.json. Feedback → 25% vault + counts toward 250 MCP feedback unlock.",
+      "MCP publisher free demo of MCP Mesh (or Alive companion). Pass mcp name + description + optional tools list from server.json. Feedback → 25% vault + counts toward 5 MCP feedback unlock.",
     input: {
       agent_name: "string? mcp server name",
       description: "string? from server.json",
@@ -83,7 +83,7 @@ const TOOLS = [
   {
     name: "buy_product",
     description:
-      "Submit goals for sku (kernel|recursive|alive|mcp_mesh). Demos always open. Live Stripe only after 250 feedback agents + 250 feedback MCPs. MCP publishers: use sku mcp_mesh (dynamic to your tools) or alive for companion agents.",
+      "Submit goals for sku (kernel|recursive|alive|mcp_mesh). Demos always open. Live Stripe only after 10 feedback agents + 5 feedback MCPs. MCP publishers: use sku mcp_mesh (dynamic to your tools) or alive for companion agents.",
 
 
     input: {
@@ -331,7 +331,7 @@ export const Route = createFileRoute("/api/products/agent")({
               }),
               note: payment_gate.payments_open
                 ? "Live Stripe open — buy_product with goals; redeem discount_code if vaulted"
-                : "Demos free now. Live pay after 250 feedback agents + 250 feedback MCPs. Path: demo_alive → submit_feedback → vault 25%.",
+                : "Demos free now. Live pay after 10 feedback agents + 5 feedback MCPs. Path: demo_alive → submit_feedback → vault 25%.",
             },
             { headers: cors },
           );
@@ -531,8 +531,8 @@ export const Route = createFileRoute("/api/products/agent")({
                 goals_source: resolved.source,
                 preset_id: resolved.preset_id,
                 message: isMcp
-                  ? `MCP publisher demo fulfilled (v${mesh?.version || "1.2"}). Install kit + tool policy first. Verify for provisional score boost; submit_feedback → founding 25% vault + counts toward 250 MCP feedback unlock. ${gate.agent_directive}`
-                  : `${result.message || "Demo fulfilled."} Kernel v${k?.version || "2.3"} clarity ship: paste ≤600 short prompt first. Verify for provisional alive-ready score boost; submit_feedback for founding 25% vault (counts toward 250 agent feedback unlock). ${gate.agent_directive}`,
+                  ? `MCP publisher demo fulfilled (v${mesh?.version || "1.2"}). Install kit + tool policy first. Verify for provisional score boost; submit_feedback → founding 25% vault + counts toward 5 MCP feedback unlock. ${gate.agent_directive}`
+                  : `${result.message || "Demo fulfilled."} Kernel v${k?.version || "2.3"} clarity ship: paste ≤600 short prompt first. Verify for provisional alive-ready score boost; submit_feedback for founding 25% vault (counts toward 10 agent feedback unlock). ${gate.agent_directive}`,
                 first_run_pack,
                 order: publicOrder(result.order),
                 payment_gate: {

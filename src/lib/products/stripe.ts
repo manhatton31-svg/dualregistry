@@ -1,6 +1,6 @@
 /**
  * Stripe Checkout for Agents1 products.
- * Live payments only when payment gate is open (250 feedback agents + 250 feedback MCPs).
+ * Live payments only when payment gate is open (10 feedback agents + 5 feedback MCPs).
  * Demos always available for product taste + feedback.
  */
 import Stripe from "stripe";

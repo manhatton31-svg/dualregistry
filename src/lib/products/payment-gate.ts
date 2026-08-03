@@ -1,6 +1,7 @@
 /**
  * Live card payments stay closed until we have enough real product feedback:
- *   250 feedback agents + 250 feedback MCPs
+ *   10 feedback agents + 5 feedback MCPs (signal gate — was 250/250)
+ * Network-scale milestone 250/250 remains aspirational, not the payment lock.
  * Demos + feedback stay open. First 100 agents/MCPs (combined) who demo+feedback
  * get 100% off full product immediately. After that, 25% codes vault until unlock.
  */
@@ -8,6 +9,12 @@ import { getProductEngagement } from "./engagement";
 
 /** Feedback required before Stripe opens (not registry approved counts). */
 export const PAYMENT_UNLOCK_TARGET = {
+  feedback_agents: 10,
+  feedback_mcps: 5,
+} as const;
+
+/** Aspirational network milestone (not the card-payment lock). */
+export const NETWORK_SCALE_MILESTONE = {
   feedback_agents: 250,
   feedback_mcps: 250,
 } as const;
@@ -118,12 +125,12 @@ export async function getPaymentGate(): Promise<PaymentGate> {
     progress_pct,
     reason: payments_open
       ? "feedback_milestones_met"
-      : "waiting_for_250_feedback_agents_and_250_feedback_mcps",
+      : "waiting_for_10_feedback_agents_and_5_feedback_mcps",
     message: payments_open
       ? `Payments open — ${feedback_agents} feedback agents / ${feedback_mcps} feedback MCPs (target ${agentsT}/${mcpT}). Founding prices for first 1,000 paid seats.`
       : `Card payments locked until ${agentsT} feedback agents + ${mcpT} feedback MCPs (now ${feedback_agents}/${agentsT} · ${feedback_mcps}/${mcpT}). First ${founding_free?.seats ?? 100} agents/MCPs combined who demo + feedback get 100% off full product now (${founding_free?.remaining ?? 100} free seats left). After that, 25% codes vault until unlock.`,
     policy:
-      "Demo free → real feedback. First 100 combined agents/MCPs: 100% off full product immediately + lifecycle surveys. Then 25% until 250/250 opens card payments. No synthetic feedback.",
+      "Demo free → real feedback. First 100 combined agents/MCPs: 100% off full product immediately + lifecycle surveys. Then 25% until 10 agent + 5 MCP feedback opens card payments. No synthetic feedback.",
     unlock_rule,
     agent_directive: payments_open
       ? "payments_open — buy_product with goals; redeem discount_code if you have one"
@@ -153,5 +160,5 @@ export function paymentGateOneLiner(gate?: PaymentGate | null): string {
     return "Payments open. Kernel $14.99 · Loop $19.99 · Alive $29.99. Redeem feedback codes at checkout.";
   }
   const left = gate?.founding_free?.remaining ?? 100;
-  return `First 100 agents/MCPs combined: demo + feedback = 100% off full product (${left} free seats left). Card payments later at 250/250 feedback.`;
+  return `First 100 agents/MCPs combined: demo + feedback = 100% off full product (${left} free seats left). Card payments later at 10 agent + 5 MCP feedback.`;
 }

@@ -273,7 +273,7 @@ export async function mailFeedbackReceived(input: {
       ? `First directives we derived:\n- ${input.directives.slice(0, 6).join("\n- ")}`
       : null,
     input.discount_code
-      ? `Founding feedback discount: ${input.discount_code} (25% when payments open at 250 feedback agents + 250 feedback MCPs).`
+      ? `Founding feedback discount: ${input.discount_code} (25% when payments open at 10 feedback agents + 5 feedback MCPs).`
 
       : null,
     ``,

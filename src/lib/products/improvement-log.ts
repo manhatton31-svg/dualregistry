@@ -560,7 +560,7 @@ export async function runDogfoodImprovement(): Promise<Store["dogfood"]> {
 
   const goals = [
     "List and score MCP servers and agents fairly with free-tier constraints.",
-    "Convert listed agents into free Kernel/Loop demos before payments open at 250 feedback agents + 250 feedback MCPs.",
+    "Convert listed agents into free Kernel/Loop demos before payments open at 10 feedback agents + 5 feedback MCPs.",
     "Claim founding free seats via demo→real feedback (first 100 combined).",
     "Raise Dual network density: compositions C≥0.08, outcomes O, federation F≥2 peer ops.",
     "Prefer near-zero Dual ops (trails, hashes, packs) before re-probe; one-hop join_and_contribute.",

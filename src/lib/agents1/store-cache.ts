@@ -88,7 +88,7 @@ export function buildMilestones(
     solicit_ready: true,
     policy: base?.policy ?? {
       summary:
-        "Solicit demos + feedback freely. Live payments open after 250 feedback agents + 250 feedback MCPs. Themes: first 3 agents personalized, 4th reuse ships sitewide.",
+        "Solicit demos + feedback freely. Live payments open after 10 feedback agents + 5 feedback MCPs. Themes: first 3 agents personalized, 4th reuse ships sitewide.",
       when_ready:
         "Invite listed MCPs and agents to free Kernel/Loop demos and structured feedback. Watch the public improvement log for individual → sitewide ships.",
       product_surfaces: [
@@ -347,7 +347,7 @@ export async function mergeLiveIntoCache(input: {
       solicit_ready: true,
       policy: {
         summary:
-          "Solicit demos + feedback freely. Payments open after 250 feedback agents + 250 feedback MCPs.",
+          "Solicit demos + feedback freely. Payments open after 10 feedback agents + 5 feedback MCPs.",
         when_ready:
           "Invite demos; feedback themes personalize first 3 agents then ship sitewide on reuse.",
         product_surfaces:

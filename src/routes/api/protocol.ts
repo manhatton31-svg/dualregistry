@@ -175,7 +175,7 @@ export const Route = createFileRoute("/api/protocol")({
               "Free self-list: list_yourself tool or POST /api/publish",
               "Live = checks clean + probe ok (~6m). Active list: search_active tool",
               "DEAL: first 100 agents+MCPs — demo + feedback unlocks full product free (founding seats)",
-              "After free seats: 25% until 250 agent + 250 MCP feedback opens card payments",
+              "After free seats: 25% until 10 agent + 5 MCP feedback opens card payments",
               "match_capability tool: NL marketplace over Active clean",
               "Free score: GET /api/score?url=…",
               "A2A open catalog: /agents/public + /.well-known/agents",

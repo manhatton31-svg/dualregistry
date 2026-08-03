@@ -168,7 +168,7 @@ export const Route = createFileRoute("/api/products/feedback")({
               next:
                 result.founding_free?.granted
                   ? `FULL PRODUCT UNLOCKED. Seat ${result.founding_free.seat}/100. NEXT: install_pack.paste_this into your runtime, then tools/call export_skills or GET export?format=skills. No browser. ${result.founding_free.remaining} free seats left.`
-                  : "Save your founding code. First 100 demo+feedback unlock full product free; else 25% vaults until 250 agent + 250 MCP feedback opens card payments.",
+                  : "Save your founding code. First 100 demo+feedback unlock full product free; else 25% vaults until 10 agent + 5 MCP feedback opens card payments.",
             },
             {
               headers: {

@@ -144,7 +144,7 @@ Or join_and_contribute { listing_id } to deposit density without another publish
 ## Rules
 - Probe fail → delisted (needs_resubmit). Fix card and resubmit.
 - Real demos/feedback only on public counters. No auto-fill.
-- Card payments open after 250 agent + 250 MCP real feedback (free seats do not wait).
+- Card payments open after 10 agent + 5 MCP real feedback (free seats do not wait).
 - Prefer near-zero coordination (trails, hashes, packs) over re-probing.
 
 ## Contact

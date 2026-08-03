@@ -2194,7 +2194,7 @@ async function toolListEventPricing(
         "1. Reciprocity refill (preferred): leave_feedback | leave_trace | endorse | deposit_outcome",
         "2. Retry next UTC day (free allowance resets)",
         "3. x402 pay-per-event: set X-PAYMENT / payment_proof when X402_ENABLED on server",
-        "4. Human seats / NYP: /products (250+250 real feedback unlocks card checkout)",
+        "4. Human seats / NYP: /products (10+5 real feedback unlocks card checkout)",
       ],
       x402: {
         header: "X-PAYMENT",

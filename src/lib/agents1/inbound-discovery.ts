@@ -50,7 +50,7 @@ export function buildListYourselfSkill(origin: string) {
     deal: {
       first_100:
         "demo + feedback → full product free for founding seats (100 seats shared)",
-      after: "25% founding code until 250/250 feedback opens card payments",
+      after: "25% founding code until 10/5 feedback opens card payments",
       find_us: o,
       feedback_driven: feedbackDoctrineCta(),
     },

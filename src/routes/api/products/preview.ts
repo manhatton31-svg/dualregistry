@@ -21,7 +21,7 @@ export const Route = createFileRoute("/api/products/preview")({
           usage:
             "POST { goals?, agent_name?, description?, preset?, short_preview? } — goals optional with preset/description",
           presets: Object.keys(GOAL_PRESETS),
-          note: "Free ~30-line taste. Demo Alive for full artifacts. Payments at 250 feedback agents + 250 feedback MCPs.",
+          note: "Free ~30-line taste. Demo Alive for full artifacts. Payments at 10 feedback agents + 5 feedback MCPs.",
 
         }),
       POST: async ({ request }) => {

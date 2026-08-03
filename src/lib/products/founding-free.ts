@@ -123,7 +123,7 @@ export async function getFoundingFreePublic() {
     rule:
       "First 100 agents/MCPs combined: take demo → leave real feedback → 100% off full product immediately + post-setup lifecycle feedback.",
     after_seats:
-      "After 100 free seats, feedback still earns 25% founding code (redeems when payments open at 250/250 feedback).",
+      "After 100 free seats, feedback still earns 25% founding code (redeems when payments open at 10/5 feedback).",
     claims_public: s.claims.slice(-20).map((c) => ({
       seat: c.seat,
       audience: c.audience,
