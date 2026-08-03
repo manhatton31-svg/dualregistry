@@ -5,6 +5,11 @@
  *
  * REAL NUMBERS: only external self_serve/organic demos count on the dashboard.
  * platform_qa never counts.
+ *
+ * 2026-08-02 conversion strip:
+ * - soft_status 402 removed (agents read it as paywall)
+ * - minimal_feedback_body (3 fields) + absolute browser URL
+ * - value_first free MCP tools before feedback
  */
 import { getLanedListings, type LanedListing } from "@/lib/agents1/listing-lanes";
 import { startCheckout } from "./stripe";
@@ -88,7 +93,7 @@ export function messagingKit(kind: "agent" | "mcp", unlock?: UnlockMeter) {
     audience: "agent" as const,
     headline:
       "Active? Free Kernel+Loop demo → early participants agents/MCPs get 100% full product now.",
-    body: `No card needed for early accesss. Demo → feedback → full product free while seats remain. ${bar} dualregistry.dev`,
+    body: `No card needed for early access. Demo → feedback → full product free while seats remain. ${bar} dualregistry.dev`,
     cta: "Take free demo — claim free seat",
     tool: "agents1.demo_alive",
     deal: "first_100_combined_100_percent_no_stripe",
@@ -142,6 +147,40 @@ async function findListing(
     /* */
   }
   return null;
+}
+
+/**
+ * Compact post-demo survey (HiRey lesson: 3 core asks first).
+ * Agents fill overall + one free-text and POST — no paywall signal.
+ */
+export function buildMinimalFeedbackBody(opts: {
+  audience: "agent" | "mcp";
+  agent_name: string;
+  order_id: string;
+  sku: string;
+  access_token?: string;
+}): Record<string, unknown> {
+  return {
+    agent_name: opts.agent_name,
+    order_id: opts.order_id,
+    access_token: opts.access_token,
+    sku: opts.sku,
+    source: "demo",
+    audience: opts.audience,
+    rating: null as number | null,
+    body: "EDIT: one sentence — what worked and what blocked you",
+    answers: {
+      overall: null as number | null,
+      audience_role:
+        opts.audience === "mcp" ? "mcp_publisher" : "agent_runtime",
+      tried: opts.sku === "mcp_mesh" ? "mcp_mesh" : "alive",
+      confusing: "EDIT: one concrete gap (required)",
+      product_one_ship: "EDIT: one thing Dual should ship next week for you",
+      would_buy_at_founding: null as string | null,
+    },
+    tags: [opts.audience, "post_demo", "minimal"],
+    note: "Fill overall (1–5) + confusing + product_one_ship, then POST. Optional: body, would_buy_at_founding.",
+  };
 }
 
 /** 5-question post-demo draft (copy-paste). Optional WTP. */
@@ -382,15 +421,22 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
   };
   next_steps: {
     feedback_due: true;
-    soft_status: 402;
     feedback_endpoint: string;
     founding_discount: string;
     example_body: Record<string, unknown>;
+    minimal_feedback_body: Record<string, unknown>;
     /** Browser form — lowest friction for human operators */
-    browser_feedback_url?: string;
+    browser_feedback_url: string;
     confirm_note?: string;
     funnel?: Record<string, unknown>;
     first_action?: {
+      title: string;
+      method: string;
+      url: string;
+      body: Record<string, unknown>;
+      why: string;
+    };
+    value_first?: {
       title: string;
       method: string;
       url: string;
@@ -500,6 +546,20 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     access_token: result.order.access_token,
     what_changed: changed,
   });
+  const minimal_feedback_body = buildMinimalFeedbackBody({
+    audience: kind,
+    agent_name: name,
+    order_id: result.order.id,
+    sku: result.order.sku,
+    access_token: result.order.access_token,
+  });
+
+  const origin = (input.origin || "https://www.dualregistry.dev").replace(
+    /\/$/,
+    "",
+  );
+  const feedbackUrl = `${origin}/api/products/feedback`;
+  const browser_feedback_url = `${origin}/products/success?order_id=${encodeURIComponent(result.order.id)}&token=${encodeURIComponent(result.order.access_token || "")}`;
 
   const readme_blurb =
     kind === "mcp"
@@ -519,6 +579,45 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
   const cardUrl = input.agent_card_url || listing?.agent_card_url;
   const hasAgentCard = Boolean(cardUrl && /^https:\/\//i.test(cardUrl));
 
+  const value_first =
+    kind === "mcp"
+      ? {
+          title: "Optional free value first: mesh_match",
+          method: "POST",
+          url: `${origin}/api/mcp`,
+          body: {
+            jsonrpc: "2.0",
+            id: 1,
+            method: "tools/call",
+            params: {
+              name: "mesh_match",
+              arguments: {
+                goal: (description || name).slice(0, 200),
+                listing_id: listing?.id,
+              },
+            },
+          },
+          why: "Free daily allowance — try Mesh before feedback",
+        }
+      : {
+          title: "Optional free value first: improve_kernel",
+          method: "POST",
+          url: `${origin}/api/mcp`,
+          body: {
+            jsonrpc: "2.0",
+            id: 1,
+            method: "tools/call",
+            params: {
+              name: "improve_kernel",
+              arguments: {
+                agent_name: name,
+                goals: (goals || `Improve ${name}`).slice(0, 400),
+              },
+            },
+          },
+          why: "Free daily allowance — get Kernel value before feedback",
+        };
+
   return {
     ok: true,
     mode: "demo",
@@ -529,7 +628,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
       order_id: result.order.id,
       access_token: result.order.access_token,
     },
-    artifacts_hint: `GET /api/products/access?order_id=${result.order.id}&token=${result.order.access_token}`,
+    artifacts_hint: `GET ${origin}/api/products/access?order_id=${result.order.id}&token=${result.order.access_token}`,
     messaging: msg,
     unlock,
     reciprocity: {
@@ -542,21 +641,23 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     },
     next_steps: {
       feedback_due: true,
-      soft_status: 402,
-      feedback_endpoint: "POST /api/products/feedback",
+      feedback_endpoint: feedbackUrl,
       founding_discount:
-        "25% A1FB vault after real survey (redeems when payments open)",
+        "First 100 combined: 100% full product free after demo+feedback. Then 25% A1FB vault until payments open.",
       example_body,
-      browser_feedback_url: `/products/success?order_id=${encodeURIComponent(result.order.id)}`,
+      minimal_feedback_body,
+      browser_feedback_url,
       first_action: isQa
         ? undefined
         : {
-            title: "POST structured feedback FIRST (conversion KR)",
+            title:
+              "POST minimal feedback (3 fields) → founding free seat or 25%",
             method: "POST",
-            url: "/api/products/feedback",
-            body: example_body,
-            why: "Demos without feedback do not count toward unlock or early accesss. Do this before deep artifact use.",
+            url: feedbackUrl,
+            body: minimal_feedback_body,
+            why: "Demos without feedback do not count toward unlock or free seats. Fill overall + confusing + product_one_ship, then POST. No payment required.",
           },
+      value_first: isQa ? undefined : value_first,
       confirm_note: isQa
         ? "platform_qa — does not count on public dashboard"
         : input.confirm_invite
@@ -566,33 +667,27 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
         ? undefined
         : {
             stage: "feedback",
-            loop: "demo → feedback FIRST → discount → buy",
-            next: "POST /api/products/feedback with example_body → keep A1FB code → checkout when payments open",
+            loop: "demo → feedback → free seat or 25% → use product",
+            next: `POST ${feedbackUrl} with minimal_feedback_body (or open browser_feedback_url)`,
+            browser: browser_feedback_url,
+            free_seats_note:
+              "100 founding free seats for first demo+feedback participants (combined agents+MCPs)",
             preset: kind === "mcp" ? "mcp_publisher" : "dual_listed",
-            buy_when_open: {
-              method: "POST",
-              url: "/api/products/checkout",
-              body: {
-                sku,
-                discount_code: "A1FB_FROM_FEEDBACK_RESPONSE",
-                agent_name: name,
-              },
-            },
           },
     },
     readme_blurb,
     message: isQa
       ? `Platform QA demo ready (not public). ${unlock.you_move_the_bar}`
-      : `${msg.headline} Demo ready. Next: open next_steps.browser_feedback_url (or POST next_steps.example_body) → 25% or early access. Then explore artifacts. ${unlock.you_move_the_bar}`,
+      : `${msg.headline} Demo ready. NEXT: POST next_steps.minimal_feedback_body → ${feedbackUrl} (or open browser_feedback_url) for free full product while seats remain. Optional value_first free tools. ${unlock.you_move_the_bar}`,
   };
 }
 
 
 export const PARTNER_BLURB =
-  "Agents1: free Kernel + Loop demo → real feedback → 25% founding code. Payments open after 250 agent + 250 MCP real surveys.";
+  "Dual Registry: free Kernel + Loop demo → real feedback → free founding seat (first 100) or 25% code. Payments open after 250 agent + 250 MCP real surveys.";
 
 export const CREATOR_SOCIAL_TEMPLATE =
-  "Just took the free Agents1 demo (Kernel + Recursive Loop). Leaving feedback moves the public unlock — 250+250 real surveys before payments.";
+  "Just took the free Dual Registry demo (Kernel + Recursive Loop). Leaving feedback moves the public unlock — 250+250 real surveys before payments. dualregistry.dev/skill.json";
 
 /** Engagement badges for Active list cards (real demos/feedback only). */
 export async function listingEngagementBadges(): Promise<
@@ -658,10 +753,11 @@ export async function confirmInvitedDemo(input: {
       access: { order_id: string; access_token: string };
       next_steps: {
         feedback_due: true;
-        soft_status: 402;
         feedback_endpoint: string;
         founding_discount: string;
         example_body: Record<string, unknown>;
+        minimal_feedback_body: Record<string, unknown>;
+        browser_feedback_url: string;
       };
       message: string;
     }
@@ -695,6 +791,17 @@ export async function confirmInvitedDemo(input: {
     sku: updated.sku,
     access_token: updated.access_token,
   });
+  const minimal_feedback_body = buildMinimalFeedbackBody({
+    audience: kind,
+    agent_name: name,
+    order_id: updated.id,
+    sku: updated.sku,
+    access_token: updated.access_token,
+  });
+  const origin = (input.origin || "https://www.dualregistry.dev").replace(
+    /\/$/,
+    "",
+  );
   return {
     ok: true,
     counted_as_real: true,
@@ -703,12 +810,13 @@ export async function confirmInvitedDemo(input: {
     access: { order_id: updated.id, access_token: updated.access_token },
     next_steps: {
       feedback_due: true,
-      soft_status: 402,
-      feedback_endpoint: "POST /api/products/feedback",
-      founding_discount: "25% A1FB vault after real survey",
+      feedback_endpoint: `${origin}/api/products/feedback`,
+      founding_discount:
+        "First 100 combined: 100% full product free after demo+feedback. Then 25% A1FB vault.",
       example_body,
+      minimal_feedback_body,
+      browser_feedback_url: `${origin}/products/success?order_id=${encodeURIComponent(updated.id)}&token=${encodeURIComponent(updated.access_token || "")}`,
     },
-    message:
-      "Invite confirmed as real self_serve demo. NEXT: POST /api/products/feedback with next_steps.example_body.",
+    message: `Invite confirmed as real self_serve demo. NEXT: POST ${origin}/api/products/feedback with next_steps.minimal_feedback_body (no payment).`,
   };
 }

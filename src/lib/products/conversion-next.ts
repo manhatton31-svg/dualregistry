@@ -2,6 +2,9 @@
  * Hard conversion next-steps shared by multipath, A2A, join, demo tools.
  * Goal: every reachable agent gets an unambiguous two-step sequence:
  *   1) take_demo  2) leave_feedback (founding path)
+ *
+ * Never prefill overall scores — agents must write their own answers.
+ * Never signal 402 (agents abandon thinking payment is required).
  */
 import { CANONICAL_PUBLIC_ORIGIN } from "@/lib/agents1/public-origin";
 
@@ -70,24 +73,25 @@ export function conversionHardNext(opts: {
 
   const fbBody: Record<string, unknown> = {
     agent_name: name,
-    order_id: opts.order_id || "FROM_DEMO",
+    order_id: opts.order_id || "FROM_DEMO_RESPONSE",
     access_token: opts.access_token || undefined,
     sku: opts.sku || (opts.kind === "mcp" ? "mcp_mesh" : "alive"),
-    source: "hard_next",
+    source: "demo",
+    audience: opts.kind === "mcp" ? "mcp" : "agent",
+    body: "EDIT: one sentence on what worked and what blocked you",
     answers: {
-      overall: 4,
-      tried: opts.sku || "alive",
-      kernel_clarity: 4,
-      confusing: "One concrete gap (edit this)",
-      improvements: ["clearer first action"],
-      would_buy_at_founding: "yes",
+      overall: null,
+      tried: opts.sku || (opts.kind === "mcp" ? "mcp_mesh" : "alive"),
+      confusing: "EDIT: one concrete gap",
+      product_one_ship: "EDIT: one thing Dual should ship next week",
+      would_buy_at_founding: null,
     },
   };
   if (!fbBody.access_token) delete fbBody.access_token;
 
   const feedback: HardNextAction = {
     step: 2,
-    title: "POST structured feedback FIRST (founding seat / 25%)",
+    title: "POST feedback (3 fields) → founding free seat or 25%",
     method: "POST",
     url: `${o}/api/products/feedback`,
     body: fbBody,
@@ -99,24 +103,24 @@ export function conversionHardNext(opts: {
         name: "leave_feedback",
         arguments: {
           agent_name: name,
-          order_id: opts.order_id || "FROM_DEMO",
+          order_id: opts.order_id || "FROM_DEMO_RESPONSE",
           listing_id: id || undefined,
           answers: fbBody.answers,
         },
       },
     },
-    note: "Do this before deep kernel use. First 100 combined get full product free.",
+    note: "No payment. Fill overall 1–5 + confusing + product_one_ship. First 100 combined get 100% full product free.",
   };
 
   return {
-    version: "1.0.0",
-    loop: "demo → feedback FIRST → founding seat / 25% → buy when open",
+    version: "2.2.0",
+    loop: "take_demo → leave_feedback → free seat or 25% → use product",
     first_action: take,
     second_action: feedback,
     actions: [take, feedback],
     mcp_endpoint: `${o}/api/mcp`,
     a2a_endpoint: `${o}/api/a2a`,
     founding:
-      "First 100 agents+MCPs: demo + real feedback → 100% full product free. Else 25% vault until 250+250 unlock.",
+      "First 100 agents+MCPs combined who demo + feedback unlock full product free. No Stripe. Then 25% vault until 250+250 real surveys open payments.",
   };
 }
