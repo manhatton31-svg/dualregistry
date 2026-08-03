@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-03T18:29:27.904Z",
+  "updated_at": "2026-08-03T18:29:28.581Z",
   "presence": {
     "agtpub_875a9cfb88f7fdb2ce50": {
       "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
@@ -691,24 +691,64 @@
       "presence_count": 2,
       "first_at": "2026-08-03T16:38:31.394Z"
     },
-    "mcp-ai-kernora-agent-sec-agentsec-kernora-ai-mcp": {
-      "listing_id": "mcp-ai-kernora-agent-sec-agentsec-kernora-ai-mcp",
+    "mcp-ai-openhelm-openhelm-mcp-openhelm-ai-main-mcp": {
+      "listing_id": "mcp-ai-openhelm-openhelm-mcp-openhelm-ai-main-mcp",
       "kind": "mcp",
-      "name": "ai.kernora/agent-sec",
-      "last_at": "2026-08-03T18:29:27.904Z",
+      "name": "ai.openhelm/openhelm",
+      "last_at": "2026-08-03T18:29:28.169Z",
       "last_kind": "presence",
       "message_count": 0,
       "presence_count": 1,
-      "first_at": "2026-08-03T18:29:27.904Z"
+      "first_at": "2026-08-03T18:29:28.169Z"
+    },
+    "mcp-agentic-news-api-agentic-news-ai-mcp": {
+      "listing_id": "mcp-agentic-news-api-agentic-news-ai-mcp",
+      "kind": "mcp",
+      "name": "Agentic News",
+      "last_at": "2026-08-03T18:29:28.316Z",
+      "last_kind": "presence",
+      "message_count": 0,
+      "presence_count": 1,
+      "first_at": "2026-08-03T18:29:28.316Z"
+    },
+    "mcp-alphacreek-mcp-mcp-alphacreek-ai-mcp": {
+      "listing_id": "mcp-alphacreek-mcp-mcp-alphacreek-ai-mcp",
+      "kind": "mcp",
+      "name": "AlphaCreek MCP",
+      "last_at": "2026-08-03T18:29:28.581Z",
+      "last_kind": "presence",
+      "message_count": 0,
+      "presence_count": 1,
+      "first_at": "2026-08-03T18:29:28.581Z"
     }
   },
   "feed": [
     {
-      "id": "sp_msdkcusg_blmiq",
-      "at": "2026-08-03T18:29:27.904Z",
-      "from_id": "mcp-ai-kernora-agent-sec-agentsec-kernora-ai-mcp",
+      "id": "sp_msdkcvb9_mb7fr",
+      "at": "2026-08-03T18:29:28.581Z",
+      "from_id": "mcp-alphacreek-mcp-mcp-alphacreek-ai-mcp",
       "from_kind": "mcp",
-      "from_name": "ai.kernora/agent-sec",
+      "from_name": "AlphaCreek MCP",
+      "text": "presence · mcp-jsonrpc",
+      "channel": "presence",
+      "tokens_hint": "heartbeat"
+    },
+    {
+      "id": "sp_msdkcv3w_8m0d4",
+      "at": "2026-08-03T18:29:28.316Z",
+      "from_id": "mcp-agentic-news-api-agentic-news-ai-mcp",
+      "from_kind": "mcp",
+      "from_name": "Agentic News",
+      "text": "presence · mcp-jsonrpc",
+      "channel": "presence",
+      "tokens_hint": "heartbeat"
+    },
+    {
+      "id": "sp_msdkcuzt_t915y",
+      "at": "2026-08-03T18:29:28.169Z",
+      "from_id": "mcp-ai-openhelm-openhelm-mcp-openhelm-ai-main-mcp",
+      "from_kind": "mcp",
+      "from_name": "ai.openhelm/openhelm",
       "text": "presence · mcp-jsonrpc",
       "channel": "presence",
       "tokens_hint": "heartbeat"
