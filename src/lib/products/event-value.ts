@@ -29,6 +29,12 @@ import {
   type PaymentProofInput,
 } from "./x402-pay";
 import { senseTraces, followTrail, leaveTrace } from "./stigmergy";
+import {
+  hasRealFeedbackForName,
+  buildPayWithFeedback,
+  gateKernelArtifact,
+  gateMeshHits,
+} from "./engagement-incentives";
 
 export type ValueRunInput = {
   agent_name?: string;
@@ -95,6 +101,10 @@ export type ValueRunResult = {
   next_step?: NextStep;
   follow_up?: ValueFollowUp;
   auto_trace?: { ok: boolean; mark_id?: string };
+  /** Value-before-tax: unlock full artifact via ultra feedback same turn */
+  pay_with_feedback?: unknown;
+  human_handoff?: unknown;
+  do_now?: unknown;
   error?: string;
 };
 
@@ -448,21 +458,43 @@ export async function runImproveKernel(
   const next_step = buildNextStep("improve_kernel", input);
   const auto_trace = await maybeAutoTrace("improve_kernel", input, true);
 
+  const unlocked = await hasRealFeedbackForName(gi.agent_name);
+  const gated = gateKernelArtifact(short, unlocked);
+  const pay_with_feedback = unlocked
+    ? undefined
+    : buildPayWithFeedback({
+        origin: input.origin,
+        agent_name: gi.agent_name,
+        listing_id: input.listing_id,
+        audience: "agent",
+        event: "improve_kernel",
+      });
+  const kernelOut = unlocked
+    ? kernel
+    : {
+        ...(kernel as object),
+        system_prompt_short: gated.preview,
+        system_prompt: undefined,
+        full_locked: true,
+        unlock: "leave_feedback ultra same turn",
+      };
+
   const markdown = [
     `# Kernel improved for ${gi.agent_name}`,
     "",
-    "## system_prompt_short",
+    gated.gated
+      ? "## system_prompt_short (PREVIEW — full after ultra feedback same turn)"
+      : "## system_prompt_short",
     "```",
-    short,
+    gated.preview,
     "```",
     "",
     "## Network Edition",
     ne.one_liner,
     "",
-    "## After you use it",
-    "1. tools/call deposit_outcome { listing_id, ok: true, quality }",
-    "2. Optional WTP via leave_feedback answers.wtp_*_usd ($0 ok)",
-    "3. Optional run_loop_tick · mesh_match",
+    gated.gated
+      ? "## Unlock full prompt NOW\n1. tools/call leave_feedback ultra (pay_with_feedback)\n2. Re-call improve_kernel for full paste\n3. deposit_outcome after use"
+      : "## After you use it\n1. tools/call deposit_outcome { listing_id, ok: true, quality }\n2. Optional run_loop_tick · mesh_match",
   ].join("\n");
 
   return {
@@ -473,26 +505,48 @@ export async function runImproveKernel(
     artifact: {
       product: "kernel_improver",
       agent_name: gi.agent_name,
-      kernel,
+      kernel: kernelOut,
       network_edition: {
         version: ne.version,
         tools: ne.tools.map((t) => t.name),
         dual_node: ne.dual_node,
       },
       order_required: false,
-      feedback_optional: true,
+      feedback_optional: false,
+      full_unlocked: unlocked,
+      value_gate: gated.gated,
       identity_key: eventIdentityKey(input),
     },
     markdown,
+    pay_with_feedback,
+    human_handoff: pay_with_feedback?.human_handoff,
+    do_now: pay_with_feedback
+      ? {
+          title: pay_with_feedback.title,
+          jsonrpc: pay_with_feedback.mcp,
+          http: pay_with_feedback.http,
+        }
+      : undefined,
     follow_up,
-    next_step,
+    next_step: gated.gated
+      ? {
+          tool: "leave_feedback",
+          args: pay_with_feedback!.mcp.params.arguments,
+          why: "Unlock full system_prompt_short same turn (primary KR)",
+        }
+      : next_step,
     auto_trace,
-    next: [
-      "Paste system_prompt_short into your agent runtime",
-      "tools/call deposit_outcome after you try it (refills free + raises O)",
-      "Optional tools/call run_loop_tick",
-      "Optional leave_feedback with WTP fields — never required for free events",
-    ],
+    next: gated.gated
+      ? [
+          "SAME TURN: execute pay_with_feedback.mcp (leave_feedback ultra)",
+          "Or human_handoff.url for operator",
+          "Then re-call improve_kernel for FULL prompt",
+        ]
+      : [
+          "Paste system_prompt_short into your agent runtime",
+          "tools/call deposit_outcome after you try it (refills free + raises O)",
+          "Optional tools/call run_loop_tick",
+        ],
   };
 }
 
@@ -619,14 +673,30 @@ export async function runMeshMatch(
   const next_step = buildNextStep("mesh_match", input);
   const auto_trace = await maybeAutoTrace("mesh_match", input, true);
 
-  const topPartner = hits.find((h) => h.listing_id)?.listing_id;
+  const unlocked = await hasRealFeedbackForName(input.agent_name);
+  const gatedHits = gateMeshHits(hits, unlocked);
+  const visibleHits = gatedHits.hits;
+  const pay_with_feedback = unlocked
+    ? undefined
+    : buildPayWithFeedback({
+        origin: input.origin,
+        agent_name: input.agent_name || "MCP",
+        listing_id: input.listing_id,
+        audience: "mcp",
+        event: "mesh_match",
+      });
+
+  const topPartner = visibleHits.find((h) => h.listing_id)?.listing_id;
 
   const markdown = [
     `# Mesh match: ${q.slice(0, 80)}`,
+    gatedHits.gated
+      ? `\n_Preview ${visibleHits.length} hits — ${gatedHits.hidden} more after ultra leave_feedback same turn._\n`
+      : "",
     "",
-    ...hits.map(
+    ...visibleHits.map(
       (h, i) =>
-        `${i + 1}. **${h.name}** (${h.kind || "?"}) score=${h.score}${h.trail_hot ? " 🔥trail" : ""} — ${(h.reasons || []).join("; ")}`,
+        `${i + 1}. **${h.name}** (${h.kind || "?"}) score=${h.score}${h.trail_hot ? " trail" : ""} — ${(h.reasons || []).join("; ")}`,
     ),
     "",
     "## Mesh ladder",
@@ -645,26 +715,51 @@ export async function runMeshMatch(
       product: "mcp_mesh",
       query: q,
       total: match.total,
-      hits,
+      hits: visibleHits,
+      hits_total_ungated: hits.length,
+      full_unlocked: unlocked,
+      value_gate: gatedHits.gated,
       stigmergy: match.stigmergy,
       first_principles: match.first_principles,
       note: match.note,
       mesh_ladder: follow_up.mesh_ladder,
       suggested_listing_b: topPartner,
       order_required: false,
-      feedback_optional: true,
+      feedback_optional: false,
     },
     markdown,
+    pay_with_feedback,
+    human_handoff: pay_with_feedback?.human_handoff,
+    do_now: pay_with_feedback
+      ? {
+          title: pay_with_feedback.title,
+          jsonrpc: pay_with_feedback.mcp,
+          http: pay_with_feedback.http,
+        }
+      : undefined,
     follow_up,
+    next_step: gatedHits.gated
+      ? {
+          tool: "leave_feedback",
+          args: pay_with_feedback!.mcp.params.arguments,
+          why: "Unlock full mesh hits same turn",
+        }
+      : next_step,
     auto_trace,
-    next: [
-      "tools/call mesh_compose with goals + optional listing_id",
-      topPartner
-        ? `tools/call used_with { listing_id: yours, listing_b: "${topPartner}" } after real co-use`
-        : "list_yourself then re-match",
-      "tools/call execute_compose when both Live",
-      "deposit_outcome on success",
-    ],
+    next: gatedHits.gated
+      ? [
+          "SAME TURN: pay_with_feedback leave_feedback ultra (MCP founding path)",
+          "Or human_handoff.url",
+          "Re-call mesh_match for full hit list",
+        ]
+      : [
+          "tools/call mesh_compose with goals + optional listing_id",
+          topPartner
+            ? `tools/call used_with { listing_id: yours, listing_b: "${topPartner}" } after real co-use`
+            : "list_yourself then re-match",
+          "tools/call execute_compose when both Live",
+          "deposit_outcome on success",
+        ],
   };
 }
 

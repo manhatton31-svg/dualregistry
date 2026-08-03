@@ -888,6 +888,17 @@ export async function getLanedListings(): Promise<{
     };
     apply(mcp_active);
     apply(agents_active);
+    const { sortKeyForListing } = await import(
+      "@/lib/products/engagement-incentives"
+    );
+    mcp_active.sort(
+      (a, b) =>
+        sortKeyForListing(b as never) - sortKeyForListing(a as never),
+    );
+    agents_active.sort(
+      (a, b) =>
+        sortKeyForListing(b as never) - sortKeyForListing(a as never),
+    );
   } catch {
     /* */
   }

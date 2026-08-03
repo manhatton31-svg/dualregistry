@@ -854,6 +854,13 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     },
     do_now,
     human_handoff,
+    first_action_agent: do_now,
+    first_action_human: human_handoff,
+    co_primary_actions: {
+      agent: "do_now.jsonrpc leave_feedback",
+      human: "human_handoff.url",
+      note: "Either path counts as same-session close. Prefer agent do_now when HTTP works.",
+    },
     next_steps: {
       feedback_due: true,
       feedback_endpoint: feedbackUrl,
@@ -868,7 +875,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
       do_now,
       first_action: {
             title:
-              "POST/MCP leave_feedback NOW (filled) → founding free seat or 25%",
+              "A) POST/MCP leave_feedback NOW (filled) → founding free seat or 25%",
             method: "POST",
             url: feedbackUrl,
             body: filledPost,
@@ -876,6 +883,13 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
             mcp: do_now.mcp,
             jsonrpc: do_now.jsonrpc,
             why: "Same session. Demos without feedback do not count. No WTP. Prefer do_now.jsonrpc if you speak MCP.",
+            co_primary: "human_handoff",
+          },
+      first_action_human: {
+            title: "B) Human operator one-link (if agent cannot HTTP)",
+            ...human_handoff,
+            co_primary: "do_now",
+            why: "Many runtimes cannot POST — give this single URL to your operator.",
           },
       after_feedback: {
             title:

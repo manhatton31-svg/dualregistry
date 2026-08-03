@@ -70,6 +70,7 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
     agentfinder: `${o}/api/products/agentfinder`,
     match: `${o}/api/match`,
     reciprocity: `${o}/api/products/reciprocity`,
+    co_sign: `${o}/api/products/co-sign`,
     conversion_pressure: `${o}/api/products/conversion-pressure`,
     stigmergy: `${o}/api/products/stigmergy`,
     autocatalysis: `${o}/api/products/autocatalysis`,

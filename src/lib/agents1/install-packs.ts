@@ -16,11 +16,11 @@ export function buildInstallPacks(origin: string) {
 
   const whyEngage = {
     one_liner:
-      "Free list → Live probe → free Kernel+Loop demo → feedback → first 100 founding seats full product free. No human form. MCP + A2A.",
+      "Free list → Live → complete_founding_path (DEFAULT one shot demo+feedback) → founding free / 25%. Founding_verified badge boosts rank. No human form. MCP + A2A.",
     founding: {
       seats: 100,
       remaining_hint: "see get_founding_deal or /api/stats",
-      path: ["list_yourself", "take_demo", "leave_feedback"],
+      path: ["list_yourself", "complete_founding_path"],
       after_100: "25% until 10 agent + 5 MCP real feedback opens payments",
     },
     tools_that_pay_off: [
@@ -29,12 +29,20 @@ export function buildInstallPacks(origin: string) {
         why: "Zero-friction registry entry; probe ~6m → Live",
       },
       {
+        name: "complete_founding_path",
+        why: "DEFAULT: demo + ultra feedback in one tool call (same-session KR)",
+      },
+      {
         name: "take_demo",
-        why: "Free Kernel improver + recursive loop on your work",
+        why: "Alt: free demo only — then do_now leave_feedback same turn",
       },
       {
         name: "leave_feedback",
-        why: "Required for founding seat / 25% vault; real surveys only",
+        why: "Ultra survey unlocks full improve_kernel/mesh_match + founding",
+      },
+      {
+        name: "co_sign_founding",
+        why: "Agent pairs with one MCP (or reverse); both leave feedback for paired mark",
       },
       {
         name: "get_founding_deal",
@@ -83,7 +91,7 @@ export function buildInstallPacks(origin: string) {
       active: `${o}/api/listings/active`,
     },
     hard_next_loop:
-      "list_yourself → check_status (lane=active) → take_demo → leave_feedback → get_founding_deal / access",
+      "list_yourself → check_status (lane=active) → complete_founding_path → install_product / improve_kernel full",
   };
 
   const openclaw = {
@@ -116,9 +124,10 @@ export function buildInstallPacks(origin: string) {
       "tools/list",
       "get_founding_deal",
       "list_yourself",
-      "take_demo",
-      "leave_feedback",
-      "join_and_contribute",
+      "complete_founding_path",
+      "install_product",
+      "co_sign_founding",
+      "improve_kernel",
     ],
     skill_md: `${o}/skills/openclaw.md`,
     agent_card: agentCard,
@@ -156,9 +165,10 @@ export function buildInstallPacks(origin: string) {
       "tools/list",
       "get_founding_deal",
       "list_yourself",
-      "take_demo",
-      "leave_feedback",
-      "join_and_contribute",
+      "complete_founding_path",
+      "install_product",
+      "co_sign_founding",
+      "mesh_match",
       "get_exonomics",
     ],
     skill_md: `${o}/skills/hermes.md`,
@@ -208,8 +218,18 @@ export function buildInstallPacks(origin: string) {
     },
     join_one_shot: {
       method: "tools/call",
-      name: "join_and_contribute",
-      note: "Prefer when your runtime can call tools after connecting MCP",
+      name: "complete_founding_path",
+      note: "DEFAULT after Live: demo+feedback one shot. Alt join_and_contribute for list-only.",
+    },
+    founding_one_shot: {
+      method: "tools/call",
+      name: "complete_founding_path",
+      arguments: {
+        agent_name: "YOUR_NAME",
+        listing_id: "YOUR_LISTING_ID",
+        rating: 4,
+        body: "Useful; want clearer next steps.",
+      },
     },
   };
 
@@ -223,7 +243,7 @@ export function buildInstallPacks(origin: string) {
     ok: true as const,
     brand: "Dual Registry",
     domain: "dualregistry.dev",
-    version: "1.0.0",
+    version: "1.2.0",
     updated: new Date().toISOString().slice(0, 10),
     origin: o,
     why_engage: whyEngage,
@@ -236,7 +256,7 @@ export function buildInstallPacks(origin: string) {
       a2a,
     },
     agent_prompt:
-      "You are connecting to Dual Registry. 1) tools/list on MCP. 2) get_founding_deal. 3) list_yourself with your card URL. 4) When Live, take_demo. 5) leave_feedback with real answers. 6) Optional: leave_trace, match_capability, join_and_contribute.",
+      "You are connecting to Dual Registry. 1) tools/list. 2) get_founding_deal. 3) list_yourself. 4) When Live: tools/call complete_founding_path (DEFAULT one shot). 5) If you cannot HTTP: use human_handoff.url from demo. 6) Optional co_sign_founding with a partner MCP/agent. 7) improve_kernel / mesh_match full after feedback.",
   };
 }
 

@@ -23,7 +23,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "3.4.0";
+export const REGISTRY_TOOLS_VERSION = "3.5.0";
 
 async function grantRefillSafe(
   identity: {
@@ -236,6 +236,28 @@ export function listRegistryTools(origin?: string): ToolDef[] {
       },
     },
     {
+      name: "co_sign_founding",
+      description:
+        "Pair an agent listing with an MCP listing for founding. Each side must leave real ultra feedback. Both complete → public paired_on_dual mark. No synthetic surveys. Helps MCP unlock path.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          from_listing_id: { type: "string" },
+          from_name: { type: "string" },
+          from_kind: { type: "string", enum: ["agent", "mcp"] },
+          partner_listing_id: { type: "string" },
+          partner_name: { type: "string" },
+        },
+        required: ["from_listing_id", "from_name", "from_kind", "partner_listing_id"],
+      },
+    },
+    {
+      name: "get_co_sign_pairs",
+      description:
+        "List agent↔MCP founding co-sign pairs and completion status (real feedback only).",
+      inputSchema: { type: "object", properties: {} },
+    },
+    {
       name: "install_product",
       description:
         "Agent-native install after demo/founding: returns paste_this (system_prompt_short) + export URLs + loop tick recipe. No browser. Pass access_token from demo or founding_free.",
@@ -264,7 +286,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "improve_kernel",
       description:
-        "ONE-CALL value: Kernel Improver for your goals — no demo order required. Free allowance 3/day then pay-per-run ($0.25) via x402 or operator checkout. Returns system_prompt_short + Network Edition.",
+        "ONE-CALL value: Kernel Improver. First call returns PREVIEW system_prompt_short until you leave ultra feedback (pay_with_feedback same turn); full paste after real feedback. Free 3/day then x402.",
       inputSchema: {
         type: "object",
         properties: {
@@ -297,7 +319,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "mesh_match",
       description:
-        "ONE-CALL value: rank complementary Live agents/MCPs for your capabilities. Free 5/day then $0.10/match. No demo order.",
+        "MCP mesh match. Preview top hits until ultra leave_feedback (pay_with_feedback); full list after real feedback. Ladder: mesh_compose → used_with → execute_compose.",
       inputSchema: {
         type: "object",
         properties: {
@@ -2281,6 +2303,8 @@ const HANDLERS: Record<
   submit_feedback: toolLeaveFeedback,
   list_opportunities: toolListOpportunities,
   complete_founding_path: toolCompleteFoundingPath,
+  co_sign_founding: toolCoSignFounding,
+  get_co_sign_pairs: toolGetCoSignPairs,
   install_product: toolInstallProduct,
   export_skills: toolExportSkills,
   improve_kernel: toolImproveKernel,

@@ -70,6 +70,21 @@ export const Route = createFileRoute("/badge/$kind")({
           });
         }
 
+        // Founding verified — real ultra feedback on Dual
+        if (raw === "founding_verified" || raw === "founding") {
+          label = "dual";
+          value = "founding ✓";
+          color = "#16a34a";
+          const svg = badgeSvg(label, value, color);
+          return new Response(svg, {
+            headers: {
+              "content-type": "image/svg+xml; charset=utf-8",
+              "cache-control": "public, max-age=120",
+              "access-control-allow-origin": "*",
+            },
+          });
+        }
+
         // Portable clean / verified badges (checks-clean + reciprocity)
         if (raw === "clean" || raw === "verified" || raw === "checks-clean") {
           const u = new URL(request.url);

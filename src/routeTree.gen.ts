@@ -87,6 +87,7 @@ import { Route as ApiProductsAgentRouteImport } from './routes/api/products/agen
 import { Route as ApiProductsAgentfinderRouteImport } from './routes/api/products/agentfinder'
 import { Route as ApiProductsAutocatalysisRouteImport } from './routes/api/products/autocatalysis'
 import { Route as ApiProductsCheckoutRouteImport } from './routes/api/products/checkout'
+import { Route as ApiProductsCoSignRouteImport } from './routes/api/products/co-sign'
 import { Route as ApiProductsConfirmRouteImport } from './routes/api/products/confirm'
 import { Route as ApiProductsConnectorsRouteImport } from './routes/api/products/connectors'
 import { Route as ApiProductsConversionRouteImport } from './routes/api/products/conversion'
@@ -531,6 +532,11 @@ const ApiProductsCheckoutRoute = ApiProductsCheckoutRouteImport.update({
   path: '/api/products/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsCoSignRoute = ApiProductsCoSignRouteImport.update({
+  id: '/api/products/co-sign',
+  path: '/api/products/co-sign',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsConfirmRoute = ApiProductsConfirmRouteImport.update({
   id: '/api/products/confirm',
   path: '/api/products/confirm',
@@ -813,6 +819,7 @@ export interface FileRoutesByFullPath {
   '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
+  '/api/products/co-sign': typeof ApiProductsCoSignRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/connectors': typeof ApiProductsConnectorsRouteWithChildren
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -932,6 +939,7 @@ export interface FileRoutesByTo {
   '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
+  '/api/products/co-sign': typeof ApiProductsCoSignRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/connectors': typeof ApiProductsConnectorsRouteWithChildren
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -1052,6 +1060,7 @@ export interface FileRoutesById {
   '/api/products/agentfinder': typeof ApiProductsAgentfinderRoute
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
+  '/api/products/co-sign': typeof ApiProductsCoSignRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/connectors': typeof ApiProductsConnectorsRouteWithChildren
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -1173,6 +1182,7 @@ export interface FileRouteTypes {
     | '/api/products/agentfinder'
     | '/api/products/autocatalysis'
     | '/api/products/checkout'
+    | '/api/products/co-sign'
     | '/api/products/confirm'
     | '/api/products/connectors'
     | '/api/products/conversion'
@@ -1292,6 +1302,7 @@ export interface FileRouteTypes {
     | '/api/products/agentfinder'
     | '/api/products/autocatalysis'
     | '/api/products/checkout'
+    | '/api/products/co-sign'
     | '/api/products/confirm'
     | '/api/products/connectors'
     | '/api/products/conversion'
@@ -1411,6 +1422,7 @@ export interface FileRouteTypes {
     | '/api/products/agentfinder'
     | '/api/products/autocatalysis'
     | '/api/products/checkout'
+    | '/api/products/co-sign'
     | '/api/products/confirm'
     | '/api/products/connectors'
     | '/api/products/conversion'
@@ -1530,6 +1542,7 @@ export interface RootRouteChildren {
   ApiProductsAgentfinderRoute: typeof ApiProductsAgentfinderRoute
   ApiProductsAutocatalysisRoute: typeof ApiProductsAutocatalysisRoute
   ApiProductsCheckoutRoute: typeof ApiProductsCheckoutRoute
+  ApiProductsCoSignRoute: typeof ApiProductsCoSignRoute
   ApiProductsConfirmRoute: typeof ApiProductsConfirmRoute
   ApiProductsConnectorsRoute: typeof ApiProductsConnectorsRouteWithChildren
   ApiProductsConversionRoute: typeof ApiProductsConversionRoute
@@ -2119,6 +2132,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/co-sign': {
+      id: '/api/products/co-sign'
+      path: '/api/products/co-sign'
+      fullPath: '/api/products/co-sign'
+      preLoaderRoute: typeof ApiProductsCoSignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/confirm': {
       id: '/api/products/confirm'
       path: '/api/products/confirm'
@@ -2511,6 +2531,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsAgentfinderRoute: ApiProductsAgentfinderRoute,
   ApiProductsAutocatalysisRoute: ApiProductsAutocatalysisRoute,
   ApiProductsCheckoutRoute: ApiProductsCheckoutRoute,
+  ApiProductsCoSignRoute: ApiProductsCoSignRoute,
   ApiProductsConfirmRoute: ApiProductsConfirmRoute,
   ApiProductsConnectorsRoute: ApiProductsConnectorsRouteWithChildren,
   ApiProductsConversionRoute: ApiProductsConversionRoute,

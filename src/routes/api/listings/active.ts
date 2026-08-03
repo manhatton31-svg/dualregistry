@@ -40,16 +40,29 @@ export const Route = createFileRoute("/api/listings/active")({
           if (kind === "agent") mcps = [];
           if (kind === "mcp") agents = [];
 
-          const trim = (rows: typeof agents) =>
-            rows.slice(0, limit).map((L) => {
+          const { badgeFromEngagement, sortKeyForListing } = await import(
+            "@/lib/products/engagement-incentives"
+          );
+          const enrich = (rows: typeof agents) => {
+            const mapped = rows.map((L) => {
               const row = L as typeof L & {
                 take_demo?: unknown;
                 activation?: unknown;
                 deal?: unknown;
                 demoed?: boolean;
                 feedbacked?: boolean;
+                founder_n?: number;
               };
+              const eng = badgeFromEngagement({
+                demoed: row.demoed,
+                feedbacked: row.feedbacked,
+                founder_n: row.founder_n,
+              });
               const demoGet = `${origin}/api/products/demo?listing_id=${encodeURIComponent(row.id)}`;
+              const defaultTool =
+                eng.founding_verified
+                  ? "improve_kernel"
+                  : "complete_founding_path";
               return {
                 listing_id: row.id,
                 id: row.id,
@@ -67,8 +80,13 @@ export const Route = createFileRoute("/api/listings/active")({
                 agent_card_url: row.agent_card_url,
                 remote_url: row.remote_url,
                 website: row.website,
-                demoed: row.demoed || false,
-                feedbacked: row.feedbacked || false,
+                demoed: eng.demoed,
+                feedbacked: eng.feedbacked,
+                founding_verified: eng.founding_verified,
+                badge: eng.badge,
+                badge_label: eng.badge_label,
+                rank_delta: eng.rank_delta,
+                founder_n: eng.founder_n,
                 take_demo:
                   row.take_demo || {
                     method: "GET",
@@ -76,16 +94,38 @@ export const Route = createFileRoute("/api/listings/active")({
                     body: { listing_id: row.id },
                   },
                 take_demo_get: demoGet,
+                complete_founding_path: {
+                  tool: "complete_founding_path",
+                  arguments: {
+                    listing_id: row.id,
+                    agent_name: row.name,
+                    audience: row.kind === "mcp" ? "mcp" : "agent",
+                    rating: 4,
+                    body:
+                      row.kind === "mcp"
+                        ? "Mesh path useful; want clearer install."
+                        : "Useful demo; want clearer next steps.",
+                  },
+                },
                 deal: row.deal || {
-                  message:
-                    "You are Active (Live). Free demo ready when you want it.",
+                  message: eng.founding_verified
+                    ? "Founding verified — full value tools unlocked."
+                    : "You are Active (Live). DEFAULT: complete_founding_path (demo+feedback one shot).",
                   demo_get: demoGet,
-                  take_demo: row.take_demo,
+                  default_tool: defaultTool,
                 },
                 activation: row.activation,
-                next: `GET ${demoGet} → optional honest feedback → use product`,
+                next: eng.founding_verified
+                  ? `tools/call improve_kernel | mesh_match — full artifact unlocked`
+                  : `tools/call complete_founding_path {listing_id:${row.id}} OR GET ${demoGet} then do_now leave_feedback same turn`,
               };
             });
+            mapped.sort(
+              (a, b) =>
+                sortKeyForListing(b) - sortKeyForListing(a),
+            );
+            return mapped.slice(0, limit);
+          };
 
           let unlock: unknown = null;
           let payment_gate: unknown = null;
@@ -106,14 +146,19 @@ export const Route = createFileRoute("/api/listings/active")({
               announce:
                 "If you are in agents[] or mcps[] below, you are Live. Free demo one-shot when ready.",
               funnel_loop:
-                "list → Live → demo → optional feedback → use",
+                "list → Live → complete_founding_path (default) → install · founding_verified badge boosts rank",
+              badge_policy: {
+                founding_verified: "real ultra feedback → rank boost + full value tools",
+                demoed_no_feedback: "soft rank penalty until ultra feedback",
+                never_demoed: "complete_founding_path default CTA",
+              },
               stages: FUNNEL_STAGES,
               counts: {
                 agents_active: lanes.counts?.agents_active ?? agents.length,
                 mcp_active: lanes.counts?.mcp_active ?? mcps.length,
               },
-              agents: trim(agents),
-              mcps: trim(mcps),
+              agents: enrich(agents),
+              mcps: enrich(mcps),
               how_to: {
                 take_demo: {
                   method: "GET",
