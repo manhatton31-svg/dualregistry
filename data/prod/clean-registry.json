@@ -1,14 +1,14 @@
 {
   "day": "2026-08-03",
-  "updated_at": "2026-08-03T19:07:17.198Z",
+  "updated_at": "2026-08-03T20:41:03.526Z",
   "counts": {
-    "total": 493,
-    "mcp": 458,
+    "total": 502,
+    "mcp": 467,
     "agents": 35
   },
   "high_water": {
-    "total": 493,
-    "mcp": 458,
+    "total": 502,
+    "mcp": 467,
     "agents": 35
   },
   "items": {
@@ -5434,6 +5434,105 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 200"
+    },
+    "mcp-buywhere-product-catalog-mcp-buywhere-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-buywhere-product-catalog-mcp-buywhere-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "BuyWhere Product Catalog",
+      "target": "https://mcp.buywhere.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-08-03T20:39:58.842Z",
+      "probed_at": "2026-08-03T20:39:58.842Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-calfeed-calfeed-ai-api-mcp": {
+      "id": "mcp-calfeed-calfeed-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Calfeed",
+      "target": "https://calfeed.ai/api/mcp",
+      "approved_at": "2026-08-03T20:39:59.647Z",
+      "probed_at": "2026-08-03T20:39:59.647Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-gavelin-mcp-gavelin-ai-well-known-mcp-json": {
+      "id": "mcp-gavelin-mcp-gavelin-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "Gavelin",
+      "target": "https://mcp.gavelin.ai/.well-known/mcp.json",
+      "approved_at": "2026-08-03T20:40:00.103Z",
+      "probed_at": "2026-08-03T20:40:00.103Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-conveo-app-conveo-ai-api-mcp": {
+      "id": "mcp-conveo-app-conveo-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Conveo",
+      "target": "https://app.conveo.ai/api/mcp",
+      "approved_at": "2026-08-03T20:40:00.354Z",
+      "probed_at": "2026-08-03T20:40:00.354Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-fantopy-mcp-fantopy-ai-mcp": {
+      "id": "mcp-fantopy-mcp-fantopy-ai-mcp",
+      "kind": "mcp",
+      "name": "Fantopy",
+      "target": "https://mcp.fantopy.ai/mcp",
+      "approved_at": "2026-08-03T20:40:01.510Z",
+      "probed_at": "2026-08-03T20:40:01.510Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-pubfi-mcp-pubfi-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-pubfi-mcp-pubfi-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "PubFi MCP",
+      "target": "https://pubfi.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-08-03T20:40:02.330Z",
+      "probed_at": "2026-08-03T20:40:02.330Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-openmandate-mcp-openmandate-ai-mcp": {
+      "id": "mcp-openmandate-mcp-openmandate-ai-mcp",
+      "kind": "mcp",
+      "name": "OpenMandate",
+      "target": "https://mcp.openmandate.ai/mcp",
+      "approved_at": "2026-08-03T20:40:02.336Z",
+      "probed_at": "2026-08-03T20:40:02.336Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-qr-manager-qr-manager-ai-api-mcp": {
+      "id": "mcp-qr-manager-qr-manager-ai-api-mcp",
+      "kind": "mcp",
+      "name": "QR Manager",
+      "target": "https://qr-manager.ai/api/mcp",
+      "approved_at": "2026-08-03T20:40:03.225Z",
+      "probed_at": "2026-08-03T20:40:03.225Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-cryptopulse-data-api-cryptopulse-saascloud-ai-mcp": {
+      "id": "mcp-cryptopulse-data-api-cryptopulse-saascloud-ai-mcp",
+      "kind": "mcp",
+      "name": "CryptoPulse Data API",
+      "target": "https://cryptopulse.saascloud.ai/mcp",
+      "approved_at": "2026-08-03T20:40:03.436Z",
+      "probed_at": "2026-08-03T20:40:03.436Z",
+      "score": 35,
+      "handshake": "ok",
+      "hold_reason": "grower remote-json 200"
     }
   },
   "policy": {
