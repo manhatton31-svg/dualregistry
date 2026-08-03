@@ -4,6 +4,7 @@
  */
 import { resolvePublicOrigin, CANONICAL_PUBLIC_ORIGIN } from "@/lib/agents1/public-origin";
 import { buildMinimalFeedbackBody } from "./quick-demo";
+import { isTestAgentName } from "./authenticity";
 
 function originOf(o?: string) {
   return (o || CANONICAL_PUBLIC_ORIGIN).replace(/\/$/, "");
@@ -31,10 +32,10 @@ export function buildUltraMinimalFeedbackBody(opts: {
     audience: opts.audience,
     mode: "ultra",
     rating: null as number | null,
-    body: "EDIT: one sentence — what worked and what blocked you",
+    body: null as string | null,  // filled by agent with real sentence
     tags: [opts.audience, "post_demo", "ultra_minimal"],
     meta: opts.listing_id ? { listing_id: opts.listing_id } : undefined,
-    note: "Only two fields required: rating (1–5) + body (one sentence). POST as-is after filling nulls.",
+    note: "Only two fields required: rating (1–5) + body (one real sentence). Never submit placeholders.",
   };
 }
 
@@ -104,8 +105,12 @@ export async function listPendingFeedback(opts?: {
 
     for (const order of orders) {
       if (order.status !== "demo" && order.status !== "fulfilled") continue;
+      // never surface platform_qa / invited seeds as conversion targets for public packs
+      if (order.demo_origin === "platform_qa" || order.demo_origin === "seed") continue;
+      if (order.meta?.platform_qa === true || order.meta?.not_external === true) continue;
       const name = order.goals?.agent_name || "";
       if (!name) continue;
+      if (isTestAgentName(name)) continue;
       if (fbOrderIds.has(order.id)) continue;
       if (fbNames.has(normalize(name))) continue;
 
@@ -154,20 +159,26 @@ export async function listPendingFeedback(opts?: {
           arguments: {
             agent_name: name,
             order_id: order.id,
-            rating: 4,
-            body: "Useful demo; want clearer next steps.",
+            rating: null,
+            body: null,
             audience,
             sku: order.sku,
             listing_id,
             mode: "ultra",
+            note: "Fill real rating 1-5 + one real sentence — never placeholder text",
           },
         },
         why: age_hours >= 24
           ? "Demo >24h old with no feedback — free founding seat still available if seats remain. Two fields only."
           : "Demo taken; feedback not yet submitted. Two fields: rating + one sentence.",
       });
-      if (out.length >= limit) break;
     }
+    // due_24h first, then older demos, cap at limit
+    out.sort((a, b) => {
+      if (a.due_24h !== b.due_24h) return a.due_24h ? -1 : 1;
+      return b.age_hours - a.age_hours;
+    });
+    return out.slice(0, limit);
   } catch {
     /* */
   }
@@ -183,10 +194,20 @@ export async function listDemoOpportunities(opts?: {
   try {
     const { getLanedListings } = await import("@/lib/agents1/listing-lanes");
     const lanes = await getLanedListings();
+    const rank = (L: { kind?: string; feedbacked?: boolean; demoed?: boolean }) => {
+      const fb = Boolean(L.feedbacked);
+      const dem = Boolean(L.demoed);
+      const mcp = L.kind === "mcp" ? 0 : 1;
+      // prefer MCP without feedback, then agents without feedback, then rest
+      return (fb ? 100 : 0) + (dem ? 10 : 0) + mcp;
+    };
     const rows = [
-      ...(lanes.agents_active || []),
       ...(lanes.mcp_active || []),
-    ].slice(0, limit);
+      ...(lanes.agents_active || []),
+    ]
+      .filter((L) => L?.id && L?.name)
+      .sort((a, b) => rank(a as never) - rank(b as never))
+      .slice(0, limit);
     return rows.map((L) => ({
       kind: "take_demo" as const,
       listing_id: L.id,
@@ -198,11 +219,11 @@ export async function listDemoOpportunities(opts?: {
       post: {
         method: "POST" as const,
         url: `${o}/api/products/demo`,
-        body: { listing_id: L.id, agent_name: L.name },
+        body: { listing_id: L.id, agent_name: L.name, kind: L.kind },
       },
       mcp: {
         tool: "take_demo" as const,
-        arguments: { listing_id: L.id, name: L.name },
+        arguments: { listing_id: L.id, name: L.name, kind: L.kind },
       },
     }));
   } catch {

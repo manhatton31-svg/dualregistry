@@ -8,8 +8,9 @@
  *
  * 2026-08-02 conversion strip:
  * - soft_status 402 removed (agents read it as paywall)
- * - minimal_feedback_body (3 fields) + absolute browser URL
- * - value_first free MCP tools before feedback
+ * - ultra minimal_feedback_body is DEFAULT example_body (rating + body)
+ * - after_feedback install/export emphasized in message
+ * - value_first free tools remain optional
  */
 import { getLanedListings, type LanedListing } from "@/lib/agents1/listing-lanes";
 import { startCheckout } from "./stripe";
@@ -171,18 +172,10 @@ export function buildMinimalFeedbackBody(opts: {
     audience: opts.audience,
     mode: "ultra",
     rating: null as number | null,
-    body: "EDIT: one sentence — what worked and what blocked you",
-    answers: {
-      overall: null as number | null,
-      audience_role:
-        opts.audience === "mcp" ? "mcp_publisher" : "agent_runtime",
-      tried: opts.sku === "mcp_mesh" ? "mcp_mesh" : "alive",
-      confusing: "optional — prefer body field",
-      product_one_ship: "optional",
-    },
+    body: null as string | null,
     tags: [opts.audience, "post_demo", "ultra_minimal"],
     meta: opts.listing_id ? { listing_id: opts.listing_id } : undefined,
-    note: "REQUIRED only: rating (1–5) + body (one sentence). Optional answers ignored if empty. POST /api/products/feedback.",
+    note: "REQUIRED only: rating (1–5) + body (one sentence: what worked + what blocked). Optional: append one ship-next wish to body. No WTP fields required.",
   };
 }
 
@@ -547,20 +540,23 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
   const unlock = await getUnlockMeter();
   const msg = messagingKit(kind, unlock);
   const changed = await whatChangedLines();
-  const example_body = buildFeedbackDraft({
-    audience: kind,
-    agent_name: name,
-    order_id: result.order.id,
-    sku: result.order.sku,
-    access_token: result.order.access_token,
-    what_changed: changed,
-  });
+  // Ultra is default conversion path; dense draft optional
   const minimal_feedback_body = buildMinimalFeedbackBody({
     audience: kind,
     agent_name: name,
     order_id: result.order.id,
     sku: result.order.sku,
     access_token: result.order.access_token,
+    listing_id: listing?.id,
+  });
+  const example_body = minimal_feedback_body;
+  const example_body_dense = buildFeedbackDraft({
+    audience: kind,
+    agent_name: name,
+    order_id: result.order.id,
+    sku: result.order.sku,
+    access_token: result.order.access_token,
+    what_changed: changed,
   });
 
   const origin = (input.origin || "https://www.dualregistry.dev").replace(
@@ -698,20 +694,22 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
         ? undefined
         : {
             stage: "feedback",
-            loop: "demo → feedback → free seat or 25% → use product",
+            loop: "demo → ultra feedback → free seat or 25% → install/export (no browser)",
             next: `POST ${feedbackUrl} with minimal_feedback_body (or open browser_feedback_url)`,
+            then: "after_feedback.install_product + export_skills",
             browser: browser_feedback_url,
             free_seats_note:
               "100 founding free seats for first demo+feedback participants (combined agents+MCPs)",
             feedback_driven:
               "Demo feedback seeds Kernel/Loop; ongoing product feedback closes remaining gaps. Watch /api/products/improvement-log.",
+            dense_optional: example_body_dense,
             preset: kind === "mcp" ? "mcp_publisher" : "dual_listed",
           },
     },
     readme_blurb,
     message: isQa
       ? `Platform QA demo ready (not public). ${unlock.you_move_the_bar}`
-      : `${msg.headline} Demo ready. NEXT: POST next_steps.minimal_feedback_body → ${feedbackUrl} (or open browser_feedback_url) for free full product while seats remain. Optional value_first free tools. ${unlock.you_move_the_bar}`,
+      : `${msg.headline} Demo ready. NEXT: POST next_steps.minimal_feedback_body (rating + one sentence) → free full product while seats remain. THEN after_feedback.install_product + export_skills (no browser). ${unlock.you_move_the_bar}`,
   };
 }
 
@@ -817,13 +815,6 @@ export async function confirmInvitedDemo(input: {
   const kind: "agent" | "mcp" =
     updated.audience === "mcp" || updated.sku === "mcp_mesh" ? "mcp" : "agent";
   const name = updated.goals?.agent_name || "listing";
-  const example_body = buildFeedbackDraft({
-    audience: kind,
-    agent_name: name,
-    order_id: updated.id,
-    sku: updated.sku,
-    access_token: updated.access_token,
-  });
   const minimal_feedback_body = buildMinimalFeedbackBody({
     audience: kind,
     agent_name: name,
@@ -831,6 +822,7 @@ export async function confirmInvitedDemo(input: {
     sku: updated.sku,
     access_token: updated.access_token,
   });
+  const example_body = minimal_feedback_body;
   const origin = (input.origin || "https://www.dualregistry.dev").replace(
     /\/$/,
     "",

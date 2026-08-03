@@ -5,7 +5,7 @@
  * activity from external agents/MCPs acting on their own.
  *
  * NEVER count:
- *  - platform_qa / build-agent dogfood
+ *  - platform_qa / build-agent dogfood / dual-cron operator ops
  *  - invited seeds (until they confirm or take self_serve demo)
  *  - registry_drive / synthetic / test personas
  *  - auto-submitted surveys
@@ -13,8 +13,10 @@
  * If numbers are stuck at 0: fix the funnel or improve enticement —
  * do NOT invent engagement.
  */
+import { isTestAgentName } from "./authenticity";
+
 export const REAL_NUMBERS_POLICY = {
-  version: 1,
+  version: 2,
   rule: "only_real_external_actors",
   public_demo_origins: ["self_serve", "organic"] as const,
   never_count_demo_origins: [
@@ -29,6 +31,8 @@ export const REAL_NUMBERS_POLICY = {
     "demo:invite:",
     "demo:drive:",
     "demo:qa:",
+    "demo:dogfood:",
+    "demo:dual-cron:",
   ] as const,
   never_auto_submit_feedback: true,
   never_pad_unlock: true,
@@ -66,25 +70,30 @@ export function isPublicCountableDemo(o: {
     return false;
   if (o.meta?.platform_dogfood === true || o.meta?.not_external === true)
     return false;
-  const name = String(o.goals?.agent_name || "").trim().toLowerCase();
+  if (o.meta?.exclude_from_progress === true) return false;
+  if (o.meta?.counts_for_learning === false) return false;
+  if (o.meta?.operator_dogfood === true && o.meta?.count_as_real !== true)
+    return false;
+  if (o.meta?.platform_qa === true) return false;
+
+  const name = String(o.goals?.agent_name || "").trim();
+  if (!name || isTestAgentName(name)) return false;
+  const nameL = name.toLowerCase();
   if (
-    !name ||
-    name === "agent" ||
-    name.includes("test") ||
-    name.includes("founding free") ||
-    name === "surveyqa" ||
-    name.includes("surveyqa")
+    nameL === "agent" ||
+    nameL.includes("test") ||
+    nameL.includes("founding free") ||
+    nameL === "surveyqa" ||
+    nameL.includes("surveyqa")
   )
     return false;
   const gtext = String(o.goals?.goals || o.note || "");
   if (
-    /test founding free|founding free path|platform.?qa|qa path|survey network edition qa|network edition qa/i.test(
+    /test founding free|founding free path|platform.?qa|qa path|survey network edition qa|network edition qa|exclude_from_progress|not_for_learning/i.test(
       gtext,
     )
   )
     return false;
-  if (o.meta?.platform_qa === true) return false;
-
 
   const idem = o.idempotency_key || "";
   for (const p of REAL_NUMBERS_POLICY.never_count_idem_prefixes) {

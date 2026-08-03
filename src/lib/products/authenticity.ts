@@ -4,8 +4,21 @@
  */
 
 const TEST_NAME_RE =
-  /^(peer\d*|nagtest|funneltest|mesh-\d+|paidcycle|closedloop|fb-driven|pricetest|sota-agent|feedbackcheck|postfeedback|teltest|clarityship|prefstack|ab-peer|test[-_]?agent|integrity(?:smoke)?|closerate|smoketest|mailtest|zeropay|closerateagent|wtpbot|feedbackbot|founding free test|founding.?free.?test.?agent|operatordogfood[-_].*|surveyqa)$/i;
+  /^(peer\d*|nagtest|funneltest|mesh-\d+|paidcycle|closedloop|fb-driven|pricetest|sota-agent|feedbackcheck|postfeedback|teltest|clarityship|prefstack|ab-peer|test[-_]?agent|integrity(?:smoke)?|closerate|smoketest|mailtest|zeropay|closerateagent|wtpbot|feedbackbot|founding free test|founding.?free.?test.?agent|operatordogfood[-_].*|surveyqa|dogfood(?:[-_].*)?|dual[-_]?cron(?:[-_].*)?|platform[-_]?qa(?:[-_].*)?)$/i;
 
+/** Prefixes / substrings that mark operator / platform / dogfood (never public unlock). */
+const INTERNAL_NAME_MARKERS = [
+  "dogfood",
+  "dual-cron",
+  "dualcron",
+  "platform_qa",
+  "platform-qa",
+  "registry-drive",
+  "registry_drive",
+  "operatorsmoke",
+  "build-agent",
+  "buildagent",
+];
 
 /** Legacy auto-drive template surveys (MCP install kit / agent persona spam) */
 const TEMPLATE_BODY_RE =
@@ -13,7 +26,14 @@ const TEMPLATE_BODY_RE =
 
 export function isTestAgentName(name: string | undefined | null): boolean {
   if (!name) return false;
-  return TEST_NAME_RE.test(String(name).trim());
+  const raw = String(name).trim();
+  if (TEST_NAME_RE.test(raw)) return true;
+  const n = raw.toLowerCase();
+  for (const m of INTERNAL_NAME_MARKERS) {
+    if (n === m || n.startsWith(m + "-") || n.startsWith(m + "_") || n.includes(m))
+      return true;
+  }
+  return false;
 }
 
 export function isSyntheticFeedback(item: {
@@ -27,13 +47,19 @@ export function isSyntheticFeedback(item: {
   const name = String(item.agent_name || "").trim().toLowerCase();
   if (name === "agent" || name === "founding free test agent") return true;
   if (name === "surveyqa" || name.includes("surveyqa")) return true;
-  if (/test founding free|founding free path|platform.?qa|qa path|survey network edition qa/i.test(String(item.body || "")))
+  if (
+    /test founding free|founding free path|platform.?qa|qa path|survey network edition qa|exclude_from_progress|not_for_learning/i.test(
+      String(item.body || ""),
+    )
+  )
     return true;
 
   if (item.meta?.registry_drive === true) return true;
   if (item.meta?.synthetic === true) return true;
   if (item.meta?.platform_dogfood === true) return true;
   if (item.meta?.not_external === true) return true;
+  if (item.meta?.exclude_from_progress === true) return true;
+  if (item.meta?.counts_for_learning === false) return true;
   // operator dogfood only counts when meta.count_as_real === true
   if (
     item.meta?.operator_dogfood === true &&
@@ -48,11 +74,17 @@ export function isSyntheticFeedback(item: {
     if (item.tags.includes("platform_qa")) return true;
     if (item.tags.includes("funnel_complete")) return true; // bulk build-agent batch
     if (item.tags.includes("dogfood")) return true;
+    if (item.tags.includes("not_for_learning")) return true;
+    if (item.tags.includes("exclude_from_progress")) return true;
+    if (item.tags.includes("dual_cron")) return true;
+    if (item.tags.includes("operator")) return true;
   }
   if (
     item.source === "platform_qa" ||
     item.source === "registry_drive" ||
-    item.source === "operator_dogfood"
+    item.source === "operator_dogfood" ||
+    item.source === "dual_cron" ||
+    item.source === "operator"
   )
     return true;
   // operator_dogfood_real is allowed through (explicit count_as_real path)
@@ -65,6 +97,8 @@ export function isSyntheticFeedback(item: {
     // Pattern used by platform bulk feedback script
     if (/post-demo: clarity=\d+\/5/.test(body)) return true;
   }
+  if (/^EDIT:\s*one sentence/i.test(body.trim())) return true;
+  if (/REPLACE_WITH_REAL/i.test(body)) return true;
   return false;
 }
 

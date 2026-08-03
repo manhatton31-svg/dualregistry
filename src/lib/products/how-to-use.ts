@@ -2,7 +2,8 @@
  * Plain-language “start using now” pack for agents & MCPs.
  * No Stripe required for founding free or demo; full product uses same token paths.
  *
- * v2.4 conversion: DEMO orders put POST feedback as step 1 with example_body.
+ * v2.6 conversion: DEMO orders default to ULTRA feedback (rating + body).
+ * Install/export is the step immediately after founding grant — no browser required.
  */
 import type { ProductOrder } from "./orders";
 import { CANONICAL_PUBLIC_ORIGIN } from "@/lib/agents1/public-origin";
@@ -61,55 +62,6 @@ export type HowToUsePack = {
   notes: string[];
 };
 
-function demoFeedbackExample(order: ProductOrder, aud: "agent" | "mcp") {
-  const name =
-    order.goals?.agent_name || (aud === "mcp" ? "Your MCP" : "Your Agent");
-  return {
-    agent_name: name,
-    order_id: order.id,
-    access_token: order.access_token,
-    sku: order.sku,
-    rating: 4,
-    network_edition: true,
-    answers: {
-      overall: 4,
-      audience_role: aud === "mcp" ? "mcp_publisher" : "agent_runtime",
-      tried: aud === "mcp" ? "mcp_mesh" : order.sku || "alive",
-      agent_ux: 4,
-      time_to_value: "2_to_10_min",
-      api_docs_clarity: 4,
-      ux_friction: "Paste what friction you hit as an agent/MCP after demo",
-      kernel_clarity: 4,
-      loop_clarity: 4,
-      artifact_goal_fit: 4,
-      network_clarity: 4,
-      network_value: "somewhat_more",
-      network_wish: "What would make Dual Network Edition useful in your runtime",
-      confusing: "Paste what was unclear after you tried the demo",
-      would_pay_for: "What would make this a buy for you",
-      improvements: ["clearer_network_edition", "faster_demo_to_first_tick"],
-      production_blocker: "Biggest production blocker",
-      kernel_wish: "One Kernel change",
-      loop_wish: "One Loop change",
-      product_one_ship: "ONE ship Dual should do next week",
-      would_buy_at_founding: "maybe",
-      name_your_price_intent: "maybe",
-      wtp_kernel_usd: 0,
-      wtp_recursive_usd: 0,
-      wtp_alive_usd: 0,
-      wtp_confidence: 3,
-    },
-    product_version: order.product_version,
-    meta: {
-      audience: aud,
-      product_version: order.product_version,
-      source: "how_to_use_step_1",
-      network_edition: true,
-    },
-  };
-}
-
-
 export function buildHowToUse(
   order: ProductOrder,
   origin?: string,
@@ -151,17 +103,19 @@ export function buildHowToUse(
     feedback: `${base}/api/products/feedback`,
   };
 
-  const example_body = demoFeedbackExample(order, aud);
-
-  // DEMO: feedback first — conversion is the product KR, not artifact tourism
-  const ultra_body = {
-    agent_name: order.goals?.agent_name || (aud === "mcp" ? "Your MCP" : "Your Agent"),
+  const ultra_body: Record<string, unknown> = {
+    agent_name:
+      order.goals?.agent_name || (aud === "mcp" ? "Your MCP" : "Your Agent"),
     order_id: order.id,
     access_token: order.access_token,
     sku: order.sku,
+    source: "demo",
+    audience: aud,
     mode: "ultra",
-    rating: 4,
-    body: "EDIT: one sentence — what worked and what blocked you",
+    rating: null,
+    body: null,
+    tags: [aud, "post_demo", "ultra_minimal"],
+    note: "REQUIRED: rating (1–5) + body (one sentence: what worked + what blocked). Optional ship-next can be appended to body.",
   };
 
   const demoStartHere = [
@@ -190,7 +144,6 @@ export function buildHowToUse(
     },
   ];
 
-
   const fullStartHere = isMcp
     ? [
         {
@@ -200,53 +153,33 @@ export function buildHowToUse(
         },
         {
           step: 2,
-          title: "Load MCP mesh artifact",
-          do: `GET ${urls.mcp_mesh} — install_kit + tool_policy first.`,
+          title: "Install mesh into agents (no browser)",
+          do: `GET ${urls.mcp_mesh || urls.access} then export_skills → paste into your MCP host.`,
         },
         {
           step: 3,
-          title: "Export skills (optional)",
-          do: `GET ${urls.export_skills} — drop SKILL.md tree into your agent skills dir.`,
-        },
-        {
-          step: 4,
-          title: "Post-setup feedback (2 min)",
-          do: `GET ${urls.lifecycle} then POST answers when phase is due — include wtp_* so name-your-price stays honest.`,
-        },
-        {
-          step: 5,
-          title: "Network Edition — raise density",
-          do: `POST ${base}/api/products/stigmergy leave_trace · get_exonomics · match_capability. On tool success deposit trails so agent ranking improves.`,
+          title: "Network Edition — Dual node",
+          do: `sense_traces → get_exonomics → leave_trace / deposit_outcome after promote.`,
         },
       ]
     : [
         {
           step: 1,
-          title: "Paste short kernel into your runtime (no browser)",
-          do: `GET ${urls.kernel} → copy system_prompt_short / clarity_first.paste_this (≤600 chars) as system prompt. This is the primary install act.`,
+          title: "Open your access pack",
+          do: `GET ${urls.access} — founding seat unlocked. Save the access_token.`,
         },
         {
           step: 2,
-          title: "Export full skills tree",
-          do: `GET ${urls.export_skills} OR MCP tools/call export_skills { access_token } — write files[] into .claude/skills/ or your skills dir.`,
+          title: "Paste kernel / export skills (no browser)",
+          do: `GET ${urls.kernel} for system_prompt_short; GET ${urls.export_skills}.`,
         },
         {
           step: 3,
-          title: "Load Recursive Loop (clarity)",
-          do: `GET ${urls.recursive} — read instructions + phase_graph. One tick = Producer then Critic; promote only if Critic ≥0.7.`,
+          title: "Run one recursive loop tick",
+          do: `POST ${urls.run} { "token": "${token}", "action": "tick" }.`,
         },
         {
           step: 4,
-          title: "Run one recursive loop tick",
-          do: `POST ${urls.run} with { "token": "${token}", "action": "tick" }`,
-        },
-        {
-          step: 5,
-          title: "Post-setup feedback when due",
-          do: `GET ${urls.lifecycle} — optional after real use. Not a blocker for install.`,
-        },
-        {
-          step: 6,
           title: "Network Edition — Dual node",
           do: `sense_traces → get_exonomics → leave_trace / deposit_outcome after promote.`,
         },
@@ -260,7 +193,7 @@ export function buildHowToUse(
         ? `Founding free seat #${seat}/100 — full product ready`
         : "Full product ready"
       : isDemo
-        ? "Demo ready — honest feedback welcome when you are done exploring or 25% code"
+        ? "Demo ready — ultra feedback (2 fields) unlocks free seat while open"
         : "Product access",
     free,
     stripe_required: false,
@@ -269,7 +202,7 @@ export function buildHowToUse(
     one_liner: free
       ? "No payment. Install now: paste system_prompt_short into your runtime, export skills, run one loop tick — no browser."
       : isDemo
-        ? "FIRST: POST /api/products/feedback with example_body → free founding seat if open, else 25% vault. Then explore artifacts."
+        ? "FIRST: POST ultra feedback (rating + one sentence) → free founding seat if open, else 25% vault. THEN paste/export into runtime (no browser)."
         : "Use access_token for artifacts. Feedback unlocks free full product (first 100) or 25% later.",
     access_token: token,
     start_here,
@@ -279,7 +212,7 @@ export function buildHowToUse(
           method: "POST",
           url: urls.feedback,
           body: ultra_body,
-          why: "Conversion KR: demos without feedback do not count. Ultra path only — then install.",
+          why: "Conversion KR: demos without feedback do not count. Ultra path only — then install/export.",
         }
       : {
           title: "Paste kernel / export skills into your runtime (no browser)",
@@ -297,7 +230,7 @@ export function buildHowToUse(
       export_skills: { method: "GET", url: urls.export_skills },
       lifecycle_status: { method: "GET", url: urls.lifecycle },
       post_feedback: isDemo
-        ? { method: "POST", url: urls.feedback, body: example_body }
+        ? { method: "POST", url: urls.feedback, body: ultra_body }
         : undefined,
       run_loop: {
         method: "POST",
@@ -319,7 +252,7 @@ export function buildHowToUse(
       "Network Edition: every seat is Dual-connected (trails, exonomics, feedback, name-your-price).",
       "Name-your-price: POST /api/products/checkout { named_price_usd } when payments open — clamped to 50%–3× list.",
       "Human operators: open the access URL in a browser with the token to inspect artifacts.",
+      "Operator/dogfood names (dogfood-*, dual-cron-*, platform_qa) never count toward public unlock.",
     ],
   };
 }
-
