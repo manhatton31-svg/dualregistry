@@ -1,14 +1,14 @@
 {
   "day": "2026-08-03",
-  "updated_at": "2026-08-03T15:20:51.219Z",
+  "updated_at": "2026-08-03T17:19:34.927Z",
   "counts": {
-    "total": 456,
-    "mcp": 421,
+    "total": 476,
+    "mcp": 441,
     "agents": 35
   },
   "high_water": {
-    "total": 456,
-    "mcp": 421,
+    "total": 476,
+    "mcp": 441,
     "agents": 35
   },
   "items": {
@@ -5027,6 +5027,226 @@
       "score": 55,
       "handshake": "ok",
       "hold_reason": "probe ok"
+    },
+    "mcp-appdeploy-api-v2-appdeploy-ai-mcp": {
+      "id": "mcp-appdeploy-api-v2-appdeploy-ai-mcp",
+      "kind": "mcp",
+      "name": "AppDeploy",
+      "target": "https://api-v2.appdeploy.ai/mcp",
+      "approved_at": "2026-08-03T17:19:18.470Z",
+      "probed_at": "2026-08-03T17:19:18.470Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 400"
+    },
+    "mcp-agency-lona-trading-mcp-lona-agency-mcp": {
+      "id": "mcp-agency-lona-trading-mcp-lona-agency-mcp",
+      "kind": "mcp",
+      "name": "agency.lona/trading",
+      "target": "https://mcp.lona.agency/mcp",
+      "approved_at": "2026-08-03T17:19:19.664Z",
+      "probed_at": "2026-08-03T17:19:19.664Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-ai-atdev-supershopping-supershopping-mcp-atdev-ai-mcp": {
+      "id": "mcp-ai-atdev-supershopping-supershopping-mcp-atdev-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.atdev/supershopping",
+      "target": "https://supershopping-mcp.atdev.ai/mcp",
+      "approved_at": "2026-08-03T17:19:20.742Z",
+      "probed_at": "2026-08-03T17:19:20.742Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 406"
+    },
+    "mcp-certscore-ai-light-mode-mcp-certscore-ai-mcp-light": {
+      "id": "mcp-certscore-ai-light-mode-mcp-certscore-ai-mcp-light",
+      "kind": "mcp",
+      "name": "CertScore.ai — Light mode",
+      "target": "https://mcp.certscore.ai/mcp/light",
+      "approved_at": "2026-08-03T17:19:20.965Z",
+      "probed_at": "2026-08-03T17:19:20.965Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 400"
+    },
+    "mcp-ai-ezel-ezel-app-ezel-ai-mcp": {
+      "id": "mcp-ai-ezel-ezel-app-ezel-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.ezel/ezel",
+      "target": "https://app.ezel.ai/mcp",
+      "approved_at": "2026-08-03T17:19:21.024Z",
+      "probed_at": "2026-08-03T17:19:21.024Z",
+      "score": 35,
+      "handshake": "ok",
+      "hold_reason": "grower remote-json 200"
+    },
+    "mcp-ai-gigaverse-gigaverse-gigaverse-ai-api-mcp": {
+      "id": "mcp-ai-gigaverse-gigaverse-gigaverse-ai-api-mcp",
+      "kind": "mcp",
+      "name": "ai.gigaverse/gigaverse",
+      "target": "https://gigaverse.ai/api/mcp",
+      "approved_at": "2026-08-03T17:19:21.694Z",
+      "probed_at": "2026-08-03T17:19:21.694Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-ai-foura-mcp-mcp-foura-ai-mcp": {
+      "id": "mcp-ai-foura-mcp-mcp-foura-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.foura/mcp",
+      "target": "https://mcp.foura.ai/mcp",
+      "approved_at": "2026-08-03T17:19:24.226Z",
+      "probed_at": "2026-08-03T17:19:24.226Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-nativeads-mcp-nativeads-ai-mcp": {
+      "id": "mcp-nativeads-mcp-nativeads-ai-mcp",
+      "kind": "mcp",
+      "name": "NativeAds",
+      "target": "https://mcp.nativeads.ai/mcp",
+      "approved_at": "2026-08-03T17:19:24.351Z",
+      "probed_at": "2026-08-03T17:19:24.351Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=405 post=401"
+    },
+    "mcp-ai-ohmyfin-banking-intelligence-mcp-ohmyfin-ai-mcp": {
+      "id": "mcp-ai-ohmyfin-banking-intelligence-mcp-ohmyfin-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.ohmyfin/banking-intelligence",
+      "target": "https://mcp.ohmyfin.ai/mcp",
+      "approved_at": "2026-08-03T17:19:25.935Z",
+      "probed_at": "2026-08-03T17:19:25.935Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 406"
+    },
+    "mcp-ai-openarx-openarx-r2-mcp-openarx-ai-pub-mcp": {
+      "id": "mcp-ai-openarx-openarx-r2-mcp-openarx-ai-pub-mcp",
+      "kind": "mcp",
+      "name": "ai.openarx/openarx · r2",
+      "target": "https://mcp.openarx.ai/pub/mcp",
+      "approved_at": "2026-08-03T17:19:26.467Z",
+      "probed_at": "2026-08-03T17:19:26.467Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-multinex-memq-multinex-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-multinex-memq-multinex-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Multinex MemQ",
+      "target": "https://multinex.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-08-03T17:19:26.687Z",
+      "probed_at": "2026-08-03T17:19:26.687Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-rams-worker-rams-ai-mcp": {
+      "id": "mcp-rams-worker-rams-ai-mcp",
+      "kind": "mcp",
+      "name": "Rams",
+      "target": "https://worker.rams.ai/mcp",
+      "approved_at": "2026-08-03T17:19:28.144Z",
+      "probed_at": "2026-08-03T17:19:28.144Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-scite-api-scite-ai-well-known-mcp-json": {
+      "id": "mcp-scite-api-scite-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "Scite",
+      "target": "https://api.scite.ai/.well-known/mcp.json",
+      "approved_at": "2026-08-03T17:19:28.298Z",
+      "probed_at": "2026-08-03T17:19:28.298Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-370-ai-ai-gateway-video-seedance-2-0-wan-happyho-370-ai-well-known-mcp-json": {
+      "id": "mcp-370-ai-ai-gateway-video-seedance-2-0-wan-happyho-370-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "370.ai — AI Gateway: Video (Seedance 2.0, Wan, HappyHorse), Image, Speech + 100+",
+      "target": "https://370.ai/.well-known/mcp.json",
+      "approved_at": "2026-08-03T17:19:28.301Z",
+      "probed_at": "2026-08-03T17:19:28.301Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-ai-secapi-secapi-api-secapi-ai-mcp": {
+      "id": "mcp-ai-secapi-secapi-api-secapi-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.secapi/secapi",
+      "target": "https://api.secapi.ai/mcp",
+      "approved_at": "2026-08-03T17:19:28.624Z",
+      "probed_at": "2026-08-03T17:19:28.624Z",
+      "score": 35,
+      "handshake": "ok",
+      "hold_reason": "grower remote-json 200"
+    },
+    "mcp-simsense-my-simsense-ai-mcp": {
+      "id": "mcp-simsense-my-simsense-ai-mcp",
+      "kind": "mcp",
+      "name": "SimSense",
+      "target": "https://my.simsense.ai/mcp",
+      "approved_at": "2026-08-03T17:19:29.138Z",
+      "probed_at": "2026-08-03T17:19:29.138Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-ai-sixta-sixta-connect-connect-sixta-ai-mcp": {
+      "id": "mcp-ai-sixta-sixta-connect-connect-sixta-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.sixta/sixta-connect",
+      "target": "https://connect.sixta.ai/mcp",
+      "approved_at": "2026-08-03T17:19:29.213Z",
+      "probed_at": "2026-08-03T17:19:29.213Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-legalsearch-mcp-roopslaw-ai-mcp": {
+      "id": "mcp-legalsearch-mcp-roopslaw-ai-mcp",
+      "kind": "mcp",
+      "name": "LegalSearch",
+      "target": "https://mcp.roopslaw.ai/mcp",
+      "approved_at": "2026-08-03T17:19:32.925Z",
+      "probed_at": "2026-08-03T17:19:32.925Z",
+      "score": 35,
+      "handshake": "ok",
+      "hold_reason": "grower remote-json 200"
+    },
+    "mcp-ai-smithery-hithereiamaliff-mcp-nextcloud-server-smithery-ai-hithereiamaliff-mcp-nextcloud-mcp": {
+      "id": "mcp-ai-smithery-hithereiamaliff-mcp-nextcloud-server-smithery-ai-hithereiamaliff-mcp-nextcloud-mcp",
+      "kind": "mcp",
+      "name": "ai.smithery/hithereiamaliff-mcp-nextcloud",
+      "target": "https://server.smithery.ai/@hithereiamaliff/mcp-nextcloud/mcp",
+      "approved_at": "2026-08-03T17:19:33.852Z",
+      "probed_at": "2026-08-03T17:19:33.852Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-ai-smithery-kkjdaniel-bgg-mcp-server-smithery-ai-kkjdaniel-bgg-mcp-mcp": {
+      "id": "mcp-ai-smithery-kkjdaniel-bgg-mcp-server-smithery-ai-kkjdaniel-bgg-mcp-mcp",
+      "kind": "mcp",
+      "name": "ai.smithery/kkjdaniel-bgg-mcp",
+      "target": "https://server.smithery.ai/@kkjdaniel/bgg-mcp/mcp",
+      "approved_at": "2026-08-03T17:19:34.631Z",
+      "probed_at": "2026-08-03T17:19:34.631Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
