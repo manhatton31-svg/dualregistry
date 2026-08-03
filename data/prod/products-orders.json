@@ -51993,6 +51993,31 @@
       "meta": {
         "network_edition": true
       }
+    },
+    "ord_mscxfhwf_ff3b7582": {
+      "id": "ord_mscxfhwf_ff3b7582",
+      "sku": "mcp_mesh",
+      "status": "pending",
+      "demo_origin": "self_serve",
+      "goals": {
+        "agent_name": "mcp-ai-calendarmcp-server-https-github-com-full-vibe-calendarmcp-public",
+        "goals": "MCP server: mcp-ai-calendarmcp-server-https-github-com-full-vibe-calendarmcp-public\nTeach agents to discover and call this MCP's tools safely.\nPrefer least-privilege tool use; never invent tool results.\nSurface clear errors when the MCP is down or rate-limited.\nProduce short install + example call patterns for this server.\nProtect secrets and user data when tools touch external systems.",
+        "domain": "mcp_tools",
+        "preset": "mcp_publisher"
+      },
+      "access_token": "a1_PJCiEu-LKkg-ObQTCMHxurYiNazztaO9",
+      "amount_cents": 2499,
+      "currency": "usd",
+      "seat_number": 1,
+      "price_tier_id": "founding_1000",
+      "price_tier_label": "Founding · first 1000 seats",
+      "created_at": "2026-08-03T07:47:40.000Z",
+      "idempotency_key": "demo:quick:mcp-ai-calendarmcp-server-https-github-com-full-vibe-calendarmcp-public:mcp_mesh",
+      "audience": "mcp",
+      "product_version": "1.4.0",
+      "meta": {
+        "network_edition": true
+      }
     }
   },
   "by_token": {
@@ -52021,7 +52046,8 @@
     "a1_3-zJG1tT0YS1-tIDyUOgZa9KFf37B4B4": "ord_mschse1c_17a02e45",
     "a1_x0YuTT-7TKA7OQLBqtNWi8vFrCp7yrY6": "ord_msclhcmu_afed0825",
     "a1_hgOwpAHOjXyCS6DIuZ0K1L2ujPOPVBw8": "ord_mscm0cmz_4bd8a947",
-    "a1_LcTC9rDg-5erR8B4WhCV2MGO7ruycVNf": "ord_msco3wyd_5a07626a"
+    "a1_LcTC9rDg-5erR8B4WhCV2MGO7ruycVNf": "ord_msco3wyd_5a07626a",
+    "a1_PJCiEu-LKkg-ObQTCMHxurYiNazztaO9": "ord_mscxfhwf_ff3b7582"
   },
   "by_idempotency": {
     "demo:probe-ok:agent:agtpub_875a9cfb88f7fdb2ce50": "ord_ms8yj9zq_bd731a72",
@@ -52048,7 +52074,8 @@
     "demo:quick:agent:alive": "ord_mschse1c_17a02e45",
     "demo:quick:mcp-adadvisor-mcp-server-api-adadvisor-ai-well-known-mcp-server-card-json:mcp_mesh": "ord_msclhcmu_afed0825",
     "demo:quick:dogfood-install-path:alive": "ord_mscm0cmz_4bd8a947",
-    "demo:quick:agtpub_4c34b0bf38d34d7e64ee:alive": "ord_msco3wyd_5a07626a"
+    "demo:quick:agtpub_4c34b0bf38d34d7e64ee:alive": "ord_msco3wyd_5a07626a",
+    "demo:quick:mcp-ai-calendarmcp-server-https-github-com-full-vibe-calendarmcp-public:mcp_mesh": "ord_mscxfhwf_ff3b7582"
   },
-  "updated_at": "2026-08-03T03:26:43.093Z"
+  "updated_at": "2026-08-03T07:47:40.000Z"
 }
