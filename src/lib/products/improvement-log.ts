@@ -1439,9 +1439,10 @@ export async function getPublicImprovementLog(opts?: {
       live: liveGaps,
       note: "Closed-loop flywheel + conversion-first demos. Live gaps close when F/C/founding floors met.",
     },
-    primary_kr: "same_session_demo_to_feedback_rate",
+    primary_kr: "value_to_feedback_same_session_rate",
+
     strategy: {
-      default_tool: "complete_founding_path",
+      default_tool: "improve_kernel",
       human_path: "demo.human_handoff.url",
       invite_volume: "hard-capped secondary",
       learning: "weekly public ship from real ultra feedback only",
@@ -1461,7 +1462,8 @@ export async function getPublicImprovementLog(opts?: {
         return {
           ok: true,
           cadence: "weekly",
-          primary_kr: "same_session_demo_to_feedback_rate",
+          primary_kr: "value_to_feedback_same_session_rate",
+
           same_session_rate_pct: conv?.same_session_rate_pct ?? null,
           same_session_feedback: conv?.same_session_feedback ?? 0,
           conversion_rate_real_pct: conv?.conversion_rate_real_pct ?? null,

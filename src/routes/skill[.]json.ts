@@ -61,7 +61,8 @@ export const Route = createFileRoute("/skill.json")({
               learning: `${origin}/api/products/learning`,
               improvement_log: `${origin}/api/products/improvement-log`,
               founding_free:
-                "demo + honest feedback seeds Kernel/Loop and may unlock founding free seat",
+                "real feedback (improve_kernel optional rating+feedback OR demo path) unlocks founding free seat for first 100",
+
               frameworks: ["openclaw", "hermes", "claude", "cursor", "mcp", "a2a"],
             },
           },

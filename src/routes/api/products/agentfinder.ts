@@ -41,7 +41,7 @@ export const Route = createFileRoute("/api/products/agentfinder")({
               skill_json: `${o}/skill.json`,
               entries: [
                 {
-                  path: "catalog/manhatton31-svg/dualregistry-list-and-claim.json",
+                  path: "catalog/manhatton31-svg/dualregistry-improve-kernel.json",
                   mediaType: "application/ai-skill",
                 },
                 {

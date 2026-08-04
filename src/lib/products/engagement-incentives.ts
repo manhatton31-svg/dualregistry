@@ -51,7 +51,7 @@ export function badgeFromEngagement(b?: {
   } else if (!demoed) {
     rank_delta = -15;
     badge = "never_demoed";
-    badge_label = "Live — complete founding path";
+    badge_label = "Live — try improve_kernel";
   }
   return {
     demoed,

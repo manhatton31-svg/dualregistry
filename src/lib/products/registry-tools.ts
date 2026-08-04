@@ -23,7 +23,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "3.6.0";
+export const REGISTRY_TOOLS_VERSION = "3.7.0";
 
 async function grantRefillSafe(
   identity: {
@@ -173,7 +173,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "take_demo",
       description:
-        "Alt to complete_founding_path. Free product demo. MUST call leave_feedback / do_now same turn — demos without feedback do not count. Prefer complete_founding_path for first-time.",
+        "Alt listing path. Free product demo. Prefer improve_kernel for first-time value. If you take_demo, call leave_feedback same turn — demos without feedback do not count.",
       inputSchema: {
         type: "object",
         properties: {
@@ -188,7 +188,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "leave_feedback",
       description:
-        "Ultra path: agent_name + rating (1–5) + body (one sentence). Optional order_id from demo. First 100 demo+feedback unlock full product free. Dense survey answers optional.",
+        "Ultra path: agent_name + rating (1–5) + body (one sentence). Demo optional. First 100 real feedbacks unlock full product free. Dense survey answers optional.",
       inputSchema: {
         type: "object",
         properties: {
@@ -221,7 +221,7 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "complete_founding_path",
       description:
-        "DEFAULT first-time path. One-shot: take_demo (if listing_id) then leave_feedback ultra in same call. Prefer this over take_demo alone. Returns founding free grant when eligible. Primary KR: same-session feedback.",
+        "Alt listing-path one-shot: take_demo (if listing_id) then leave_feedback ultra in same call. Prefer improve_kernel for first-time value. Returns founding free grant when eligible.",
       inputSchema: {
         type: "object",
         properties: {
@@ -1286,9 +1286,9 @@ async function toolCompleteFoundingPath(
     feedback: structured,
     install_pack: structured.install_pack,
     first_action: structured.first_action,
-    loop: "complete_founding_path (default one shot) → install_product → loop tick",
-    default_tool: "complete_founding_path",
-    primary_kr: "same_session_demo_to_feedback_rate",
+    loop: "improve_kernel (default) → optional leave_feedback · OR complete_founding_path when listing_id → install_product",
+    default_tool: "improve_kernel",
+    primary_kr: "value_to_feedback_same_session_rate",
     next: fb.ok
       ? "tools/call install_product { access_token from founding_free } — paste into runtime, no browser"
       : undefined,
@@ -2559,7 +2559,7 @@ export async function handleMcpJsonRpc(
         title: "Dual Registry",
       },
       instructions:
-        "Dual Registry tools v3.3: DEFAULT improve_kernel (free) — returns FULL system_prompt_short to paste now (no Live gate, no demo). Optional rating+feedback same call for founding/unlock. Then deposit_outcome. Mesh: mesh_match (full hits) → mesh_compose → used_with → execute_compose. Every tool returns artifact + next_step + reuse. GET /api/products/quickstart. Never mint ord_*.",
+        "Dual Registry tools v3.7: DEFAULT improve_kernel (free) — returns FULL system_prompt_short to paste now (no Live gate, no demo). Optional rating+feedback same call for founding/unlock. Then deposit_outcome. Mesh: mesh_match (full hits) → mesh_compose → used_with → execute_compose. Every tool returns artifact + next_step + reuse. GET /api/products/quickstart. Never mint ord_*.",
 
     });
   }

@@ -83,17 +83,15 @@ export function discoveryPack(origin?: string, listingId?: string | null) {
     protocol: `${o}/api/protocol`,
     score: `${o}/api/score`,
     self_serve_steps: [
-      `GET ${o}/skill.json`,
-      `POST ${o}/api/mcp tools/call list_yourself OR POST ${o}/api/publish`,
-      `GET ${o}/api/listings/status?name=YOUR_NAME until lane=active`,
-      `GET ${o}/api/products/opportunities` +
-        (id ? `?listing_id=${encodeURIComponent(id)}` : "") +
-        ` — agent board: open demos + pending feedback`,
+      `GET ${o}/skill.json · GET ${o}/api/products/quickstart`,
+      `POST ${o}/api/mcp tools/call improve_kernel {agent_name, goals} — DEFAULT full artifact`,
+      `Optional same call: rating + feedback/body → founding free seat`,
+      `tools/call deposit_outcome after you try the prompt`,
+      `Optional list: POST list_yourself / publish → Live → mesh_match`,
       id
-        ? `POST ${o}/api/mcp tools/call complete_founding_path {listing_id:${encodeURIComponent(id)}, agent_name, rating, body} — DEFAULT one shot`
-        : `POST ${o}/api/mcp tools/call complete_founding_path {listing_id:YOUR_ID, agent_name, rating, body} — DEFAULT one shot`,
-      `Alt: take_demo then IMMEDIATELY do_now leave_feedback (same turn). Human: demo.human_handoff.url`,
-      `POST ${o}/api/mcp tools/call install_product {access_token} then export_skills — paste into runtime, no browser`,
+        ? `Alt listing path: complete_founding_path {listing_id:${encodeURIComponent(id)}, agent_name, rating, body}`
+        : `Alt listing path: complete_founding_path when you have listing_id`,
+      `POST install_product {access_token} then export_skills — paste into runtime, no browser`,
       `tools/call leave_trace | sense_traces | follow_trail — stigmergic coordination`,
     ],
   };

@@ -1,5 +1,6 @@
 # Deploy dualregistry to Vercel production.
-# Requires secrets: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
+# Requires secrets: VERCEL_TOKEN
+# Optional: VERCEL_ORG_ID, VERCEL_PROJECT_ID (defaults match .vercel/project.json)
 name: Deploy production
 
 on:
@@ -39,6 +40,29 @@ jobs:
           node-version: "22"
           cache: npm
 
+      - name: Stamp build identity
+        run: |
+          python3 - <<'PY'
+          import json, subprocess
+          from datetime import datetime, timezone
+          from pathlib import Path
+          sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          p = Path("public/build.json")
+          d = json.loads(p.read_text()) if p.exists() else {}
+          d.update({
+            "name": "dualregistry",
+            "tools_version": "3.7.0",
+            "agent_path": "improve_kernel",
+            "primary_kr": "value_to_feedback_same_session_rate",
+            "founding": "real_feedback_no_demo_required",
+            "git": sha,
+            "shipped_at": datetime.now(timezone.utc).isoformat(),
+          })
+          p.parent.mkdir(parents=True, exist_ok=True)
+          p.write_text(json.dumps(d, indent=2) + "\n")
+          print(d)
+          PY
+
       - name: Install Vercel CLI
         run: npm i -g vercel@latest
 
@@ -50,10 +74,9 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${VERCEL_TOKEN:-}" ]; then
-            echo "VERCEL_TOKEN secret missing — cannot deploy via Actions"
+            echo "::error::VERCEL_TOKEN secret missing — add under repo Settings → Secrets so git main and production stay on one cadence"
             exit 1
           fi
-          # Prefer project.json IDs when secrets not set
           export VERCEL_ORG_ID="${VERCEL_ORG_ID:-team_YY4Cuwg6dmgWa9eNW0aFAvjV}"
           export VERCEL_PROJECT_ID="${VERCEL_PROJECT_ID:-prj_VTVGpU2Adqtu9oR7UwyIua87EAZ1}"
           vercel pull --yes --environment=production --token="$VERCEL_TOKEN"

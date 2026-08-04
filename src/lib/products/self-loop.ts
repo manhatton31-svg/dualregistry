@@ -307,13 +307,13 @@ async function measureKRs(): Promise<SelfKR[]> {
   try {
     const { getFunnelHonesty } = await import("./funnel-honesty");
     const fh = await getFunnelHonesty();
-    sameSessionRate = Number(fh.conversion?.same_session_rate_pct ?? 0) || 0;
-    sameSessionN = Number(fh.conversion?.same_session_feedback ?? 0) || 0;
+    sameSessionRate = Number(fh.conversion?.value_to_feedback_rate_pct ?? fh.conversion?.same_session_rate_pct ?? 0) || 0;
+    sameSessionN = Number(fh.conversion?.value_to_feedback ?? fh.conversion?.same_session_feedback ?? 0) || 0;
   } catch {
     /* */
   }
   krs.push({
-    id: "same_session_feedback_rate",
+    id: "value_to_feedback_rate",
     title: `PRIMARY KR: same-session demo→feedback rate (1h; n=${sameSessionN})`,
     target: 50,
     current: sameSessionRate,

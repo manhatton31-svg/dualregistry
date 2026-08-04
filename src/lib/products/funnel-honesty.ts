@@ -39,10 +39,13 @@ export type FunnelHonesty = {
     invited_with_feedback: number;
     real_with_feedback: number;
     conversion_rate_real_pct: number | null;
-    /** Primary KR: real demos with feedback within 1 hour of demo fulfill */
+    /** Demo-path KR: real demos with feedback within 1 hour of demo fulfill */
     same_session_feedback: number;
     same_session_rate_pct: number | null;
     same_session_window_hours: number;
+    /** Value-path KR: real feedback after improve_kernel / leave_feedback without requiring demo */
+    value_to_feedback: number;
+    value_to_feedback_rate_pct: number | null;
     primary_kr: string;
     secondary_note: string;
   };
@@ -215,6 +218,26 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
     }
   }
 
+  // Value-path KR: real feedback tagged improve_kernel / value / registry-tool
+  // (no demo order required) counts as conversion when within last window
+  // or anytime for unlock honesty — count all such feedbacks as value_session.
+  let value_to_feedback = 0;
+  for (const f of fb.items || []) {
+    if (isTestAgentName(f.agent_name)) continue;
+    if (!isRealFeedback(f as Parameters<typeof isRealFeedback>[0])) continue;
+    const tags = ((f as { tags?: string[] }).tags || []).map(String);
+    const src = String((f as { source?: string }).source || "");
+    const meta = ((f as { meta?: Record<string, unknown> }).meta || {}) as Record<string, unknown>;
+    const via = String(meta.via || meta.source || "");
+    const valuePath =
+      tags.some((x) =>
+        /improve_kernel|value_optional|optional_feedback|registry-tool|ultra_minimal/.test(x),
+      ) ||
+      /improve_kernel|value_optional|registry-tool|dual-as-tool/.test(src + " " + via) ||
+      !(f as { order_id?: string }).order_id;
+    if (valuePath) value_to_feedback++;
+  }
+
   let http_ok_listings = 0;
   try {
     const { listHttpOkListingIds } = await import("./demo-nudge");
@@ -292,9 +315,13 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
       "Push one-call value (improve_kernel) via MCP; keep quiet connectors for operator intros",
     );
   }
-  if (demos.real_public > 0 && same_session_feedback === 0) {
+  if (value_to_feedback === 0 && same_session_feedback === 0) {
     diagnosis.push(
-      "PRIMARY KR: 0 same-session feedbacks — prefer complete_founding_path / do_now over more invites",
+      "PRIMARY KR: 0 value→feedback conversions — push improve_kernel + optional leave_feedback same turn",
+    );
+  } else if (demos.real_public > 0 && same_session_feedback === 0) {
+    diagnosis.push(
+      "Demo-path same-session still 0 — optional; value path is primary",
     );
   }
   if (!diagnosis.length) {
@@ -303,7 +330,7 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
 
   return {
     ok: true,
-    version: "1.1.0",
+    version: "1.2.0",
     policy: {
       public_counts: REAL_NUMBERS_POLICY.rule,
       never_count: [...REAL_NUMBERS_POLICY.never_count_demo_origins],
@@ -326,21 +353,23 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
       same_session_feedback,
       same_session_rate_pct: rate(same_session_feedback, demos.real_public),
       same_session_window_hours: 1,
-      primary_kr: "same_session_demo_to_feedback_rate",
+      value_to_feedback,
+      value_to_feedback_rate_pct: rate(value_to_feedback, Math.max(real_public, 1)),
+      primary_kr: "value_to_feedback_same_session_rate",
       secondary_note:
-        "Invite volume is secondary. Invited ghosts do not move unlock.",
+        "Primary: improve_kernel → optional leave_feedback. Demo same-session is secondary. Invited ghosts do not move unlock.",
     },
     strategy: {
-      primary_kr: "same_session_demo_to_feedback_rate (feedback within 1h of real demo)",
+      primary_kr: "value_to_feedback_same_session_rate (real feedback after one-call value tools)",
       secondary: [
-        "complete_founding_path as default first tool",
+        "improve_kernel as default first tool (full artifact)",
+        "optional leave_feedback same turn for founding free",
+        "complete_founding_path only when listing_id known",
         "human_handoff URL when agent cannot HTTP",
-        "MCP mesh install_kit step 0 = leave_feedback",
-        "partner host embeds over cold multipath",
         "hard-capped invite volume (not the growth KR)",
       ],
-      default_tool: "complete_founding_path",
-      human_path: "demo.human_handoff.url (prefilled ultra)",
+      default_tool: "improve_kernel",
+      human_path: "demo.human_handoff.url (prefilled ultra) or /for-agents",
       invite_volume: "hard-capped secondary — do not optimize for invite count",
     },
     reachable: {

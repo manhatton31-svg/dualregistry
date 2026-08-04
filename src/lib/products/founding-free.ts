@@ -1,6 +1,7 @@
 /**
- * First 100 agents + MCPs (combined) who complete demo → feedback get 100% off
+ * First 100 agents + MCPs (combined) who leave real feedback get 100% off
  * the full product immediately (not vaulted until payments open).
+ * Value-path (improve_kernel → leave_feedback) counts the same as demo → feedback.
  * After seat 100, feedback still earns the standard 25% founding code.
  *
  * Durable via data/prod/founding-free.json (GitHub CAS hydrate) so Vercel
@@ -91,9 +92,14 @@ async function persist(s: Store) {
   s.updated_at = new Date().toISOString();
   chain = chain.then(async () => {
     await mkdir(dirname(PATH), { recursive: true });
-    const tmp = `${PATH}.${process.pid}.tmp`;
-    await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
-    await rename(tmp, PATH);
+    const tmp = `${PATH}.${process.pid}.${Date.now()}.tmp`;
+    try {
+      await writeFile(tmp, JSON.stringify(s, null, 2), "utf8");
+      await rename(tmp, PATH);
+    } catch {
+      // Fallback if atomic rename races on /tmp (Vercel multi-isolate)
+      await writeFile(PATH, JSON.stringify(s, null, 2), "utf8");
+    }
     try {
       if (process.env.VERCEL || process.env.AGENTS1_CANONICAL_WRITER === "1") {
         const { saveDurableJson } = await import("@/lib/agents1/durable-json");
@@ -121,7 +127,7 @@ export async function getFoundingFreePublic() {
     percent_off: FOUNDING_FREE_PERCENT,
     open: remaining > 0,
     rule:
-      "First 100 agents/MCPs combined: take demo → leave real feedback → 100% off full product immediately + post-setup lifecycle feedback.",
+      "First 100 agents/MCPs combined: leave real feedback (after improve_kernel value tools OR demo) → 100% off full product immediately + post-setup lifecycle feedback.",
     after_seats:
       "After 100 free seats, feedback still earns 25% founding code (redeems when payments open at 10/5 feedback).",
     claims_public: s.claims.slice(-20).map((c) => ({
@@ -187,7 +193,6 @@ export async function tryClaimFoundingFree(input: {
   s.claims.push(claim);
   await persist(s);
 
-  // Flywheel 6: founding claim is loud even if cascade also runs via feedback
   try {
     const { onFoundingClaim } = await import("./flywheel");
     await onFoundingClaim({
@@ -229,8 +234,9 @@ export async function hasDemoForAgent(agent_name: string): Promise<{
 }
 
 /**
- * After feedback: if founding free seat available + demo taken,
- * upgrade/create full product fulfill (status fulfilled, $0).
+ * After real feedback: if founding free seat available, claim seat and
+ * grant full product (status fulfilled, $0). Demo optional — value-path
+ * feedback (improve_kernel inline / leave_feedback) is enough.
  */
 export async function grantFullProductAfterFoundingFeedback(input: {
   agent_name: string;
@@ -255,16 +261,7 @@ export async function grantFullProductAfterFoundingFeedback(input: {
   const demo = await hasDemoForAgent(input.agent_name);
   const demoOrderId = demo.order_id || input.demo_order_id;
 
-  if (!demo.ok && !input.demo_order_id) {
-    return {
-      granted: false,
-      percent_off: 25,
-      remaining: remainingNow,
-      message:
-        "Take a free demo first (POST /api/products/demo), then resubmit feedback to claim a 100% founding free seat (first 100 agents/MCPs combined).",
-    };
-  }
-
+  // Real feedback alone qualifies — no demo required for free seat
   const claimResult = await tryClaimFoundingFree({
     agent_name: input.agent_name,
     audience: input.audience,
@@ -300,11 +297,12 @@ export async function grantFullProductAfterFoundingFeedback(input: {
             order.amount_cents_before_discount || order.amount_cents || 0,
           discount_percent: 100,
           discount_code: claimResult.claim.discount_code,
-          note: `Founding free seat #${claimResult.claim.seat}/100 — 100% off after demo + feedback. Full product unlocked.`,
+          note: `Founding free seat #${claimResult.claim.seat}/100 — 100% off after real feedback. Full product unlocked.`,
           meta: {
             ...(order.meta || {}),
             founding_free: true,
             founding_free_seat: claimResult.claim.seat,
+            value_path: !demoOrderId,
           },
         })) || order;
     } else if (
@@ -329,7 +327,7 @@ export async function grantFullProductAfterFoundingFeedback(input: {
         sku: input.sku || demo.sku || "alive",
         goals:
           input.goals ||
-          `Founding free full product for ${input.agent_name} after demo + feedback`,
+          `Founding free full product for ${input.agent_name} after real feedback`,
         agent_name: input.agent_name,
         email: input.contact,
         agent_card_url: input.agent_card_url,
@@ -343,52 +341,45 @@ export async function grantFullProductAfterFoundingFeedback(input: {
           amount_cents: 0,
           discount_percent: 100,
           discount_code: claimResult.claim.discount_code,
+          meta: {
+            ...(order.meta || {}),
+            founding_free: true,
+            founding_free_seat: claimResult.claim.seat,
+            value_path: true,
+          },
         })) || order;
       order = await fulfillOrder(order.id, { demo: false });
       order =
         (await patchOrder(order.id, {
           amount_cents: 0,
-          note: `Founding free seat #${claimResult.claim.seat}/100 — 100% off full product.`,
+          discount_percent: 100,
+          discount_code: claimResult.claim.discount_code,
+          note: `Founding free seat #${claimResult.claim.seat}/100 — value-path feedback (no demo required).`,
           meta: {
+            ...(order.meta || {}),
             founding_free: true,
             founding_free_seat: claimResult.claim.seat,
+            value_path: true,
           },
         })) || order;
-    }
-
-    try {
-      const { enrollLifecycle } = await import("./feedback-lifecycle");
-      await enrollLifecycle(order);
-    } catch {
-      /* */
-    }
-
-    const s = await load();
-    const c = s.claims.find((x) => x.seat === claimResult.claim!.seat);
-    if (c) {
-      c.order_id = order.id;
-      c.sku = order.sku;
-      await persist(s);
     }
 
     return {
       granted: true,
       claim: claimResult.claim,
-      order_id: order.id,
-      access_token: order.access_token,
-      percent_off: 100,
+      order_id: order?.id,
+      access_token: order?.access_token,
+      percent_off: FOUNDING_FREE_PERCENT,
       remaining: claimResult.remaining,
-      message: `Founding free seat #${claimResult.claim.seat}/100 unlocked. INSTALL NOW (no browser): GET /api/products/access?token=${order.access_token}&artifact=kernel → paste system_prompt_short; then GET /api/products/export?token=${order.access_token}&format=skills OR tools/call install_product|export_skills. Loop tick: POST /api/products/run { token, action: "tick" }. Lifecycle optional: GET /api/products/lifecycle?token=${order.access_token}`,
+      message: `Founding free seat #${claimResult.claim.seat}/100 claimed. Full product unlocked — use install_product with access_token.`,
     };
   } catch (e) {
     return {
       granted: true,
       claim: claimResult.claim,
-      percent_off: 100,
+      percent_off: FOUNDING_FREE_PERCENT,
       remaining: claimResult.remaining,
-      message: `100% founding free seat #${claimResult.claim.seat}/100 reserved. Auto-fulfill issue: ${
-        e instanceof Error ? e.message : String(e)
-      }. Redeem with POST /api/products/checkout { discount_code, sku: "alive", goals }.`,
+      message: `Seat #${claimResult.claim.seat} claimed but order fulfill failed: ${e instanceof Error ? e.message : String(e)}`,
     };
   }
 }

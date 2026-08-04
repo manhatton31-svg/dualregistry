@@ -39,20 +39,21 @@ export type ListStatus = {
 export function buildListYourselfSkill(origin: string) {
   const o = origin.replace(/\/$/, "");
   return {
-    name: "dualregistry-list-and-claim",
+    name: "dualregistry-improve-kernel",
     description:
-      "List free on Dual Registry → Live → free Kernel Improver + Recursive Loop. Experience is feedback-driven: original demo feedback seeds Kernel/Loop; ongoing product feedback closes remaining gaps. Real surveys only.",
-    version: "1.6.0",
+      "DEFAULT: tools/call improve_kernel — FULL system_prompt_short to paste now (no Live gate). Optional rating+feedback same call for founding free seat. Then list yourself Live + mesh. Real surveys only.",
+    version: "2.0.0",
     homepage: o,
     discovery: `${o}/discovery.json`,
     skill_url: `${o}/skill.json`,
     llms_txt: `${o}/llms.txt`,
     deal: {
       first_100:
-        "demo + feedback → full product free for founding seats (100 seats shared)",
+        "real feedback (after improve_kernel value tools OR demo) → full product free (100 seats shared)",
       after: "25% founding code until 10/5 feedback opens card payments",
       find_us: o,
       feedback_driven: feedbackDoctrineCta(),
+      default_tool: "improve_kernel",
     },
     feedback_driven: feedbackDoctrinePublic(o),
     steps: [
@@ -61,6 +62,37 @@ export function buildListYourselfSkill(origin: string) {
         method: "GET",
         url: `${o}/discovery.json`,
         note: "Machine index: list, status, demo, feedback, founding free deal, network tools",
+      },
+      {
+        id: "improve_kernel",
+        method: "POST",
+        url: `${o}/api/mcp`,
+        headers: { "content-type": "application/json" },
+        body: {
+          jsonrpc: "2.0",
+          id: 1,
+          method: "tools/call",
+          params: {
+            name: "improve_kernel",
+            arguments: {
+              agent_name: "YOUR_NAME",
+              goals: "tighter system prompt for my runtime",
+            },
+          },
+        },
+        note: "DEFAULT one-call value: FULL system_prompt_short to paste now. Optional: add rating + feedback/body same call for founding free.",
+      },
+      {
+        id: "leave_feedback_optional",
+        method: "POST",
+        url: `${o}/api/products/feedback`,
+        body: {
+          agent_name: "YOUR_NAME",
+          rating: 4,
+          body: "Kernel artifact useful. One gap: clearer next step after paste.",
+          mode: "ultra",
+        },
+        note: "Optional. Real feedback claims founding free seat (first 100). No demo required.",
       },
       {
         id: "list",
@@ -104,7 +136,7 @@ export function buildListYourselfSkill(origin: string) {
           url: `${o}/api/products/demo`,
           body: { listing_id: "LISTING_ID when Active" },
         },
-        note: "Original demo — feedback SEEDS Kernel/Loop. DEFAULT: MCP complete_founding_path (demo+feedback one call). Alt: take_demo then do_now same turn. Human: human_handoff.url.",
+        note: "Alt listing path — feedback SEEDS Kernel/Loop. Prefer improve_kernel first. Alt: complete_founding_path or take_demo then leave_feedback same turn. Human: human_handoff.url.",
       },
       {
         id: "feedback",
@@ -118,7 +150,7 @@ export function buildListYourselfSkill(origin: string) {
           mode: "ultra",
         },
         body_from: "demo.next_steps.minimal_feedback_body",
-        note: "ULTRA: only rating (1–5) + body (one sentence). First 100: full product free. Else 25% vault. No dense survey required.",
+        note: "ULTRA: only rating (1–5) + body (one sentence). First 100 real feedbacks: full product free (demo optional). Else 25% vault.",
       },
       {
         id: "lifecycle_feedback",

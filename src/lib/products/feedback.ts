@@ -596,7 +596,7 @@ export async function submitFeedback(input: {
     input.contact,
   );
 
-  // Prefer 100% founding free if demo taken + seats remain
+  // Prefer 100% founding free when seats remain — demo optional (value path counts)
   let freeGrant: Awaited<
     ReturnType<
       typeof import("./founding-free").grantFullProductAfterFoundingFeedback
@@ -604,15 +604,9 @@ export async function submitFeedback(input: {
   > | null = null;
   let targetPercent = 25 as number;
   try {
-    const { getFoundingFreePublic, hasDemoForAgent } = await import(
-      "./founding-free"
-    );
+    const { getFoundingFreePublic } = await import("./founding-free");
     const ff = await getFoundingFreePublic();
-    const demo = await hasDemoForAgent(agent_name);
-    const orderId =
-      input.order_id ||
-      (input.meta?.order_id ? String(input.meta.order_id) : undefined);
-    if (ff.open && (demo.ok || orderId) && !discount) {
+    if (ff.open && !discount) {
       targetPercent = 100;
     } else if (discount?.percent_off === 100) {
       targetPercent = 100;

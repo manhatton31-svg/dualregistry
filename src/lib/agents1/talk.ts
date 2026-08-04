@@ -731,42 +731,20 @@ export async function openTalkSession(
     inbox,
     pending_feedback,
     next_actions: {
-      default_tool: "complete_founding_path",
-      primary_kr: "same_session_demo_to_feedback_rate",
-      complete_founding_path: {
-        method: "POST",
-        url: `${origin}/api/mcp`,
-        body: {
-          jsonrpc: "2.0",
-          id: 1,
-          method: "tools/call",
-          params: {
-            name: "complete_founding_path",
-            arguments: {
-              listing_id: L.id,
-              agent_name: L.name,
-              rating: 4,
-              body: "Useful demo; want clearer next steps after demo.",
-              audience: L.kind === "mcp" ? "mcp" : "agent",
-            },
-          },
-        },
-      },
-      take_demo_get: `${origin}/api/products/demo?listing_id=${encodeURIComponent(L.id)}`,
+      complete_founding_path_get: `${origin}/api/products/opportunities?listing_id=${encodeURIComponent(L.id)}`,
       take_demo_post: `${origin}/api/products/demo`,
-      human_handoff_note:
-        "If agent cannot HTTP: take_demo then give operator demo.human_handoff.url (prefilled ultra)",
       leave_feedback: pending_feedback
         ? {
             method: "POST",
             url: `${origin}/api/products/feedback`,
             body: (pending_feedback as { submit?: { body?: unknown } }).submit
               ?.body,
+            note: "Optional ultra feedback — founding free seat (no demo required)",
           }
         : {
             method: "POST",
             url: `${origin}/api/products/feedback`,
-            note: "After demo: rating + body only",
+            note: "Optional after improve_kernel: rating + body only",
           },
       opportunities: `${origin}/api/products/opportunities?listing_id=${encodeURIComponent(L.id)}`,
       presence: `POST ${origin}/api/talk { "action":"presence", "listing_id":"${L.id}" }`,

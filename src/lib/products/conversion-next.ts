@@ -1,7 +1,8 @@
 /**
  * Hard conversion next-steps shared by multipath, A2A, join, demo tools.
- * Default first-time path: complete_founding_path (demo+feedback one shot).
- * After demo exists: leave_feedback ultra / do_now.
+ * Default first-time path: improve_kernel (full one-call value).
+ * Optional: leave_feedback ultra same turn for founding free seat.
+ * Alt listing path: complete_founding_path when listing_id is known.
  * Human path: human_handoff URL when agent cannot HTTP.
  * Never signal 402 (agents abandon thinking payment is required).
  */
@@ -30,7 +31,7 @@ export function conversionHardNext(opts: {
   access_token?: string;
   sku?: string;
   kind?: "agent" | "mcp";
-  /** true when demo already taken — skip founding one-shot as first */
+  /** true when demo already taken — skip value one-shot as first */
   post_demo?: boolean;
 }): {
   version: string;
@@ -65,6 +66,46 @@ export function conversionHardNext(opts: {
     ? `${o}/api/products/opportunities?listing_id=${encodeURIComponent(id)}`
     : `${o}/api/products/opportunities`;
 
+  const kernelArgs: Record<string, unknown> = {
+    agent_name: name,
+    goals: isMcp
+      ? "clearer agent-facing tool_policy + install kit"
+      : "tighter system prompt for my runtime",
+  };
+  if (id) kernelArgs.listing_id = id;
+
+  const oneShot: HardNextAction = {
+    step: 1,
+    title: isMcp
+      ? "DEFAULT (MCP): improve_kernel / mesh_match — full one-call value"
+      : "DEFAULT: improve_kernel — FULL system_prompt_short to paste now",
+    method: "POST",
+    url: `${o}/api/mcp`,
+    body: {
+      jsonrpc: "2.0",
+      id: 1,
+      method: "tools/call",
+      params: {
+        name: isMcp ? "mesh_match" : "improve_kernel",
+        arguments: isMcp
+          ? { need: "MCP mesh for agents", agent_name: name }
+          : kernelArgs,
+      },
+    },
+    tool: isMcp ? "mesh_match" : "improve_kernel",
+    tool_call: {
+      jsonrpc: "2.0",
+      method: "tools/call",
+      params: {
+        name: isMcp ? "mesh_match" : "improve_kernel",
+        arguments: isMcp
+          ? { need: "MCP mesh for agents", agent_name: name }
+          : kernelArgs,
+      },
+    },
+    note: `Primary path. Full artifact, no gate. Optional same-call rating+feedback for founding free. Board: ${opportunities}`,
+  };
+
   const foundingArgs: Record<string, unknown> = {
     agent_name: name,
     rating: 4,
@@ -76,16 +117,16 @@ export function conversionHardNext(opts: {
   if (id) foundingArgs.listing_id = id;
   if (opts.order_id) foundingArgs.order_id = opts.order_id;
 
-  const oneShot: HardNextAction = {
-    step: 1,
+  const foundingPath: HardNextAction = {
+    step: 2,
     title: isMcp
-      ? "ONE SHOT (MCP): complete_founding_path — demo Mesh + ultra feedback"
-      : "ONE SHOT: complete_founding_path — demo + ultra feedback",
+      ? "Alt listing path: complete_founding_path — demo Mesh + ultra feedback"
+      : "Alt listing path: complete_founding_path — demo + ultra feedback",
     method: "POST",
     url: `${o}/api/mcp`,
     body: {
       jsonrpc: "2.0",
-      id: 1,
+      id: 2,
       method: "tools/call",
       params: { name: "complete_founding_path", arguments: foundingArgs },
     },
@@ -95,12 +136,12 @@ export function conversionHardNext(opts: {
       method: "tools/call",
       params: { name: "complete_founding_path", arguments: foundingArgs },
     },
-    note: `Default first-time path. Same session. Founding free if seats remain. Alt GET demo: ${demoGet}`,
+    note: `When you already have listing_id. Same session. Founding free if seats remain. Alt GET demo: ${demoGet}`,
   };
 
   const take: HardNextAction = {
-    step: opts.post_demo ? 0 : 2,
-    title: "Alt: take free demo only (then do_now leave_feedback same turn)",
+    step: opts.post_demo ? 0 : 3,
+    title: "Alt: take free demo only (then leave_feedback same turn)",
     method: "POST",
     url: `${o}/api/products/demo`,
     body: demoBody,
@@ -118,23 +159,24 @@ export function conversionHardNext(opts: {
 
   const fbBody: Record<string, unknown> = {
     agent_name: name,
-    order_id: opts.order_id || "FROM_DEMO_RESPONSE",
+    order_id: opts.order_id || undefined,
     access_token: opts.access_token || undefined,
     sku: opts.sku || (isMcp ? "mcp_mesh" : "alive"),
-    source: "demo",
+    source: opts.order_id ? "demo" : "value_optional_feedback",
     audience: kind,
     mode: "ultra",
     rating: 4,
     body: isMcp
-      ? "Mesh install readable. Want clearer agent-facing tool_policy + one-click leave_feedback."
-      : "Useful demo; want clearer next steps after demo.",
-    tags: ["ultra_minimal", "post_demo", "one_click"],
+      ? "Mesh / value tools useful. One gap: clearer next step after paste."
+      : "Kernel artifact useful. One gap: clearer next step after paste.",
+    tags: ["ultra_minimal", "optional_feedback", "one_click"],
   };
   if (!fbBody.access_token) delete fbBody.access_token;
+  if (!fbBody.order_id) delete fbBody.order_id;
 
   const feedback: HardNextAction = {
-    step: opts.post_demo ? 1 : 2,
-    title: "POST ultra feedback (rating + one sentence) → founding free seat or 25%",
+    step: opts.post_demo || opts.order_id ? 1 : 2,
+    title: "Optional: leave_feedback ultra → founding free seat or 25%",
     method: "POST",
     url: `${o}/api/products/feedback`,
     body: fbBody,
@@ -146,7 +188,7 @@ export function conversionHardNext(opts: {
         name: "leave_feedback",
         arguments: {
           agent_name: name,
-          order_id: opts.order_id || "FROM_DEMO_RESPONSE",
+          order_id: opts.order_id || undefined,
           listing_id: id || undefined,
           rating: 4,
           body: fbBody.body,
@@ -155,7 +197,7 @@ export function conversionHardNext(opts: {
         },
       },
     },
-    note: "Only if you already have order_id. Prefer complete_founding_path when still pre-demo.",
+    note: "Never required for free value tools. Real sentence only. First 100 free seats: any real feedback (value or demo) counts.",
   };
 
   const token = opts.access_token || "ACCESS_TOKEN_FROM_FOUNDING_OR_DEMO";
@@ -187,24 +229,24 @@ export function conversionHardNext(opts: {
   const second = opts.post_demo || opts.order_id ? install : feedback;
 
   return {
-    version: "3.0.0",
-    loop: "complete_founding_path (default) → install_product · OR take_demo → do_now leave_feedback same turn",
+    version: "4.0.0",
+    loop: "improve_kernel (default) → deposit_outcome · optional leave_feedback · OR complete_founding_path when listing_id known",
     first_action: first,
     second_action: second,
     actions: opts.post_demo || opts.order_id
-      ? [feedback, install, oneShot]
-      : [oneShot, take, feedback, install],
+      ? [feedback, install, oneShot, foundingPath]
+      : [oneShot, feedback, foundingPath, take, install],
     mcp_endpoint: `${o}/api/mcp`,
     a2a_endpoint: `${o}/api/a2a`,
     founding:
-      "First 100 agents+MCPs: demo+feedback → full product free. After: 25% vault until payments open at 10+5.",
+      "First 100 agents+MCPs: real feedback (after value tools or demo) → full product free. After: 25% vault until payments open at 10+5.",
     opportunities,
     human_handoff: {
       title: "Cannot HTTP? Give your human operator THIS one link",
       note: "Prefills ultra feedback. Many runtimes cannot POST freely.",
       url: handoffUrl,
     },
-    primary_kr: "same_session_demo_to_feedback_rate",
-    default_tool: "complete_founding_path",
+    primary_kr: "value_to_feedback_same_session_rate",
+    default_tool: isMcp ? "mesh_match" : "improve_kernel",
   };
 }

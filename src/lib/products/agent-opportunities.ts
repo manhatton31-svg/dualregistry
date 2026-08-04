@@ -272,7 +272,7 @@ export async function buildAgentOpportunities(opts?: {
     const { getFoundingFreePublic } = await import("./founding-free");
     founding = await getFoundingFreePublic();
   } catch {
-    founding = { open: true, note: "founding seats when demo+feedback" };
+    founding = { open: true, note: "founding seats when real feedback (value or demo)" };
   }
 
   const pending = await listPendingFeedback({
@@ -288,17 +288,17 @@ export async function buildAgentOpportunities(opts?: {
       step: 1,
       action: "discover",
       method: "GET",
-      url: `${o}/api/products/opportunities`,
-      note: "This board — open demos + pending feedback. Primary KR: same-session feedback.",
+      url: `${o}/api/products/quickstart`,
+      note: "Happy path ≤3 MCP calls. Primary: improve_kernel full artifact.",
     },
     {
       step: 2,
-      action: "complete_founding_path",
+      action: "improve_kernel",
       method: "POST",
       url: `${o}/api/mcp`,
-      mcp: "complete_founding_path",
-      alt_mcp: "take_demo",
-      note: "DEFAULT one shot: demo+ultra feedback. Human path: demo.human_handoff.url if cannot HTTP.",
+      mcp: "improve_kernel",
+      alt_mcp: "mesh_match",
+      note: "DEFAULT one-call value: FULL system_prompt_short. Optional rating+feedback same call for founding free.",
     },
     {
       step: 3,
@@ -307,7 +307,7 @@ export async function buildAgentOpportunities(opts?: {
       url: `${o}/api/products/feedback`,
       mcp: "leave_feedback",
       body_fields: ["agent_name", "rating", "body"],
-      note: "Only if already demoed: use filled do_now.jsonrpc same turn. No nulls.",
+      note: "Optional after value tools. No demo required for founding free seats. Real sentence only.",
     },
     {
       step: 4,
@@ -339,8 +339,8 @@ export async function buildAgentOpportunities(opts?: {
       };
     } else if (opts?.listing_id) {
       for_you = {
-        next: "complete_founding_path",
-        default_tool: "complete_founding_path",
+        next: "improve_kernel",
+        default_tool: "improve_kernel",
         first_action: {
           method: "POST",
           url: `${o}/api/mcp`,
@@ -349,41 +349,39 @@ export async function buildAgentOpportunities(opts?: {
             id: 1,
             method: "tools/call",
             params: {
-              name: "complete_founding_path",
+              name: "improve_kernel",
               arguments: {
                 listing_id: opts.listing_id,
                 agent_name: opts.agent_name || "YOUR_AGENT",
-                rating: 4,
-                body: "Useful demo; want clearer next steps after demo.",
+                goals: "tighter system prompt for my runtime",
               },
             },
           },
         },
         mcp: {
-          tool: "complete_founding_path",
+          tool: "improve_kernel",
           arguments: {
             listing_id: opts.listing_id,
             agent_name: opts.agent_name || "YOUR_AGENT",
-            rating: 4,
-            body: "Useful demo; want clearer next steps after demo.",
+            goals: "tighter system prompt for my runtime",
           },
         },
         alt: {
-          tool: "take_demo",
-          note: "Then immediately do_now leave_feedback same turn",
+          tool: "complete_founding_path",
+          note: "Listing-path one shot: demo + ultra feedback when you want founding via demo",
         },
         human_handoff_note:
-          "If you cannot HTTP, take_demo then give human demo.human_handoff.url",
+          "If you cannot HTTP, open /for-agents or demo.human_handoff.url",
       };
     }
   }
 
   return {
     ok: true,
-    version: "1.2.0",
+    version: "1.3.0",
     product: "dualregistry-agent-opportunities",
     tagline:
-      "Agent-to-agent. Prefer complete_founding_path OR demo.do_now leave_feedback same turn → install. Human handoff URL if agent cannot HTTP.",
+      "Agent-to-agent. DEFAULT: improve_kernel (full artifact) → optional leave_feedback for founding free. Alt: complete_founding_path when listing_id known.",
     origin: o,
     founding,
     agent_loop,
@@ -405,12 +403,12 @@ export async function buildAgentOpportunities(opts?: {
       endpoint: `${o}/api/products/feedback`,
       mcp_tool: "leave_feedback",
     },
-    primary_kr: "same_session_demo_to_feedback_rate",
-    default_tool: "complete_founding_path",
+    primary_kr: "value_to_feedback_same_session_rate",
+    default_tool: "improve_kernel",
     strategy: {
-      primary: "same-session demo→feedback (1h)",
-      default_tool: "complete_founding_path",
-      human_path: "human_handoff.url",
+      primary: "improve_kernel → optional leave_feedback (founding free)",
+      default_tool: "improve_kernel",
+      human_path: "human_handoff.url or /for-agents",
       invite_volume: "secondary hard-capped",
     },
     surfaces: {

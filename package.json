@@ -14,7 +14,8 @@
     "preview": "vite preview --host 0.0.0.0 --port 8080",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "stamp": "node -e \"const fs=require('fs');const p='public/build.json';const d=JSON.parse(fs.readFileSync(p,'utf8'));d.shipped_at=new Date().toISOString();d.git=process.env.GIT_SHA||'';fs.writeFileSync(p,JSON.stringify(d,null,2)+'\\n')\""
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.3",
@@ -92,5 +93,6 @@
     "typescript": "^5.7.0",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.1.0"
-  }
+  },
+  "version": "0.0.0"
 }

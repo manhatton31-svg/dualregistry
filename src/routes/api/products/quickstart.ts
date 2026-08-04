@@ -107,7 +107,8 @@ export const Route = createFileRoute("/api/products/quickstart")({
             reciprocity_refills: REFILL_POLICY,
             onboarding_pack: pack,
             initialize_hint:
-              "POST /api/mcp method initialize — serverInfo.version should be 3.2.x+",
+              "POST /api/mcp method initialize — serverInfo.version should be 3.7.0+",
+
           },
           {
             headers: {

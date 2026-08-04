@@ -120,7 +120,7 @@ export const NETWORK_TOOLS: DualNodeTool[] = [
     endpoint_hint: "POST /api/match",
   },
   {
-    name: "complete_founding_path / leave_feedback",
+    name: "improve_kernel / leave_feedback",
     class: "write",
     require_confirm: false,
     description:

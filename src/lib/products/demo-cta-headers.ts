@@ -45,11 +45,11 @@ export function demoCtaHeaders(opts?: {
     "x-dualregistry-openapi": pack.openapi,
     "x-dualregistry-discovery": pack.discovery_json,
     "x-dualregistry-cta":
-      "DEFAULT: MCP tools/call complete_founding_path (demo+feedback one shot). Human: success URL prefill. Primary KR: same-session feedback. First 100 free. No pressure.",
+      "DEFAULT: MCP tools/call improve_kernel (FULL artifact). Optional leave_feedback same turn for founding free. Alt: complete_founding_path when listing_id known. First 100 free.",
     "x-dualregistry-deal":
-      "first_100_combined_100_percent_no_stripe · then 25% until 10+5 feedback unlock",
-    "x-dualregistry-founding-tool": "complete_founding_path",
-    "x-dualregistry-primary-kr": "same_session_demo_to_feedback_rate",
+      "first_100_real_feedback_100_percent_no_stripe · then 25% until 10+5 feedback unlock",
+    "x-dualregistry-founding-tool": "improve_kernel",
+    "x-dualregistry-primary-kr": "value_to_feedback_same_session_rate",
   };
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(raw)) {

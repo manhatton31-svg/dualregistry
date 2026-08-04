@@ -131,9 +131,24 @@ async function readLocal(name: string): Promise<string | null> {
 async function writeLocal(name: string, raw: string): Promise<void> {
   const path = durableLocalPath(name);
   await mkdir(dirname(path), { recursive: true });
-  const tmp = `${path}.${process.pid}.${Date.now()}.tmp`;
-  await writeFile(tmp, raw, "utf8");
-  await rename(tmp, path);
+  // Atomic rename races on Vercel /tmp multi-isolate — fall back to direct write.
+  const tmp = `${path}.${process.pid}.${Date.now()}.${Math.random().toString(36).slice(2, 8)}.tmp`;
+  try {
+    await writeFile(tmp, raw, "utf8");
+    try {
+      await rename(tmp, path);
+    } catch {
+      await writeFile(path, raw, "utf8");
+      try {
+        const { unlink } = await import("node:fs/promises");
+        await unlink(tmp).catch(() => undefined);
+      } catch {
+        /* */
+      }
+    }
+  } catch {
+    await writeFile(path, raw, "utf8");
+  }
 }
 
 async function hydrateRemote(name: string): Promise<string | null> {
