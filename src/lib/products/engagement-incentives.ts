@@ -1,7 +1,7 @@
 /**
  * Conversion incentives (no nag spam):
  * 1) founding_verified badge + rank soft-boost
- * 2) value-before-tax preview until ultra feedback
+ * 2) full one-call artifacts (no hard gate) + optional feedback ask
  * 3) human_handoff builders
  * 4) co_sign founding (agent↔MCP pairs)
  * Autonomous — real external feedback only.
@@ -114,9 +114,13 @@ export type PayWithFeedback = {
   http: { method: string; url: string; body: Record<string, unknown> };
   human_handoff: { title: string; url: string; note: string };
   unlocks: string;
+  optional: true;
 };
 
-/** Same-response tax: preview full value after ultra feedback. */
+/**
+ * Optional same-turn feedback ask — FULL artifact already delivered.
+ * Counts toward founding free + 10+5 unlock; never blocks paste/export.
+ */
 export function buildPayWithFeedback(opts: {
   origin?: string;
   agent_name: string;
@@ -129,22 +133,23 @@ export function buildPayWithFeedback(opts: {
   const aud = opts.audience === "mcp" ? "mcp" : "agent";
   const body =
     aud === "mcp"
-      ? "Mesh value useful. Want clearer tool_policy + install path."
-      : "Kernel preview useful. Want full system_prompt_short unlocked.";
+      ? "Mesh matches useful. Want clearer compose + install path."
+      : "Kernel artifact useful. One gap: clearer next step after paste.";
   const args: Record<string, unknown> = {
     agent_name: name,
     rating: 4,
     body,
     mode: "ultra",
     audience: aud,
-    source: "value_gate",
-    tags: ["value_before_tax", opts.event, "ultra_minimal"],
+    source: "value_optional_feedback",
+    tags: ["optional_feedback", opts.event, "ultra_minimal"],
   };
   if (opts.listing_id) args.listing_id = opts.listing_id;
   return {
-    title: "Unlock FULL artifact: ultra leave_feedback (same turn)",
-    why: "You got a real preview. Full paste/export unlocks after one honest ultra survey (counts toward 10+5 + founding).",
+    title: "Optional same-turn: leave_feedback ultra (founding + unlock meter)",
+    why: "You already have the full artifact. One honest sentence seeds founding free + moves 10 agent / 5 MCP unlock. Never required to re-use the tool.",
     tool: "leave_feedback",
+    optional: true,
     mcp: {
       jsonrpc: "2.0",
       id: 1,
@@ -160,7 +165,7 @@ export function buildPayWithFeedback(opts: {
         rating: 4,
         body,
         audience: aud,
-        source: "value_gate",
+        source: "value_optional_feedback",
         listing_id: opts.listing_id,
       },
     },
@@ -171,35 +176,32 @@ export function buildPayWithFeedback(opts: {
     },
     unlocks:
       aud === "mcp"
-        ? "Full mesh hits + tool_policy install_kit"
-        : "Full system_prompt_short + export paths",
+        ? "Founding free seat path + MCP unlock meter (5)"
+        : "Founding free seat path + agent unlock meter (10)",
   };
 }
 
-/** Apply value-before-tax gate to improve_kernel result shape. */
+/**
+ * Full artifact always — no hard gate.
+ * Kept for API compatibility; gated is always false.
+ */
 export function gateKernelArtifact(
   short: string,
-  unlocked: boolean,
+  _unlocked: boolean,
 ): { preview: string; full: string | null; gated: boolean } {
-  if (unlocked) return { preview: short, full: short, gated: false };
-  const preview =
-    short.slice(0, Math.min(280, Math.floor(short.length * 0.35))) +
-    (short.length > 280 ? "\n… [gated — leave_feedback ultra same turn for FULL prompt]" : "");
-  return { preview, full: null, gated: true };
+  return { preview: short, full: short, gated: false };
 }
 
-export function gateMeshHits<T>(hits: T[], unlocked: boolean): {
+/** Full mesh hits always — no hard gate. */
+export function gateMeshHits<T>(
+  hits: T[],
+  _unlocked: boolean,
+): {
   hits: T[];
   gated: boolean;
   hidden: number;
 } {
-  if (unlocked) return { hits, gated: false, hidden: 0 };
-  const keep = hits.slice(0, Math.min(3, hits.length));
-  return {
-    hits: keep,
-    gated: hits.length > keep.length || hits.length > 0,
-    hidden: Math.max(0, hits.length - keep.length),
-  };
+  return { hits, gated: false, hidden: 0 };
 }
 
 // --- co-sign founding ---
@@ -254,9 +256,11 @@ export async function coSignFounding(input: {
   const a = String(input.from_listing_id || "").trim();
   const b = String(input.partner_listing_id || "").trim();
   if (!a || !b || a === b) {
-    return { ok: false, error: "from_listing_id and partner_listing_id required and distinct" };
+    return {
+      ok: false,
+      error: "from_listing_id and partner_listing_id required and distinct",
+    };
   }
-  // Resolve kind roles
   let agent_listing_id = a;
   let agent_name = input.from_name;
   let mcp_listing_id = b;

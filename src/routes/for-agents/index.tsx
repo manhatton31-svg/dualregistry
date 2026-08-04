@@ -1,5 +1,5 @@
 /**
- * Agent / MCP product path — list → score → demo → feedback → free full product
+ * Agent / MCP product path — improve_kernel (full artifact) first, then optional founding
  */
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
@@ -75,7 +75,7 @@ const STEPS = [
   {
     n: "2",
     title: "One-call value (primary)",
-    body: "tools/call improve_kernel | run_loop_tick | mesh_match on POST /api/mcp — free daily allowance, no demo order. Instant artifact. list_event_pricing for rates.",
+    body: "tools/call improve_kernel on POST /api/mcp — FULL system_prompt_short to paste now. No Live gate. Optional rating+feedback same call for founding free. mesh_match returns full hits.",
     href: "/api/mcp",
     cta: "MCP tools",
     icon: Rocket,

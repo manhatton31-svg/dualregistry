@@ -28,15 +28,22 @@ function cleanOnlyTotals(body: Record<string, unknown>) {
     | null
     | undefined;
 
-  // Arrays are the source of truth — never trust mirrored store counts
+  // Prefer array rows for tables; prefer max(array, counts) so timeout samples
+  // never under-report clean-registry high-water counts.
   const mcpActive = Array.isArray(lanesIn?.mcp_active)
     ? lanesIn!.mcp_active!
     : [];
   const agentsActive = Array.isArray(lanesIn?.agents_active)
     ? lanesIn!.agents_active!
     : [];
-  const mcpN = mcpActive.length;
-  const agN = agentsActive.length;
+  const mcpN = Math.max(
+    mcpActive.length,
+    Number(lanesIn?.counts?.mcp_active || 0) || 0,
+  );
+  const agN = Math.max(
+    agentsActive.length,
+    Number(lanesIn?.counts?.agents_active || 0) || 0,
+  );
 
   const toItem = (row: Record<string, unknown>) => {
     const probe = (row.probe as Record<string, unknown> | null) || null;
@@ -353,7 +360,72 @@ async function attachSidePanels(
         const { getLanedListings } = await import(
           "@/lib/agents1/listing-lanes"
         );
-        return await withTimeout(getLanedListings(), t);
+        // Soft path: allow longer hydrate so homepage does not flash zeros
+        const laneT = Math.max(t, full ? 4500 : 5000);
+        const lanes = await withTimeout(getLanedListings(), laneT);
+        if (lanes) return lanes;
+      } catch {
+        /* fall through to clean-registry snapshot */
+      }
+      // Fail open: clean-registry is the durable authority (counts + sample rows)
+      try {
+        const { loadCleanRegistry } = await import(
+          "@/lib/agents1/clean-registry"
+        );
+        const reg = await withTimeout(loadCleanRegistry(), 2000);
+        if (!reg) return null;
+        const items = Object.values(reg.items || {});
+        const toRow = (it: {
+          id: string;
+          kind: string;
+          name: string;
+          target?: string;
+          score?: number;
+          probed_at?: string;
+        }) => ({
+          id: it.id,
+          name: it.name,
+          kind: it.kind,
+          agent_card_url: it.kind === "agent" ? it.target : undefined,
+          remote_url: it.kind === "mcp" ? it.target : undefined,
+          checks_clean: true,
+          probe: {
+            ok: true,
+            handshake: "ok",
+            target: it.target,
+            score: it.score,
+            probed_at: it.probed_at,
+          },
+        });
+        const mcp_active = items
+          .filter((i) => i.kind === "mcp")
+          .slice(0, 48)
+          .map(toRow);
+        const agents_active = items
+          .filter((i) => i.kind === "agent")
+          .slice(0, 48)
+          .map(toRow);
+        return {
+          mcp_active,
+          agents_active,
+          mcp_discovered: [],
+          agents_discovered: [],
+          mcp_needs_resubmit: [],
+          agents_needs_resubmit: [],
+          counts: {
+            mcp_active: reg.counts?.mcp ?? mcp_active.length,
+            agents_active: reg.counts?.agents ?? agents_active.length,
+            mcp_discovered: 0,
+            agents_discovered: 0,
+            mcp_needs_resubmit: 0,
+            agents_needs_resubmit: 0,
+            public_listed:
+              (reg.counts?.mcp || 0) + (reg.counts?.agents || 0),
+          },
+          policy: reg.policy,
+          degraded: true,
+          source: "clean-registry-fallback",
+        };
       } catch {
         return null;
       }
@@ -636,7 +708,7 @@ export const Route = createFileRoute("/api/dashboard")({
         try {
           // Soft path: skip getLiveSnapshot (heavy store revalidate) — lanes are enough
           // Full/Update: still avoid forceLive; only revalidate=false cache snapshot
-          const side = await attachSidePanels(wantOps ? 2_800 : 2_000, {
+          const side = await attachSidePanels(wantOps ? 4_500 : 5_000, {
             full: wantOps,
           });
 

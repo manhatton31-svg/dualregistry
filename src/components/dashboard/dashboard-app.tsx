@@ -431,6 +431,20 @@ function useLiveData() {
             prev.listing_lanes,
             score.lanes,
           ) as DashboardData["listing_lanes"],
+          mcp: (() => {
+            const a = json.mcp;
+            const b = prev.mcp;
+            if (!a) return b;
+            if (!b) return a;
+            return Number(a.total || 0) >= Number(b.total || 0) ? a : b;
+          })(),
+          agents: (() => {
+            const a = json.agents;
+            const b = prev.agents;
+            if (!a) return b;
+            if (!b) return a;
+            return Number(a.total || 0) >= Number(b.total || 0) ? a : b;
+          })(),
           product_engagement:
             json.product_engagement ?? prev.product_engagement,
           hero: (() => {
