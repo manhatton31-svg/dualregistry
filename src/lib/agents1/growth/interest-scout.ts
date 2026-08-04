@@ -196,16 +196,22 @@ function stillCool(s: InterestScoutState, key: string): boolean {
 }
 
 async function fetchJson<T>(url: string): Promise<T | null> {
-  try {
-    const res = await fetch(url, {
-      headers: { "user-agent": UA, accept: "application/json" },
-      signal: AbortSignal.timeout(8_000),
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as T;
-  } catch {
-    return null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await fetch(url, {
+        headers: { "user-agent": UA, accept: "application/json" },
+        signal: AbortSignal.timeout(attempt === 0 ? 10_000 : 14_000),
+      });
+      if (!res.ok) {
+        if (attempt === 0) continue;
+        return null;
+      }
+      return (await res.json()) as T;
+    } catch {
+      if (attempt === 1) return null;
+    }
   }
+  return null;
 }
 
 /** Official MCP Registry — external remotes only, shallow pages for cost. */
@@ -428,10 +434,16 @@ async function scoreWithXai(
       signal: AbortSignal.timeout(12_000),
     });
     if (!res.ok) {
+      await res.text().catch(() => "");
+      // One cheap single-shot on first candidate only if batch 4xx/5xx
       return {
         rows: batch.map((c, i) => {
           const h = heuristicScore(c);
-          return { i, s: h.score, why: `fallback:${h.why}` };
+          return {
+            i,
+            s: h.score,
+            why: `http${res.status}:${h.why}`.slice(0, 40),
+          };
         }),
         xai_usd: 0,
         used_llm: false,
@@ -706,10 +718,45 @@ export async function runInterestScout(opts?: {
   }
 
   const skipUrls = await loadCleanSkipUrls();
-  const [mcpPool, seeds] = await Promise.all([
-    pullOfficialMcp(60),
-    Promise.resolve(pullAgentSeeds()),
-  ]);
+  let mcpPool = await pullOfficialMcp(60);
+  if (mcpPool.length < 8) {
+    try {
+      const { discoverCandidates } = await import("./sources");
+      const disc = await discoverCandidates({ mcpPriority: true, max: 40 });
+      for (const c of disc.candidates || []) {
+        const remote = c.remote_url || c.mcp_url || c.endpoint_url;
+        if (!remote || !/^https:\/\//i.test(remote)) continue;
+        mcpPool.push({
+          key: `mcp:${remote}`.toLowerCase().slice(0, 160),
+          kind: "mcp",
+          name: (c.name || "mcp").slice(0, 80),
+          description: (c.description || "").slice(0, 400),
+          remote_url: remote,
+          website: c.website || remote,
+          repository: c.repository,
+          source: c.source || "discover-fallback",
+        });
+      }
+      notes.push(`discover_fallback +${(disc.candidates || []).length}`);
+    } catch (e) {
+      notes.push(
+        `discover_fallback_err:${e instanceof Error ? e.message : "x"}`.slice(
+          0,
+          60,
+        ),
+      );
+    }
+  }
+  // dedupe mcpPool
+  {
+    const seen = new Set<string>();
+    mcpPool = mcpPool.filter((c) => {
+      if (seen.has(c.key)) return false;
+      seen.add(c.key);
+      return true;
+    });
+  }
+  const seeds = pullAgentSeeds();
   notes.push(`external_mcp=${mcpPool.length} seeds=${seeds.length}`);
 
   let pool = [...mcpPool, ...seeds].filter((c) => {
