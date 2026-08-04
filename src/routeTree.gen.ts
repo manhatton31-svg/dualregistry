@@ -71,10 +71,12 @@ import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[
 import { Route as ApiArdSearchRouteImport } from './routes/api/ard/search'
 import { Route as ApiCronConnectorDailyRouteImport } from './routes/api/cron/connector-daily'
 import { Route as ApiCronGrowthScoutRouteImport } from './routes/api/cron/growth-scout'
+import { Route as ApiCronInterestScoutRouteImport } from './routes/api/cron/interest-scout'
 import { Route as ApiCronPrefilterRouteImport } from './routes/api/cron/prefilter'
 import { Route as ApiCronProbeRouteImport } from './routes/api/cron/probe'
 import { Route as ApiDnsMcpStatusRouteImport } from './routes/api/dns/mcp-status'
 import { Route as ApiFunnelIndexRouteImport } from './routes/api/funnel/index'
+import { Route as ApiGrowthInterestScoutRouteImport } from './routes/api/growth/interest-scout'
 import { Route as ApiListingsActiveRouteImport } from './routes/api/listings/active'
 import { Route as ApiListingsStatusRouteImport } from './routes/api/listings/status'
 import { Route as ApiMcpRegistryPublishStatusRouteImport } from './routes/api/mcp-registry/publish-status'
@@ -451,6 +453,11 @@ const ApiCronGrowthScoutRoute = ApiCronGrowthScoutRouteImport.update({
   path: '/api/cron/growth-scout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCronInterestScoutRoute = ApiCronInterestScoutRouteImport.update({
+  id: '/api/cron/interest-scout',
+  path: '/api/cron/interest-scout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCronPrefilterRoute = ApiCronPrefilterRouteImport.update({
   id: '/api/cron/prefilter',
   path: '/api/cron/prefilter',
@@ -470,6 +477,11 @@ const ApiFunnelIndexRoute = ApiFunnelIndexRouteImport.update({
   id: '/api/funnel/',
   path: '/api/funnel/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGrowthInterestScoutRoute = ApiGrowthInterestScoutRouteImport.update({
+  id: '/interest-scout',
+  path: '/interest-scout',
+  getParentRoute: () => ApiGrowthRoute,
 } as any)
 const ApiListingsActiveRoute = ApiListingsActiveRouteImport.update({
   id: '/api/listings/active',
@@ -792,7 +804,7 @@ export interface FileRoutesByFullPath {
   '/api/counters': typeof ApiCountersRoute
   '/api/dashboard': typeof ApiDashboardRoute
   '/api/feed': typeof ApiFeedRoute
-  '/api/growth': typeof ApiGrowthRoute
+  '/api/growth': typeof ApiGrowthRouteWithChildren
   '/api/listing-lanes': typeof ApiListingLanesRoute
   '/api/match': typeof ApiMatchRoute
   '/api/mcp': typeof ApiMcpRoute
@@ -817,9 +829,11 @@ export interface FileRoutesByFullPath {
   '/api/ard/search': typeof ApiArdSearchRoute
   '/api/cron/connector-daily': typeof ApiCronConnectorDailyRoute
   '/api/cron/growth-scout': typeof ApiCronGrowthScoutRoute
+  '/api/cron/interest-scout': typeof ApiCronInterestScoutRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
   '/api/dns/mcp-status': typeof ApiDnsMcpStatusRoute
+  '/api/growth/interest-scout': typeof ApiGrowthInterestScoutRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
@@ -914,7 +928,7 @@ export interface FileRoutesByTo {
   '/api/counters': typeof ApiCountersRoute
   '/api/dashboard': typeof ApiDashboardRoute
   '/api/feed': typeof ApiFeedRoute
-  '/api/growth': typeof ApiGrowthRoute
+  '/api/growth': typeof ApiGrowthRouteWithChildren
   '/api/listing-lanes': typeof ApiListingLanesRoute
   '/api/match': typeof ApiMatchRoute
   '/api/mcp': typeof ApiMcpRoute
@@ -939,9 +953,11 @@ export interface FileRoutesByTo {
   '/api/ard/search': typeof ApiArdSearchRoute
   '/api/cron/connector-daily': typeof ApiCronConnectorDailyRoute
   '/api/cron/growth-scout': typeof ApiCronGrowthScoutRoute
+  '/api/cron/interest-scout': typeof ApiCronInterestScoutRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
   '/api/dns/mcp-status': typeof ApiDnsMcpStatusRoute
+  '/api/growth/interest-scout': typeof ApiGrowthInterestScoutRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
@@ -1037,7 +1053,7 @@ export interface FileRoutesById {
   '/api/counters': typeof ApiCountersRoute
   '/api/dashboard': typeof ApiDashboardRoute
   '/api/feed': typeof ApiFeedRoute
-  '/api/growth': typeof ApiGrowthRoute
+  '/api/growth': typeof ApiGrowthRouteWithChildren
   '/api/listing-lanes': typeof ApiListingLanesRoute
   '/api/match': typeof ApiMatchRoute
   '/api/mcp': typeof ApiMcpRoute
@@ -1062,9 +1078,11 @@ export interface FileRoutesById {
   '/api/ard/search': typeof ApiArdSearchRoute
   '/api/cron/connector-daily': typeof ApiCronConnectorDailyRoute
   '/api/cron/growth-scout': typeof ApiCronGrowthScoutRoute
+  '/api/cron/interest-scout': typeof ApiCronInterestScoutRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
   '/api/dns/mcp-status': typeof ApiDnsMcpStatusRoute
+  '/api/growth/interest-scout': typeof ApiGrowthInterestScoutRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
   '/api/mcp-registry/publish-status': typeof ApiMcpRegistryPublishStatusRoute
@@ -1186,9 +1204,11 @@ export interface FileRouteTypes {
     | '/api/ard/search'
     | '/api/cron/connector-daily'
     | '/api/cron/growth-scout'
+    | '/api/cron/interest-scout'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
     | '/api/dns/mcp-status'
+    | '/api/growth/interest-scout'
     | '/api/listings/active'
     | '/api/listings/status'
     | '/api/mcp-registry/publish-status'
@@ -1308,9 +1328,11 @@ export interface FileRouteTypes {
     | '/api/ard/search'
     | '/api/cron/connector-daily'
     | '/api/cron/growth-scout'
+    | '/api/cron/interest-scout'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
     | '/api/dns/mcp-status'
+    | '/api/growth/interest-scout'
     | '/api/listings/active'
     | '/api/listings/status'
     | '/api/mcp-registry/publish-status'
@@ -1430,9 +1452,11 @@ export interface FileRouteTypes {
     | '/api/ard/search'
     | '/api/cron/connector-daily'
     | '/api/cron/growth-scout'
+    | '/api/cron/interest-scout'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
     | '/api/dns/mcp-status'
+    | '/api/growth/interest-scout'
     | '/api/listings/active'
     | '/api/listings/status'
     | '/api/mcp-registry/publish-status'
@@ -1528,7 +1552,7 @@ export interface RootRouteChildren {
   ApiCountersRoute: typeof ApiCountersRoute
   ApiDashboardRoute: typeof ApiDashboardRoute
   ApiFeedRoute: typeof ApiFeedRoute
-  ApiGrowthRoute: typeof ApiGrowthRoute
+  ApiGrowthRoute: typeof ApiGrowthRouteWithChildren
   ApiListingLanesRoute: typeof ApiListingLanesRoute
   ApiMatchRoute: typeof ApiMatchRoute
   ApiMcpRoute: typeof ApiMcpRoute
@@ -1552,6 +1576,7 @@ export interface RootRouteChildren {
   ApiArdSearchRoute: typeof ApiArdSearchRoute
   ApiCronConnectorDailyRoute: typeof ApiCronConnectorDailyRoute
   ApiCronGrowthScoutRoute: typeof ApiCronGrowthScoutRoute
+  ApiCronInterestScoutRoute: typeof ApiCronInterestScoutRoute
   ApiCronPrefilterRoute: typeof ApiCronPrefilterRoute
   ApiCronProbeRoute: typeof ApiCronProbeRoute
   ApiDnsMcpStatusRoute: typeof ApiDnsMcpStatusRoute
@@ -2046,6 +2071,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCronGrowthScoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/cron/interest-scout': {
+      id: '/api/cron/interest-scout'
+      path: '/api/cron/interest-scout'
+      fullPath: '/api/cron/interest-scout'
+      preLoaderRoute: typeof ApiCronInterestScoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/cron/prefilter': {
       id: '/api/cron/prefilter'
       path: '/api/cron/prefilter'
@@ -2073,6 +2105,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/funnel/'
       preLoaderRoute: typeof ApiFunnelIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/growth/interest-scout': {
+      id: '/api/growth/interest-scout'
+      path: '/interest-scout'
+      fullPath: '/api/growth/interest-scout'
+      preLoaderRoute: typeof ApiGrowthInterestScoutRouteImport
+      parentRoute: typeof ApiGrowthRoute
     }
     '/api/listings/active': {
       id: '/api/listings/active'
@@ -2465,6 +2504,18 @@ const ListRouteChildren: ListRouteChildren = {
 
 const ListRouteWithChildren = ListRoute._addFileChildren(ListRouteChildren)
 
+interface ApiGrowthRouteChildren {
+  ApiGrowthInterestScoutRoute: typeof ApiGrowthInterestScoutRoute
+}
+
+const ApiGrowthRouteChildren: ApiGrowthRouteChildren = {
+  ApiGrowthInterestScoutRoute: ApiGrowthInterestScoutRoute,
+}
+
+const ApiGrowthRouteWithChildren = ApiGrowthRoute._addFileChildren(
+  ApiGrowthRouteChildren,
+)
+
 interface ApiProductsConnectorsDailyRouteChildren {
   ApiProductsConnectorsDailyStatusRoute: typeof ApiProductsConnectorsDailyStatusRoute
 }
@@ -2533,7 +2584,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiCountersRoute: ApiCountersRoute,
   ApiDashboardRoute: ApiDashboardRoute,
   ApiFeedRoute: ApiFeedRoute,
-  ApiGrowthRoute: ApiGrowthRoute,
+  ApiGrowthRoute: ApiGrowthRouteWithChildren,
   ApiListingLanesRoute: ApiListingLanesRoute,
   ApiMatchRoute: ApiMatchRoute,
   ApiMcpRoute: ApiMcpRoute,
@@ -2557,6 +2608,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiArdSearchRoute: ApiArdSearchRoute,
   ApiCronConnectorDailyRoute: ApiCronConnectorDailyRoute,
   ApiCronGrowthScoutRoute: ApiCronGrowthScoutRoute,
+  ApiCronInterestScoutRoute: ApiCronInterestScoutRoute,
   ApiCronPrefilterRoute: ApiCronPrefilterRoute,
   ApiCronProbeRoute: ApiCronProbeRoute,
   ApiDnsMcpStatusRoute: ApiDnsMcpStatusRoute,
