@@ -2,6 +2,43 @@
   "day": "2026-08-04",
   "runs": [
     {
+      "id": "run_mse39wsi_qlzbcj",
+      "title": "tools/call get_acceleration",
+      "tool": "get_acceleration",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-04T03:19:03.234Z",
+      "ended_at": "2026-08-04T03:19:03.234Z",
+      "duration_ms": 2,
+      "usd_estimate": 6.473333333333333e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_mse1n77p_eyc8sp",
+      "title": "tools/call install_product",
+      "tool": "install_product",
+      "trigger": "mcp",
+      "status": "error",
+      "started_at": "2026-08-04T02:33:24.037Z",
+      "ended_at": "2026-08-04T02:33:24.037Z",
+      "duration_ms": 0,
+      "usd_estimate": 6e-7,
+      "error": "access_token or order_id required",
+      "meta": {}
+    },
+    {
+      "id": "run_mse1n6vr_p6rdv9",
+      "title": "tools/call run_loop_tick",
+      "tool": "run_loop_tick",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-04T02:33:23.607Z",
+      "ended_at": "2026-08-04T02:33:23.607Z",
+      "duration_ms": 2,
+      "usd_estimate": 6.473333333333333e-7,
+      "meta": {}
+    },
+    {
       "id": "run_mse1n6gl_s9ndlk",
       "title": "tools/call improve_kernel",
       "tool": "improve_kernel",
@@ -41,12 +78,12 @@
     }
   ],
   "totals": {
-    "n": 3,
-    "ok": 3,
-    "error": 0,
+    "n": 6,
+    "ok": 5,
+    "error": 1,
     "skipped": 0,
-    "duration_ms": 134,
+    "duration_ms": 138,
     "token_usage": 0
   },
-  "updated_at": "2026-08-04T02:33:23.380Z"
+  "updated_at": "2026-08-04T03:19:03.437Z"
 }
