@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated_at": "2026-08-04T17:10:57.723Z",
+  "updated_at": "2026-08-04T17:25:37.998Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
@@ -25,1336 +25,6 @@
   "candidates": [
     {
       "kind": "mcp",
-      "name": "ainumbers-mcp-apps",
-      "description": "Cloudflare Worker MCP server for AINumbers.co (read-only deterministic tools, signed receipts)",
-      "repository": "https://github.com/PostOakLabs/ainumbers-mcp-apps",
-      "website": "https://github.com/PostOakLabs/ainumbers-mcp-apps",
-      "author": "PostOakLabs",
-      "source": "harvest:gh-server-json",
-      "quality_hints": [
-        "server.json",
-        "github-search"
-      ],
-      "id": "mcp-ainumbers-mcp-apps-https-github-com-postoaklabs-ainumbers-mcp-apps",
-      "status": "queued",
-      "attempts": 0,
-      "discovered_at": "2026-08-04T17:10:57.720Z",
-      "updated_at": "2026-08-04T17:10:57.720Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.presentations/presentations-ai",
-      "description": "Presentations.AI MCP server — create designed slide decks from a topic, text, or document.",
-      "repository": "https://github.com/slidecraft-in/presentations-ai-mcp-server",
-      "website": "https://presentations.ai",
-      "remote_url": "https://api.presentations.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-presentations-presentations-ai-https-github-com-slidecraft-in-presentatio",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.posteverywhere/mcp",
-      "description": "Schedule and publish social posts to 11 platforms with media, campaigns, analytics and AI captions",
-      "repository": "https://github.com/posteverywhere/mcp",
-      "website": "https://mcp.posteverywhere.ai/mcp",
-      "remote_url": "https://mcp.posteverywhere.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-posteverywhere-mcp-https-github-com-posteverywhere-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.plyto/crm",
-      "description": "A CRM powered by your agent: contacts, deals, email, ads, and reports over MCP.",
-      "website": "https://plyto.ai/developers",
-      "remote_url": "https://plyto.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-plyto-crm-https-plyto-ai-developers",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.plori/plori",
-      "description": "Create and drive plori cloud agents (each an AI agent on its own cloud computer) over MCP.",
-      "website": "https://api.plori.ai/mcp",
-      "remote_url": "https://api.plori.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-plori-plori-https-api-plori-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.pimea/pimea",
-      "description": "The hidden intelligence for AI marketing agents. Real campaign data, not LLM guesses.",
-      "website": "https://api.pimea.ai/mcp/",
-      "remote_url": "https://api.pimea.ai/mcp/",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-pimea-pimea-https-api-pimea-ai-mcp-",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.pictomancer/image-processing",
-      "description": "Image processing for AI agents. Resize, convert, compress, and pipeline images.",
-      "repository": "https://gitlab.com/pictomancer.ai/pig-gateway",
-      "website": "https://mcp.pictomancer.ai/mcp",
-      "remote_url": "https://mcp.pictomancer.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-pictomancer-image-processing-https-gitlab-com-pictomancer-ai-pig-gateway",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.physea/liminality",
-      "description": "Breaks a hard question or decision into grounded sub-questions and returns a checkable route.",
-      "repository": "https://github.com/jaybro2042-alt/liminality-mcp",
-      "website": "https://physea.ai/mcp",
-      "remote_url": "https://mcp.physea.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-physea-liminality-https-github-com-jaybro2042-alt-liminality-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.physea/liminality",
-      "description": "Reduces a request into grounded sub-questions, routes each to a real tool, returns a reusable route.",
-      "website": "https://physea.ai/mcp",
-      "remote_url": "https://liminality.physea.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-physea-liminality-https-physea-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.phano/intelligence",
-      "description": "Read-only account intelligence for Customer Success and Account Management teams.",
-      "website": "https://phano.ai/en/docs/platform",
-      "remote_url": "https://phano.ai/api/v1/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-phano-intelligence-https-phano-ai-en-docs-platform",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.parceled/mcp",
-      "description": "US property data: 135M+ parcels with owners, roof permits, and hail history. Free tier + OAuth 2.1.",
-      "website": "https://parceled.ai/api/mcp",
-      "remote_url": "https://parceled.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-parceled-mcp-https-parceled-ai-api-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.optimly/scout",
-      "description": "Query the AI Brand Directory. Audit brand visibility in ChatGPT, Claude, and Gemini.",
-      "website": "https://optimly.ai",
-      "remote_url": "https://scout.optimly.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-optimly-scout-https-optimly-ai",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.openarx/openarx · r2",
-      "description": "Open scientific and engineering knowledge for AI agents: search, evidence, document publishing.",
-      "repository": "https://github.com/OpenArx-AI/openarx-core",
-      "website": "https://openarx.ai",
-      "remote_url": "https://mcp.openarx.ai/governance/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-openarx-openarx-r2-https-github-com-openarx-ai-openarx-core",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.obris/mcp",
-      "description": "Stop re-explaining yourself to AI. Save knowledge once, use it in every conversation.",
-      "repository": "https://github.com/obris-dev/obris-mcp",
-      "website": "https://obris.ai",
-      "remote_url": "https://mcp.obris.ai/",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-obris-mcp-https-github-com-obris-dev-obris-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.obaron/aeo",
-      "description": "Scan any website for AI readiness — 100-point score across 6 AEO categories in seconds.",
-      "website": "https://api.obaron.ai/aeo/mcp",
-      "remote_url": "https://api.obaron.ai/aeo/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-obaron-aeo-https-api-obaron-ai-aeo-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.nordax/mcp",
-      "description": "Search and verify 360K+ business entities with trust scores and W3C credentials.",
-      "website": "https://mcp.nordax.ai/mcp",
-      "remote_url": "https://mcp.nordax.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-nordax-mcp-https-mcp-nordax-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.nexez/commerce",
-      "description": "Search merchants, inspect structured offers, and validate checkout or negotiation before buying.",
-      "repository": "https://github.com/Flyger1an/nexez",
-      "website": "https://nexez.ai/agents",
-      "remote_url": "https://nexez.app/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-nexez-commerce-https-github-com-flyger1an-nexez",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.nefesh/human-state",
-      "description": "Real-time human state fusion: stress score from heart, voice, face signals. GDPR compliant.",
-      "repository": "https://github.com/tomstuhl/nefesh-mcp-server",
-      "website": "https://mcp.nefesh.ai/mcp",
-      "remote_url": "https://mcp.nefesh.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-nefesh-human-state-https-github-com-tomstuhl-nefesh-mcp-server",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.nashboard/nashboard-merchants",
-      "description": "Merchant intelligence for AI agents: brand/operator/location hierarchy + industry codes.",
-      "website": "https://nashboard.ai/llms-full.txt",
-      "remote_url": "https://nashboard.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-nashboard-nashboard-merchants-https-nashboard-ai-llms-full-txt",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.namewhisper/ens-tools",
-      "description": "34 MCP tools to search, value, trade, and manage ENS names. AI-powered intelligence layer.",
-      "website": "https://namewhisper.ai/mcp",
-      "remote_url": "https://namewhisper.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-namewhisper-ens-tools-https-namewhisper-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.multinex/memq",
-      "description": "Persistent memory for AI agents with OAuth-backed hosted MCP access.",
-      "website": "https://mcp.multinex.ai/mcp/v1",
-      "remote_url": "https://mcp.multinex.ai/mcp/v1",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-multinex-memq-https-mcp-multinex-ai-mcp-v1",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.mino/web-agent",
-      "description": "AI-powered web automation. Navigate websites using AI agents for one page or a thousand",
-      "website": "https://mino.ai/mcp",
-      "remote_url": "https://mino.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-mino-web-agent-https-mino-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.meminal/meminal",
-      "description": "Memory for deep conversational context across any platform",
-      "website": "https://meminal.ai/mcp",
-      "remote_url": "https://meminal.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-meminal-meminal-https-meminal-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.mcpanalytics/analytics · r3",
-      "description": "The statistical analyst in your AI chat — validated, citable, re-runnable analysis of your data.",
-      "repository": "https://github.com/embeddedlayers/mcp-analytics",
-      "website": "https://api.mcpanalytics.ai/mcp/discover",
-      "remote_url": "https://api.mcpanalytics.ai/mcp/discover",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-mcpanalytics-analytics-r3-https-github-com-embeddedlayers-mcp-analytics",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.mcpanalytics/analytics · r1",
-      "description": "The statistical analyst in your AI chat — validated, citable, re-runnable analysis of your data.",
-      "repository": "https://github.com/embeddedlayers/mcp-analytics",
-      "website": "https://api.mcpanalytics.ai/mcp/api-key",
-      "remote_url": "https://api.mcpanalytics.ai/mcp/api-key",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-mcpanalytics-analytics-r1-https-github-com-embeddedlayers-mcp-analytics",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.mcpanalytics/analytics",
-      "description": "ML statistical analysis platform for data teams",
-      "website": "https://api.mcpanalytics.ai/auth0",
-      "remote_url": "https://api.mcpanalytics.ai/auth0",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-mcpanalytics-analytics-https-api-mcpanalytics-ai-auth0",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.964Z",
-      "updated_at": "2026-08-04T17:05:39.964Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.marketcore/mcp · r1",
-      "description": "Strategic Marketing Content Platform for GTM Teams that Ship",
-      "repository": "https://github.com/ccromp/marcora-mcp",
-      "website": "https://marcora.ai",
-      "remote_url": "https://mcp.marcora.ai/",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-marketcore-mcp-r1-https-github-com-ccromp-marcora-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.linkdeal.www/mcp",
-      "description": "Find B2B leads from LinkedIn engagement, enrich contacts and deliver to Slack.",
-      "repository": "https://github.com/LinkDeal/mcp",
-      "website": "https://app.linkdeal.ai/api/mcp",
-      "remote_url": "https://app.linkdeal.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-linkdeal-www-mcp-https-github-com-linkdeal-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.limitguard.api/trust-intelligence",
-      "description": "Entity verification, sanctions screening, and trust scoring for AI agents.",
-      "website": "https://api.limitguard.ai/mcp",
-      "remote_url": "https://api.limitguard.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-limitguard-api-trust-intelligence-https-api-limitguard-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.law.mcp/lawyer-search",
-      "description": "Verified lawyer and attorney search, discovery, and matching for AI — 991K+ US profiles.",
-      "repository": "https://github.com/risk-ai/lawai-mcp-server",
-      "website": "https://law.ai",
-      "remote_url": "https://mcp.law.ai",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-law-mcp-lawyer-search-https-github-com-risk-ai-lawai-mcp-server",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.lattiq/x402-trading-signals",
-      "description": "Regime-aware ES1/NQ futures trading signals. HMM + 15 quant strategies. x402 USDC micropayments.",
-      "repository": "https://github.com/PoopsDavis/lattiq-mcp",
-      "website": "https://api.lattiq.ai/mcp",
-      "remote_url": "https://api.lattiq.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-lattiq-x402-trading-signals-https-github-com-poopsdavis-lattiq-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.kive/mcp",
-      "description": "Create on-brand product shots and brand visuals from your Kive workspace, right in the chat.",
-      "website": "https://kive.ai",
-      "remote_url": "https://mcp.kive.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-kive-mcp-https-kive-ai",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.jurisprudencias/case-law",
-      "description": "Search Brazilian case law from federal and state courts with verified decisions and source links.",
-      "website": "https://jurisprudencias.ai/agents",
-      "remote_url": "https://jurisprudencias.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-jurisprudencias-case-law-https-jurisprudencias-ai-agents",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.ironscout/ironscout",
-      "description": "Read-only ammo pricing: offer search, caliber market snapshots, retailer directory. Descriptive.",
-      "repository": "https://github.com/jeb-scarbrough/IronScout",
-      "website": "https://www.ironscout.ai/.well-known/ids.md",
-      "remote_url": "https://mcp.ironscout.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-ironscout-ironscout-https-github-com-jeb-scarbrough-ironscout",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.inxy/seo-audit",
-      "description": "Score any site or Shopify store for AEO/GEO/LLMO readiness — how likely AI search is to cite it.",
-      "repository": "https://github.com/riverliu8/inxy-mcp",
-      "website": "https://inxy.ai/mcp",
-      "remote_url": "https://inxy.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-inxy-seo-audit-https-github-com-riverliu8-inxy-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.intuitek.the-stall/the-stall · r2",
-      "description": "210 pay-per-call AI tools + risk retainer plans ($8/$25): stocks, crypto, GEX, news. USDC.",
-      "website": "https://the-stall.intuitek.ai/sse",
-      "remote_url": "https://the-stall.intuitek.ai/sse",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-intuitek-the-stall-the-stall-r2-https-the-stall-intuitek-ai-sse",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.intuitek.the-stall/the-stall",
-      "description": "x402 MCP chassis — 26 pay-per-call tools: finance, market data, AI utilities. USDC on Base.",
-      "website": "https://the-stall.intuitek.ai/mcp",
-      "remote_url": "https://the-stall.intuitek.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-intuitek-the-stall-the-stall-https-the-stall-intuitek-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.infolang/mcp",
-      "description": "InfoLang semantic memory MCP — investigate, memorize, and recall compressed agent context.",
-      "repository": "https://github.com/InfoLang-Inc/infolang-services",
-      "website": "https://infolang.ai/mcp",
-      "remote_url": "https://api.infolang.ai/v1/mcp/",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-infolang-mcp-https-github-com-infolang-inc-infolang-services",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.hostprofit/mcp",
-      "description": "Revenue intelligence platform for short-term rental operators.",
-      "website": "https://hostprofit-mcp-production.up.railway.app/mcp",
-      "remote_url": "https://hostprofit-mcp-production.up.railway.app/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-hostprofit-mcp-https-hostprofit-mcp-production-up-railway-app-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.gtfi/groundtruth",
-      "description": "Two independent AI models read a GPR, locate or pipe scan and flag the do-not-core call.",
-      "website": "https://gtfi.ai/for-agents",
-      "remote_url": "https://gtfi.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-gtfi-groundtruth-https-gtfi-ai-for-agents",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.groundroute/web-search",
-      "description": "Web search for AI agents — one tool across 6 engines, routed to the cheapest + cached.",
-      "repository": "https://github.com/PROJECT-B-26/groundroute-mcp",
-      "website": "https://api.groundroute.ai/mcp",
-      "remote_url": "https://api.groundroute.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-groundroute-web-search-https-github-com-project-b-26-groundroute-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.gossiper/shopify-admin-mcp · r1",
-      "description": "Control Shopify Admin tasks with agents or via prompt. Ultra slim integration, fast and secure.",
-      "website": "https://mcp.gossiper.io/mcp",
-      "remote_url": "https://mcp.gossiper.io/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.good-sport/good-sport",
-      "description": "Sports-analytics research assistant that grades its own model and reports the losses. $9.99/mo.",
-      "website": "https://good-sport.ai",
-      "remote_url": "https://mcp.good-sport.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-good-sport-good-sport-https-good-sport-ai",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.getperspective/mcp",
-      "description": "An AI concierge that turns static forms into adaptive AI conversations. From any MCP client.",
-      "repository": "https://github.com/Perspective-AI/mcp",
-      "website": "https://getperspective.ai/docs/build/mcp",
-      "remote_url": "https://getperspective.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-getperspective-mcp-https-github-com-perspective-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.getminds/minds",
-      "description": "Run AI market research: synthetic customer panels for concept testing, message testing, segments.",
-      "website": "https://getminds.ai/mcp",
-      "remote_url": "https://getminds.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-getminds-minds-https-getminds-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.gavelin/mcp",
-      "description": "Search bills and speaker-attributed hearing transcripts across all 50 US state legislatures.",
-      "repository": "https://github.com/gavelin-ai/mcp",
-      "website": "https://mcp.gavelin.ai/mcp",
-      "remote_url": "https://mcp.gavelin.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-gavelin-mcp-https-github-com-gavelin-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.fugentic/mattest4-qyroac",
-      "description": "ai.fugentic/mattest4-qyroac is a community mcp for peer discovery and agent collaboration on the open registry.",
-      "website": "https://mattest4-qyroac.mcp.fugentic.ai",
-      "remote_url": "https://mattest4-qyroac.mcp.fugentic.ai",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-fugentic-mattest4-qyroac-https-mattest4-qyroac-mcp-fugentic-ai",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.fodda/topic-research",
-      "description": "Trend, stats & insight search across PSFK expert graphs with citable sources.",
-      "repository": "https://github.com/piers-fawkes/fodda-mcp",
-      "website": "https://www.fodda.ai",
-      "remote_url": "https://mcp.fodda.ai/topic-research",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-fodda-topic-research-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.fodda/mcp-server · r1",
-      "description": "Expert-curated knowledge graphs for AI agents — retail, beauty, sports, plus institutional data",
-      "repository": "https://github.com/piers-fawkes/fodda-mcp",
-      "website": "https://www.fodda.ai",
-      "remote_url": "https://mcp.fodda.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-fodda-mcp-server-r1-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.fodda/expert-consult",
-      "description": "Consult synthetic industry experts grounded in PSFK trend graphs with citable sources.",
-      "repository": "https://github.com/piers-fawkes/fodda-mcp",
-      "website": "https://www.fodda.ai",
-      "remote_url": "https://mcp.fodda.ai/expert-consult",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-fodda-expert-consult-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.fodda/earnings-intelligence",
-      "description": "Cross-company earnings trends & executive divergence with citable sources.",
-      "repository": "https://github.com/piers-fawkes/fodda-mcp",
-      "website": "https://www.fodda.ai",
-      "remote_url": "https://mcp.fodda.ai/earnings-intelligence",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-fodda-earnings-intelligence-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.fodda/deep-research",
-      "description": "Autonomous deep research reports merging PSFK trend graphs with citable sources.",
-      "repository": "https://github.com/piers-fawkes/fodda-mcp",
-      "website": "https://www.fodda.ai",
-      "remote_url": "https://mcp.fodda.ai/deep-research",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-fodda-deep-research-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.fodda/brand-intelligence",
-      "description": "Brand health & trend footprint across PSFK expert graphs with citable sources, not web summaries.",
-      "repository": "https://github.com/piers-fawkes/fodda-mcp",
-      "website": "https://www.fodda.ai",
-      "remote_url": "https://mcp.fodda.ai/brand-intelligence",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-fodda-brand-intelligence-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.flowstep/mcp",
-      "description": "Generate, inspect, and manage Flowstep UI designs directly from your AI assistant.",
-      "website": "https://docs.flowstep.ai/mcp/overview",
-      "remote_url": "https://api.flowstep.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-flowstep-mcp-https-docs-flowstep-ai-mcp-overview",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.firmbrain/x402-services",
-      "description": "77 pay-per-call x402 tools for AI trading & on-chain agents: prices, sniping, perps, RH Chain, MEV",
-      "website": "https://x402-services-production.up.railway.app/api/catalog",
-      "remote_url": "https://x402-services-production.up.railway.app/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-firmbrain-x402-services-https-x402-services-production-up-railway-app-api",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.filepad/filepad",
-      "description": "Connect AI agents to Filepad workspaces through OAuth MCP.",
-      "website": "https://api.filepad.ai/mcp",
-      "remote_url": "https://api.filepad.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-filepad-filepad-https-api-filepad-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.edusignal/districts",
-      "description": "K-12 school district data for all 50 US states. Enrollment, demographics, and academics.",
-      "website": "https://edusignal.ai/mcp",
-      "remote_url": "https://edusignal.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-edusignal-districts-https-edusignal-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.dsght/public",
-      "description": "Read-only MCP access to DSGHT.ai published foresight and country-grounded claim resolution.",
-      "repository": "https://github.com/michalstrnadel/dsght-landing",
-      "website": "https://www.dsght.ai/install",
-      "remote_url": "https://www.dsght.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-dsght-public-https-github-com-michalstrnadel-dsght-landing",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.drillr/drillr",
-      "description": "The financial MCP for AI agents - 90+ financial tables, SEC filings, signals, alt-data.",
-      "repository": "https://github.com/Little-Grebe-Inc/drillr-mcp-server",
-      "website": "https://gateway.drillr.ai/mcp/data",
-      "remote_url": "https://gateway.drillr.ai/mcp/data",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-drillr-drillr-https-github-com-little-grebe-inc-drillr-mcp-server",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.dreamlit/mcp",
-      "description": "Create, test, publish, and manage Dreamlit notification workflows from AI clients.",
-      "repository": "https://github.com/dreamlit-ai/dreamlit-mcp",
-      "website": "https://mcp.dreamlit.ai/mcp",
-      "remote_url": "https://mcp.dreamlit.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-dreamlit-mcp-https-github-com-dreamlit-ai-dreamlit-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.dragoneye/mcp",
-      "description": "Build zero-shot video models for object detection, and category and attribute classification.",
-      "website": "https://nexus.api.dragoneye.ai/mcp",
-      "remote_url": "https://nexus.api.dragoneye.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-dragoneye-mcp-https-nexus-api-dragoneye-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.djwizard/tvwizard",
-      "description": "Control Android TV from any AI. 21 MCP tools: keys, apps, titles, playback, volume, observe.",
-      "repository": "https://github.com/fizzious1/TVWizard-mcp",
-      "website": "https://tv.djwizard.ai",
-      "remote_url": "https://tv.djwizard.ai/mcp/",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-djwizard-tvwizard-https-github-com-fizzious1-tvwizard-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.diagramzu/mcp",
-      "description": "Let Claude, Cursor, or ChatGPT author Mermaid diagrams your team can read and share.",
-      "repository": "https://github.com/yenchieh/diagramzu-mcp",
-      "website": "https://mcp.diagramzu.ai/mcp",
-      "remote_url": "https://mcp.diagramzu.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-diagramzu-mcp-https-github-com-yenchieh-diagramzu-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.deskcrew/agentic",
-      "description": "Buy a managed AI phone agent for a business, paid keylessly via x402/RLUSD on the XRP Ledger.",
-      "repository": "https://github.com/papperkash/ttf-website-v3",
-      "website": "https://deskcrew.ai/api/mcp",
-      "remote_url": "https://deskcrew.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-deskcrew-agentic-https-github-com-papperkash-ttf-website-v3",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.crestsystems/counterparty-intelligence",
-      "description": "Check who your agent is about to pay over x402: real service, relayer, treasury, or buyer.",
-      "website": "https://crestsystems.ai/intelligence",
-      "remote_url": "https://data.crestsystems.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail"
-      ],
-      "id": "mcp-ai-crestsystems-counterparty-intelligence-https-crestsystems-ai-intelligence",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
       "name": "ai.corduroy-labs/updates",
       "description": "Corduroy Labs studio updates over MCP: list_updates and get_update, backed by the site's JSON Feed.",
       "website": "https://corduroy-labs.ai/mcp/",
@@ -1362,16 +32,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai-mcp-",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1383,16 +50,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-compeller-compel-https-github-com-yakoob-compeller-ai",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1404,16 +68,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-com-mcp-skills-search-https-github-com-agentskills-agentskills",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1425,16 +86,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-com-mcp-hapi-mcp-https-github-com-larebelion-hapimcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1446,16 +104,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-cobbles-cobbles-https-github-com-yu1586-cobbles",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1467,16 +122,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-clarid-compliance-https-github-com-clarid-ai-compliance-checker",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1488,16 +140,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-cabrini-market-data-https-github-com-nlapi-cabrini-py",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1509,16 +158,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-buywhere-catalog-api-https-github-com-buywhere-buywhere",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1529,16 +175,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-buyersense-buyersense-https-mcp-buyersense-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1549,16 +192,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-buron-buron-https-buron-ai",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1570,16 +210,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-bowmark-bowmark-https-github-com-metroxe-bowmark",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1591,16 +228,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-boolsai-scan-https-github-com-boolsai-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1612,16 +246,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-boolsai-grep-https-github-com-boolsai-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1633,16 +264,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-boolsai-directory-https-github-com-boolsai-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z"
     },
     {
       "kind": "mcp",
@@ -1653,16 +281,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-bodenrichtwert-mcp-https-bodenrichtwert-ai",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1674,16 +299,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-bloopo-bloopo-https-github-com-lukasbudrys2-legendary-carnival",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1695,16 +317,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-biddeed-biddeed-mcp-https-github-com-breverdbidder-cli-anything-biddeed",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1715,16 +334,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-bezal-local-commerce-https-app-bezal-ai-api-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1735,16 +351,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-baselight-baselight-https-baselight-ai",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1756,16 +369,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-bareun-bareun-https-github-com-gih2yun-bareun-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1777,16 +387,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-backengine-backengine-mcp-https-github-com-backengine-ai-backengine-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1798,16 +405,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-autorfp-mcp-https-github-com-autorfp-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1819,16 +423,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-autonomad-travel-https-github-com-autonomad1-autonomad1",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1839,16 +440,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-artidrop-artidrop-https-artidrop-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1859,16 +457,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-arclan-registry-https-arclan-ai-mcp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1879,16 +474,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-alpic-test-test-mcp-server-https-test-alpic-ai-",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1900,16 +492,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-aient-mcp-https-github-com-haf-glimt",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1921,16 +510,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-ai-akari-one-minute-akari-https-github-com-ainoakari-arigatou-kawaii-lp",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1942,16 +528,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-ai-akari-agent-trust-receipt-https-github-com-ainoakari-ainoakari",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1962,16 +545,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-agenticshelf-puroair-https-getpuroair-com",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -1983,16 +563,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-agenticshelf-mcp-https-github-com-vboykocto-agentic-shelf",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -2003,16 +580,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-agenticshelf-graffeo-https-www-graffeo-com",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -2023,16 +597,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-adside-adside-https-www-adside-ai",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -2043,16 +614,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-adadvisor-mcp-server-https-www-adadvisor-ai-utm-source-mcp-registry",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -2064,16 +632,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "handshake:fail"
+        "official-registry-remote"
       ],
       "id": "mcp-ac-tandem-docs-mcp-https-github-com-frumu-ai-tandem",
-      "status": "deferred",
-      "attempts": 1,
-      "discovered_at": "2026-08-04T17:05:39.963Z",
-      "updated_at": "2026-08-04T17:05:39.963Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z"
     },
     {
       "kind": "mcp",
@@ -2093,11 +658,11 @@
       ],
       "id": "mcp-xcodebuildmcp-https-github-com-getsentry-xcodebuildmcp",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2117,11 +682,11 @@
       ],
       "id": "mcp-whodb-https-github-com-clidey-whodb",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2141,11 +706,11 @@
       ],
       "id": "mcp-upsonic-https-github-com-upsonic-upsonic",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2157,7 +722,7 @@
       "author": "CoplayDev",
       "source": "harvest:gh-topic:topic:model-context-protocol",
       "quality_hints": [
-        "stars:13139",
+        "stars:13140",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -2165,11 +730,11 @@
       ],
       "id": "mcp-unity-mcp-https-github-com-coplaydev-unity-mcp",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2181,7 +746,7 @@
       "author": "bytedance",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:38427",
+        "stars:38430",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -2189,11 +754,11 @@
       ],
       "id": "mcp-ui-tars-desktop-https-github-com-bytedance-ui-tars-desktop",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2205,7 +770,7 @@
       "author": "sansan0",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:61161",
+        "stars:61162",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -2213,11 +778,11 @@
       ],
       "id": "mcp-trendradar-https-github-com-sansan0-trendradar",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -2250,11 +815,11 @@
       ],
       "id": "agent-swarmtrade-https-github-com-tjcrowley-swarmtrade",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2266,7 +831,7 @@
       "author": "oraios",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:27534",
+        "stars:27535",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -2274,11 +839,11 @@
       ],
       "id": "mcp-serena-https-github-com-oraios-serena",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2298,11 +863,11 @@
       ],
       "id": "mcp-semble-https-github-com-minishlab-semble",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2322,11 +887,11 @@
       ],
       "id": "mcp-scrapling-https-github-com-d4vinci-scrapling",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2338,7 +903,7 @@
       "author": "ruvnet",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:67021",
+        "stars:67022",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -2346,11 +911,11 @@
       ],
       "id": "mcp-ruflo-https-github-com-ruvnet-ruflo",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2370,11 +935,11 @@
       ],
       "id": "mcp-python-sdk-https-github-com-modelcontextprotocol-python-sdk",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2391,11 +956,11 @@
       ],
       "id": "mcp-puppeteer-mcp-server-https-github-com-merajmehrabi-puppeteer-mcp-server",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -2428,11 +993,11 @@
       ],
       "id": "agent-piqrypt-https-github-com-piqrypt-piqrypt",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2444,7 +1009,7 @@
       "author": "the-open-agent",
       "source": "harvest:gh-topic:topic:model-context-protocol",
       "quality_hints": [
-        "stars:5490",
+        "stars:5491",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -2452,11 +1017,11 @@
       ],
       "id": "mcp-openagent-https-github-com-the-open-agent-openagent",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2476,11 +1041,11 @@
       ],
       "id": "mcp-nuclear-https-github-com-nukeop-nuclear",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2492,7 +1057,7 @@
       "author": "HKUDS",
       "source": "harvest:gh-topic:topic:model-context-protocol",
       "quality_hints": [
-        "stars:46613",
+        "stars:46614",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -2500,11 +1065,11 @@
       ],
       "id": "mcp-nanobot-https-github-com-hkuds-nanobot",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2524,11 +1089,11 @@
       ],
       "id": "mcp-n8n-mcp-https-github-com-czlonkowski-n8n-mcp",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2540,7 +1105,7 @@
       "author": "n8n-io",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:199314",
+        "stars:199320",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -2548,11 +1113,11 @@
       ],
       "id": "mcp-n8n-https-github-com-n8n-io-n8n",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -2586,11 +1151,11 @@
       ],
       "id": "agent-multigen-https-github-com-lingyuanli-multigen",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -2623,11 +1188,11 @@
       ],
       "id": "agent-multi-agent-aca-https-github-com-gbaeke-multi-agent-aca",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2645,11 +1210,11 @@
       ],
       "id": "mcp-mongodb-mcp-server-https-github-com-mongodb-js-mongodb-mcp-server-git",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2666,11 +1231,32 @@
       ],
       "id": "mcp-model-context-protocol-https-github-com-mcp-agents-model-context-protocol-re",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "memory-arbiter-mcp",
+      "description": "Shared memory layer for AI coding tools. One local SQLite DB, every tool reads the same verified facts. Local-first, zero cloud.",
+      "repository": "https://github.com/billy12151/memory-arbiter-mcp",
+      "website": "https://github.com/billy12151/memory-arbiter-mcp",
+      "author": "billy12151",
+      "source": "harvest:gh-server-json",
+      "quality_hints": [
+        "server.json",
+        "github-search",
+        "handshake:fail"
+      ],
+      "id": "mcp-memory-arbiter-mcp-https-github-com-billy12151-memory-arbiter-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2687,11 +1273,11 @@
       ],
       "id": "mcp-mcp-server-https-github-com-sandy-mount-mcp-server-readme",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2709,8 +1295,8 @@
       "id": "mcp-mcp-handler-https-github-com-vercel-mcp-handler-readme",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2723,7 +1309,7 @@
       "author": "microsoft",
       "source": "harvest:gh-topic:topic:model-context-protocol",
       "quality_hints": [
-        "stars:16908",
+        "stars:16909",
         "harvest:mcp",
         "github-topic",
         "handshake:fail"
@@ -2731,8 +1317,8 @@
       "id": "mcp-mcp-for-beginners-https-github-com-microsoft-mcp-for-beginners",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2753,8 +1339,8 @@
       "id": "mcp-mcp-agent-https-github-com-lastmile-ai-mcp-agent",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2777,8 +1363,8 @@
       "id": "mcp-maxkb-https-github-com-1panel-dev-maxkb",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2801,8 +1387,8 @@
       "id": "mcp-magic-mcp-https-github-com-21st-dev-magic-mcp",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2838,44 +1424,11 @@
       ],
       "id": "agent-llmtornado-https-github-com-lofcz-llmtornado",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "LangGraph",
-      "description": "LangChain LangGraph for building stateful multi-actor agent applications with durable execution graphs and human-in-the-loop control.",
-      "repository": "https://github.com/langchain-ai/langgraph",
-      "website": "https://langchain-ai.github.io/langgraph/",
-      "endpoint_url": "https://langchain-ai.github.io/langgraph/",
-      "author": "langchain-ai",
-      "protocols": [
-        "rest"
-      ],
-      "capabilities": [
-        "graphs",
-        "stateful-agents"
-      ],
-      "skills": [
-        {
-          "name": "langgraph",
-          "description": "Stateful agent graphs"
-        }
-      ],
-      "source": "seed:langgraph",
-      "quality_hints": [
-        "handshake:fail"
-      ],
-      "id": "agent-langgraph-https-github-com-langchain-ai-langgraph",
-      "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -2893,8 +1446,8 @@
       "id": "mcp-horizun-msproject-mcp-https-github-com-horizungroup-horizun-msproject-mcp",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2917,8 +1470,8 @@
       "id": "mcp-holaos-https-github-com-holaboss-ai-holaos",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2941,8 +1494,8 @@
       "id": "mcp-gpt-researcher-https-github-com-assafelovic-gpt-researcher",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2963,8 +1516,8 @@
       "id": "mcp-github-mcp-server-https-github-com-github-github-mcp-server",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2987,8 +1540,8 @@
       "id": "mcp-gemini-cli-https-github-com-google-gemini-gemini-cli",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3011,8 +1564,8 @@
       "id": "mcp-firecrawl-mcp-server-https-github-com-firecrawl-firecrawl-mcp-server",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3035,8 +1588,8 @@
       "id": "mcp-fastmcp-https-github-com-prefecthq-fastmcp",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3059,8 +1612,8 @@
       "id": "mcp-exa-mcp-server-https-github-com-exa-labs-exa-mcp-server",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3096,11 +1649,11 @@
       ],
       "id": "agent-elkar-a2a-https-github-com-elkar-ai-elkar-a2a",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3133,11 +1686,11 @@
       ],
       "id": "agent-easy-a2a-https-github-com-the-artinet-project-easy-a2a",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -3158,8 +1711,8 @@
       "id": "mcp-cursor-talk-to-figma-mcp-https-github-com-grab-cursor-talk-to-figma-mcp",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3173,7 +1726,7 @@
       "author": "mksglu",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:19612",
+        "stars:19614",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -3182,8 +1735,8 @@
       "id": "mcp-context-mode-https-github-com-mksglu-context-mode",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3197,7 +1750,7 @@
       "author": "DeusData",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:37421",
+        "stars:37422",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -3206,8 +1759,8 @@
       "id": "mcp-codebase-memory-mcp-https-github-com-deusdata-codebase-memory-mcp",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3242,11 +1795,11 @@
       ],
       "id": "agent-cli-https-github-com-the-artinet-project-cli",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -3267,8 +1820,8 @@
       "id": "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3288,8 +1841,8 @@
       "id": "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp-read",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3310,8 +1863,8 @@
       "id": "mcp-awesome-mcp-servers-https-github-com-appcypher-awesome-mcp-servers",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3325,7 +1878,7 @@
       "author": "WenyuChiou",
       "source": "harvest:gh-topic:topic:model-context-protocol",
       "quality_hints": [
-        "stars:5051",
+        "stars:5052",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
@@ -3334,8 +1887,8 @@
       "id": "mcp-awesome-agentic-ai-zh-https-github-com-wenyuchiou-awesome-agentic-ai-zh",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3371,11 +1924,11 @@
       ],
       "id": "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3409,11 +1962,11 @@
       ],
       "id": "agent-awesome-a2a-https-github-com-ai-boost-awesome-a2a",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3446,45 +1999,11 @@
       ],
       "id": "agent-autonomous-multi-agent-system-https-github-com-akhilt044-autonomous-multi-",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "AutoGen",
-      "description": "Microsoft AutoGen multi-agent conversation framework for building LLM applications with cooperating agents and group chat patterns.",
-      "repository": "https://github.com/microsoft/autogen",
-      "website": "https://microsoft.github.io/autogen/",
-      "endpoint_url": "https://microsoft.github.io/autogen/",
-      "author": "microsoft",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "multi-agent",
-        "conversation"
-      ],
-      "skills": [
-        {
-          "name": "autogen",
-          "description": "Multi-agent conversations"
-        }
-      ],
-      "source": "seed:autogen",
-      "quality_hints": [
-        "handshake:fail"
-      ],
-      "id": "agent-autogen-https-github-com-microsoft-autogen",
-      "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3517,11 +2036,11 @@
       ],
       "id": "agent-artinet-sdk-https-github-com-the-artinet-project-artinet-sdk",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3554,11 +2073,32 @@
       ],
       "id": "agent-aria-https-github-com-wiqilee-aria",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ainumbers-mcp-apps",
+      "description": "Cloudflare Worker MCP server for AINumbers.co (read-only deterministic tools, signed receipts)",
+      "repository": "https://github.com/PostOakLabs/ainumbers-mcp-apps",
+      "website": "https://github.com/PostOakLabs/ainumbers-mcp-apps",
+      "author": "PostOakLabs",
+      "source": "harvest:gh-server-json",
+      "quality_hints": [
+        "server.json",
+        "github-search",
+        "handshake:fail"
+      ],
+      "id": "mcp-ainumbers-mcp-apps-https-github-com-postoaklabs-ainumbers-mcp-apps",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3592,11 +2132,11 @@
       ],
       "id": "agent-agentup-https-github-com-nolabs-ai-agentup",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3629,11 +2169,11 @@
       ],
       "id": "agent-agent2agent-doc-https-github-com-ai-boost-agent2agent-doc",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3666,11 +2206,11 @@
       ],
       "id": "agent-agent-relay-https-github-com-the-artinet-project-agent-relay",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -3691,8 +2231,8 @@
       "id": "mcp-activepieces-https-github-com-activepieces-activepieces",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3727,11 +2267,11 @@
       ],
       "id": "agent-a2aapp-https-github-com-tanaikech-a2aapp",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3764,11 +2304,11 @@
       ],
       "id": "agent-a2a-validation-tool-https-github-com-llmx-tech-a2a-validation-tool",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3801,11 +2341,11 @@
       ],
       "id": "agent-a2a-template-langgraph-https-github-com-llmx-tech-a2a-template-langgraph",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3839,11 +2379,11 @@
       ],
       "id": "agent-a2a-python-https-github-com-a2aproject-a2a-python",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3877,11 +2417,11 @@
       ],
       "id": "agent-a2a-java-https-github-com-a2aproject-a2a-java",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3914,11 +2454,11 @@
       ],
       "id": "agent-a2a-docs-zh-https-github-com-sxhxliang-a2a-docs-zh",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3952,11 +2492,11 @@
       ],
       "id": "agent-a2a-directory-https-github-com-sing1ee-a2a-directory",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "agent",
@@ -3990,11 +2530,11 @@
       ],
       "id": "agent-a2a-adapter-https-github-com-hybroai-a2a-adapter",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
@@ -4015,8 +2555,8 @@
       "id": "mcp-5ire-https-github-com-nanbingxyz-5ire",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4036,8 +2576,8 @@
       "id": "mcp-ui5-mcp-server-https-github-com-ui5-mcp-server-readme",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4057,8 +2597,8 @@
       "id": "mcp-transcend-io-mcp-server-workflows-https-github-com-transcend-io-tools-tree-m",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4078,8 +2618,8 @@
       "id": "mcp-transcend-io-mcp-server-discovery-https-github-com-transcend-io-tools-tree-m",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4099,8 +2639,8 @@
       "id": "mcp-transcend-io-mcp-server-consent-https-github-com-transcend-io-tools-tree-mai",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4120,8 +2660,8 @@
       "id": "mcp-transcend-io-mcp-server-assessment-https-github-com-transcend-io-tools-tree-",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4141,8 +2681,8 @@
       "id": "mcp-transcend-io-mcp-server-admin-https-github-com-transcend-io-tools-tree-main-",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4162,8 +2702,8 @@
       "id": "mcp-traceloop-instrumentation-mcp-https-github-com-traceloop-openllmetry-js-tree",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4183,8 +2723,8 @@
       "id": "mcp-sentry-mcp-server-https-github-com-getsentry-sentry-mcp",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4205,8 +2745,8 @@
       "id": "mcp-remotion-mcp-https-github-com-remotion-dev-remotion-tree-main-packages-mcp",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4226,8 +2766,8 @@
       "id": "mcp-rekog-mcp-nest-https-github-com-rekog-labs-mcp-nest-readme",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4247,8 +2787,8 @@
       "id": "mcp-notionhq-notion-mcp-server-https-github-com-makenotion-notion-mcp-server-rea",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4268,8 +2808,8 @@
       "id": "mcp-langchain-mcp-adapters-https-github-com-langchain-ai-langchainjs-tree-main-l",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4289,8 +2829,1332 @@
       "id": "mcp-browserstack-mcp-server-https-github-com-browserstack-mcp-server-readme",
       "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T17:01:04.747Z",
-      "updated_at": "2026-08-04T17:01:04.747Z",
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.posteverywhere/mcp",
+      "description": "Schedule and publish social posts to 11 platforms with media, campaigns, analytics and AI captions",
+      "repository": "https://github.com/posteverywhere/mcp",
+      "website": "https://mcp.posteverywhere.ai/mcp",
+      "remote_url": "https://mcp.posteverywhere.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-posteverywhere-mcp-https-github-com-posteverywhere-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.plyto/crm",
+      "description": "A CRM powered by your agent: contacts, deals, email, ads, and reports over MCP.",
+      "website": "https://plyto.ai/developers",
+      "remote_url": "https://plyto.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-plyto-crm-https-plyto-ai-developers",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.plori/plori",
+      "description": "Create and drive plori cloud agents (each an AI agent on its own cloud computer) over MCP.",
+      "website": "https://api.plori.ai/mcp",
+      "remote_url": "https://api.plori.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-plori-plori-https-api-plori-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.pimea/pimea",
+      "description": "The hidden intelligence for AI marketing agents. Real campaign data, not LLM guesses.",
+      "website": "https://api.pimea.ai/mcp/",
+      "remote_url": "https://api.pimea.ai/mcp/",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-pimea-pimea-https-api-pimea-ai-mcp-",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.pictomancer/image-processing",
+      "description": "Image processing for AI agents. Resize, convert, compress, and pipeline images.",
+      "repository": "https://gitlab.com/pictomancer.ai/pig-gateway",
+      "website": "https://mcp.pictomancer.ai/mcp",
+      "remote_url": "https://mcp.pictomancer.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-pictomancer-image-processing-https-gitlab-com-pictomancer-ai-pig-gateway",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.physea/liminality",
+      "description": "Breaks a hard question or decision into grounded sub-questions and returns a checkable route.",
+      "repository": "https://github.com/jaybro2042-alt/liminality-mcp",
+      "website": "https://physea.ai/mcp",
+      "remote_url": "https://mcp.physea.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-physea-liminality-https-github-com-jaybro2042-alt-liminality-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.physea/liminality",
+      "description": "Reduces a request into grounded sub-questions, routes each to a real tool, returns a reusable route.",
+      "website": "https://physea.ai/mcp",
+      "remote_url": "https://liminality.physea.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-physea-liminality-https-physea-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.phano/intelligence",
+      "description": "Read-only account intelligence for Customer Success and Account Management teams.",
+      "website": "https://phano.ai/en/docs/platform",
+      "remote_url": "https://phano.ai/api/v1/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-phano-intelligence-https-phano-ai-en-docs-platform",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.parceled/mcp",
+      "description": "US property data: 135M+ parcels with owners, roof permits, and hail history. Free tier + OAuth 2.1.",
+      "website": "https://parceled.ai/api/mcp",
+      "remote_url": "https://parceled.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-parceled-mcp-https-parceled-ai-api-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.optimly/scout",
+      "description": "Query the AI Brand Directory. Audit brand visibility in ChatGPT, Claude, and Gemini.",
+      "website": "https://optimly.ai",
+      "remote_url": "https://scout.optimly.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-optimly-scout-https-optimly-ai",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.418Z",
+      "updated_at": "2026-08-04T17:20:57.418Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.openarx/openarx · r2",
+      "description": "Open scientific and engineering knowledge for AI agents: search, evidence, document publishing.",
+      "repository": "https://github.com/OpenArx-AI/openarx-core",
+      "website": "https://openarx.ai",
+      "remote_url": "https://mcp.openarx.ai/governance/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-openarx-openarx-r2-https-github-com-openarx-ai-openarx-core",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.obris/mcp",
+      "description": "Stop re-explaining yourself to AI. Save knowledge once, use it in every conversation.",
+      "repository": "https://github.com/obris-dev/obris-mcp",
+      "website": "https://obris.ai",
+      "remote_url": "https://mcp.obris.ai/",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-obris-mcp-https-github-com-obris-dev-obris-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.obaron/aeo",
+      "description": "Scan any website for AI readiness — 100-point score across 6 AEO categories in seconds.",
+      "website": "https://api.obaron.ai/aeo/mcp",
+      "remote_url": "https://api.obaron.ai/aeo/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-obaron-aeo-https-api-obaron-ai-aeo-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.nordax/mcp",
+      "description": "Search and verify 360K+ business entities with trust scores and W3C credentials.",
+      "website": "https://mcp.nordax.ai/mcp",
+      "remote_url": "https://mcp.nordax.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-nordax-mcp-https-mcp-nordax-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.nexez/commerce",
+      "description": "Search merchants, inspect structured offers, and validate checkout or negotiation before buying.",
+      "repository": "https://github.com/Flyger1an/nexez",
+      "website": "https://nexez.ai/agents",
+      "remote_url": "https://nexez.app/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-nexez-commerce-https-github-com-flyger1an-nexez",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.nefesh/human-state",
+      "description": "Real-time human state fusion: stress score from heart, voice, face signals. GDPR compliant.",
+      "repository": "https://github.com/tomstuhl/nefesh-mcp-server",
+      "website": "https://mcp.nefesh.ai/mcp",
+      "remote_url": "https://mcp.nefesh.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-nefesh-human-state-https-github-com-tomstuhl-nefesh-mcp-server",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.nashboard/nashboard-merchants",
+      "description": "Merchant intelligence for AI agents: brand/operator/location hierarchy + industry codes.",
+      "website": "https://nashboard.ai/llms-full.txt",
+      "remote_url": "https://nashboard.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-nashboard-nashboard-merchants-https-nashboard-ai-llms-full-txt",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.namewhisper/ens-tools",
+      "description": "34 MCP tools to search, value, trade, and manage ENS names. AI-powered intelligence layer.",
+      "website": "https://namewhisper.ai/mcp",
+      "remote_url": "https://namewhisper.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-namewhisper-ens-tools-https-namewhisper-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.multinex/memq",
+      "description": "Persistent memory for AI agents with OAuth-backed hosted MCP access.",
+      "website": "https://mcp.multinex.ai/mcp/v1",
+      "remote_url": "https://mcp.multinex.ai/mcp/v1",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-multinex-memq-https-mcp-multinex-ai-mcp-v1",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.mino/web-agent",
+      "description": "AI-powered web automation. Navigate websites using AI agents for one page or a thousand",
+      "website": "https://mino.ai/mcp",
+      "remote_url": "https://mino.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-mino-web-agent-https-mino-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.meminal/meminal",
+      "description": "Memory for deep conversational context across any platform",
+      "website": "https://meminal.ai/mcp",
+      "remote_url": "https://meminal.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-meminal-meminal-https-meminal-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.mcpanalytics/analytics · r3",
+      "description": "The statistical analyst in your AI chat — validated, citable, re-runnable analysis of your data.",
+      "repository": "https://github.com/embeddedlayers/mcp-analytics",
+      "website": "https://api.mcpanalytics.ai/mcp/discover",
+      "remote_url": "https://api.mcpanalytics.ai/mcp/discover",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-mcpanalytics-analytics-r3-https-github-com-embeddedlayers-mcp-analytics",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.mcpanalytics/analytics · r1",
+      "description": "The statistical analyst in your AI chat — validated, citable, re-runnable analysis of your data.",
+      "repository": "https://github.com/embeddedlayers/mcp-analytics",
+      "website": "https://api.mcpanalytics.ai/mcp/api-key",
+      "remote_url": "https://api.mcpanalytics.ai/mcp/api-key",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-mcpanalytics-analytics-r1-https-github-com-embeddedlayers-mcp-analytics",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.mcpanalytics/analytics",
+      "description": "ML statistical analysis platform for data teams",
+      "website": "https://api.mcpanalytics.ai/auth0",
+      "remote_url": "https://api.mcpanalytics.ai/auth0",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-mcpanalytics-analytics-https-api-mcpanalytics-ai-auth0",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.marketcore/mcp · r1",
+      "description": "Strategic Marketing Content Platform for GTM Teams that Ship",
+      "repository": "https://github.com/ccromp/marcora-mcp",
+      "website": "https://marcora.ai",
+      "remote_url": "https://mcp.marcora.ai/",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-marketcore-mcp-r1-https-github-com-ccromp-marcora-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.linkdeal.www/mcp",
+      "description": "Find B2B leads from LinkedIn engagement, enrich contacts and deliver to Slack.",
+      "repository": "https://github.com/LinkDeal/mcp",
+      "website": "https://app.linkdeal.ai/api/mcp",
+      "remote_url": "https://app.linkdeal.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-linkdeal-www-mcp-https-github-com-linkdeal-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.limitguard.api/trust-intelligence",
+      "description": "Entity verification, sanctions screening, and trust scoring for AI agents.",
+      "website": "https://api.limitguard.ai/mcp",
+      "remote_url": "https://api.limitguard.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-limitguard-api-trust-intelligence-https-api-limitguard-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.law.mcp/lawyer-search",
+      "description": "Verified lawyer and attorney search, discovery, and matching for AI — 991K+ US profiles.",
+      "repository": "https://github.com/risk-ai/lawai-mcp-server",
+      "website": "https://law.ai",
+      "remote_url": "https://mcp.law.ai",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-law-mcp-lawyer-search-https-github-com-risk-ai-lawai-mcp-server",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.lattiq/x402-trading-signals",
+      "description": "Regime-aware ES1/NQ futures trading signals. HMM + 15 quant strategies. x402 USDC micropayments.",
+      "repository": "https://github.com/PoopsDavis/lattiq-mcp",
+      "website": "https://api.lattiq.ai/mcp",
+      "remote_url": "https://api.lattiq.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-lattiq-x402-trading-signals-https-github-com-poopsdavis-lattiq-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.kive/mcp",
+      "description": "Create on-brand product shots and brand visuals from your Kive workspace, right in the chat.",
+      "website": "https://kive.ai",
+      "remote_url": "https://mcp.kive.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-kive-mcp-https-kive-ai",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.jurisprudencias/case-law",
+      "description": "Search Brazilian case law from federal and state courts with verified decisions and source links.",
+      "website": "https://jurisprudencias.ai/agents",
+      "remote_url": "https://jurisprudencias.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-jurisprudencias-case-law-https-jurisprudencias-ai-agents",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.ironscout/ironscout",
+      "description": "Read-only ammo pricing: offer search, caliber market snapshots, retailer directory. Descriptive.",
+      "repository": "https://github.com/jeb-scarbrough/IronScout",
+      "website": "https://www.ironscout.ai/.well-known/ids.md",
+      "remote_url": "https://mcp.ironscout.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-ironscout-ironscout-https-github-com-jeb-scarbrough-ironscout",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.inxy/seo-audit",
+      "description": "Score any site or Shopify store for AEO/GEO/LLMO readiness — how likely AI search is to cite it.",
+      "repository": "https://github.com/riverliu8/inxy-mcp",
+      "website": "https://inxy.ai/mcp",
+      "remote_url": "https://inxy.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-inxy-seo-audit-https-github-com-riverliu8-inxy-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.intuitek.the-stall/the-stall · r2",
+      "description": "210 pay-per-call AI tools + risk retainer plans ($8/$25): stocks, crypto, GEX, news. USDC.",
+      "website": "https://the-stall.intuitek.ai/sse",
+      "remote_url": "https://the-stall.intuitek.ai/sse",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-intuitek-the-stall-the-stall-r2-https-the-stall-intuitek-ai-sse",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.intuitek.the-stall/the-stall",
+      "description": "x402 MCP chassis — 26 pay-per-call tools: finance, market data, AI utilities. USDC on Base.",
+      "website": "https://the-stall.intuitek.ai/mcp",
+      "remote_url": "https://the-stall.intuitek.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-intuitek-the-stall-the-stall-https-the-stall-intuitek-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.infolang/mcp",
+      "description": "InfoLang semantic memory MCP — investigate, memorize, and recall compressed agent context.",
+      "repository": "https://github.com/InfoLang-Inc/infolang-services",
+      "website": "https://infolang.ai/mcp",
+      "remote_url": "https://api.infolang.ai/v1/mcp/",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-infolang-mcp-https-github-com-infolang-inc-infolang-services",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.hostprofit/mcp",
+      "description": "Revenue intelligence platform for short-term rental operators.",
+      "website": "https://hostprofit-mcp-production.up.railway.app/mcp",
+      "remote_url": "https://hostprofit-mcp-production.up.railway.app/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-hostprofit-mcp-https-hostprofit-mcp-production-up-railway-app-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.gtfi/groundtruth",
+      "description": "Two independent AI models read a GPR, locate or pipe scan and flag the do-not-core call.",
+      "website": "https://gtfi.ai/for-agents",
+      "remote_url": "https://gtfi.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-gtfi-groundtruth-https-gtfi-ai-for-agents",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.groundroute/web-search",
+      "description": "Web search for AI agents — one tool across 6 engines, routed to the cheapest + cached.",
+      "repository": "https://github.com/PROJECT-B-26/groundroute-mcp",
+      "website": "https://api.groundroute.ai/mcp",
+      "remote_url": "https://api.groundroute.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-groundroute-web-search-https-github-com-project-b-26-groundroute-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.gossiper/shopify-admin-mcp · r1",
+      "description": "Control Shopify Admin tasks with agents or via prompt. Ultra slim integration, fast and secure.",
+      "website": "https://mcp.gossiper.io/mcp",
+      "remote_url": "https://mcp.gossiper.io/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.good-sport/good-sport",
+      "description": "Sports-analytics research assistant that grades its own model and reports the losses. $9.99/mo.",
+      "website": "https://good-sport.ai",
+      "remote_url": "https://mcp.good-sport.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-good-sport-good-sport-https-good-sport-ai",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.getperspective/mcp",
+      "description": "An AI concierge that turns static forms into adaptive AI conversations. From any MCP client.",
+      "repository": "https://github.com/Perspective-AI/mcp",
+      "website": "https://getperspective.ai/docs/build/mcp",
+      "remote_url": "https://getperspective.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-getperspective-mcp-https-github-com-perspective-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.getminds/minds",
+      "description": "Run AI market research: synthetic customer panels for concept testing, message testing, segments.",
+      "website": "https://getminds.ai/mcp",
+      "remote_url": "https://getminds.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-getminds-minds-https-getminds-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.gavelin/mcp",
+      "description": "Search bills and speaker-attributed hearing transcripts across all 50 US state legislatures.",
+      "repository": "https://github.com/gavelin-ai/mcp",
+      "website": "https://mcp.gavelin.ai/mcp",
+      "remote_url": "https://mcp.gavelin.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-gavelin-mcp-https-github-com-gavelin-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.fugentic/mattest4-qyroac",
+      "description": "ai.fugentic/mattest4-qyroac is a community mcp for peer discovery and agent collaboration on the open registry.",
+      "website": "https://mattest4-qyroac.mcp.fugentic.ai",
+      "remote_url": "https://mattest4-qyroac.mcp.fugentic.ai",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-fugentic-mattest4-qyroac-https-mattest4-qyroac-mcp-fugentic-ai",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.fodda/topic-research",
+      "description": "Trend, stats & insight search across PSFK expert graphs with citable sources.",
+      "repository": "https://github.com/piers-fawkes/fodda-mcp",
+      "website": "https://www.fodda.ai",
+      "remote_url": "https://mcp.fodda.ai/topic-research",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-fodda-topic-research-https-github-com-piers-fawkes-fodda-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.fodda/mcp-server · r1",
+      "description": "Expert-curated knowledge graphs for AI agents — retail, beauty, sports, plus institutional data",
+      "repository": "https://github.com/piers-fawkes/fodda-mcp",
+      "website": "https://www.fodda.ai",
+      "remote_url": "https://mcp.fodda.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-fodda-mcp-server-r1-https-github-com-piers-fawkes-fodda-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.fodda/expert-consult",
+      "description": "Consult synthetic industry experts grounded in PSFK trend graphs with citable sources.",
+      "repository": "https://github.com/piers-fawkes/fodda-mcp",
+      "website": "https://www.fodda.ai",
+      "remote_url": "https://mcp.fodda.ai/expert-consult",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-fodda-expert-consult-https-github-com-piers-fawkes-fodda-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.fodda/earnings-intelligence",
+      "description": "Cross-company earnings trends & executive divergence with citable sources.",
+      "repository": "https://github.com/piers-fawkes/fodda-mcp",
+      "website": "https://www.fodda.ai",
+      "remote_url": "https://mcp.fodda.ai/earnings-intelligence",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-fodda-earnings-intelligence-https-github-com-piers-fawkes-fodda-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.fodda/deep-research",
+      "description": "Autonomous deep research reports merging PSFK trend graphs with citable sources.",
+      "repository": "https://github.com/piers-fawkes/fodda-mcp",
+      "website": "https://www.fodda.ai",
+      "remote_url": "https://mcp.fodda.ai/deep-research",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-fodda-deep-research-https-github-com-piers-fawkes-fodda-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.fodda/brand-intelligence",
+      "description": "Brand health & trend footprint across PSFK expert graphs with citable sources, not web summaries.",
+      "repository": "https://github.com/piers-fawkes/fodda-mcp",
+      "website": "https://www.fodda.ai",
+      "remote_url": "https://mcp.fodda.ai/brand-intelligence",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-fodda-brand-intelligence-https-github-com-piers-fawkes-fodda-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.flowstep/mcp",
+      "description": "Generate, inspect, and manage Flowstep UI designs directly from your AI assistant.",
+      "website": "https://docs.flowstep.ai/mcp/overview",
+      "remote_url": "https://api.flowstep.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-flowstep-mcp-https-docs-flowstep-ai-mcp-overview",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.firmbrain/x402-services",
+      "description": "77 pay-per-call x402 tools for AI trading & on-chain agents: prices, sniping, perps, RH Chain, MEV",
+      "website": "https://x402-services-production.up.railway.app/api/catalog",
+      "remote_url": "https://x402-services-production.up.railway.app/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-firmbrain-x402-services-https-x402-services-production-up-railway-app-api",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.filepad/filepad",
+      "description": "Connect AI agents to Filepad workspaces through OAuth MCP.",
+      "website": "https://api.filepad.ai/mcp",
+      "remote_url": "https://api.filepad.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-filepad-filepad-https-api-filepad-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.edusignal/districts",
+      "description": "K-12 school district data for all 50 US states. Enrollment, demographics, and academics.",
+      "website": "https://edusignal.ai/mcp",
+      "remote_url": "https://edusignal.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-edusignal-districts-https-edusignal-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.dsght/public",
+      "description": "Read-only MCP access to DSGHT.ai published foresight and country-grounded claim resolution.",
+      "repository": "https://github.com/michalstrnadel/dsght-landing",
+      "website": "https://www.dsght.ai/install",
+      "remote_url": "https://www.dsght.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-dsght-public-https-github-com-michalstrnadel-dsght-landing",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.drillr/drillr",
+      "description": "The financial MCP for AI agents - 90+ financial tables, SEC filings, signals, alt-data.",
+      "repository": "https://github.com/Little-Grebe-Inc/drillr-mcp-server",
+      "website": "https://gateway.drillr.ai/mcp/data",
+      "remote_url": "https://gateway.drillr.ai/mcp/data",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-drillr-drillr-https-github-com-little-grebe-inc-drillr-mcp-server",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.dreamlit/mcp",
+      "description": "Create, test, publish, and manage Dreamlit notification workflows from AI clients.",
+      "repository": "https://github.com/dreamlit-ai/dreamlit-mcp",
+      "website": "https://mcp.dreamlit.ai/mcp",
+      "remote_url": "https://mcp.dreamlit.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-dreamlit-mcp-https-github-com-dreamlit-ai-dreamlit-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.dragoneye/mcp",
+      "description": "Build zero-shot video models for object detection, and category and attribute classification.",
+      "website": "https://nexus.api.dragoneye.ai/mcp",
+      "remote_url": "https://nexus.api.dragoneye.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-dragoneye-mcp-https-nexus-api-dragoneye-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.djwizard/tvwizard",
+      "description": "Control Android TV from any AI. 21 MCP tools: keys, apps, titles, playback, volume, observe.",
+      "repository": "https://github.com/fizzious1/TVWizard-mcp",
+      "website": "https://tv.djwizard.ai",
+      "remote_url": "https://tv.djwizard.ai/mcp/",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-djwizard-tvwizard-https-github-com-fizzious1-tvwizard-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.diagramzu/mcp",
+      "description": "Let Claude, Cursor, or ChatGPT author Mermaid diagrams your team can read and share.",
+      "repository": "https://github.com/yenchieh/diagramzu-mcp",
+      "website": "https://mcp.diagramzu.ai/mcp",
+      "remote_url": "https://mcp.diagramzu.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-diagramzu-mcp-https-github-com-yenchieh-diagramzu-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.deskcrew/agentic",
+      "description": "Buy a managed AI phone agent for a business, paid keylessly via x402/RLUSD on the XRP Ledger.",
+      "repository": "https://github.com/papperkash/ttf-website-v3",
+      "website": "https://deskcrew.ai/api/mcp",
+      "remote_url": "https://deskcrew.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-deskcrew-agentic-https-github-com-papperkash-ttf-website-v3",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.crestsystems/counterparty-intelligence",
+      "description": "Check who your agent is about to pay over x402: real service, relayer, treasury, or buyer.",
+      "website": "https://crestsystems.ai/intelligence",
+      "remote_url": "https://data.crestsystems.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-crestsystems-counterparty-intelligence-https-crestsystems-ai-intelligence",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.417Z",
+      "updated_at": "2026-08-04T17:20:57.417Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "agent",
+      "name": "LangGraph",
+      "description": "LangChain LangGraph for building stateful multi-actor agent applications with durable execution graphs and human-in-the-loop control.",
+      "repository": "https://github.com/langchain-ai/langgraph",
+      "website": "https://langchain-ai.github.io/langgraph/",
+      "endpoint_url": "https://langchain-ai.github.io/langgraph/",
+      "author": "langchain-ai",
+      "protocols": [
+        "rest"
+      ],
+      "capabilities": [
+        "graphs",
+        "stateful-agents"
+      ],
+      "skills": [
+        {
+          "name": "langgraph",
+          "description": "Stateful agent graphs"
+        }
+      ],
+      "source": "seed:langgraph",
+      "quality_hints": [
+        "handshake:fail"
+      ],
+      "id": "agent-langgraph-https-github-com-langchain-ai-langgraph",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4328,11 +4192,45 @@
       ],
       "id": "agent-crewai-https-github-com-crewaiinc-crewai",
       "status": "deferred",
-      "attempts": 2,
-      "discovered_at": "2026-08-04T17:01:04.746Z",
-      "updated_at": "2026-08-04T17:01:04.746Z",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z",
       "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "agent",
+      "name": "AutoGen",
+      "description": "Microsoft AutoGen multi-agent conversation framework for building LLM applications with cooperating agents and group chat patterns.",
+      "repository": "https://github.com/microsoft/autogen",
+      "website": "https://microsoft.github.io/autogen/",
+      "endpoint_url": "https://microsoft.github.io/autogen/",
+      "author": "microsoft",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "multi-agent",
+        "conversation"
+      ],
+      "skills": [
+        {
+          "name": "autogen",
+          "description": "Multi-agent conversations"
+        }
+      ],
+      "source": "seed:autogen",
+      "quality_hints": [
+        "handshake:fail"
+      ],
+      "id": "agent-autogen-https-github-com-microsoft-autogen",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-04T17:20:57.416Z",
+      "updated_at": "2026-08-04T17:20:57.416Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
     }
   ],
   "runs": [
