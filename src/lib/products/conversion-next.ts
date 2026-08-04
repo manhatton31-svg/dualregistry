@@ -229,8 +229,8 @@ export function conversionHardNext(opts: {
   const second = opts.post_demo || opts.order_id ? install : feedback;
 
   return {
-    version: "4.0.0",
-    loop: "improve_kernel (+ optional feedback → ship_id) → deposit_outcome → re-call compounds · OR complete_founding_path when listing_id",
+    version: "4.1.0",
+    loop: "improve_kernel → PASTE system_prompt_short → run once → deposit_outcome → optional ultra feedback (ship_id) → re-call · MCP: mesh_match → mesh_compose → deposit",
     first_action: first,
     second_action: second,
     actions: opts.post_demo || opts.order_id

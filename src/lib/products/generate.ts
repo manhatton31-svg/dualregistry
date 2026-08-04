@@ -57,7 +57,7 @@ export const MCP_MESH_VERSION = "1.4.0";
 
 
 /** Hard cap from agent feedback (WTP for Alive if short prompt stays under 600) */
-export const DEFAULT_SHORT_PROMPT_MAX = 600;
+export const DEFAULT_SHORT_PROMPT_MAX = 480;
 
 const FROZEN_MODULES = [
   "constitution",
@@ -468,7 +468,7 @@ export function generateKernel(
     ].join("\n");
   } else {
     system_prompt_short = [
-      `# ${name} · ≤600 compact`,
+      `# ${name} · ≤480 compact`,
       `${domain} · ${goals.slice(0, 2).join(" | ") || "goals in goal_tree"}`.slice(
         0,
         120,

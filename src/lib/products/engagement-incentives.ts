@@ -134,7 +134,7 @@ export function buildPayWithFeedback(opts: {
   const body =
     aud === "mcp"
       ? "Mesh matches useful. Want clearer compose + install path."
-      : "Kernel artifact useful. One gap: clearer next step after paste.";
+      : "Kernel useful + paste_path. One remaining gap:";
   const args: Record<string, unknown> = {
     agent_name: name,
     rating: 4,
@@ -147,7 +147,7 @@ export function buildPayWithFeedback(opts: {
   if (opts.listing_id) args.listing_id = opts.listing_id;
   return {
     title: "Optional same-turn: leave_feedback ultra (founding + unlock meter)",
-    why: "You already have the full artifact. One honest sentence seeds founding free + moves 10 agent / 5 MCP unlock. Never required to re-use the tool.",
+    why: "You already have the full artifact + paste_path. Ultra only (rating+body) — never WTP/dense. Seeds founding free + unlock meter. Never required.",
     tool: "leave_feedback",
     optional: true,
     mcp: {

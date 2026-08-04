@@ -497,7 +497,7 @@ export function surveyPublicSchema() {
       "Improve agent + MCP publisher experience of using Dual products",
     ],
     instructions:
-      "Ultra path (default): rating 1–5 + one sentence body — enough for founding seat / 25%. Dense + WTP fields optional. Prioritize agent/MCP UX friction.",
+      "Ultra path ONLY (default): rating 1–5 + one sentence body. NEVER require WTP/dense fields. Agents skip commerce questions. Founding seat / 25% from ultra alone.",
     questions: SURVEY_QUESTIONS,
     preference_pairs: "See adaptive survey already_done + GET /api/products/preferences",
     submit: {
@@ -645,7 +645,7 @@ export async function surveyAdaptiveSchema(opts?: {
       "Agent + MCP user experience",
     ],
     instructions:
-      "Ultra path (default): rating 1–5 + one sentence body — enough for founding seat / 25%. Dense + WTP fields are optional. Focus on (1) product gaps and (2) agent/MCP UX friction.",
+      "Ultra path ONLY (default): rating 1–5 + one sentence body. WTP/dense fields are optional dense-mode — skip them. Gaps + UX friction only.",
     already_done: already,
     preference_pairs: preferencePairCatalog(),
     improvement_options: visible,

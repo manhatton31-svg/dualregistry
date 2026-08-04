@@ -23,7 +23,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "3.8.0";
+export const REGISTRY_TOOLS_VERSION = "3.9.0";
 
 async function grantRefillSafe(
   identity: {
@@ -2216,6 +2216,10 @@ async function toolImproveKernel(
         artifact.system_prompt_short ||
         (artifact.kernel as { system_prompt_short?: string } | undefined)
           ?.system_prompt_short,
+      system_prompt_short_chars: artifact.system_prompt_short_chars,
+      system_prompt_short_max: artifact.system_prompt_short_max,
+      paste_path: artifact.paste_path || (r as { paste_path?: unknown }).paste_path,
+      export_into_runtime: artifact.export_into_runtime,
       feedback_boosted: artifact.feedback_boosted,
       your_feedback_applied: artifact.your_feedback_applied,
       ship_id: artifact.ship_id,
@@ -2223,6 +2227,7 @@ async function toolImproveKernel(
       community_deltas: artifact.community_deltas,
       collaborator: artifact.collaborator,
       reuse: artifact.reuse,
+      do_now: r.do_now,
       callback: r.do_now || r.next_step,
       feedback_recorded,
       feedback_optional: true,
@@ -2292,8 +2297,8 @@ async function toolMeshMatchEvent(
     feedback_rating: fbRating,
   });
 
+  // Ultra leave_feedback for MCP unlock meter (ship_id already on r.artifact from runMeshMatch)
   let feedback_recorded: Record<string, unknown> | null = null;
-  let mesh_reciprocity: Record<string, unknown> | null = null;
   if (r.ok && agent_name && (fbBody.length >= 8 || fbRating != null)) {
     try {
       const fb = await toolLeaveFeedback(
@@ -2304,7 +2309,7 @@ async function toolMeshMatchEvent(
           body:
             fbBody.length >= 8
               ? fbBody
-              : "Used mesh_match full hits; want better partner ranking.",
+              : "Used mesh_match full hits; want clearer agent-facing tool_policy.",
           mode: "ultra",
           audience: "mcp",
           source: "mesh_match_inline",
@@ -2315,38 +2320,27 @@ async function toolMeshMatchEvent(
     } catch {
       /* */
     }
-    try {
-      const { shipCollaboratorFeedback, loadCommunityDeltas } = await import(
-        "./collaborator-reciprocity"
-      );
-      const ship = await shipCollaboratorFeedback({
-        agent_name,
-        body: fbBody || undefined,
-        rating: fbRating,
-        source: "mesh_match_inline",
-        applied: "mesh",
-      });
-      mesh_reciprocity = {
-        your_feedback_applied: ship.your_feedback_applied,
-        ship_id: ship.ship_id,
-        next_kernel_hint: ship.next_kernel_hint,
-        community_deltas: await loadCommunityDeltas(5),
-      };
-    } catch {
-      /* */
-    }
   }
 
+  const artifact =
+    r.artifact && typeof r.artifact === "object"
+      ? (r.artifact as Record<string, unknown>)
+      : {};
   return textResult(
     "mesh_match",
     {
       ...r,
+      paste_path: artifact.paste_path || (r as { paste_path?: unknown }).paste_path,
+      ship_id: artifact.ship_id,
+      your_feedback_applied: artifact.your_feedback_applied,
+      feedback_boosted: artifact.feedback_boosted,
+      collaborator: artifact.collaborator,
+      do_now: r.do_now,
       feedback_recorded,
-      ...(mesh_reciprocity || {}),
       feedback_optional: true,
       note: feedback_recorded
-        ? "Full mesh hits + MCP feedback recorded — ship_id public; next: mesh_compose"
-        : "Full mesh hits — optional rating+feedback trains mesh quality",
+        ? "Full mesh hits + MCP ultra feedback — ship_id in payload; next: mesh_compose (paste_path.do_this_now)"
+        : "Full mesh hits — follow paste_path: mesh_compose → co-use → deposit_outcome. Optional ultra feedback (no WTP).",
     },
     r.ok,
     r.error,

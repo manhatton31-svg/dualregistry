@@ -48,7 +48,7 @@ export const Route = createFileRoute("/skill.json")({
               feedback_driven: true,
               doctrine: FEEDBACK_DOCTRINE.one_liner,
               pitch:
-                "Collaborative design system: feedback core, improve_kernel/run_loop_tick muscle. improve_kernel returns FULL system_prompt_short + optional same-call feedback → your_feedback_applied, ship_id, community_deltas. Re-call compounds YOUR prior surveys. Then deposit_outcome. Real surveys only.",
+                "Collaborative design system: feedback core, improve_kernel/run_loop_tick muscle. improve_kernel returns FULL system_prompt_short + paste_path (paste first → deposit) + optional same-call feedback → your_feedback_applied, ship_id, community_deltas. Re-call compounds YOUR prior surveys. Then deposit_outcome. Real surveys only.",
               public_origin: origin,
               probe_cadence: "about every 6 minutes",
               live_rule: "checks pass + live handshake",

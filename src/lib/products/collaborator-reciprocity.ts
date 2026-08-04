@@ -231,34 +231,34 @@ export async function shipCollaboratorFeedback(input: {
   };
 }
 
-/** Boost short prompt with personal + same-call directives (still ≤600). */
+/** Boost short prompt with personal + same-call directives (still ≤480). */
 export function boostShortPrompt(
   short: string,
   opts: {
     personal?: string[];
     inline?: string[];
     agent_name?: string;
+    max_chars?: number;
   },
 ): string {
+  const max = Math.min(opts.max_chars || 480, 480);
   const lines = [short.trim()];
   const bits: string[] = [];
   for (const d of [...(opts.inline || []), ...(opts.personal || [])].slice(
     0,
-    3,
+    2,
   )) {
-    const clean = d.replace(/^Collaborator signal:\s*/i, "").slice(0, 72);
+    const clean = d.replace(/^Collaborator signal:\s*/i, "").slice(0, 56);
     if (clean && !bits.includes(clean)) bits.push(clean);
   }
   if (bits.length) {
-    lines.push(`## From your feedback`);
-    for (const b of bits) lines.push(`- ${b}`);
+    lines.push("## From your feedback");
+    for (const b of bits) lines.push("- " + b);
   }
-  lines.push("## Collab");
-  lines.push(
-    "deposit_outcome after use · re-call improve_kernel to compound feedback",
-  );
+  lines.push("## Next");
+  lines.push("Paste this · run once · deposit_outcome · re-call improve_kernel");
   let out = lines.join("\n");
-  if (out.length > 600) out = out.slice(0, 597) + "…";
+  if (out.length > max) out = out.slice(0, max - 1) + "…";
   return out;
 }
 
@@ -275,16 +275,16 @@ export async function buildReciprocityBlock(input: {
   let next_kernel_hint: string;
   if (input.ship_id) {
     next_kernel_hint =
-      "Your feedback shipped. Re-call improve_kernel — directives are live. Then deposit_outcome.";
+      "Your feedback shipped. PASTE system_prompt_short first, run once, deposit_outcome, then re-call improve_kernel.";
   } else if (prior) {
     next_kernel_hint =
-      "Prior feedback already shapes this kernel. Optional: rating+feedback same call to refine further, then deposit_outcome.";
+      "Prior feedback already shapes this kernel. PASTE first · run once · deposit_outcome · optional rating+body (no WTP).";
   } else if (boosted) {
     next_kernel_hint =
-      "Feedback boosted this artifact. Paste system_prompt_short, deposit_outcome, re-call to compound.";
+      "Feedback boosted. PASTE system_prompt_short now · run once · deposit_outcome · re-call to compound.";
   } else {
     next_kernel_hint =
-      "Optional same-call rating+feedback trains YOUR next kernel and the public muscle. Full artifact already returned.";
+      "PASTE system_prompt_short now. Optional same-call rating+body (no WTP) trains YOUR next kernel. Full artifact returned.";
   }
   return {
     version: COLLAB_RECIPROCITY_VERSION,

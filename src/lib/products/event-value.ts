@@ -43,6 +43,11 @@ import {
   buildReciprocityBlock,
   COLLAB_RECIPROCITY_VERSION,
 } from "./collaborator-reciprocity";
+import {
+  buildPastePath,
+  buildMeshPastePath,
+  type PastePath,
+} from "./post-paste-path";
 
 export type ValueRunInput = {
   agent_name?: string;
@@ -116,6 +121,8 @@ export type ValueRunResult = {
   pay_with_feedback?: unknown;
   human_handoff?: unknown;
   do_now?: unknown;
+  /** Crystal-clear paste-first path (closes "next step after paste" gap) */
+  paste_path?: PastePath;
   error?: string;
 };
 
@@ -161,16 +168,10 @@ function buildFollowUp(
     },
     wtp: {
       optional: true,
-      how: "After real use: leave_feedback with answers.wtp_kernel_usd / wtp_recursive_usd / wtp_alive_usd ($0 allowed)",
-      fields: [
-        "wtp_kernel_usd",
-        "wtp_recursive_usd",
-        "wtp_alive_usd",
-        "wtp_why",
-        "would_buy_at_founding",
-      ],
-      endpoint: `${o}/api/products/wtp`,
-      note: "Name-your-price trains from honest WTP — never required for free events",
+      how: "ONLY after paste + deposit_outcome: optional leave_feedback ultra (rating+body). Dense WTP never required.",
+      fields: ["rating", "body"],
+      endpoint: `${o}/api/products/feedback`,
+      note: "Ultra path only (rating+body). Skip all WTP/dense fields.",
     },
     reciprocity_refill: {
       note: "Exhausted free quota? leave_feedback / leave_trace / endorse / deposit_outcome grant bonus free units (daily caps)",
@@ -506,11 +507,22 @@ export async function runImproveKernel(
     sample_wishes: personal.fb.sample_wishes,
   });
 
-  const kernel = generateKernel(gi, fb);
+  // Always prefer short paste path (feedback: shorter prompt)
+  const maxChars = 480;
+  const fbCapped = {
+    ...fb,
+    max_prompt_chars: Math.min(
+      Number(fb.max_prompt_chars) > 0 ? Number(fb.max_prompt_chars) : maxChars,
+      maxChars,
+    ),
+    prompt_style: fb.prompt_style || "ultra_compact",
+  };
+
+  const kernel = generateKernel(gi, fbCapped);
   const ne = buildNetworkEdition(input.origin);
   let short =
     (kernel as { system_prompt_short?: string }).system_prompt_short ||
-    (kernel as { system_prompt?: string }).system_prompt?.slice(0, 600) ||
+    (kernel as { system_prompt?: string }).system_prompt?.slice(0, maxChars) ||
     "";
 
   const feedback_boosted =
@@ -520,11 +532,12 @@ export async function runImproveKernel(
       personal: personal.prior_directives,
       inline: inlineDirectives,
       agent_name: gi.agent_name,
+      max_chars: maxChars,
     });
   }
+  if (short.length > maxChars) short = short.slice(0, maxChars - 1) + "…";
 
   const follow_up = buildFollowUp("improve_kernel", input, input.origin);
-  const next_step = buildNextStep("improve_kernel", input);
   const auto_trace = await maybeAutoTrace("improve_kernel", input, true);
 
   const unlocked = await hasRealFeedbackForName(gi.agent_name);
@@ -571,14 +584,32 @@ export async function runImproveKernel(
     ship_id: reciprocityShip?.ship_id,
   });
 
+  const paste_path = buildPastePath({
+    system_prompt_short: short,
+    agent_name: gi.agent_name,
+    listing_id: input.listing_id,
+    origin: input.origin,
+    ship_id: reciprocity.ship_id,
+    has_inline_feedback: hasInline,
+    max_chars: maxChars,
+  });
+
+  const depositArgs = paste_path.after_paste_tool.args;
+
   const markdown = [
     `# Kernel improved for ${gi.agent_name}`,
     feedback_boosted ? "_Feedback-boosted · collaborative design system_" : "",
     "",
-    "## system_prompt_short (FULL — paste now)",
+    "## PASTE THIS NOW (system_prompt_short)",
     "```",
     short,
     "```",
+    "",
+    `chars: ${short.length}/${maxChars} · put in: ${paste_path.paste.where}`,
+    "",
+    "## Then (only after paste + one real use)",
+    "1. tools/call deposit_outcome with args below",
+    "2. Optional re-call improve_kernel to compound feedback",
     "",
     reciprocity.ship_id
       ? `## Your feedback shipped · \`${reciprocity.ship_id}\`\n${reciprocity.next_kernel_hint}`
@@ -586,11 +617,6 @@ export async function runImproveKernel(
     "",
     "## Network Edition",
     ne.one_liner,
-    "",
-    "## After you use it",
-    "1. tools/call deposit_outcome { listing_id, ok: true, quality }",
-    "2. Re-call improve_kernel — prior feedback compounds into muscle",
-    "3. Optional run_loop_tick · mesh_match",
   ]
     .filter(Boolean)
     .join("\n");
@@ -604,6 +630,8 @@ export async function runImproveKernel(
       product: "kernel_improver",
       agent_name: gi.agent_name,
       system_prompt_short: short,
+      system_prompt_short_chars: short.length,
+      system_prompt_short_max: maxChars,
       kernel: kernelOut,
       network_edition: {
         version: ne.version,
@@ -620,6 +648,8 @@ export async function runImproveKernel(
       ship_id: reciprocity.ship_id,
       next_kernel_hint: reciprocity.next_kernel_hint,
       community_deltas: reciprocity.community_deltas,
+      paste_path,
+      export_into_runtime: paste_path.export_into_runtime,
       collaborator: {
         version: COLLAB_RECIPROCITY_VERSION,
         system: "collaborative_design_system",
@@ -634,41 +664,50 @@ export async function runImproveKernel(
           goals: gi.goals || input.goals || "tighter system prompt",
           listing_id: input.listing_id,
         },
-        why: "Re-call after you try the prompt — prior feedback compounds",
+        why: "Re-call AFTER paste + deposit — prior feedback compounds",
       },
     },
     markdown,
+    paste_path,
     pay_with_feedback,
     human_handoff: pay_with_feedback?.human_handoff,
     do_now: {
-      title: "Paste system_prompt_short, then deposit_outcome",
-      tool: "deposit_outcome",
-      args: {
-        listing_id: lid,
-        ok: true,
-        quality: 0.8,
-        body: "used improve_kernel artifact",
-        from: gi.agent_name,
+      title: "1) PASTE system_prompt_short into your runtime NOW",
+      action: "paste",
+      paste: short,
+      paste_chars: short.length,
+      where: paste_path.paste.where,
+      then: {
+        title: "2) After one real use: deposit_outcome",
+        tool: "deposit_outcome",
+        args: depositArgs,
       },
     },
     follow_up,
     next_step: {
-      tool: "deposit_outcome",
+      tool: "paste_system_prompt_short",
       args: {
-        listing_id: lid,
-        ok: true,
-        quality: 0.8,
-        body: "used improve_kernel artifact",
-        from: gi.agent_name,
+        text: short,
+        where: paste_path.paste.where,
+        chars: short.length,
       },
-      why: "Confirm real use — closes learning loop + refills free units",
+      why: "PASTE FIRST — do not call deposit_outcome until you ran the prompt once",
       optional: [
+        {
+          tool: "deposit_outcome",
+          args: depositArgs,
+          why: "Only after paste + one real task",
+        },
         ...(pay_with_feedback && !hasInline
           ? [
               {
                 tool: "leave_feedback",
-                args: pay_with_feedback.mcp.params.arguments,
-                why: "Optional: trains YOUR next kernel + founding free (artifact already full)",
+                args: {
+                  ...((pay_with_feedback as { mcp?: { params?: { arguments?: Record<string, unknown> } } }).mcp
+                    ?.params?.arguments || {}),
+                  mode: "ultra",
+                },
+                why: "Optional ultra only (rating+body) — no WTP. Trains YOUR next kernel.",
               },
             ]
           : []),
@@ -678,7 +717,7 @@ export async function runImproveKernel(
             agent_name: gi.agent_name,
             goals: gi.goals || input.goals,
           },
-          why: "Re-call to compound feedback into a stronger kernel",
+          why: "Re-call AFTER paste to compound feedback",
         },
         {
           tool: "run_loop_tick",
@@ -686,22 +725,24 @@ export async function runImproveKernel(
             agent_name: gi.agent_name,
             goals: gi.goals || input.goals,
           },
-          why: "One recursive improvement cycle",
+          why: "One recursive improvement cycle after deposit",
         },
       ],
     },
     auto_trace,
     next: [
-      "Paste artifact.system_prompt_short into your runtime",
-      "tools/call deposit_outcome after you try it (closes loop + raises O)",
+      "PASTE artifact.system_prompt_short (or paste_path.paste.text) into your runtime NOW",
+      "Run one real task with it",
+      "tools/call deposit_outcome (paste_path.after_paste_tool.args)",
       hasInline
-        ? `Feedback shipped${reciprocity.ship_id ? ` (${reciprocity.ship_id})` : ""} — re-call improve_kernel to compound`
+        ? `Feedback shipped${reciprocity.ship_id ? ` (${reciprocity.ship_id})` : ""} — re-call improve_kernel after deposit to compound`
         : unlocked
-          ? "Prior feedback already in this kernel — optional run_loop_tick"
-          : "Optional same-call rating+feedback trains YOUR next kernel (full artifact already returned)",
+          ? "Prior feedback already in this kernel — optional run_loop_tick after deposit"
+          : "Optional: same-call rating+feedback (ultra) trains YOUR next kernel — never required for full artifact",
     ],
   };
 }
+
 
 export async function runLoopTick(input: ValueRunInput): Promise<ValueRunResult> {
   const g = await gate("run_loop_tick", input);
@@ -775,10 +816,10 @@ export async function runLoopTick(input: ValueRunInput): Promise<ValueRunResult>
     next_step,
     auto_trace,
     next: [
-      "Execute the next phase instruction",
+      "Execute the next phase instruction on a real task",
       "tools/call deposit_outcome after promote (refills free + raises O)",
       "Optional: improve_kernel again after you learn",
-      "Optional WTP via leave_feedback",
+      "Optional ultra leave_feedback (rating+body only — no WTP)",
     ],
   };
 }
@@ -843,6 +884,36 @@ export async function runMeshMatch(
 
   const topPartner = visibleHits.find((h) => h.listing_id)?.listing_id;
 
+  // MCP collaborator reciprocity — same-call ultra feedback → ship_id
+  let meshShip: Awaited<ReturnType<typeof shipCollaboratorFeedback>> | null =
+    null;
+  const meshBody = (input.feedback_body || "").trim();
+  const meshRating = input.feedback_rating;
+  const hasMeshFb =
+    Boolean(input.agent_name) &&
+    (meshBody.length >= 8 || meshRating != null);
+  if (hasMeshFb && input.agent_name) {
+    try {
+      meshShip = await shipCollaboratorFeedback({
+        agent_name: input.agent_name,
+        body: meshBody || undefined,
+        rating: meshRating,
+        source: "mesh_match_inline",
+        applied: "mesh",
+      });
+    } catch {
+      /* never fail mesh path */
+    }
+  }
+
+  const paste_path = buildMeshPastePath({
+    agent_name: input.agent_name || "MCP",
+    listing_id: input.listing_id,
+    top_partner: topPartner,
+    origin: input.origin,
+    ship_id: meshShip?.ship_id,
+  });
+
   const markdown = [
     `# Mesh match: ${q.slice(0, 80)}`,
     "",
@@ -878,6 +949,17 @@ export async function runMeshMatch(
       suggested_listing_b: topPartner,
       order_required: false,
       feedback_optional: true,
+      paste_path,
+      ship_id: meshShip?.ship_id,
+      your_feedback_applied: meshShip?.your_feedback_applied,
+      feedback_boosted: Boolean(meshShip),
+      collaborator: {
+        version: COLLAB_RECIPROCITY_VERSION,
+        system: "collaborative_design_system",
+        core: "real_feedback",
+        muscle: ["mesh_match", "mesh_compose"],
+        audience: "mcp",
+      },
       reuse: {
         tool: "mesh_match",
         args: {
@@ -885,15 +967,16 @@ export async function runMeshMatch(
           agent_name: input.agent_name,
           listing_id: input.listing_id,
         },
-        why: "Re-match after deposit_outcome or compose",
+        why: "Re-match after compose + deposit_outcome",
       },
     },
     markdown,
+    paste_path,
     pay_with_feedback,
     human_handoff: pay_with_feedback?.human_handoff,
     do_now: topPartner
       ? {
-          title: "Compose with top partner",
+          title: "1) mesh_compose with top partner NOW",
           tool: "mesh_compose",
           args: {
             agent_name: input.agent_name || "agent",
@@ -901,18 +984,56 @@ export async function runMeshMatch(
             listing_b: topPartner,
             goals: q,
           },
+          then: {
+            title: "2) After real co-use: deposit_outcome",
+            tool: "deposit_outcome",
+            args: paste_path.after_paste_tool.args,
+          },
         }
-      : undefined,
+      : {
+          title: "Pick a hit.listing_id then mesh_compose",
+          tool: "mesh_compose",
+          args: {
+            agent_name: input.agent_name || "agent",
+            listing_id: input.listing_id,
+            goals: q,
+          },
+        },
     follow_up,
     next_step: {
-      ...next_step,
+      tool: "mesh_compose",
+      args: {
+        agent_name: input.agent_name || "agent",
+        listing_id: input.listing_id,
+        listing_b: topPartner,
+        goals: q,
+      },
+      why: "Mesh ladder step 2 — compose before feedback/WTP",
       optional: [
+        {
+          tool: "deposit_outcome",
+          args: {
+            listing_id:
+              input.listing_id ||
+              `name:${(input.agent_name || "MCP").slice(0, 40)}`,
+            ok: true,
+            quality: 0.8,
+            body: "mesh ladder used",
+            from: input.agent_name || "MCP",
+          },
+          why: "After real co-use only",
+        },
         ...(pay_with_feedback
           ? [
               {
                 tool: "leave_feedback",
-                args: pay_with_feedback.mcp.params.arguments,
-                why: "Optional: founding free + unlock meter (full hits already returned)",
+                args: {
+                  ...((pay_with_feedback as { mcp?: { params?: { arguments?: Record<string, unknown> } } }).mcp
+                    ?.params?.arguments || {}),
+                  mode: "ultra",
+                  audience: "mcp",
+                },
+                why: "Optional ultra (rating+body only) — counts MCP unlock 0/5. No WTP.",
               },
             ]
           : []),
@@ -921,15 +1042,16 @@ export async function runMeshMatch(
     },
     auto_trace,
     next: [
-      "tools/call mesh_compose with goals + optional listing_id",
       topPartner
-        ? `tools/call used_with { listing_id: yours, listing_b: "${topPartner}" } after real co-use`
-        : "list_yourself then re-match",
-      "tools/call execute_compose when both Live",
-      "deposit_outcome on success",
-      unlocked
-        ? "Optional leave_feedback already done"
-        : "Optional same-turn leave_feedback ultra (founding + unlock)",
+        ? `tools/call mesh_compose { listing_b: "${topPartner}" } NOW`
+        : "Pick hit.listing_id → tools/call mesh_compose",
+      "Real co-use once",
+      "tools/call deposit_outcome",
+      meshShip?.ship_id
+        ? `Feedback shipped (${meshShip.ship_id}) — re-match after compose`
+        : unlocked
+          ? "Optional leave_feedback already counted"
+          : "Optional same-call rating+feedback ultra (audience=mcp, no WTP)",
     ],
   };
 }
