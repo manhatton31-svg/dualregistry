@@ -1,19 +1,18 @@
 {
-  "updated_at": "2026-08-04T20:35:53.432Z",
+  "updated_at": "2026-08-04T20:45:54.477Z",
   "source": "https://grok-agent-store.manhatton31.workers.dev",
   "live": true,
-  "mcp_approved": 224,
-  "agents_approved": 822,
+  "mcp_approved": 273,
+  "agents_approved": 823,
   "mcp_target": 0,
   "agents_target": 0,
   "milestones": {
-    "ok": true,
     "targets": {
       "mcp_approved": 0,
       "agents_approved": 0
     },
     "mcp": {
-      "approved": 224,
+      "approved": 273,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -21,7 +20,7 @@
       "unlimited": true
     },
     "agents": {
-      "approved": 822,
+      "approved": 823,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -41,7 +40,7 @@
         "https://grok-agent-store.manhatton31.workers.dev/registry.json"
       ]
     },
-    "updated_at": "2026-08-04T20:35:29.284Z"
+    "updated_at": "2026-08-04T20:45:29.097Z"
   },
   "mcp_items": [
     {
@@ -3298,7 +3297,6 @@
     "grok_configured": false,
     "model": "grok-4",
     "milestones": {
-      "ok": true,
       "targets": {
         "mcp_approved": 500,
         "agents_approved": 500
@@ -3332,7 +3330,7 @@
           "https://grok-agent-store.manhatton31.workers.dev/registry.json"
         ]
       },
-      "updated_at": "2026-08-04T20:35:29.284Z"
+      "updated_at": "2026-08-04T20:45:29.097Z"
     },
     "agent_registry": {
       "accepting_submissions": true,
@@ -3393,6 +3391,7 @@
     "github": "https://github.com/manhatton31-svg/grok-agent-store"
   },
   "errors": [
+    "/v1/milestones: This operation was aborted",
     "/registry.json?limit=200: This operation was aborted",
     "/agents.json: This operation was aborted"
   ]
