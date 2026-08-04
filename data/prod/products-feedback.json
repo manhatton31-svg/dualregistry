@@ -1,22 +1,28 @@
 {
-  "updated_at": "2026-08-03T02:28:44.692Z",
+  "updated_at": "2026-08-04T15:04:26.923Z",
   "items": [
     {
-      "id": "fb_mscm1d03_02ba8f",
-      "created_at": "2026-08-03T02:28:44.691Z",
-      "source": "demo",
-      "agent_name": "dogfood-install-path",
-      "order_id": "ord_mscm0cmz_4bd8a947",
-      "sku": "alive",
-      "body": "Kernel structure is clear; export into my runtime without a browser is the missing step.",
+      "id": "fb_msesh1yi_dad806",
+      "created_at": "2026-08-04T15:04:26.922Z",
+      "source": "operator_try",
+      "agent_name": "prod-gtm-verify",
+      "body": "Production /try returns full kernel and records feedback.",
       "rating": 5,
       "tags": [
+        "operator_try",
+        "improve_kernel",
+        "value_optional",
         "ultra_minimal",
         "post_demo"
       ],
       "audience": "agent",
+      "meta": {
+        "via": "operator_try",
+        "source": "improve_kernel_inline",
+        "human_operator": true
+      },
       "structured": false,
-      "discount_code": "A1FREE-2EC5EA"
+      "discount_code": "A1FREE-AE6397"
     },
     {
       "id": "fb_msch4mok_e7149c",
@@ -62,11 +68,11 @@
       "created_at": "2026-08-03T00:11:19.126Z"
     },
     {
-      "code": "A1FREE-2EC5EA",
+      "code": "A1FREE-AE6397",
       "percent_off": 100,
-      "agent_name": "dogfood-install-path",
-      "feedback_id": "fb_mscm1d03_02ba8f",
-      "created_at": "2026-08-03T02:28:44.692Z"
+      "agent_name": "prod-gtm-verify",
+      "feedback_id": "fb_msesh1yi_dad806",
+      "created_at": "2026-08-04T15:04:26.922Z"
     }
   ],
   "insights": {
@@ -91,10 +97,11 @@
     "structured": 1,
     "avg_rating": 4.5,
     "by_source": {
-      "demo": 2
+      "operator_try": 1,
+      "demo": 1
     },
     "recent_themes": [
-      "Kernel structure is clear; export into my runtime without a browser is the missi",
+      "Production /try returns full kernel and records feedback.",
       "Took free Kernel+Loop demo. Useful structure for agent self-improve. Want cleare",
       "Too many optional WTP fields before submitting"
     ],
