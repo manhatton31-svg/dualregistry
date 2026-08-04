@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-04T23:15:36.636Z",
+  "updated_at": "2026-08-04T23:22:58.657Z",
   "source": "https://grok-agent-store.manhatton31.workers.dev",
   "live": true,
-  "mcp_approved": 105,
-  "agents_approved": 699,
+  "mcp_approved": 332,
+  "agents_approved": 886,
   "mcp_target": 0,
   "agents_target": 0,
   "milestones": {
@@ -13,7 +13,7 @@
       "agents_approved": 0
     },
     "mcp": {
-      "approved": 105,
+      "approved": 332,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -21,7 +21,7 @@
       "unlimited": true
     },
     "agents": {
-      "approved": 699,
+      "approved": 886,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -41,7 +41,7 @@
         "https://grok-agent-store.manhatton31.workers.dev/registry.json"
       ]
     },
-    "updated_at": "2026-08-04T23:15:32.185Z"
+    "updated_at": "2026-08-04T23:22:58.657Z"
   },
   "mcp_items": [
     {
@@ -3312,16 +3312,16 @@
         "unlimited": false
       },
       "agents": {
-        "approved": 886,
+        "approved": 588,
         "target": 500,
         "remaining": 0,
-        "pct": 177.2,
+        "pct": 117.6,
         "ready": true,
         "unlimited": false
       },
       "solicit_ready": true,
       "policy": {
-        "summary": "Solicit demos + feedback freely. Payments open after 10 feedback agents + 5 feedback MCPs.",
+        "summary": "Solicit demos + feedback freely. Payments open after 250 feedback agents + 250 feedback MCPs.",
         "when_ready": "Invite demos; feedback themes personalize first 3 agents then ship sitewide on reuse.",
         "product_surfaces": [
           "https://grok-agent-store.manhatton31.workers.dev/discovery.json",
@@ -3332,16 +3332,16 @@
           "https://grok-agent-store.manhatton31.workers.dev/registry.json"
         ]
       },
-      "updated_at": "2026-08-04T23:10:28.982Z"
+      "updated_at": "2026-08-01T14:13:01.798Z"
     },
     "agent_registry": {
       "accepting_submissions": true,
       "submit": "https://grok-agent-store.manhatton31.workers.dev/v1/agents/submit",
       "list": "https://grok-agent-store.manhatton31.workers.dev/agents.json",
       "well_known": "https://grok-agent-store.manhatton31.workers.dev/.well-known/agents.json",
-      "approved_count": 886,
+      "approved_count": 588,
       "auto_approve_threshold": 70,
-      "approved": 886
+      "approved": 588
     },
     "registry": {
       "accepting_submissions": true,
@@ -3360,10 +3360,10 @@
         "cursor": {
           "github_last_comment_id": 5107319336,
           "gmail_last_internal_date": 1785261414604,
-          "updated_at": "2026-08-04T23:00:01.288Z"
+          "updated_at": "2026-08-01T14:00:20.574Z"
         },
         "last_run": {
-          "ran_at": "2026-08-04T23:00:00.547Z",
+          "ran_at": "2026-08-01T14:00:19.932Z",
           "github_new": 0,
           "gmail_new": 0,
           "approved": 0,
@@ -3371,19 +3371,19 @@
           "rejected": 0
         },
         "agents_last_run": {
-          "ran_at": "2026-08-04T23:00:02.141Z",
+          "ran_at": "2026-08-01T14:00:20.922Z",
           "github_new": 0,
           "repos_new": 8,
-          "refreshed": 8,
-          "approved": 8,
-          "needs_review": 8,
+          "refreshed": 2,
+          "approved": 6,
+          "needs_review": 4,
           "rejected": 0
         },
         "agents_cursor": {
           "github_last_comment_id": 0,
-          "search_offset": 346,
-          "last_refresh_at": "2026-08-04T23:00:02.141Z",
-          "updated_at": "2026-08-04T23:03:05.272Z"
+          "search_offset": 184,
+          "last_refresh_at": "2026-08-01T14:00:20.922Z",
+          "updated_at": "2026-08-01T14:01:26.074Z"
         }
       },
       "approved": 332
@@ -3391,9 +3391,5 @@
     "discovery": "https://grok-agent-store.manhatton31.workers.dev/discovery.json",
     "mcp": "https://grok-agent-store.manhatton31.workers.dev/mcp",
     "github": "https://github.com/manhatton31-svg/grok-agent-store"
-  },
-  "errors": [
-    "/registry.json?limit=200: This operation was aborted",
-    "/agents.json: This operation was aborted"
-  ]
+  }
 }
