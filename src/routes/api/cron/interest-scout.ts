@@ -17,7 +17,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MAX_DURATION, PREFERRED_REGION } from "@/lib/agents1/vercel-platform";
 import { readDurableRaw } from "@/lib/agents1/durable-json";
 
-export const maxDuration = MAX_DURATION.cron_prefilter; // 60s
+export const maxDuration = MAX_DURATION.cron_probe; // 90s — external registry + xAI
 export const preferredRegion = PREFERRED_REGION;
 
 function authorized(request: Request): boolean {

@@ -199,7 +199,7 @@ async function fetchJson<T>(url: string): Promise<T | null> {
   try {
     const res = await fetch(url, {
       headers: { "user-agent": UA, accept: "application/json" },
-      signal: AbortSignal.timeout(14_000),
+      signal: AbortSignal.timeout(8_000),
     });
     if (!res.ok) return null;
     return (await res.json()) as T;
@@ -209,13 +209,13 @@ async function fetchJson<T>(url: string): Promise<T | null> {
 }
 
 /** Official MCP Registry — external remotes only, shallow pages for cost. */
-async function pullOfficialMcp(max = 120): Promise<InterestCandidate[]> {
+async function pullOfficialMcp(max = 80): Promise<InterestCandidate[]> {
   const out: InterestCandidate[] = [];
   const seen = new Set<string>();
   let cursor: string | undefined;
-  for (let page = 0; page < 4 && out.length < max; page++) {
+  for (let page = 0; page < 2 && out.length < max; page++) {
     const q = new URL("https://registry.modelcontextprotocol.io/v0/servers");
-    q.searchParams.set("limit", "50");
+    q.searchParams.set("limit", "40");
     // Prefer recent: no sort API — walk pages; cursor advances
     if (cursor) q.searchParams.set("cursor", cursor);
     const data = await fetchJson<{
@@ -325,7 +325,11 @@ async function loadCleanSkipUrls(): Promise<Set<string>> {
     const { loadCleanRegistry } = await import(
       "@/lib/agents1/clean-registry"
     );
-    const reg = await loadCleanRegistry();
+    const reg = await Promise.race([
+      loadCleanRegistry(),
+      new Promise<null>((r) => setTimeout(() => r(null), 2500)),
+    ]);
+    if (!reg) return skip;
     for (const it of Object.values(reg?.items || {})) {
       const t = (it as { target?: string }).target;
       if (t) skip.add(t.toLowerCase());
@@ -421,7 +425,7 @@ async function scoreWithXai(
           { role: "user", content: user },
         ],
       }),
-      signal: AbortSignal.timeout(18_000),
+      signal: AbortSignal.timeout(12_000),
     });
     if (!res.ok) {
       return {
@@ -673,7 +677,7 @@ export async function runInterestScout(opts?: {
 
   const dayRoom = Math.max(0, interestMaxPerDay() - state.day_outreaches);
   const max = Math.min(
-    opts?.max ?? 12,
+    opts?.max ?? 8,
     dayRoom,
     20,
   );
@@ -703,7 +707,7 @@ export async function runInterestScout(opts?: {
 
   const skipUrls = await loadCleanSkipUrls();
   const [mcpPool, seeds] = await Promise.all([
-    pullOfficialMcp(100),
+    pullOfficialMcp(60),
     Promise.resolve(pullAgentSeeds()),
   ]);
   notes.push(`external_mcp=${mcpPool.length} seeds=${seeds.length}`);
@@ -723,7 +727,7 @@ export async function runInterestScout(opts?: {
     const j = Math.floor(Math.random() * (i + 1));
     [rest[i], rest[j]] = [rest[j]!, rest[i]!];
   }
-  pool = [...keyword_hits, ...rest].slice(0, 40);
+  pool = [...keyword_hits, ...rest].slice(0, 24);
   notes.push(`keyword_hits=${keyword_hits.length} scoring_pool=${pool.length}`);
 
   // Score in batches of 10
@@ -731,9 +735,9 @@ export async function runInterestScout(opts?: {
   let used_llm = false;
   const scored: Array<InterestCandidate & { score: number; why: string }> =
     [];
-  for (let i = 0; i < pool.length; i += 10) {
+  for (let i = 0; i < pool.length; i += 8) {
     if (budgetRemaining(state) - xai_usd < 0.02) break;
-    const batch = pool.slice(i, i + 10);
+    const batch = pool.slice(i, i + 8);
     const r = await scoreWithXai(batch);
     xai_usd += r.xai_usd;
     if (r.used_llm) used_llm = true;
