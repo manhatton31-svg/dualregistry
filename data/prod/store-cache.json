@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-04T15:26:33.050Z",
+  "updated_at": "2026-08-04T16:40:52.567Z",
   "source": "https://grok-agent-store.manhatton31.workers.dev",
   "live": true,
-  "mcp_approved": 120,
-  "agents_approved": 780,
+  "mcp_approved": 332,
+  "agents_approved": 872,
   "mcp_target": 0,
   "agents_target": 0,
   "milestones": {
@@ -13,7 +13,7 @@
       "agents_approved": 0
     },
     "mcp": {
-      "approved": 120,
+      "approved": 332,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -21,7 +21,7 @@
       "unlimited": true
     },
     "agents": {
-      "approved": 780,
+      "approved": 872,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -41,7 +41,7 @@
         "https://grok-agent-store.manhatton31.workers.dev/registry.json"
       ]
     },
-    "updated_at": "2026-08-04T15:26:31.240Z"
+    "updated_at": "2026-08-04T16:40:52.567Z"
   },
   "mcp_items": [
     {
@@ -3312,10 +3312,10 @@
         "unlimited": false
       },
       "agents": {
-        "approved": 871,
+        "approved": 872,
         "target": 500,
         "remaining": 0,
-        "pct": 174.2,
+        "pct": 174.4,
         "ready": true,
         "unlimited": false
       },
@@ -3332,16 +3332,16 @@
           "https://grok-agent-store.manhatton31.workers.dev/registry.json"
         ]
       },
-      "updated_at": "2026-08-04T15:25:21.722Z"
+      "updated_at": "2026-08-04T16:40:52.567Z"
     },
     "agent_registry": {
       "accepting_submissions": true,
       "submit": "https://grok-agent-store.manhatton31.workers.dev/v1/agents/submit",
       "list": "https://grok-agent-store.manhatton31.workers.dev/agents.json",
       "well_known": "https://grok-agent-store.manhatton31.workers.dev/.well-known/agents.json",
-      "approved_count": 871,
+      "approved_count": 872,
       "auto_approve_threshold": 70,
-      "approved": 871
+      "approved": 872
     },
     "registry": {
       "accepting_submissions": true,
@@ -3360,30 +3360,32 @@
         "cursor": {
           "github_last_comment_id": 5107319336,
           "gmail_last_internal_date": 1785261414604,
-          "updated_at": "2026-08-04T15:00:20.694Z"
+          "updated_at": "2026-08-04T16:30:20.262Z"
         },
         "last_run": {
-          "ran_at": "2026-08-04T15:00:19.968Z",
+          "ran_at": "2026-08-04T16:30:19.936Z",
           "github_new": 0,
           "gmail_new": 0,
+          "github_error": "GitHub 403: {\n\t\"message\": \"API rate limit exceeded for user ID 286506158. If you reach out to GitHub Support for help, please include the request ID 298F:1B539A:334333:AB6A6C:6A72139C and timestamp 2026-08-04 16:",
           "approved": 0,
           "needs_review": 0,
           "rejected": 0
         },
         "agents_last_run": {
-          "ran_at": "2026-08-04T15:00:21.107Z",
+          "ran_at": "2026-08-04T16:30:20.720Z",
           "github_new": 0,
-          "repos_new": 8,
+          "repos_new": 1,
           "refreshed": 0,
-          "approved": 8,
+          "github_error": "GitHub 403: {\n\t\"message\": \"API rate limit exceeded for user ID 286506158. If you reach out to GitHub Support for help, please include the request ID 298F:1B539A:33483F:AB7B26:6A72139C and timestamp 2026-08-04 16:",
+          "approved": 1,
           "needs_review": 0,
           "rejected": 0
         },
         "agents_cursor": {
           "github_last_comment_id": 0,
-          "search_offset": 330,
-          "last_refresh_at": "2026-08-04T15:00:21.107Z",
-          "updated_at": "2026-08-04T15:01:50.099Z"
+          "search_offset": 333,
+          "last_refresh_at": "2026-08-04T16:30:20.720Z",
+          "updated_at": "2026-08-04T16:31:59.393Z"
         }
       },
       "approved": 332
