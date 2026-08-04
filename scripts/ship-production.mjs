@@ -18,7 +18,7 @@ import { writeFileSync, mkdirSync, readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = process.cwd();
-const TOOLS_VERSION = "3.7.0";
+const TOOLS_VERSION = "3.8.0";
 const AGENT_PATH = "improve_kernel";
 const PRIMARY_KR = "value_to_feedback_same_session_rate";
 const FOUNDING = "real_feedback_no_demo_required";
@@ -26,6 +26,7 @@ const SYSTEM = "collaborative_design_system";
 const CORE = "real_feedback";
 const MUSCLE = ["improve_kernel", "run_loop_tick"];
 const TRY_PATH = "/try";
+const RECIPROCITY = "your_feedback_applied+ship_id+community_deltas";
 
 function sh(cmd, opts = {}) {
   return execSync(cmd, {
@@ -49,6 +50,7 @@ function stamp(sha) {
     core: CORE,
     muscle: MUSCLE,
     try_path: TRY_PATH,
+    reciprocity: RECIPROCITY,
     shipped_at: new Date().toISOString(),
     git: sha,
     deploy_channel: "git_main_plus_release_plus_vercel",

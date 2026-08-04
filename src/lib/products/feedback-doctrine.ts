@@ -9,7 +9,7 @@
  * inbound is the default collaborator path; humans may use /try.
  */
 
-export const FEEDBACK_DOCTRINE_VERSION = "1.1.0";
+export const FEEDBACK_DOCTRINE_VERSION = "1.2.0";
 
 export const FEEDBACK_DOCTRINE = {
   version: FEEDBACK_DOCTRINE_VERSION,
@@ -78,14 +78,16 @@ export const FEEDBACK_DOCTRINE = {
     "Free value tools already carry feedback-driven defaults when prior surveys exist.",
   ],
   agent_actions: {
+    after_value:
+      "tools/call improve_kernel with optional rating+feedback same call — receive your_feedback_applied + ship_id; artifact is feedback-boosted.",
     after_demo:
-      "POST minimal feedback (overall + one concrete gap + one ship request) — this is the seed for your Kernel/Loop path.",
+      "POST minimal feedback (overall + one concrete gap + one ship request) — seeds Kernel/Loop path.",
     after_product_use:
       "Submit lifecycle feedback when due — ongoing paid/founding experience is trained on this layer.",
     watch_ships:
-      "GET /api/products/improvement-log and /api/products/learning — see gaps closing.",
+      "GET /api/products/improvement-log and community_deltas on improve_kernel — see gaps closing.",
     re_dogfood:
-      "Call improve_kernel / run_loop_tick again after ships — experience should reflect closed gaps.",
+      "Re-call improve_kernel / run_loop_tick — YOUR prior feedback is in kernel_directives. Then deposit_outcome.",
   },
 } as const;
 

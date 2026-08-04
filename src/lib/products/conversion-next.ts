@@ -230,7 +230,7 @@ export function conversionHardNext(opts: {
 
   return {
     version: "4.0.0",
-    loop: "improve_kernel (default) → deposit_outcome · optional leave_feedback · OR complete_founding_path when listing_id known",
+    loop: "improve_kernel (+ optional feedback → ship_id) → deposit_outcome → re-call compounds · OR complete_founding_path when listing_id",
     first_action: first,
     second_action: second,
     actions: opts.post_demo || opts.order_id

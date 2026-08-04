@@ -254,6 +254,12 @@ export async function appendLog(
   return entry;
 }
 
+/** Lightweight recent entries for collaborator community_deltas (no dogfood/sync). */
+export async function listRecentLogEntries(limit = 10): Promise<LogEntry[]> {
+  const s = await load();
+  return s.entries.slice(0, Math.min(40, Math.max(1, limit)));
+}
+
 /**
  * Idempotent: ship flywheel + open density gaps into the public improvement log.
  * v2.4: live gap refresh — close gaps when F/C/founding meet floors; re-open if they drop.

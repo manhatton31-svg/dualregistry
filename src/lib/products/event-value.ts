@@ -35,6 +35,14 @@ import {
   gateKernelArtifact,
   gateMeshHits,
 } from "./engagement-incentives";
+import {
+  loadPersonalContext,
+  feedbackToDirectives,
+  shipCollaboratorFeedback,
+  boostShortPrompt,
+  buildReciprocityBlock,
+  COLLAB_RECIPROCITY_VERSION,
+} from "./collaborator-reciprocity";
 
 export type ValueRunInput = {
   agent_name?: string;
@@ -449,13 +457,71 @@ export async function runImproveKernel(
   if (!g.allowed) return g.result!;
 
   const gi = goalsInput(input);
-  const fb = mergeNetworkDirectives({});
+  const personal = await loadPersonalContext(gi.agent_name);
+
+  const inlineBody =
+    (typeof input.feedback_body === "string" && input.feedback_body.trim()) ||
+    "";
+  const inlineRating =
+    typeof input.feedback_rating === "number" &&
+    Number.isFinite(input.feedback_rating)
+      ? input.feedback_rating
+      : undefined;
+  const hasInline = inlineBody.length >= 8 || inlineRating != null;
+
+  const inlineDirectives = hasInline
+    ? feedbackToDirectives(inlineBody || undefined, inlineRating)
+    : [];
+
+  let reciprocityShip:
+    | Awaited<ReturnType<typeof shipCollaboratorFeedback>>
+    | undefined;
+  if (hasInline && gi.agent_name) {
+    try {
+      reciprocityShip = await shipCollaboratorFeedback({
+        agent_name: gi.agent_name,
+        body: inlineBody || undefined,
+        rating: inlineRating,
+        source: "improve_kernel_inline",
+        applied: "kernel",
+      });
+    } catch {
+      /* never fail value path */
+    }
+  }
+
+  const mergedDirectives = [
+    ...inlineDirectives,
+    ...personal.prior_directives,
+  ].slice(0, 10);
+
+  const fb = mergeNetworkDirectives({
+    version: personal.fb.version || (hasInline ? "inline_collab" : null),
+    kernel_directives: mergedDirectives.length
+      ? mergedDirectives
+      : personal.fb.kernel_directives,
+    loop_directives: personal.fb.loop_directives,
+    avg_kernel_clarity: personal.fb.avg_kernel_clarity,
+    prompt_style: personal.fb.prompt_style,
+    sample_wishes: personal.fb.sample_wishes,
+  });
+
   const kernel = generateKernel(gi, fb);
   const ne = buildNetworkEdition(input.origin);
-  const short =
+  let short =
     (kernel as { system_prompt_short?: string }).system_prompt_short ||
     (kernel as { system_prompt?: string }).system_prompt?.slice(0, 600) ||
     "";
+
+  const feedback_boosted =
+    hasInline || personal.prior_surveys > 0 || mergedDirectives.length > 0;
+  if (feedback_boosted) {
+    short = boostShortPrompt(short, {
+      personal: personal.prior_directives,
+      inline: inlineDirectives,
+      agent_name: gi.agent_name,
+    });
+  }
 
   const follow_up = buildFollowUp("improve_kernel", input, input.origin);
   const next_step = buildNextStep("improve_kernel", input);
@@ -463,7 +529,7 @@ export async function runImproveKernel(
 
   const unlocked = await hasRealFeedbackForName(gi.agent_name);
   // FULL artifact always — no hard gate. Optional feedback for founding/unlock only.
-  const gated = gateKernelArtifact(short, true);
+  void gateKernelArtifact(short, true);
   const pay_with_feedback = unlocked
     ? undefined
     : buildPayWithFeedback({
@@ -477,28 +543,57 @@ export async function runImproveKernel(
     ...(kernel as object),
     system_prompt_short: short,
     full_locked: false,
+    feedback_boosted,
+    directives_applied: mergedDirectives.slice(0, 6),
   };
 
   const lid =
     input.listing_id ||
     `name:${(gi.agent_name || "agent").trim().slice(0, 40) || "agent"}`;
 
+  const priorApplied =
+    !hasInline && personal.prior_surveys > 0
+      ? {
+          source: "prior" as const,
+          rating: personal.last_rating,
+          body_excerpt: (personal.last_body || "").slice(0, 160),
+          directives: personal.prior_directives.slice(0, 4),
+          applied_to: "kernel_directives" as const,
+        }
+      : undefined;
+
+  const reciprocity = await buildReciprocityBlock({
+    agent_name: gi.agent_name,
+    prior_surveys: personal.prior_surveys + (hasInline ? 1 : 0),
+    feedback_boosted,
+    your_feedback_applied:
+      reciprocityShip?.your_feedback_applied || priorApplied,
+    ship_id: reciprocityShip?.ship_id,
+  });
+
   const markdown = [
     `# Kernel improved for ${gi.agent_name}`,
+    feedback_boosted ? "_Feedback-boosted · collaborative design system_" : "",
     "",
     "## system_prompt_short (FULL — paste now)",
     "```",
     short,
     "```",
     "",
+    reciprocity.ship_id
+      ? `## Your feedback shipped · \`${reciprocity.ship_id}\`\n${reciprocity.next_kernel_hint}`
+      : `## Collab\n${reciprocity.next_kernel_hint}`,
+    "",
     "## Network Edition",
     ne.one_liner,
     "",
     "## After you use it",
     "1. tools/call deposit_outcome { listing_id, ok: true, quality }",
-    "2. Optional: leave_feedback ultra same turn (founding free + unlock meter)",
+    "2. Re-call improve_kernel — prior feedback compounds into muscle",
     "3. Optional run_loop_tick · mesh_match",
-  ].join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   return {
     ok: true,
@@ -519,7 +614,19 @@ export async function runImproveKernel(
       feedback_optional: true,
       full_unlocked: true,
       value_gate: false,
+      feedback_boosted,
       identity_key: eventIdentityKey(input),
+      your_feedback_applied: reciprocity.your_feedback_applied,
+      ship_id: reciprocity.ship_id,
+      next_kernel_hint: reciprocity.next_kernel_hint,
+      community_deltas: reciprocity.community_deltas,
+      collaborator: {
+        version: COLLAB_RECIPROCITY_VERSION,
+        system: "collaborative_design_system",
+        core: "real_feedback",
+        muscle: ["improve_kernel", "run_loop_tick"],
+        prior_surveys: reciprocity.prior_surveys,
+      },
       reuse: {
         tool: "improve_kernel",
         args: {
@@ -527,7 +634,7 @@ export async function runImproveKernel(
           goals: gi.goals || input.goals || "tighter system prompt",
           listing_id: input.listing_id,
         },
-        why: "Re-call after you try the prompt or after leave_feedback",
+        why: "Re-call after you try the prompt — prior feedback compounds",
       },
     },
     markdown,
@@ -554,17 +661,25 @@ export async function runImproveKernel(
         body: "used improve_kernel artifact",
         from: gi.agent_name,
       },
-      why: "Confirm real use — refills free units + raises network O",
+      why: "Confirm real use — closes learning loop + refills free units",
       optional: [
-        ...(pay_with_feedback
+        ...(pay_with_feedback && !hasInline
           ? [
               {
                 tool: "leave_feedback",
                 args: pay_with_feedback.mcp.params.arguments,
-                why: "Optional: founding free seat + unlock meter (artifact already full)",
+                why: "Optional: trains YOUR next kernel + founding free (artifact already full)",
               },
             ]
           : []),
+        {
+          tool: "improve_kernel",
+          args: {
+            agent_name: gi.agent_name,
+            goals: gi.goals || input.goals,
+          },
+          why: "Re-call to compound feedback into a stronger kernel",
+        },
         {
           tool: "run_loop_tick",
           args: {
@@ -578,10 +693,12 @@ export async function runImproveKernel(
     auto_trace,
     next: [
       "Paste artifact.system_prompt_short into your runtime",
-      "tools/call deposit_outcome after you try it (refills free + raises O)",
-      unlocked
-        ? "Optional tools/call run_loop_tick"
-        : "Optional same-turn leave_feedback ultra (founding + unlock) — full artifact already returned",
+      "tools/call deposit_outcome after you try it (closes loop + raises O)",
+      hasInline
+        ? `Feedback shipped${reciprocity.ship_id ? ` (${reciprocity.ship_id})` : ""} — re-call improve_kernel to compound`
+        : unlocked
+          ? "Prior feedback already in this kernel — optional run_loop_tick"
+          : "Optional same-call rating+feedback trains YOUR next kernel (full artifact already returned)",
     ],
   };
 }
