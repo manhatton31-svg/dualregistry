@@ -73,6 +73,13 @@ export type FunnelHonesty = {
     payments_open: boolean;
   };
   diagnosis: string[];
+  gtm: {
+    mode: string;
+    primary_surface: string;
+    directories: string;
+    invite_policy: string;
+    win_this_week: string;
+  };
   updated_at: string;
 };
 
@@ -324,13 +331,23 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
       "Demo-path same-session still 0 — optional; value path is primary",
     );
   }
+  if (demos.invited_pending > 0 && invited_with_fb === 0) {
+    diagnosis.push(
+      `Invited ghosts (${demos.invited_pending}) are NOT a growth KR — stop optimizing invite volume; use /try + human operators`,
+    );
+  }
+  if (real_public < 5) {
+    diagnosis.push(
+      "GTM: primary surface is /try (humans who run agents). Directory listings second. Pure agent inbound is tertiary until listed + found.",
+    );
+  }
   if (!diagnosis.length) {
     diagnosis.push("Funnel has real activity — keep agent events + quiet connectors");
   }
 
   return {
     ok: true,
-    version: "1.2.0",
+    version: "1.3.0",
     policy: {
       public_counts: REAL_NUMBERS_POLICY.rule,
       never_count: [...REAL_NUMBERS_POLICY.never_count_demo_origins],
@@ -369,8 +386,8 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
         "hard-capped invite volume (not the growth KR)",
       ],
       default_tool: "improve_kernel",
-      human_path: "demo.human_handoff.url (prefilled ultra) or /for-agents",
-      invite_volume: "hard-capped secondary — do not optimize for invite count",
+      human_path: "/try (primary) · /for-agents · demo.human_handoff.url",
+      invite_volume: "do not optimize — invited ghosts are noise; GTM is /try + directories",
     },
     reachable: {
       http_ok_listings,
@@ -379,6 +396,16 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
     founding,
     unlock,
     diagnosis,
+    gtm: {
+      mode: "human_operators_first",
+      primary_surface: "https://www.dualregistry.dev/try",
+      directories:
+        "Official MCP Registry (listed) + submit Smithery/Glama/PulseMCP/mcp.so — see /docs/acquisition",
+      invite_policy:
+        "Quiet mode default — invited_pending is noise, not progress",
+      win_this_week:
+        "10 real feedbacks via /try or improve_kernel+feedback from humans who run agents",
+    },
     updated_at: new Date().toISOString(),
   };
 }

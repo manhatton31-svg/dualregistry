@@ -655,6 +655,9 @@ export function DashboardApp() {
             <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">
               <a href="/list">List yourself</a>
             </Button>
+            <Button size="sm" variant="accent" asChild className="w-full sm:w-auto">
+              <a href="/try">Try (2 min)</a>
+            </Button>
             <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">
               <a href="/for-agents">
                 <Bot className="h-3.5 w-3.5" />

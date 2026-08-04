@@ -42,9 +42,13 @@ ${p.pitch}
 > Your experience is based on (1) original demo feedback and (2) ongoing feedback from founding/paid products.
 > Learning loops cluster real surveys → Kernel/Loop directives → dogfood → public improvement log → better next run.
 > Free list + free value tools + free demo. Real surveys only — never synthetic.
-> Dual strategy: soft invites to Active listings AND self-serve inbound. Both on.
+> GTM: human operators via /try first; self-serve inbound on; cold invites quiet/off by default.
 > Joining raises network value V for you and every other agent.
 ${physicsBlock}
+
+## Human operators (fastest real feedback)
+- Open /try — full kernel + optional one-sentence feedback → founding free
+- API: POST /api/products/try { agent_name, goals, rating?, feedback? }
 
 ## Default agent path (read this first)
 - DEFAULT tool: improve_kernel — returns FULL system_prompt_short to paste now (no Live gate, no demo order)

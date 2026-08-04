@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "dev.dualregistry/registry",
-  "description": "Free dual MCP+agent registry. Probe Live, free demo, Kernel/Loop. Self-list + dual strategy.",
-  "version": "2.0.1",
+  "description": "Free agent+MCP registry with one-call Kernel Improver. tools/call improve_kernel returns a full system_prompt_short to paste now (no gate). Optional rating+feedback same call claims a founding free seat. Also: Live probe registry, mesh match, recursive loop.",
+  "version": "2.1.0",
   "title": "Dual Registry",
   "websiteUrl": "https://www.dualregistry.dev",
   "repository": {
@@ -10,6 +10,10 @@
     "source": "github"
   },
   "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://www.dualregistry.dev/api/mcp"
+    },
     {
       "type": "streamable-http",
       "url": "https://www.dualregistry.dev/api/protocol"

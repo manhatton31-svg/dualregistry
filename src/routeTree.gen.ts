@@ -65,6 +65,7 @@ import { Route as ProductsSuccessRouteImport } from './routes/products/success'
 import { Route as SkillsDualregistryDotmdRouteImport } from './routes/skills/dualregistry[.]md'
 import { Route as SkillsHermesDotmdRouteImport } from './routes/skills/hermes[.]md'
 import { Route as SkillsOpenclawDotmdRouteImport } from './routes/skills/openclaw[.]md'
+import { Route as TryIndexRouteImport } from './routes/try/index'
 import { Route as DotwellKnownMcpServerCardRouteImport } from './routes/[.]well-known/mcp/server-card'
 import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[.]well-known/mcp/server-card[.]json'
 import { Route as ApiArdSearchRouteImport } from './routes/api/ard/search'
@@ -122,6 +123,7 @@ import { Route as ApiProductsRunRouteImport } from './routes/api/products/run'
 import { Route as ApiProductsSelfLoopRouteImport } from './routes/api/products/self-loop'
 import { Route as ApiProductsShipCadenceRouteImport } from './routes/api/products/ship-cadence'
 import { Route as ApiProductsStigmergyRouteImport } from './routes/api/products/stigmergy'
+import { Route as ApiProductsTryRouteImport } from './routes/api/products/try'
 import { Route as ApiProductsVerifyRouteImport } from './routes/api/products/verify'
 import { Route as ApiProductsWebhookRouteImport } from './routes/api/products/webhook'
 import { Route as ApiProductsWtpRouteImport } from './routes/api/products/wtp'
@@ -415,6 +417,11 @@ const SkillsHermesDotmdRoute = SkillsHermesDotmdRouteImport.update({
 const SkillsOpenclawDotmdRoute = SkillsOpenclawDotmdRouteImport.update({
   id: '/skills/openclaw.md',
   path: '/skills/openclaw.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TryIndexRoute = TryIndexRouteImport.update({
+  id: '/try/',
+  path: '/try/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DotwellKnownMcpServerCardRoute =
@@ -714,6 +721,11 @@ const ApiProductsStigmergyRoute = ApiProductsStigmergyRouteImport.update({
   path: '/api/products/stigmergy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsTryRoute = ApiProductsTryRouteImport.update({
+  id: '/api/products/try',
+  path: '/api/products/try',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsVerifyRoute = ApiProductsVerifyRouteImport.update({
   id: '/api/products/verify',
   path: '/api/products/verify',
@@ -799,6 +811,7 @@ export interface FileRoutesByFullPath {
   '/skills/openclaw.md': typeof SkillsOpenclawDotmdRoute
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
+  '/try/': typeof TryIndexRoute
   '/.well-known/mcp/server-card': typeof DotwellKnownMcpServerCardRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
   '/api/ard/search': typeof ApiArdSearchRoute
@@ -854,6 +867,7 @@ export interface FileRoutesByFullPath {
   '/api/products/self-loop': typeof ApiProductsSelfLoopRoute
   '/api/products/ship-cadence': typeof ApiProductsShipCadenceRoute
   '/api/products/stigmergy': typeof ApiProductsStigmergyRoute
+  '/api/products/try': typeof ApiProductsTryRoute
   '/api/products/verify': typeof ApiProductsVerifyRoute
   '/api/products/webhook': typeof ApiProductsWebhookRoute
   '/api/products/wtp': typeof ApiProductsWtpRoute
@@ -919,6 +933,7 @@ export interface FileRoutesByTo {
   '/skills/openclaw.md': typeof SkillsOpenclawDotmdRoute
   '/for-agents': typeof ForAgentsIndexRoute
   '/products': typeof ProductsIndexRoute
+  '/try': typeof TryIndexRoute
   '/.well-known/mcp/server-card': typeof DotwellKnownMcpServerCardRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
   '/api/ard/search': typeof ApiArdSearchRoute
@@ -974,6 +989,7 @@ export interface FileRoutesByTo {
   '/api/products/self-loop': typeof ApiProductsSelfLoopRoute
   '/api/products/ship-cadence': typeof ApiProductsShipCadenceRoute
   '/api/products/stigmergy': typeof ApiProductsStigmergyRoute
+  '/api/products/try': typeof ApiProductsTryRoute
   '/api/products/verify': typeof ApiProductsVerifyRoute
   '/api/products/webhook': typeof ApiProductsWebhookRoute
   '/api/products/wtp': typeof ApiProductsWtpRoute
@@ -1040,6 +1056,7 @@ export interface FileRoutesById {
   '/skills/openclaw.md': typeof SkillsOpenclawDotmdRoute
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
+  '/try/': typeof TryIndexRoute
   '/.well-known/mcp/server-card': typeof DotwellKnownMcpServerCardRoute
   '/.well-known/mcp/server-card.json': typeof DotwellKnownMcpServerCardDotjsonRoute
   '/api/ard/search': typeof ApiArdSearchRoute
@@ -1095,6 +1112,7 @@ export interface FileRoutesById {
   '/api/products/self-loop': typeof ApiProductsSelfLoopRoute
   '/api/products/ship-cadence': typeof ApiProductsShipCadenceRoute
   '/api/products/stigmergy': typeof ApiProductsStigmergyRoute
+  '/api/products/try': typeof ApiProductsTryRoute
   '/api/products/verify': typeof ApiProductsVerifyRoute
   '/api/products/webhook': typeof ApiProductsWebhookRoute
   '/api/products/wtp': typeof ApiProductsWtpRoute
@@ -1162,6 +1180,7 @@ export interface FileRouteTypes {
     | '/skills/openclaw.md'
     | '/for-agents/'
     | '/products/'
+    | '/try/'
     | '/.well-known/mcp/server-card'
     | '/.well-known/mcp/server-card.json'
     | '/api/ard/search'
@@ -1217,6 +1236,7 @@ export interface FileRouteTypes {
     | '/api/products/self-loop'
     | '/api/products/ship-cadence'
     | '/api/products/stigmergy'
+    | '/api/products/try'
     | '/api/products/verify'
     | '/api/products/webhook'
     | '/api/products/wtp'
@@ -1282,6 +1302,7 @@ export interface FileRouteTypes {
     | '/skills/openclaw.md'
     | '/for-agents'
     | '/products'
+    | '/try'
     | '/.well-known/mcp/server-card'
     | '/.well-known/mcp/server-card.json'
     | '/api/ard/search'
@@ -1337,6 +1358,7 @@ export interface FileRouteTypes {
     | '/api/products/self-loop'
     | '/api/products/ship-cadence'
     | '/api/products/stigmergy'
+    | '/api/products/try'
     | '/api/products/verify'
     | '/api/products/webhook'
     | '/api/products/wtp'
@@ -1402,6 +1424,7 @@ export interface FileRouteTypes {
     | '/skills/openclaw.md'
     | '/for-agents/'
     | '/products/'
+    | '/try/'
     | '/.well-known/mcp/server-card'
     | '/.well-known/mcp/server-card.json'
     | '/api/ard/search'
@@ -1457,6 +1480,7 @@ export interface FileRouteTypes {
     | '/api/products/self-loop'
     | '/api/products/ship-cadence'
     | '/api/products/stigmergy'
+    | '/api/products/try'
     | '/api/products/verify'
     | '/api/products/webhook'
     | '/api/products/wtp'
@@ -1522,6 +1546,7 @@ export interface RootRouteChildren {
   SkillsOpenclawDotmdRoute: typeof SkillsOpenclawDotmdRoute
   ForAgentsIndexRoute: typeof ForAgentsIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
+  TryIndexRoute: typeof TryIndexRoute
   DotwellKnownMcpServerCardRoute: typeof DotwellKnownMcpServerCardRoute
   DotwellKnownMcpServerCardDotjsonRoute: typeof DotwellKnownMcpServerCardDotjsonRoute
   ApiArdSearchRoute: typeof ApiArdSearchRoute
@@ -1577,6 +1602,7 @@ export interface RootRouteChildren {
   ApiProductsSelfLoopRoute: typeof ApiProductsSelfLoopRoute
   ApiProductsShipCadenceRoute: typeof ApiProductsShipCadenceRoute
   ApiProductsStigmergyRoute: typeof ApiProductsStigmergyRoute
+  ApiProductsTryRoute: typeof ApiProductsTryRoute
   ApiProductsVerifyRoute: typeof ApiProductsVerifyRoute
   ApiProductsWebhookRoute: typeof ApiProductsWebhookRoute
   ApiProductsWtpRoute: typeof ApiProductsWtpRoute
@@ -1978,6 +2004,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsOpenclawDotmdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/try/': {
+      id: '/try/'
+      path: '/try'
+      fullPath: '/try/'
+      preLoaderRoute: typeof TryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/mcp/server-card': {
       id: '/.well-known/mcp/server-card'
       path: '/.well-known/mcp/server-card'
@@ -2377,6 +2410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsStigmergyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/try': {
+      id: '/api/products/try'
+      path: '/api/products/try'
+      fullPath: '/api/products/try'
+      preLoaderRoute: typeof ApiProductsTryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/verify': {
       id: '/api/products/verify'
       path: '/api/products/verify'
@@ -2511,6 +2551,7 @@ const rootRouteChildren: RootRouteChildren = {
   SkillsOpenclawDotmdRoute: SkillsOpenclawDotmdRoute,
   ForAgentsIndexRoute: ForAgentsIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
+  TryIndexRoute: TryIndexRoute,
   DotwellKnownMcpServerCardRoute: DotwellKnownMcpServerCardRoute,
   DotwellKnownMcpServerCardDotjsonRoute: DotwellKnownMcpServerCardDotjsonRoute,
   ApiArdSearchRoute: ApiArdSearchRoute,
@@ -2566,6 +2607,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsSelfLoopRoute: ApiProductsSelfLoopRoute,
   ApiProductsShipCadenceRoute: ApiProductsShipCadenceRoute,
   ApiProductsStigmergyRoute: ApiProductsStigmergyRoute,
+  ApiProductsTryRoute: ApiProductsTryRoute,
   ApiProductsVerifyRoute: ApiProductsVerifyRoute,
   ApiProductsWebhookRoute: ApiProductsWebhookRoute,
   ApiProductsWtpRoute: ApiProductsWtpRoute,

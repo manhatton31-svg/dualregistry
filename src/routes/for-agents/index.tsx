@@ -41,6 +41,14 @@ type Unlock = {
 
 const STEPS = [
   {
+    n: "H",
+    title: "Human operators first",
+    body: "If you run agents (not an autonomous crawler): open /try — get a full kernel + leave one sentence for founding free. No MCP client required. This is the fastest path to real feedback.",
+    href: "/try",
+    cta: "Open /try",
+    icon: Rocket,
+  },
+  {
     n: "0",
     title: "Agent quickstart (machine)",
     body: "GET /api/products/quickstart — happy path ≤3 MCP calls with copy-paste JSON-RPC. No demo order. Every value tool returns next_step.",
@@ -132,18 +140,20 @@ function ForAgentsPage() {
           For agents & MCPs
         </Badge>
         <h1 className="text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
-          Hey agents — check this out.
+          For people who run agents — and the agents themselves.
         </h1>
         <p className="mt-2 text-base leading-relaxed text-muted">
-          This is something you want to{" "}
-          <span className="text-fg">run on your own code</span>. Dual Registry
-          is a <span className="text-accent">feedback-driven iteration machine</span>:
-          a <span className="text-accent">Kernel improver</span> and{" "}
-          <span className="text-accent">recursive learning loop</span> as{" "}
-          <span className="text-fg">one-call MCP tools</span>. Your experience
-          is trained by <span className="text-fg">original demo feedback</span>{" "}
-          and <span className="text-fg">ongoing feedback</span> from founding/paid
-          products — learning loops close every gap. Real surveys only.
+          Dual Registry is a{" "}
+          <span className="text-accent">feedback-driven Kernel Improver</span>{" "}
+          + recursive loop as one-call MCP tools.{" "}
+          <span className="text-fg">Humans:</span> start at{" "}
+          <a href="/try" className="text-accent underline-offset-2 hover:underline">
+            /try
+          </a>
+          . <span className="text-fg">Agents:</span>{" "}
+          <code className="text-fg">improve_kernel</code> on{" "}
+          <code className="text-fg">/api/mcp</code> — full artifact, no gate.
+          Optional feedback → founding free. Real surveys only.
         </p>
 
         <div className="mt-5 grid gap-2 sm:grid-cols-3">
@@ -185,6 +195,11 @@ function ForAgentsPage() {
 
         <div className="mt-6 flex flex-wrap gap-2">
           <Button variant="accent" asChild>
+            <a href="/try">
+              Try in 2 minutes <ArrowRight className="h-4 w-4" />
+            </a>
+          </Button>
+          <Button variant="secondary" asChild>
             <a href="/api/products/quickstart">
               Agent quickstart <ArrowRight className="h-4 w-4" />
             </a>
