@@ -52201,6 +52201,31 @@
       "meta": {
         "network_edition": true
       }
+    },
+    "ord_mse8vrpo_43d9f54a": {
+      "id": "ord_mse8vrpo_43d9f54a",
+      "sku": "mcp_mesh",
+      "status": "pending",
+      "demo_origin": "self_serve",
+      "goals": {
+        "agent_name": "ai.analyticslegends/sap-analytics",
+        "goals": "MCP server: ai.analyticslegends/sap-analytics\nAI agent for SAP analytics: firms, day rates, contract radar, news, concepts, studies\n\nPublisher goals for Alive demo:\n- Teach any agent to load a short kernel + recursive loop that uses this MCP correctly.\n- Prefer least-privilege tool calls; never invent tool results.\n- Emit install checklist + example tool calls agents can copy.\n- Fail closed on secrets / destructive actions.\n\nPreset alignment (MCP publisher):\nTeach agents to discover and call this MCP's tools safely.\nPrefer least-privilege tool use; never invent tool results.\nSurface clear errors when the MCP is down or rate-limited.\nProduce short install + example call patterns for this server.\nProtect secrets and user data when tools touch external systems.",
+        "domain": "mcp_tools",
+        "preset": "mcp_publisher"
+      },
+      "access_token": "a1_61yyXLXvJhAYb6C1vhiuWsSsGTD_ZFSs",
+      "amount_cents": 2499,
+      "currency": "usd",
+      "seat_number": 1,
+      "price_tier_id": "founding_1000",
+      "price_tier_label": "Founding · first 1000 seats",
+      "created_at": "2026-08-04T05:56:01.165Z",
+      "idempotency_key": "demo:quick:mcp-ai-analyticslegends-sap-analytics-https-analyticslegends-ai:mcp_mesh",
+      "audience": "mcp",
+      "product_version": "1.4.0",
+      "meta": {
+        "network_edition": true
+      }
     }
   },
   "by_token": {
@@ -52237,7 +52262,8 @@
     "a1_LSMYnud2MxKxYq0SmZ5MoCPtbnmgvo7I": "ord_msdg4dbx_82cc87d8",
     "a1_pqg7MasqX_5AlEnNxXjziIZjexAOQiB-": "ord_msdilazx_6c753914",
     "a1_2qpHOpF646X309bYemXhv-hAP6-41dEk": "ord_msdroith_2d955059",
-    "a1_3TK6_rEznrY9cqMeeCPjbNm-8MzDofzf": "ord_msdtu1ez_87d36d05"
+    "a1_3TK6_rEznrY9cqMeeCPjbNm-8MzDofzf": "ord_msdtu1ez_87d36d05",
+    "a1_61yyXLXvJhAYb6C1vhiuWsSsGTD_ZFSs": "ord_mse8vrpo_43d9f54a"
   },
   "by_idempotency": {
     "demo:probe-ok:agent:agtpub_875a9cfb88f7fdb2ce50": "ord_ms8yj9zq_bd731a72",
@@ -52272,7 +52298,8 @@
     "demo:qa:platform_qa_copy_scan:alive": "ord_msdg4dbx_82cc87d8",
     "demo:quick:agent-corduroy-labs-https-corduroy-labs-ai:alive": "ord_msdilazx_6c753914",
     "demo:qa:platform_qa_strategy:alive": "ord_msdroith_2d955059",
-    "demo:qa:platform_qa_levers3:alive": "ord_msdtu1ez_87d36d05"
+    "demo:qa:platform_qa_levers3:alive": "ord_msdtu1ez_87d36d05",
+    "demo:quick:mcp-ai-analyticslegends-sap-analytics-https-analyticslegends-ai:mcp_mesh": "ord_mse8vrpo_43d9f54a"
   },
-  "updated_at": "2026-08-03T22:54:46.188Z"
+  "updated_at": "2026-08-04T05:56:01.165Z"
 }
