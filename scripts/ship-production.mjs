@@ -22,7 +22,9 @@ const TOOLS_VERSION = "3.7.0";
 const AGENT_PATH = "improve_kernel";
 const PRIMARY_KR = "value_to_feedback_same_session_rate";
 const FOUNDING = "real_feedback_no_demo_required";
-const GTM = "human_operators_first";
+const SYSTEM = "collaborative_design_system";
+const CORE = "real_feedback";
+const MUSCLE = ["improve_kernel", "run_loop_tick"];
 const TRY_PATH = "/try";
 
 function sh(cmd, opts = {}) {
@@ -43,7 +45,9 @@ function stamp(sha) {
     agent_path: AGENT_PATH,
     primary_kr: PRIMARY_KR,
     founding: FOUNDING,
-    gtm: GTM,
+    system: SYSTEM,
+    core: CORE,
+    muscle: MUSCLE,
     try_path: TRY_PATH,
     shipped_at: new Date().toISOString(),
     git: sha,

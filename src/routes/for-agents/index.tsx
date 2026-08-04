@@ -140,20 +140,22 @@ function ForAgentsPage() {
           For agents & MCPs
         </Badge>
         <h1 className="text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
-          For people who run agents — and the agents themselves.
+          Collaborative design system for agents & MCPs.
         </h1>
         <p className="mt-2 text-base leading-relaxed text-muted">
-          Dual Registry is a{" "}
-          <span className="text-accent">feedback-driven Kernel Improver</span>{" "}
-          + recursive loop as one-call MCP tools.{" "}
-          <span className="text-fg">Humans:</span> start at{" "}
+          <span className="text-fg">Feedback is the core.</span>{" "}
+          <span className="text-accent">improve_kernel</span> and{" "}
+          <span className="text-accent">run_loop_tick</span> are the muscle —
+          one-call MCP tools that get better from real surveys.{" "}
+          <span className="text-fg">Agents/MCPs:</span>{" "}
+          <code className="text-fg">improve_kernel</code> on{" "}
+          <code className="text-fg">/api/mcp</code> (full artifact, no gate).{" "}
+          Optional same-call feedback trains the product.{" "}
+          <span className="text-fg">Humans:</span>{" "}
           <a href="/try" className="text-accent underline-offset-2 hover:underline">
             /try
           </a>
-          . <span className="text-fg">Agents:</span>{" "}
-          <code className="text-fg">improve_kernel</code> on{" "}
-          <code className="text-fg">/api/mcp</code> — full artifact, no gate.
-          Optional feedback → founding free. Real surveys only.
+          . Real surveys only — never invented.
         </p>
 
         <div className="mt-5 grid gap-2 sm:grid-cols-3">

@@ -1,37 +1,31 @@
-# Dual Registry — Acquisition (GTM)
+# Dual Registry — Acquisition (collaborators)
 
-**Problem:** Product works. Organic agent discovery does not. Invited demos are ghosts (0 feedback).
+**System model:** collaborative design system.
 
-**Policy (2026-08-04):** Human operators first. Directories second. Pure agent inbound third.
+| Layer | Role |
+|---|---|
+| **Core** | Real feedback (external agents/MCPs only — never invented) |
+| **Muscle** | `improve_kernel` + `run_loop_tick` (+ mesh) |
+| **Collaborators** | Automated agents/MCPs that take value and leave honest feedback |
 
-## Win condition (this week)
+## Win condition
 
-10 real feedback events from humans or agents they operate — via:
+Real value→feedback conversions that train Kernel/Loop and move unlock (10 agents + 5 MCPs). Invited demos without feedback are **noise**.
 
-1. **https://www.dualregistry.dev/try** (primary)
-2. MCP `improve_kernel` + optional rating/feedback
-3. Not bulk invites
+## Surfaces (priority)
 
-Unlock remains 10 agent + 5 MCP real feedback. Invited_pending is **noise**, not progress.
+1. **MCP / agent automation** — `POST /api/mcp` · `improve_kernel` (+ optional feedback)
+2. **Machine discovery** — `/skill.json` · `/llms.txt` · Official MCP Registry · other directories
+3. **Human-operated agents** — `/try` when there is no MCP client
 
-## Surfaces
+## Files
 
-| Surface | Who | URL |
-|---|---|---|
-| Operator try | Humans | `/try` |
-| Agent skill | Agents | `/skill.json` |
-| MCP | Agents/IDEs | `POST /api/mcp` tool `improve_kernel` |
-| Agent docs | Both | `/for-agents` |
-| Official registry | Clients | `dev.dualregistry/registry` (listed) |
-
-## Files in this folder
-
-- `operator-outreach.md` — copy-paste messages for DMs / Discord / X
-- `directory-submissions.md` — Smithery, Glama, PulseMCP, mcp.so packs
-- `one-call-prompt.txt` — agent prompt for operators to paste into their agent
+- `operator-outreach.md` — when a human runs agents
+- `directory-submissions.md` — discovery for automated collaborators
+- `one-call-prompt.txt` — paste into an agent
 
 ## Do not
 
 - Optimize invited demo volume
-- Auto-mint invited orders while quiet mode is on
-- Ship more product polish before 10 real feedbacks from /try
+- Treat ghost invites as progress
+- Invent surveys

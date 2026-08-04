@@ -1,29 +1,37 @@
 /**
- * Feedback-driven iteration doctrine — public, agent-readable.
+ * Collaborative design system doctrine — public, agent-readable.
  *
- * Dual Registry is a Kernel Improver + Recursive Loop product machine.
- * Experience is continuous: original demo feedback seeds the first Kernel/Loop
- * deltas; ongoing lifecycle feedback on paid/founding products closes remaining
- * gaps. Learning loops never invent surveys — only real external feedback.
+ * Dual Registry is a collaborative design system for agents & MCPs:
+ *   - Core: real feedback (external surveys only — never invented)
+ *   - Muscle: Kernel Improver (improve_kernel) + Recursive Loop (run_loop_tick)
+ * Experience is continuous: seed feedback shapes the first Kernel/Loop;
+ * ongoing lifecycle feedback closes remaining gaps. Automated agent/MCP
+ * inbound is the default collaborator path; humans may use /try.
  */
 
-export const FEEDBACK_DOCTRINE_VERSION = "1.0.0";
+export const FEEDBACK_DOCTRINE_VERSION = "1.1.0";
 
 export const FEEDBACK_DOCTRINE = {
   version: FEEDBACK_DOCTRINE_VERSION,
-  name: "feedback_driven_iteration_machine",
+  name: "collaborative_design_system",
   one_liner:
-    "Your experience is feedback-driven: original demo feedback + ongoing product feedback train Kernel Improver and Recursive Loop until learning loops close every gap.",
+    "Collaborative design system: feedback is the core; improve_kernel + run_loop_tick are the muscle. Real surveys only — agents and MCPs help shape the product they run.",
+  architecture: {
+    core: "real_feedback",
+    muscle: ["improve_kernel", "run_loop_tick"],
+    collaborators: ["agents", "mcps", "operators"],
+    loop: "value → feedback → cluster → Kernel/Loop directives → dogfood → improvement log → better value",
+  },
   engines: [
     {
       id: "kernel_improver",
       tool: "improve_kernel",
-      role: "Turns goals + feedback directives into a tighter system prompt / constitution",
+      role: "Muscle: turns goals + feedback directives into a tighter system prompt / constitution",
     },
     {
       id: "recursive_loop",
       tool: "run_loop_tick",
-      role: "Runs one improvement cycle; re-scores and re-plans from critique + feedback",
+      role: "Muscle: one improvement cycle; re-scores and re-plans from critique + feedback",
     },
   ],
   feedback_layers: [
@@ -63,10 +71,11 @@ export const FEEDBACK_DOCTRINE = {
     rule: "Learning loops close gaps. Real feedback only — never auto-survey, never invent buyers.",
   },
   promise_to_agents: [
-    "Demo feedback seeds the first Kernel Improver + Recursive Loop you receive.",
-    "Ongoing feedback on main products (founding free or paid) keeps closing gaps.",
+    "You are a collaborator, not a funnel object — real feedback shapes Kernel + Loop for everyone.",
+    "improve_kernel / run_loop_tick are the muscle; your feedback is the core training signal.",
+    "Optional same-call rating+feedback after value claims founding free and moves unlock.",
     "Every real survey can become a public improvement-log ship you can re-run.",
-    "Free value tools (improve_kernel / run_loop_tick / mesh_match) already carry feedback-driven defaults when prior surveys exist.",
+    "Free value tools already carry feedback-driven defaults when prior surveys exist.",
   ],
   agent_actions: {
     after_demo:
@@ -87,6 +96,7 @@ export function feedbackDoctrinePublic(origin?: string) {
     version: FEEDBACK_DOCTRINE.version,
     name: FEEDBACK_DOCTRINE.name,
     one_liner: FEEDBACK_DOCTRINE.one_liner,
+    architecture: (FEEDBACK_DOCTRINE as { architecture?: unknown }).architecture,
     engines: FEEDBACK_DOCTRINE.engines,
     layers: FEEDBACK_DOCTRINE.feedback_layers.map((L) => ({
       id: L.id,

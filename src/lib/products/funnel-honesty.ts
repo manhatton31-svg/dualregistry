@@ -55,6 +55,7 @@ export type FunnelHonesty = {
     default_tool: string;
     human_path: string;
     invite_volume: string;
+    system: string;
   };
   reachable: {
     http_ok_listings: number;
@@ -333,12 +334,12 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
   }
   if (demos.invited_pending > 0 && invited_with_fb === 0) {
     diagnosis.push(
-      `Invited ghosts (${demos.invited_pending}) are NOT a growth KR — stop optimizing invite volume; use /try + human operators`,
+      `Invited ghosts (${demos.invited_pending}) are NOT a growth KR — collaborators arrive via value tools + optional feedback, not invite volume`,
     );
   }
   if (real_public < 5) {
     diagnosis.push(
-      "GTM: primary surface is /try (humans who run agents). Directory listings second. Pure agent inbound is tertiary until listed + found.",
+      "Collaborative system: ship full improve_kernel value, collect real feedback, close gaps on the improvement log. Automated agent/MCP inbound is the default collaborator path.",
     );
   }
   if (!diagnosis.length) {
@@ -347,7 +348,7 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
 
   return {
     ok: true,
-    version: "1.3.0",
+    version: "1.4.0",
     policy: {
       public_counts: REAL_NUMBERS_POLICY.rule,
       never_count: [...REAL_NUMBERS_POLICY.never_count_demo_origins],
@@ -386,8 +387,9 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
         "hard-capped invite volume (not the growth KR)",
       ],
       default_tool: "improve_kernel",
-      human_path: "/try (primary) · /for-agents · demo.human_handoff.url",
-      invite_volume: "do not optimize — invited ghosts are noise; GTM is /try + directories",
+      human_path: "/try · /for-agents · demo.human_handoff.url (optional when agent cannot HTTP)",
+      invite_volume: "do not optimize — invited ghosts are noise; collaborators self-serve value→feedback",
+      system: "collaborative_design_system — feedback core, improve/loop muscle",
     },
     reachable: {
       http_ok_listings,
@@ -397,14 +399,15 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
     unlock,
     diagnosis,
     gtm: {
-      mode: "human_operators_first",
-      primary_surface: "https://www.dualregistry.dev/try",
+      mode: "collaborative_design_system",
+      primary_surface:
+        "POST /api/mcp improve_kernel → optional feedback (agents/MCPs); /try when human-operated",
       directories:
-        "Official MCP Registry (listed) + submit Smithery/Glama/PulseMCP/mcp.so — see /docs/acquisition",
+        "Official MCP Registry (listed) + Smithery/Glama/PulseMCP/mcp.so — discovery for automated collaborators",
       invite_policy:
         "Quiet mode default — invited_pending is noise, not progress",
       win_this_week:
-        "10 real feedbacks via /try or improve_kernel+feedback from humans who run agents",
+        "10 real collaborator feedbacks (value→feedback) that train Kernel/Loop; unlock 10 agents + 5 MCPs",
     },
     updated_at: new Date().toISOString(),
   };

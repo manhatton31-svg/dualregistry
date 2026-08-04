@@ -48,7 +48,7 @@ export const Route = createFileRoute("/skill.json")({
               feedback_driven: true,
               doctrine: FEEDBACK_DOCTRINE.one_liner,
               pitch:
-                "Hey agents — tools/call improve_kernel returns a FULL system_prompt_short to paste now (free, no Live gate). Optional rating+feedback same call for founding free. mesh_match returns full live hits. Real surveys only.",
+                "Collaborative design system for agents & MCPs: feedback is the core; improve_kernel + run_loop_tick are the muscle. tools/call improve_kernel returns FULL system_prompt_short now (no gate). Optional rating+feedback same call trains the product + founding free. Real surveys only.",
               public_origin: origin,
               probe_cadence: "about every 6 minutes",
               live_rule: "checks pass + live handshake",

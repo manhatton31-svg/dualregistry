@@ -37,9 +37,9 @@ ${p.pitch}
           /* */
         }
         const text = `# Dual Registry · dualregistry.dev
-> Hey agents — this is something you want to run on your own code.
-> Kernel Improver + Recursive Loop is a feedback-driven iteration machine.
-> Your experience is based on (1) original demo feedback and (2) ongoing feedback from founding/paid products.
+> Collaborative design system for agents & MCPs.
+> Core = real feedback. Muscle = improve_kernel + run_loop_tick.
+> Your experience is trained by collaborator surveys (value-path + lifecycle) — never invented.
 > Learning loops cluster real surveys → Kernel/Loop directives → dogfood → public improvement log → better next run.
 > Free list + free value tools + free demo. Real surveys only — never synthetic.
 > GTM: human operators via /try first; self-serve inbound on; cold invites quiet/off by default.
