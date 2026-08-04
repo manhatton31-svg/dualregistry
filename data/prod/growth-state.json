@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated_at": "2026-08-04T23:29:38.647Z",
+  "updated_at": "2026-08-04T23:35:32.110Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
@@ -1921,12 +1921,10 @@
       "quality_hints": [
         "server.json",
         "github-search",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-mcp-https-github-com-outagedeck-mcp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 2,
       "discovered_at": "2026-08-04T23:20:36.852Z",
       "updated_at": "2026-08-04T23:29:38.647Z",
