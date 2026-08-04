@@ -49,6 +49,10 @@ export type InterestContact = {
   channel: "soft_http";
   name: string;
   kind: string;
+  /** Persist so Interest Closer can re-target without rediscovery */
+  remote_url?: string;
+  website?: string;
+  repository?: string;
 };
 
 export type InterestScoutState = {
@@ -926,6 +930,9 @@ export async function runInterestScout(opts?: {
           channel: "soft_http",
           name: c.name,
           kind: c.kind,
+          remote_url: c.remote_url,
+          website: c.website,
+          repository: c.repository,
         };
         samples.push({
           key: c.key,
@@ -945,6 +952,9 @@ export async function runInterestScout(opts?: {
           channel: "soft_http",
           name: c.name,
           kind: c.kind,
+          remote_url: c.remote_url,
+          website: c.website,
+          repository: c.repository,
         };
         errors.push(
           `${c.name}: ${del.error || "send_failed"}`.slice(0, 100),

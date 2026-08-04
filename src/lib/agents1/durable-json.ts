@@ -44,6 +44,7 @@ const REMOTE_DENY_DEFAULT = new Set([
 const PER_FILE_MIN_MS: Record<string, number> = {
   "growth-scout.json": 60_000,
   "interest-scout.json": 60_000,
+  "interest-closer.json": 60_000,
   "platform-cost.json": 120_000,
   "agent-runs.json": 120_000,
   "counter-floors.json": 180_000,
