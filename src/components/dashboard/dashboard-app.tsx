@@ -256,6 +256,7 @@ type DashboardData = {
 
   hero?: {
     version?: string;
+    feedback_source?: string;
     live?: number;
     live_mcp?: number;
     live_agents?: number;
@@ -271,6 +272,10 @@ type DashboardData = {
     feedback_mcps?: number;
     unlock_agents?: number;
     unlock_mcps?: number;
+    unlock_agents_target?: number;
+    unlock_mcps_target?: number;
+    unlock_agents_progress?: number;
+    unlock_mcps_progress?: number;
     outcomes?: number;
     network_o?: number | null;
     updated_at?: string;
@@ -452,13 +457,61 @@ function useLiveData() {
             const b = prev.hero;
             if (!a) return b;
             if (!b) return a;
-            const hs = (h: NonNullable<DashboardData["hero"]>) =>
-              Number(h.live || 0) * 1e6 +
-              Number(h.probes_today || 0) * 1e3 +
-              Number(h.agent_events_today || 0) * 100 +
-              Number(h.feedback_real || 0) * 10 +
-              Number(h.outcomes || 0);
-            return hs(a) >= hs(b) ? a : b;
+            const n = (x: unknown) => {
+              const v = Number(x);
+              return Number.isFinite(v) ? v : 0;
+            };
+            const maxN = (x: unknown, y: unknown) => Math.max(n(x), n(y));
+            const live_mcp = maxN(a.live_mcp, b.live_mcp);
+            const live_agents = maxN(a.live_agents, b.live_agents);
+            const feedback_agents = maxN(a.feedback_agents, b.feedback_agents);
+            const feedback_mcps = maxN(a.feedback_mcps, b.feedback_mcps);
+            const feedback_real = Math.max(
+              maxN(a.feedback_real, b.feedback_real),
+              feedback_agents + feedback_mcps,
+            );
+            const unlock_agents_target =
+              maxN(
+                a.unlock_agents_target ?? a.unlock_agents,
+                b.unlock_agents_target ?? b.unlock_agents,
+              ) || 10;
+            const unlock_mcps_target =
+              maxN(
+                a.unlock_mcps_target ?? a.unlock_mcps,
+                b.unlock_mcps_target ?? b.unlock_mcps,
+              ) || 5;
+            return {
+              ...b,
+              ...a,
+              live: live_mcp + live_agents || maxN(a.live, b.live),
+              live_mcp,
+              live_agents,
+              probes_today: maxN(a.probes_today, b.probes_today),
+              probes_agents: maxN(a.probes_agents, b.probes_agents),
+              probes_mcps: maxN(a.probes_mcps, b.probes_mcps),
+              agent_events_today: maxN(
+                a.agent_events_today,
+                b.agent_events_today,
+              ),
+              agent_events_free: maxN(a.agent_events_free, b.agent_events_free),
+              agent_events_paid: maxN(a.agent_events_paid, b.agent_events_paid),
+              feedback_real,
+              feedback_agents,
+              feedback_mcps,
+              unlock_agents: unlock_agents_target,
+              unlock_mcps: unlock_mcps_target,
+              unlock_agents_target,
+              unlock_mcps_target,
+              unlock_agents_progress: feedback_agents,
+              unlock_mcps_progress: feedback_mcps,
+              outcomes: maxN(a.outcomes, b.outcomes),
+              feedback_source:
+                a.feedback_source === "funnel_honesty" ||
+                b.feedback_source === "funnel_honesty" ||
+                feedback_real > 0
+                  ? "funnel_honesty"
+                  : a.feedback_source || b.feedback_source,
+            };
           })(),
         };
       });
@@ -508,15 +561,21 @@ export function DashboardApp() {
 
   const lanes = data?.listing_lanes;
   const pe = data?.product_engagement;
-  const fbAgents = pe?.feedback_agent_only ?? 0;
-  const fbMcps = pe?.feedback_mcps ?? 0;
-  const unlockAgents = 10;
-  const unlockMcps = 5;
+  const heroEarly = data?.hero;
+  const fbAgents =
+    heroEarly?.feedback_agents ?? pe?.feedback_agent_only ?? 0;
+  const fbMcps = heroEarly?.feedback_mcps ?? pe?.feedback_mcps ?? 0;
+  const unlockAgents = heroEarly?.unlock_agents_target ?? 10;
+  const unlockMcps = heroEarly?.unlock_mcps_target ?? 5;
 
-  const liveMcp = lanes?.counts?.mcp_active ?? null;
-  const liveAgents = lanes?.counts?.agents_active ?? null;
+  const liveMcp =
+    heroEarly?.live_mcp ?? lanes?.counts?.mcp_active ?? null;
+  const liveAgents =
+    heroEarly?.live_agents ?? lanes?.counts?.agents_active ?? null;
   const liveTotal =
-    liveMcp != null && liveAgents != null ? liveMcp + liveAgents : null;
+    liveMcp != null && liveAgents != null
+      ? liveMcp + liveAgents
+      : heroEarly?.live ?? null;
 
   const platformCost = data?.platform_cost;
   const agentRuns = data?.agent_runs;
@@ -719,7 +778,7 @@ export function DashboardApp() {
           <StatCard
             label="Real feedback"
             value={feedbackReal != null ? feedbackReal : "—"}
-            hint={`${feedbackAgentsH ?? 0} agents · ${feedbackMcpsH ?? 0} MCP · unlock ${unlockAgents}+${unlockMcps}`}
+            hint={`${feedbackAgentsH ?? 0}/${hero?.unlock_agents_target ?? unlockAgents} agents · ${feedbackMcpsH ?? 0}/${hero?.unlock_mcps_target ?? unlockMcps} MCP unlock`}
             icon={MessageSquare}
             accent="warn"
           />

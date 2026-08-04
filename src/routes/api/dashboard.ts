@@ -265,7 +265,76 @@ function scoreLanes(v: unknown): number {
   return mcp + ag;
 }
 
+/** Field-level high-water merge — never freeze zeros when live is off by 1. */
+function mergeHero(incoming: unknown, prev: unknown): Record<string, unknown> | null {
+  if (incoming == null && prev == null) return null;
+  if (incoming == null) return (prev as Record<string, unknown>) || null;
+  if (prev == null) return (incoming as Record<string, unknown>) || null;
+  const a = incoming as Record<string, unknown>;
+  const b = prev as Record<string, unknown>;
+  const maxN = (x: unknown, y: unknown) => Math.max(num(x), num(y));
+  // Prefer funnel_honesty when either side has real feedback counts
+  const preferFh =
+    a.feedback_source === "funnel_honesty" ||
+    b.feedback_source === "funnel_honesty" ||
+    maxN(a.feedback_real, b.feedback_real) > 0;
+  const live_mcp = maxN(a.live_mcp, b.live_mcp);
+  const live_agents = maxN(a.live_agents, b.live_agents);
+  const feedback_agents = maxN(a.feedback_agents, b.feedback_agents);
+  const feedback_mcps = maxN(a.feedback_mcps, b.feedback_mcps);
+  const feedback_real = Math.max(
+    maxN(a.feedback_real, b.feedback_real),
+    feedback_agents + feedback_mcps,
+  );
+  const unlock_agents_target = maxN(
+    a.unlock_agents_target ?? a.unlock_agents,
+    b.unlock_agents_target ?? b.unlock_agents,
+  ) || 10;
+  const unlock_mcps_target = maxN(
+    a.unlock_mcps_target ?? a.unlock_mcps,
+    b.unlock_mcps_target ?? b.unlock_mcps,
+  ) || 5;
+  // Prefer newer updated_at for metadata, but high-water counters
+  const aAt = String(a.updated_at || "");
+  const bAt = String(b.updated_at || "");
+  const newer = aAt >= bAt ? a : b;
+  return {
+    ...b,
+    ...a,
+    version: a.version || b.version || "1.3.0",
+    feedback_source: preferFh
+      ? "funnel_honesty"
+      : a.feedback_source || b.feedback_source || "engagement",
+    live: live_mcp + live_agents || maxN(a.live, b.live),
+    live_mcp,
+    live_agents,
+    probes_today: maxN(a.probes_today, b.probes_today),
+    probes_agents: maxN(a.probes_agents, b.probes_agents),
+    probes_mcps: maxN(a.probes_mcps, b.probes_mcps),
+    agent_events_today: maxN(a.agent_events_today, b.agent_events_today),
+    agent_events_free: maxN(a.agent_events_free, b.agent_events_free),
+    agent_events_paid: maxN(a.agent_events_paid, b.agent_events_paid),
+    agent_events_refills: maxN(a.agent_events_refills, b.agent_events_refills),
+    feedback_real,
+    feedback_agents,
+    feedback_mcps,
+    unlock_agents: unlock_agents_target,
+    unlock_mcps: unlock_mcps_target,
+    unlock_agents_target,
+    unlock_mcps_target,
+    unlock_agents_progress: feedback_agents,
+    unlock_mcps_progress: feedback_mcps,
+    outcomes: maxN(a.outcomes, b.outcomes),
+    network_o: a.network_o ?? b.network_o ?? null,
+    demos_invited_pending: maxN(a.demos_invited_pending, b.demos_invited_pending),
+    demos_self_serve: maxN(a.demos_self_serve, b.demos_self_serve),
+    demos_real_public: maxN(a.demos_real_public, b.demos_real_public),
+    updated_at: newer.updated_at || a.updated_at || b.updated_at,
+  };
+}
+
 function scoreHero(v: unknown): number {
+  // Kept for debug only; sticky uses mergeHero
   const o = v as {
     live?: number;
     probes_today?: number;
@@ -309,11 +378,7 @@ function applySticky(side: SidePanels): SidePanels {
       prev?.growth_scout as object,
       scoreScout,
     ),
-    hero: stickyPanel(
-      side.hero as object,
-      prev?.hero as object,
-      scoreHero,
-    ),
+    hero: mergeHero(side.hero, prev?.hero),
   };
   // Only store when we have at least one real ops panel
   if (
@@ -479,7 +544,8 @@ async function attachSidePanels(
         const { getFunnelHonesty } = await import(
           "@/lib/products/funnel-honesty"
         );
-        return await withTimeout(getFunnelHonesty(), Math.min(t, 1000));
+        // Honesty is the KR source of truth — give it room on soft polls
+        return await withTimeout(getFunnelHonesty(), Math.max(t, 2500));
       } catch {
         return null;
       }
@@ -574,14 +640,58 @@ async function attachSidePanels(
       feedback_mcps?: number;
       feedback_agents?: number;
     } | null;
-    const fh = funnelHonesty as {
+    let fh = funnelHonesty as {
       feedback?: {
         real_public?: number;
         real_agents?: number;
         real_mcps?: number;
       };
       demos?: { invited_pending?: number; self_serve?: number; real_public?: number };
+      unlock?: {
+        feedback_agents?: number;
+        feedback_mcps?: number;
+        target_agents?: number;
+        target_mcps?: number;
+      };
     } | null;
+
+    // Fast fallback if funnel honesty timed out — never show 0 when store has real surveys
+    if (!fh?.feedback) {
+      try {
+        const { listFeedback } = await import("@/lib/products/feedback");
+        const { isRealFeedback, isTestAgentName } = await import(
+          "@/lib/products/authenticity"
+        );
+        const fb = await withTimeout(listFeedback(100), 1500);
+        if (fb?.items) {
+          let real_agents = 0;
+          let real_mcps = 0;
+          for (const f of fb.items) {
+            if (isTestAgentName(f.agent_name)) continue;
+            if (!isRealFeedback(f as Parameters<typeof isRealFeedback>[0]))
+              continue;
+            const aud =
+              (f as { audience?: string }).audience === "mcp" ||
+              String((f as { sku?: string }).sku || "").includes("mcp")
+                ? "mcp"
+                : "agent";
+            if (aud === "mcp") real_mcps++;
+            else real_agents++;
+          }
+          fh = {
+            ...(fh || {}),
+            feedback: {
+              real_public: real_agents + real_mcps,
+              real_agents,
+              real_mcps,
+            },
+          };
+        }
+      } catch {
+        /* keep null */
+      }
+    }
+
     const feedback_agents = Number(
       fh?.feedback?.real_agents ??
         pe?.feedback_agent_only ??
@@ -595,13 +705,19 @@ async function attachSidePanels(
       fh?.feedback?.real_public ?? feedback_agents + feedback_mcps,
     );
 
+    // Payment unlock gate is 10 agents + 5 MCPs (not network-scale 250)
+    const unlock_agents_target = Number(
+      fh?.unlock?.target_agents || 10,
+    );
+    const unlock_mcps_target = Number(fh?.unlock?.target_mcps || 5);
+
     const outcomes = Number(
       (outcomesLite as { totals?: { outcomes?: number } } | null)?.totals
         ?.outcomes || 0,
     );
 
     hero = {
-      version: "1.2.0",
+      version: "1.3.0",
       feedback_source: fh?.feedback ? "funnel_honesty" : "engagement",
       demos_invited_pending: Number(fh?.demos?.invited_pending || 0),
       demos_self_serve: Number(fh?.demos?.self_serve || 0),
@@ -619,8 +735,12 @@ async function attachSidePanels(
       feedback_real,
       feedback_agents,
       feedback_mcps,
-      unlock_agents: 250,
-      unlock_mcps: 250,
+      unlock_agents: unlock_agents_target,
+      unlock_mcps: unlock_mcps_target,
+      unlock_agents_target,
+      unlock_mcps_target,
+      unlock_agents_progress: feedback_agents,
+      unlock_mcps_progress: feedback_mcps,
       outcomes,
       network_o: null,
       updated_at: new Date().toISOString(),

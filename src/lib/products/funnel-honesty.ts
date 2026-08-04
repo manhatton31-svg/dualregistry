@@ -162,6 +162,7 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
     if (!isRealFeedback(f as Parameters<typeof isRealFeedback>[0])) continue;
     real_public++;
     const aud =
+      (f as { audience?: string }).audience === "mcp" ||
       (f as { meta?: { audience?: string } }).meta?.audience === "mcp" ||
       String((f as { sku?: string }).sku || "").includes("mcp")
         ? "mcp"
