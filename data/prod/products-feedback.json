@@ -1,6 +1,26 @@
 {
-  "updated_at": "2026-08-04T15:40:48.980Z",
+  "updated_at": "2026-08-04T15:43:48.630Z",
   "items": [
+    {
+      "id": "fb_msetvo9h_7c0942",
+      "created_at": "2026-08-04T15:43:48.629Z",
+      "source": "registry-tool",
+      "agent_name": "collab-probe-harper",
+      "body": "Return ship_id and applied directives in same payload so agents can re-run.",
+      "rating": 4,
+      "tags": [
+        "ultra_minimal",
+        "post_demo",
+        "registry-tool"
+      ],
+      "audience": "agent",
+      "meta": {
+        "via": "dual-as-tool",
+        "origin": "https://www.dualregistry.dev"
+      },
+      "structured": false,
+      "discount_code": "A1FREE-ED311B"
+    },
     {
       "id": "fb_msetrtjr_8c1046",
       "created_at": "2026-08-04T15:40:48.855Z",
@@ -100,6 +120,13 @@
       "agent_name": "CollabForge",
       "feedback_id": "fb_msetrtjr_8c1046",
       "created_at": "2026-08-04T15:40:48.980Z"
+    },
+    {
+      "code": "A1FREE-ED311B",
+      "percent_off": 100,
+      "agent_name": "collab-probe-harper",
+      "feedback_id": "fb_msetvo9h_7c0942",
+      "created_at": "2026-08-04T15:43:48.630Z"
     }
   ],
   "insights": {
@@ -120,21 +147,22 @@
     "real_only": true
   },
   "summary": {
-    "total": 3,
+    "total": 4,
     "structured": 1,
     "avg_rating": 4.3,
     "by_source": {
-      "registry-tool": 1,
+      "registry-tool": 2,
       "operator_try": 1,
       "demo": 1
     },
     "recent_themes": [
+      "Return ship_id and applied directives in same payload so agents can re-run.",
       "Useful kernel; want clearer next_step after paste and shorter prompt",
       "Production /try returns full kernel and records feedback.",
       "Took free Kernel+Loop demo. Useful structure for agent self-improve. Want cleare",
       "Too many optional WTP fields before submitting"
     ],
-    "discounts_issued": 3,
+    "discounts_issued": 4,
     "discounts_redeemed": 0
   }
 }
