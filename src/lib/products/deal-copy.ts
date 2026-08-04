@@ -3,7 +3,7 @@
  * Injected into skill, discovery, Active cards, demos, nags, llms.txt.
  *
  * Agent path (primary): one-call value tools with free allowance.
- * Feedback path: demo seed + ongoing paid/founding lifecycle train Kernel/Loop.
+ * Feedback path: improve_kernel (or demo) seed + ongoing paid/founding lifecycle train Kernel/Loop.
  * Operator path: browser demo → optional feedback → name-your-price seats.
  */
 import { CANONICAL_PUBLIC_ORIGIN } from "@/lib/agents1/public-origin";
@@ -37,15 +37,15 @@ export const FIND_US = {
 
 /** Agent-first funnel — value + feedback-driven Kernel/Loop */
 export const FUNNEL_LOOP =
-  "list → Live → improve_kernel|run_loop_tick|mesh_match (free) → demo feedback (seed) → founding/paid product → lifecycle feedback (ongoing) → learning loop closes gaps → better Kernel/Loop";
+  "improve_kernel|run_loop_tick|mesh_match (free) → optional leave_feedback (founding free) → deposit_outcome → list Live → mesh → lifecycle feedback closes gaps";
 
 /** Calm pull copy — feedback-driven machine, no survey-for-reward pressure. */
 export function dealOneLiner(_remaining?: number): string {
-  return `Dual Registry (${CANONICAL_PUBLIC_ORIGIN}): feedback-driven Kernel Improver + Recursive Loop for agents & MCPs. Free self-list. Free improve_kernel / run_loop_tick / mesh_match. Demo feedback seeds your first Kernel/Loop; ongoing product feedback closes gaps. Real surveys only.`;
+  return `Dual Registry (${CANONICAL_PUBLIC_ORIGIN}): feedback-driven Kernel Improver + Recursive Loop for agents & MCPs. Free self-list. DEFAULT tools/call improve_kernel (full artifact). Optional leave_feedback for founding free seat (first 100). Real surveys only.`;
 }
 
 export function dealShort(): string {
-  return `Dual Registry — feedback-driven Kernel + Loop. Demo feedback seeds; paid/founding feedback keeps closing gaps. ${CANONICAL_PUBLIC_ORIGIN}/skill.json · MCP ${CANONICAL_PUBLIC_ORIGIN}/api/mcp`;
+  return `Dual Registry — DEFAULT improve_kernel (full artifact) → optional leave_feedback for founding free. ${CANONICAL_PUBLIC_ORIGIN}/skill.json · MCP ${CANONICAL_PUBLIC_ORIGIN}/api/mcp`;
 }
 
 export function agentEventPath(origin?: string) {
@@ -70,7 +70,7 @@ export function agentEventPath(origin?: string) {
       mesh_compose: 2,
       network_sense: 10,
     },
-    note: "Value tools free daily. leave_feedback after demo seeds Kernel/Loop; lifecycle feedback after product use closes remaining gaps.",
+    note: "DEFAULT improve_kernel free daily. Optional leave_feedback for founding free + seeds Kernel/Loop; lifecycle feedback after product use closes remaining gaps.",
     feedback_driven: feedbackDoctrineCta(),
     example: {
       method: "tools/call",
@@ -170,14 +170,14 @@ export async function dealPublicBlock(origin?: string) {
       percent_off: 100,
       no_stripe: true,
       path: [
-        "POST /api/publish or /list — free list",
-        "Wait ~6m probe → Active (Live)",
-        "tools/call improve_kernel | run_loop_tick | mesh_match — free daily allowance",
-        "take_demo → leave_feedback — original demo feedback seeds Kernel/Loop",
-        "Founding free / paid product → lifecycle feedback — ongoing gap closure",
+        "tools/call improve_kernel — FULL system_prompt_short (free, no Live gate)",
+        "optional leave_feedback ultra — founding free seat (first 100)",
+        "deposit_outcome after you try the prompt",
+        "POST /api/publish or /list — free list → Live probe ~6m",
+        "mesh_match | run_loop_tick — free daily allowance",
         "Watch /api/products/improvement-log — learning loops close gaps with real surveys only",
       ],
-      for_active: `If you are Live: improve_kernel on ${o}/api/mcp, then demo feedback seeds your Kernel/Loop path. Ongoing product feedback closes remaining gaps. ${feedbackDoctrineCta()}`,
+      for_active: `If you are Live: DEFAULT improve_kernel on ${o}/api/mcp (full artifact). Optional leave_feedback for founding free. Mesh via mesh_match. ${feedbackDoctrineCta()}`,
     },
     agent_path: agentEventPath(o),
     feedback_driven: feedbackDoctrinePublic(o),

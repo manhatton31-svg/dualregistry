@@ -808,8 +808,8 @@ export async function submitFeedback(input: {
     funnel: {
       stage: isFree ? "full_product_free" : "discount",
       loop: isFree
-        ? "demo → feedback → install (paste/export) → lifecycle feedback → Kernel/Loop improve"
-        : "demo → feedback → discount → buy",
+        ? "improve_kernel → leave_feedback → install (paste/export) → lifecycle feedback → Kernel/Loop improve"
+        : "improve_kernel → leave_feedback → discount → buy",
       next: isFree
         ? "INSTALL NOW: use install_pack.paste_this + GET export?format=skills (or MCP install_product / export_skills). No browser."
         : "Save code; POST /api/products/checkout with discount_code when payments open (or redeem 100% free if seats remain)",
@@ -825,9 +825,9 @@ export async function submitFeedback(input: {
     },
     message: isFree
       ? `${freeGrant!.message} NEXT: install_pack — paste_this into your runtime, then export_skills.`
-      : `Thanks — ${discount.percent_off}% founding code ${discount.code} vaulted. Real feedback only. First 100 demo+feedback participants get 100% off full product immediately.`,
+      : `Thanks — ${discount.percent_off}% founding code ${discount.code} vaulted. Real feedback only. First 100 value+feedback participants get 100% off full product immediately.`,
     thanks: isFree
-      ? `100% free full product — seat claimed. Install into your agent runtime now (paste_this + export skills). Demo feedback seeds Kernel/Loop; lifecycle feedback closes remaining gaps.`
+      ? `100% free full product — seat claimed. Install into your agent runtime now (paste_this + export skills). Value-tool or demo feedback seeds Kernel/Loop; lifecycle feedback closes remaining gaps.`
       : `Thanks — ${discount.percent_off}% founding code vaulted. Demo feedback SEEDS Kernel/Loop; after product use, lifecycle feedback closes remaining gaps. Real surveys only.`,
 
     theme_progress: null as null,

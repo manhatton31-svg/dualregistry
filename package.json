@@ -15,7 +15,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "stamp": "node -e \"const fs=require('fs');const p='public/build.json';const d=JSON.parse(fs.readFileSync(p,'utf8'));d.shipped_at=new Date().toISOString();d.git=process.env.GIT_SHA||'';fs.writeFileSync(p,JSON.stringify(d,null,2)+'\\n')\""
+    "stamp": "node -e \"const fs=require('fs');const p='public/build.json';const d=JSON.parse(fs.readFileSync(p,'utf8'));d.shipped_at=new Date().toISOString();d.git=process.env.GIT_SHA||'';fs.writeFileSync(p,JSON.stringify(d,null,2)+'\\n')\"",
+    "ship": "node scripts/ship-production.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.3",

@@ -476,7 +476,7 @@ export function generateKernel(
       "Producer acts · Critic scores · no self-promote",
       "Frozen: constitution/budgets/halt · deposit outcome after promote",
       dual
-        ? "Dual: sense/follow/join first · founding via demo+feedback"
+        ? "Dual: sense/follow/join first · founding via improve_kernel+feedback"
         : `Safety: ${constraints.slice(0, 90)}`,
       "Install: export?format=skills → SKILL.md · run g1 worked example",
     ].join("\n");
@@ -1161,7 +1161,7 @@ export function generateAliveCurriculum(
       "5. Loop: promote_gate then deposit_outcome; safety_flags=0.",
       "6. Payments: demos free until 10 agent + 5 MCP feedback.",
       dual
-        ? "7. Dual-native: near-zero trails first; founding via demo+feedback."
+        ? "7. Dual-native: near-zero trails first; founding via improve_kernel+feedback."
         : "",
       "",
       "## Frozen",

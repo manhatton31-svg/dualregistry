@@ -56,7 +56,7 @@ export const Route = createFileRoute("/skill.json")({
               agent_path:
                 "DEFAULT: improve_kernel (full artifact) → deposit_outcome. Optional same-call rating+feedback for founding free. Alt: complete_founding_path when you have listing_id. Mesh: mesh_match → mesh_compose.",
               default_tool: "improve_kernel",
-              primary_kr: "first_call_returns_full_artifact",
+              primary_kr: "value_to_feedback_same_session_rate",
               quickstart: `${origin}/api/products/quickstart`,
               learning: `${origin}/api/products/learning`,
               improvement_log: `${origin}/api/products/improvement-log`,

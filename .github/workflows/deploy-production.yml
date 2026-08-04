@@ -1,6 +1,9 @@
-# Deploy dualregistry to Vercel production.
-# Requires secrets: VERCEL_TOKEN
-# Optional: VERCEL_ORG_ID, VERCEL_PROJECT_ID (defaults match .vercel/project.json)
+# One-cadence production ship for dualregistry.
+# Identity chain: git SHA → public/build.json → GH release deploy-src-* → Vercel production
+#
+# Prefer VERCEL_TOKEN in repo secrets so push-to-main auto-deploys.
+# Without it, this workflow still stamps + publishes a source release so the
+# Vercel connector can deploy the exact same tree (no secret required there).
 name: Deploy production
 
 on:
@@ -26,6 +29,9 @@ concurrency:
   group: deploy-production
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -40,16 +46,16 @@ jobs:
           node-version: "22"
           cache: npm
 
-      - name: Stamp build identity
+      - name: Stamp build identity (same SHA as this commit)
+        id: stamp
         run: |
           python3 - <<'PY'
-          import json, subprocess
+          import json, subprocess, os
           from datetime import datetime, timezone
           from pathlib import Path
           sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
           p = Path("public/build.json")
-          d = json.loads(p.read_text()) if p.exists() else {}
-          d.update({
+          d = {
             "name": "dualregistry",
             "tools_version": "3.7.0",
             "agent_path": "improve_kernel",
@@ -57,31 +63,86 @@ jobs:
             "founding": "real_feedback_no_demo_required",
             "git": sha,
             "shipped_at": datetime.now(timezone.utc).isoformat(),
-          })
+            "deploy_channel": "git_main_plus_release_plus_vercel",
+            "github_run_id": os.environ.get("GITHUB_RUN_ID", ""),
+          }
           p.parent.mkdir(parents=True, exist_ok=True)
           p.write_text(json.dumps(d, indent=2) + "\n")
-          print(d)
+          print(json.dumps(d, indent=2))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+            f.write(f"sha={sha}\n")
+            f.write(f"short={sha[:7]}\n")
           PY
 
+      - name: Package source tarball
+        id: pack
+        run: |
+          set -euo pipefail
+          TAG="deploy-src-${{ github.run_id }}"
+          SHORT="${{ steps.stamp.outputs.short }}"
+          TGZ="/tmp/dualregistry-${SHORT}.tgz"
+          tar -czf "$TGZ" \
+            --exclude=./node_modules \
+            --exclude=./.git \
+            --exclude=./.vercel \
+            --exclude=./data \
+            --exclude=./dist \
+            --exclude=./.output \
+            --exclude=./.nitro \
+            --exclude=./.tanstack \
+            --exclude=./screenshots \
+            .
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "tgz=$TGZ" >> "$GITHUB_OUTPUT"
+          ls -lh "$TGZ"
+
+      - name: Publish source release (always — same cadence identity)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.pack.outputs.tag }}"
+          TGZ="${{ steps.pack.outputs.tgz }}"
+          SHA="${{ steps.stamp.outputs.sha }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$TGZ" --clobber
+          else
+            gh release create "$TAG" "$TGZ" \
+              --title "Production source $TAG" \
+              --notes "Shipped git $SHA — tools 3.7.0, improve_kernel primary, KR value_to_feedback_same_session_rate. Commit + release + deploy share this identity."
+          fi
+          echo "Release: https://github.com/${{ github.repository }}/releases/tag/$TAG"
+
+      - name: Detect Vercel token
+        id: vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -n "${VERCEL_TOKEN:-}" ]; then
+            echo "has_token=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_token=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::VERCEL_TOKEN not in repo secrets — release ${{ steps.pack.outputs.tag }} published for SHA ${{ steps.stamp.outputs.sha }}. Finish production deploy via Vercel connector unpacking that release so git+release+prod stay on one build."
+          fi
+
       - name: Install Vercel CLI
+        if: steps.vercel.outputs.has_token == 'true'
         run: npm i -g vercel@latest
 
       - name: Pull Vercel project settings
+        if: steps.vercel.outputs.has_token == 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           set -euo pipefail
-          if [ -z "${VERCEL_TOKEN:-}" ]; then
-            echo "::error::VERCEL_TOKEN secret missing — add under repo Settings → Secrets so git main and production stay on one cadence"
-            exit 1
-          fi
           export VERCEL_ORG_ID="${VERCEL_ORG_ID:-team_YY4Cuwg6dmgWa9eNW0aFAvjV}"
           export VERCEL_PROJECT_ID="${VERCEL_PROJECT_ID:-prj_VTVGpU2Adqtu9oR7UwyIua87EAZ1}"
           vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
 
       - name: Build
+        if: steps.vercel.outputs.has_token == 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -92,6 +153,7 @@ jobs:
           vercel build --prod --token="$VERCEL_TOKEN"
 
       - name: Deploy prebuilt to production
+        if: steps.vercel.outputs.has_token == 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -101,4 +163,3 @@ jobs:
           export VERCEL_PROJECT_ID="${VERCEL_PROJECT_ID:-prj_VTVGpU2Adqtu9oR7UwyIua87EAZ1}"
           url=$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
           echo "Deployed: $url"
-          echo "url=$url" >> "$GITHUB_OUTPUT"
