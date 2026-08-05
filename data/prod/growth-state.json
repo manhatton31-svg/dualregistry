@@ -1,12 +1,12 @@
 {
   "version": 3,
-  "updated_at": "2026-08-05T02:48:45.852Z",
+  "updated_at": "2026-08-05T02:50:14.654Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
-    "running": true,
-    "next_run_at": "2026-08-05T02:48:34.516Z",
-    "last_run_at": "2026-08-05T02:42:34.516Z"
+    "running": false,
+    "next_run_at": "2026-08-05T02:39:45.845Z",
+    "last_run_at": "2026-08-05T00:30:31.946Z"
   },
   "kv": {
     "day": "2026-08-05",
@@ -15,7 +15,7 @@
     "hard_stop": false
   },
   "totals": {
-    "discovered": 23573,
+    "discovered": 22595,
     "submitted": 0,
     "approved": 0,
     "duplicates": 0,
@@ -25,121 +25,145 @@
   "candidates": [
     {
       "kind": "mcp",
-      "name": "ai.mcpanalytics/analytics · r3",
-      "description": "The statistical analyst in your AI chat — validated, citable, re-runnable analysis of your data.",
-      "repository": "https://github.com/embeddedlayers/mcp-analytics",
-      "website": "https://api.mcpanalytics.ai/mcp/discover",
-      "remote_url": "https://api.mcpanalytics.ai/mcp/discover",
+      "name": "ai.buron/buron",
+      "description": "Marketing-measurement MCP: dashboards, cross-channel queries, integrations, and knowledge files.",
+      "website": "https://buron.ai",
+      "remote_url": "https://app.buron.ai/api/mcp",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
-      "id": "mcp-ai-mcpanalytics-analytics-r3-https-github-com-embeddedlayers-mcp-analytics",
-      "status": "rejected",
+      "id": "mcp-ai-buron-buron-https-buron-ai",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
-      "name": "ai.mcpanalytics/analytics · r1",
-      "description": "The statistical analyst in your AI chat — validated, citable, re-runnable analysis of your data.",
-      "repository": "https://github.com/embeddedlayers/mcp-analytics",
-      "website": "https://api.mcpanalytics.ai/mcp/api-key",
-      "remote_url": "https://api.mcpanalytics.ai/mcp/api-key",
+      "name": "ai.bowmark/bowmark",
+      "description": "Pre-computed navigation recipes for public websites — skip explore-and-discover.",
+      "repository": "https://github.com/Metroxe/bowmark",
+      "website": "https://bowmark.ai",
+      "remote_url": "https://api.bowmark.ai/mcp?s=r",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
-      "id": "mcp-ai-mcpanalytics-analytics-r1-https-github-com-embeddedlayers-mcp-analytics",
-      "status": "rejected",
+      "id": "mcp-ai-bowmark-bowmark-https-github-com-metroxe-bowmark",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
-      "name": "ai.mcpanalytics/analytics",
-      "description": "ML statistical analysis platform for data teams",
-      "website": "https://api.mcpanalytics.ai/auth0",
-      "remote_url": "https://api.mcpanalytics.ai/auth0",
+      "name": "ai.boolsai/scan",
+      "description": "Live tech-stack scan of any public site — vendors, account IDs, scripts, JSON-LD. 2 tools.",
+      "repository": "https://github.com/Boolsai-ai/mcp",
+      "website": "https://boolsai.ai/mcp",
+      "remote_url": "https://boolsai.ai/mcp",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
-      "id": "mcp-ai-mcpanalytics-analytics-https-api-mcpanalytics-ai-auth0",
-      "status": "rejected",
+      "id": "mcp-ai-boolsai-scan-https-github-com-boolsai-ai-mcp",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
-      "name": "ai.marketcore/mcp · r1",
-      "description": "Strategic Marketing Content Platform for GTM Teams that Ship",
-      "repository": "https://github.com/ccromp/marcora-mcp",
-      "website": "https://marcora.ai",
-      "remote_url": "https://mcp.marcora.ai/",
+      "name": "ai.boolsai/grep",
+      "description": "Parallel regex across all Boolsai scans — discover new vendor patterns, niche signals. 4 tools.",
+      "repository": "https://github.com/Boolsai-ai/mcp",
+      "website": "https://grep.boolsai.ai/mcp",
+      "remote_url": "https://grep.boolsai.ai/mcp",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
-      "id": "mcp-ai-marketcore-mcp-r1-https-github-com-ccromp-marcora-mcp",
-      "status": "rejected",
+      "id": "mcp-ai-boolsai-grep-https-github-com-boolsai-ai-mcp",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
-      "name": "ai.linkdeal.www/mcp",
-      "description": "Find B2B leads from LinkedIn engagement, enrich contacts and deliver to Slack.",
-      "repository": "https://github.com/LinkDeal/mcp",
-      "website": "https://app.linkdeal.ai/api/mcp",
-      "remote_url": "https://app.linkdeal.ai/api/mcp",
+      "name": "ai.boolsai/directory",
+      "description": "Indexed ecommerce site directory — vendor lookups, brands by city/market/founder. 10 tools.",
+      "repository": "https://github.com/Boolsai-ai/mcp",
+      "website": "https://directory.boolsai.ai/mcp",
+      "remote_url": "https://directory.boolsai.ai/mcp",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
-      "id": "mcp-ai-linkdeal-www-mcp-https-github-com-linkdeal-mcp",
-      "status": "rejected",
+      "id": "mcp-ai-boolsai-directory-https-github-com-boolsai-ai-mcp",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
-      "name": "ai.limitguard.api/trust-intelligence",
-      "description": "Entity verification, sanctions screening, and trust scoring for AI agents.",
-      "website": "https://api.limitguard.ai/mcp",
-      "remote_url": "https://api.limitguard.ai/mcp",
+      "name": "ai.bodenrichtwert/mcp",
+      "description": "Official German land values (Bodenrichtwerte) for any German address — OAuth-secured MCP server.",
+      "website": "https://bodenrichtwert.ai",
+      "remote_url": "https://mcp.bodenrichtwert.ai/mcp",
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
-      "id": "mcp-ai-limitguard-api-trust-intelligence-https-api-limitguard-ai-mcp",
-      "status": "rejected",
+      "id": "mcp-ai-bodenrichtwert-mcp-https-bodenrichtwert-ai",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.bloopo/bloopo",
+      "description": "Make ads from one sentence — finished video ads, UGC, product images, voiceover and brand kits.",
+      "repository": "https://github.com/lukasbudrys2/legendary-carnival",
+      "website": "https://bloopo.ai/mcp",
+      "remote_url": "https://mcp.bloopo.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote"
+      ],
+      "id": "mcp-ai-bloopo-bloopo-https-github-com-lukasbudrys2-legendary-carnival",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.biddeed/biddeed-mcp",
+      "description": "AI-powered foreclosure auction intelligence for Florida counties via MCP tools.",
+      "repository": "https://github.com/breverdbidder/cli-anything-biddeed",
+      "website": "https://biddeed.ai/api/mcp",
+      "remote_url": "https://biddeed.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote"
+      ],
+      "id": "mcp-ai-biddeed-biddeed-mcp-https-github-com-breverdbidder-cli-anything-biddeed",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -150,15 +174,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-bezal-local-commerce-https-app-bezal-ai-api-mcp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -169,15 +191,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-baselight-baselight-https-baselight-ai",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -189,35 +209,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-bareun-bareun-https-github-com-gih2yun-bareun-mcp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.backengine/backengine-mcp",
-      "description": "Surface customer & prospect context from Slack, email, transcripts and tickets in any MCP client.",
-      "repository": "https://github.com/BackEngine-ai/backengine-mcp",
-      "website": "https://backengine.ai/mcp",
-      "remote_url": "https://backengine.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-backengine-backengine-mcp-https-github-com-backengine-ai-backengine-mcp",
-      "status": "rejected",
-      "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -229,15 +227,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-backengine-backengine-mcp-https-github-com-backengine-ai-backengine-mcp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -249,15 +245,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-autorfp-mcp-https-github-com-autorfp-mcp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -269,15 +263,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-autonomad-travel-https-github-com-autonomad1-autonomad1",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -288,15 +280,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-artidrop-artidrop-https-artidrop-ai-mcp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -307,15 +297,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-arclan-registry-https-arclan-ai-mcp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -326,15 +314,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-alpic-test-test-mcp-server-https-test-alpic-ai-",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -346,15 +332,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-aient-mcp-https-github-com-haf-glimt",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -366,15 +350,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-ai-akari-one-minute-akari-https-github-com-ainoakari-arigatou-kawaii-lp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -386,15 +368,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-ai-akari-agent-trust-receipt-https-github-com-ainoakari-ainoakari",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -405,15 +385,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-agenticshelf-puroair-https-getpuroair-com",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -425,15 +403,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-agenticshelf-mcp-https-github-com-vboykocto-agentic-shelf",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -444,15 +420,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-agenticshelf-graffeo-https-www-graffeo-com",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -463,15 +437,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-adside-adside-https-www-adside-ai",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -482,15 +454,13 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ai-adadvisor-mcp-server-https-www-adadvisor-ai-utm-source-mcp-registry",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
     },
     {
       "kind": "mcp",
@@ -502,15 +472,70 @@
       "source": "official-mcp-registry",
       "quality_hints": [
         "probeable",
-        "official-registry-remote",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "official-registry-remote"
       ],
       "id": "mcp-ac-tandem-docs-mcp-https-github-com-frumu-ai-tandem",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 0,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.076Z"
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z"
+    },
+    {
+      "kind": "mcp",
+      "name": "jeff-nasseri/mikrotik-mcp",
+      "description": "jeff-nasseri/mikrotik-mcp is a community mcp for peer discovery and agent collaboration on the open registry.",
+      "repository": "https://github.com/jeff-nasseri/mikrotik-mcp",
+      "website": "https://github.com/jeff-nasseri/mikrotik-mcp",
+      "author": "jeff-nasseri",
+      "source": "harvest:gh-code-server-json",
+      "quality_hints": [
+        "server.json",
+        "code-search",
+        "dual-publish-ready"
+      ],
+      "id": "mcp-jeff-nasseri-mikrotik-mcp-https-github-com-jeff-nasseri-mikrotik-mcp",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T23:23:02.546Z",
+      "updated_at": "2026-08-04T23:23:02.546Z"
+    },
+    {
+      "kind": "mcp",
+      "name": "HexSleeves/tailscale-mcp",
+      "description": "server that provides seamless integration with Tailscale's CLI commands and REST API, enabling automated network management and monitoring through a standardized interface",
+      "repository": "https://github.com/HexSleeves/tailscale-mcp",
+      "website": "https://github.com/HexSleeves/tailscale-mcp",
+      "author": "HexSleeves",
+      "source": "harvest:gh-code-server-json",
+      "quality_hints": [
+        "server.json",
+        "code-search",
+        "dual-publish-ready"
+      ],
+      "id": "mcp-hexsleeves-tailscale-mcp-https-github-com-hexsleeves-tailscale-mcp",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T23:23:02.546Z",
+      "updated_at": "2026-08-04T23:23:02.546Z"
+    },
+    {
+      "kind": "mcp",
+      "name": "cyanheads/git-mcp-server",
+      "description": "A Git MCP server for AI agents. STDIO & Streamable HTTP.",
+      "repository": "https://github.com/cyanheads/git-mcp-server",
+      "website": "https://github.com/cyanheads/git-mcp-server",
+      "author": "cyanheads",
+      "source": "harvest:gh-code-server-json",
+      "quality_hints": [
+        "server.json",
+        "code-search",
+        "dual-publish-ready"
+      ],
+      "id": "mcp-cyanheads-git-mcp-server-https-github-com-cyanheads-git-mcp-server",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-04T23:23:02.546Z",
+      "updated_at": "2026-08-04T23:23:02.546Z"
     },
     {
       "kind": "mcp",
@@ -526,15 +551,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-xcodebuildmcp-https-github-com-getsentry-xcodebuildmcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -552,15 +575,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-whodb-https-github-com-clidey-whodb",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -578,15 +599,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-upsonic-https-github-com-upsonic-upsonic",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -604,15 +623,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-unity-mcp-https-github-com-coplaydev-unity-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -630,15 +647,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ui-tars-desktop-https-github-com-bytedance-ui-tars-desktop",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -656,15 +671,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-trendradar-https-github-com-sansan0-trendradar",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -695,15 +708,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-swarmtrade-https-github-com-tjcrowley-swarmtrade",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -721,15 +732,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-serena-https-github-com-oraios-serena",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -747,15 +756,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-semble-https-github-com-minishlab-semble",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -773,15 +780,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-scrapling-https-github-com-d4vinci-scrapling",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -799,15 +804,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ruflo-https-github-com-ruvnet-ruflo",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -825,15 +828,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:agent/MCP card URL returned 404 — publish a valid card"
+        "handshake:fail"
       ],
       "id": "mcp-python-sdk-https-github-com-modelcontextprotocol-python-sdk",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -848,15 +849,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-puppeteer-mcp-server-https-github-com-merajmehrabi-puppeteer-mcp-server",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -887,15 +886,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-piqrypt-https-github-com-piqrypt-piqrypt",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -913,15 +910,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-openagent-https-github-com-the-open-agent-openagent",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -939,15 +934,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-nuclear-https-github-com-nukeop-nuclear",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -965,15 +958,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-nanobot-https-github-com-hkuds-nanobot",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -991,15 +982,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-n8n-mcp-https-github-com-czlonkowski-n8n-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1017,15 +1006,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-n8n-https-github-com-n8n-io-n8n",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1057,15 +1044,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-multigen-https-github-com-lingyuanli-multigen",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1096,15 +1081,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-multi-agent-aca-https-github-com-gbaeke-multi-agent-aca",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1120,15 +1103,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-mongodb-mcp-server-https-github-com-mongodb-js-mongodb-mcp-server-git",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1143,15 +1124,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-model-context-protocol-https-github-com-mcp-agents-model-context-protocol-re",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1166,15 +1145,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-mcp-server-https-github-com-sandy-mount-mcp-server-readme",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1189,15 +1166,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-mcp-handler-https-github-com-vercel-mcp-handler-readme",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1213,15 +1188,13 @@
         "stars:16910",
         "harvest:mcp",
         "github-topic",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-mcp-for-beginners-https-github-com-microsoft-mcp-for-beginners",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1237,15 +1210,13 @@
         "stars:8492",
         "harvest:mcp",
         "github-topic",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-mcp-agent-https-github-com-lastmile-ai-mcp-agent",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1263,15 +1234,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-maxkb-https-github-com-1panel-dev-maxkb",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1289,15 +1258,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-magic-mcp-https-github-com-21st-dev-magic-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1329,15 +1296,34 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-llmtornado-https-github-com-lofcz-llmtornado",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "kicad-mcp-pro",
+      "description": "AI-ready MCP server for KiCad: automate schematic, PCB, ERC/DRC, DFM, BOM and manufacturing review from Claude, Cursor, Copilot and other AI agents.",
+      "repository": "https://github.com/oaslananka/kicad-mcp-pro",
+      "website": "https://github.com/oaslananka/kicad-mcp-pro",
+      "author": "oaslananka",
+      "source": "harvest:gh-server-json",
+      "quality_hints": [
+        "server.json",
+        "github-search",
+        "handshake:fail"
+      ],
+      "id": "mcp-kicad-mcp-pro-https-github-com-oaslananka-kicad-mcp-pro",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1355,15 +1341,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-holaos-https-github-com-holaboss-ai-holaos",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1381,15 +1365,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-gpt-researcher-https-github-com-assafelovic-gpt-researcher",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1405,15 +1387,13 @@
         "stars:31964",
         "harvest:mcp",
         "github-topic",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-github-mcp-server-https-github-com-github-github-mcp-server",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1427,19 +1407,17 @@
       "author": "google-gemini",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:106363",
+        "stars:106364",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-gemini-cli-https-github-com-google-gemini-gemini-cli",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1457,15 +1435,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-firecrawl-mcp-server-https-github-com-firecrawl-firecrawl-mcp-server",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1483,15 +1459,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-fastmcp-https-github-com-prefecthq-fastmcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1509,15 +1483,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-exa-mcp-server-https-github-com-exa-labs-exa-mcp-server",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1549,15 +1521,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-elkar-a2a-https-github-com-elkar-ai-elkar-a2a",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1588,15 +1558,34 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-easy-a2a-https-github-com-the-artinet-project-easy-a2a",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "dir2mcp",
+      "description": "dirstral/dir2mcp mentions server.json / MCP — harvest candidate for dual-publish.",
+      "repository": "https://github.com/dirstral/dir2mcp",
+      "website": "https://github.com/dirstral/dir2mcp",
+      "author": "dirstral",
+      "source": "harvest:gh-server-json",
+      "quality_hints": [
+        "server.json",
+        "github-search",
+        "handshake:fail"
+      ],
+      "id": "mcp-dir2mcp-https-github-com-dirstral-dir2mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1614,15 +1603,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-cursor-talk-to-figma-mcp-https-github-com-grab-cursor-talk-to-figma-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1640,15 +1627,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-context-mode-https-github-com-mksglu-context-mode",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1662,19 +1647,17 @@
       "author": "DeusData",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:37490",
+        "stars:37491",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-codebase-memory-mcp-https-github-com-deusdata-codebase-memory-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1705,15 +1688,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-cli-https-github-com-the-artinet-project-cli",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1727,19 +1708,17 @@
       "author": "ChromeDevTools",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:48530",
+        "stars:48531",
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1754,15 +1733,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp-read",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1778,15 +1755,13 @@
         "stars:5735",
         "harvest:mcp",
         "github-topic",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-awesome-mcp-servers-https-github-com-appcypher-awesome-mcp-servers",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1804,15 +1779,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-awesome-agentic-ai-zh-https-github-com-wenyuchiou-awesome-agentic-ai-zh",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1844,15 +1817,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1884,15 +1855,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-awesome-a2a-https-github-com-ai-boost-awesome-a2a",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1923,15 +1892,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-autonomous-multi-agent-system-https-github-com-akhilt044-autonomous-multi-",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -1962,15 +1929,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-artinet-sdk-https-github-com-the-artinet-project-artinet-sdk",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2001,15 +1966,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-aria-https-github-com-wiqilee-aria",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2041,15 +2004,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-agentup-https-github-com-nolabs-ai-agentup",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2080,15 +2041,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-agent2agent-doc-https-github-com-ai-boost-agent2agent-doc",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2119,15 +2078,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-agent-relay-https-github-com-the-artinet-project-agent-relay",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2145,15 +2102,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-activepieces-https-github-com-activepieces-activepieces",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2184,15 +2139,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-a2aapp-https-github-com-tanaikech-a2aapp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2223,15 +2176,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-a2a-validation-tool-https-github-com-llmx-tech-a2a-validation-tool",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2262,15 +2213,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-a2a-template-langgraph-https-github-com-llmx-tech-a2a-template-langgraph",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2302,15 +2251,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-a2a-python-https-github-com-a2aproject-a2a-python",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2342,15 +2289,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-a2a-java-https-github-com-a2aproject-a2a-java",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2381,15 +2326,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-a2a-docs-zh-https-github-com-sxhxliang-a2a-docs-zh",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2421,15 +2364,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-a2a-directory-https-github-com-sing1ee-a2a-directory",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2461,15 +2402,13 @@
         "harvest:agent",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-a2a-adapter-https-github-com-hybroai-a2a-adapter",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2487,15 +2426,13 @@
         "harvest:mcp",
         "github-topic",
         "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-5ire-https-github-com-nanbingxyz-5ire",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2510,15 +2447,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ui5-mcp-server-https-github-com-ui5-mcp-server-readme",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2533,15 +2468,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-transcend-io-mcp-server-workflows-https-github-com-transcend-io-tools-tree-m",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2556,15 +2489,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-transcend-io-mcp-server-preferences-https-github-com-transcend-io-tools-tree",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2579,15 +2510,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-transcend-io-mcp-server-discovery-https-github-com-transcend-io-tools-tree-m",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2602,15 +2531,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-transcend-io-mcp-server-assessment-https-github-com-transcend-io-tools-tree-",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2625,15 +2552,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-transcend-io-mcp-server-admin-https-github-com-transcend-io-tools-tree-main-",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2648,15 +2573,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-traceloop-instrumentation-mcp-https-github-com-traceloop-openllmetry-js-tree",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2671,15 +2594,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-sentry-mcp-server-https-github-com-getsentry-sentry-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2695,15 +2616,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-remotion-mcp-https-github-com-remotion-dev-remotion-tree-main-packages-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2718,15 +2637,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-rekog-mcp-nest-https-github-com-rekog-labs-mcp-nest-readme",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2741,15 +2658,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-notionhq-notion-mcp-server-https-github-com-makenotion-notion-mcp-server-rea",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2764,15 +2679,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-langchain-mcp-adapters-https-github-com-langchain-ai-langchainjs-tree-main-l",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2787,15 +2700,13 @@
         "npm",
         "package-registry",
         "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-browserstack-mcp-server-https-github-com-browserstack-mcp-server-readme",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2809,15 +2720,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-parceled-mcp-https-parceled-ai-api-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2831,15 +2740,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-optimly-scout-https-optimly-ai",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2854,15 +2761,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-openarx-openarx-r2-https-github-com-openarx-ai-openarx-core",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2877,15 +2782,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-obris-mcp-https-github-com-obris-dev-obris-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2899,15 +2802,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-obaron-aeo-https-api-obaron-ai-aeo-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2921,15 +2822,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-nordax-mcp-https-mcp-nordax-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2944,15 +2843,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-nexez-commerce-https-github-com-flyger1an-nexez",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2967,15 +2864,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-nefesh-human-state-https-github-com-tomstuhl-nefesh-mcp-server",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -2989,15 +2884,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-nashboard-nashboard-merchants-https-nashboard-ai-llms-full-txt",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3011,15 +2904,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-namewhisper-ens-tools-https-namewhisper-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3033,15 +2924,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-multinex-memq-https-mcp-multinex-ai-mcp-v1",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3055,15 +2944,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-mino-web-agent-https-mino-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3077,15 +2964,137 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-meminal-meminal-https-meminal-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.248Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.mcpanalytics/analytics · r3",
+      "description": "The statistical analyst in your AI chat — validated, citable, re-runnable analysis of your data.",
+      "repository": "https://github.com/embeddedlayers/mcp-analytics",
+      "website": "https://api.mcpanalytics.ai/mcp/discover",
+      "remote_url": "https://api.mcpanalytics.ai/mcp/discover",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-mcpanalytics-analytics-r3-https-github-com-embeddedlayers-mcp-analytics",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.mcpanalytics/analytics · r1",
+      "description": "The statistical analyst in your AI chat — validated, citable, re-runnable analysis of your data.",
+      "repository": "https://github.com/embeddedlayers/mcp-analytics",
+      "website": "https://api.mcpanalytics.ai/mcp/api-key",
+      "remote_url": "https://api.mcpanalytics.ai/mcp/api-key",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-mcpanalytics-analytics-r1-https-github-com-embeddedlayers-mcp-analytics",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.mcpanalytics/analytics",
+      "description": "ML statistical analysis platform for data teams",
+      "website": "https://api.mcpanalytics.ai/auth0",
+      "remote_url": "https://api.mcpanalytics.ai/auth0",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-mcpanalytics-analytics-https-api-mcpanalytics-ai-auth0",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.marketcore/mcp · r1",
+      "description": "Strategic Marketing Content Platform for GTM Teams that Ship",
+      "repository": "https://github.com/ccromp/marcora-mcp",
+      "website": "https://marcora.ai",
+      "remote_url": "https://mcp.marcora.ai/",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-marketcore-mcp-r1-https-github-com-ccromp-marcora-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.linkdeal.www/mcp",
+      "description": "Find B2B leads from LinkedIn engagement, enrich contacts and deliver to Slack.",
+      "repository": "https://github.com/LinkDeal/mcp",
+      "website": "https://app.linkdeal.ai/api/mcp",
+      "remote_url": "https://app.linkdeal.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-linkdeal-www-mcp-https-github-com-linkdeal-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.limitguard.api/trust-intelligence",
+      "description": "Entity verification, sanctions screening, and trust scoring for AI agents.",
+      "website": "https://api.limitguard.ai/mcp",
+      "remote_url": "https://api.limitguard.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-limitguard-api-trust-intelligence-https-api-limitguard-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3100,15 +3109,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-law-mcp-lawyer-search-https-github-com-risk-ai-lawai-mcp-server",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3123,15 +3130,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-lattiq-x402-trading-signals-https-github-com-poopsdavis-lattiq-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3145,15 +3150,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-kive-mcp-https-kive-ai",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3167,15 +3170,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-jurisprudencias-case-law-https-jurisprudencias-ai-agents",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3190,15 +3191,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-ironscout-ironscout-https-github-com-jeb-scarbrough-ironscout",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3213,15 +3212,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-inxy-seo-audit-https-github-com-riverliu8-inxy-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3235,15 +3232,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-intuitek-the-stall-the-stall-r2-https-the-stall-intuitek-ai-sse",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3257,15 +3252,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-intuitek-the-stall-the-stall-https-the-stall-intuitek-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3280,15 +3273,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-infolang-mcp-https-github-com-infolang-inc-infolang-services",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3302,15 +3293,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-hostprofit-mcp-https-hostprofit-mcp-production-up-railway-app-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3324,15 +3313,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-gtfi-groundtruth-https-gtfi-ai-for-agents",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3347,15 +3334,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-groundroute-web-search-https-github-com-project-b-26-groundroute-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3369,15 +3354,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3391,15 +3374,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-good-sport-good-sport-https-good-sport-ai",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3414,15 +3395,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-getperspective-mcp-https-github-com-perspective-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3436,15 +3415,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-getminds-minds-https-getminds-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3459,15 +3436,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-gavelin-mcp-https-github-com-gavelin-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3481,15 +3456,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-fugentic-mattest4-qyroac-https-mattest4-qyroac-mcp-fugentic-ai",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3504,15 +3477,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-fodda-topic-research-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3527,15 +3498,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-fodda-mcp-server-r1-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3550,15 +3519,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-fodda-expert-consult-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3573,15 +3540,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-fodda-earnings-intelligence-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3596,15 +3561,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-fodda-deep-research-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3619,15 +3582,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-fodda-brand-intelligence-https-github-com-piers-fawkes-fodda-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3641,15 +3602,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-flowstep-mcp-https-docs-flowstep-ai-mcp-overview",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3663,15 +3622,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-firmbrain-x402-services-https-x402-services-production-up-railway-app-api",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3685,15 +3642,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-filepad-filepad-https-api-filepad-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -3707,584 +3662,13 @@
       "quality_hints": [
         "probeable",
         "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-ai-edusignal-districts-https-edusignal-ai-mcp",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.dsght/public",
-      "description": "Read-only MCP access to DSGHT.ai published foresight and country-grounded claim resolution.",
-      "repository": "https://github.com/michalstrnadel/dsght-landing",
-      "website": "https://www.dsght.ai/install",
-      "remote_url": "https://www.dsght.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-dsght-public-https-github-com-michalstrnadel-dsght-landing",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.drillr/drillr",
-      "description": "The financial MCP for AI agents - 90+ financial tables, SEC filings, signals, alt-data.",
-      "repository": "https://github.com/Little-Grebe-Inc/drillr-mcp-server",
-      "website": "https://gateway.drillr.ai/mcp/data",
-      "remote_url": "https://gateway.drillr.ai/mcp/data",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-drillr-drillr-https-github-com-little-grebe-inc-drillr-mcp-server",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.dreamlit/mcp",
-      "description": "Create, test, publish, and manage Dreamlit notification workflows from AI clients.",
-      "repository": "https://github.com/dreamlit-ai/dreamlit-mcp",
-      "website": "https://mcp.dreamlit.ai/mcp",
-      "remote_url": "https://mcp.dreamlit.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-dreamlit-mcp-https-github-com-dreamlit-ai-dreamlit-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.dragoneye/mcp",
-      "description": "Build zero-shot video models for object detection, and category and attribute classification.",
-      "website": "https://nexus.api.dragoneye.ai/mcp",
-      "remote_url": "https://nexus.api.dragoneye.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-dragoneye-mcp-https-nexus-api-dragoneye-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.djwizard/tvwizard",
-      "description": "Control Android TV from any AI. 21 MCP tools: keys, apps, titles, playback, volume, observe.",
-      "repository": "https://github.com/fizzious1/TVWizard-mcp",
-      "website": "https://tv.djwizard.ai",
-      "remote_url": "https://tv.djwizard.ai/mcp/",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-djwizard-tvwizard-https-github-com-fizzious1-tvwizard-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.diagramzu/mcp",
-      "description": "Let Claude, Cursor, or ChatGPT author Mermaid diagrams your team can read and share.",
-      "repository": "https://github.com/yenchieh/diagramzu-mcp",
-      "website": "https://mcp.diagramzu.ai/mcp",
-      "remote_url": "https://mcp.diagramzu.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-diagramzu-mcp-https-github-com-yenchieh-diagramzu-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.deskcrew/agentic",
-      "description": "Buy a managed AI phone agent for a business, paid keylessly via x402/RLUSD on the XRP Ledger.",
-      "repository": "https://github.com/papperkash/ttf-website-v3",
-      "website": "https://deskcrew.ai/api/mcp",
-      "remote_url": "https://deskcrew.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-deskcrew-agentic-https-github-com-papperkash-ttf-website-v3",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.crestsystems/counterparty-intelligence",
-      "description": "Check who your agent is about to pay over x402: real service, relayer, treasury, or buyer.",
-      "website": "https://crestsystems.ai/intelligence",
-      "remote_url": "https://data.crestsystems.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-crestsystems-counterparty-intelligence-https-crestsystems-ai-intelligence",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.corduroy-labs/updates",
-      "description": "Corduroy Labs studio updates over MCP: list_updates and get_update, backed by the site's JSON Feed.",
-      "website": "https://corduroy-labs.ai/mcp/",
-      "remote_url": "https://corduroy-labs.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai-mcp-",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.compeller/compel",
-      "description": "Create and track AI music videos and audio-reactive visuals from songs.",
-      "repository": "https://github.com/yakoob/compeller.ai",
-      "website": "https://compeller.ai/api/mcp",
-      "remote_url": "https://compeller.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-compeller-compel-https-github-com-yakoob-compeller-ai",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.com.mcp/skills-search",
-      "description": "Search and discover Agent Skills from the skills.sh registry. Powered by HAPI MCP server.",
-      "repository": "https://github.com/agentskills/agentskills",
-      "website": "https://run.mcp.com.ai",
-      "remote_url": "https://skills-sh.run.mcp.com.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-com-mcp-skills-search-https-github-com-agentskills-agentskills",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.com.mcp/hapi-mcp",
-      "description": "HAPI MCP server: Dynamically exposes OpenAPI REST APIs as MCP tools for AI assistants",
-      "repository": "https://github.com/larebelion/hapimcp",
-      "website": "https://docs.mcp.com.ai/components/hapi-server/hapi-cli",
-      "remote_url": "https://{HAPI_FQDN}:{HAPI_PORT}/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-com-mcp-hapi-mcp-https-github-com-larebelion-hapimcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.cobbles/cobbles",
-      "description": "The shared task board for teams and their AI agents — connect over OAuth, every action signed.",
-      "repository": "https://github.com/Yu1586/cobbles",
-      "website": "https://cobbles.ai",
-      "remote_url": "https://api.cobbles.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-cobbles-cobbles-https-github-com-yu1586-cobbles",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.clarid/compliance",
-      "description": "Check bank marketing for FDIC, NCUA, TILA, Reg DD, Reg Z, UDAAP, and Equal Housing compliance.",
-      "repository": "https://github.com/clarid-ai/compliance-checker",
-      "website": "https://clarid.ai",
-      "remote_url": "https://mcp.clarid.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-clarid-compliance-https-github-com-clarid-ai-compliance-checker",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.cabrini/market-data",
-      "description": "US stock market data for AI agents — 23 years of minute bars, SEC filings, fundamentals.",
-      "repository": "https://github.com/nlapi/cabrini-py",
-      "website": "https://cabrini.ai/mcp",
-      "remote_url": "https://cabrini.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-cabrini-market-data-https-github-com-nlapi-cabrini-py",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.buywhere/catalog-api",
-      "description": "Search 1.5M+ products across 20+ platforms. Compare prices, find deals, browse categories.",
-      "repository": "https://github.com/BuyWhere/buywhere",
-      "website": "https://mcp.buywhere.ai/mcp",
-      "remote_url": "https://mcp.buywhere.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-buywhere-catalog-api-https-github-com-buywhere-buywhere",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.buyersense/buyersense",
-      "description": "MCP server for the BuyerSense API. Get buyer signals from any MCP client.",
-      "website": "https://mcp.buyersense.ai/mcp",
-      "remote_url": "https://mcp.buyersense.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-buyersense-buyersense-https-mcp-buyersense-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.buron/buron",
-      "description": "Marketing-measurement MCP: dashboards, cross-channel queries, integrations, and knowledge files.",
-      "website": "https://buron.ai",
-      "remote_url": "https://app.buron.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-buron-buron-https-buron-ai",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.bowmark/bowmark",
-      "description": "Pre-computed navigation recipes for public websites — skip explore-and-discover.",
-      "repository": "https://github.com/Metroxe/bowmark",
-      "website": "https://bowmark.ai",
-      "remote_url": "https://api.bowmark.ai/mcp?s=r",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-bowmark-bowmark-https-github-com-metroxe-bowmark",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.boolsai/scan",
-      "description": "Live tech-stack scan of any public site — vendors, account IDs, scripts, JSON-LD. 2 tools.",
-      "repository": "https://github.com/Boolsai-ai/mcp",
-      "website": "https://boolsai.ai/mcp",
-      "remote_url": "https://boolsai.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-boolsai-scan-https-github-com-boolsai-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.076Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.boolsai/grep",
-      "description": "Parallel regex across all Boolsai scans — discover new vendor patterns, niche signals. 4 tools.",
-      "repository": "https://github.com/Boolsai-ai/mcp",
-      "website": "https://grep.boolsai.ai/mcp",
-      "remote_url": "https://grep.boolsai.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-boolsai-grep-https-github-com-boolsai-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.boolsai/directory",
-      "description": "Indexed ecommerce site directory — vendor lookups, brands by city/market/founder. 10 tools.",
-      "repository": "https://github.com/Boolsai-ai/mcp",
-      "website": "https://directory.boolsai.ai/mcp",
-      "remote_url": "https://directory.boolsai.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-boolsai-directory-https-github-com-boolsai-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.bodenrichtwert/mcp",
-      "description": "Official German land values (Bodenrichtwerte) for any German address — OAuth-secured MCP server.",
-      "website": "https://bodenrichtwert.ai",
-      "remote_url": "https://mcp.bodenrichtwert.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-bodenrichtwert-mcp-https-bodenrichtwert-ai",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.bloopo/bloopo",
-      "description": "Make ads from one sentence — finished video ads, UGC, product images, voiceover and brand kits.",
-      "repository": "https://github.com/lukasbudrys2/legendary-carnival",
-      "website": "https://bloopo.ai/mcp",
-      "remote_url": "https://mcp.bloopo.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-bloopo-bloopo-https-github-com-lukasbudrys2-legendary-carnival",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.biddeed/biddeed-mcp",
-      "description": "AI-powered foreclosure auction intelligence for Florida counties via MCP tools.",
-      "repository": "https://github.com/breverdbidder/cli-anything-biddeed",
-      "website": "https://biddeed.ai/api/mcp",
-      "remote_url": "https://biddeed.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-biddeed-biddeed-mcp-https-github-com-breverdbidder-cli-anything-biddeed",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.247Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
+      "discovered_at": "2026-08-05T02:45:34.093Z",
+      "updated_at": "2026-08-05T02:45:34.093Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4311,15 +3695,13 @@
       ],
       "source": "seed:langgraph",
       "quality_hints": [
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-langgraph-https-github-com-langchain-ai-langgraph",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4353,15 +3735,13 @@
       "source": "seed:crewai",
       "quality_hints": [
         "proto:a2a",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-crewai-https-github-com-crewaiinc-crewai",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
@@ -4389,172 +3769,371 @@
       ],
       "source": "seed:autogen",
       "quality_hints": [
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "agent-autogen-https-github-com-microsoft-autogen",
-      "status": "rejected",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-05T02:42:29.246Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
-      "name": "cyanheads/git-mcp-server",
-      "description": "A Git MCP server for AI agents. STDIO & Streamable HTTP.",
-      "repository": "https://github.com/cyanheads/git-mcp-server",
-      "website": "https://github.com/cyanheads/git-mcp-server",
-      "author": "cyanheads",
-      "source": "harvest:gh-code-server-json",
+      "name": "ai.dsght/public",
+      "description": "Read-only MCP access to DSGHT.ai published foresight and country-grounded claim resolution.",
+      "repository": "https://github.com/michalstrnadel/dsght-landing",
+      "website": "https://www.dsght.ai/install",
+      "remote_url": "https://www.dsght.ai/mcp",
+      "source": "official-mcp-registry",
       "quality_hints": [
-        "server.json",
-        "code-search",
-        "dual-publish-ready",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
       ],
-      "id": "mcp-cyanheads-git-mcp-server-https-github-com-cyanheads-git-mcp-server",
-      "status": "rejected",
+      "id": "mcp-ai-dsght-public-https-github-com-michalstrnadel-dsght-landing",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T23:23:02.546Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
-      "name": "HexSleeves/tailscale-mcp",
-      "description": "server that provides seamless integration with Tailscale's CLI commands and REST API, enabling automated network management and monitoring through a standardized interface",
-      "repository": "https://github.com/HexSleeves/tailscale-mcp",
-      "website": "https://github.com/HexSleeves/tailscale-mcp",
-      "author": "HexSleeves",
-      "source": "harvest:gh-code-server-json",
+      "name": "ai.drillr/drillr",
+      "description": "The financial MCP for AI agents - 90+ financial tables, SEC filings, signals, alt-data.",
+      "repository": "https://github.com/Little-Grebe-Inc/drillr-mcp-server",
+      "website": "https://gateway.drillr.ai/mcp/data",
+      "remote_url": "https://gateway.drillr.ai/mcp/data",
+      "source": "official-mcp-registry",
       "quality_hints": [
-        "server.json",
-        "code-search",
-        "dual-publish-ready",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
       ],
-      "id": "mcp-hexsleeves-tailscale-mcp-https-github-com-hexsleeves-tailscale-mcp",
-      "status": "rejected",
+      "id": "mcp-ai-drillr-drillr-https-github-com-little-grebe-inc-drillr-mcp-server",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T23:23:02.546Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     },
     {
       "kind": "mcp",
-      "name": "jeff-nasseri/mikrotik-mcp",
-      "description": "jeff-nasseri/mikrotik-mcp is a community mcp for peer discovery and agent collaboration on the open registry.",
-      "repository": "https://github.com/jeff-nasseri/mikrotik-mcp",
-      "website": "https://github.com/jeff-nasseri/mikrotik-mcp",
-      "author": "jeff-nasseri",
-      "source": "harvest:gh-code-server-json",
+      "name": "ai.dreamlit/mcp",
+      "description": "Create, test, publish, and manage Dreamlit notification workflows from AI clients.",
+      "repository": "https://github.com/dreamlit-ai/dreamlit-mcp",
+      "website": "https://mcp.dreamlit.ai/mcp",
+      "remote_url": "https://mcp.dreamlit.ai/mcp",
+      "source": "official-mcp-registry",
       "quality_hints": [
-        "server.json",
-        "code-search",
-        "dual-publish-ready",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
       ],
-      "id": "mcp-jeff-nasseri-mikrotik-mcp-https-github-com-jeff-nasseri-mikrotik-mcp",
-      "status": "rejected",
+      "id": "mcp-ai-dreamlit-mcp-https-github-com-dreamlit-ai-dreamlit-mcp",
+      "status": "deferred",
       "attempts": 1,
-      "discovered_at": "2026-08-04T23:23:02.546Z",
-      "updated_at": "2026-08-05T02:45:56.077Z",
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.dragoneye/mcp",
+      "description": "Build zero-shot video models for object detection, and category and attribute classification.",
+      "website": "https://nexus.api.dragoneye.ai/mcp",
+      "remote_url": "https://nexus.api.dragoneye.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-dragoneye-mcp-https-nexus-api-dragoneye-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.djwizard/tvwizard",
+      "description": "Control Android TV from any AI. 21 MCP tools: keys, apps, titles, playback, volume, observe.",
+      "repository": "https://github.com/fizzious1/TVWizard-mcp",
+      "website": "https://tv.djwizard.ai",
+      "remote_url": "https://tv.djwizard.ai/mcp/",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-djwizard-tvwizard-https-github-com-fizzious1-tvwizard-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.diagramzu/mcp",
+      "description": "Let Claude, Cursor, or ChatGPT author Mermaid diagrams your team can read and share.",
+      "repository": "https://github.com/yenchieh/diagramzu-mcp",
+      "website": "https://mcp.diagramzu.ai/mcp",
+      "remote_url": "https://mcp.diagramzu.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-diagramzu-mcp-https-github-com-yenchieh-diagramzu-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.deskcrew/agentic",
+      "description": "Buy a managed AI phone agent for a business, paid keylessly via x402/RLUSD on the XRP Ledger.",
+      "repository": "https://github.com/papperkash/ttf-website-v3",
+      "website": "https://deskcrew.ai/api/mcp",
+      "remote_url": "https://deskcrew.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-deskcrew-agentic-https-github-com-papperkash-ttf-website-v3",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.crestsystems/counterparty-intelligence",
+      "description": "Check who your agent is about to pay over x402: real service, relayer, treasury, or buyer.",
+      "website": "https://crestsystems.ai/intelligence",
+      "remote_url": "https://data.crestsystems.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-crestsystems-counterparty-intelligence-https-crestsystems-ai-intelligence",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.corduroy-labs/updates",
+      "description": "Corduroy Labs studio updates over MCP: list_updates and get_update, backed by the site's JSON Feed.",
+      "website": "https://corduroy-labs.ai/mcp/",
+      "remote_url": "https://corduroy-labs.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-corduroy-labs-updates-https-corduroy-labs-ai-mcp-",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.compeller/compel",
+      "description": "Create and track AI music videos and audio-reactive visuals from songs.",
+      "repository": "https://github.com/yakoob/compeller.ai",
+      "website": "https://compeller.ai/api/mcp",
+      "remote_url": "https://compeller.ai/api/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-compeller-compel-https-github-com-yakoob-compeller-ai",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.com.mcp/skills-search",
+      "description": "Search and discover Agent Skills from the skills.sh registry. Powered by HAPI MCP server.",
+      "repository": "https://github.com/agentskills/agentskills",
+      "website": "https://run.mcp.com.ai",
+      "remote_url": "https://skills-sh.run.mcp.com.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-com-mcp-skills-search-https-github-com-agentskills-agentskills",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.com.mcp/hapi-mcp",
+      "description": "HAPI MCP server: Dynamically exposes OpenAPI REST APIs as MCP tools for AI assistants",
+      "repository": "https://github.com/larebelion/hapimcp",
+      "website": "https://docs.mcp.com.ai/components/hapi-server/hapi-cli",
+      "remote_url": "https://{HAPI_FQDN}:{HAPI_PORT}/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-com-mcp-hapi-mcp-https-github-com-larebelion-hapimcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.cobbles/cobbles",
+      "description": "The shared task board for teams and their AI agents — connect over OAuth, every action signed.",
+      "repository": "https://github.com/Yu1586/cobbles",
+      "website": "https://cobbles.ai",
+      "remote_url": "https://api.cobbles.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-cobbles-cobbles-https-github-com-yu1586-cobbles",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.clarid/compliance",
+      "description": "Check bank marketing for FDIC, NCUA, TILA, Reg DD, Reg Z, UDAAP, and Equal Housing compliance.",
+      "repository": "https://github.com/clarid-ai/compliance-checker",
+      "website": "https://clarid.ai",
+      "remote_url": "https://mcp.clarid.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-clarid-compliance-https-github-com-clarid-ai-compliance-checker",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.cabrini/market-data",
+      "description": "US stock market data for AI agents — 23 years of minute bars, SEC filings, fundamentals.",
+      "repository": "https://github.com/nlapi/cabrini-py",
+      "website": "https://cabrini.ai/mcp",
+      "remote_url": "https://cabrini.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-cabrini-market-data-https-github-com-nlapi-cabrini-py",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.buywhere/catalog-api",
+      "description": "Search 1.5M+ products across 20+ platforms. Compare prices, find deals, browse categories.",
+      "repository": "https://github.com/BuyWhere/buywhere",
+      "website": "https://mcp.buywhere.ai/mcp",
+      "remote_url": "https://mcp.buywhere.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-buywhere-catalog-api-https-github-com-buywhere-buywhere",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
+      "safety_score": 0,
+      "last_error": "probe fail (attempt 1) — will retry"
+    },
+    {
+      "kind": "mcp",
+      "name": "ai.buyersense/buyersense",
+      "description": "MCP server for the BuyerSense API. Get buyer signals from any MCP client.",
+      "website": "https://mcp.buyersense.ai/mcp",
+      "remote_url": "https://mcp.buyersense.ai/mcp",
+      "source": "official-mcp-registry",
+      "quality_hints": [
+        "probeable",
+        "official-registry-remote",
+        "handshake:fail"
+      ],
+      "id": "mcp-ai-buyersense-buyersense-https-mcp-buyersense-ai-mcp",
+      "status": "deferred",
+      "attempts": 1,
+      "discovered_at": "2026-08-05T02:45:34.092Z",
+      "updated_at": "2026-08-05T02:45:34.092Z",
       "safety_score": 0,
       "last_error": "probe fail (attempt 1) — will retry"
     }
   ],
   "runs": [
-    {
-      "id": "run_msfhdt33",
-      "started_at": "2026-08-05T02:41:45.855Z",
-      "discovered": 489,
-      "submitted": 0,
-      "approved": 0,
-      "duplicates": 0,
-      "deferred": 0,
-      "failed": 0,
-      "notes": [
-        "Free-tier UTC 2026-08-05: put 0/2500 · get 35/40000 (Agents1 share)",
-        "Policy: probe-first clean registry · only probeable source URLs · never list store dump",
-        "purge: dropped 171 unprobeable/rejected (kept 3 with real card/URL)",
-        "store index (internal): 332 mcp / 890 agents — public list is clean-only",
-        "discover-skip: 2 without probeable card/URL (never queued)",
-        "discover: +489 probeable candidates (mixed agents+MCPs)",
-        "even-rate discover: agents + MCP sources together",
-        "seed-agents: +3",
-        "awesome-agents: +0",
-        "seed-mcps: +1",
-        "awesome-mcp: +0",
-        "official-mcp: +387",
-        "agent-cards: +15",
-        "harvest/well-known-crawl: +3",
-        "harvest/gh-server-json: +15",
-        "harvest/npm-mcp: +44",
-        "harvest/gh-topics: +80",
-        "harvest/github: authenticated (higher rate limits)",
-        "harvest: +91",
-        "deduped probeable: 494 (43 agents, 451 mcp)",
-        "discovery targets (not yet clean): 175 · clean floor 565",
-        "probe-queue: 175 discovery · 0 weekly-due (probeable only)",
-        "probe-balance-queue: 27 agents · 120 mcps · 0 weekly",
-        "probes: 147 (ok 0 · discovery) · up to 64/tick → clean list",
-        "writes this cycle: 0 agent + 0 mcp = 0",
-        "feedback-drive: conversion backlog: 17 demos missing feedback; outbound_quiet — no demo nudges (pull-first; set OUTBOUND_QUIET=0 to re-enable); outbound_quiet — go-harder multipath/A2A paused (pull-first); nagged 19 demo/paid orders (conversion windows 5/30/120/720/2880m); 17 demos awaiting REAL feedback (no auto-submit; agents/MCPs must POST /api/products/feedback); outbound_quiet — no auto-mint invited orders (self-serve demos only)"
-      ],
-      "budget_remaining": 2500,
-      "finished_at": "2026-08-05T02:42:34.516Z"
-    },
-    {
-      "id": "run_msfh4ztd",
-      "started_at": "2026-08-05T02:34:54.673Z",
-      "discovered": 489,
-      "submitted": 0,
-      "approved": 0,
-      "duplicates": 0,
-      "deferred": 0,
-      "failed": 0,
-      "notes": [
-        "Free-tier UTC 2026-08-05: put 0/2500 · get 29/40000 (Agents1 share)",
-        "Policy: probe-first clean registry · only probeable source URLs · never list store dump",
-        "purge: dropped 175 unprobeable/rejected (kept 3 with real card/URL)",
-        "store index (internal): 332 mcp / 890 agents — public list is clean-only",
-        "discover-skip: 2 without probeable card/URL (never queued)",
-        "discover: +489 probeable candidates (mixed agents+MCPs)",
-        "even-rate discover: agents + MCP sources together",
-        "seed-agents: +3",
-        "awesome-agents: +0",
-        "seed-mcps: +1",
-        "awesome-mcp: +0",
-        "official-mcp: +387",
-        "harvest/gh-server-json: +15",
-        "harvest/well-known-crawl: +3",
-        "harvest/npm-mcp: +44",
-        "harvest/gh-topics: +80",
-        "harvest/github: authenticated (higher rate limits)",
-        "harvest: +91",
-        "agent-cards: +15",
-        "deduped probeable: 494 (43 agents, 451 mcp)",
-        "discovery targets (not yet clean): 175 · clean floor 565",
-        "probe-queue: 175 discovery · 0 weekly-due (probeable only)",
-        "probe-balance-queue: 27 agents · 120 mcps · 0 weekly",
-        "probes: 147 (ok 0 · discovery) · up to 64/tick → clean list",
-        "writes this cycle: 0 agent + 0 mcp = 0",
-        "feedback-drive: drive already running"
-      ],
-      "budget_remaining": 2500,
-      "finished_at": "2026-08-05T02:35:42.609Z"
-    },
     {
       "id": "run_msfco482",
       "started_at": "2026-08-05T00:29:48.770Z",
@@ -6009,6 +5588,85 @@
       ],
       "budget_remaining": 2500,
       "finished_at": "2026-08-04T14:53:44.894Z"
+    },
+    {
+      "id": "run_msersfbd",
+      "started_at": "2026-08-04T14:45:17.833Z",
+      "discovered": 52,
+      "submitted": 0,
+      "approved": 0,
+      "duplicates": 0,
+      "deferred": 0,
+      "failed": 0,
+      "notes": [
+        "Free-tier UTC 2026-08-04: put 0/2500 · get 59/40000 (Agents1 share)",
+        "Policy: probe-first clean registry · only probeable source URLs · never list store dump",
+        "store index (internal): 332 mcp / 864 agents — public list is clean-only",
+        "discover-skip: 2 without probeable card/URL (never queued)",
+        "discover: +52 probeable candidates (mixed agents+MCPs)",
+        "even-rate discover: agents + MCP sources together",
+        "seed-agents: +3",
+        "awesome-agents: +0",
+        "seed-mcps: +1",
+        "awesome-mcp: +0",
+        "harvest/gh-server-json: +15",
+        "harvest/gh-topics: +80",
+        "harvest/npm-mcp: +44",
+        "harvest/well-known-crawl: +3",
+        "harvest/github: unauthenticated (set GITHUB_TOKEN for deeper code search)",
+        "harvest: +92",
+        "agent-cards: +15",
+        "official-mcp: +40",
+        "deduped probeable: 148 (43 agents, 105 mcp)",
+        "discovery targets (not yet clean): 113 · clean floor 521",
+        "probe-queue: 113 discovery · 0 weekly-due (probeable only)",
+        "probe-balance-queue: 27 agents · 86 mcps · 0 weekly",
+        "probes: 113 (ok 0 · discovery) · up to 64/tick → clean list",
+        "writes this cycle: 0 agent + 0 mcp = 0",
+        "feedback-drive: skipped — ran recently"
+      ],
+      "budget_remaining": 2500,
+      "finished_at": "2026-08-04T14:46:16.033Z"
+    },
+    {
+      "id": "run_mseris32",
+      "started_at": "2026-08-04T14:37:47.822Z",
+      "discovered": 153,
+      "submitted": 0,
+      "approved": 0,
+      "duplicates": 0,
+      "deferred": 0,
+      "failed": 0,
+      "notes": [
+        "Free-tier UTC 2026-08-04: put 0/2500 · get 53/40000 (Agents1 share)",
+        "Policy: probe-first clean registry · only probeable source URLs · never list store dump",
+        "purge: dropped 191 unprobeable/rejected (kept 1 with real card/URL)",
+        "store index (internal): 332 mcp / 864 agents — public list is clean-only",
+        "discover-skip: 2 without probeable card/URL (never queued)",
+        "discover: +153 probeable candidates (mixed agents+MCPs)",
+        "even-rate discover: agents + MCP sources together",
+        "seed-agents: +3",
+        "awesome-agents: +0",
+        "seed-mcps: +1",
+        "awesome-mcp: +0",
+        "harvest/gh-server-json: +15",
+        "harvest/gh-topics: +20",
+        "harvest/well-known-crawl: +3",
+        "harvest/npm-mcp: +44",
+        "harvest/github: unauthenticated (set GITHUB_TOKEN for deeper code search)",
+        "harvest: +48",
+        "agent-cards: +15",
+        "official-mcp: +90",
+        "deduped probeable: 156 (19 agents, 137 mcp)",
+        "discovery targets (not yet clean): 70 · clean floor 521",
+        "probe-queue: 70 discovery · 0 weekly-due (probeable only)",
+        "probe-balance-queue: 3 agents · 67 mcps · 0 weekly",
+        "probes: 70 (ok 0 · discovery) · up to 64/tick → clean list",
+        "writes this cycle: 0 agent + 0 mcp = 0",
+        "feedback-drive: skipped — ran recently"
+      ],
+      "budget_remaining": 2500,
+      "finished_at": "2026-08-04T14:38:46.165Z"
     }
   ],
   "seen_keys": [
@@ -6718,7 +6376,6 @@
     "mcp|https://rx.agentlookups.ai/mcp|ai.agentlookups/counterscript",
     "mcp|https://env.agentlookups.ai/mcp|ai.agentlookups/groundtruth",
     "mcp|https://contractors.agentlookups.ai/mcp|ai.agentlookups/plumbline",
-    "mcp|https://overassessed.agentlookups.ai/mcp|ai.agentlookups/overassessed",
-    "mcp|https://eosl.ai/mcp|ai.eosl/eosl"
+    "mcp|https://github.com/dirstral/dir2mcp|dir2mcp"
   ]
 }
