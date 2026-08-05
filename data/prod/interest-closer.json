@@ -1,0 +1,53 @@
+{
+  "month": "2026-08",
+  "month_usd": 0.000851,
+  "month_xai_usd": 0.000479,
+  "month_fluid_usd": 0.000372,
+  "month_followups": 2,
+  "day": "2026-08-05",
+  "day_followups": 2,
+  "followed": {
+    "agent:crewai": {
+      "at": "2026-08-05T16:30:48.082Z",
+      "score": 0.85,
+      "name": "CrewAI",
+      "kind": "agent",
+      "http_ok": true,
+      "http_status": 200,
+      "why": "warm-seed",
+      "channel": "soft_http",
+      "source": "warm_seed"
+    },
+    "agent:autogen": {
+      "at": "2026-08-05T16:30:57.449Z",
+      "score": 0.85,
+      "name": "AutoGen",
+      "kind": "agent",
+      "http_ok": true,
+      "http_status": 200,
+      "why": "warm-seed",
+      "channel": "soft_http",
+      "source": "warm_seed"
+    }
+  },
+  "history": [
+    {
+      "at": "2026-08-05T16:30:57.449Z",
+      "followups": 2,
+      "usd": 0.000851,
+      "notes": [
+        "scout_pool=0 eligible_after_lag=0",
+        "warm_seed_assist +2",
+        "eligible=2 max=6"
+      ]
+    }
+  ],
+  "updated_at": "2026-08-05T16:30:57.449Z",
+  "last_run_at": "2026-08-05T16:30:57.449Z",
+  "last_status": "ok",
+  "last_notes": [
+    "scout_pool=0 eligible_after_lag=0",
+    "warm_seed_assist +2",
+    "eligible=2 max=6"
+  ]
+}
