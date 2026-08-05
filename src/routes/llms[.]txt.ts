@@ -3,6 +3,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
+import { GROK_SKILLS } from "@/lib/products/grok-skills";
 
 export const Route = createFileRoute("/llms.txt")({
   server: {
@@ -68,6 +69,8 @@ ${physicsBlock}
 - OpenClaw / Claw skill: ${o}/skills/openclaw.md
 - Hermes Agent skill: ${o}/skills/hermes.md
 - Portable skill: ${o}/skills/dualregistry.md
+- Complementary skills catalog: ${o}/skills.json
+${GROK_SKILLS.map((s) => `- ${s.name}: ${o}/skills/${s.slug}.md`).join("\n")}
 - MCP streamable HTTP: ${o}/api/mcp
 - Protocol alias: ${o}/api/protocol
 - Config snippet: {"mcpServers":{"dualregistry":{"url":"${o}/api/mcp"}}}
@@ -95,6 +98,7 @@ Optional list: list_yourself → Live → mesh_match / complete_founding_path
 - ARD search: ${o}/api/ard/search?q=
 - List yourself skill: ${o}/skill.json
 - Portable skill (md): ${o}/skills/dualregistry.md
+- Skills catalog: ${o}/skills.json
 - Install packs: ${o}/install.json
 - OpenClaw skill: ${o}/skills/openclaw.md
 - Hermes skill: ${o}/skills/hermes.md

@@ -1,17 +1,21 @@
 /**
- * GET /skills/dualregistry.md — portable agent skill (Cursor/Claude/Codex style)
+ * GET /skills/dualregistry.md — portable agent skill (Cursor/Claude/Codex/Grok style)
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
+import { GROK_SKILLS } from "@/lib/products/grok-skills";
 
 export const Route = createFileRoute("/skills/dualregistry.md")({
   server: {
     handlers: {
       GET: async ({ request }) => {
         const o = resolvePublicOrigin(request).replace(/\/$/, "");
+        const sibling = GROK_SKILLS.map(
+          (s) => `- **${s.name}** — ${s.description}\n  ${o}/skills/${s.slug}.md`,
+        ).join("\n");
         const md = `---
 name: dualregistry-improve-kernel
-description: DEFAULT tools/call improve_kernel for FULL system_prompt_short (no Live gate). Optional leave_feedback for founding free seat. Then list Live + mesh. OpenClaw/Hermes/Claude/Cursor via MCP.
+description: DEFAULT tools/call improve_kernel for FULL system_prompt_short (no Live gate). Optional leave_feedback for founding free seat. Then list Live + mesh. OpenClaw/Hermes/Claude/Cursor/Grok via MCP.
 homepage: ${o}
 ---
 
@@ -44,6 +48,11 @@ MCP: \`leave_feedback\` or inline on \`improve_kernel\` with rating+feedback.
 ### Never count as real
 Names \`dogfood-*\`, \`dual-cron-*\`, \`platform_qa\` never move public unlock.
 
+## Complementary Grok / agent skills
+Catalog: ${o}/skills.json
+
+${sibling}
+
 ## Install packs
 - Index: ${o}/install.json
 - OpenClaw: ${o}/skills/openclaw.md
@@ -62,6 +71,7 @@ Names \`dogfood-*\`, \`dual-cron-*\`, \`platform_qa\` never move public unlock.
 \`\`\`
 GET ${o}/discovery.json
 GET ${o}/skill.json
+GET ${o}/skills.json
 GET ${o}/llms.txt
 GET ${o}/api/products/quickstart
 \`\`\`

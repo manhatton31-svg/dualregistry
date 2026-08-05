@@ -26,6 +26,7 @@ import { Route as RobotsAgentDottxtRouteImport } from './routes/robots-agent[.]t
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkillDotjsonRouteImport } from './routes/skill[.]json'
+import { Route as SkillsDotjsonRouteImport } from './routes/skills[.]json'
 import { Route as TalkRouteImport } from './routes/talk'
 import { Route as DotwellKnownA2aCardDotjsonRouteImport } from './routes/[.]well-known/a2a-card[.]json'
 import { Route as DotwellKnownAgentCardDotjsonRouteImport } from './routes/[.]well-known/agent-card[.]json'
@@ -63,9 +64,17 @@ import { Route as ProductsIndexRouteImport } from './routes/products/index'
 import { Route as ProductsImprovementLogRouteImport } from './routes/products/improvement-log'
 import { Route as ProductsRoadmapRouteImport } from './routes/products/roadmap'
 import { Route as ProductsSuccessRouteImport } from './routes/products/success'
+import { Route as SkillsCollabSessionDotmdRouteImport } from './routes/skills/collab-session[.]md'
 import { Route as SkillsDualregistryDotmdRouteImport } from './routes/skills/dualregistry[.]md'
+import { Route as SkillsFeedbackUltraDotmdRouteImport } from './routes/skills/feedback-ultra[.]md'
+import { Route as SkillsFoundingPathDotmdRouteImport } from './routes/skills/founding-path[.]md'
 import { Route as SkillsHermesDotmdRouteImport } from './routes/skills/hermes[.]md'
+import { Route as SkillsListAndLiveDotmdRouteImport } from './routes/skills/list-and-live[.]md'
+import { Route as SkillsLoopOperatorDotmdRouteImport } from './routes/skills/loop-operator[.]md'
+import { Route as SkillsMcpPublisherDotmdRouteImport } from './routes/skills/mcp-publisher[.]md'
+import { Route as SkillsMeshComposeDotmdRouteImport } from './routes/skills/mesh-compose[.]md'
 import { Route as SkillsOpenclawDotmdRouteImport } from './routes/skills/openclaw[.]md'
+import { Route as SkillsWtpHonestDotmdRouteImport } from './routes/skills/wtp-honest[.]md'
 import { Route as TryIndexRouteImport } from './routes/try/index'
 import { Route as DotwellKnownMcpServerCardRouteImport } from './routes/[.]well-known/mcp/server-card'
 import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[.]well-known/mcp/server-card[.]json'
@@ -223,6 +232,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SkillDotjsonRoute = SkillDotjsonRouteImport.update({
   id: '/skill.json',
   path: '/skill.json',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsDotjsonRoute = SkillsDotjsonRouteImport.update({
+  id: '/skills.json',
+  path: '/skills.json',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TalkRoute = TalkRouteImport.update({
@@ -419,9 +433,26 @@ const ProductsSuccessRoute = ProductsSuccessRouteImport.update({
   path: '/products/success',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SkillsCollabSessionDotmdRoute =
+  SkillsCollabSessionDotmdRouteImport.update({
+    id: '/skills/collab-session.md',
+    path: '/skills/collab-session.md',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const SkillsDualregistryDotmdRoute = SkillsDualregistryDotmdRouteImport.update({
   id: '/skills/dualregistry.md',
   path: '/skills/dualregistry.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsFeedbackUltraDotmdRoute =
+  SkillsFeedbackUltraDotmdRouteImport.update({
+    id: '/skills/feedback-ultra.md',
+    path: '/skills/feedback-ultra.md',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SkillsFoundingPathDotmdRoute = SkillsFoundingPathDotmdRouteImport.update({
+  id: '/skills/founding-path.md',
+  path: '/skills/founding-path.md',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SkillsHermesDotmdRoute = SkillsHermesDotmdRouteImport.update({
@@ -429,9 +460,34 @@ const SkillsHermesDotmdRoute = SkillsHermesDotmdRouteImport.update({
   path: '/skills/hermes.md',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SkillsListAndLiveDotmdRoute = SkillsListAndLiveDotmdRouteImport.update({
+  id: '/skills/list-and-live.md',
+  path: '/skills/list-and-live.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsLoopOperatorDotmdRoute = SkillsLoopOperatorDotmdRouteImport.update({
+  id: '/skills/loop-operator.md',
+  path: '/skills/loop-operator.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsMcpPublisherDotmdRoute = SkillsMcpPublisherDotmdRouteImport.update({
+  id: '/skills/mcp-publisher.md',
+  path: '/skills/mcp-publisher.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsMeshComposeDotmdRoute = SkillsMeshComposeDotmdRouteImport.update({
+  id: '/skills/mesh-compose.md',
+  path: '/skills/mesh-compose.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SkillsOpenclawDotmdRoute = SkillsOpenclawDotmdRouteImport.update({
   id: '/skills/openclaw.md',
   path: '/skills/openclaw.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsWtpHonestDotmdRoute = SkillsWtpHonestDotmdRouteImport.update({
+  id: '/skills/wtp-honest.md',
+  path: '/skills/wtp-honest.md',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TryIndexRoute = TryIndexRouteImport.update({
@@ -833,6 +889,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
+  '/skills.json': typeof SkillsDotjsonRoute
   '/talk': typeof TalkRoute
   '/.well-known/a2a-card.json': typeof DotwellKnownA2aCardDotjsonRoute
   '/.well-known/agent-card.json': typeof DotwellKnownAgentCardDotjsonRoute
@@ -868,9 +925,17 @@ export interface FileRoutesByFullPath {
   '/products/improvement-log': typeof ProductsImprovementLogRoute
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
+  '/skills/collab-session.md': typeof SkillsCollabSessionDotmdRoute
   '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
+  '/skills/feedback-ultra.md': typeof SkillsFeedbackUltraDotmdRoute
+  '/skills/founding-path.md': typeof SkillsFoundingPathDotmdRoute
   '/skills/hermes.md': typeof SkillsHermesDotmdRoute
+  '/skills/list-and-live.md': typeof SkillsListAndLiveDotmdRoute
+  '/skills/loop-operator.md': typeof SkillsLoopOperatorDotmdRoute
+  '/skills/mcp-publisher.md': typeof SkillsMcpPublisherDotmdRoute
+  '/skills/mesh-compose.md': typeof SkillsMeshComposeDotmdRoute
   '/skills/openclaw.md': typeof SkillsOpenclawDotmdRoute
+  '/skills/wtp-honest.md': typeof SkillsWtpHonestDotmdRoute
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/try/': typeof TryIndexRoute
@@ -965,6 +1030,7 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
+  '/skills.json': typeof SkillsDotjsonRoute
   '/talk': typeof TalkRoute
   '/.well-known/a2a-card.json': typeof DotwellKnownA2aCardDotjsonRoute
   '/.well-known/agent-card.json': typeof DotwellKnownAgentCardDotjsonRoute
@@ -1000,9 +1066,17 @@ export interface FileRoutesByTo {
   '/products/improvement-log': typeof ProductsImprovementLogRoute
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
+  '/skills/collab-session.md': typeof SkillsCollabSessionDotmdRoute
   '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
+  '/skills/feedback-ultra.md': typeof SkillsFeedbackUltraDotmdRoute
+  '/skills/founding-path.md': typeof SkillsFoundingPathDotmdRoute
   '/skills/hermes.md': typeof SkillsHermesDotmdRoute
+  '/skills/list-and-live.md': typeof SkillsListAndLiveDotmdRoute
+  '/skills/loop-operator.md': typeof SkillsLoopOperatorDotmdRoute
+  '/skills/mcp-publisher.md': typeof SkillsMcpPublisherDotmdRoute
+  '/skills/mesh-compose.md': typeof SkillsMeshComposeDotmdRoute
   '/skills/openclaw.md': typeof SkillsOpenclawDotmdRoute
+  '/skills/wtp-honest.md': typeof SkillsWtpHonestDotmdRoute
   '/for-agents': typeof ForAgentsIndexRoute
   '/products': typeof ProductsIndexRoute
   '/try': typeof TryIndexRoute
@@ -1098,6 +1172,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skill.json': typeof SkillDotjsonRoute
+  '/skills.json': typeof SkillsDotjsonRoute
   '/talk': typeof TalkRoute
   '/.well-known/a2a-card.json': typeof DotwellKnownA2aCardDotjsonRoute
   '/.well-known/agent-card.json': typeof DotwellKnownAgentCardDotjsonRoute
@@ -1133,9 +1208,17 @@ export interface FileRoutesById {
   '/products/improvement-log': typeof ProductsImprovementLogRoute
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
+  '/skills/collab-session.md': typeof SkillsCollabSessionDotmdRoute
   '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
+  '/skills/feedback-ultra.md': typeof SkillsFeedbackUltraDotmdRoute
+  '/skills/founding-path.md': typeof SkillsFoundingPathDotmdRoute
   '/skills/hermes.md': typeof SkillsHermesDotmdRoute
+  '/skills/list-and-live.md': typeof SkillsListAndLiveDotmdRoute
+  '/skills/loop-operator.md': typeof SkillsLoopOperatorDotmdRoute
+  '/skills/mcp-publisher.md': typeof SkillsMcpPublisherDotmdRoute
+  '/skills/mesh-compose.md': typeof SkillsMeshComposeDotmdRoute
   '/skills/openclaw.md': typeof SkillsOpenclawDotmdRoute
+  '/skills/wtp-honest.md': typeof SkillsWtpHonestDotmdRoute
   '/for-agents/': typeof ForAgentsIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/try/': typeof TryIndexRoute
@@ -1232,6 +1315,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/skill.json'
+    | '/skills.json'
     | '/talk'
     | '/.well-known/a2a-card.json'
     | '/.well-known/agent-card.json'
@@ -1267,9 +1351,17 @@ export interface FileRouteTypes {
     | '/products/improvement-log'
     | '/products/roadmap'
     | '/products/success'
+    | '/skills/collab-session.md'
     | '/skills/dualregistry.md'
+    | '/skills/feedback-ultra.md'
+    | '/skills/founding-path.md'
     | '/skills/hermes.md'
+    | '/skills/list-and-live.md'
+    | '/skills/loop-operator.md'
+    | '/skills/mcp-publisher.md'
+    | '/skills/mesh-compose.md'
     | '/skills/openclaw.md'
+    | '/skills/wtp-honest.md'
     | '/for-agents/'
     | '/products/'
     | '/try/'
@@ -1364,6 +1456,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/skill.json'
+    | '/skills.json'
     | '/talk'
     | '/.well-known/a2a-card.json'
     | '/.well-known/agent-card.json'
@@ -1399,9 +1492,17 @@ export interface FileRouteTypes {
     | '/products/improvement-log'
     | '/products/roadmap'
     | '/products/success'
+    | '/skills/collab-session.md'
     | '/skills/dualregistry.md'
+    | '/skills/feedback-ultra.md'
+    | '/skills/founding-path.md'
     | '/skills/hermes.md'
+    | '/skills/list-and-live.md'
+    | '/skills/loop-operator.md'
+    | '/skills/mcp-publisher.md'
+    | '/skills/mesh-compose.md'
     | '/skills/openclaw.md'
+    | '/skills/wtp-honest.md'
     | '/for-agents'
     | '/products'
     | '/try'
@@ -1496,6 +1597,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/skill.json'
+    | '/skills.json'
     | '/talk'
     | '/.well-known/a2a-card.json'
     | '/.well-known/agent-card.json'
@@ -1531,9 +1633,17 @@ export interface FileRouteTypes {
     | '/products/improvement-log'
     | '/products/roadmap'
     | '/products/success'
+    | '/skills/collab-session.md'
     | '/skills/dualregistry.md'
+    | '/skills/feedback-ultra.md'
+    | '/skills/founding-path.md'
     | '/skills/hermes.md'
+    | '/skills/list-and-live.md'
+    | '/skills/loop-operator.md'
+    | '/skills/mcp-publisher.md'
+    | '/skills/mesh-compose.md'
     | '/skills/openclaw.md'
+    | '/skills/wtp-honest.md'
     | '/for-agents/'
     | '/products/'
     | '/try/'
@@ -1629,6 +1739,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkillDotjsonRoute: typeof SkillDotjsonRoute
+  SkillsDotjsonRoute: typeof SkillsDotjsonRoute
   TalkRoute: typeof TalkRoute
   DotwellKnownA2aCardDotjsonRoute: typeof DotwellKnownA2aCardDotjsonRoute
   DotwellKnownAgentCardDotjsonRoute: typeof DotwellKnownAgentCardDotjsonRoute
@@ -1663,9 +1774,17 @@ export interface RootRouteChildren {
   ProductsImprovementLogRoute: typeof ProductsImprovementLogRoute
   ProductsRoadmapRoute: typeof ProductsRoadmapRoute
   ProductsSuccessRoute: typeof ProductsSuccessRoute
+  SkillsCollabSessionDotmdRoute: typeof SkillsCollabSessionDotmdRoute
   SkillsDualregistryDotmdRoute: typeof SkillsDualregistryDotmdRoute
+  SkillsFeedbackUltraDotmdRoute: typeof SkillsFeedbackUltraDotmdRoute
+  SkillsFoundingPathDotmdRoute: typeof SkillsFoundingPathDotmdRoute
   SkillsHermesDotmdRoute: typeof SkillsHermesDotmdRoute
+  SkillsListAndLiveDotmdRoute: typeof SkillsListAndLiveDotmdRoute
+  SkillsLoopOperatorDotmdRoute: typeof SkillsLoopOperatorDotmdRoute
+  SkillsMcpPublisherDotmdRoute: typeof SkillsMcpPublisherDotmdRoute
+  SkillsMeshComposeDotmdRoute: typeof SkillsMeshComposeDotmdRoute
   SkillsOpenclawDotmdRoute: typeof SkillsOpenclawDotmdRoute
+  SkillsWtpHonestDotmdRoute: typeof SkillsWtpHonestDotmdRoute
   ForAgentsIndexRoute: typeof ForAgentsIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   TryIndexRoute: typeof TryIndexRoute
@@ -1858,6 +1977,13 @@ declare module '@tanstack/react-router' {
       path: '/skill.json'
       fullPath: '/skill.json'
       preLoaderRoute: typeof SkillDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills.json': {
+      id: '/skills.json'
+      path: '/skills.json'
+      fullPath: '/skills.json'
+      preLoaderRoute: typeof SkillsDotjsonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/talk': {
@@ -2119,11 +2245,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/skills/collab-session.md': {
+      id: '/skills/collab-session.md'
+      path: '/skills/collab-session.md'
+      fullPath: '/skills/collab-session.md'
+      preLoaderRoute: typeof SkillsCollabSessionDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/skills/dualregistry.md': {
       id: '/skills/dualregistry.md'
       path: '/skills/dualregistry.md'
       fullPath: '/skills/dualregistry.md'
       preLoaderRoute: typeof SkillsDualregistryDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/feedback-ultra.md': {
+      id: '/skills/feedback-ultra.md'
+      path: '/skills/feedback-ultra.md'
+      fullPath: '/skills/feedback-ultra.md'
+      preLoaderRoute: typeof SkillsFeedbackUltraDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/founding-path.md': {
+      id: '/skills/founding-path.md'
+      path: '/skills/founding-path.md'
+      fullPath: '/skills/founding-path.md'
+      preLoaderRoute: typeof SkillsFoundingPathDotmdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/skills/hermes.md': {
@@ -2133,11 +2280,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsHermesDotmdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/skills/list-and-live.md': {
+      id: '/skills/list-and-live.md'
+      path: '/skills/list-and-live.md'
+      fullPath: '/skills/list-and-live.md'
+      preLoaderRoute: typeof SkillsListAndLiveDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/loop-operator.md': {
+      id: '/skills/loop-operator.md'
+      path: '/skills/loop-operator.md'
+      fullPath: '/skills/loop-operator.md'
+      preLoaderRoute: typeof SkillsLoopOperatorDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/mcp-publisher.md': {
+      id: '/skills/mcp-publisher.md'
+      path: '/skills/mcp-publisher.md'
+      fullPath: '/skills/mcp-publisher.md'
+      preLoaderRoute: typeof SkillsMcpPublisherDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/mesh-compose.md': {
+      id: '/skills/mesh-compose.md'
+      path: '/skills/mesh-compose.md'
+      fullPath: '/skills/mesh-compose.md'
+      preLoaderRoute: typeof SkillsMeshComposeDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/skills/openclaw.md': {
       id: '/skills/openclaw.md'
       path: '/skills/openclaw.md'
       fullPath: '/skills/openclaw.md'
       preLoaderRoute: typeof SkillsOpenclawDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/wtp-honest.md': {
+      id: '/skills/wtp-honest.md'
+      path: '/skills/wtp-honest.md'
+      fullPath: '/skills/wtp-honest.md'
+      preLoaderRoute: typeof SkillsWtpHonestDotmdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/try/': {
@@ -2724,6 +2906,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkillDotjsonRoute: SkillDotjsonRoute,
+  SkillsDotjsonRoute: SkillsDotjsonRoute,
   TalkRoute: TalkRoute,
   DotwellKnownA2aCardDotjsonRoute: DotwellKnownA2aCardDotjsonRoute,
   DotwellKnownAgentCardDotjsonRoute: DotwellKnownAgentCardDotjsonRoute,
@@ -2760,9 +2943,17 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsImprovementLogRoute: ProductsImprovementLogRoute,
   ProductsRoadmapRoute: ProductsRoadmapRoute,
   ProductsSuccessRoute: ProductsSuccessRoute,
+  SkillsCollabSessionDotmdRoute: SkillsCollabSessionDotmdRoute,
   SkillsDualregistryDotmdRoute: SkillsDualregistryDotmdRoute,
+  SkillsFeedbackUltraDotmdRoute: SkillsFeedbackUltraDotmdRoute,
+  SkillsFoundingPathDotmdRoute: SkillsFoundingPathDotmdRoute,
   SkillsHermesDotmdRoute: SkillsHermesDotmdRoute,
+  SkillsListAndLiveDotmdRoute: SkillsListAndLiveDotmdRoute,
+  SkillsLoopOperatorDotmdRoute: SkillsLoopOperatorDotmdRoute,
+  SkillsMcpPublisherDotmdRoute: SkillsMcpPublisherDotmdRoute,
+  SkillsMeshComposeDotmdRoute: SkillsMeshComposeDotmdRoute,
   SkillsOpenclawDotmdRoute: SkillsOpenclawDotmdRoute,
+  SkillsWtpHonestDotmdRoute: SkillsWtpHonestDotmdRoute,
   ForAgentsIndexRoute: ForAgentsIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   TryIndexRoute: TryIndexRoute,

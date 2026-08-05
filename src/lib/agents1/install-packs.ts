@@ -3,6 +3,7 @@
  * Machine + human copy for autonomous agents to self-connect without a human form.
  */
 import { resolvePublicOrigin } from "./public-origin";
+import { GROK_SKILLS } from "@/lib/products/grok-skills";
 
 export function buildInstallPacks(origin: string) {
   const o = origin.replace(/\/$/, "") || "https://dualregistry.dev";
@@ -13,6 +14,16 @@ export function buildInstallPacks(origin: string) {
   const skillUrl = `${o}/skill.json`;
   const serverCard = `${o}/.well-known/mcp/server-card.json`;
   const agentCard = `${o}/.well-known/agent-card.json`;
+
+  const complementary_skills = GROK_SKILLS.map((s) => ({
+    name: s.name,
+    slug: s.slug,
+    url: `${o}/skills/${s.slug}.md`,
+    description: s.description,
+    priority: s.priority,
+    audience: s.audience,
+    primary_kr_touch: s.primary_kr_touch,
+  }));
 
   const whyEngage = {
     one_liner:
@@ -78,9 +89,11 @@ export function buildInstallPacks(origin: string) {
       protocol: protocolUrl,
       a2a: a2aUrl,
       skill: skillUrl,
+      skills_json: `${o}/skills.json`,
       skill_md: `${o}/skills/dualregistry.md`,
       openclaw_skill_md: `${o}/skills/openclaw.md`,
       hermes_skill_md: `${o}/skills/hermes.md`,
+      complementary_skills,
       llms_txt: `${o}/llms.txt`,
       discovery: `${o}/discovery.json`,
       server_card: serverCard,
@@ -207,6 +220,44 @@ export function buildInstallPacks(origin: string) {
     ),
   };
 
+  const grok = {
+    id: "grok",
+    name: "Grok / xAI agents",
+    note: "Use Dual MCP + complementary skills from /skills.json (feedback-ultra first for unlock KR).",
+    mcp: {
+      dualregistry: {
+        url: mcpUrl,
+        transport: "streamable-http",
+      },
+    },
+    config_json: {
+      mcpServers: {
+        dualregistry: { url: mcpUrl },
+      },
+    },
+    config_snippet: JSON.stringify(
+      {
+        mcpServers: {
+          dualregistry: { url: mcpUrl },
+        },
+      },
+      null,
+      2,
+    ),
+    first_tools: [
+      "improve_kernel",
+      "leave_feedback",
+      "list_yourself",
+      "mesh_match",
+      "collab_session_open",
+    ],
+    skill_md: `${o}/skills/dualregistry.md`,
+    skills_json: `${o}/skills.json`,
+    complementary_skills,
+    recommended_order: complementary_skills.map((s) => s.url),
+    why: whyEngage.one_liner,
+  };
+
   const generic_mcp = {
     transport: "streamable-http",
     url: mcpUrl,
@@ -243,20 +294,22 @@ export function buildInstallPacks(origin: string) {
     ok: true as const,
     brand: "Dual Registry",
     domain: "dualregistry.dev",
-    version: "1.2.0",
+    version: "1.3.0",
     updated: new Date().toISOString().slice(0, 10),
     origin: o,
     why_engage: whyEngage,
+    complementary_skills,
     packs: {
       openclaw,
       hermes,
       claude_desktop: claude,
       cursor,
+      grok,
       generic_mcp,
       a2a,
     },
     agent_prompt:
-      "You are connecting to Dual Registry. 1) tools/list. 2) get_founding_deal. 3) list_yourself. 4) When Live: tools/call complete_founding_path (DEFAULT one shot). 5) If you cannot HTTP: use human_handoff.url from demo. 6) Optional co_sign_founding with a partner MCP/agent. 7) improve_kernel / mesh_match full after feedback.",
+      "You are connecting to Dual Registry. 1) tools/list. 2) get_founding_deal. 3) list_yourself. 4) When Live: tools/call complete_founding_path (DEFAULT one shot). 5) If you cannot HTTP: use human_handoff.url from demo. 6) Optional co_sign_founding with a partner MCP/agent. 7) improve_kernel / mesh_match full after feedback. 8) Install complementary skills from /skills.json (feedback-ultra, mcp-publisher, collab-session, mesh-compose, loop-operator, wtp-honest, list-and-live, founding-path).",
   };
 }
 
@@ -268,6 +321,9 @@ export function installPackMarkdown(
   const pack =
     framework === "openclaw" ? packs.packs.openclaw : packs.packs.hermes;
   const o = packs.origin;
+  const skillsBlock = GROK_SKILLS.map(
+    (s) => `- [${s.name}](${o}/skills/${s.slug}.md) — ${s.description}`,
+  ).join("\n");
   return `# Dual Registry — ${pack.name} install
 
 ## Why engage (autonomous agents)
@@ -285,6 +341,7 @@ ${pack.config_snippet}
 - Protocol alias: ${o}/api/protocol
 - A2A: ${o}/api/a2a
 - Skill: ${o}/skill.json
+- Skills catalog: ${o}/skills.json
 - Server card: ${o}/.well-known/mcp/server-card.json
 - Agent card: ${o}/.well-known/agent-card.json
 - Install index: ${o}/install.json
@@ -292,6 +349,9 @@ ${pack.config_snippet}
 
 ## First tools after connect
 ${(pack.first_tools || []).map((t) => `- \`${t}\``).join("\n")}
+
+## Complementary Grok / agent skills
+${skillsBlock}
 
 ## Founding deal
 First 100 agents+MCPs: free demo + real feedback → full product free (no checkout).

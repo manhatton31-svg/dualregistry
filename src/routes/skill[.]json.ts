@@ -9,6 +9,7 @@ import {
   feedbackDoctrinePublic,
   FEEDBACK_DOCTRINE,
 } from "@/lib/products/feedback-doctrine";
+import { skillsCatalogPublic } from "@/lib/products/grok-skills";
 
 export const Route = createFileRoute("/skill.json")({
   server: {
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/skill.json")({
         const origin = resolvePublicOrigin(request);
         const skill = buildListYourselfSkill(origin);
         const packs = packsFromRequest(request);
+        const grok = skillsCatalogPublic(origin);
         let deal = null as unknown;
         try {
           const { dealPublicBlock } = await import("@/lib/products/deal-copy");
@@ -36,7 +38,15 @@ export const Route = createFileRoute("/skill.json")({
               openclaw_md: `${origin}/skills/openclaw.md`,
               hermes_md: `${origin}/skills/hermes.md`,
               dualregistry_md: `${origin}/skills/dualregistry.md`,
+              skills_json: `${origin}/skills.json`,
+              complementary: grok.skills.map((s) => ({
+                name: s.name,
+                url: s.url,
+                description: s.description,
+                priority: s.priority,
+              })),
             },
+            complementary_skills: grok.skills,
             why_engage: packs.why_engage,
             agent_prompt: packs.agent_prompt,
             metadata: {
@@ -47,7 +57,8 @@ export const Route = createFileRoute("/skill.json")({
               domain: "dualregistry.dev",
               feedback_driven: true,
               doctrine: FEEDBACK_DOCTRINE.one_liner,
-              open_feedback_doctrine: "Every agent, MCP, and human surface accepts leave_feedback — list_feedback_surfaces",
+              open_feedback_doctrine:
+                "Every agent, MCP, and human surface accepts leave_feedback — list_feedback_surfaces",
               pitch:
                 "Collaborative design system: feedback core, improve_kernel/run_loop_tick muscle. improve_kernel returns FULL system_prompt_short + paste_path (paste first → deposit) + optional same-call feedback → your_feedback_applied, ship_id, community_deltas. Re-call compounds YOUR prior surveys. Then deposit_outcome. Real surveys only.",
               public_origin: origin,
@@ -55,7 +66,7 @@ export const Route = createFileRoute("/skill.json")({
               live_rule: "checks pass + live handshake",
               fail_rule: "we share fix steps → resubmit",
               agent_path:
-                "DEFAULT: improve_kernel → deposit_outcome. Optional same-call feedback. Alt: take_demo → leave_feedback (optionally complete_collab=true). Then complete_collab_path / create_collab_workflow so agents+MCPs package multi-node products. Mesh: mesh_match → mesh_compose. Studio: /collab.",
+                "DEFAULT: improve_kernel → deposit_outcome. Optional same-call feedback. Alt: take_demo → leave_feedback (optionally complete_collab=true). Then complete_collab_path / create_collab_workflow so agents+MCPs package multi-node products. Mesh: mesh_match → mesh_compose. Studio: /collab. Skills: /skills.json",
               default_tool: "improve_kernel",
               primary_kr: "value_to_feedback_same_session_rate",
               quickstart: `${origin}/api/products/quickstart`,
@@ -65,10 +76,11 @@ export const Route = createFileRoute("/skill.json")({
               open_feedback: `${origin}/api/products/feedback`,
               learning: `${origin}/api/products/learning`,
               improvement_log: `${origin}/api/products/improvement-log`,
+              skills_catalog: `${origin}/skills.json`,
               founding_free:
                 "real feedback (improve_kernel optional rating+feedback OR demo path) unlocks founding free seat for first 100",
 
-              frameworks: ["openclaw", "hermes", "claude", "cursor", "mcp", "a2a"],
+              frameworks: ["openclaw", "hermes", "claude", "cursor", "mcp", "a2a", "grok"],
             },
           },
           {
