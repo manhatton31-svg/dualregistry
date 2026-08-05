@@ -15,6 +15,7 @@ import {
   Radio,
   Search,
   Sparkles,
+  Workflow,
   Zap,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +30,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { DualRegistryWordmark } from "@/components/brand/logo";
+import { SiteNav } from "@/components/brand/site-nav";
 import { CategoryGroupedListings } from "./category-listings";
 import type { ListingRow } from "./listing-table";
 import { StatCard } from "./stat-card";
@@ -678,6 +680,7 @@ export function DashboardApp() {
               </Badge>
             </div>
             <DualRegistryWordmark showDomain className="mb-3" />
+            <SiteNav active="/" className="mb-3" />
             <h1 className="max-w-2xl text-xl font-semibold tracking-tight text-fg sm:text-2xl">
               Only clean agents & MCPs. Nothing else.
             </h1>
@@ -709,6 +712,12 @@ export function DashboardApp() {
               <a href="/talk">
                 <Bot className="h-3.5 w-3.5" />
                 Talk to clean
+              </a>
+            </Button>
+            <Button size="sm" variant="accent" asChild className="w-full sm:w-auto">
+              <a href="/collab">
+                <Workflow className="h-3.5 w-3.5" />
+                Collab Studio
               </a>
             </Button>
             <Button size="sm" variant="secondary" asChild className="w-full sm:w-auto">

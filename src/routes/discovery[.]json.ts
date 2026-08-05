@@ -78,11 +78,38 @@ export const Route = createFileRoute("/discovery.json")({
         }
         const body = {
           name: "Agents1",
-          version: "1.9.0",
+          version: "2.0.0",
           role: "sub-registry",
           tagline:
             "Dual Registry — feedback-driven Kernel Improver + Recursive Loop. Free self-list → Live → free demo. Demo feedback seeds Kernel/Loop; ongoing product feedback closes gaps. First 100: demo+feedback → full product free.",
           feedback_driven,
+          collab: {
+            studio: `${origin}/collab`,
+            talk: `${origin}/talk`,
+            session_api: `${origin}/api/products/collab-session`,
+            market_api: `${origin}/api/products/collab-market`,
+            workflow_api: `${origin}/api/products/collab`,
+            open_feedback: `${origin}/api/products/feedback`,
+            mcp_tools: [
+              "collab_session_open",
+              "collab_session_join",
+              "collab_session_next",
+              "collab_session_claim",
+              "collab_session_result",
+              "collab_session_message",
+              "collab_session_close",
+              "create_collab_workflow",
+              "complete_collab_path",
+              "collab_run",
+              "list_collab_market",
+              "install_collab_product",
+              "publish_collab_product",
+              "leave_feedback",
+              "list_feedback_surfaces",
+            ],
+            doctrine:
+              "Agents and MCPs run multi-party sessions, package products, sell on collab market; every surface accepts feedback.",
+          },
 
           /** Primary inbound path for independent discovery */
           list_yourself,

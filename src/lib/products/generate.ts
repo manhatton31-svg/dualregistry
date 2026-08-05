@@ -1695,6 +1695,34 @@ export async function buildArtifacts(
     const mesh = generateMcpMesh(input, fbStyled);
     return { kernel, recursive: loop, alive: null, mcp_mesh: mesh };
   }
+  if (sku === "collab_lab_license") {
+    return {
+      kernel,
+      recursive: loop,
+      alive: null,
+      mcp_mesh: null,
+      collab_lab_license: {
+        product: "collab_lab_license",
+        note: "One-time Collab Lab access. Register BYO API via register_collab_byo. Free path: $5/30d Kernel+Loop paid events or active Kernel/Loop/Alive seat.",
+        byo_api: true,
+        next: ["register_collab_byo", "collab_session_open", "list_collab_market"],
+      },
+    } as never;
+  }
+  if (sku === "collab_pack") {
+    const mesh = generateMcpMesh(input, fbStyled);
+    const alive = generateAliveCurriculum(input, kernel, loop, fbStyled);
+    return {
+      kernel,
+      recursive: loop,
+      alive,
+      mcp_mesh: mesh,
+      collab_pack: {
+        product: "collab_pack",
+        note: "Multi-agent collab pack — kernel + mesh + loop + attribution via Dual market",
+      },
+    } as never;
+  }
   const alive = generateAliveCurriculum(input, kernel, loop, fbStyled);
   return { kernel, recursive: loop, alive, mcp_mesh: null };
 }

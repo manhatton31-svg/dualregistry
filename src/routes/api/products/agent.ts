@@ -422,10 +422,11 @@ export const Route = createFileRoute("/api/products/agent")({
               : resolved.goals;
           // MCP demos default to MCP Mesh; agents default to Alive
           const mcpish = isMcp || body.kind === "mcp";
-          let demoSku: "alive" | "mcp_mesh" | "kernel" | "recursive" =
+          let demoSku: import("@/lib/products/catalog").ProductSku =
             mcpish
               ? resolveSku(String(body.sku || "mcp_mesh")) || "mcp_mesh"
               : "alive";
+          if (demoSku === "collab_pack") demoSku = mcpish ? "mcp_mesh" : "alive";
           if (tool === "demo_alive") demoSku = "alive";
           // Append tools list if provided (name: desc lines so MCP Mesh parses them)
           let goalsOut = goals;

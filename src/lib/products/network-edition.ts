@@ -151,11 +151,13 @@ export function buildNetworkEdition(origin?: string): NetworkEditionPack {
     /\/$/,
     "",
   );
-  const list_usd = {
+  const list_usd: Record<ProductSku, number> = {
     kernel: LAUNCH_PRICES.kernel / 100,
     recursive: LAUNCH_PRICES.recursive / 100,
     alive: LAUNCH_PRICES.alive / 100,
     mcp_mesh: LAUNCH_PRICES.mcp_mesh / 100,
+    collab_pack: LAUNCH_PRICES.collab_pack / 100,
+    collab_lab_license: LAUNCH_PRICES.collab_lab_license / 100,
   };
   const skill_md = [
     "# Dual Network Edition",
@@ -196,7 +198,7 @@ export function buildNetworkEdition(origin?: string): NetworkEditionPack {
     "2. leave_feedback with real answers + wtp_* USD",
     "3. early-access seat if remaining — no countdown pressure",
     "",
-    `List prices (founding seats, human checkout): Kernel ${formatUsd(LAUNCH_PRICES.kernel)} · Recursive ${formatUsd(LAUNCH_PRICES.recursive)} · Alive ${formatUsd(LAUNCH_PRICES.alive)} · Mesh ${formatUsd(LAUNCH_PRICES.mcp_mesh)}`,
+    `List prices (founding seats, human checkout): Kernel ${formatUsd(LAUNCH_PRICES.kernel)} · Recursive ${formatUsd(LAUNCH_PRICES.recursive)} · Alive ${formatUsd(LAUNCH_PRICES.alive)} · Mesh ${formatUsd(LAUNCH_PRICES.mcp_mesh)} · Collab ${formatUsd(LAUNCH_PRICES.collab_pack)} · Collab Lab ${formatUsd(LAUNCH_PRICES.collab_lab_license)}`,
     "Name-your-price: POST checkout with named_price_usd clamped to [50% list, 3× list].",
     "Event prices: list_event_pricing via /api/mcp (e.g. improve_kernel $0.25 after free allowance).",
   ].join("\n");

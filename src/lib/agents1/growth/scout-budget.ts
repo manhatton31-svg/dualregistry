@@ -1,3 +1,4 @@
+import { xaiConfigured } from "./xai-key";
 /**
  * Growth Scout monthly/daily spend guard — hard $25/mo ceiling by default.
  * Tracks xAI token estimates + attributed Fluid wall time for scout cycles.
@@ -519,7 +520,7 @@ export function scoutBudgetPublic(s: ScoutBudgetState) {
       moltbook_last_post: s.allowlist?.moltbook?.last_post_at || null,
       last_allowlist_at: s.allowlist?.last_allowlist_at || null,
     },
-    xai_configured: Boolean(process.env.XAI_API_KEY?.trim()),
+    xai_configured: xaiConfigured(),
     moltbook_configured: Boolean(process.env.MOLTBOOK_API_KEY?.trim()),
     conversion: {
       invites: s.month_invites,

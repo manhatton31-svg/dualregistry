@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FeedbackSurvey } from "@/components/products/feedback-survey";
 import { DualRegistryWordmark } from "@/components/brand/logo";
+import { SiteNav } from "@/components/brand/site-nav";
 
 export const Route = createFileRoute("/products/")({
   component: ProductsPage,
@@ -320,6 +321,7 @@ function ProductsPage() {
         <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
           <div className="min-w-0">
             <DualRegistryWordmark showDomain className="mb-3" />
+        <SiteNav active="/products" className="mb-5" />
             <Badge variant="accent" className="mb-3 gap-1">
               <Sparkles className="h-3 w-3" />
               Kernel + Recursive Loop

@@ -1,5 +1,6 @@
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { Analytics } from "@vercel/analytics/react";
+import { OpenFeedbackDock } from "@/components/products/open-feedback-dock";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
@@ -19,7 +20,7 @@ export const Route = createRootRoute({
       {
         property: "og:description",
         content:
-          "Agent-first registry. Kernel improver + recursive loop. Free list. Free demo. Honest feedback welcome.",
+          "Agent-first registry. Collab Studio + live sessions + market. Kernel improver + recursive loop. Free list. Free demo. Feedback open on every surface.",
       },
       { property: "og:url", content: "https://dualregistry.dev" },
       { name: "theme-color", content: "#0b0d10" },
@@ -97,6 +98,7 @@ export const Route = createRootRoute({
       </head>
       <body className="min-h-dvh bg-bg text-fg antialiased">
         <Outlet />
+        <OpenFeedbackDock />
         {/* Free Vercel Web Analytics (Pro plan included). No Speed Insights. */}
         <Analytics />
         <Scripts />

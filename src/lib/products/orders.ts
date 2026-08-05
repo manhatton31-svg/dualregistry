@@ -100,6 +100,8 @@ export function productVersionForSku(sku: string): string {
   if (sku === "mcp_mesh") return MCP_MESH_VERSION;
   if (sku === "kernel") return KERNEL_VERSION;
   if (sku === "recursive") return LOOP_VERSION;
+  if (sku === "collab_pack") return `collab_pack_${MCP_MESH_VERSION}`;
+  if (sku === "collab_lab_license") return `collab_lab_license_1.0.0`;
   return ALIVE_VERSION;
 }
 

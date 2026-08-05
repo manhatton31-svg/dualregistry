@@ -18,7 +18,7 @@ import { writeFileSync, mkdirSync, readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = process.cwd();
-const TOOLS_VERSION = "3.8.0";
+const TOOLS_VERSION = "3.12.0";
 const AGENT_PATH = "improve_kernel";
 const PRIMARY_KR = "value_to_feedback_same_session_rate";
 const FOUNDING = "real_feedback_no_demo_required";

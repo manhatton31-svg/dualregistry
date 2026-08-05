@@ -6,6 +6,8 @@ import {
   FEEDBACK_DISCOUNT,
   getWtpReport,
 } from "@/lib/products/feedback";
+import { listFeedbackSurfacesPublic } from "@/lib/products/open-feedback";
+import { resolvePublicOrigin } from "@/lib/agents1/public-origin";
 
 export const Route = createFileRoute("/api/products/feedback")({
   server: {
@@ -21,6 +23,7 @@ export const Route = createFileRoute("/api/products/feedback")({
         }),
       GET: async ({ request }) => {
         const url = new URL(request.url);
+        const origin = resolvePublicOrigin(request);
         const limit = Number(url.searchParams.get("limit") || "40");
         const data = await listFeedback(limit);
         const wtp = await getWtpReport();
@@ -33,6 +36,7 @@ export const Route = createFileRoute("/api/products/feedback")({
         } catch {
           already_done = null;
         }
+        const surfaces = listFeedbackSurfacesPublic(origin);
         return Response.json(
           {
             ok: true,
@@ -41,6 +45,9 @@ export const Route = createFileRoute("/api/products/feedback")({
             wtp,
             survey: data.survey || surveyPublicSchema(),
             discount: FEEDBACK_DISCOUNT,
+            open_feedback: surfaces,
+            doctrine: "feedback_is_the_core",
+            note: "Every agent, MCP, and human surface on Dual accepts feedback.",
           },
           {
             headers: {
@@ -61,10 +68,21 @@ export const Route = createFileRoute("/api/products/feedback")({
           );
         }
         try {
+          const surface = body.surface
+            ? String(body.surface)
+            : body.source
+              ? String(body.source)
+              : "general";
+          const baseMeta =
+            body.meta && typeof body.meta === "object"
+              ? (body.meta as Record<string, unknown>)
+              : {};
           const result = await submitFeedback({
             agent_name: body.agent_name
               ? String(body.agent_name)
-              : undefined,
+              : body.name
+                ? String(body.name)
+                : undefined,
             contact: body.contact
               ? String(body.contact)
               : body.email
@@ -75,7 +93,7 @@ export const Route = createFileRoute("/api/products/feedback")({
               : undefined,
             order_id: body.order_id ? String(body.order_id) : undefined,
             sku: body.sku ? String(body.sku) : undefined,
-            source: body.source ? String(body.source) : "demo",
+            source: body.source ? String(body.source) : surface,
             body: body.body ? String(body.body) : undefined,
             rating:
               body.rating != null ? Number(body.rating) : undefined,
@@ -87,13 +105,32 @@ export const Route = createFileRoute("/api/products/feedback")({
               body.audience === "mcp" || body.audience === "agent"
                 ? body.audience
                 : undefined,
-            tags: Array.isArray(body.tags)
-              ? body.tags.map(String)
-              : undefined,
-            meta:
-              body.meta && typeof body.meta === "object"
-                ? (body.meta as Record<string, unknown>)
-                : undefined,
+            tags: [
+              ...(Array.isArray(body.tags) ? body.tags.map(String) : []),
+              "open_surface",
+              surface,
+            ],
+            meta: {
+              ...baseMeta,
+              surface,
+              session_id: body.session_id
+                ? String(body.session_id)
+                : baseMeta.session_id,
+              workflow_id: body.workflow_id
+                ? String(body.workflow_id)
+                : baseMeta.workflow_id,
+              product_id: body.product_id
+                ? String(body.product_id)
+                : baseMeta.product_id,
+              step_id: body.step_id
+                ? String(body.step_id)
+                : baseMeta.step_id,
+              page: body.page ? String(body.page) : baseMeta.page,
+              listing_id: body.listing_id
+                ? String(body.listing_id)
+                : baseMeta.listing_id,
+              open: true,
+            },
             mode: body.mode ? String(body.mode) : undefined,
           });
           if (!result.ok) {

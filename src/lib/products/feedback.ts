@@ -630,6 +630,16 @@ export async function submitFeedback(input: {
   recompute(s);
   await persist(s);
 
+  // Feedback-driven pricing: recompute list + per-call prices from WTP
+  try {
+    const { recomputeFeedbackDrivenPrices } = await import(
+      "./feedback-driven-pricing"
+    );
+    await recomputeFeedbackDrivenPrices();
+  } catch {
+    /* */
+  }
+
   // Reply-capture funnel: mark feedback if we can resolve listing_id
   let cascadeListingId = "";
   try {

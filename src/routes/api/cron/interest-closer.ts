@@ -14,6 +14,7 @@
  *   CRON_SECRET
  */
 import { createFileRoute } from "@tanstack/react-router";
+import { bootstrapSecrets, getSecret } from "@/lib/secrets";
 import { MAX_DURATION, PREFERRED_REGION } from "@/lib/agents1/vercel-platform";
 import { readDurableRaw } from "@/lib/agents1/durable-json";
 
@@ -22,7 +23,8 @@ export const preferredRegion = PREFERRED_REGION;
 
 function authorized(request: Request): boolean {
   if (request.headers.get("x-vercel-cron") === "1") return true;
-  const secret = process.env.CRON_SECRET?.trim();
+  bootstrapSecrets();
+  const secret = (getSecret("cron_secret") || process.env.CRON_SECRET || "").trim();
   if (!secret) return true;
   const url = new URL(request.url);
   const q = url.searchParams.get("secret") || "";

@@ -11,6 +11,7 @@
  * Fluid Active CPU: I/O wait during handshakes is free; cadence skip is cheap.
  */
 import { createFileRoute } from "@tanstack/react-router";
+import { bootstrapSecrets, getSecret } from "@/lib/secrets";
 import { writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { dataRoot } from "@/lib/data-root";
@@ -27,7 +28,8 @@ function authorized(request: Request): boolean {
   const ua = (request.headers.get("user-agent") || "").toLowerCase();
   if (ua.includes("vercel-cron")) return true;
 
-  const secret = process.env.CRON_SECRET?.trim();
+  bootstrapSecrets();
+  const secret = (getSecret("cron_secret") || process.env.CRON_SECRET || "").trim();
   if (!secret) return true; // open tick (budget-capped; high daily ceiling)
 
   const url = new URL(request.url);

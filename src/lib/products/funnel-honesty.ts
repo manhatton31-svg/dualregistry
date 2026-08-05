@@ -5,7 +5,7 @@
 import { listFulfilledOrders, reloadOrdersFromDisk } from "./orders";
 import { listFeedback } from "./feedback";
 import { isPublicCountableDemo, REAL_NUMBERS_POLICY } from "./real-numbers";
-import { isRealFeedback, isTestAgentName } from "./authenticity";
+import { isExternalUnlockFeedback, isTestAgentName } from "./authenticity";
 import { getProductEngagement } from "./engagement";
 
 export type FunnelHonesty = {
@@ -159,7 +159,7 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
   for (const f of fb.items || []) {
     total_events++;
     if (isTestAgentName(f.agent_name)) continue;
-    if (!isRealFeedback(f as Parameters<typeof isRealFeedback>[0])) continue;
+    if (!isExternalUnlockFeedback(f as Parameters<typeof isExternalUnlockFeedback>[0])) continue;
     real_public++;
     const aud =
       (f as { audience?: string }).audience === "mcp" ||
@@ -203,7 +203,7 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
   const fbByOrder = new Map<string, number>();
   for (const f of fb.items || []) {
     if (isTestAgentName(f.agent_name)) continue;
-    if (!isRealFeedback(f as Parameters<typeof isRealFeedback>[0])) continue;
+    if (!isExternalUnlockFeedback(f as Parameters<typeof isExternalUnlockFeedback>[0])) continue;
     const oid = (f as { order_id?: string }).order_id;
     const at = Date.parse(
       String((f as { created_at?: string }).created_at || ""),
@@ -233,7 +233,7 @@ export async function getFunnelHonesty(): Promise<FunnelHonesty> {
   let value_to_feedback = 0;
   for (const f of fb.items || []) {
     if (isTestAgentName(f.agent_name)) continue;
-    if (!isRealFeedback(f as Parameters<typeof isRealFeedback>[0])) continue;
+    if (!isExternalUnlockFeedback(f as Parameters<typeof isExternalUnlockFeedback>[0])) continue;
     const tags = ((f as { tags?: string[] }).tags || []).map(String);
     const src = String((f as { source?: string }).source || "");
     const meta = ((f as { meta?: Record<string, unknown> }).meta || {}) as Record<string, unknown>;

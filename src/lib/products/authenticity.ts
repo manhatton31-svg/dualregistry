@@ -18,11 +18,44 @@ const INTERNAL_NAME_MARKERS = [
   "operatorsmoke",
   "build-agent",
   "buildagent",
+  "collab-probe",
+  "collab_probe",
+  "pricingprobe",
+  "pricing-probe",
+  "pricesignal",
+  "price-signal",
+  "fairpriceagent",
+  "fairprice",
+  "wtpagent",
+  "wtpmcp",
+  "wtphuman",
+  "wtprefresh",
+  "prod-gtm",
+  "gtm-verify",
+  "gtm_verify",
+  "operator_try",
+  "operator-try",
 ];
 
 /** Legacy auto-drive template surveys (MCP install kit / agent persona spam) */
 const TEMPLATE_BODY_RE =
   /As (MCP publisher|agent) .+: (install kit helped|need clearer install|want shorter system_prompt|still want clearer agent-facing)/i;
+
+/** Sources that may store feedback but never move the payment unlock bar. */
+const NON_UNLOCK_SOURCES = new Set([
+  "platform_qa",
+  "registry_drive",
+  "operator_dogfood",
+  "dual_cron",
+  "operator",
+  "operator_try",
+  "operator_smoke",
+  "build_agent",
+  "build-agent",
+  "qa",
+  "pricing_test",
+  "ship_verify",
+]);
 
 export function isTestAgentName(name: string | undefined | null): boolean {
   if (!name) return false;
@@ -33,6 +66,11 @@ export function isTestAgentName(name: string | undefined | null): boolean {
     if (n === m || n.startsWith(m + "-") || n.startsWith(m + "_") || n.includes(m))
       return true;
   }
+  // Pricing / collab lab self-tests
+  if (/^wtp[a-z]*\d*$/i.test(raw)) return true;
+  if (/^fairprice/i.test(raw)) return true;
+  if (/^pricesignal/i.test(raw)) return true;
+  if (/probe[-_]/i.test(raw) || /[-_]probe$/i.test(raw)) return true;
   return false;
 }
 
@@ -60,6 +98,7 @@ export function isSyntheticFeedback(item: {
   if (item.meta?.not_external === true) return true;
   if (item.meta?.exclude_from_progress === true) return true;
   if (item.meta?.counts_for_learning === false) return true;
+  if (item.meta?.unlock_count === false) return true;
   // operator dogfood only counts when meta.count_as_real === true
   if (
     item.meta?.operator_dogfood === true &&
@@ -78,15 +117,14 @@ export function isSyntheticFeedback(item: {
     if (item.tags.includes("exclude_from_progress")) return true;
     if (item.tags.includes("dual_cron")) return true;
     if (item.tags.includes("operator")) return true;
+    if (item.tags.includes("operator_try")) return true;
+    if (item.tags.includes("pricing_test")) return true;
+    if (item.tags.includes("ship_verify")) return true;
   }
-  if (
-    item.source === "platform_qa" ||
-    item.source === "registry_drive" ||
-    item.source === "operator_dogfood" ||
-    item.source === "dual_cron" ||
-    item.source === "operator"
-  )
-    return true;
+  const src = String(item.source || "")
+    .trim()
+    .toLowerCase();
+  if (NON_UNLOCK_SOURCES.has(src)) return true;
   // operator_dogfood_real is allowed through (explicit count_as_real path)
   const body = item.body || "";
   if (body.includes("registry_drive persona")) return true;
@@ -110,6 +148,54 @@ export function isRealFeedback(item: {
   source?: string | null;
 }): boolean {
   return !isSyntheticFeedback(item);
+}
+
+/**
+ * Stricter gate for payment unlock + public funnel progress.
+ * Only external agents/MCPs acting on their own — never operator /try,
+ * ship probes, pricing self-tests, or platform QA.
+ *
+ * registry-tool leave_feedback from a real external agent still counts
+ * (MCP is the intended path). Internal probe names and operator sources do not.
+ */
+export function isExternalUnlockFeedback(item: {
+  agent_name?: string | null;
+  tags?: string[] | null;
+  meta?: Record<string, unknown> | null;
+  body?: string | null;
+  source?: string | null;
+}): boolean {
+  if (!isRealFeedback(item)) return false;
+  const src = String(item.source || "")
+    .trim()
+    .toLowerCase();
+  // Explicit operator paths never move unlock (even if someone omitted tags)
+  if (
+    src === "operator_try" ||
+    src === "operator" ||
+    src === "operator_smoke" ||
+    src === "ship_verify" ||
+    src === "pricing_test"
+  )
+    return false;
+  if (item.meta?.operator_try === true) return false;
+  if (item.meta?.count_as_real === false) return false;
+  if (item.meta?.external === false) return false;
+  // Tags that mark internal verification
+  if (Array.isArray(item.tags)) {
+    for (const t of item.tags) {
+      const tl = String(t).toLowerCase();
+      if (
+        tl === "operator_try" ||
+        tl === "ship_verify" ||
+        tl === "pricing_test" ||
+        tl === "internal" ||
+        tl === "not_external"
+      )
+        return false;
+    }
+  }
+  return true;
 }
 
 /** Public demo origins that may count (still need epoch + not seed idem). */

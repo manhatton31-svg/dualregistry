@@ -512,11 +512,13 @@ export async function runImproveKernel(
   const fbCapped = {
     ...fb,
     max_prompt_chars: Math.min(
-      Number(fb.max_prompt_chars) > 0 ? Number(fb.max_prompt_chars) : maxChars,
+      Number((fb as { max_prompt_chars?: number }).max_prompt_chars) > 0
+        ? Number((fb as { max_prompt_chars?: number }).max_prompt_chars)
+        : maxChars,
       maxChars,
     ),
     prompt_style: fb.prompt_style || "ultra_compact",
-  };
+  } as typeof fb & { max_prompt_chars: number };
 
   const kernel = generateKernel(gi, fbCapped);
   const ne = buildNetworkEdition(input.origin);
@@ -547,7 +549,7 @@ export async function runImproveKernel(
     ? undefined
     : buildPayWithFeedback({
         origin: input.origin,
-        agent_name: gi.agent_name,
+        agent_name: gi.agent_name || "agent",
         listing_id: input.listing_id,
         audience: "agent",
         event: "improve_kernel",
@@ -586,7 +588,7 @@ export async function runImproveKernel(
 
   const paste_path = buildPastePath({
     system_prompt_short: short,
-    agent_name: gi.agent_name,
+    agent_name: gi.agent_name || "agent",
     listing_id: input.listing_id,
     origin: input.origin,
     ship_id: reciprocity.ship_id,

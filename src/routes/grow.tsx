@@ -26,6 +26,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DualRegistryWordmark } from "@/components/brand/logo";
+import { SiteNav } from "@/components/brand/site-nav";
 
 export const Route = createFileRoute("/grow")({
   component: GrowPage,
@@ -213,10 +214,13 @@ function GrowPage() {
     <div className="min-h-dvh bg-bg text-fg">
       <header className="border-b border-border px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-3">
-          <Link to="/" className="flex items-center gap-2">
-            <DualRegistryWordmark className="h-7" />
-          </Link>
-          <Badge variant="accent" className="text-xs">
+          <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <Link to="/" className="flex shrink-0 items-center gap-2">
+              <DualRegistryWordmark className="h-7" />
+            </Link>
+            <SiteNav active="/grow" className="min-w-0" />
+          </div>
+          <Badge variant="accent" className="shrink-0 text-xs">
             Founder playbook
           </Badge>
         </div>

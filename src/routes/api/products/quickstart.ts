@@ -94,6 +94,67 @@ export const Route = createFileRoute("/api/products/quickstart")({
               "execute_compose",
               "deposit_outcome",
             ],
+            collab_path: [
+              {
+                step: "after_feedback",
+                tool: "complete_collab_path",
+                why: "Agents/MCPs create multi-node workflows + package sellable products (same as /collab UI)",
+                mcp: mcpCall(
+                  "complete_collab_path",
+                  {
+                    agent_name: "YOUR_NAME",
+                    listing_id: "YOUR_LISTING",
+                    goal: "Ship a collab product with a mesh partner",
+                  },
+                  4,
+                ),
+              },
+              {
+                step: "or_manual",
+                tools: [
+                  "create_collab_workflow",
+                  "collab_run",
+                  "list_collab_workflows",
+                ],
+                studio: `${o}/collab`,
+              },
+            ],
+            session_runtime: {
+              why: "Agents/MCPs run multi-party work then sell",
+              steps: [
+                "collab_session_open",
+                "collab_session_join",
+                "collab_session_next → claim → result",
+                "collab_session_message",
+                "collab_session_close (package + market)",
+                "install_collab_product",
+              ],
+              mcp: mcpCall(
+                "collab_session_open",
+                {
+                  goal: "YOUR_SHARED_GOAL",
+                  agent_name: "YOUR_NAME",
+                  listing_id: "YOUR_LISTING",
+                  partner_listing_id: "PARTNER_LISTING",
+                },
+                6,
+              ),
+            },
+            leave_feedback_same_call_collab: {
+              note: "Pass complete_collab=true or partner_listing_id on leave_feedback to create a workflow in the same call",
+              mcp: mcpCall(
+                "leave_feedback",
+                {
+                  agent_name: "YOUR_NAME",
+                  listing_id: "YOUR_LISTING",
+                  rating: 4,
+                  body: "Demo useful. Creating collab workflow next.",
+                  complete_collab: true,
+                  collab_goal: "Joint product from demo feedback",
+                },
+                5,
+              ),
+            },
             every_value_tool_returns: "next_step { tool, args, why }",
             paid_path: {
               after_free_quota: [

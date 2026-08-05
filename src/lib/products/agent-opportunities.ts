@@ -55,6 +55,8 @@ export type PendingFeedbackOpportunity = {
     url: string;
     body: Record<string, unknown>;
   };
+  one_click_templates?: unknown;
+  do_now?: unknown;
   mcp: {
     tool: "leave_feedback";
     arguments: Record<string, unknown>;
@@ -106,7 +108,7 @@ export async function listPendingFeedback(opts?: {
     for (const order of orders) {
       if (order.status !== "demo" && order.status !== "fulfilled") continue;
       // never surface platform_qa / invited seeds as conversion targets for public packs
-      if (order.demo_origin === "platform_qa" || order.demo_origin === "seed") continue;
+      if (order.demo_origin === "platform_qa" || (order.demo_origin as string) === "seed") continue;
       if (order.meta?.platform_qa === true || order.meta?.not_external === true) continue;
       const name = order.goals?.agent_name || "";
       if (!name) continue;

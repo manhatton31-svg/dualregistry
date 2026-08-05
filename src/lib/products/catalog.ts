@@ -2,14 +2,22 @@
  * Agents1 commercial products — launch pricing + seat tiers.
  * Agents: Kernel / Recursive / Alive
  * MCP publishers: MCP Mesh (dynamic to their server tools)
+ * Collab: collab_pack (market) + collab_lab_license (BYO one-time)
  *
  * Founding: first 1000 paid seats at launch prices.
  * After 1000: price rises every 1000 seats (unlimited paid seats).
+ * Feedback-driven: list prices blend toward median WTP (agents/MCPs/humans).
  * Long bands give agents time to watch demo + paid feedback improve the product.
  * Registry listings + demos: unlimited (dedupe enforced elsewhere).
  */
 
-export type ProductSku = "kernel" | "recursive" | "alive" | "mcp_mesh";
+export type ProductSku =
+  | "kernel"
+  | "recursive"
+  | "alive"
+  | "mcp_mesh"
+  | "collab_pack"
+  | "collab_lab_license";
 
 export type ProductDef = {
   sku: ProductSku;
@@ -35,6 +43,8 @@ export const LAUNCH_PRICES: Record<ProductSku, number> = {
   recursive: 1999, // $19.99
   alive: 2999, // $29.99
   mcp_mesh: 2499, // $24.99 — MCP publisher product
+  collab_pack: 2900, // $29.00 — multi-agent collab pack (market default)
+  collab_lab_license: 4900, // $49.00 — one-time Collab Lab + BYO API
 };
 
 /** First N paid seats keep founding prices */
@@ -76,6 +86,11 @@ function bumpPrices(
     recursive: Math.max(base.recursive, round99(base.recursive)),
     alive: Math.max(base.alive, round99(base.alive)),
     mcp_mesh: Math.max(base.mcp_mesh, round99(base.mcp_mesh)),
+    collab_pack: Math.max(base.collab_pack, round99(base.collab_pack)),
+    collab_lab_license: Math.max(
+      base.collab_lab_license,
+      round99(base.collab_lab_license),
+    ),
   };
 }
 
@@ -118,22 +133,11 @@ export const PRICE_TIERS: PriceTier[] = buildPriceTiers(8);
 export const TIER_SIZE = POST_FOUNDING_STEP;
 
 export function tierForSeat(seatNumber: number): PriceTier {
-  const n = Math.max(1, Math.floor(seatNumber));
+  const seat = Math.max(1, seatNumber);
   for (const t of PRICE_TIERS) {
-    if (n >= t.from_seat && n <= t.to_seat) return t;
+    if (seat >= t.from_seat && seat <= t.to_seat) return t;
   }
-  // Dynamic unlimited step if somehow past table
-  const past = Math.max(0, n - FOUNDING_SEATS - 1);
-  const stepIndex = Math.floor(past / POST_FOUNDING_STEP);
-  const from = FOUNDING_SEATS + stepIndex * POST_FOUNDING_STEP + 1;
-  const to = FOUNDING_SEATS + (stepIndex + 1) * POST_FOUNDING_STEP;
-  return {
-    id: `dynamic_${from}_${to}`,
-    label: `Growth · seats ${from}–${to}`,
-    from_seat: from,
-    to_seat: to,
-    prices: bumpPrices(LAUNCH_PRICES, stepIndex),
-  };
+  return PRICE_TIERS[PRICE_TIERS.length - 1];
 }
 
 /** Next buyer is seat soldCount+1 */
@@ -141,11 +145,24 @@ export function tierForSoldCount(soldCount: number): PriceTier {
   return tierForSeat(soldCount + 1);
 }
 
+/**
+ * List price for SKU at current sold count.
+ * Applies seat-tier band, then feedback-driven blend (agents/MCPs/humans WTP).
+ */
 export function priceCentsForSku(
   sku: ProductSku,
   soldCount: number,
 ): number {
-  return tierForSoldCount(soldCount).prices[sku];
+  const tierCents = tierForSoldCount(soldCount).prices[sku];
+  try {
+    // Lazy require avoids circular import at module init
+    const {
+      feedbackListCents,
+    } = require("./feedback-driven-pricing") as typeof import("./feedback-driven-pricing");
+    return feedbackListCents(sku, tierCents);
+  } catch {
+    return tierCents;
+  }
 }
 
 /**
@@ -181,6 +198,7 @@ export type ResolvePriceResult = {
   named: boolean;
   clamped: boolean;
   named_usd_input?: number;
+  feedback_driven?: boolean;
 };
 
 /** Resolve list price or clamped name-your-price for checkout. */
@@ -199,6 +217,16 @@ export function resolvePrice(
   ) {
     namedUsd = Number(opts.named_price_usd);
   }
+  let feedback_driven = false;
+  try {
+    const {
+      getFeedbackPriceStateSync,
+    } = require("./feedback-driven-pricing") as typeof import("./feedback-driven-pricing");
+    feedback_driven =
+      getFeedbackPriceStateSync().method === "feedback_blend_median";
+  } catch {
+    /* */
+  }
   if (namedUsd == null || namedUsd <= 0) {
     return {
       amount_cents: bounds.list_cents,
@@ -207,6 +235,7 @@ export function resolvePrice(
       ceiling_cents: bounds.ceiling_cents,
       named: false,
       clamped: false,
+      feedback_driven,
     };
   }
   const raw = Math.round(namedUsd * 100);
@@ -222,9 +251,9 @@ export function resolvePrice(
     named: true,
     clamped: amount !== raw,
     named_usd_input: namedUsd,
+    feedback_driven,
   };
 }
-
 
 export function seatsRemainingInTier(soldCount: number): number {
   const tier = tierForSoldCount(soldCount);
@@ -261,6 +290,7 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
       "≤600 system_prompt_short + SKILL.md export",
       "Network Edition: Dual node (sense/follow/leave_trace)",
       "Exonomics + founding path + WTP name-your-price",
+      "Per-call improve_kernel after free daily allowance",
     ],
     agent_api: "/api/products/agent",
   },
@@ -283,6 +313,7 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
       "Process rewards + eval harness",
       "Binds to Kernel Improver",
       "Density KRs + trail deposits (Network Edition)",
+      "Per-call run_loop_tick after free daily allowance",
     ],
     agent_api: "/api/products/agent",
   },
@@ -291,7 +322,7 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
     name: "Alive Bundle",
     tagline: "Kernel + Recursive + Network Edition",
     description:
-      "Full aliveness stack: Kernel + Recursive + Dual Network Edition + curriculum. Best default for new agents.",
+      "Full aliveness stack: Kernel + Recursive + Dual Network Edition + curriculum. Best default for new agents. Includes free Collab Lab while seat is active.",
 
     price_cents: LAUNCH_PRICES.alive,
     currency: "usd",
@@ -305,6 +336,7 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
       "Best default for new agents",
       "Founding discount stacks with feedback code",
       "Full Dual Network Edition + name-your-price",
+      "Collab Lab free while seat active",
     ],
     agent_api: "/api/products/agent",
   },
@@ -328,8 +360,53 @@ export const PRODUCTS: Record<ProductSku, ProductDef> = {
       "Reliability loop probe→call→verify",
       "Network Edition: trails + compositions on tool success",
       "WTP name-your-price when payments open",
+      "Per-call mesh_match / mesh_compose after free allowance",
     ],
     agent_api: "/api/products/agent",
+  },
+  collab_pack: {
+    sku: "collab_pack",
+    name: "Collab Pack",
+    tagline: "Multi-agent / MCP workflow product",
+    description:
+      "Agent- and MCP-built collab packs: shared kernel + mesh policy + loop, collaborator attribution shares, installable via Dual market.",
+    price_cents: LAUNCH_PRICES.collab_pack,
+    currency: "usd",
+    stripe_product_id: "prod_UyGzWVFCjrDaI5",
+    stripe_price_id: "price_1TyKRH6kIwMNE1piNfVW72Uf",
+    includes: ["collab_pack", "kernel", "mcp_mesh"],
+    audience: "both",
+    features: [
+      "Multi-node collab session deliverables",
+      "Kernel + mesh policy artifact",
+      "Collaborator revenue attribution (share_bps)",
+      "Install token for collaborators",
+      "Listed on Dual collab market",
+      "Price feedback-driven from market + WTP",
+    ],
+    agent_api: "/api/products/collab-market",
+  },
+  collab_lab_license: {
+    sku: "collab_lab_license",
+    name: "Collab Lab License",
+    tagline: "One-time Collab Lab access + BYO API",
+    description:
+      "One-time license for Collab Lab (sessions, converge, package, market). Bring your own xAI/OpenAI/Anthropic key — Dual hosts the collab bus. Alternative to free access via Kernel/Loop spend.",
+    price_cents: LAUNCH_PRICES.collab_lab_license,
+    currency: "usd",
+    stripe_product_id: "prod_UyGzWVFCjrDaI5",
+    stripe_price_id: "price_1TyKRH6kIwMNE1piNfVW72Uf",
+    includes: ["collab_lab_license"],
+    audience: "both",
+    features: [
+      "One-time license (not a seat subscription)",
+      "BYO API key for LLM work",
+      "Open sessions with Live registry agents + MCPs",
+      "Package + sell collab packs with attribution",
+      "Per-call collab events after free daily allowance",
+      "Price moves with agent/MCP/human WTP feedback",
+    ],
+    agent_api: "/api/products/collab",
   },
 };
 
@@ -354,6 +431,20 @@ export function resolveSku(raw: string): ProductSku | null {
     s === "publisher"
   )
     return "mcp_mesh";
+  if (
+    s === "collab_pack" ||
+    s === "collab" ||
+    s === "collab_product" ||
+    s === "collabpack"
+  )
+    return "collab_pack";
+  if (
+    s === "collab_lab_license" ||
+    s === "collab_lab" ||
+    s === "collab_license" ||
+    s === "byo_collab"
+  )
+    return "collab_lab_license";
   return null;
 }
 
@@ -376,7 +467,7 @@ export function buyLikelihoodAtSoldCount(
 } {
   const seat = soldCount + 1;
   const tier = tierForSeat(seat);
-  const price = tier.prices.alive / 100;
+  const price = priceCentsForSku("alive", soldCount) / 100;
   const samples = (wtpAliveUsd || []).filter(
     (v) => typeof v === "number" && !Number.isNaN(v),
   );
@@ -445,28 +536,41 @@ export function pricingSnapshot(soldCount: number, wtpAliveUsd?: number[]) {
   const foundingLeft = Math.max(0, FOUNDING_SEATS - soldCount);
   const likelihood = buyLikelihoodAtSoldCount(soldCount, wtpAliveUsd);
   const likelihood_curve = buyLikelihoodCurve(soldCount, wtpAliveUsd, 6);
+  let feedback_method = "base_catalog";
+  try {
+    const {
+      getFeedbackPriceStateSync,
+    } = require("./feedback-driven-pricing") as typeof import("./feedback-driven-pricing");
+    feedback_method = getFeedbackPriceStateSync().method;
+  } catch {
+    /* */
+  }
   return {
     sold_agents: soldCount,
     next_seat: nextSeat,
     founding_seats: FOUNDING_SEATS,
     founding_seats_remaining: foundingLeft,
+    founding_remaining: foundingLeft,
     post_founding_step: POST_FOUNDING_STEP,
     paid_seats_unlimited: true,
     registry_listings_unlimited: true,
     demos_unlimited: true,
+    feedback_driven: feedback_method === "feedback_blend_median",
+    feedback_method,
     tier: {
       id: tier.id,
       label: tier.label,
       from_seat: tier.from_seat,
       to_seat: tier.to_seat === Number.MAX_SAFE_INTEGER ? null : tier.to_seat,
       seats_remaining_in_tier: remaining || null,
+      remaining_in_tier: remaining,
       is_founding: nextSeat <= FOUNDING_SEATS,
     },
     prices: (Object.keys(LAUNCH_PRICES) as ProductSku[]).map((sku) => ({
       sku,
       name: PRODUCTS[sku].name,
-      price_cents: tier.prices[sku],
-      price: formatUsd(tier.prices[sku]),
+      price_cents: priceCentsForSku(sku, soldCount),
+      price: formatUsd(priceCentsForSku(sku, soldCount)),
       launch_price_cents: LAUNCH_PRICES[sku],
       launch_price: formatUsd(LAUNCH_PRICES[sku]),
       audience: PRODUCTS[sku].audience,
@@ -485,18 +589,26 @@ export function pricingSnapshot(soldCount: number, wtpAliveUsd?: number[]) {
         recursive: formatUsd(t.prices.recursive),
         alive: formatUsd(t.prices.alive),
         mcp_mesh: formatUsd(t.prices.mcp_mesh),
+        collab_pack: formatUsd(t.prices.collab_pack),
+        collab_lab_license: formatUsd(t.prices.collab_lab_license),
       },
     })),
+    name_your_price: {
+      floor_fraction: NYP_FLOOR_FRACTION,
+      ceiling_multiplier: NYP_CEILING_MULT,
+      field: "named_price_usd",
+      note: "Agents/MCPs/humans name USD; clamped to [50% list, 3× list]. $0 is survey data only. List itself moves with WTP feedback.",
+    },
     buy_likelihood: likelihood,
     buy_likelihood_curve: likelihood_curve,
     note:
       foundingLeft > 0
-        ? `${foundingLeft} founding seats left at launch prices (of ${FOUNDING_SEATS}). After seat ${FOUNDING_SEATS}, each price level lasts the next ${POST_FOUNDING_STEP} paid seats so agents can watch demo + paid feedback improve the product. Paid seats unlimited. Registry listings + demos unlimited (zero dupes).`
-        : `Founding cohort full. Each price level lasts ${POST_FOUNDING_STEP} paid seats — room to observe feedback before the next rise. Paid seats unlimited. Current buy-likelihood for Alive ~${Math.round(likelihood.likelihood * 100)}%.`,
+        ? `${foundingLeft} founding seats left at launch prices (of ${FOUNDING_SEATS}). List + per-call prices are feedback-driven (median WTP from agents, MCPs, humans). After seat ${FOUNDING_SEATS}, each price level lasts the next ${POST_FOUNDING_STEP} paid seats. Paid seats unlimited.`
+        : `Founding cohort full. Each price level lasts ${POST_FOUNDING_STEP} paid seats. Feedback-driven list prices. Current buy-likelihood for Alive ~${Math.round(likelihood.likelihood * 100)}%.`,
     audiences: {
-      agents: ["kernel", "recursive", "alive"],
-      mcp_publishers: ["mcp_mesh", "alive", "kernel", "recursive"],
-      note: "MCP publishers: buy MCP Mesh (built for your tools) or Alive for companion agents that call your MCP.",
+      agents: ["kernel", "recursive", "alive", "collab_lab_license", "collab_pack"],
+      mcp_publishers: ["mcp_mesh", "alive", "kernel", "recursive", "collab_lab_license", "collab_pack"],
+      note: "MCP publishers: buy MCP Mesh or Alive. Collab Lab free with $5/30d Kernel+Loop spend or collab_lab_license + BYO API.",
     },
   };
 }

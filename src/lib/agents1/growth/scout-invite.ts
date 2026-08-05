@@ -1,3 +1,4 @@
+import { resolveXaiApiKey } from "./xai-key";
 /**
  * Growth Scout invites — template + optional grok-build-0.1 draft.
  * Deliver via Talk owner DM + soft HTTPS (same surfaces as demo-nudge).
@@ -55,7 +56,7 @@ export async function composeInvite(opts: {
   category?: string;
 }): Promise<ComposeInviteResult> {
   const fallback = templateInvite(opts);
-  const key = process.env.XAI_API_KEY?.trim();
+  const key = resolveXaiApiKey();
   if (!key) {
     return { text: fallback, used_llm: false, xai_usd: 0 };
   }

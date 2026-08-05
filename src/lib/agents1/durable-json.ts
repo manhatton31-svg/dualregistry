@@ -1,3 +1,11 @@
+import { bootstrapSecrets, getSecret } from "@/lib/secrets";
+import { createHash } from "node:crypto";
+import { mkdir, readFile, writeFile, rename, stat } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { dataRoot } from "@/lib/data-root";
+
+bootstrapSecrets();
+
 /**
  * Durable JSON blobs for production (Vercel /tmp is ephemeral).
  *
@@ -15,10 +23,6 @@
  *     - commit messages include [skip ci] so Vercel can ignore them
  *  3. cron responses also return full state so GH Actions can commit without a token
  */
-import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile, rename, stat } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { dataRoot } from "@/lib/data-root";
 
 const DEFAULT_REPO =
   process.env.DURABLE_GITHUB_REPO || "manhatton31-svg/dualregistry";
@@ -45,6 +49,9 @@ const PER_FILE_MIN_MS: Record<string, number> = {
   "growth-scout.json": 60_000,
   "interest-scout.json": 60_000,
   "interest-closer.json": 60_000,
+  "collab-studio.json": 60_000,
+  "collab-market.json": 60_000,
+  "collab-sessions.json": 60_000,
   "platform-cost.json": 120_000,
   "agent-runs.json": 120_000,
   "counter-floors.json": 180_000,
@@ -156,6 +163,7 @@ async function writeLocal(name: string, raw: string): Promise<void> {
 async function hydrateRemote(name: string): Promise<string | null> {
   // Prefer GitHub Contents API (auth, no CDN lag) over raw.githubusercontent.com
   const token =
+    getSecret("github_token") ||
     process.env.DURABLE_GITHUB_TOKEN ||
     process.env.GITHUB_TOKEN ||
     process.env.GH_TOKEN;
@@ -411,6 +419,7 @@ async function pushGithubNow(
   skipped?: string;
 }> {
   const token =
+    getSecret("github_token") ||
     process.env.DURABLE_GITHUB_TOKEN ||
     process.env.GITHUB_TOKEN ||
     process.env.GH_TOKEN;

@@ -122,7 +122,7 @@ export const Route = createFileRoute("/api/listings/active")({
             });
             mapped.sort(
               (a, b) =>
-                sortKeyForListing(b) - sortKeyForListing(a),
+                sortKeyForListing(b as never) - sortKeyForListing(a as never),
             );
             return mapped.slice(0, limit);
           };

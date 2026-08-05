@@ -4,6 +4,7 @@
  * Demos always available for product taste + feedback.
  */
 import Stripe from "stripe";
+import { bootstrapSecrets, getSecret, hasSecret } from "@/lib/secrets";
 import { PRODUCTS, type ProductSku } from "./catalog";
 import {
   createOrder,
@@ -15,11 +16,14 @@ import {
 import { getPaymentGate } from "./payment-gate";
 
 export function stripeConfigured() {
-  return Boolean(process.env.STRIPE_SECRET_KEY?.startsWith("sk_"));
+  bootstrapSecrets();
+  const key = getSecret("stripe_secret_key");
+  return Boolean(key?.startsWith("sk_"));
 }
 
 function client() {
-  const key = process.env.STRIPE_SECRET_KEY;
+  bootstrapSecrets();
+  const key = getSecret("stripe_secret_key");
   if (!key) throw new Error("STRIPE_SECRET_KEY not set");
   return new Stripe(key);
 }
@@ -299,7 +303,8 @@ export async function handleWebhook(
   if (!stripeConfigured()) return { received: false };
   const gate = await getPaymentGate();
   if (!gate.payments_open) return { received: false };
-  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+  bootstrapSecrets();
+  const secret = getSecret("stripe_webhook_secret") || process.env.STRIPE_WEBHOOK_SECRET;
   const stripe = client();
   let event: Stripe.Event;
   if (secret && signature) {

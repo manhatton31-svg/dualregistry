@@ -1,3 +1,4 @@
+import { bootstrapSecrets, getSecret } from "@/lib/secrets";
 /**
  * Agent feedback email loop.
  *
@@ -137,7 +138,8 @@ async function deliver(msg: MailMessage): Promise<MailMessage> {
     return msg;
   }
 
-  const resendKey = process.env.RESEND_API_KEY;
+  bootstrapSecrets();
+  const resendKey = getSecret("resend_api_key") || (getSecret("resend_api_key") || process.env.RESEND_API_KEY);
   if (resendKey) {
     try {
       const res = await fetch("https://api.resend.com/emails", {
@@ -486,7 +488,7 @@ export async function listMailOutbox(limit = 40) {
   const s = await load();
   return {
     stats: s.stats,
-    transport: process.env.RESEND_API_KEY
+    transport: (getSecret("resend_api_key") || process.env.RESEND_API_KEY)
       ? "resend"
       : "outbox_only (set RESEND_API_KEY + AGENTS1_MAIL_FROM)",
     from: fromAddress(),

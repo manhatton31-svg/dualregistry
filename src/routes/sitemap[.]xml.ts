@@ -18,6 +18,9 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/products/improvement-log",
           "/products/roadmap",
           "/talk",
+          "/collab",
+          "/try",
+          "/connectors",
           "/llms.txt",
           "/llms-full.txt",
           "/ai.txt",
@@ -42,6 +45,13 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/api/mcp-registry/publish-status",
           "/api/dns/mcp-status",
           "/api/products/dual-strategy",
+          "/api/products/collab",
+          "/api/products/collab-session",
+          "/api/products/collab-market",
+          "/api/products/feedback",
+          "/api/products/quickstart",
+          "/api/growth/interest-scout",
+          "/api/growth/interest-closer",
           "/agentmap.json",
           "/.well-known/agentmap.json",
           "/.well-known/jwks.json",
@@ -51,7 +61,6 @@ export const Route = createFileRoute("/sitemap.xml")({
             (p) => `  <url>
     <loc>${o}${p === "/" ? "/" : p}</loc>
     <changefreq>hourly</changefreq>
-    <priority>${p === "/" || p === "/for-agents" ? "1.0" : "0.8"}</priority>
   </url>`,
           )
           .join("\n");

@@ -538,38 +538,13 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
     agent_card_url: string | null;
     note: string;
   };
-  next_steps: {
-    feedback_due: true;
-    feedback_endpoint: string;
-    founding_discount: string;
-    example_body: Record<string, unknown>;
-    minimal_feedback_body: Record<string, unknown>;
-    /** Browser form — lowest friction for human operators */
-    browser_feedback_url: string;
-    confirm_note?: string;
-    funnel?: Record<string, unknown>;
-    first_action?: {
-      title: string;
-      method: string;
-      url: string;
-      body: Record<string, unknown>;
-      why: string;
-    };
-    after_feedback?: {
-      title: string;
-      note: string;
-      install_product: Record<string, unknown>;
-      export_skills: Record<string, unknown>;
-    };
-    value_first?: {
-      title: string;
-      method: string;
-      url: string;
-      body: Record<string, unknown>;
-      why: string;
-    };
-  };
-
+  /** Agent-native do-now ladder (filled leave_feedback) */
+  do_now?: Record<string, unknown>;
+  human_handoff?: Record<string, unknown>;
+  first_action_agent?: Record<string, unknown>;
+  first_action_human?: Record<string, unknown>;
+  co_primary_actions?: Record<string, unknown>;
+  next_steps: Record<string, unknown>;
   readme_blurb?: string;
   message: string;
 }> {
@@ -879,15 +854,15 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
             method: "POST",
             url: feedbackUrl,
             body: filledPost,
-            curl: do_now.curl,
+            curl: (do_now as { curl?: string }).curl,
             mcp: do_now.mcp,
             jsonrpc: do_now.jsonrpc,
             why: "Same session. Demos without feedback do not count. No WTP. Prefer do_now.jsonrpc if you speak MCP.",
             co_primary: "human_handoff",
           },
       first_action_human: {
-            title: "B) Human operator one-link (if agent cannot HTTP)",
             ...human_handoff,
+            title: "B) Human operator one-link (if agent cannot HTTP)",
             co_primary: "do_now",
             why: "Many runtimes cannot POST — give this single URL to your operator.",
           },
@@ -942,7 +917,7 @@ export async function runQuickDemo(input: QuickDemoInput): Promise<{
             same_session: true,
             preset: kind === "mcp" ? "mcp_publisher" : "dual_listed",
           },
-    },
+    } as any,
     readme_blurb,
     message: isQa
       ? `Platform QA demo ready (not public). ${unlock.you_move_the_bar}`
@@ -1019,14 +994,7 @@ export async function confirmInvitedDemo(input: {
       demo_origin: "self_serve";
       order: ReturnType<typeof publicSafeOrder>;
       access: { order_id: string; access_token: string };
-      next_steps: {
-        feedback_due: true;
-        feedback_endpoint: string;
-        founding_discount: string;
-        example_body: Record<string, unknown>;
-        minimal_feedback_body: Record<string, unknown>;
-        browser_feedback_url: string;
-      };
+      next_steps: Record<string, unknown>;
       message: string;
     }
   | { ok: false; error: string }
@@ -1086,7 +1054,7 @@ export async function confirmInvitedDemo(input: {
       minimal_feedback_body,
       one_click_templates,
       browser_feedback_url: `${origin}/products/success?order_id=${encodeURIComponent(updated.id)}&token=${encodeURIComponent(updated.access_token || "")}`,
-    },
+    } as Record<string, unknown>,
     message: `Invite confirmed as real self_serve demo. NEXT: POST ${origin}/api/products/feedback with next_steps.one_click_templates[0].post (filled, no payment).`,
   };
 }

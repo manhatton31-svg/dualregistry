@@ -6,6 +6,7 @@
  *
  * NEVER count:
  *  - platform_qa / build-agent dogfood / dual-cron operator ops
+ *  - operator_try / ship probes / pricing self-tests
  *  - invited seeds (until they confirm or take self_serve demo)
  *  - registry_drive / synthetic / test personas
  *  - auto-submitted surveys
@@ -24,6 +25,7 @@ export const REAL_NUMBERS_POLICY = {
     "platform_qa",
     "seed",
     "registry_drive",
+    "operator_try",
   ] as const,
   never_count_idem_prefixes: [
     "demo:probe-ok:",

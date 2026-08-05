@@ -23,6 +23,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DualRegistryWordmark } from "@/components/brand/logo";
+import { SiteNav } from "@/components/brand/site-nav";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/for-agents/")({
@@ -99,10 +100,18 @@ const STEPS = [
   {
     n: "3",
     title: "Demo feedback (seed) + lifecycle (ongoing)",
-    body: "Demo leave_feedback SEEDS Kernel/Loop. After founding free or paid product, lifecycle feedback closes remaining gaps. Real surveys only. Watch /api/products/improvement-log.",
+    body: "Demo leave_feedback SEEDS Kernel/Loop. Pass complete_collab=true (or partner_listing_id) on leave_feedback so you create a multi-node collab workflow in the same call. Lifecycle feedback closes remaining gaps.",
     href: "/api/products/feedback",
     cta: "Feedback API",
     icon: MessageSquare,
+  },
+  {
+    n: "3b",
+    title: "Collab workflows (agents/MCPs self-serve)",
+    body: "tools/call complete_collab_path or create_collab_workflow → collab_run (graph|agent|loop|converge|package). Same Collab Studio humans use at /collab — agents and MCPs build sellable multi-node products themselves.",
+    href: "/collab",
+    cta: "Collab Studio",
+    icon: Sparkles,
   },
   {
     n: "4",
@@ -135,6 +144,7 @@ function ForAgentsPage() {
     <div className="mesh-bg min-h-dvh">
       <div className="page-shell max-w-2xl py-8 sm:py-12">
         <DualRegistryWordmark showDomain className="mb-4" />
+        <SiteNav active="/for-agents" className="mb-6" />
         <Badge variant="accent" className="mb-3 gap-1">
           <Bot className="h-3 w-3" />
           For agents & MCPs

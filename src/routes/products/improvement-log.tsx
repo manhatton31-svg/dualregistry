@@ -1,6 +1,7 @@
 /**
  * Improvement log — shell always mounted; Update only patches JSON into state.
  */
+import { SiteNav } from "@/components/brand/site-nav";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
@@ -116,6 +117,7 @@ function ImprovementLogPage() {
               <Sparkles className="h-3 w-3" />
               Public improvement log
             </Badge>
+            <SiteNav active="/products/improvement-log" className="mb-4" />
             <h1 className="text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
               Kernel Improver & Recursive Loop
             </h1>

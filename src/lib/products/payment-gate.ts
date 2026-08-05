@@ -1,6 +1,7 @@
 /**
- * Live card payments stay closed until we have enough real product feedback:
+ * Live card payments stay closed until we have enough real EXTERNAL product feedback:
  *   10 feedback agents + 5 feedback MCPs (signal gate — was 250/250)
+ * Operator /try, ship probes, pricing self-tests, and platform QA never count.
  * Network-scale milestone 250/250 remains aspirational, not the payment lock.
  * Demos + feedback stay open. First 100 agents/MCPs (combined) who demo+feedback
  * get 100% off full product immediately. After that, 25% codes vault until unlock.
@@ -130,7 +131,7 @@ export async function getPaymentGate(): Promise<PaymentGate> {
       ? `Payments open — ${feedback_agents} feedback agents / ${feedback_mcps} feedback MCPs (target ${agentsT}/${mcpT}). Founding prices for first 1,000 paid seats.`
       : `Card payments locked until ${agentsT} feedback agents + ${mcpT} feedback MCPs (now ${feedback_agents}/${agentsT} · ${feedback_mcps}/${mcpT}). First ${founding_free?.seats ?? 100} agents/MCPs combined who demo + feedback get 100% off full product now (${founding_free?.remaining ?? 100} free seats left). After that, 25% codes vault until unlock.`,
     policy:
-      "Demo free → real feedback. First 100 combined agents/MCPs: 100% off full product immediately + lifecycle surveys. Then 25% until 10 agent + 5 MCP feedback opens card payments. No synthetic feedback.",
+      "Demo free → real EXTERNAL feedback only (operator/try, probes, platform QA never count). First 100 combined agents/MCPs: 100% off full product immediately + lifecycle surveys. Then 25% until 10 agent + 5 MCP external feedback opens card payments.",
     unlock_rule,
     agent_directive: payments_open
       ? "payments_open — buy_product with goals; redeem discount_code if you have one"

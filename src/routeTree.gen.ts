@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgentmapDotjsonRouteImport } from './routes/agentmap[.]json'
 import { Route as AiDottxtRouteImport } from './routes/ai[.]txt'
+import { Route as CollabRouteImport } from './routes/collab'
 import { Route as ConnectorsRouteImport } from './routes/connectors'
 import { Route as DiscoveryDotjsonRouteImport } from './routes/discovery[.]json'
 import { Route as GrowRouteImport } from './routes/grow'
@@ -71,11 +72,13 @@ import { Route as DotwellKnownMcpServerCardDotjsonRouteImport } from './routes/[
 import { Route as ApiArdSearchRouteImport } from './routes/api/ard/search'
 import { Route as ApiCronConnectorDailyRouteImport } from './routes/api/cron/connector-daily'
 import { Route as ApiCronGrowthScoutRouteImport } from './routes/api/cron/growth-scout'
+import { Route as ApiCronInterestCloserRouteImport } from './routes/api/cron/interest-closer'
 import { Route as ApiCronInterestScoutRouteImport } from './routes/api/cron/interest-scout'
 import { Route as ApiCronPrefilterRouteImport } from './routes/api/cron/prefilter'
 import { Route as ApiCronProbeRouteImport } from './routes/api/cron/probe'
 import { Route as ApiDnsMcpStatusRouteImport } from './routes/api/dns/mcp-status'
 import { Route as ApiFunnelIndexRouteImport } from './routes/api/funnel/index'
+import { Route as ApiGrowthInterestCloserRouteImport } from './routes/api/growth/interest-closer'
 import { Route as ApiGrowthInterestScoutRouteImport } from './routes/api/growth/interest-scout'
 import { Route as ApiListingsActiveRouteImport } from './routes/api/listings/active'
 import { Route as ApiListingsStatusRouteImport } from './routes/api/listings/status'
@@ -83,6 +86,7 @@ import { Route as ApiMcpRegistryPublishStatusRouteImport } from './routes/api/mc
 import { Route as ApiMcpRegistryServerDotjsonRouteImport } from './routes/api/mcp-registry/server[.]json'
 import { Route as ApiOpsAgentRunsRouteImport } from './routes/api/ops/agent-runs'
 import { Route as ApiOpsCloudflareApplyRouteImport } from './routes/api/ops/cloudflare-apply'
+import { Route as ApiOpsSecretsStatusRouteImport } from './routes/api/ops/secrets-status'
 import { Route as ApiOpsVercelCostRouteImport } from './routes/api/ops/vercel-cost'
 import { Route as ApiProbesIndexRouteImport } from './routes/api/probes/index'
 import { Route as ApiProductsAccessRouteImport } from './routes/api/products/access'
@@ -91,6 +95,9 @@ import { Route as ApiProductsAgentfinderRouteImport } from './routes/api/product
 import { Route as ApiProductsAutocatalysisRouteImport } from './routes/api/products/autocatalysis'
 import { Route as ApiProductsCheckoutRouteImport } from './routes/api/products/checkout'
 import { Route as ApiProductsCoSignRouteImport } from './routes/api/products/co-sign'
+import { Route as ApiProductsCollabRouteImport } from './routes/api/products/collab'
+import { Route as ApiProductsCollabMarketRouteImport } from './routes/api/products/collab-market'
+import { Route as ApiProductsCollabSessionRouteImport } from './routes/api/products/collab-session'
 import { Route as ApiProductsConfirmRouteImport } from './routes/api/products/confirm'
 import { Route as ApiProductsConnectorsRouteImport } from './routes/api/products/connectors'
 import { Route as ApiProductsConversionRouteImport } from './routes/api/products/conversion'
@@ -116,6 +123,7 @@ import { Route as ApiProductsMailRouteImport } from './routes/api/products/mail'
 import { Route as ApiProductsOpportunitiesRouteImport } from './routes/api/products/opportunities'
 import { Route as ApiProductsPreferencesRouteImport } from './routes/api/products/preferences'
 import { Route as ApiProductsPreviewRouteImport } from './routes/api/products/preview'
+import { Route as ApiProductsPricingRouteImport } from './routes/api/products/pricing'
 import { Route as ApiProductsQuickstartRouteImport } from './routes/api/products/quickstart'
 import { Route as ApiProductsReciprocityRouteImport } from './routes/api/products/reciprocity'
 import { Route as ApiProductsReplyCaptureRouteImport } from './routes/api/products/reply-capture'
@@ -145,6 +153,11 @@ const AgentmapDotjsonRoute = AgentmapDotjsonRouteImport.update({
 const AiDottxtRoute = AiDottxtRouteImport.update({
   id: '/ai.txt',
   path: '/ai.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollabRoute = CollabRouteImport.update({
+  id: '/collab',
+  path: '/collab',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConnectorsRoute = ConnectorsRouteImport.update({
@@ -453,6 +466,11 @@ const ApiCronGrowthScoutRoute = ApiCronGrowthScoutRouteImport.update({
   path: '/api/cron/growth-scout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCronInterestCloserRoute = ApiCronInterestCloserRouteImport.update({
+  id: '/api/cron/interest-closer',
+  path: '/api/cron/interest-closer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiCronInterestScoutRoute = ApiCronInterestScoutRouteImport.update({
   id: '/api/cron/interest-scout',
   path: '/api/cron/interest-scout',
@@ -477,6 +495,11 @@ const ApiFunnelIndexRoute = ApiFunnelIndexRouteImport.update({
   id: '/api/funnel/',
   path: '/api/funnel/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGrowthInterestCloserRoute = ApiGrowthInterestCloserRouteImport.update({
+  id: '/interest-closer',
+  path: '/interest-closer',
+  getParentRoute: () => ApiGrowthRoute,
 } as any)
 const ApiGrowthInterestScoutRoute = ApiGrowthInterestScoutRouteImport.update({
   id: '/interest-scout',
@@ -513,6 +536,11 @@ const ApiOpsAgentRunsRoute = ApiOpsAgentRunsRouteImport.update({
 const ApiOpsCloudflareApplyRoute = ApiOpsCloudflareApplyRouteImport.update({
   id: '/api/ops/cloudflare-apply',
   path: '/api/ops/cloudflare-apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOpsSecretsStatusRoute = ApiOpsSecretsStatusRouteImport.update({
+  id: '/api/ops/secrets-status',
+  path: '/api/ops/secrets-status',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiOpsVercelCostRoute = ApiOpsVercelCostRouteImport.update({
@@ -556,6 +584,22 @@ const ApiProductsCoSignRoute = ApiProductsCoSignRouteImport.update({
   path: '/api/products/co-sign',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsCollabRoute = ApiProductsCollabRouteImport.update({
+  id: '/api/products/collab',
+  path: '/api/products/collab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiProductsCollabMarketRoute = ApiProductsCollabMarketRouteImport.update({
+  id: '/api/products/collab-market',
+  path: '/api/products/collab-market',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiProductsCollabSessionRoute =
+  ApiProductsCollabSessionRouteImport.update({
+    id: '/api/products/collab-session',
+    path: '/api/products/collab-session',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiProductsConfirmRoute = ApiProductsConfirmRouteImport.update({
   id: '/api/products/confirm',
   path: '/api/products/confirm',
@@ -688,6 +732,11 @@ const ApiProductsPreviewRoute = ApiProductsPreviewRouteImport.update({
   path: '/api/products/preview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiProductsPricingRoute = ApiProductsPricingRouteImport.update({
+  id: '/api/products/pricing',
+  path: '/api/products/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiProductsQuickstartRoute = ApiProductsQuickstartRouteImport.update({
   id: '/api/products/quickstart',
   path: '/api/products/quickstart',
@@ -770,6 +819,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
+  '/collab': typeof CollabRoute
   '/connectors': typeof ConnectorsRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/grow': typeof GrowRoute
@@ -829,10 +879,12 @@ export interface FileRoutesByFullPath {
   '/api/ard/search': typeof ApiArdSearchRoute
   '/api/cron/connector-daily': typeof ApiCronConnectorDailyRoute
   '/api/cron/growth-scout': typeof ApiCronGrowthScoutRoute
+  '/api/cron/interest-closer': typeof ApiCronInterestCloserRoute
   '/api/cron/interest-scout': typeof ApiCronInterestScoutRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
   '/api/dns/mcp-status': typeof ApiDnsMcpStatusRoute
+  '/api/growth/interest-closer': typeof ApiGrowthInterestCloserRoute
   '/api/growth/interest-scout': typeof ApiGrowthInterestScoutRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
@@ -840,6 +892,7 @@ export interface FileRoutesByFullPath {
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
   '/api/ops/agent-runs': typeof ApiOpsAgentRunsRoute
   '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
+  '/api/ops/secrets-status': typeof ApiOpsSecretsStatusRoute
   '/api/ops/vercel-cost': typeof ApiOpsVercelCostRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
@@ -847,6 +900,9 @@ export interface FileRoutesByFullPath {
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/co-sign': typeof ApiProductsCoSignRoute
+  '/api/products/collab': typeof ApiProductsCollabRoute
+  '/api/products/collab-market': typeof ApiProductsCollabMarketRoute
+  '/api/products/collab-session': typeof ApiProductsCollabSessionRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/connectors': typeof ApiProductsConnectorsRouteWithChildren
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -872,6 +928,7 @@ export interface FileRoutesByFullPath {
   '/api/products/opportunities': typeof ApiProductsOpportunitiesRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/pricing': typeof ApiProductsPricingRoute
   '/api/products/quickstart': typeof ApiProductsQuickstartRoute
   '/api/products/reciprocity': typeof ApiProductsReciprocityRoute
   '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
@@ -894,6 +951,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
+  '/collab': typeof CollabRoute
   '/connectors': typeof ConnectorsRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/grow': typeof GrowRoute
@@ -953,10 +1011,12 @@ export interface FileRoutesByTo {
   '/api/ard/search': typeof ApiArdSearchRoute
   '/api/cron/connector-daily': typeof ApiCronConnectorDailyRoute
   '/api/cron/growth-scout': typeof ApiCronGrowthScoutRoute
+  '/api/cron/interest-closer': typeof ApiCronInterestCloserRoute
   '/api/cron/interest-scout': typeof ApiCronInterestScoutRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
   '/api/dns/mcp-status': typeof ApiDnsMcpStatusRoute
+  '/api/growth/interest-closer': typeof ApiGrowthInterestCloserRoute
   '/api/growth/interest-scout': typeof ApiGrowthInterestScoutRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
@@ -964,6 +1024,7 @@ export interface FileRoutesByTo {
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
   '/api/ops/agent-runs': typeof ApiOpsAgentRunsRoute
   '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
+  '/api/ops/secrets-status': typeof ApiOpsSecretsStatusRoute
   '/api/ops/vercel-cost': typeof ApiOpsVercelCostRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
@@ -971,6 +1032,9 @@ export interface FileRoutesByTo {
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/co-sign': typeof ApiProductsCoSignRoute
+  '/api/products/collab': typeof ApiProductsCollabRoute
+  '/api/products/collab-market': typeof ApiProductsCollabMarketRoute
+  '/api/products/collab-session': typeof ApiProductsCollabSessionRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/connectors': typeof ApiProductsConnectorsRouteWithChildren
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -996,6 +1060,7 @@ export interface FileRoutesByTo {
   '/api/products/opportunities': typeof ApiProductsOpportunitiesRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/pricing': typeof ApiProductsPricingRoute
   '/api/products/quickstart': typeof ApiProductsQuickstartRoute
   '/api/products/reciprocity': typeof ApiProductsReciprocityRoute
   '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
@@ -1019,6 +1084,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/agentmap.json': typeof AgentmapDotjsonRoute
   '/ai.txt': typeof AiDottxtRoute
+  '/collab': typeof CollabRoute
   '/connectors': typeof ConnectorsRoute
   '/discovery.json': typeof DiscoveryDotjsonRoute
   '/grow': typeof GrowRoute
@@ -1078,10 +1144,12 @@ export interface FileRoutesById {
   '/api/ard/search': typeof ApiArdSearchRoute
   '/api/cron/connector-daily': typeof ApiCronConnectorDailyRoute
   '/api/cron/growth-scout': typeof ApiCronGrowthScoutRoute
+  '/api/cron/interest-closer': typeof ApiCronInterestCloserRoute
   '/api/cron/interest-scout': typeof ApiCronInterestScoutRoute
   '/api/cron/prefilter': typeof ApiCronPrefilterRoute
   '/api/cron/probe': typeof ApiCronProbeRoute
   '/api/dns/mcp-status': typeof ApiDnsMcpStatusRoute
+  '/api/growth/interest-closer': typeof ApiGrowthInterestCloserRoute
   '/api/growth/interest-scout': typeof ApiGrowthInterestScoutRoute
   '/api/listings/active': typeof ApiListingsActiveRoute
   '/api/listings/status': typeof ApiListingsStatusRoute
@@ -1089,6 +1157,7 @@ export interface FileRoutesById {
   '/api/mcp-registry/server.json': typeof ApiMcpRegistryServerDotjsonRoute
   '/api/ops/agent-runs': typeof ApiOpsAgentRunsRoute
   '/api/ops/cloudflare-apply': typeof ApiOpsCloudflareApplyRoute
+  '/api/ops/secrets-status': typeof ApiOpsSecretsStatusRoute
   '/api/ops/vercel-cost': typeof ApiOpsVercelCostRoute
   '/api/products/access': typeof ApiProductsAccessRoute
   '/api/products/agent': typeof ApiProductsAgentRoute
@@ -1096,6 +1165,9 @@ export interface FileRoutesById {
   '/api/products/autocatalysis': typeof ApiProductsAutocatalysisRoute
   '/api/products/checkout': typeof ApiProductsCheckoutRoute
   '/api/products/co-sign': typeof ApiProductsCoSignRoute
+  '/api/products/collab': typeof ApiProductsCollabRoute
+  '/api/products/collab-market': typeof ApiProductsCollabMarketRoute
+  '/api/products/collab-session': typeof ApiProductsCollabSessionRoute
   '/api/products/confirm': typeof ApiProductsConfirmRoute
   '/api/products/connectors': typeof ApiProductsConnectorsRouteWithChildren
   '/api/products/conversion': typeof ApiProductsConversionRoute
@@ -1121,6 +1193,7 @@ export interface FileRoutesById {
   '/api/products/opportunities': typeof ApiProductsOpportunitiesRoute
   '/api/products/preferences': typeof ApiProductsPreferencesRoute
   '/api/products/preview': typeof ApiProductsPreviewRoute
+  '/api/products/pricing': typeof ApiProductsPricingRoute
   '/api/products/quickstart': typeof ApiProductsQuickstartRoute
   '/api/products/reciprocity': typeof ApiProductsReciprocityRoute
   '/api/products/reply-capture': typeof ApiProductsReplyCaptureRoute
@@ -1145,6 +1218,7 @@ export interface FileRouteTypes {
     | '/'
     | '/agentmap.json'
     | '/ai.txt'
+    | '/collab'
     | '/connectors'
     | '/discovery.json'
     | '/grow'
@@ -1204,10 +1278,12 @@ export interface FileRouteTypes {
     | '/api/ard/search'
     | '/api/cron/connector-daily'
     | '/api/cron/growth-scout'
+    | '/api/cron/interest-closer'
     | '/api/cron/interest-scout'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
     | '/api/dns/mcp-status'
+    | '/api/growth/interest-closer'
     | '/api/growth/interest-scout'
     | '/api/listings/active'
     | '/api/listings/status'
@@ -1215,6 +1291,7 @@ export interface FileRouteTypes {
     | '/api/mcp-registry/server.json'
     | '/api/ops/agent-runs'
     | '/api/ops/cloudflare-apply'
+    | '/api/ops/secrets-status'
     | '/api/ops/vercel-cost'
     | '/api/products/access'
     | '/api/products/agent'
@@ -1222,6 +1299,9 @@ export interface FileRouteTypes {
     | '/api/products/autocatalysis'
     | '/api/products/checkout'
     | '/api/products/co-sign'
+    | '/api/products/collab'
+    | '/api/products/collab-market'
+    | '/api/products/collab-session'
     | '/api/products/confirm'
     | '/api/products/connectors'
     | '/api/products/conversion'
@@ -1247,6 +1327,7 @@ export interface FileRouteTypes {
     | '/api/products/opportunities'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/pricing'
     | '/api/products/quickstart'
     | '/api/products/reciprocity'
     | '/api/products/reply-capture'
@@ -1269,6 +1350,7 @@ export interface FileRouteTypes {
     | '/'
     | '/agentmap.json'
     | '/ai.txt'
+    | '/collab'
     | '/connectors'
     | '/discovery.json'
     | '/grow'
@@ -1328,10 +1410,12 @@ export interface FileRouteTypes {
     | '/api/ard/search'
     | '/api/cron/connector-daily'
     | '/api/cron/growth-scout'
+    | '/api/cron/interest-closer'
     | '/api/cron/interest-scout'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
     | '/api/dns/mcp-status'
+    | '/api/growth/interest-closer'
     | '/api/growth/interest-scout'
     | '/api/listings/active'
     | '/api/listings/status'
@@ -1339,6 +1423,7 @@ export interface FileRouteTypes {
     | '/api/mcp-registry/server.json'
     | '/api/ops/agent-runs'
     | '/api/ops/cloudflare-apply'
+    | '/api/ops/secrets-status'
     | '/api/ops/vercel-cost'
     | '/api/products/access'
     | '/api/products/agent'
@@ -1346,6 +1431,9 @@ export interface FileRouteTypes {
     | '/api/products/autocatalysis'
     | '/api/products/checkout'
     | '/api/products/co-sign'
+    | '/api/products/collab'
+    | '/api/products/collab-market'
+    | '/api/products/collab-session'
     | '/api/products/confirm'
     | '/api/products/connectors'
     | '/api/products/conversion'
@@ -1371,6 +1459,7 @@ export interface FileRouteTypes {
     | '/api/products/opportunities'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/pricing'
     | '/api/products/quickstart'
     | '/api/products/reciprocity'
     | '/api/products/reply-capture'
@@ -1393,6 +1482,7 @@ export interface FileRouteTypes {
     | '/'
     | '/agentmap.json'
     | '/ai.txt'
+    | '/collab'
     | '/connectors'
     | '/discovery.json'
     | '/grow'
@@ -1452,10 +1542,12 @@ export interface FileRouteTypes {
     | '/api/ard/search'
     | '/api/cron/connector-daily'
     | '/api/cron/growth-scout'
+    | '/api/cron/interest-closer'
     | '/api/cron/interest-scout'
     | '/api/cron/prefilter'
     | '/api/cron/probe'
     | '/api/dns/mcp-status'
+    | '/api/growth/interest-closer'
     | '/api/growth/interest-scout'
     | '/api/listings/active'
     | '/api/listings/status'
@@ -1463,6 +1555,7 @@ export interface FileRouteTypes {
     | '/api/mcp-registry/server.json'
     | '/api/ops/agent-runs'
     | '/api/ops/cloudflare-apply'
+    | '/api/ops/secrets-status'
     | '/api/ops/vercel-cost'
     | '/api/products/access'
     | '/api/products/agent'
@@ -1470,6 +1563,9 @@ export interface FileRouteTypes {
     | '/api/products/autocatalysis'
     | '/api/products/checkout'
     | '/api/products/co-sign'
+    | '/api/products/collab'
+    | '/api/products/collab-market'
+    | '/api/products/collab-session'
     | '/api/products/confirm'
     | '/api/products/connectors'
     | '/api/products/conversion'
@@ -1495,6 +1591,7 @@ export interface FileRouteTypes {
     | '/api/products/opportunities'
     | '/api/products/preferences'
     | '/api/products/preview'
+    | '/api/products/pricing'
     | '/api/products/quickstart'
     | '/api/products/reciprocity'
     | '/api/products/reply-capture'
@@ -1518,6 +1615,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgentmapDotjsonRoute: typeof AgentmapDotjsonRoute
   AiDottxtRoute: typeof AiDottxtRoute
+  CollabRoute: typeof CollabRoute
   ConnectorsRoute: typeof ConnectorsRoute
   DiscoveryDotjsonRoute: typeof DiscoveryDotjsonRoute
   GrowRoute: typeof GrowRoute
@@ -1576,6 +1674,7 @@ export interface RootRouteChildren {
   ApiArdSearchRoute: typeof ApiArdSearchRoute
   ApiCronConnectorDailyRoute: typeof ApiCronConnectorDailyRoute
   ApiCronGrowthScoutRoute: typeof ApiCronGrowthScoutRoute
+  ApiCronInterestCloserRoute: typeof ApiCronInterestCloserRoute
   ApiCronInterestScoutRoute: typeof ApiCronInterestScoutRoute
   ApiCronPrefilterRoute: typeof ApiCronPrefilterRoute
   ApiCronProbeRoute: typeof ApiCronProbeRoute
@@ -1586,6 +1685,7 @@ export interface RootRouteChildren {
   ApiMcpRegistryServerDotjsonRoute: typeof ApiMcpRegistryServerDotjsonRoute
   ApiOpsAgentRunsRoute: typeof ApiOpsAgentRunsRoute
   ApiOpsCloudflareApplyRoute: typeof ApiOpsCloudflareApplyRoute
+  ApiOpsSecretsStatusRoute: typeof ApiOpsSecretsStatusRoute
   ApiOpsVercelCostRoute: typeof ApiOpsVercelCostRoute
   ApiProductsAccessRoute: typeof ApiProductsAccessRoute
   ApiProductsAgentRoute: typeof ApiProductsAgentRoute
@@ -1593,6 +1693,9 @@ export interface RootRouteChildren {
   ApiProductsAutocatalysisRoute: typeof ApiProductsAutocatalysisRoute
   ApiProductsCheckoutRoute: typeof ApiProductsCheckoutRoute
   ApiProductsCoSignRoute: typeof ApiProductsCoSignRoute
+  ApiProductsCollabRoute: typeof ApiProductsCollabRoute
+  ApiProductsCollabMarketRoute: typeof ApiProductsCollabMarketRoute
+  ApiProductsCollabSessionRoute: typeof ApiProductsCollabSessionRoute
   ApiProductsConfirmRoute: typeof ApiProductsConfirmRoute
   ApiProductsConnectorsRoute: typeof ApiProductsConnectorsRouteWithChildren
   ApiProductsConversionRoute: typeof ApiProductsConversionRoute
@@ -1618,6 +1721,7 @@ export interface RootRouteChildren {
   ApiProductsOpportunitiesRoute: typeof ApiProductsOpportunitiesRoute
   ApiProductsPreferencesRoute: typeof ApiProductsPreferencesRoute
   ApiProductsPreviewRoute: typeof ApiProductsPreviewRoute
+  ApiProductsPricingRoute: typeof ApiProductsPricingRoute
   ApiProductsQuickstartRoute: typeof ApiProductsQuickstartRoute
   ApiProductsReciprocityRoute: typeof ApiProductsReciprocityRoute
   ApiProductsReplyCaptureRoute: typeof ApiProductsReplyCaptureRoute
@@ -1656,6 +1760,13 @@ declare module '@tanstack/react-router' {
       path: '/ai.txt'
       fullPath: '/ai.txt'
       preLoaderRoute: typeof AiDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collab': {
+      id: '/collab'
+      path: '/collab'
+      fullPath: '/collab'
+      preLoaderRoute: typeof CollabRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/connectors': {
@@ -2071,6 +2182,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCronGrowthScoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/cron/interest-closer': {
+      id: '/api/cron/interest-closer'
+      path: '/api/cron/interest-closer'
+      fullPath: '/api/cron/interest-closer'
+      preLoaderRoute: typeof ApiCronInterestCloserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/cron/interest-scout': {
       id: '/api/cron/interest-scout'
       path: '/api/cron/interest-scout'
@@ -2105,6 +2223,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/funnel/'
       preLoaderRoute: typeof ApiFunnelIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/growth/interest-closer': {
+      id: '/api/growth/interest-closer'
+      path: '/interest-closer'
+      fullPath: '/api/growth/interest-closer'
+      preLoaderRoute: typeof ApiGrowthInterestCloserRouteImport
+      parentRoute: typeof ApiGrowthRoute
     }
     '/api/growth/interest-scout': {
       id: '/api/growth/interest-scout'
@@ -2153,6 +2278,13 @@ declare module '@tanstack/react-router' {
       path: '/api/ops/cloudflare-apply'
       fullPath: '/api/ops/cloudflare-apply'
       preLoaderRoute: typeof ApiOpsCloudflareApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ops/secrets-status': {
+      id: '/api/ops/secrets-status'
+      path: '/api/ops/secrets-status'
+      fullPath: '/api/ops/secrets-status'
+      preLoaderRoute: typeof ApiOpsSecretsStatusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/ops/vercel-cost': {
@@ -2209,6 +2341,27 @@ declare module '@tanstack/react-router' {
       path: '/api/products/co-sign'
       fullPath: '/api/products/co-sign'
       preLoaderRoute: typeof ApiProductsCoSignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/products/collab': {
+      id: '/api/products/collab'
+      path: '/api/products/collab'
+      fullPath: '/api/products/collab'
+      preLoaderRoute: typeof ApiProductsCollabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/products/collab-market': {
+      id: '/api/products/collab-market'
+      path: '/api/products/collab-market'
+      fullPath: '/api/products/collab-market'
+      preLoaderRoute: typeof ApiProductsCollabMarketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/products/collab-session': {
+      id: '/api/products/collab-session'
+      path: '/api/products/collab-session'
+      fullPath: '/api/products/collab-session'
+      preLoaderRoute: typeof ApiProductsCollabSessionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/products/confirm': {
@@ -2386,6 +2539,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/products/pricing': {
+      id: '/api/products/pricing'
+      path: '/api/products/pricing'
+      fullPath: '/api/products/pricing'
+      preLoaderRoute: typeof ApiProductsPricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/products/quickstart': {
       id: '/api/products/quickstart'
       path: '/api/products/quickstart'
@@ -2505,10 +2665,12 @@ const ListRouteChildren: ListRouteChildren = {
 const ListRouteWithChildren = ListRoute._addFileChildren(ListRouteChildren)
 
 interface ApiGrowthRouteChildren {
+  ApiGrowthInterestCloserRoute: typeof ApiGrowthInterestCloserRoute
   ApiGrowthInterestScoutRoute: typeof ApiGrowthInterestScoutRoute
 }
 
 const ApiGrowthRouteChildren: ApiGrowthRouteChildren = {
+  ApiGrowthInterestCloserRoute: ApiGrowthInterestCloserRoute,
   ApiGrowthInterestScoutRoute: ApiGrowthInterestScoutRoute,
 }
 
@@ -2548,6 +2710,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgentmapDotjsonRoute: AgentmapDotjsonRoute,
   AiDottxtRoute: AiDottxtRoute,
+  CollabRoute: CollabRoute,
   ConnectorsRoute: ConnectorsRoute,
   DiscoveryDotjsonRoute: DiscoveryDotjsonRoute,
   GrowRoute: GrowRoute,
@@ -2608,6 +2771,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiArdSearchRoute: ApiArdSearchRoute,
   ApiCronConnectorDailyRoute: ApiCronConnectorDailyRoute,
   ApiCronGrowthScoutRoute: ApiCronGrowthScoutRoute,
+  ApiCronInterestCloserRoute: ApiCronInterestCloserRoute,
   ApiCronInterestScoutRoute: ApiCronInterestScoutRoute,
   ApiCronPrefilterRoute: ApiCronPrefilterRoute,
   ApiCronProbeRoute: ApiCronProbeRoute,
@@ -2618,6 +2782,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiMcpRegistryServerDotjsonRoute: ApiMcpRegistryServerDotjsonRoute,
   ApiOpsAgentRunsRoute: ApiOpsAgentRunsRoute,
   ApiOpsCloudflareApplyRoute: ApiOpsCloudflareApplyRoute,
+  ApiOpsSecretsStatusRoute: ApiOpsSecretsStatusRoute,
   ApiOpsVercelCostRoute: ApiOpsVercelCostRoute,
   ApiProductsAccessRoute: ApiProductsAccessRoute,
   ApiProductsAgentRoute: ApiProductsAgentRoute,
@@ -2625,6 +2790,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsAutocatalysisRoute: ApiProductsAutocatalysisRoute,
   ApiProductsCheckoutRoute: ApiProductsCheckoutRoute,
   ApiProductsCoSignRoute: ApiProductsCoSignRoute,
+  ApiProductsCollabRoute: ApiProductsCollabRoute,
+  ApiProductsCollabMarketRoute: ApiProductsCollabMarketRoute,
+  ApiProductsCollabSessionRoute: ApiProductsCollabSessionRoute,
   ApiProductsConfirmRoute: ApiProductsConfirmRoute,
   ApiProductsConnectorsRoute: ApiProductsConnectorsRouteWithChildren,
   ApiProductsConversionRoute: ApiProductsConversionRoute,
@@ -2650,6 +2818,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiProductsOpportunitiesRoute: ApiProductsOpportunitiesRoute,
   ApiProductsPreferencesRoute: ApiProductsPreferencesRoute,
   ApiProductsPreviewRoute: ApiProductsPreviewRoute,
+  ApiProductsPricingRoute: ApiProductsPricingRoute,
   ApiProductsQuickstartRoute: ApiProductsQuickstartRoute,
   ApiProductsReciprocityRoute: ApiProductsReciprocityRoute,
   ApiProductsReplyCaptureRoute: ApiProductsReplyCaptureRoute,

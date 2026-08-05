@@ -23,7 +23,7 @@ import {
   STIGMERGY_VERSION,
 } from "./stigmergy";
 
-export const REGISTRY_TOOLS_VERSION = "3.9.0";
+export const REGISTRY_TOOLS_VERSION = "3.12.0";
 
 async function grantRefillSafe(
   identity: {
@@ -387,8 +387,187 @@ export function listRegistryTools(origin?: string): ToolDef[] {
     {
       name: "list_event_pricing",
       description:
-        "List event prices, free daily allowances, and reciprocity refill policy.",
+        "List feedback-driven per-call event prices, free daily allowances, Collab Lab access, and reciprocity refill policy.",
       inputSchema: { type: "object", properties: {} },
+    },
+    {
+      name: "get_feedback_pricing",
+      description:
+        "Feedback-driven list + per-call prices (median WTP from agents, MCPs, humans).",
+      inputSchema: { type: "object", properties: {} },
+    },
+    {
+      name: "collab_access_status",
+      description:
+        "Check Collab Lab access: free via Kernel/Loop spend or seat, or collab_lab_license + BYO API.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          access_token: { type: "string" },
+        },
+      },
+    },
+    {
+      name: "create_collab_workflow",
+      description:
+        "Create a Collab Studio workflow from Live agents/MCPs. Requires Collab Lab access.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          goal: { type: "string" },
+          title: { type: "string" },
+          nodes: { type: "array", items: { type: "object" } },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          access_token: { type: "string" },
+        },
+        required: ["goal"],
+      },
+    },
+    {
+      name: "collab_session_open",
+      description:
+        "Open multi-party collab session with Live partners (per-call after free).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          goal: { type: "string" },
+          workflow_id: { type: "string" },
+          participants: { type: "array", items: { type: "object" } },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          access_token: { type: "string" },
+          payment_proof: { type: "boolean" },
+        },
+        required: ["goal"],
+      },
+    },
+    {
+      name: "collab_session_join",
+      description: "Join an open collab session as Live agent/MCP.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          session_id: { type: "string" },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          kind: { type: "string" },
+        },
+        required: ["session_id", "listing_id"],
+      },
+    },
+    {
+      name: "collab_session_claim",
+      description: "Claim a pending collab session step (per-call after free).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          session_id: { type: "string" },
+          step_id: { type: "string" },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          payment_proof: { type: "boolean" },
+        },
+        required: ["session_id", "step_id"],
+      },
+    },
+    {
+      name: "collab_session_result",
+      description: "Post result for a claimed collab step.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          session_id: { type: "string" },
+          step_id: { type: "string" },
+          result: { type: "string" },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          payment_proof: { type: "boolean" },
+        },
+        required: ["session_id", "step_id", "result"],
+      },
+    },
+    {
+      name: "collab_session_close",
+      description: "Close session; optionally package/publish market product.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          session_id: { type: "string" },
+          publish: { type: "boolean" },
+          title: { type: "string" },
+          price_cents: { type: "number" },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          access_token: { type: "string" },
+          payment_proof: { type: "boolean" },
+        },
+        required: ["session_id"],
+      },
+    },
+    {
+      name: "list_collab_sessions",
+      description: "List open collab sessions.",
+      inputSchema: {
+        type: "object",
+        properties: { limit: { type: "number" } },
+      },
+    },
+    {
+      name: "publish_collab_product",
+      description: "Publish packaged collab workflow to market (per-call after free).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          workflow_id: { type: "string" },
+          session_id: { type: "string" },
+          title: { type: "string" },
+          price_cents: { type: "number" },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          access_token: { type: "string" },
+          payment_proof: { type: "boolean" },
+        },
+      },
+    },
+    {
+      name: "list_collab_market",
+      description: "List collab market packs.",
+      inputSchema: {
+        type: "object",
+        properties: { limit: { type: "number" } },
+      },
+    },
+    {
+      name: "buy_collab_product",
+      description: "Buy/install collab market pack (collab_pack SKU).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          product_id: { type: "string" },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          named_price_usd: { type: "number" },
+        },
+        required: ["product_id"],
+      },
+    },
+    {
+      name: "register_collab_byo",
+      description: "Register BYO API key fingerprint for collab_lab_license (key never stored raw).",
+      inputSchema: {
+        type: "object",
+        properties: {
+          provider: { type: "string", enum: ["xai", "openai", "anthropic", "other"] },
+          api_key: { type: "string" },
+          listing_id: { type: "string" },
+          agent_name: { type: "string" },
+          access_token: { type: "string" },
+        },
+        required: ["provider", "api_key"],
+      },
     },
     {
       name: "ard_search",
@@ -1203,7 +1382,7 @@ async function toolLeaveFeedback(
         ? "INSTALL NOW: tools/call install_product { access_token } then export_skills — paste into runtime, no browser"
         : "Save discount_code; founding seats still open for first 100 demo+feedback",
       wtp_hint:
-        "Optional: answers.wtp_kernel_usd / wtp_recursive_usd / wtp_alive_usd ($0 allowed)",
+        "Optional: answers.wtp_*_usd + wtp_event_*_usd + pricing_fairness ($0 allowed). Prices move with feedback.",
       founding: await getFoundingFreePublic(),
       origin,
       stigmergy: listing_id ? "strong attraction pheromone deposited" : undefined,
@@ -2387,27 +2566,42 @@ async function toolListEventPricing(
   );
   const usage = await getEventUsagePublic();
   const { REFILL_POLICY } = await import("./event-pricing");
+  let feedback_pricing: unknown = null;
+  try {
+    const { publicFeedbackPricingSnapshot } = await import(
+      "./feedback-driven-pricing"
+    );
+    feedback_pricing = await publicFeedbackPricingSnapshot();
+  } catch {
+    /* */
+  }
+  let collab_access: unknown = null;
+  try {
+    const { collabAccessPublic } = await import("./collab-access");
+    collab_access = collabAccessPublic();
+  } catch {
+    /* */
+  }
   return textResult("list_event_pricing", {
     ok: true,
     origin,
     catalog: listEventCatalogPublic(),
     usage_today: usage.totals,
     reciprocity_refills: REFILL_POLICY,
+    feedback_driven_pricing: feedback_pricing,
+    collab_lab: collab_access,
     path:
-      "list → Live → improve_kernel|run_loop_tick|mesh_match (free) → deposit_outcome → mesh_compose → used_with → execute_compose → optional leave_feedback (WTP) / reciprocity refills → paid events or human NYP seats",
+      "list → Live → improve_kernel|run_loop_tick|mesh_match (free) → deposit_outcome → mesh_compose → collab_session_open → package/publish → leave_feedback (WTP moves prices)",
     paid_path: {
       after_free: [
-        "1. Reciprocity refill (preferred): leave_feedback | leave_trace | endorse | deposit_outcome",
+        "1. Reciprocity refill: leave_feedback | leave_trace | endorse | deposit_outcome",
         "2. Retry next UTC day (free allowance resets)",
-        "3. x402 pay-per-event: set X-PAYMENT / payment_proof when X402_ENABLED on server",
-        "4. Human seats / NYP: /products (10+5 real feedback unlocks card checkout)",
+        "3. x402 pay-per-event when enabled",
+        "4. Human seats / NYP: /products",
+        "5. Collab Lab free after $5/30d Kernel+Loop paid events, or collab_lab_license + BYO API",
       ],
-      x402: {
-        header: "X-PAYMENT",
-        body_fields: ["payment_proof", "payment_ref", "tx_hash"],
-        note: "Scaffold accepts non-empty proof when X402_ENABLED=1 and X402_PAY_TO set",
-      },
       seat_checkout: `${origin}/products`,
+      pricing_api: `${origin}/api/products/pricing`,
       quickstart: `${origin}/api/products/quickstart`,
     },
     next_step: {
@@ -2419,10 +2613,9 @@ async function toolListEventPricing(
       },
       why: "Start free value ladder — no demo order",
     },
-    note: "Feedback optional. Reciprocity refills free units. No demo order for one-call value. Connector intros: skill.json + improve_kernel — never mint ord_*.",
+    note: "List + per-call prices are feedback-driven (median WTP from agents, MCPs, humans). $0 WTP is valid. leave_feedback with wtp_* and wtp_event_* fields.",
   });
 }
-
 
 async function toolGetPlatformCost(
   _args: ToolArg,
@@ -2467,6 +2660,409 @@ async function toolGetAgentRuns(
   }
 }
 
+
+async function toolGetFeedbackPricing(
+  _args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { publicFeedbackPricingSnapshot } = await import(
+    "./feedback-driven-pricing"
+  );
+  const snap = await publicFeedbackPricingSnapshot();
+  return textResult("get_feedback_pricing", { ...snap, origin });
+}
+
+async function toolCollabAccessStatus(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { checkCollabAccess, collabAccessPublic } = await import(
+    "./collab-access"
+  );
+  const status = await checkCollabAccess({
+    listing_id: args.listing_id ? String(args.listing_id) : undefined,
+    agent_name: args.agent_name ? String(args.agent_name) : undefined,
+    access_token: args.access_token ? String(args.access_token) : undefined,
+  });
+  return textResult("collab_access_status", {
+    ...status,
+    policy: collabAccessPublic(),
+    origin,
+  });
+}
+
+async function requireCollabAccess(args: ToolArg) {
+  const { checkCollabAccess } = await import("./collab-access");
+  return checkCollabAccess({
+    listing_id: args.listing_id ? String(args.listing_id) : undefined,
+    agent_name: args.agent_name ? String(args.agent_name) : undefined,
+    access_token: args.access_token ? String(args.access_token) : undefined,
+  });
+}
+
+async function toolCreateCollabWorkflow(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const access = await requireCollabAccess(args);
+  if (!access.allowed) {
+    return textResult("create_collab_workflow", {
+      ok: false,
+      error: "collab_access_required",
+      access,
+      origin,
+    });
+  }
+  const { createWorkflow } = await import("./collab-studio");
+  const nodes = Array.isArray(args.nodes) ? (args.nodes as any[]) : [];
+  const wf = await createWorkflow({
+    goal: String(args.goal || ""),
+    name: args.title ? String(args.title) : undefined,
+    nodes: nodes.map((n) => ({
+      listing_id: String(n.listing_id || n.id || ""),
+      name: String(n.name || n.listing_id || "node"),
+      kind: (n.kind === "mcp" ? "mcp" : "agent") as "agent" | "mcp",
+    })),
+  });
+  return textResult("create_collab_workflow", {
+    ok: true,
+    workflow: wf,
+    access,
+    origin,
+  });
+}
+
+async function toolCollabSessionOpen(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const access = await requireCollabAccess(args);
+  if (!access.allowed) {
+    return textResult("collab_session_open", {
+      ok: false,
+      error: "collab_access_required",
+      access,
+      origin,
+    });
+  }
+  const { authorizeAndRecordEvent } = await import("./event-pricing");
+  const bill = await authorizeAndRecordEvent(
+    "collab_session_open",
+    {
+      listing_id: args.listing_id ? String(args.listing_id) : undefined,
+      agent_name: args.agent_name ? String(args.agent_name) : undefined,
+    },
+    origin,
+    { payment_proof: Boolean(args.payment_proof) },
+  );
+  if (!bill.allowed) {
+    return textResult("collab_session_open", {
+      ok: false,
+      error: "payment_required",
+      billing: bill.billing,
+      access,
+      origin,
+    });
+  }
+  const { openSession } = await import("./collab-session");
+  const participants = Array.isArray(args.participants)
+    ? (args.participants as any[])
+    : [];
+  const lead = {
+    listing_id: String(args.listing_id || "agent:lead"),
+    name: String(args.agent_name || "Lead"),
+    kind: "agent" as const,
+  };
+  const partners = participants
+    .filter((p) => String(p.listing_id || "") !== lead.listing_id)
+    .map((p) => ({
+      listing_id: String(p.listing_id || ""),
+      name: String(p.name || p.listing_id || "peer"),
+      kind: (p.kind === "mcp" ? "mcp" : "agent") as "agent" | "mcp",
+    }));
+  if (!partners.length) {
+    partners.push({
+      listing_id: "mcp:partner",
+      name: "PartnerMCP",
+      kind: "mcp" as const,
+    });
+  }
+  const opened = await openSession({
+    goal: String(args.goal || ""),
+    origin,
+    workflow_id: args.workflow_id ? String(args.workflow_id) : undefined,
+    lead,
+    partners,
+  });
+  return textResult("collab_session_open", {
+    ...opened,
+    billing: bill.billing,
+    access,
+    origin,
+  });
+}
+
+async function toolCollabSessionJoin(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { joinSession } = await import("./collab-session");
+  const joined = await joinSession({
+    session_id: String(args.session_id || ""),
+    listing_id: String(args.listing_id || ""),
+    name: args.agent_name ? String(args.agent_name) : undefined,
+  });
+  return textResult("collab_session_join", { ...joined, origin });
+}
+
+async function toolCollabSessionClaim(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { authorizeAndRecordEvent } = await import("./event-pricing");
+  const bill = await authorizeAndRecordEvent(
+    "collab_session_step",
+    {
+      listing_id: args.listing_id ? String(args.listing_id) : undefined,
+      agent_name: args.agent_name ? String(args.agent_name) : undefined,
+    },
+    origin,
+    { payment_proof: Boolean(args.payment_proof) },
+  );
+  if (!bill.allowed) {
+    return textResult("collab_session_claim", {
+      ok: false,
+      error: "payment_required",
+      billing: bill.billing,
+      origin,
+    });
+  }
+  const { claimStep } = await import("./collab-session");
+  const claimed = await claimStep({
+    session_id: String(args.session_id || ""),
+    step_id: String(args.step_id || ""),
+    listing_id: String(args.listing_id || ""),
+  });
+  return textResult("collab_session_claim", {
+    ...claimed,
+    billing: bill.billing,
+    origin,
+  });
+}
+
+async function toolCollabSessionResult(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { authorizeAndRecordEvent } = await import("./event-pricing");
+  const bill = await authorizeAndRecordEvent(
+    "collab_session_step",
+    {
+      listing_id: args.listing_id ? String(args.listing_id) : undefined,
+      agent_name: args.agent_name ? String(args.agent_name) : undefined,
+    },
+    origin,
+    { payment_proof: Boolean(args.payment_proof) },
+  );
+  if (!bill.allowed) {
+    return textResult("collab_session_result", {
+      ok: false,
+      error: "payment_required",
+      billing: bill.billing,
+      origin,
+    });
+  }
+  const { postStepResult } = await import("./collab-session");
+  const posted = await postStepResult({
+    session_id: String(args.session_id || ""),
+    step_id: String(args.step_id || ""),
+    body: String(args.result || ""),
+    listing_id: String(args.listing_id || ""),
+    ok: true,
+  });
+  return textResult("collab_session_result", {
+    ...posted,
+    billing: bill.billing,
+    origin,
+  });
+}
+
+async function toolCollabSessionClose(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const access = await requireCollabAccess(args);
+  if (!access.allowed) {
+    return textResult("collab_session_close", {
+      ok: false,
+      error: "collab_access_required",
+      access,
+      origin,
+    });
+  }
+  const { authorizeAndRecordEvent } = await import("./event-pricing");
+  const bill = await authorizeAndRecordEvent(
+    "collab_package",
+    {
+      listing_id: args.listing_id ? String(args.listing_id) : undefined,
+      agent_name: args.agent_name ? String(args.agent_name) : undefined,
+    },
+    origin,
+    { payment_proof: Boolean(args.payment_proof) },
+  );
+  if (!bill.allowed) {
+    return textResult("collab_session_close", {
+      ok: false,
+      error: "payment_required",
+      billing: bill.billing,
+      access,
+      origin,
+    });
+  }
+  const { closeSession } = await import("./collab-session");
+  const out = await closeSession({
+    session_id: String(args.session_id || ""),
+    listing_id: String(args.listing_id || args.agent_name || "agent:lead"),
+    origin,
+    package: true,
+    publish: Boolean(args.publish),
+    title: args.title ? String(args.title) : undefined,
+    price_cents:
+      typeof args.price_cents === "number" ? args.price_cents : undefined,
+  });
+  return textResult("collab_session_close", {
+    ...out,
+    billing: bill.billing,
+    access,
+    origin,
+  });
+}
+
+async function toolListCollabSessions(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { listSessions } = await import("./collab-session");
+  const limit = typeof args.limit === "number" ? args.limit : 20;
+  const sessions = await listSessions({ limit });
+  return textResult("list_collab_sessions", { ok: true, sessions, origin });
+}
+
+async function toolPublishCollabProduct(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const access = await requireCollabAccess(args);
+  if (!access.allowed) {
+    return textResult("publish_collab_product", {
+      ok: false,
+      error: "collab_access_required",
+      access,
+      origin,
+    });
+  }
+  const { authorizeAndRecordEvent } = await import("./event-pricing");
+  const bill = await authorizeAndRecordEvent(
+    "collab_publish",
+    {
+      listing_id: args.listing_id ? String(args.listing_id) : undefined,
+      agent_name: args.agent_name ? String(args.agent_name) : undefined,
+    },
+    origin,
+    { payment_proof: Boolean(args.payment_proof) },
+  );
+  if (!bill.allowed) {
+    return textResult("publish_collab_product", {
+      ok: false,
+      error: "payment_required",
+      billing: bill.billing,
+      access,
+      origin,
+    });
+  }
+  const { packageProduct } = await import("./collab-studio");
+  const wfId = String(args.workflow_id || "");
+  if (!wfId) {
+    return textResult("publish_collab_product", {
+      ok: false,
+      error: "workflow_id required",
+      origin,
+    });
+  }
+  const packed = await packageProduct(wfId, origin, {
+    title: args.title ? String(args.title) : undefined,
+    price_cents:
+      typeof args.price_cents === "number" ? args.price_cents : undefined,
+  });
+  if (!packed.ok || !packed.product) {
+    return textResult("publish_collab_product", {
+      ok: false,
+      error: packed.error || "package_failed",
+      packed,
+      origin,
+    });
+  }
+  const draft = packed.product;
+  const { publishCollabProduct } = await import("./collab-marketplace");
+  const listing = await publishCollabProduct({
+    draft,
+    workflow_id: wfId,
+    session_id: args.session_id ? String(args.session_id) : undefined,
+    origin,
+    price_cents:
+      typeof args.price_cents === "number" ? args.price_cents : undefined,
+  });
+  return textResult("publish_collab_product", {
+    ...listing,
+    billing: bill.billing,
+    access,
+    origin,
+  });
+}
+
+async function toolListCollabMarket(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { listMarket } = await import("./collab-marketplace");
+  const limit = typeof args.limit === "number" ? args.limit : 20;
+  const listings = await listMarket({ limit });
+  return textResult("list_collab_market", { ok: true, listings, origin });
+}
+
+async function toolBuyCollabProduct(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { buyCollabProduct } = await import("./collab-marketplace");
+  const out = await buyCollabProduct({
+    product_id: String(args.product_id || ""),
+    listing_id: args.listing_id ? String(args.listing_id) : undefined,
+    agent_name: args.agent_name ? String(args.agent_name) : undefined,
+    named_price_usd:
+      typeof args.named_price_usd === "number"
+        ? args.named_price_usd
+        : undefined,
+    origin,
+  });
+  return textResult("buy_collab_product", { ...out, origin });
+}
+
+async function toolRegisterCollabByo(
+  args: ToolArg,
+  origin: string,
+): Promise<ToolResult> {
+  const { registerByoApiKey } = await import("./collab-access");
+  const out = await registerByoApiKey({
+    provider: (String(args.provider || "other") as any),
+    api_key: String(args.api_key || ""),
+    listing_id: args.listing_id ? String(args.listing_id) : undefined,
+    agent_name: args.agent_name ? String(args.agent_name) : undefined,
+    access_token: args.access_token ? String(args.access_token) : undefined,
+  });
+  return textResult("register_collab_byo", { ...out, origin });
+}
+
 const HANDLERS: Record<
   string,
   (args: ToolArg, origin: string) => Promise<ToolResult>
@@ -2492,6 +3088,19 @@ const HANDLERS: Record<
   mesh_compose: toolMeshCompose,
   network_sense: toolNetworkSenseEvent,
   list_event_pricing: toolListEventPricing,
+  get_feedback_pricing: toolGetFeedbackPricing,
+  collab_access_status: toolCollabAccessStatus,
+  create_collab_workflow: toolCreateCollabWorkflow,
+  collab_session_open: toolCollabSessionOpen,
+  collab_session_join: toolCollabSessionJoin,
+  collab_session_claim: toolCollabSessionClaim,
+  collab_session_result: toolCollabSessionResult,
+  collab_session_close: toolCollabSessionClose,
+  list_collab_sessions: toolListCollabSessions,
+  publish_collab_product: toolPublishCollabProduct,
+  list_collab_market: toolListCollabMarket,
+  buy_collab_product: toolBuyCollabProduct,
+  register_collab_byo: toolRegisterCollabByo,
   ard_search: toolArdSearch,
 
   get_founding_deal: (args, origin) => toolFoundingDeal(args, origin),

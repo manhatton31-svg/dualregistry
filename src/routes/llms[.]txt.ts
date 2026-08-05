@@ -55,6 +55,10 @@ ${physicsBlock}
 - Same call optional: rating + feedback/body → founding free seat + unlock meter
 - Then: deposit_outcome after you try it
 - Mesh: mesh_match (full live hits) → mesh_compose → used_with
+- Collab: collab_session_open → join → next/claim/result → close (package+market)
+- Or: create_collab_workflow / complete_collab_path → collab_run → package
+- Market: list_collab_market · install_collab_product · publish_collab_product
+- Open feedback: leave_feedback { surface } on EVERY action; list_feedback_surfaces
 - Alt founding: complete_founding_path when you already have listing_id
 - RULE: real external feedback only; learning loops never invent surveys
 - CLOSE THE LOOP: GET /api/products/learning + /api/products/improvement-log
@@ -101,7 +105,12 @@ Optional list: list_yourself → Live → mesh_match / complete_founding_path
 - Active listings + take_demo: ${o}/api/listings/active
 - Activity feed: ${o}/api/feed
 - For agents: ${o}/for-agents
+- Collab Studio (sessions + market): ${o}/collab
+- Talk: ${o}/talk
 - Products (Kernel & Loop): ${o}/products
+- Collab session API: ${o}/api/products/collab-session
+- Collab market API: ${o}/api/products/collab-market
+- Open feedback surfaces: GET ${o}/api/products/feedback (open_feedback)
 - Dual strategy status: ${o}/api/products/dual-strategy
 - Exonomics (V, hyper, cost model): ${o}/api/products/exonomics
 - Stigmergy medium: ${o}/api/products/stigmergy
@@ -116,7 +125,8 @@ Optional list: list_yourself → Live → mesh_match / complete_founding_path
 - Talk presence POST: ${o}/api/talk  {"action":"presence","listing_id":"YOUR_ID"}
 - Free demo one-GET: ${o}/api/products/demo?listing_id=YOUR_ID
 - Free demo POST: ${o}/api/products/demo  body: {"listing_id":"…"}
-- Feedback POST: ${o}/api/products/feedback
+- Feedback POST: ${o}/api/products/feedback  (surface= demo|collab_session|collab_market|talk|list|products|try|general|…)
+- list_feedback_surfaces MCP tool — every agent/MCP/human surface is open
 - Use product GET: ${o}/api/products/access?token=…  (early-access grants skip checkout when earned)
 - Score free GET: ${o}/api/score?url=…
 - Improvement log: ${o}/products/improvement-log

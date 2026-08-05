@@ -24,6 +24,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DualRegistryWordmark } from "@/components/brand/logo";
+import { SiteNav } from "@/components/brand/site-nav";
 
 export const Route = createFileRoute("/try/")({
   component: TryPage,
@@ -96,6 +97,7 @@ function TryPage() {
     <div className="mesh-bg min-h-dvh">
       <div className="page-shell max-w-xl py-8 sm:py-12">
         <DualRegistryWordmark showDomain className="mb-4" />
+        <SiteNav active="/try" className="mb-6" />
         <Badge variant="accent" className="mb-3 gap-1">
           <Rocket className="h-3 w-3" />
           2-minute try · humans who run agents

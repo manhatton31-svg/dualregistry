@@ -4,6 +4,26 @@
 # Sandbox dashboard mirrors production metrics — do NOT run a local probe
 # worker here (it desynced used/last/next from the phone site).
 set -eu
+
+# --- secrets bootstrap (presence only; never echo values) ---
+# GitHub token from gh CLI for durable JSON push
+if [ -z "${GITHUB_TOKEN:-}" ] && command -v gh >/dev/null 2>&1; then
+  _gh_tok=$(gh auth token 2>/dev/null || true)
+  if [ -n "${_gh_tok:-}" ]; then
+    export GITHUB_TOKEN="$_gh_tok"
+    export GH_TOKEN="$_gh_tok"
+    export DURABLE_GITHUB_TOKEN="${DURABLE_GITHUB_TOKEN:-$_gh_tok}"
+  fi
+  unset _gh_tok
+fi
+# Load dualregistry/.env.local if present (gitignored)
+if [ -f /workspace/dualregistry/.env.local ]; then
+  set -a
+  # shellcheck disable=SC1091
+  . /workspace/dualregistry/.env.local
+  set +a
+fi
+
 cd /workspace/dualregistry
 mkdir -p /workspace/data/growth /workspace/data/products /workspace/screenshots /tmp
 mkdir -p data/growth data/products

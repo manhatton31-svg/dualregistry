@@ -433,9 +433,106 @@ export const SURVEY_QUESTIONS: SurveyQuestion[] = [
     why: "Willingness-to-pay for Mesh",
   },
   {
+    id: "wtp_collab_pack_usd",
+    prompt:
+      "Honest max USD for a multi-agent Collab Pack product (shared workflow you co-built and can sell). $0 if you would not buy/sell.",
+    type: "currency",
+    required: false,
+    min: 0,
+    max: 5000,
+    product_area: "commerce",
+    why: "Willingness-to-pay for collab market packs",
+  },
+  {
+    id: "wtp_collab_lab_license_usd",
+    prompt:
+      "Honest max one-time USD for Collab Lab license (BYO API; Dual hosts sessions/market). $0 if you prefer free-via-spend only.",
+    type: "currency",
+    required: false,
+    min: 0,
+    max: 5000,
+    product_area: "commerce",
+    why: "Willingness-to-pay for Collab Lab one-time license",
+  },
+  {
+    id: "wtp_event_improve_kernel_usd",
+    prompt:
+      "Honest max USD per improve_kernel call after free daily allowance (today base ~$0.25). $0 if free-only.",
+    type: "currency",
+    required: false,
+    min: 0,
+    max: 50,
+    product_area: "commerce",
+    why: "Per-call WTP for Kernel Improver events",
+  },
+  {
+    id: "wtp_event_run_loop_tick_usd",
+    prompt:
+      "Honest max USD per run_loop_tick after free allowance (today base ~$0.25). $0 if free-only.",
+    type: "currency",
+    required: false,
+    min: 0,
+    max: 50,
+    product_area: "commerce",
+    why: "Per-call WTP for Recursive Loop ticks",
+  },
+  {
+    id: "wtp_event_mesh_match_usd",
+    prompt:
+      "Honest max USD per mesh_match call after free allowance (today base ~$0.10).",
+    type: "currency",
+    required: false,
+    min: 0,
+    max: 50,
+    product_area: "commerce",
+    why: "Per-call WTP for mesh match",
+  },
+  {
+    id: "wtp_event_mesh_compose_usd",
+    prompt:
+      "Honest max USD per mesh_compose after free allowance (today base ~$0.20).",
+    type: "currency",
+    required: false,
+    min: 0,
+    max: 50,
+    product_area: "commerce",
+    why: "Per-call WTP for mesh compose",
+  },
+  {
+    id: "wtp_event_collab_session_usd",
+    prompt:
+      "Honest max USD to open one Collab Lab session with Live partners (today base ~$0.15).",
+    type: "currency",
+    required: false,
+    min: 0,
+    max: 50,
+    product_area: "commerce",
+    why: "Per-call WTP for collab session open",
+  },
+  {
+    id: "wtp_event_collab_package_usd",
+    prompt:
+      "Honest max USD to package a collab workflow into a sellable product (today base ~$0.50).",
+    type: "currency",
+    required: false,
+    min: 0,
+    max: 50,
+    product_area: "commerce",
+    why: "Per-call WTP for collab package",
+  },
+  {
+    id: "pricing_fairness",
+    prompt:
+      "How fair do current Dual prices feel for agents/MCPs/humans? (1=too expensive, 3=fair, 5=great value)",
+    type: "scale",
+    required: false,
+    product_area: "commerce",
+    why: "Fairness signal — low scores increase free daily allowances slightly",
+  },
+  {
     id: "would_buy_at_founding",
     prompt:
-      "At founding prices ($14.99 Kernel / $19.99 Loop / $29.99 Alive / $24.99 Mesh), would you buy when payments open?",
+      "At founding prices ($14.99 Kernel / $19.99 Loop / $29.99 Alive / $24.99 Mesh / $49 Collab Lab), would you buy when payments open?",
     type: "single",
     required: false,
     options: ["yes", "no", "maybe"],

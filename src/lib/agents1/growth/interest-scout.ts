@@ -21,6 +21,7 @@ import {
   rateAllow,
   RATE,
 } from "@/lib/agents1/talk-security";
+import { resolveXaiApiKey, xaiConfigured } from "./xai-key";
 
 const DURABLE = "interest-scout.json";
 const UA =
@@ -390,7 +391,7 @@ type ScoreRow = { i: number; s: number; why: string };
 async function scoreWithXai(
   batch: InterestCandidate[],
 ): Promise<{ rows: ScoreRow[]; xai_usd: number; used_llm: boolean }> {
-  const key = process.env.XAI_API_KEY?.trim();
+  const key = resolveXaiApiKey();
   if (!key || batch.length === 0) {
     return {
       rows: batch.map((c, i) => {
@@ -658,7 +659,7 @@ export async function runInterestScout(opts?: {
   const errors: string[] = [];
   let state = await loadInterestScout();
   const monthBudget = interestMonthlyBudgetUsd();
-  const xai_configured = Boolean(process.env.XAI_API_KEY?.trim());
+  const xai_configured = xaiConfigured();
 
   if (budgetRemaining(state) <= 0.01) {
     const wall_ms = Date.now() - t0;
@@ -1057,7 +1058,7 @@ export async function getInterestScoutStatus(): Promise<{
     last_run_at: s.last_run_at,
     last_status: s.last_status,
     last_notes: s.last_notes,
-    xai_configured: Boolean(process.env.XAI_API_KEY?.trim()),
+    xai_configured: xaiConfigured(),
     budget_remaining_usd: budgetRemaining(s),
   };
 }

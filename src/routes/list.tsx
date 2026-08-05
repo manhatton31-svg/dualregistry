@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { FeedbackSurvey } from "@/components/products/feedback-survey";
 import { DualRegistryWordmark } from "@/components/brand/logo";
+import { SiteNav } from "@/components/brand/site-nav";
 
 export const Route = createFileRoute("/list")({
   component: ListPage,
@@ -191,6 +192,7 @@ function ListPage() {
         </p>
 
         <DualRegistryWordmark showDomain className="mb-4" />
+        <SiteNav active="/list" className="mb-6" />
         <Badge variant="accent" className="mb-4 gap-1">
           <Rocket className="h-3 w-3" />
           Free self-list · no invite

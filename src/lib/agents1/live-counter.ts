@@ -1,3 +1,5 @@
+import { bootstrapSecrets, getSecret } from "@/lib/secrets";
+bootstrapSecrets();
 /**
  * Live high-water counters — single source of truth across Vercel instances.
  *
@@ -77,6 +79,7 @@ let saveChain: Promise<void> = Promise.resolve();
 
 function ghToken(): string | undefined {
   return (
+    getSecret("github_token") ||
     process.env.DURABLE_GITHUB_TOKEN ||
     process.env.GITHUB_TOKEN ||
     process.env.GH_TOKEN ||
@@ -88,10 +91,12 @@ function getRedis(): Redis | null {
   if (redis !== undefined) return redis;
   try {
     const url =
+      getSecret("redis_url") ||
       process.env.UPSTASH_REDIS_REST_URL ||
       process.env.KV_REST_API_URL ||
       process.env.REDIS_REST_URL;
     const token =
+      getSecret("redis_token") ||
       process.env.UPSTASH_REDIS_REST_TOKEN ||
       process.env.KV_REST_API_TOKEN ||
       process.env.REDIS_REST_TOKEN;

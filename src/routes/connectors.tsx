@@ -26,6 +26,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DualRegistryWordmark } from "@/components/brand/logo";
+import { SiteNav } from "@/components/brand/site-nav";
 
 export const Route = createFileRoute("/connectors")({
   component: ConnectorsPage,
@@ -181,9 +182,12 @@ function ConnectorsPage() {
     <div className="min-h-dvh bg-background text-foreground">
       <header className="border-b border-border/80 bg-card/40 backdrop-blur-sm sticky top-0 z-10">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3">
-          <Link to="/" className="flex items-center gap-2 min-w-0">
-            <DualRegistryWordmark className="h-7 w-auto" />
-          </Link>
+          <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <Link to="/" className="flex shrink-0 items-center gap-2 min-w-0">
+              <DualRegistryWordmark className="h-7 w-auto" />
+            </Link>
+            <SiteNav active="/connectors" className="min-w-0" />
+          </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Shield className="size-3.5 shrink-0" aria-hidden />
             <span className="hidden sm:inline">Never auto-sends targets</span>

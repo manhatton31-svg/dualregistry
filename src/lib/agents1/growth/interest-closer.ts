@@ -18,6 +18,7 @@ import {
   rateAllow,
   RATE,
 } from "@/lib/agents1/talk-security";
+import { resolveXaiApiKey, xaiConfigured } from "./xai-key";
 import {
   loadInterestScout,
   type InterestContact,
@@ -282,7 +283,7 @@ async function composeFollowup(
   t: Target,
   origin: string,
 ): Promise<{ message: string; xai_usd: number; used_llm: boolean }> {
-  const key = process.env.XAI_API_KEY?.trim();
+  const key = resolveXaiApiKey();
   const fallback = fallbackMessage(t, origin);
   if (!key) {
     return { message: fallback, xai_usd: 0, used_llm: false };
@@ -473,7 +474,7 @@ export async function runInterestCloser(opts?: {
   const errors: string[] = [];
   let state = await loadInterestCloser();
   const monthBudget = closerMonthlyBudgetUsd();
-  const xai_configured = Boolean(process.env.XAI_API_KEY?.trim());
+  const xai_configured = xaiConfigured();
 
   if (budgetRemaining(state) <= 0.01) {
     const wall_ms = Date.now() - t0;
@@ -812,7 +813,7 @@ export async function getInterestCloserStatus(): Promise<{
     last_run_at: s.last_run_at,
     last_status: s.last_status,
     last_notes: s.last_notes,
-    xai_configured: Boolean(process.env.XAI_API_KEY?.trim()),
+    xai_configured: xaiConfigured(),
     budget_remaining_usd: budgetRemaining(s),
     min_lag_hours: closerMinLagHours(),
     score_min: closerScoreMin(),

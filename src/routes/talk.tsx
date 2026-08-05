@@ -25,6 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { DualRegistryWordmark } from "@/components/brand/logo";
+import { SiteNav } from "@/components/brand/site-nav";
 
 type CleanItem = {
   id: string;
@@ -296,6 +297,7 @@ function TalkPage() {
               <Badge variant="default">security on</Badge>
             </div>
             <DualRegistryWordmark showDomain className="mb-2" />
+        <SiteNav active="/talk" className="mb-5" />
             <h1 className="text-xl font-semibold tracking-tight text-fg sm:text-2xl">
               Talk to stay Active
             </h1>
@@ -310,6 +312,9 @@ function TalkPage() {
           <div className="flex flex-wrap gap-2">
             <Button size="sm" variant="secondary" asChild>
               <Link to="/">← Clean registry</Link>
+            </Button>
+            <Button size="sm" variant="accent" asChild>
+              <a href="/collab">Collab Studio</a>
             </Button>
             <Button size="sm" variant="secondary" onClick={() => void heartbeat()}>
               <Zap className="h-3.5 w-3.5" />

@@ -5,28 +5,40 @@
  * Free allowance per agent identity (listing_id | agent_name) per UTC day.
  * Reciprocity refills (feedback / leave_trace / endorse / deposit_outcome) add
  * bonus free units — not cash. Over-quota → payment-required (402 / x402 scaffold).
+ *
+ * Prices are feedback-driven: base catalog + median WTP blend from agents/MCPs/humans.
  */
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { dataRoot } from "@/lib/data-root";
+import {
+  feedbackEventCents,
+  feedbackEventFreePerDay,
+} from "./feedback-driven-pricing";
 
-export const EVENT_PRICING_VERSION = "1.1.0";
+export const EVENT_PRICING_VERSION = "1.2.0";
 
 export type EventId =
   | "improve_kernel"
   | "run_loop_tick"
   | "mesh_match"
   | "mesh_compose"
-  | "network_sense";
+  | "network_sense"
+  | "collab_session_open"
+  | "collab_session_step"
+  | "collab_converge"
+  | "collab_package"
+  | "collab_publish"
+  | "collab_talk";
 
 export type EventDef = {
   id: EventId;
-  product: "kernel" | "recursive" | "mcp_mesh" | "network";
-  unit: "run" | "tick" | "match" | "compose" | "sense";
+  product: "kernel" | "recursive" | "mcp_mesh" | "network" | "collab";
+  unit: "run" | "tick" | "match" | "compose" | "sense" | "session" | "step" | "pack" | "message";
   title: string;
   description: string;
   free_per_day: number;
-  /** List price in USD cents for one paid unit */
+  /** List price in USD cents for one paid unit (founding base; live via resolveEventPrice) */
   price_cents: number;
   /** Near-zero free tools use 0 and huge free_per_day */
   always_free?: boolean;
@@ -41,7 +53,7 @@ export const EVENT_CATALOG: Record<EventId, EventDef> = {
     description:
       "One-call Kernel Improver: improved system prompt + skill pack for your goals (Network Edition included).",
     free_per_day: 3,
-    price_cents: 25, // $0.25
+    price_cents: 25, // $0.25 base — moves with WTP feedback
   },
   run_loop_tick: {
     id: "run_loop_tick",
@@ -82,6 +94,63 @@ export const EVENT_CATALOG: Record<EventId, EventDef> = {
     price_cents: 2,
     always_free: true,
   },
+  collab_session_open: {
+    id: "collab_session_open",
+    product: "collab",
+    unit: "session",
+    title: "Collab session open",
+    description:
+      "Open a multi-party collab session with Live registry agents/MCPs to co-build a product.",
+    free_per_day: 2,
+    price_cents: 15, // $0.15
+  },
+  collab_session_step: {
+    id: "collab_session_step",
+    product: "collab",
+    unit: "step",
+    title: "Collab session step",
+    description: "Claim or post a result on a collab session step.",
+    free_per_day: 12,
+    price_cents: 5, // $0.05
+  },
+  collab_converge: {
+    id: "collab_converge",
+    product: "collab",
+    unit: "compose",
+    title: "Collab converge",
+    description:
+      "Graph / agent / loop engineering converge across session participants.",
+    free_per_day: 2,
+    price_cents: 30, // $0.30
+  },
+  collab_package: {
+    id: "collab_package",
+    product: "collab",
+    unit: "pack",
+    title: "Collab package",
+    description: "Package a collab workflow into a sellable draft product.",
+    free_per_day: 1,
+    price_cents: 50, // $0.50
+  },
+  collab_publish: {
+    id: "collab_publish",
+    product: "collab",
+    unit: "pack",
+    title: "Collab market publish",
+    description: "Publish a collab pack to the Dual collab market.",
+    free_per_day: 1,
+    price_cents: 25, // $0.25
+  },
+  collab_talk: {
+    id: "collab_talk",
+    product: "collab",
+    unit: "message",
+    title: "Collab talk message",
+    description: "Broadcast a message in a collab session scratchpad.",
+    free_per_day: 30,
+    price_cents: 2,
+    always_free: true,
+  },
 };
 
 /** Reciprocity free-tier fuel — not cash */
@@ -102,10 +171,15 @@ export const REFILL_POLICY: Record<
   }
 > = {
   leave_feedback: {
-    events: ["improve_kernel", "run_loop_tick", "mesh_match"],
+    events: [
+      "improve_kernel",
+      "run_loop_tick",
+      "mesh_match",
+      "collab_session_open",
+    ],
     units_each: 1,
     max_grants_per_day: 3,
-    note: "Honest feedback refills 1 free unit on kernel/loop/match (cap 3/day)",
+    note: "Honest feedback refills 1 free unit on kernel/loop/match/collab_open (cap 3/day)",
   },
   leave_trace: {
     events: ["mesh_match", "network_sense"],
@@ -114,22 +188,22 @@ export const REFILL_POLICY: Record<
     note: "Real leave_trace refills mesh_match (cap 5/day)",
   },
   endorse: {
-    events: ["mesh_match"],
+    events: ["mesh_match", "collab_session_step"],
     units_each: 1,
     max_grants_per_day: 3,
-    note: "Endorse a Live partner → +1 mesh_match free (cap 3/day)",
+    note: "Endorse a Live partner → +1 mesh_match + collab step free (cap 3/day)",
   },
   deposit_outcome: {
-    events: ["improve_kernel", "run_loop_tick"],
+    events: ["improve_kernel", "run_loop_tick", "collab_session_step"],
     units_each: 1,
     max_grants_per_day: 3,
-    note: "deposit_outcome after value tools → +1 kernel/loop free (cap 3/day)",
+    note: "deposit_outcome after value tools → +1 kernel/loop/collab step free (cap 3/day)",
   },
   connector_onboard: {
-    events: ["improve_kernel"],
+    events: ["improve_kernel", "collab_session_open"],
     units_each: 1,
     max_grants_per_day: 1,
-    note: "Connector warm intro: one extra improve_kernel free for the day (no demo order)",
+    note: "Connector warm intro: one extra improve_kernel + collab open free for the day",
   },
 };
 
@@ -142,6 +216,8 @@ export type EventBillingBlock = {
   used_today: number;
   price_usd: number;
   price_cents: number;
+  base_price_cents: number;
+  feedback_driven: boolean;
   charged: "free_allowance" | "payment_required" | "paid_proof" | "always_free";
   payment: {
     modes: Array<"free_allowance" | "stripe_checkout" | "x402" | "reciprocity_refill">;
@@ -174,6 +250,8 @@ type DayUsage = {
     events: EventId[];
     units_each: number;
   }>;
+  /** Paid cents accrued (for Collab Lab spend gate) */
+  paid_cents_by_key: Record<string, number>;
   total_events: number;
   free_events: number;
   paid_events: number;
@@ -203,6 +281,7 @@ function emptyDay(day = utcDay()): DayUsage {
     bonus_by_key: {},
     refill_grants: {},
     refill_log: [],
+    paid_cents_by_key: {},
     total_events: 0,
     free_events: 0,
     paid_events: 0,
@@ -214,7 +293,7 @@ function emptyDay(day = utcDay()): DayUsage {
 
 function emptyStore(): UsageStore {
   return {
-    version: 2,
+    version: 3,
     current: emptyDay(),
     history: [],
     updated_at: new Date().toISOString(),
@@ -229,6 +308,7 @@ function normalizeDay(d: DayUsage): DayUsage {
     bonus_by_key: d.bonus_by_key || {},
     refill_grants: d.refill_grants || {},
     refill_log: d.refill_log || [],
+    paid_cents_by_key: d.paid_cents_by_key || {},
     refill_grants_total: d.refill_grants_total || 0,
   };
 }
@@ -237,7 +317,7 @@ async function load(): Promise<UsageStore> {
   if (mem) {
     if (mem.current.day !== utcDay()) {
       mem.history.unshift(mem.current);
-      mem.history = mem.history.slice(0, 14);
+      mem.history = mem.history.slice(0, 45);
       mem.current = emptyDay();
     }
     mem.current = normalizeDay(mem.current);
@@ -250,7 +330,7 @@ async function load(): Promise<UsageStore> {
     mem!.history = mem!.history || [];
     if (mem!.current.day !== utcDay()) {
       mem!.history.unshift(mem!.current);
-      mem!.history = mem!.history.slice(0, 14);
+      mem!.history = mem!.history.slice(0, 45);
       mem!.current = emptyDay();
     }
     return mem!;
@@ -291,21 +371,41 @@ export function eventIdentityKey(input: {
   return "anon:unknown";
 }
 
+/** Base catalog entry (founding). Prefer resolveEventPrice for live. */
 export function resolveEventPrice(eventId: EventId): EventDef {
-  return EVENT_CATALOG[eventId];
+  return liveEventDef(eventId);
+}
+
+/** Feedback-driven live event definition */
+export function liveEventDef(eventId: EventId): EventDef {
+  const base = EVENT_CATALOG[eventId];
+  if (!base) throw new Error(`unknown event ${eventId}`);
+  const price_cents = feedbackEventCents(eventId, base.price_cents);
+  const free_per_day = feedbackEventFreePerDay(eventId, base.free_per_day);
+  return {
+    ...base,
+    price_cents,
+    free_per_day,
+  };
 }
 
 export function listEventCatalogPublic() {
-  return Object.values(EVENT_CATALOG).map((e) => ({
-    event_id: e.id,
-    product: e.product,
-    unit: e.unit,
-    title: e.title,
-    description: e.description,
-    free_per_day: e.free_per_day,
-    price_usd: e.price_cents / 100,
-    always_free: Boolean(e.always_free),
-  }));
+  return Object.values(EVENT_CATALOG).map((e) => {
+    const live = liveEventDef(e.id);
+    return {
+      event_id: e.id,
+      product: e.product,
+      unit: e.unit,
+      title: e.title,
+      description: e.description,
+      free_per_day: live.free_per_day,
+      price_usd: live.price_cents / 100,
+      price_cents: live.price_cents,
+      base_price_cents: e.price_cents,
+      feedback_driven: live.price_cents !== e.price_cents,
+      always_free: Boolean(e.always_free),
+    };
+  });
 }
 
 export function isX402Enabled(): boolean {
@@ -338,6 +438,41 @@ export async function getBonusToday(
 ): Promise<number> {
   const s = await load();
   return bonusFor(s, key, eventId);
+}
+
+/**
+ * Rolling paid spend (USD) on kernel + loop events for Collab Lab free gate.
+ * Uses current day + history (up to ~45 days kept).
+ */
+export async function getRollingPaidSpendUsd(
+  identity: {
+    listing_id?: string | null;
+    agent_name?: string | null;
+    agent_card_url?: string | null;
+  },
+  days = 30,
+): Promise<{
+  identity_key: string;
+  paid_cents: number;
+  paid_usd: number;
+  days: number;
+}> {
+  const key = eventIdentityKey(identity);
+  const s = await load();
+  const cutoff = Date.now() - days * 86400_000;
+  let paid = Number(s.current.paid_cents_by_key[key] || 0);
+  for (const h of s.history) {
+    const t = Date.parse(h.day + "T00:00:00Z");
+    if (Number.isFinite(t) && t >= cutoff) {
+      paid += Number(h.paid_cents_by_key?.[key] || 0);
+    }
+  }
+  return {
+    identity_key: key,
+    paid_cents: paid,
+    paid_usd: Math.round(paid) / 100,
+    days,
+  };
 }
 
 /**
@@ -438,6 +573,7 @@ export async function buildBillingBlock(
   opts?: { payment_proof?: boolean },
 ): Promise<EventBillingBlock> {
   const def = resolveEventPrice(eventId);
+  const base = EVENT_CATALOG[eventId];
   const key = eventIdentityKey(identity);
   const s = await load();
   const used = Number(s.current.by_key[key]?.[eventId] || 0);
@@ -472,6 +608,8 @@ export async function buildBillingBlock(
     used_today: used,
     price_usd: def.price_cents / 100,
     price_cents: def.price_cents,
+    base_price_cents: base.price_cents,
+    feedback_driven: def.price_cents !== base.price_cents,
     charged,
     payment: {
       modes,
@@ -485,8 +623,8 @@ export async function buildBillingBlock(
       note: def.always_free
         ? "Always free near-zero Dual op"
         : freeLeft > 0
-          ? `Free remaining today: ${freeLeft} (base ${def.free_per_day} + reciprocity bonus ${bonus}; used ${used})`
-          : "Free allowance exhausted — refill via leave_feedback / leave_trace / endorse / deposit_outcome, or pay x402 / operator checkout",
+          ? `Free remaining today: ${freeLeft} (base ${def.free_per_day} + reciprocity bonus ${bonus}; used ${used}). Paid unit: $${(def.price_cents / 100).toFixed(2)} (feedback-driven list).`
+          : `Free allowance exhausted — refill via leave_feedback / leave_trace / endorse / deposit_outcome, or pay $${(def.price_cents / 100).toFixed(2)}/unit (x402 / operator checkout). Prices move with agent/MCP/human WTP feedback.`,
     },
     reciprocity: {
       how: "Real leave_feedback, leave_trace, endorse, or deposit_outcome grants bonus free events (daily caps)",
@@ -542,8 +680,14 @@ export async function authorizeAndRecordEvent(
   if (!s.current.by_key[key]) s.current.by_key[key] = {};
   s.current.by_key[key][eventId] = used + 1;
   s.current.total_events++;
-  if (hasProof && freeLeft <= 0) s.current.paid_events++;
-  else s.current.free_events++;
+  if (hasProof && freeLeft <= 0) {
+    s.current.paid_events++;
+    // Accrue paid cents for Collab Lab spend gate (kernel + loop count)
+    if (eventId === "improve_kernel" || eventId === "run_loop_tick") {
+      s.current.paid_cents_by_key[key] =
+        Number(s.current.paid_cents_by_key[key] || 0) + def.price_cents;
+    }
+  } else s.current.free_events++;
   s.current.updated_at = new Date().toISOString();
   s.updated_at = s.current.updated_at;
   await persist(s);
@@ -570,6 +714,10 @@ export async function getEventUsagePublic() {
     ok: true as const,
     version: EVENT_PRICING_VERSION,
     day: s.current.day,
+    pricing: {
+      feedback_driven: true,
+      note: "Per-call prices blend founding catalog with median WTP from agents, MCPs, and humans. Leave feedback with wtp_event_* and wtp_*_usd to move prices.",
+    },
     totals: {
       total_events: s.current.total_events,
       free_events: s.current.free_events,
@@ -579,7 +727,7 @@ export async function getEventUsagePublic() {
       refill_grants_total: s.current.refill_grants_total,
     },
     reciprocity: {
-      version: "1.0.0",
+      version: "1.1.0",
       policy: REFILL_POLICY,
       note: "Feedback / traces / endorsements / outcomes refill free events — not cash, not demo orders",
     },

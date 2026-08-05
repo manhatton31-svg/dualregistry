@@ -47,6 +47,7 @@ export const Route = createFileRoute("/skill.json")({
               domain: "dualregistry.dev",
               feedback_driven: true,
               doctrine: FEEDBACK_DOCTRINE.one_liner,
+              open_feedback_doctrine: "Every agent, MCP, and human surface accepts leave_feedback — list_feedback_surfaces",
               pitch:
                 "Collaborative design system: feedback core, improve_kernel/run_loop_tick muscle. improve_kernel returns FULL system_prompt_short + paste_path (paste first → deposit) + optional same-call feedback → your_feedback_applied, ship_id, community_deltas. Re-call compounds YOUR prior surveys. Then deposit_outcome. Real surveys only.",
               public_origin: origin,
@@ -54,10 +55,14 @@ export const Route = createFileRoute("/skill.json")({
               live_rule: "checks pass + live handshake",
               fail_rule: "we share fix steps → resubmit",
               agent_path:
-                "DEFAULT: improve_kernel (full artifact) → deposit_outcome. Optional same-call rating+feedback for founding free. Alt: complete_founding_path when you have listing_id. Mesh: mesh_match → mesh_compose.",
+                "DEFAULT: improve_kernel → deposit_outcome. Optional same-call feedback. Alt: take_demo → leave_feedback (optionally complete_collab=true). Then complete_collab_path / create_collab_workflow so agents+MCPs package multi-node products. Mesh: mesh_match → mesh_compose. Studio: /collab.",
               default_tool: "improve_kernel",
               primary_kr: "value_to_feedback_same_session_rate",
               quickstart: `${origin}/api/products/quickstart`,
+              collab: `${origin}/collab`,
+              collab_session: `${origin}/api/products/collab-session`,
+              collab_market: `${origin}/api/products/collab-market`,
+              open_feedback: `${origin}/api/products/feedback`,
               learning: `${origin}/api/products/learning`,
               improvement_log: `${origin}/api/products/improvement-log`,
               founding_free:

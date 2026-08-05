@@ -19,7 +19,7 @@ export const Route = createFileRoute("/api/products/checkout")({
     handlers: {
       GET: async () => {
         const gate = await getPaymentGate();
-        const skus: ProductSku[] = ["kernel", "recursive", "alive", "mcp_mesh"];
+        const skus: ProductSku[] = ["kernel", "recursive", "alive", "mcp_mesh", "collab_pack", "collab_lab_license"];
         const nyp = Object.fromEntries(
           skus.map((sku) => {
             const b = namedPriceBoundsCents(sku, 0);
@@ -51,6 +51,8 @@ export const Route = createFileRoute("/api/products/checkout")({
                 recursive: formatUsd(LAUNCH_PRICES.recursive),
                 alive: formatUsd(LAUNCH_PRICES.alive),
                 mcp_mesh: formatUsd(LAUNCH_PRICES.mcp_mesh),
+                collab_pack: formatUsd(LAUNCH_PRICES.collab_pack),
+                collab_lab_license: formatUsd(LAUNCH_PRICES.collab_lab_license),
               },
               bounds_at_founding: nyp,
             },

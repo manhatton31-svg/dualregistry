@@ -1,3 +1,5 @@
+import { bootstrapSecrets, getSecret } from "@/lib/secrets";
+bootstrapSecrets();
 /**
  * Cloudflare zone ops for Dual Registry discoverability:
  *  1) DNS TXT _mcp.<domain>
@@ -214,6 +216,7 @@ export async function applyCloudflareDiscoverability(opts?: {
 }): Promise<CfApplyResult> {
   const token =
     opts?.token ||
+    getSecret("cloudflare_api_token") ||
     process.env.CLOUDFLARE_API_TOKEN ||
     process.env.CF_API_TOKEN ||
     "";

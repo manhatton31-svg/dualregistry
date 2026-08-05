@@ -6,7 +6,9 @@
  */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { isRealFeedback, isTestAgentName } from "./authenticity";
+import { isTestAgentName, isExternalUnlockFeedback } from "./authenticity";
+
+
 import { isPublicCountableDemo, REAL_NUMBERS_POLICY } from "./real-numbers";
 import { listFulfilledOrders, reloadOrdersFromDisk } from "./orders";
 import { listFeedback } from "./feedback";
@@ -394,7 +396,8 @@ export async function recomputeInsights(): Promise<ProductEngagement> {
   }>;
 
   for (const f of items) {
-    if (!isRealFeedback(f)) continue;
+    // Payment unlock + public engagement: external agents/MCPs only
+    if (!isExternalUnlockFeedback(f)) continue;
     let aud = inferFeedbackAudience(f);
     let key = participantKey({
       agent_name: f.agent_name,

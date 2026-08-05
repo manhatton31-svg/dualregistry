@@ -6,12 +6,14 @@
  * Auth: x-vercel-cron | CRON_SECRET
  */
 import { createFileRoute } from "@tanstack/react-router";
+import { bootstrapSecrets, getSecret } from "@/lib/secrets";
 
 export const maxDuration = 30;
 
 function authorized(request: Request): boolean {
   if (request.headers.get("x-vercel-cron") === "1") return true;
-  const secret = process.env.CRON_SECRET?.trim();
+  bootstrapSecrets();
+  const secret = (getSecret("cron_secret") || process.env.CRON_SECRET || "").trim();
   if (!secret) return false;
   const auth = request.headers.get("authorization") || "";
   if (auth === `Bearer ${secret}`) return true;
