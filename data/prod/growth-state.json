@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated_at": "2026-08-05T07:19:23.476Z",
+  "updated_at": "2026-08-05T07:19:35.755Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
@@ -3139,12 +3139,10 @@
       "quality_hints": [
         "server.json",
         "github-search",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "handshake:fail"
       ],
       "id": "mcp-mcp-https-github-com-alpha-ai-labs-mcp",
-      "status": "rejected",
+      "status": "queued",
       "attempts": 2,
       "discovered_at": "2026-08-05T07:10:14.431Z",
       "updated_at": "2026-08-05T07:19:23.475Z",
