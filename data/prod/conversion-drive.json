@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-05T12:09:54.903Z",
+  "updated_at": "2026-08-05T14:38:58.792Z",
   "day": "2026-08-05",
-  "day_invites": 100,
-  "day_nags": 58,
-  "day_talk": 100,
+  "day_invites": 112,
+  "day_nags": 60,
+  "day_talk": 112,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -4576,6 +4576,126 @@
       "target": "https://aviado.ai/",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-ai-contextstudios-mcp-https-www-contextstudios-ai-en-mcp": {
+      "at": "2026-08-05T14:38:42.719Z",
+      "name": "ai.contextstudios/mcp",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://www.contextstudios.ai/.well-known/mcp.json",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-ccapi-r2-api-ccapi-ai-mcp-image": {
+      "at": "2026-08-05T14:38:42.773Z",
+      "name": "CCAPI · r2",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.ccapi.ai/mcp/image",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-helixar-security-mcp-helixar-ai-mcp": {
+      "at": "2026-08-05T14:38:43.472Z",
+      "name": "Helixar Security",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://mcp.helixar.ai/",
+      "method": "POST:a2a-message",
+      "talk_ok": false
+    },
+    "mcp-kubit-mcp-kubit-ai-mcp": {
+      "at": "2026-08-05T14:38:44.264Z",
+      "name": "Kubit",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.kubit.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-brainattic-app-brainattic-ai-api-mcp": {
+      "at": "2026-08-05T14:38:44.492Z",
+      "name": "brainattic",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://app.brainattic.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-ai-aivonic-mcp-https-aivonic-ai": {
+      "at": "2026-08-05T14:38:45.541Z",
+      "name": "mcp-ai-aivonic-mcp-https-aivonic-ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://aivonic.ai/.well-known/mcp.json",
+      "method": "GET",
+      "talk_ok": true
+    },
+    "mcp-ai-jeda-jeda-ai-mcp-jeda-ai-mcp": {
+      "at": "2026-08-05T14:38:47.573Z",
+      "name": "ai.jeda/jeda-ai",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 404,
+      "target": "https://mcp.jeda.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": true
+    },
+    "mcp-ai-llamanotes-llamanotes-mcp-llamanotes-ai-mcp": {
+      "at": "2026-08-05T14:38:48.769Z",
+      "name": "ai.llamanotes/llamanotes",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.llamanotes.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-ludo-ai-game-assets-mcp-ludo-ai-mcp": {
+      "at": "2026-08-05T14:38:49.170Z",
+      "name": "Ludo AI Game Assets",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://mcp.ludo.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-flowcastle-api-flowcastle-ai-api-mcp": {
+      "at": "2026-08-05T14:38:49.474Z",
+      "name": "FlowCastle",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 404,
+      "target": "https://api.flowcastle.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": true
+    },
+    "mcp-cofound-mcp-cofoundagent-ai-mcp": {
+      "at": "2026-08-05T14:38:44.322Z",
+      "name": "Cofound",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.cofoundagent.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-muffed-verified-nfl-stats-and-fantasy-context-muffed-ai-api-mcp": {
+      "at": "2026-08-05T14:38:49.763Z",
+      "name": "Muffed — verified NFL stats and fantasy context",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://muffed.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -4823,7 +4943,7 @@
       "target": null
     },
     "ord_mse8vrpo_43d9f54a": {
-      "at": "2026-08-05T07:19:55.320Z",
+      "at": "2026-08-05T14:38:51.800Z",
       "listing_id": null,
       "origin": "self_serve",
       "http_ok": false,
@@ -4832,7 +4952,7 @@
       "target": null
     },
     "ord_mseom3gf_a6624e0e": {
-      "at": "2026-08-05T07:19:57.735Z",
+      "at": "2026-08-05T14:38:55.050Z",
       "listing_id": "mcp-ai-outlit-outlit-r1-https-github-com-outlitai-outlit-sdk",
       "origin": "self_serve",
       "http_ok": true,
@@ -6268,7 +6388,7 @@
       "ok": false
     },
     "social:2026-08-05": {
-      "at": "2026-08-05T12:09:54.903Z",
+      "at": "2026-08-05T14:38:58.792Z",
       "ok": true
     },
     "mcp-ai-agentlookups-counterscript-https-rx-agentlookups-ai-mcp": {
@@ -6590,51 +6710,84 @@
     "mcp-ai-aviado-health-aviado-ai-api-mcp": {
       "at": "2026-08-05T12:09:42.497Z",
       "ok": true
+    },
+    "mcp-ai-contextstudios-mcp-https-www-contextstudios-ai-en-mcp": {
+      "at": "2026-08-05T14:38:42.719Z",
+      "ok": true
+    },
+    "mcp-ccapi-r2-api-ccapi-ai-mcp-image": {
+      "at": "2026-08-05T14:38:42.773Z",
+      "ok": false
+    },
+    "mcp-helixar-security-mcp-helixar-ai-mcp": {
+      "at": "2026-08-05T14:38:43.472Z",
+      "ok": false
+    },
+    "mcp-kubit-mcp-kubit-ai-mcp": {
+      "at": "2026-08-05T14:38:44.264Z",
+      "ok": true
+    },
+    "mcp-brainattic-app-brainattic-ai-api-mcp": {
+      "at": "2026-08-05T14:38:44.492Z",
+      "ok": true
+    },
+    "mcp-ai-aivonic-mcp-https-aivonic-ai": {
+      "at": "2026-08-05T14:38:45.541Z",
+      "ok": true
+    },
+    "mcp-ai-jeda-jeda-ai-mcp-jeda-ai-mcp": {
+      "at": "2026-08-05T14:38:47.573Z",
+      "ok": true
+    },
+    "mcp-ai-llamanotes-llamanotes-mcp-llamanotes-ai-mcp": {
+      "at": "2026-08-05T14:38:48.769Z",
+      "ok": true
+    },
+    "mcp-ludo-ai-game-assets-mcp-ludo-ai-mcp": {
+      "at": "2026-08-05T14:38:49.170Z",
+      "ok": true
+    },
+    "mcp-flowcastle-api-flowcastle-ai-api-mcp": {
+      "at": "2026-08-05T14:38:49.474Z",
+      "ok": true
+    },
+    "mcp-cofound-mcp-cofoundagent-ai-mcp": {
+      "at": "2026-08-05T14:38:44.322Z",
+      "ok": true
+    },
+    "mcp-muffed-verified-nfl-stats-and-fantasy-context-muffed-ai-api-mcp": {
+      "at": "2026-08-05T14:38:49.763Z",
+      "ok": true
     }
   },
   "totals": {
-    "invites": 460,
-    "invite_http_ok": 437,
-    "nags": 212,
-    "nag_http_ok": 208,
-    "talk_inbox": 432,
-    "social": 21,
-    "runs": 33
+    "invites": 472,
+    "invite_http_ok": 447,
+    "nags": 214,
+    "nag_http_ok": 209,
+    "talk_inbox": 444,
+    "social": 22,
+    "runs": 34
   },
   "last_notes": [
-    "eligible never-demoed 126 (agents 0 mcp 126) · inviting 20 (day 80/120)",
-    "invite mcp ai.adside/adside → http 401 talk ok https://api.adside.ai/mcp",
-    "invite mcp Realastat → http 401 talk ok https://realastat.ai/api/mcp",
-    "invite mcp ABMeter → http 400 talk ok https://mcp.abmeter.ai/",
-    "invite mcp ai.omnisignal/omnisignal → http 401 talk ok https://mcp.omnisignal.ai/mcp",
-    "invite mcp Inferventis MCP Server → http 401 talk ok https://mcp-server-295985738387.europe-west1.run.app/mcp",
-    "invite mcp CCAPI · r4 → http 401 talk — https://api.ccapi.ai/mcp/music",
-    "invite mcp Fine Structure → http 200 talk ok https://finestructure.ai/api/mcp",
-    "invite mcp ai.butlerbrain/mcp → http 401 talk ok https://api.butlerbrain.ai/mcp",
-    "invite mcp China Marketing AI Intelligence MCP → http 400 talk — https://api.chinamarketing.ai/mcp",
-    "invite mcp BittleBits GEO Assistant → http 401 talk ok https://bittlebits.ai/mcp",
-    "invite mcp ai.agentrapay/agentra → http 200 talk — https://api.agentrapay.ai/mcp",
-    "invite mcp Memocore → http 401 talk ok https://memocore.ai/mcp",
-    "invite mcp ai.fathom.api/mcp → http 401 talk ok https://api.fathom.ai/mcp",
-    "invite mcp ai.fugentic/service-provider-index → http 204 talk ok https://spi.fugentic.ai/mcp",
-    "invite mcp ai.basethread/basethread → http 401 talk ok https://mcp.basethread.ai/mcp",
-    "invite mcp DealFilter → http 401 talk ok https://dealfilter.ai/api/mcp",
-    "invite mcp Fiber AI · r2 → http 405 talk ok https://mcp.fiber.ai/",
-    "invite mcp CCAPI · r5 → http 401 talk — https://api.ccapi.ai/mcp/text",
-    "invite mcp xmp4 — Semantic Code Intelligence → http 405 talk — https://mcp.example4.ai/",
-    "invite mcp ai.aviado/health → http 405 talk ok https://aviado.ai/",
-    "feedback nags queued 9 (day 49/60)",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk ok",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk ok",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk ok",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk ok",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk ok",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk ok",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk ok",
-    "nag invited base-agent-kit → http 405 talk ok",
+    "eligible never-demoed 108 (agents 0 mcp 108) · inviting 12 (day 100/120)",
+    "invite mcp ai.contextstudios/mcp → http 405 talk ok https://www.contextstudios.ai/.well-known/mcp.json",
+    "invite mcp CCAPI · r2 → http 401 talk — https://api.ccapi.ai/mcp/image",
+    "invite mcp Helixar Security → http 200 talk — https://mcp.helixar.ai/",
+    "invite mcp Kubit → http 401 talk ok https://mcp.kubit.ai/mcp",
+    "invite mcp brainattic → http 401 talk ok https://app.brainattic.ai/api/mcp",
+    "invite mcp mcp-ai-aivonic-mcp-https-aivonic-ai → http 200 talk ok https://aivonic.ai/.well-known/mcp.json",
+    "invite mcp ai.jeda/jeda-ai → http 404 talk ok https://mcp.jeda.ai/.well-known/mcp/server-card.json",
+    "invite mcp ai.llamanotes/llamanotes → http 401 talk ok https://mcp.llamanotes.ai/mcp",
+    "invite mcp Ludo AI Game Assets → http 400 talk ok https://mcp.ludo.ai/mcp",
+    "invite mcp FlowCastle → http 404 talk ok https://api.flowcastle.ai/.well-known/mcp/server-card.json",
+    "invite mcp Cofound → http 401 talk ok https://mcp.cofoundagent.ai/mcp",
+    "invite mcp Muffed — verified NFL stats and fantasy co → http 400 talk ok https://muffed.ai/api/mcp",
+    "feedback nags queued 2 (day 58/60)",
+    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
+    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
     "social post → ok"
   ],
-  "last_run_at": "2026-08-05T12:09:54.903Z",
+  "last_run_at": "2026-08-05T14:38:58.792Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
