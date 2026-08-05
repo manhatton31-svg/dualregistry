@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-05T12:09:35.468Z",
+  "updated_at": "2026-08-05T12:09:37.148Z",
   "presence": {
     "agtpub_875a9cfb88f7fdb2ce50": {
       "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
@@ -1441,25 +1441,45 @@
       "presence_count": 2,
       "first_at": "2026-08-05T10:02:50.678Z"
     },
-    "mcp-ccapi-r4-api-ccapi-ai-mcp-music": {
-      "listing_id": "mcp-ccapi-r4-api-ccapi-ai-mcp-music",
+    "mcp-memocore-memocore-ai-mcp": {
+      "listing_id": "mcp-memocore-memocore-ai-mcp",
       "kind": "mcp",
-      "name": "CCAPI · r4",
-      "last_at": "2026-08-05T12:09:35.468Z",
+      "name": "Memocore",
+      "last_at": "2026-08-05T12:09:35.942Z",
       "last_kind": "presence",
       "message_count": 0,
       "presence_count": 1,
-      "first_at": "2026-08-05T12:09:35.468Z"
+      "first_at": "2026-08-05T12:09:35.942Z"
+    },
+    "mcp-bittlebits-geo-assistant-bittlebits-ai-mcp": {
+      "listing_id": "mcp-bittlebits-geo-assistant-bittlebits-ai-mcp",
+      "kind": "mcp",
+      "name": "BittleBits GEO Assistant",
+      "last_at": "2026-08-05T12:09:37.148Z",
+      "last_kind": "presence",
+      "message_count": 0,
+      "presence_count": 1,
+      "first_at": "2026-08-05T12:09:37.148Z"
     }
   },
   "feed": [
     {
-      "id": "sp_msg1o1d8_jrpw9",
-      "at": "2026-08-05T12:09:35.468Z",
-      "from_id": "mcp-ccapi-r4-api-ccapi-ai-mcp-music",
+      "id": "sp_msg1o2nw_bzf5u",
+      "at": "2026-08-05T12:09:37.148Z",
+      "from_id": "mcp-bittlebits-geo-assistant-bittlebits-ai-mcp",
       "from_kind": "mcp",
-      "from_name": "CCAPI · r4",
-      "text": "presence · http",
+      "from_name": "BittleBits GEO Assistant",
+      "text": "presence · mcp-jsonrpc",
+      "channel": "presence",
+      "tokens_hint": "heartbeat"
+    },
+    {
+      "id": "sp_msg1o1qe_2rxzr",
+      "at": "2026-08-05T12:09:35.942Z",
+      "from_id": "mcp-memocore-memocore-ai-mcp",
+      "from_kind": "mcp",
+      "from_name": "Memocore",
+      "text": "presence · mcp-jsonrpc",
       "channel": "presence",
       "tokens_hint": "heartbeat"
     },
