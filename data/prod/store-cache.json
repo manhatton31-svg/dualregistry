@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-05T02:55:29.948Z",
+  "updated_at": "2026-08-05T03:03:27.254Z",
   "source": "https://grok-agent-store.manhatton31.workers.dev",
   "live": true,
   "mcp_approved": 332,
-  "agents_approved": 890,
+  "agents_approved": 892,
   "mcp_target": 0,
   "agents_target": 0,
   "milestones": {
@@ -21,7 +21,7 @@
       "unlimited": true
     },
     "agents": {
-      "approved": 890,
+      "approved": 892,
       "target": 0,
       "remaining": null,
       "pct": null,
@@ -41,7 +41,7 @@
         "https://grok-agent-store.manhatton31.workers.dev/registry.json"
       ]
     },
-    "updated_at": "2026-08-05T02:55:29.948Z"
+    "updated_at": "2026-08-05T03:03:27.254Z"
   },
   "mcp_items": [
     {
@@ -3312,16 +3312,16 @@
         "unlimited": false
       },
       "agents": {
-        "approved": 890,
+        "approved": 588,
         "target": 500,
         "remaining": 0,
-        "pct": 178,
+        "pct": 117.6,
         "ready": true,
         "unlimited": false
       },
       "solicit_ready": true,
       "policy": {
-        "summary": "Solicit demos + feedback freely. Payments open after 10 feedback agents + 5 feedback MCPs.",
+        "summary": "Solicit demos + feedback freely. Payments open after 250 feedback agents + 250 feedback MCPs.",
         "when_ready": "Invite demos; feedback themes personalize first 3 agents then ship sitewide on reuse.",
         "product_surfaces": [
           "https://grok-agent-store.manhatton31.workers.dev/discovery.json",
@@ -3332,16 +3332,16 @@
           "https://grok-agent-store.manhatton31.workers.dev/registry.json"
         ]
       },
-      "updated_at": "2026-08-05T02:55:29.948Z"
+      "updated_at": "2026-08-01T14:13:01.798Z"
     },
     "agent_registry": {
       "accepting_submissions": true,
       "submit": "https://grok-agent-store.manhatton31.workers.dev/v1/agents/submit",
       "list": "https://grok-agent-store.manhatton31.workers.dev/agents.json",
       "well_known": "https://grok-agent-store.manhatton31.workers.dev/.well-known/agents.json",
-      "approved_count": 890,
+      "approved_count": 588,
       "auto_approve_threshold": 70,
-      "approved": 890
+      "approved": 588
     },
     "registry": {
       "accepting_submissions": true,
@@ -3360,10 +3360,10 @@
         "cursor": {
           "github_last_comment_id": 5107319336,
           "gmail_last_internal_date": 1785261414604,
-          "updated_at": "2026-08-05T02:30:01.752Z"
+          "updated_at": "2026-08-01T14:00:20.574Z"
         },
         "last_run": {
-          "ran_at": "2026-08-05T02:30:00.741Z",
+          "ran_at": "2026-08-01T14:00:19.932Z",
           "github_new": 0,
           "gmail_new": 0,
           "approved": 0,
@@ -3371,19 +3371,19 @@
           "rejected": 0
         },
         "agents_last_run": {
-          "ran_at": "2026-08-05T02:30:02.540Z",
+          "ran_at": "2026-08-01T14:00:20.922Z",
           "github_new": 0,
           "repos_new": 8,
-          "refreshed": 9,
-          "approved": 8,
-          "needs_review": 9,
+          "refreshed": 2,
+          "approved": 6,
+          "needs_review": 4,
           "rejected": 0
         },
         "agents_cursor": {
           "github_last_comment_id": 0,
-          "search_offset": 353,
-          "last_refresh_at": "2026-08-05T02:30:02.540Z",
-          "updated_at": "2026-08-05T02:33:11.280Z"
+          "search_offset": 184,
+          "last_refresh_at": "2026-08-01T14:00:20.922Z",
+          "updated_at": "2026-08-01T14:01:26.074Z"
         }
       },
       "approved": 332
@@ -3391,9 +3391,5 @@
     "discovery": "https://grok-agent-store.manhatton31.workers.dev/discovery.json",
     "mcp": "https://grok-agent-store.manhatton31.workers.dev/mcp",
     "github": "https://github.com/manhatton31-svg/grok-agent-store"
-  },
-  "errors": [
-    "/registry.json?limit=200: This operation was aborted",
-    "/agents.json: This operation was aborted"
-  ]
+  }
 }
