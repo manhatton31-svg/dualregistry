@@ -57,10 +57,15 @@ jobs:
           p = Path("public/build.json")
           d = {
             "name": "dualregistry",
-            "tools_version": "3.7.0",
+            "tools_version": "3.12.0",
             "agent_path": "improve_kernel",
             "primary_kr": "value_to_feedback_same_session_rate",
             "founding": "real_feedback_no_demo_required",
+            "system": "collaborative_design_system",
+            "core": "real_feedback",
+            "muscle": ["improve_kernel", "run_loop_tick"],
+            "try_path": "/try",
+            "reciprocity": "your_feedback_applied+ship_id+community_deltas",
             "git": sha,
             "shipped_at": datetime.now(timezone.utc).isoformat(),
             "deploy_channel": "git_main_plus_release_plus_vercel",
@@ -109,7 +114,7 @@ jobs:
           else
             gh release create "$TAG" "$TGZ" \
               --title "Production source $TAG" \
-              --notes "Shipped git $SHA — tools 3.7.0, improve_kernel primary, KR value_to_feedback_same_session_rate. Commit + release + deploy share this identity."
+              --notes "Shipped git $SHA — tools 3.12.0, improve_kernel primary, KR value_to_feedback_same_session_rate. Commit + release + deploy share this identity."
           fi
           echo "Release: https://github.com/${{ github.repository }}/releases/tag/$TAG"
 
