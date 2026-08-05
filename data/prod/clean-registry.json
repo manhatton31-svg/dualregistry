@@ -1,14 +1,14 @@
 {
   "day": "2026-08-05",
-  "updated_at": "2026-08-05T00:46:46.323Z",
+  "updated_at": "2026-08-05T01:10:11.288Z",
   "counts": {
-    "total": 560,
-    "mcp": 525,
+    "total": 563,
+    "mcp": 528,
     "agents": 35
   },
   "high_water": {
-    "total": 560,
-    "mcp": 525,
+    "total": 563,
+    "mcp": 528,
     "agents": 35
   },
   "items": {
@@ -6171,6 +6171,39 @@
       "score": 28,
       "handshake": "ok",
       "hold_reason": "grower live-mcp-gate get=403 post=403"
+    },
+    "mcp-ai-agentlookups-counterscript-https-rx-agentlookups-ai-mcp": {
+      "id": "mcp-ai-agentlookups-counterscript-https-rx-agentlookups-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.agentlookups/counterscript",
+      "target": "https://rx.agentlookups.ai/mcp",
+      "approved_at": "2026-08-05T01:05:28.964Z",
+      "probed_at": "2026-08-05T01:05:28.964Z",
+      "score": 46,
+      "handshake": "ok",
+      "hold_reason": "probe ok"
+    },
+    "mcp-ai-agentlookups-groundtruth-https-env-agentlookups-ai-mcp": {
+      "id": "mcp-ai-agentlookups-groundtruth-https-env-agentlookups-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.agentlookups/groundtruth",
+      "target": "https://env.agentlookups.ai/mcp",
+      "approved_at": "2026-08-05T01:05:29.453Z",
+      "probed_at": "2026-08-05T01:05:29.453Z",
+      "score": 46,
+      "handshake": "ok",
+      "hold_reason": "probe ok"
+    },
+    "mcp-ai-agentlookups-plumbline-https-contractors-agentlookups-ai-mcp": {
+      "id": "mcp-ai-agentlookups-plumbline-https-contractors-agentlookups-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.agentlookups/plumbline",
+      "target": "https://contractors.agentlookups.ai/mcp",
+      "approved_at": "2026-08-05T01:05:29.468Z",
+      "probed_at": "2026-08-05T01:05:29.468Z",
+      "score": 46,
+      "handshake": "ok",
+      "hold_reason": "probe ok"
     }
   },
   "policy": {
