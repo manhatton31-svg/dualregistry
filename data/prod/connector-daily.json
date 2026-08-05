@@ -1,7 +1,15 @@
 {
   "version": "1.1.0",
-  "updated_at": "2026-08-03T19:05:11.923Z",
+  "updated_at": "2026-08-05T10:25:44.189Z",
   "history": [
+    {
+      "day": "2026-08-05",
+      "partner_id": "manual_research",
+      "partner_name": "Manual research day",
+      "hirey_likeness": 0,
+      "status": "prepped",
+      "prepped_at": "2026-08-05T10:25:44.189Z"
+    },
     {
       "day": "2026-08-03",
       "partner_id": "manual_research",
@@ -21,9 +29,9 @@
   ],
   "auto_send_to_targets": false,
   "last_prep": {
-    "day": "2026-08-03",
+    "day": "2026-08-05",
     "pick": {
-      "day": "2026-08-03",
+      "day": "2026-08-05",
       "partner": {
         "id": "manual_research",
         "name": "Manual research day",
@@ -37,7 +45,7 @@
         "research",
         "quality_gate"
       ],
-      "why": "Quality gate: 8 ranked but none cleared min score 14 + human/marketplace traits. Research day — do not force a weak pick.",
+      "why": "Quality gate: 6 ranked but none cleared min score 14 + human/marketplace traits. Research day — do not force a weak pick.",
       "action": {
         "step": "Spend 15 minutes: AI people network, agent marketplace operator, MCP directory maintainer, or ask Rey for peers. Add to CONNECTOR_SEED only when a human inbox exists.",
         "do_not": [
@@ -53,16 +61,6 @@
         }
       },
       "queue_after": [
-        {
-          "id": "agent-law-ai-https-mcp-law-ai",
-          "name": "law-ai",
-          "score": 14
-        },
-        {
-          "id": "agtpub_1d3583031bd03b157c3c",
-          "name": "law-ai",
-          "score": 14
-        },
         {
           "id": "agent_guild",
           "name": "Agent Guild",
