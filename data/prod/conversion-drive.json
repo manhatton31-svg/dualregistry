@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-05T14:38:58.792Z",
+  "updated_at": "2026-08-05T16:24:16.786Z",
   "day": "2026-08-05",
-  "day_invites": 112,
+  "day_invites": 120,
   "day_nags": 60,
-  "day_talk": 112,
+  "day_talk": 120,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -4696,6 +4696,86 @@
       "target": "https://muffed.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-onzero-creative-studio-onzero-ai-mcp": {
+      "at": "2026-08-05T16:23:28.477Z",
+      "name": "onzero — Creative Studio",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://onzero.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-ai-backengine-backengine-mcp-backengine-prod-backengine-ai-mcp": {
+      "at": "2026-08-05T16:23:28.670Z",
+      "name": "ai.backengine/backengine-mcp",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://backengine-prod.backengine.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-can-i-vibe-ai-coding-provider-status-canivibe-ai-mcp": {
+      "at": "2026-08-05T16:23:28.969Z",
+      "name": "Can I Vibe? — AI coding provider status",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 202,
+      "target": "https://canivibe.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-ai-arketo-arketo-https-arketo-ai": {
+      "at": "2026-08-05T16:23:28.710Z",
+      "name": "ai.arketo/arketo",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://arketo.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-boolsai-signals-signals-boolsai-ai-mcp": {
+      "at": "2026-08-05T16:23:28.690Z",
+      "name": "Boolsai Signals",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://signals.boolsai.ai/mcp",
+      "method": "POST:a2a-message",
+      "talk_ok": false
+    },
+    "mcp-chronary-api-chronary-ai-mcp": {
+      "at": "2026-08-05T16:23:30.080Z",
+      "name": "Chronary",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.chronary.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-ai-blast-radius-blast-radius-blast-radius-ai-mcp": {
+      "at": "2026-08-05T16:23:31.534Z",
+      "name": "ai.blast-radius/blast-radius",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://blast-radius.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-ai-normhyra-normhyra-mcp-normhyra-ai": {
+      "at": "2026-08-05T16:24:09.089Z",
+      "name": "ai.normhyra/normhyra",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 406,
+      "target": "https://mcp.normhyra.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -6758,36 +6838,61 @@
     "mcp-muffed-verified-nfl-stats-and-fantasy-context-muffed-ai-api-mcp": {
       "at": "2026-08-05T14:38:49.763Z",
       "ok": true
+    },
+    "mcp-onzero-creative-studio-onzero-ai-mcp": {
+      "at": "2026-08-05T16:23:28.477Z",
+      "ok": true
+    },
+    "mcp-ai-backengine-backengine-mcp-backengine-prod-backengine-ai-mcp": {
+      "at": "2026-08-05T16:23:28.670Z",
+      "ok": true
+    },
+    "mcp-can-i-vibe-ai-coding-provider-status-canivibe-ai-mcp": {
+      "at": "2026-08-05T16:23:28.969Z",
+      "ok": true
+    },
+    "mcp-ai-arketo-arketo-https-arketo-ai": {
+      "at": "2026-08-05T16:23:28.710Z",
+      "ok": true
+    },
+    "mcp-boolsai-signals-signals-boolsai-ai-mcp": {
+      "at": "2026-08-05T16:23:28.690Z",
+      "ok": false
+    },
+    "mcp-chronary-api-chronary-ai-mcp": {
+      "at": "2026-08-05T16:23:30.080Z",
+      "ok": true
+    },
+    "mcp-ai-blast-radius-blast-radius-blast-radius-ai-mcp": {
+      "at": "2026-08-05T16:23:31.534Z",
+      "ok": true
+    },
+    "mcp-ai-normhyra-normhyra-mcp-normhyra-ai": {
+      "at": "2026-08-05T16:24:09.089Z",
+      "ok": true
     }
   },
   "totals": {
-    "invites": 472,
-    "invite_http_ok": 447,
+    "invites": 480,
+    "invite_http_ok": 454,
     "nags": 214,
     "nag_http_ok": 209,
-    "talk_inbox": 444,
+    "talk_inbox": 452,
     "social": 22,
-    "runs": 34
+    "runs": 35
   },
   "last_notes": [
-    "eligible never-demoed 108 (agents 0 mcp 108) · inviting 12 (day 100/120)",
-    "invite mcp ai.contextstudios/mcp → http 405 talk ok https://www.contextstudios.ai/.well-known/mcp.json",
-    "invite mcp CCAPI · r2 → http 401 talk — https://api.ccapi.ai/mcp/image",
-    "invite mcp Helixar Security → http 200 talk — https://mcp.helixar.ai/",
-    "invite mcp Kubit → http 401 talk ok https://mcp.kubit.ai/mcp",
-    "invite mcp brainattic → http 401 talk ok https://app.brainattic.ai/api/mcp",
-    "invite mcp mcp-ai-aivonic-mcp-https-aivonic-ai → http 200 talk ok https://aivonic.ai/.well-known/mcp.json",
-    "invite mcp ai.jeda/jeda-ai → http 404 talk ok https://mcp.jeda.ai/.well-known/mcp/server-card.json",
-    "invite mcp ai.llamanotes/llamanotes → http 401 talk ok https://mcp.llamanotes.ai/mcp",
-    "invite mcp Ludo AI Game Assets → http 400 talk ok https://mcp.ludo.ai/mcp",
-    "invite mcp FlowCastle → http 404 talk ok https://api.flowcastle.ai/.well-known/mcp/server-card.json",
-    "invite mcp Cofound → http 401 talk ok https://mcp.cofoundagent.ai/mcp",
-    "invite mcp Muffed — verified NFL stats and fantasy co → http 400 talk ok https://muffed.ai/api/mcp",
-    "feedback nags queued 2 (day 58/60)",
-    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
-    "social post → ok"
+    "eligible never-demoed 97 (agents 0 mcp 97) · inviting 8 (day 112/120)",
+    "invite mcp onzero — Creative Studio → http 401 talk ok https://onzero.ai/mcp",
+    "invite mcp ai.backengine/backengine-mcp → http 400 talk ok https://backengine-prod.backengine.ai/mcp",
+    "invite mcp Can I Vibe? — AI coding provider status → http 202 talk ok https://canivibe.ai/mcp",
+    "invite mcp ai.arketo/arketo → http 401 talk ok https://arketo.ai/api/mcp",
+    "invite mcp Boolsai Signals → http 200 talk — https://signals.boolsai.ai/mcp",
+    "invite mcp Chronary → http 401 talk ok https://api.chronary.ai/mcp",
+    "invite mcp ai.blast-radius/blast-radius → http 200 talk ok https://blast-radius.ai/mcp",
+    "invite mcp ai.normhyra/normhyra → http 406 talk ok https://mcp.normhyra.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-05T14:38:58.792Z",
+  "last_run_at": "2026-08-05T16:24:16.786Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
