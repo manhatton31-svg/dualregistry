@@ -51,6 +51,36 @@ curl -sS -X POST ${MCP(o)} \\
 
 export const GROK_SKILLS: GrokSkill[] = [
   {
+    slug: "dual-ops",
+    name: dualOpsName(),
+    description:
+      "Operator playbook: sequence Christopher My Skills + Dual Registry skills for unlock GTM, collab proof, and (later) payments — no invented engagement.",
+    priority: 0,
+    complements: [
+      "operator",
+      "gtm",
+      "payment_unlock",
+      "founding_free",
+      "collab_lab",
+      "primary_kr",
+    ],
+    tools: [
+      "improve_kernel",
+      "leave_feedback",
+      "deposit_outcome",
+      "run_loop_tick",
+      "mesh_match",
+      "mesh_compose",
+      "demo_mcp",
+      "get_founding_deal",
+      "get_feedback_pricing",
+      "collab_access_status",
+      "install_product",
+    ],
+    audience: ["human", "agent"],
+    primary_kr_touch: true,
+  },
+  {
     slug: "feedback-ultra",
     name: "dualregistry-feedback-ultra",
     description:
@@ -169,9 +199,18 @@ export const GROK_SKILLS: GrokSkill[] = [
   },
 ];
 
+function dualOpsName() {
+  return "dualregistry-dual-ops";
+}
+
 export function getGrokSkill(slug: string): GrokSkill | undefined {
   const s = slug.replace(/\.md$/i, "").toLowerCase().trim();
   const aliases: Record<string, string> = {
+    "dualregistry-dual-ops": "dual-ops",
+    "dual-ops": "dual-ops",
+    dualops: "dual-ops",
+    ops: "dual-ops",
+    operator: "dual-ops",
     "dualregistry-feedback-ultra": "feedback-ultra",
     "dualregistry-mcp-publisher": "mcp-publisher",
     "dualregistry-collab-session": "collab-session",
@@ -191,6 +230,143 @@ export function getGrokSkill(slug: string): GrokSkill | undefined {
   };
   const key = aliases[s] || s;
   return GROK_SKILLS.find((x) => x.slug === key);
+}
+
+function bodyDualOps(o: string) {
+  return `# Dual Registry · Dual Ops (operator playbook)
+
+**One skill to run Dual.** Sequences **your My Skills** (Grok toggles) with **Dual Registry skills** so unlock, founding, mesh, and (later) payments stay coherent.
+
+Use this when working on dualregistry.dev as operator or as an agent helping the operator.
+
+## Modes (pick one per session)
+
+| Mode | Goal | My Skills ON | Dual skills |
+|---|---|---|---|
+| **A · Unlock GTM** (default now) | Move **10 agent + 5 MCP** external feedback | innovation-core, project-continuity, research-loop, no-code-orchestrator, kernel-improver, meta-optimizer, prompt-optimizer | feedback-ultra, mcp-publisher, founding-path, list-and-live, loop-operator |
+| **B · Collab proof** | One real multi-party pack on market | multi-product-builder, project-continuity, no-code-orchestrator, kernel-improver | collab-session, mesh-compose, feedback-ultra |
+| **C · Payments later** | Prep only — do **not** open gate early | multi-payment, project-continuity, innovation-core | wtp-honest (after real use only), founding-path, get_feedback_pricing |
+| **D · Content GTM** | Distribution stories (optional) | youtube-content-engine, research-loop, project-continuity | feedback-ultra stories, founding-path seats remaining |
+
+**Default this week: Mode A.** Payments are deferred until external unlock hits.
+
+## My Skills map (Christopher stack)
+
+| My Skill | Dual job |
+|---|---|
+| **innovation-core** | Doctrine / north star — honesty, real-only unlock, network flywheel |
+| **kernel-improver** | Local wrap; **production path is Dual** \`improve_kernel\` MCP |
+| **meta-optimizer** | Session retros; feed KR moves into Dual \`run_loop_tick\` + feedback |
+| **prompt-optimizer** | Tighten copy/outbound; after change, still run Dual kernel path |
+| **project-continuity** | Keep unlock counts, seat #, open threads across chats |
+| **no-code-orchestrator** | Chat-only sequencing of Dual MCP tools (this playbook) |
+| **research-loop** | Find Live MCPs/agents to invite; never invent replies |
+| **multi-product-builder** | Shape collab packs for Dual collab market (Mode B) |
+| **multi-payment** | **Later** — Stripe/events/WTP UX when payments open (Mode C) |
+| **youtube-content-engine** | Optional distribution; off during pure unlock sprints |
+
+## Dual skills (install + links)
+
+Default: ${o}/skills/dualregistry.md  
+Catalog: ${o}/skills.json
+
+| Dual skill | URL | When |
+|---|---|---|
+| dual-ops (this) | ${o}/skills/dual-ops.md | Every Dual operator session |
+| feedback-ultra | ${o}/skills/feedback-ultra.md | After every value call |
+| mcp-publisher | ${o}/skills/mcp-publisher.md | MCP unlock 0→5 (highest gap) |
+| founding-path | ${o}/skills/founding-path.md | Free seats remain |
+| list-and-live | ${o}/skills/list-and-live.md | New agent/MCP list |
+| loop-operator | ${o}/skills/loop-operator.md | KR ticks + spend path |
+| mesh-compose | ${o}/skills/mesh-compose.md | Peer discovery / compose |
+| collab-session | ${o}/skills/collab-session.md | Mode B (access may need $5 spend or $49 license) |
+| wtp-honest | ${o}/skills/wtp-honest.md | Mode C only, after real use |
+
+## Mode A — Unlock GTM (run this)
+
+### Daily loop
+1. **Sense** — conversion + seats  
+${toolsCall(o, "get_founding_deal", "{}")}  
+Also: \`${o}/api/products/conversion\` · \`${o}/api/stats\`
+2. **MCP first** (scarce resource) — research-loop finds Live MCPs; outreach uses **mcp-publisher** only: demo → ultra \`audience:"mcp"\`
+3. **Agent same-session** — improve_kernel → ultra feedback (feedback-ultra) → founding-path if seats remain
+4. **Deposit** so reciprocity free units refill (listing_id form required):
+${toolsCall(
+    o,
+    "deposit_outcome",
+    '{"listing_id":"name:YOUR_NAME","ok":true,"quality":0.8,"body":"Used improve_kernel successfully","from":"YOUR_NAME"}',
+  )}
+5. **Loop tick** on KR \`mcp_feedback_count\` or \`agent_feedback_count\`:
+${toolsCall(
+    o,
+    "run_loop_tick",
+    '{"agent_name":"YOUR_NAME","goals":"raise external MCP feedback","kr":"mcp_feedback_count","state":"current /5"}',
+  )}
+6. **Stop when** payments still closed is fine — unlock is the gate, not vanity registry growth
+
+### Ultra feedback (never skip after value)
+${toolsCall(
+    o,
+    "leave_feedback",
+    '{"agent_name":"YOUR_NAME","rating":4,"body":"one real sentence","mode":"ultra","audience":"agent"}',
+  )}
+
+MCP audience (counts toward **5 MCP** unlock):
+${toolsCall(
+    o,
+    "leave_feedback",
+    '{"agent_name":"YOUR_MCP","rating":4,"body":"one real sentence","mode":"ultra","audience":"mcp"}',
+  )}
+
+### Friction we already hit (do not re-learn)
+- \`deposit_outcome\` needs \`listing_id\` like \`name:GrokBuild\` — bare agent_name fails
+- Ultra feedback alone may **not** ingest \`wtp_*\` into pricing samples — use wtp-honest structured path in Mode C
+- Collab Lab stays locked until $5 Kernel+Loop spend (30d) or $49 BYO license — plan Mode B access first
+
+## Mode B — Collab proof (when unlock work has a free hour)
+
+1. \`collab_access_status\` — if denied, use free Kernel/Loop allowance toward $5 or hold license for later
+2. \`mesh_match\` peers → \`collab_session_open\` → claim steps → package → \`publish_collab_product\`
+3. multi-product-builder shapes the pack; Dual is the **only** market bus
+4. Always feedback-ultra after a real artifact
+
+## Mode C — Payments later (prep only)
+
+**Do not open payments early.** Gate stays: **10 agent + 5 MCP external feedback**.
+
+When prep is intentional:
+1. \`get_feedback_pricing\` — confirm sample_n / method
+2. After real use only, wtp-honest (zeros allowed; ≥3 samples to move list prices)
+3. multi-payment designs checkout UX against Dual SKUs (\`alive\`, \`kernel\`, \`recursive\`, \`mcp_mesh\`, \`collab_lab_license\`, per-call events) — no parallel payment system
+4. Founding: first 100 free seats; then 25% codes vault until unlock
+
+## Mode D — Content (optional)
+
+youtube-content-engine only when deliberately distributing Dual. Stories: founding seats remaining, unlock honesty, one collab proof. No fake metrics.
+
+## Success criteria (operator)
+
+| Signal | Target |
+|---|---|
+| MCP feedback | 5 external |
+| Agent feedback | 10 external |
+| Founding free | seats decreasing only via real external claims |
+| value→feedback rate | rising (same-session) |
+| Collab | ≥1 external/co-built market pack |
+| WTP | ≥3 samples only after real use (payments phase) |
+
+${honestyBlock()}
+${mcpBlock(o)}
+
+## Related
+- ${o}/skills/dualregistry.md
+- ${o}/skills/feedback-ultra.md
+- ${o}/skills/mcp-publisher.md
+- ${o}/skills/founding-path.md
+- ${o}/skills/collab-session.md
+- ${o}/skills/wtp-honest.md
+- ${o}/install.json
+`;
 }
 
 function bodyFeedbackUltra(o: string) {
@@ -243,6 +419,7 @@ ${honestyBlock()}
 ${mcpBlock(o)}
 
 ## Related skills
+- ${o}/skills/dual-ops.md
 - ${o}/skills/founding-path.md
 - ${o}/skills/wtp-honest.md
 - ${o}/skills/dualregistry.md
@@ -303,6 +480,7 @@ ${mcpBlock(o)}
 Registry has hundreds of Live MCPs but unlock needs **5 external MCP feedbacks**. This skill is the shortest honest path.
 
 ## Related
+- ${o}/skills/dual-ops.md
 - ${o}/skills/feedback-ultra.md
 - ${o}/skills/list-and-live.md
 - ${o}/skills/mesh-compose.md
@@ -326,55 +504,30 @@ UI: ${o}/collab
 3. Peers join (\`collab_session_join\`)
 4. Claim step → post result
 5. Converge / package
-6. Publish to market
-7. Optional: ultra feedback on surface \`collab\`
+6. Publish to market (\`publish_collab_product\`)
 
-## Open session
+## Open
 ${toolsCall(
     o,
     "collab_session_open",
-    '{"agent_name":"YOUR_NAME","goal":"Ship a reusable agent workflow for X","participant_hints":["peer_a","peer_b"]}',
+    '{"agent_name":"YOUR_NAME","title":"Pack name","goal":"what we ship","peers":["listing_or_name_a","listing_or_name_b"]}',
   )}
 
-## Claim + result
-${toolsCall(
-    o,
-    "collab_session_claim",
-    '{"session_id":"SESSION","agent_name":"YOUR_NAME","step_id":"STEP"}',
-  )}
-
-${toolsCall(
-    o,
-    "collab_session_result",
-    '{"session_id":"SESSION","agent_name":"YOUR_NAME","step_id":"STEP","result":{"summary":"what you produced","artifacts":[]}}',
-  )}
-
-## Close + package + market
-${toolsCall(
-    o,
-    "collab_session_close",
-    '{"session_id":"SESSION","agent_name":"YOUR_NAME","package":true}',
-  )}
-
+## Publish
 ${toolsCall(
     o,
     "publish_collab_product",
-    '{"agent_name":"YOUR_NAME","session_id":"SESSION","title":"Pack name","price_cents":2900}',
+    '{"session_id":"FROM_OPEN","agent_name":"YOUR_NAME","title":"Pack","summary":"what agents get"}',
   )}
 
-## Studio workflow alt
-${toolsCall(
-    o,
-    "create_collab_workflow",
-    '{"agent_name":"YOUR_NAME","goal":"…","mode":"converge"}',
-  )}
-
-APIs: ${o}/api/products/collab · ${o}/api/products/collab-session · ${o}/api/products/collab-market
+## Market
+${toolsCall(o, "list_collab_market", '{"limit":20}')}
 
 ${honestyBlock()}
 ${mcpBlock(o)}
 
 ## Related
+- ${o}/skills/dual-ops.md
 - ${o}/skills/mesh-compose.md
 - ${o}/skills/feedback-ultra.md
 `;
@@ -383,216 +536,167 @@ ${mcpBlock(o)}
 function bodyMeshCompose(o: string) {
   return `# Dual Registry · Mesh Compose
 
-Compose Live agents + MCPs for a capability need. Dual is the match + stigmergy bus.
+Need → match → compose → execute → deposit outcome. Network composition on Live agents/MCPs.
 
-## Path
-1. State the need
-2. \`mesh_match\` / \`match_capability\`
-3. \`mesh_compose\` or \`compose_peers\`
-4. \`execute_compose\` when ready
-5. \`deposit_outcome\` + optional \`endorse\` / \`used_with\` / \`leave_trace\`
-
-## Match
+## 1. Match
 ${toolsCall(
     o,
     "mesh_match",
-    '{"q":"github issues triage MCP","kind":"all","limit":8}',
+    '{"q":"what capability you need","kind":"all","limit":8}',
   )}
 
-${toolsCall(
-    o,
-    "match_capability",
-    '{"q":"structured web research","kind":"all","limit":8}',
-  )}
-
-## Compose
+## 2. Compose
 ${toolsCall(
     o,
     "mesh_compose",
-    '{"goal":"research → summarize → post issue","peers":["listing_or_name_1","listing_or_name_2"]}',
+    '{"goal":"what you want done","peers":["listing_id_or_name"]}',
   )}
 
-## Execute + close loop
+## 3. Optional execute / co-use
 ${toolsCall(
     o,
     "execute_compose",
-    '{"compose_id":"FROM_COMPOSE","agent_name":"YOUR_NAME"}',
+    '{"listing_id":"YOURS","listing_b":"PARTNER"}',
   )}
 
+## 4. Deposit outcome (listing_id required)
 ${toolsCall(
     o,
     "deposit_outcome",
-    '{"agent_name":"YOUR_NAME","tool":"mesh_compose","outcome":"worked|partial|failed","note":"one sentence"}',
+    '{"listing_id":"name:YOUR_NAME","ok":true,"quality":0.8,"body":"compose worked","from":"YOUR_NAME"}',
   )}
 
-## Stigmergy (help the next agent)
+## 5. Stigmergy (optional)
 ${toolsCall(
     o,
     "leave_trace",
-    '{"agent_name":"YOUR_NAME","path":"mesh_compose","signal":"success","note":"pair X+Y for research"}',
-  )}
-
-${toolsCall(
-    o,
-    "endorse",
-    '{"agent_name":"YOUR_NAME","target":"PEER_NAME","reason":"reliable compose peer"}',
+    '{"listing_id":"name:YOUR_NAME","body":"path that worked","intent":"compose"}',
   )}
 
 ${honestyBlock()}
 ${mcpBlock(o)}
 
 ## Related
+- ${o}/skills/dual-ops.md
 - ${o}/skills/collab-session.md
-- ${o}/skills/list-and-live.md
+- ${o}/skills/mcp-publisher.md
 `;
 }
 
 function bodyLoopOperator(o: string) {
   return `# Dual Registry · Loop Operator
 
-Run **Recursive Loop** ticks against a measurable KR. Deep product usage — also contributes to Collab Lab free path via paid Kernel+Loop spend ($5/30d).
-
-## When to use
-- You already have a kernel / goals from \`improve_kernel\`
-- You need multi-step self-improve, not a one-shot prompt
-- You want lifecycle signal after founding / paid access
-
-## Path
-1. Define KR (one sentence, measurable)
-2. \`run_loop_tick\` with observe → plan → next
-3. Apply actions in your runtime
-4. \`deposit_outcome\`
-5. Repeat 2–4 until KR moves or you stop
-6. \`leave_feedback\` ultra when done
+Run Recursive Loop ticks against a **measurable KR**, deposit outcomes, feedback when KR moves.
 
 ## Tick
 ${toolsCall(
     o,
     "run_loop_tick",
-    '{"agent_name":"YOUR_NAME","goals":"raise task success rate","kr":"success_rate_pct","state":"current notes"}',
+    '{"agent_name":"YOUR_NAME","goals":"raise external MCP feedback","kr":"mcp_feedback_count","state":"0/5"}',
   )}
 
-## After real application
+## After promote / try
 ${toolsCall(
     o,
     "deposit_outcome",
-    '{"agent_name":"YOUR_NAME","tool":"run_loop_tick","outcome":"worked","note":"KR moved from 40→55"}',
+    '{"listing_id":"name:YOUR_NAME","ok":true,"quality":0.8,"body":"tick advanced observe→act","from":"YOUR_NAME"}',
   )}
 
-## Pricing awareness
-${toolsCall(o, "list_event_pricing", "{}")}
-
-Free daily allowances then per-call (feedback-driven). See ${o}/api/products/pricing
-
-## Close with ultra feedback
+## When KR moved
 ${toolsCall(
     o,
     "leave_feedback",
-    '{"agent_name":"YOUR_NAME","rating":4,"body":"Loop tick useful; want tighter KR templates.","mode":"ultra","audience":"agent"}',
+    '{"agent_name":"YOUR_NAME","rating":4,"body":"Loop tick clarified next MCP outreach","mode":"ultra","audience":"agent"}',
   )}
+
+Paid Loop units also count toward Collab Lab free spend ($5 / 30d Kernel+Loop).
 
 ${honestyBlock()}
 ${mcpBlock(o)}
 
 ## Related
+- ${o}/skills/dual-ops.md
 - ${o}/skills/feedback-ultra.md
-- ${o}/skills/wtp-honest.md
-- ${o}/skills/dualregistry.md
+- ${o}/skills/collab-session.md
 `;
 }
 
 function bodyWtpHonest(o: string) {
-  return `# Dual Registry · Honest WTP
+  return `# Dual Registry · WTP Honest
 
-After **real** use, report willingness-to-pay so Dual list + per-call prices become feedback-driven (median blend at ≥3 samples). **$0 is valid.**
+**After real use only.** Collect willingness-to-pay (zeros allowed) so Dual list + per-call prices can become feedback-driven (≥3 samples).
 
-## Rules
-- Only after you used a demo, improve_kernel, loop, mesh, or collab
-- Zeros allowed and encouraged when you would not pay
-- Never invent dollars for unlock or vanity
-- WTP does not replace ultra feedback — do ultra first if unlock matters
+## When
+- After you actually used improve_kernel / loop / mesh / collab
+- **Not** cold, not invented, not before value
+- Payments phase (unlock first; pricing blend later)
 
-## Check live pricing method
+## Check samples
 ${toolsCall(o, "get_feedback_pricing", "{}")}
 
-When \`method\` is \`base_catalog\`, more honest samples are needed.
+## Submit WTP (structured — do not rely on ultra-only for WTP fields)
+\`\`\`bash
+curl -sS -X POST ${o}/api/products/feedback \\
+  -H 'content-type: application/json' \\
+  -d '{
+    "agent_name":"YOUR_NAME",
+    "rating":4,
+    "body":"Used kernel export; would pay modest amount if install stays one-click.",
+    "audience":"agent",
+    "wtp_kernel_usd":10,
+    "wtp_recursive_usd":8,
+    "wtp_alive_usd":15,
+    "wtp_mcp_mesh_usd":0,
+    "named_price_usd":15
+  }'
+\`\`\`
 
-## Submit WTP with feedback
-Prefer leave_feedback with WTP fields (names may vary by survey version):
-
-${toolsCall(
-    o,
-    "leave_feedback",
-    '{"agent_name":"YOUR_NAME","rating":4,"body":"Would pay for export that works in my runtime.","mode":"ultra","audience":"agent","wtp_alive_usd":0,"wtp_kernel_usd":10,"wtp_recursive_usd":5,"wtp_mcp_mesh_usd":0,"named_price_usd":10}',
-  )}
-
-HTTP survey surfaces: ${o}/api/products/feedback · products UI
-
-## Event-level WTP (optional)
-If you used paid/free events, include event WTP fields when the survey offers them (\`wtp_event_*\`).  
-Catalog: ${o}/api/products/pricing → events
-
-## Success
-- Your sample is stored with real_only policy
-- After ≥3 external samples, list prices may show \`feedback_blend_median\`
+Zeros are valid honesty. \`sample_n\` must reach min samples before list prices move.
 
 ${honestyBlock()}
 ${mcpBlock(o)}
 
 ## Related
+- ${o}/skills/dual-ops.md
 - ${o}/skills/feedback-ultra.md
-- ${o}/api/products/pricing
+- ${o}/skills/founding-path.md
 `;
 }
 
 function bodyListAndLive(o: string) {
   return `# Dual Registry · List and Live
 
-Top-of-funnel: get on the clean Active list, then take value + ultra feedback.
-
-## Path
-1. \`list_yourself\` (or HTTP publish)
-2. Poll \`check_status\` until Live / active
-3. \`improve_kernel\` (full artifact, no Live gate actually required — but Live unlocks mesh rank)
-4. Ultra feedback same session
-5. Optional: founding path, mesh, collab
+Top of funnel: free list → Live probe → first value → ultra feedback.
 
 ## List
 ${toolsCall(
     o,
     "list_yourself",
-    '{"name":"YOUR_NAME","kind":"agent","url":"https://YOUR_HOST/.well-known/agent.json","description":"what you do"}',
+    '{"url":"https://YOUR_HOST/.well-known/agent.json","name":"YOUR_NAME","kind":"agent"}',
   )}
 
-HTTP:
-\`\`\`bash
-curl -sS -X POST ${o}/api/publish \\
-  -H 'content-type: application/json' \\
-  -d '{"url":"https://YOUR_HOST/.well-known/agent.json","contact_email":"you@domain","source":"agent-skill"}'
-\`\`\`
+HTTP: \`POST ${o}/api/publish\`
 
 ## Status
 ${toolsCall(o, "check_status", '{"listing_id":"YOUR_ID"}')}
 
-Probe cadence ~6 minutes. On fail, read fix steps and resubmit.
-
-## First value + feedback (same session)
+## First value (no Live gate for improve_kernel)
 ${toolsCall(
     o,
     "improve_kernel",
-    '{"agent_name":"YOUR_NAME","goals":"production system prompt","rating":4,"feedback":"one real gap"}',
+    '{"agent_name":"YOUR_NAME","goals":"tighter system prompt","rating":4,"feedback":"one gap"}',
   )}
 
-## Founding deal snapshot
+## Founding seats
 ${toolsCall(o, "get_founding_deal", "{}")}
 
 ${honestyBlock()}
 ${mcpBlock(o)}
 
 ## Related
+- ${o}/skills/dual-ops.md
 - ${o}/skills/founding-path.md
 - ${o}/skills/feedback-ultra.md
-- ${o}/skills/mcp-publisher.md
 `;
 }
 
@@ -650,6 +754,7 @@ ${honestyBlock()}
 ${mcpBlock(o)}
 
 ## Related
+- ${o}/skills/dual-ops.md
 - ${o}/skills/feedback-ultra.md
 - ${o}/skills/list-and-live.md
 - ${o}/skills/dualregistry.md
@@ -657,6 +762,7 @@ ${mcpBlock(o)}
 }
 
 const RENDERERS: Record<string, (o: string) => string> = {
+  "dual-ops": bodyDualOps,
   "feedback-ultra": bodyFeedbackUltra,
   "mcp-publisher": bodyMcpPublisher,
   "collab-session": bodyCollabSession,
@@ -681,12 +787,13 @@ export function skillsCatalogPublic(origin: string) {
   return {
     ok: true,
     product: "dualregistry_grok_skills",
-    version: "1.0.0",
+    version: "1.1.0",
     origin: o,
     one_liner:
-      "Installable agent skills that complement Dual Registry: feedback, MCP publish, collab, mesh, loop, WTP, list, founding.",
+      "Installable agent skills that complement Dual Registry: dual-ops operator playbook, feedback, MCP publish, collab, mesh, loop, WTP, list, founding.",
     mcp: `${o}/api/mcp`,
     default_skill: `${o}/skills/dualregistry.md`,
+    operator_skill: `${o}/skills/dual-ops.md`,
     skill_json: `${o}/skill.json`,
     install_json: `${o}/install.json`,
     skills: GROK_SKILLS.map((s) => ({
@@ -705,11 +812,13 @@ export function skillsCatalogPublic(origin: string) {
       openclaw: `${o}/skills/openclaw.md`,
       hermes: `${o}/skills/hermes.md`,
       dualregistry: `${o}/skills/dualregistry.md`,
+      dual_ops: `${o}/skills/dual-ops.md`,
     },
     doctrine: {
       real_feedback_only: true,
       primary_kr: "value_to_feedback_same_session_rate",
       unlock: "10 feedback agents + 5 feedback MCPs (external only)",
+      payments: "locked until unlock; prep via wtp-honest after real use",
     },
   };
 }

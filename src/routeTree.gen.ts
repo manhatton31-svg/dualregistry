@@ -65,6 +65,7 @@ import { Route as ProductsImprovementLogRouteImport } from './routes/products/im
 import { Route as ProductsRoadmapRouteImport } from './routes/products/roadmap'
 import { Route as ProductsSuccessRouteImport } from './routes/products/success'
 import { Route as SkillsCollabSessionDotmdRouteImport } from './routes/skills/collab-session[.]md'
+import { Route as SkillsDualOpsDotmdRouteImport } from './routes/skills/dual-ops[.]md'
 import { Route as SkillsDualregistryDotmdRouteImport } from './routes/skills/dualregistry[.]md'
 import { Route as SkillsFeedbackUltraDotmdRouteImport } from './routes/skills/feedback-ultra[.]md'
 import { Route as SkillsFoundingPathDotmdRouteImport } from './routes/skills/founding-path[.]md'
@@ -439,6 +440,11 @@ const SkillsCollabSessionDotmdRoute =
     path: '/skills/collab-session.md',
     getParentRoute: () => rootRouteImport,
   } as any)
+const SkillsDualOpsDotmdRoute = SkillsDualOpsDotmdRouteImport.update({
+  id: '/skills/dual-ops.md',
+  path: '/skills/dual-ops.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SkillsDualregistryDotmdRoute = SkillsDualregistryDotmdRouteImport.update({
   id: '/skills/dualregistry.md',
   path: '/skills/dualregistry.md',
@@ -926,6 +932,7 @@ export interface FileRoutesByFullPath {
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
   '/skills/collab-session.md': typeof SkillsCollabSessionDotmdRoute
+  '/skills/dual-ops.md': typeof SkillsDualOpsDotmdRoute
   '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
   '/skills/feedback-ultra.md': typeof SkillsFeedbackUltraDotmdRoute
   '/skills/founding-path.md': typeof SkillsFoundingPathDotmdRoute
@@ -1067,6 +1074,7 @@ export interface FileRoutesByTo {
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
   '/skills/collab-session.md': typeof SkillsCollabSessionDotmdRoute
+  '/skills/dual-ops.md': typeof SkillsDualOpsDotmdRoute
   '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
   '/skills/feedback-ultra.md': typeof SkillsFeedbackUltraDotmdRoute
   '/skills/founding-path.md': typeof SkillsFoundingPathDotmdRoute
@@ -1209,6 +1217,7 @@ export interface FileRoutesById {
   '/products/roadmap': typeof ProductsRoadmapRoute
   '/products/success': typeof ProductsSuccessRoute
   '/skills/collab-session.md': typeof SkillsCollabSessionDotmdRoute
+  '/skills/dual-ops.md': typeof SkillsDualOpsDotmdRoute
   '/skills/dualregistry.md': typeof SkillsDualregistryDotmdRoute
   '/skills/feedback-ultra.md': typeof SkillsFeedbackUltraDotmdRoute
   '/skills/founding-path.md': typeof SkillsFoundingPathDotmdRoute
@@ -1352,6 +1361,7 @@ export interface FileRouteTypes {
     | '/products/roadmap'
     | '/products/success'
     | '/skills/collab-session.md'
+    | '/skills/dual-ops.md'
     | '/skills/dualregistry.md'
     | '/skills/feedback-ultra.md'
     | '/skills/founding-path.md'
@@ -1493,6 +1503,7 @@ export interface FileRouteTypes {
     | '/products/roadmap'
     | '/products/success'
     | '/skills/collab-session.md'
+    | '/skills/dual-ops.md'
     | '/skills/dualregistry.md'
     | '/skills/feedback-ultra.md'
     | '/skills/founding-path.md'
@@ -1634,6 +1645,7 @@ export interface FileRouteTypes {
     | '/products/roadmap'
     | '/products/success'
     | '/skills/collab-session.md'
+    | '/skills/dual-ops.md'
     | '/skills/dualregistry.md'
     | '/skills/feedback-ultra.md'
     | '/skills/founding-path.md'
@@ -1775,6 +1787,7 @@ export interface RootRouteChildren {
   ProductsRoadmapRoute: typeof ProductsRoadmapRoute
   ProductsSuccessRoute: typeof ProductsSuccessRoute
   SkillsCollabSessionDotmdRoute: typeof SkillsCollabSessionDotmdRoute
+  SkillsDualOpsDotmdRoute: typeof SkillsDualOpsDotmdRoute
   SkillsDualregistryDotmdRoute: typeof SkillsDualregistryDotmdRoute
   SkillsFeedbackUltraDotmdRoute: typeof SkillsFeedbackUltraDotmdRoute
   SkillsFoundingPathDotmdRoute: typeof SkillsFoundingPathDotmdRoute
@@ -2250,6 +2263,13 @@ declare module '@tanstack/react-router' {
       path: '/skills/collab-session.md'
       fullPath: '/skills/collab-session.md'
       preLoaderRoute: typeof SkillsCollabSessionDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills/dual-ops.md': {
+      id: '/skills/dual-ops.md'
+      path: '/skills/dual-ops.md'
+      fullPath: '/skills/dual-ops.md'
+      preLoaderRoute: typeof SkillsDualOpsDotmdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/skills/dualregistry.md': {
@@ -2944,6 +2964,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsRoadmapRoute: ProductsRoadmapRoute,
   ProductsSuccessRoute: ProductsSuccessRoute,
   SkillsCollabSessionDotmdRoute: SkillsCollabSessionDotmdRoute,
+  SkillsDualOpsDotmdRoute: SkillsDualOpsDotmdRoute,
   SkillsDualregistryDotmdRoute: SkillsDualregistryDotmdRoute,
   SkillsFeedbackUltraDotmdRoute: SkillsFeedbackUltraDotmdRoute,
   SkillsFoundingPathDotmdRoute: SkillsFoundingPathDotmdRoute,
