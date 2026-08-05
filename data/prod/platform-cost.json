@@ -2,33 +2,33 @@
   "plan": "pro",
   "rates_version": "2026-07-fluid-pro-iad1-v1",
   "month": "2026-08",
-  "month_usd": 0.16124441722222219,
-  "month_invocations": 485,
-  "month_active_cpu_ms": 2435473,
-  "month_provisioned_gb_hours": 7.016341666666665,
+  "month_usd": 0.16266120488888886,
+  "month_invocations": 488,
+  "month_active_cpu_ms": 2456565,
+  "month_provisioned_gb_hours": 7.07908222222222,
   "month_cache_hits": 0,
   "today": {
     "day": "2026-08-05",
-    "invocations": 63,
-    "active_cpu_ms": 1021387,
-    "wall_ms": 5652040,
-    "provisioned_gb_hours": 3.140022222222222,
+    "invocations": 66,
+    "active_cpu_ms": 1042479,
+    "wall_ms": 5764973,
+    "provisioned_gb_hours": 3.2027627777777776,
     "response_bytes": 0,
     "cache_hits": 0,
-    "cache_misses": 63,
+    "cache_misses": 66,
     "skipped_cadence": 0,
     "by_class": {
       "cron_probe": {
-        "n": 53,
-        "wall_ms": 5633942,
-        "active_cpu_ms": 1014112,
-        "usd": 0.069266774
+        "n": 54,
+        "wall_ms": 5743402,
+        "active_cpu_ms": 1033815,
+        "usd": 0.07061252288888889
       },
       "mcp": {
-        "n": 3,
-        "wall_ms": 379,
-        "active_cpu_ms": 171,
-        "usd": 0.000010111888888888888
+        "n": 4,
+        "wall_ms": 382,
+        "active_cpu_ms": 172,
+        "usd": 0.00001076511111111111
       },
       "discovery": {
         "n": 4,
@@ -37,10 +37,10 @@
         "usd": 0.000002547888888888889
       },
       "api_read": {
-        "n": 4,
-        "wall_ms": 20733,
-        "active_cpu_ms": 8292,
-        "usd": 0.00041932099999999995
+        "n": 5,
+        "wall_ms": 24203,
+        "active_cpu_ms": 9680,
+        "usd": 0.0004897065555555555
       },
       "agent_tool": {
         "n": 3,
@@ -56,18 +56,54 @@
       }
     },
     "usd": {
-      "active_cpu_hours": 0.28371861111111113,
-      "provisioned_gb_hours": 3.140022222222222,
-      "invocations": 63,
+      "active_cpu_hours": 0.2895775,
+      "provisioned_gb_hours": 3.2027627777777776,
+      "invocations": 66,
       "bandwidth_gb": 0,
-      "usd_active_cpu": 0.03631598222222222,
-      "usd_provisioned_memory": 0.033284235555555555,
-      "usd_invocations": 0.0000378,
+      "usd_active_cpu": 0.03706592,
+      "usd_provisioned_memory": 0.03394928544444444,
+      "usd_invocations": 0.0000396,
       "usd_bandwidth": 0,
-      "usd_total": 0.06963801777777778,
+      "usd_total": 0.07105480544444445,
       "rates_version": "2026-07-fluid-pro-iad1-v1"
     },
     "events": [
+      {
+        "at": "2026-08-05T08:59:09.722Z",
+        "class": "api_read",
+        "route": "/api/stats",
+        "label": "stats",
+        "wall_ms": 3470,
+        "active_cpu_ms": 1388,
+        "invocations": 1,
+        "usd": 0.00007038555555555555,
+        "skipped": false,
+        "vercel_cache": null
+      },
+      {
+        "at": "2026-08-05T08:56:49.733Z",
+        "class": "cron_probe",
+        "route": "/api/cron/probe",
+        "label": "probe_tick",
+        "wall_ms": 109460,
+        "active_cpu_ms": 19703,
+        "invocations": 1,
+        "usd": 0.001345748888888889,
+        "skipped": false,
+        "vercel_cache": null
+      },
+      {
+        "at": "2026-08-05T08:55:32.983Z",
+        "class": "mcp",
+        "route": "/api/mcp",
+        "label": "mcp_post",
+        "wall_ms": 3,
+        "active_cpu_ms": 1,
+        "invocations": 1,
+        "usd": 6.532222222222221e-7,
+        "skipped": false,
+        "vercel_cache": null
+      },
       {
         "at": "2026-08-05T08:43:28.697Z",
         "class": "api_read",
@@ -910,9 +946,9 @@
       }
     ]
   },
-  "lifetime_usd": 0.1987900585555554,
-  "lifetime_invocations": 543,
-  "updated_at": "2026-08-05T08:43:28.697Z",
+  "lifetime_usd": 0.20020684622222207,
+  "lifetime_invocations": 546,
+  "updated_at": "2026-08-05T08:59:09.722Z",
   "savings_notes": [
     "Fluid Active CPU: I/O wait during probes is free",
     "Probe de-dupe: Vercel Cron primary; GH Actions commits only when tick fresh or backup",
