@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated_at": "2026-08-05T10:02:42.301Z",
+  "updated_at": "2026-08-05T10:05:18.369Z",
   "scheduler": {
     "enabled": true,
     "interval_ms": 360000,
@@ -25,1101 +25,6 @@
   "candidates": [
     {
       "kind": "mcp",
-      "name": "ai.bowmark/bowmark",
-      "description": "Pre-computed navigation recipes for public websites — skip explore-and-discover.",
-      "repository": "https://github.com/Metroxe/bowmark",
-      "website": "https://bowmark.ai",
-      "remote_url": "https://api.bowmark.ai/mcp?s=r",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-bowmark-bowmark-https-github-com-metroxe-bowmark",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.boolsai/scan",
-      "description": "Live tech-stack scan of any public site — vendors, account IDs, scripts, JSON-LD. 2 tools.",
-      "repository": "https://github.com/Boolsai-ai/mcp",
-      "website": "https://boolsai.ai/mcp",
-      "remote_url": "https://boolsai.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-boolsai-scan-https-github-com-boolsai-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.boolsai/grep",
-      "description": "Parallel regex across all Boolsai scans — discover new vendor patterns, niche signals. 4 tools.",
-      "repository": "https://github.com/Boolsai-ai/mcp",
-      "website": "https://grep.boolsai.ai/mcp",
-      "remote_url": "https://grep.boolsai.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-boolsai-grep-https-github-com-boolsai-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.boolsai/directory",
-      "description": "Indexed ecommerce site directory — vendor lookups, brands by city/market/founder. 10 tools.",
-      "repository": "https://github.com/Boolsai-ai/mcp",
-      "website": "https://directory.boolsai.ai/mcp",
-      "remote_url": "https://directory.boolsai.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-boolsai-directory-https-github-com-boolsai-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.bodenrichtwert/mcp",
-      "description": "Official German land values (Bodenrichtwerte) for any German address — OAuth-secured MCP server.",
-      "website": "https://bodenrichtwert.ai",
-      "remote_url": "https://mcp.bodenrichtwert.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-bodenrichtwert-mcp-https-bodenrichtwert-ai",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.bloopo/bloopo",
-      "description": "Make ads from one sentence — finished video ads, UGC, product images, voiceover and brand kits.",
-      "repository": "https://github.com/lukasbudrys2/legendary-carnival",
-      "website": "https://bloopo.ai/mcp",
-      "remote_url": "https://mcp.bloopo.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-bloopo-bloopo-https-github-com-lukasbudrys2-legendary-carnival",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.biddeed/biddeed-mcp",
-      "description": "AI-powered foreclosure auction intelligence for Florida counties via MCP tools.",
-      "repository": "https://github.com/breverdbidder/cli-anything-biddeed",
-      "website": "https://biddeed.ai/api/mcp",
-      "remote_url": "https://biddeed.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-biddeed-biddeed-mcp-https-github-com-breverdbidder-cli-anything-biddeed",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.bezal/local-commerce",
-      "description": "Search 7,000+ local service businesses across America by category, location, or keyword.",
-      "website": "https://app.bezal.ai/api/mcp",
-      "remote_url": "https://app.bezal.ai/api/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-bezal-local-commerce-https-app-bezal-ai-api-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.baselight/baselight",
-      "description": "Query Baselight's public catalog of 70,000+ datasets — finance, demographics, sports, and more.",
-      "website": "https://baselight.ai",
-      "remote_url": "https://api.baselight.app/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-baselight-baselight-https-baselight-ai",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.bareun/bareun",
-      "description": "Korean NLP MCP server: morphological analysis, tokenization, spell & grammar checking (Bareun)",
-      "repository": "https://github.com/gih2yun/bareun-mcp",
-      "website": "https://bareun.ai",
-      "remote_url": "https://api.bareun.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-bareun-bareun-https-github-com-gih2yun-bareun-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.backengine/backengine-mcp",
-      "description": "Surface customer & prospect context from Slack, email, transcripts and tickets in any MCP client.",
-      "repository": "https://github.com/BackEngine-ai/backengine-mcp",
-      "website": "https://mcp.backengine.ai/mcp",
-      "remote_url": "https://mcp.backengine.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-backengine-backengine-mcp-https-github-com-backengine-ai-backengine-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.autorfp/mcp",
-      "description": "Search AutoRFP.ai projects, requirements, content library, and tags for Q&A and analytics.",
-      "repository": "https://github.com/AutoRFP/mcp",
-      "website": "https://autorfp.ai",
-      "remote_url": "https://{api_host}/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-autorfp-mcp-https-github-com-autorfp-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.autonomad/travel",
-      "description": "AI travel agent — book flights, hotels, activities, and events worldwide via autonomad.ai.",
-      "repository": "https://github.com/Autonomad1/autonomad1",
-      "website": "https://autonomad.ai",
-      "remote_url": "https://mcp.autonomad.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-autonomad-travel-https-github-com-autonomad1-autonomad1",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.artidrop/artidrop",
-      "description": "The publishing layer for AI agents. Turn HTML and Markdown into shareable URLs instantly via MCP.",
-      "website": "https://artidrop.ai/mcp",
-      "remote_url": "https://artidrop.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-artidrop-artidrop-https-artidrop-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.arclan/registry",
-      "description": "MCP server registry — validated by live handshake, scored on reliability, monitored continuously.",
-      "website": "https://arclan.ai/mcp",
-      "remote_url": "https://arclan.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-arclan-registry-https-arclan-ai-mcp",
-      "status": "rejected",
-      "attempts": 1,
-      "discovered_at": "2026-08-05T09:50:37.476Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 1) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "multi_agent_aca",
-      "description": "Multi-agent solution on Azure Container Apps with Google Agent2Agent",
-      "repository": "https://github.com/gbaeke/multi_agent_aca",
-      "website": "https://blog.baeke.info",
-      "endpoint_url": "https://blog.baeke.info",
-      "agent_card_url": "https://blog.baeke.info/.well-known/agent.json",
-      "author": "gbaeke",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-multi-agent-aca-https-github-com-gbaeke-multi-agent-aca",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "LLMTornado",
-      "description": "The .NET library to build AI agents with 30+ built-in connectors.",
-      "repository": "https://github.com/lofcz/LLMTornado",
-      "website": "https://llmtornado.ai",
-      "endpoint_url": "https://llmtornado.ai",
-      "agent_card_url": "https://llmtornado.ai/.well-known/agent.json",
-      "author": "lofcz",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "stars:631",
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-llmtornado-https-github-com-lofcz-llmtornado",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "elkar-a2a",
-      "description": "Elkar - Task management for AI Agents, ready for Agent2Agent (A2A) protocol",
-      "repository": "https://github.com/elkar-ai/elkar-a2a",
-      "website": "https://www.elkar.co",
-      "endpoint_url": "https://www.elkar.co",
-      "agent_card_url": "https://www.elkar.co/.well-known/agent.json",
-      "author": "elkar-ai",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "stars:151",
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-elkar-a2a-https-github-com-elkar-ai-elkar-a2a",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "cli",
-      "description": "An interactive command-line interface that uses the Agent2Agent (A2A) & Model Context Protocols (MCP) to manage multi-agent systems.",
-      "repository": "https://github.com/the-artinet-project/cli",
-      "website": "https://artinet.io/",
-      "endpoint_url": "https://artinet.io/",
-      "agent_card_url": "https://artinet.io/.well-known/agent.json",
-      "author": "the-artinet-project",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-cli-https-github-com-the-artinet-project-cli",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "awesome-a2a",
-      "description": "Agent2Agent (A2A) – awesome A2A agents, tools, servers & clients, all in one place.",
-      "repository": "https://github.com/pab1it0/awesome-a2a",
-      "website": "https://github.com/pab1it0/awesome-a2a",
-      "endpoint_url": "https://github.com/pab1it0/awesome-a2a",
-      "agent_card_url": "https://github.com/.well-known/agent.json",
-      "author": "pab1it0",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "stars:180",
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "awesome-a2a",
-      "description": "Agent2Agent (A2A) – awesome A2A agents, tools, servers & clients, all in one place.",
-      "repository": "https://github.com/ai-boost/awesome-a2a",
-      "website": "http://agent2agent.ren/",
-      "endpoint_url": "http://agent2agent.ren/",
-      "agent_card_url": "http://agent2agent.ren/.well-known/agent.json",
-      "author": "ai-boost",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "stars:636",
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-awesome-a2a-https-github-com-ai-boost-awesome-a2a",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "artinet-sdk",
-      "description": "Ship Agent2Agent in one line of code. Open-source agent for agent tooling and peer discovery.",
-      "repository": "https://github.com/the-artinet-project/artinet-sdk",
-      "website": "https://artinet.io/",
-      "endpoint_url": "https://artinet.io/",
-      "agent_card_url": "https://artinet.io/.well-known/agent.json",
-      "author": "the-artinet-project",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-artinet-sdk-https-github-com-the-artinet-project-artinet-sdk",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "agent2agent_doc",
-      "description": "Agent2Agent (A2A) Docs – Your comprehensive guide to understanding and implementing the A2A protocol.",
-      "repository": "https://github.com/ai-boost/agent2agent_doc",
-      "website": "https://agent2agent.ren",
-      "endpoint_url": "https://agent2agent.ren",
-      "agent_card_url": "https://agent2agent.ren/.well-known/agent.json",
-      "author": "ai-boost",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-agent2agent-doc-https-github-com-ai-boost-agent2agent-doc",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "A2AApp",
-      "description": "This is a library for implementing an Agent2Agent (A2A) server using Google Apps Script. This enables AI agent communication and secure service access for AI-powered workflows.",
-      "repository": "https://github.com/tanaikech/A2AApp",
-      "website": "https://medium.com/google-cloud/enabling-collaborative-agent-systems-through-google-apps-script-based-agent2agent-a2a-network-19e3d0472eaa",
-      "endpoint_url": "https://medium.com/google-cloud/enabling-collaborative-agent-systems-through-google-apps-script-based-agent2agent-a2a-network-19e3d0472eaa",
-      "agent_card_url": "https://medium.com/.well-known/agent.json",
-      "author": "tanaikech",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-a2aapp-https-github-com-tanaikech-a2aapp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "a2a-validation-tool",
-      "description": "Agent 2 Agent (A2A) Validation tool (a2v) alternative to CLI",
-      "repository": "https://github.com/llmx-tech/a2a-validation-tool",
-      "website": "https://llmx.tech",
-      "endpoint_url": "https://llmx.tech",
-      "agent_card_url": "https://llmx.tech/.well-known/agent.json",
-      "author": "llmx-tech",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-a2a-validation-tool-https-github-com-llmx-tech-a2a-validation-tool",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "a2a-template-langgraph",
-      "description": "A production-ready agent server built with LangGraph that implements the Agent-to-Agent (A2A) protocol",
-      "repository": "https://github.com/llmx-tech/a2a-template-langgraph",
-      "website": "https://llmx.tech",
-      "endpoint_url": "https://llmx.tech",
-      "agent_card_url": "https://llmx.tech/.well-known/agent.json",
-      "author": "llmx-tech",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-a2a-template-langgraph-https-github-com-llmx-tech-a2a-template-langgraph",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "a2a-java",
-      "description": "Official Java SDK for the Agent2Agent (A2A) Protocol",
-      "repository": "https://github.com/a2aproject/a2a-java",
-      "website": "https://a2aproject.github.io/a2a-java/",
-      "endpoint_url": "https://a2aproject.github.io/a2a-java/",
-      "agent_card_url": "https://a2aproject.github.io/.well-known/agent.json",
-      "author": "a2aproject",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "stars:468",
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-a2a-java-https-github-com-a2aproject-a2a-java",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "A2A-docs-zh",
-      "description": "Agent2Agent Protocol (A2A) 中文文档 Open-source agent for agent tooling and peer discovery.",
-      "repository": "https://github.com/sxhxliang/A2A-docs-zh",
-      "website": "http://a2a.lsh.pub",
-      "endpoint_url": "http://a2a.lsh.pub",
-      "agent_card_url": "http://a2a.lsh.pub/.well-known/agent.json",
-      "author": "sxhxliang",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-a2a-docs-zh-https-github-com-sxhxliang-a2a-docs-zh",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "agent",
-      "name": "a2a-directory",
-      "description": "Agent2Agent (A2A) – AgentCards, Servers, Clients, Docs",
-      "repository": "https://github.com/sing1ee/a2a-directory",
-      "website": "https://a2aprotocol.ai/a2a-agents",
-      "endpoint_url": "https://a2aprotocol.ai/a2a-agents",
-      "agent_card_url": "https://a2aprotocol.ai/.well-known/agent.json",
-      "author": "sing1ee",
-      "protocols": [
-        "rest",
-        "a2a"
-      ],
-      "capabilities": [
-        "agents"
-      ],
-      "skills": [
-        {
-          "name": "agent",
-          "description": "Topic-harvested agent surface"
-        }
-      ],
-      "source": "harvest:gh-topic:topic:agent2agent",
-      "quality_hints": [
-        "stars:236",
-        "harvest:agent",
-        "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "agent-a2a-directory-https-github-com-sing1ee-a2a-directory",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.alpic.test/test-mcp-server",
-      "description": "ai.alpic.test/test-mcp-server is a community mcp for peer discovery and agent collaboration on the open registry.",
-      "website": "https://test.alpic.ai/",
-      "remote_url": "https://test.alpic.ai/",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-alpic-test-test-mcp-server-https-test-alpic-ai-",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.aient/mcp",
-      "description": "MCP-native AI SRE: ask what's broken in production, get a reviewed GitHub fix PR.",
-      "repository": "https://github.com/haf/glimt",
-      "website": "https://aient.ai/mcp",
-      "remote_url": "https://aient.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-aient-mcp-https-github-com-haf-glimt",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.ai-akari/one-minute-akari",
-      "description": "A free one-minute reset for people, delivered by AI, with no account or personal data.",
-      "repository": "https://github.com/AInoAKARI/arigatou-kawaii-lp",
-      "website": "https://ai-akari.ai/mcp",
-      "remote_url": "https://ai-akari.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-ai-akari-one-minute-akari-https-github-com-ainoakari-arigatou-kawaii-lp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.ai-akari/agent-trust-receipt",
-      "description": "Read-only Remote MCP for externally grounded AI agent trust receipts.",
-      "repository": "https://github.com/AInoAKARI/AInoAKARI",
-      "website": "https://ai-akari.ai/.well-known/agent-trust.json",
-      "remote_url": "https://ai-akari.ai/mcp-trust",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-ai-akari-agent-trust-receipt-https-github-com-ainoakari-ainoakari",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.agenticshelf/puroair",
-      "description": "Live MCP catalog for PuroAir HEPA-14 air purifiers - real-time stock, pricing, and details.",
-      "website": "https://getpuroair.com",
-      "remote_url": "https://api.agenticshelf.ai/m/puroair/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-agenticshelf-puroair-https-getpuroair-com",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.agenticshelf/mcp",
-      "description": "Hosted MCP for e-commerce: live product catalog, stock, and pricing for AI agents.",
-      "repository": "https://github.com/vboykoCTO/agentic-shelf",
-      "website": "https://www.agenticshelf.ai",
-      "remote_url": "https://api.agenticshelf.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-agenticshelf-mcp-https-github-com-vboykocto-agentic-shelf",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.agenticshelf/graffeo",
-      "description": "Live MCP catalog for Graffeo Coffee Roasting — North Beach SF specialty coffee since 1935.",
-      "website": "https://www.graffeo.com",
-      "remote_url": "https://api.agenticshelf.ai/m/graffeo/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-agenticshelf-graffeo-https-www-graffeo-com",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ai.adadvisor/mcp-server",
-      "description": "Query Meta Ads performance data — accounts, campaigns, ad sets, ads, metrics & settings.",
-      "website": "https://www.adadvisor.ai?utm_source=mcp-registry",
-      "remote_url": "https://api.adadvisor.ai/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ai-adadvisor-mcp-server-https-www-adadvisor-ai-utm-source-mcp-registry",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
-      "name": "ac.tandem/docs-mcp",
-      "description": "Remote MCP server for Tandem docs, install guides, SDKs, workflows, and agent setup help.",
-      "repository": "https://github.com/frumu-ai/tandem",
-      "website": "https://tandem.ac/mcp",
-      "remote_url": "https://tandem.ac/mcp",
-      "source": "official-mcp-registry",
-      "quality_hints": [
-        "probeable",
-        "official-registry-remote",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
-      "id": "mcp-ac-tandem-docs-mcp-https-github-com-frumu-ai-tandem",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.358Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
-    },
-    {
-      "kind": "mcp",
       "name": "XcodeBuildMCP",
       "description": "A Model Context Protocol (MCP) server and CLI that provides tools for agent use when working on iOS and macOS projects.",
       "repository": "https://github.com/getsentry/XcodeBuildMCP",
@@ -1131,18 +36,13 @@
         "stars:6194",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-xcodebuildmcp-https-github-com-getsentry-xcodebuildmcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1157,18 +57,13 @@
         "stars:4943",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-whodb-https-github-com-clidey-whodb",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1183,18 +78,13 @@
         "stars:7931",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-upsonic-https-github-com-upsonic-upsonic",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1206,21 +96,16 @@
       "author": "CoplayDev",
       "source": "harvest:gh-topic:topic:model-context-protocol",
       "quality_hints": [
-        "stars:13160",
+        "stars:13162",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-unity-mcp-https-github-com-coplaydev-unity-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1235,18 +120,13 @@
         "stars:38438",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-ui-tars-desktop-https-github-com-bytedance-ui-tars-desktop",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1261,18 +141,13 @@
         "stars:61174",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-trendradar-https-github-com-sansan0-trendradar",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -1300,18 +175,13 @@
       "quality_hints": [
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-swarmtrade-https-github-com-tjcrowley-swarmtrade",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1323,21 +193,16 @@
       "author": "oraios",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:27585",
+        "stars:27589",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-serena-https-github-com-oraios-serena",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1349,21 +214,16 @@
       "author": "MinishLab",
       "source": "harvest:gh-topic:topic:model-context-protocol",
       "quality_hints": [
-        "stars:5823",
+        "stars:5824",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-semble-https-github-com-minishlab-semble",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1375,21 +235,16 @@
       "author": "D4Vinci",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:72635",
+        "stars:72638",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-scrapling-https-github-com-d4vinci-scrapling",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1404,18 +259,13 @@
         "stars:67074",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-ruflo-https-github-com-ruvnet-ruflo",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1427,21 +277,16 @@
       "author": "modelcontextprotocol",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:23891",
+        "stars:23893",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:agent/MCP card URL returned 404 — publish a valid card"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-python-sdk-https-github-com-modelcontextprotocol-python-sdk",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1453,18 +298,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-puppeteer-mcp-server-https-github-com-merajmehrabi-puppeteer-mcp-server",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -1492,18 +332,13 @@
       "quality_hints": [
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-piqrypt-https-github-com-piqrypt-piqrypt",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1518,18 +353,13 @@
         "stars:5492",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-openagent-https-github-com-the-open-agent-openagent",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1544,18 +374,13 @@
         "stars:18198",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-nuclear-https-github-com-nukeop-nuclear",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1570,18 +395,13 @@
         "stars:46651",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-nanobot-https-github-com-hkuds-nanobot",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1596,18 +416,13 @@
         "stars:22602",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-n8n-mcp-https-github-com-czlonkowski-n8n-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1619,21 +434,16 @@
       "author": "n8n-io",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:199400",
+        "stars:199401",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-n8n-https-github-com-n8n-io-n8n",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -1662,18 +472,47 @@
         "stars:464",
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-multigen-https-github-com-lingyuanli-multigen",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "multi_agent_aca",
+      "description": "Multi-agent solution on Azure Container Apps with Google Agent2Agent",
+      "repository": "https://github.com/gbaeke/multi_agent_aca",
+      "website": "https://blog.baeke.info",
+      "endpoint_url": "https://blog.baeke.info",
+      "agent_card_url": "https://blog.baeke.info/.well-known/agent.json",
+      "author": "gbaeke",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-multi-agent-aca-https-github-com-gbaeke-multi-agent-aca",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1686,18 +525,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-mongodb-mcp-server-https-github-com-mongodb-js-mongodb-mcp-server-git",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1709,18 +543,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-model-context-protocol-https-github-com-mcp-agents-model-context-protocol-re",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1732,18 +561,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-mcp-server-https-github-com-sandy-mount-mcp-server-readme",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1755,18 +579,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-mcp-handler-https-github-com-vercel-mcp-handler-readme",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1779,18 +598,13 @@
       "quality_hints": [
         "stars:16919",
         "harvest:mcp",
-        "github-topic",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "github-topic"
       ],
       "id": "mcp-mcp-for-beginners-https-github-com-microsoft-mcp-for-beginners",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1803,18 +617,13 @@
       "quality_hints": [
         "stars:8492",
         "harvest:mcp",
-        "github-topic",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "github-topic"
       ],
       "id": "mcp-mcp-agent-https-github-com-lastmile-ai-mcp-agent",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1829,18 +638,13 @@
         "stars:22408",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-maxkb-https-github-com-1panel-dev-maxkb",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1855,18 +659,48 @@
         "stars:5597",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-magic-mcp-https-github-com-21st-dev-magic-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "LLMTornado",
+      "description": "The .NET library to build AI agents with 30+ built-in connectors.",
+      "repository": "https://github.com/lofcz/LLMTornado",
+      "website": "https://llmtornado.ai",
+      "endpoint_url": "https://llmtornado.ai",
+      "agent_card_url": "https://llmtornado.ai/.well-known/agent.json",
+      "author": "lofcz",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "stars:631",
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-llmtornado-https-github-com-lofcz-llmtornado",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -1890,18 +724,11 @@
         }
       ],
       "source": "seed:langgraph",
-      "quality_hints": [
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
       "id": "agent-langgraph-https-github-com-langchain-ai-langgraph",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1914,18 +741,13 @@
       "quality_hints": [
         "server.json",
         "code-search",
-        "dual-publish-ready",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "dual-publish-ready"
       ],
       "id": "mcp-jeff-nasseri-mikrotik-mcp-https-github-com-jeff-nasseri-mikrotik-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1940,18 +762,13 @@
         "stars:5484",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-holaos-https-github-com-holaboss-ai-holaos",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1964,18 +781,13 @@
       "quality_hints": [
         "server.json",
         "code-search",
-        "dual-publish-ready",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "dual-publish-ready"
       ],
       "id": "mcp-hexsleeves-tailscale-mcp-https-github-com-hexsleeves-tailscale-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -1987,21 +799,16 @@
       "author": "assafelovic",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:28822",
+        "stars:28825",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-gpt-researcher-https-github-com-assafelovic-gpt-researcher",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2014,18 +821,13 @@
       "quality_hints": [
         "stars:31970",
         "harvest:mcp",
-        "github-topic",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "github-topic"
       ],
       "id": "mcp-github-mcp-server-https-github-com-github-github-mcp-server",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2040,18 +842,13 @@
         "stars:106371",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-gemini-cli-https-github-com-google-gemini-gemini-cli",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2063,21 +860,16 @@
       "author": "firecrawl",
       "source": "harvest:gh-topic:topic:model-context-protocol",
       "quality_hints": [
-        "stars:7140",
+        "stars:7141",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-firecrawl-mcp-server-https-github-com-firecrawl-firecrawl-mcp-server",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2092,18 +884,13 @@
         "stars:27072",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-fastmcp-https-github-com-prefecthq-fastmcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2118,18 +905,48 @@
         "stars:4818",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-exa-mcp-server-https-github-com-exa-labs-exa-mcp-server",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "elkar-a2a",
+      "description": "Elkar - Task management for AI Agents, ready for Agent2Agent (A2A) protocol",
+      "repository": "https://github.com/elkar-ai/elkar-a2a",
+      "website": "https://www.elkar.co",
+      "endpoint_url": "https://www.elkar.co",
+      "agent_card_url": "https://www.elkar.co/.well-known/agent.json",
+      "author": "elkar-ai",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "stars:151",
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-elkar-a2a-https-github-com-elkar-ai-elkar-a2a",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -2157,18 +974,13 @@
       "quality_hints": [
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-easy-a2a-https-github-com-the-artinet-project-easy-a2a",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2181,18 +993,13 @@
       "quality_hints": [
         "server.json",
         "code-search",
-        "dual-publish-ready",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "dual-publish-ready"
       ],
       "id": "mcp-cyanheads-git-mcp-server-https-github-com-cyanheads-git-mcp-server",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2207,18 +1014,13 @@
         "stars:6950",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-cursor-talk-to-figma-mcp-https-github-com-grab-cursor-talk-to-figma-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -2249,18 +1051,13 @@
       ],
       "source": "seed:crewai",
       "quality_hints": [
-        "proto:a2a",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "proto:a2a"
       ],
       "id": "agent-crewai-https-github-com-crewaiinc-crewai",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2275,18 +1072,13 @@
         "stars:19634",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-context-mode-https-github-com-mksglu-context-mode",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2298,21 +1090,50 @@
       "author": "DeusData",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:37548",
+        "stars:37550",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-codebase-memory-mcp-https-github-com-deusdata-codebase-memory-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "cli",
+      "description": "An interactive command-line interface that uses the Agent2Agent (A2A) & Model Context Protocols (MCP) to manage multi-agent systems.",
+      "repository": "https://github.com/the-artinet-project/cli",
+      "website": "https://artinet.io/",
+      "endpoint_url": "https://artinet.io/",
+      "agent_card_url": "https://artinet.io/.well-known/agent.json",
+      "author": "the-artinet-project",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-cli-https-github-com-the-artinet-project-cli",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2324,21 +1145,16 @@
       "author": "ChromeDevTools",
       "source": "harvest:gh-topic:topic:mcp-server",
       "quality_hints": [
-        "stars:48554",
+        "stars:48555",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2350,18 +1166,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-chrome-devtools-mcp-https-github-com-chromedevtools-chrome-devtools-mcp-read",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2374,18 +1185,13 @@
       "quality_hints": [
         "stars:5735",
         "harvest:mcp",
-        "github-topic",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "github-topic"
       ],
       "id": "mcp-awesome-mcp-servers-https-github-com-appcypher-awesome-mcp-servers",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2397,21 +1203,86 @@
       "author": "WenyuChiou",
       "source": "harvest:gh-topic:topic:model-context-protocol",
       "quality_hints": [
-        "stars:5065",
+        "stars:5067",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-awesome-agentic-ai-zh-https-github-com-wenyuchiou-awesome-agentic-ai-zh",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "awesome-a2a",
+      "description": "Agent2Agent (A2A) – awesome A2A agents, tools, servers & clients, all in one place.",
+      "repository": "https://github.com/pab1it0/awesome-a2a",
+      "website": "https://github.com/pab1it0/awesome-a2a",
+      "endpoint_url": "https://github.com/pab1it0/awesome-a2a",
+      "agent_card_url": "https://github.com/.well-known/agent.json",
+      "author": "pab1it0",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "stars:180",
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-awesome-a2a-https-github-com-pab1it0-awesome-a2a",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "awesome-a2a",
+      "description": "Agent2Agent (A2A) – awesome A2A agents, tools, servers & clients, all in one place.",
+      "repository": "https://github.com/ai-boost/awesome-a2a",
+      "website": "http://agent2agent.ren/",
+      "endpoint_url": "http://agent2agent.ren/",
+      "agent_card_url": "http://agent2agent.ren/.well-known/agent.json",
+      "author": "ai-boost",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "stars:636",
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-awesome-a2a-https-github-com-ai-boost-awesome-a2a",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -2439,18 +1310,13 @@
       "quality_hints": [
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-autonomous-multi-agent-system-https-github-com-akhilt044-autonomous-multi-",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -2475,18 +1341,45 @@
         }
       ],
       "source": "seed:autogen",
-      "quality_hints": [
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
-      ],
       "id": "agent-autogen-https-github-com-microsoft-autogen",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "artinet-sdk",
+      "description": "Ship Agent2Agent in one line of code. Open-source agent for agent tooling and peer discovery.",
+      "repository": "https://github.com/the-artinet-project/artinet-sdk",
+      "website": "https://artinet.io/",
+      "endpoint_url": "https://artinet.io/",
+      "agent_card_url": "https://artinet.io/.well-known/agent.json",
+      "author": "the-artinet-project",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-artinet-sdk-https-github-com-the-artinet-project-artinet-sdk",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -2514,18 +1407,13 @@
       "quality_hints": [
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-aria-https-github-com-wiqilee-aria",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -2554,18 +1442,47 @@
         "stars:127",
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-agentup-https-github-com-nolabs-ai-agentup",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "agent2agent_doc",
+      "description": "Agent2Agent (A2A) Docs – Your comprehensive guide to understanding and implementing the A2A protocol.",
+      "repository": "https://github.com/ai-boost/agent2agent_doc",
+      "website": "https://agent2agent.ren",
+      "endpoint_url": "https://agent2agent.ren",
+      "agent_card_url": "https://agent2agent.ren/.well-known/agent.json",
+      "author": "ai-boost",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-agent2agent-doc-https-github-com-ai-boost-agent2agent-doc",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -2593,18 +1510,13 @@
       "quality_hints": [
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-agent-relay-https-github-com-the-artinet-project-agent-relay",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2619,18 +1531,115 @@
         "stars:23586",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-activepieces-https-github-com-activepieces-activepieces",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "A2AApp",
+      "description": "This is a library for implementing an Agent2Agent (A2A) server using Google Apps Script. This enables AI agent communication and secure service access for AI-powered workflows.",
+      "repository": "https://github.com/tanaikech/A2AApp",
+      "website": "https://medium.com/google-cloud/enabling-collaborative-agent-systems-through-google-apps-script-based-agent2agent-a2a-network-19e3d0472eaa",
+      "endpoint_url": "https://medium.com/google-cloud/enabling-collaborative-agent-systems-through-google-apps-script-based-agent2agent-a2a-network-19e3d0472eaa",
+      "agent_card_url": "https://medium.com/.well-known/agent.json",
+      "author": "tanaikech",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-a2aapp-https-github-com-tanaikech-a2aapp",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "a2a-validation-tool",
+      "description": "Agent 2 Agent (A2A) Validation tool (a2v) alternative to CLI",
+      "repository": "https://github.com/llmx-tech/a2a-validation-tool",
+      "website": "https://llmx.tech",
+      "endpoint_url": "https://llmx.tech",
+      "agent_card_url": "https://llmx.tech/.well-known/agent.json",
+      "author": "llmx-tech",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-a2a-validation-tool-https-github-com-llmx-tech-a2a-validation-tool",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "a2a-template-langgraph",
+      "description": "A production-ready agent server built with LangGraph that implements the Agent-to-Agent (A2A) protocol",
+      "repository": "https://github.com/llmx-tech/a2a-template-langgraph",
+      "website": "https://llmx.tech",
+      "endpoint_url": "https://llmx.tech",
+      "agent_card_url": "https://llmx.tech/.well-known/agent.json",
+      "author": "llmx-tech",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-a2a-template-langgraph-https-github-com-llmx-tech-a2a-template-langgraph",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -2659,18 +1668,117 @@
         "stars:2062",
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-a2a-python-https-github-com-a2aproject-a2a-python",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "a2a-java",
+      "description": "Official Java SDK for the Agent2Agent (A2A) Protocol",
+      "repository": "https://github.com/a2aproject/a2a-java",
+      "website": "https://a2aproject.github.io/a2a-java/",
+      "endpoint_url": "https://a2aproject.github.io/a2a-java/",
+      "agent_card_url": "https://a2aproject.github.io/.well-known/agent.json",
+      "author": "a2aproject",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "stars:468",
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-a2a-java-https-github-com-a2aproject-a2a-java",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "A2A-docs-zh",
+      "description": "Agent2Agent Protocol (A2A) 中文文档 Open-source agent for agent tooling and peer discovery.",
+      "repository": "https://github.com/sxhxliang/A2A-docs-zh",
+      "website": "http://a2a.lsh.pub",
+      "endpoint_url": "http://a2a.lsh.pub",
+      "agent_card_url": "http://a2a.lsh.pub/.well-known/agent.json",
+      "author": "sxhxliang",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-a2a-docs-zh-https-github-com-sxhxliang-a2a-docs-zh",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
+    },
+    {
+      "kind": "agent",
+      "name": "a2a-directory",
+      "description": "Agent2Agent (A2A) – AgentCards, Servers, Clients, Docs",
+      "repository": "https://github.com/sing1ee/a2a-directory",
+      "website": "https://a2aprotocol.ai/a2a-agents",
+      "endpoint_url": "https://a2aprotocol.ai/a2a-agents",
+      "agent_card_url": "https://a2aprotocol.ai/.well-known/agent.json",
+      "author": "sing1ee",
+      "protocols": [
+        "rest",
+        "a2a"
+      ],
+      "capabilities": [
+        "agents"
+      ],
+      "skills": [
+        {
+          "name": "agent",
+          "description": "Topic-harvested agent surface"
+        }
+      ],
+      "source": "harvest:gh-topic:topic:agent2agent",
+      "quality_hints": [
+        "stars:236",
+        "harvest:agent",
+        "github-topic",
+        "has-homepage-wellknown"
+      ],
+      "id": "agent-a2a-directory-https-github-com-sing1ee-a2a-directory",
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "agent",
@@ -2699,18 +1807,13 @@
         "stars:92",
         "harvest:agent",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "agent-a2a-adapter-https-github-com-hybroai-a2a-adapter",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2725,18 +1828,13 @@
         "stars:5325",
         "harvest:mcp",
         "github-topic",
-        "has-homepage-wellknown",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "has-homepage-wellknown"
       ],
       "id": "mcp-5ire-https-github-com-nanbingxyz-5ire",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2748,18 +1846,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-ui5-mcp-server-https-github-com-ui5-mcp-server-readme",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2771,18 +1864,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-transcend-io-mcp-server-workflows-https-github-com-transcend-io-tools-tree-m",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2794,18 +1882,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-transcend-io-mcp-server-preferences-https-github-com-transcend-io-tools-tree",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2817,18 +1900,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-transcend-io-mcp-server-assessment-https-github-com-transcend-io-tools-tree-",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2840,18 +1918,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-transcend-io-mcp-server-admin-https-github-com-transcend-io-tools-tree-main-",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2863,18 +1936,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-traceloop-instrumentation-mcp-https-github-com-traceloop-openllmetry-js-tree",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2886,18 +1954,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-sentry-mcp-server-https-github-com-getsentry-sentry-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2910,18 +1973,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-remotion-mcp-https-github-com-remotion-dev-remotion-tree-main-packages-mcp",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2933,18 +1991,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-notionhq-notion-mcp-server-https-github-com-makenotion-notion-mcp-server-rea",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2956,18 +2009,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-langchain-mcp-adapters-https-github-com-langchain-ai-langchainjs-tree-main-l",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -2979,18 +2027,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-heroku-mcp-server-https-github-com-heroku-heroku-mcp-server",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     },
     {
       "kind": "mcp",
@@ -3002,18 +2045,13 @@
       "quality_hints": [
         "npm",
         "package-registry",
-        "harvest:mcp",
-        "handshake:fail",
-        "reject:probe_fail",
-        "reject_why:live probe handshake failed"
+        "harvest:mcp"
       ],
       "id": "mcp-browserstack-mcp-server-https-github-com-browserstack-mcp-server-readme",
-      "status": "rejected",
-      "attempts": 2,
-      "discovered_at": "2026-08-05T09:45:18.357Z",
-      "updated_at": "2026-08-05T10:02:42.301Z",
-      "safety_score": 0,
-      "last_error": "probe fail (attempt 2) — will retry"
+      "status": "queued",
+      "attempts": 0,
+      "discovered_at": "2026-08-05T10:05:18.365Z",
+      "updated_at": "2026-08-05T10:05:18.365Z"
     }
   ],
   "runs": [
