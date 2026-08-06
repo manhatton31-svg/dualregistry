@@ -1,14 +1,14 @@
 {
   "day": "2026-08-06",
-  "updated_at": "2026-08-06T01:07:30.369Z",
+  "updated_at": "2026-08-06T04:32:24.028Z",
   "counts": {
-    "total": 576,
-    "mcp": 541,
+    "total": 578,
+    "mcp": 543,
     "agents": 35
   },
   "high_water": {
-    "total": 576,
-    "mcp": 541,
+    "total": 578,
+    "mcp": 543,
     "agents": 35
   },
   "items": {
@@ -6347,6 +6347,28 @@
       "score": 55,
       "handshake": "ok",
       "hold_reason": "probe ok"
+    },
+    "mcp-ai-beket-audit-mcp-beket-ai-registry-mcp": {
+      "id": "mcp-ai-beket-audit-mcp-beket-ai-registry-mcp",
+      "kind": "mcp",
+      "name": "ai.beket/audit",
+      "target": "https://mcp.beket.ai/registry/mcp",
+      "approved_at": "2026-08-06T04:31:18.933Z",
+      "probed_at": "2026-08-06T04:31:18.933Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-inblog-inblog-ai-api-mcp": {
+      "id": "mcp-inblog-inblog-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Inblog",
+      "target": "https://inblog.ai/api/mcp",
+      "approved_at": "2026-08-06T04:31:26.299Z",
+      "probed_at": "2026-08-06T04:31:26.299Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
