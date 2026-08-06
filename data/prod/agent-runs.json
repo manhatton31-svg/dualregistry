@@ -1,188 +1,143 @@
 {
-  "day": "2026-08-05",
+  "day": "2026-08-06",
   "runs": [
     {
-      "id": "run_msgcc57a_j25z6l",
-      "title": "tools/call get_acceleration",
-      "tool": "get_acceleration",
+      "id": "run_mshqgl1x_5bxsp1",
+      "title": "tools/call attractor_targets",
+      "tool": "attractor_targets",
       "trigger": "mcp",
       "status": "ok",
-      "started_at": "2026-08-05T17:08:16.341Z",
-      "ended_at": "2026-08-05T17:08:16.341Z",
-      "duration_ms": 45,
-      "usd_estimate": 0.0000016827777777777776,
+      "started_at": "2026-08-06T16:31:24.309Z",
+      "ended_at": "2026-08-06T16:31:24.309Z",
+      "duration_ms": 3357,
+      "usd_estimate": 0.00008006677777777777,
       "meta": {}
     },
     {
-      "id": "run_msfit1fb_iiok7g",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
+      "id": "run_mshqgh3a_ew1vnc",
+      "title": "tools/call sense_traces",
+      "tool": "sense_traces",
+      "trigger": "mcp",
       "status": "ok",
-      "started_at": "2026-08-05T03:21:36.119Z",
-      "ended_at": "2026-08-05T03:21:36.119Z",
-      "duration_ms": 85580,
+      "started_at": "2026-08-06T16:31:19.174Z",
+      "ended_at": "2026-08-06T16:31:19.174Z",
+      "duration_ms": 4,
+      "usd_estimate": 6.946666666666667e-7,
       "meta": {
-        "probed": 0
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
       }
     },
     {
-      "id": "run_msfin4v4_zintd1",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
+      "id": "run_mshqgfpc_rq25t3",
+      "title": "tools/call list_collab_market",
+      "tool": "list_collab_market",
+      "trigger": "mcp",
       "status": "ok",
-      "started_at": "2026-08-05T03:17:00.640Z",
-      "ended_at": "2026-08-05T03:17:00.640Z",
-      "duration_ms": 109872,
+      "started_at": "2026-08-06T16:31:17.376Z",
+      "ended_at": "2026-08-06T16:31:17.376Z",
+      "duration_ms": 140,
+      "usd_estimate": 0.000003913333333333334,
+      "meta": {}
+    },
+    {
+      "id": "run_mshqge5t_8gzmmz",
+      "title": "tools/call list_collab_sessions",
+      "tool": "list_collab_sessions",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-06T16:31:15.377Z",
+      "ended_at": "2026-08-06T16:31:15.377Z",
+      "duration_ms": 164,
+      "usd_estimate": 0.000004481333333333333,
+      "meta": {}
+    },
+    {
+      "id": "run_mshqgcdo_da6tl5",
+      "title": "tools/call collab_access_status",
+      "tool": "collab_access_status",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-06T16:31:13.068Z",
+      "ended_at": "2026-08-06T16:31:13.068Z",
+      "duration_ms": 2,
+      "usd_estimate": 6.473333333333333e-7,
       "meta": {
-        "probed": 0
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
       }
     },
     {
-      "id": "run_msfig4is_d3yvpb",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
+      "id": "run_mshqg9sh_kho6qz",
+      "title": "tools/call list_event_pricing",
+      "tool": "list_event_pricing",
+      "trigger": "mcp",
       "status": "ok",
-      "started_at": "2026-08-05T03:11:33.604Z",
-      "ended_at": "2026-08-05T03:11:33.604Z",
-      "duration_ms": 83113,
+      "started_at": "2026-08-06T16:31:09.713Z",
+      "ended_at": "2026-08-06T16:31:09.713Z",
+      "duration_ms": 4,
+      "usd_estimate": 6.946666666666667e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_mshqg8hr_1bnj3y",
+      "title": "tools/call check_status",
+      "tool": "check_status",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-06T16:31:08.031Z",
+      "ended_at": "2026-08-06T16:31:08.031Z",
+      "duration_ms": 380,
+      "usd_estimate": 0.000009593333333333332,
       "meta": {
-        "probed": 0
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
       }
     },
     {
-      "id": "run_msfia4t8_satfdj",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
-      "status": "ok",
-      "started_at": "2026-08-05T03:06:54.044Z",
-      "ended_at": "2026-08-05T03:06:54.044Z",
-      "duration_ms": 103252,
-      "meta": {
-        "probed": 0
-      }
-    },
-    {
-      "id": "run_msfi3gq1_yoaw33",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
-      "status": "ok",
-      "started_at": "2026-08-05T03:01:42.889Z",
-      "ended_at": "2026-08-05T03:01:42.889Z",
-      "duration_ms": 91964,
-      "meta": {
-        "probed": 0
-      }
-    },
-    {
-      "id": "run_msfhxa5j_bkzc2y",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
-      "status": "ok",
-      "started_at": "2026-08-05T02:56:54.439Z",
-      "ended_at": "2026-08-05T02:56:54.439Z",
-      "duration_ms": 103708,
-      "meta": {
-        "probed": 0
-      }
-    },
-    {
-      "id": "run_msfhqmeu_nptaq7",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
-      "status": "ok",
-      "started_at": "2026-08-05T02:51:43.734Z",
-      "ended_at": "2026-08-05T02:51:43.734Z",
-      "duration_ms": 93007,
-      "meta": {
-        "probed": 0
-      }
-    },
-    {
-      "id": "run_msfhkeay_s4c5ig",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
-      "status": "ok",
-      "started_at": "2026-08-05T02:46:53.290Z",
-      "ended_at": "2026-08-05T02:46:53.290Z",
-      "duration_ms": 102387,
-      "meta": {
-        "probed": 0
-      }
-    },
-    {
-      "id": "run_msfbvizr_4cbhvf",
+      "id": "run_mshqg6ox_y9dbmj",
       "title": "tools/call search_active",
       "tool": "search_active",
       "trigger": "mcp",
       "status": "ok",
-      "started_at": "2026-08-05T00:07:34.887Z",
-      "ended_at": "2026-08-05T00:07:34.887Z",
-      "duration_ms": 1004,
-      "usd_estimate": 0.000024361333333333333,
+      "started_at": "2026-08-06T16:31:05.697Z",
+      "ended_at": "2026-08-06T16:31:05.697Z",
+      "duration_ms": 522,
+      "usd_estimate": 0.000012954,
       "meta": {}
     },
     {
-      "id": "run_msfbu55n_mxu0h0",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
-      "status": "ok",
-      "started_at": "2026-08-05T00:06:30.299Z",
-      "ended_at": "2026-08-05T00:06:30.299Z",
-      "duration_ms": 79578,
+      "id": "run_mshqg4gv_a1ls4b",
+      "title": "tools/call bind_identity",
+      "tool": "bind_identity",
+      "trigger": "mcp",
+      "status": "error",
+      "started_at": "2026-08-06T16:31:02.815Z",
+      "ended_at": "2026-08-06T16:31:02.815Z",
+      "duration_ms": 0,
+      "usd_estimate": 6e-7,
+      "error": "public_key_pem, public_jwk, or did required",
       "meta": {
-        "probed": 0
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
       }
     },
     {
-      "id": "run_msfbp6l3_pppmrm",
-      "title": "probe_tick",
-      "tool": "probe_tick",
-      "trigger": "cron",
+      "id": "run_mshqg2q9_ooswif",
+      "title": "tools/call get_acceleration",
+      "tool": "get_acceleration",
+      "trigger": "mcp",
       "status": "ok",
-      "started_at": "2026-08-05T00:02:38.871Z",
-      "ended_at": "2026-08-05T00:02:38.871Z",
-      "duration_ms": 95240,
-      "meta": {
-        "probed": 0
-      }
-    },
-    {
-      "id": "run_msfbnk4j_0z0chu",
-      "title": "growth_scout",
-      "tool": "growth_scout",
-      "trigger": "cron",
-      "status": "ok",
-      "started_at": "2026-08-05T00:01:23.106Z",
-      "ended_at": "2026-08-05T00:01:23.106Z",
-      "duration_ms": 882,
-      "usd_estimate": 0,
-      "meta": {
-        "invites_sent": 0,
-        "skipped": 5,
-        "budget_remaining_usd": 25,
-        "month_usd": 0,
-        "live_pool": 0,
-        "used_llm": false,
-        "allowlist": []
-      }
+      "started_at": "2026-08-06T16:31:00.561Z",
+      "ended_at": "2026-08-06T16:31:00.561Z",
+      "duration_ms": 3,
+      "usd_estimate": 6.887777777777778e-7,
+      "meta": {}
     }
   ],
   "totals": {
-    "n": 13,
-    "ok": 13,
-    "error": 0,
+    "n": 10,
+    "ok": 9,
+    "error": 1,
     "skipped": 0,
-    "duration_ms": 949632,
+    "duration_ms": 4576,
     "token_usage": 0
   },
-  "updated_at": "2026-08-05T17:08:16.753Z"
+  "updated_at": "2026-08-06T16:31:24.520Z"
 }
