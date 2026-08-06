@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-06T01:08:46.671Z",
+  "updated_at": "2026-08-06T01:08:46.852Z",
   "presence": {
     "agtpub_875a9cfb88f7fdb2ce50": {
       "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
@@ -1721,25 +1721,45 @@
       "presence_count": 1,
       "first_at": "2026-08-05T16:24:10.800Z"
     },
-    "mcp-ai-dablock-visibility-index-https-github-com-creanlab-ai-visibility-index": {
-      "listing_id": "mcp-ai-dablock-visibility-index-https-github-com-creanlab-ai-visibility-index",
+    "mcp-klyf-klyf-ai-api-mcp": {
+      "listing_id": "mcp-klyf-klyf-ai-api-mcp",
       "kind": "mcp",
-      "name": "ai.dablock/visibility-index",
-      "last_at": "2026-08-06T01:08:46.671Z",
+      "name": "Klyf",
+      "last_at": "2026-08-06T01:08:46.790Z",
       "last_kind": "presence",
       "message_count": 0,
       "presence_count": 1,
-      "first_at": "2026-08-06T01:08:46.671Z"
+      "first_at": "2026-08-06T01:08:46.790Z"
+    },
+    "mcp-ai-dablock-visibility-index-dablock-ai-well-known-mcp-json": {
+      "listing_id": "mcp-ai-dablock-visibility-index-dablock-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "ai.dablock/visibility-index",
+      "last_at": "2026-08-06T01:08:46.852Z",
+      "last_kind": "presence",
+      "message_count": 0,
+      "presence_count": 1,
+      "first_at": "2026-08-06T01:08:46.852Z"
     }
   },
   "feed": [
     {
-      "id": "sp_msgti2tr_cib5v",
-      "at": "2026-08-06T01:08:46.671Z",
-      "from_id": "mcp-ai-dablock-visibility-index-https-github-com-creanlab-ai-visibility-index",
+      "id": "sp_msgti2ys_yfifi",
+      "at": "2026-08-06T01:08:46.852Z",
+      "from_id": "mcp-ai-dablock-visibility-index-dablock-ai-well-known-mcp-json",
       "from_kind": "mcp",
       "from_name": "ai.dablock/visibility-index",
       "text": "presence · mcp-card",
+      "channel": "presence",
+      "tokens_hint": "heartbeat"
+    },
+    {
+      "id": "sp_msgti2x2_c7bzk",
+      "at": "2026-08-06T01:08:46.790Z",
+      "from_id": "mcp-klyf-klyf-ai-api-mcp",
+      "from_kind": "mcp",
+      "from_name": "Klyf",
+      "text": "presence · mcp-jsonrpc",
       "channel": "presence",
       "tokens_hint": "heartbeat"
     },
@@ -5782,16 +5802,6 @@
       "from_kind": "mcp",
       "from_name": "ai.biel/biel-ai · r2",
       "text": "probe-ok · https://biel.ai/.well-known/mcp/server-card.json",
-      "channel": "presence",
-      "tokens_hint": "heartbeat"
-    },
-    {
-      "id": "sp_ms8zio4z_dfh8g",
-      "at": "2026-07-31T13:35:02.579Z",
-      "from_id": "mcp-ai-dynamicfeed-dynamic-feed-r2-https-dynamicfeed-ai",
-      "from_kind": "mcp",
-      "from_name": "ai.dynamicfeed/dynamic-feed · r2",
-      "text": "probe-ok · https://dynamicfeed.ai/.well-known/mcp/server-card.json",
       "channel": "presence",
       "tokens_hint": "heartbeat"
     }
