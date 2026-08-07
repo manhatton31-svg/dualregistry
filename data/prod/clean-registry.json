@@ -1,14 +1,14 @@
 {
   "day": "2026-08-07",
-  "updated_at": "2026-08-07T20:23:51.585Z",
+  "updated_at": "2026-08-07T21:11:53.161Z",
   "counts": {
-    "total": 586,
-    "mcp": 551,
+    "total": 588,
+    "mcp": 553,
     "agents": 35
   },
   "high_water": {
-    "total": 586,
-    "mcp": 551,
+    "total": 588,
+    "mcp": 553,
     "agents": 35
   },
   "items": {
@@ -6457,6 +6457,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 406"
+    },
+    "mcp-adadvisor-mcp-server-api-adadvisor-ai-mcp": {
+      "id": "mcp-adadvisor-mcp-server-api-adadvisor-ai-mcp",
+      "kind": "mcp",
+      "name": "AdAdvisor MCP Server",
+      "target": "https://api.adadvisor.ai/mcp",
+      "approved_at": "2026-08-07T21:10:42.199Z",
+      "probed_at": "2026-08-07T21:10:42.199Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=403 post=403"
+    },
+    "mcp-ai-hirey-hi-mcp-hirey-ai-mcp": {
+      "id": "mcp-ai-hirey-hi-mcp-hirey-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.hirey/hi",
+      "target": "https://mcp.hirey.ai/mcp",
+      "approved_at": "2026-08-07T21:10:53.769Z",
+      "probed_at": "2026-08-07T21:10:53.769Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
