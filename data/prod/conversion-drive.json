@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-07T17:12:08.953Z",
+  "updated_at": "2026-08-07T18:06:25.082Z",
   "day": "2026-08-07",
-  "day_invites": 5,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5806,6 +5806,16 @@
       "target": "https://etincel.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-ai-aivonic-mcp-mcp-aivonic-ai": {
+      "at": "2026-08-07T18:06:23.635Z",
+      "name": "ai.aivonic/mcp",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 404,
+      "target": "https://mcp.aivonic.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -8329,22 +8339,26 @@
     "mcp-ai-etincel-etincel-nonfiction-etincel-ai-api-mcp": {
       "at": "2026-08-07T16:06:20.224Z",
       "ok": true
+    },
+    "mcp-ai-aivonic-mcp-mcp-aivonic-ai": {
+      "at": "2026-08-07T18:06:23.635Z",
+      "ok": true
     }
   },
   "totals": {
-    "invites": 583,
+    "invites": 584,
     "invite_http_ok": 553,
     "nags": 334,
     "nag_http_ok": 321,
-    "talk_inbox": 555,
+    "talk_inbox": 556,
     "social": 38,
-    "runs": 59
+    "runs": 60
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 5/120)",
-    "feedback nags queued 0 (day 60/60)",
-    "social post → ok"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
+    "invite mcp ai.aivonic/mcp → http 404 talk ok https://mcp.aivonic.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-07T17:12:08.953Z",
+  "last_run_at": "2026-08-07T18:06:25.082Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
