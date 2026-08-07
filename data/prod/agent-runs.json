@@ -2,6 +2,149 @@
   "day": "2026-08-07",
   "runs": [
     {
+      "id": "run_msijc7e5_fbidlo",
+      "title": "tools/call get_acceleration",
+      "tool": "get_acceleration",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:59:48.845Z",
+      "ended_at": "2026-08-07T05:59:48.845Z",
+      "duration_ms": 2,
+      "usd_estimate": 6.473333333333333e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_msij5v0u_yf2833",
+      "title": "tools/call join_and_contribute",
+      "tool": "join_and_contribute",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:54:52.878Z",
+      "ended_at": "2026-08-07T05:54:52.878Z",
+      "duration_ms": 19,
+      "usd_estimate": 0.0000010674444444444445,
+      "meta": {
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
+      }
+    },
+    {
+      "id": "run_msij5ug1_h8of3u",
+      "title": "tools/call attractor_targets",
+      "tool": "attractor_targets",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:54:52.129Z",
+      "ended_at": "2026-08-07T05:54:52.129Z",
+      "duration_ms": 3342,
+      "usd_estimate": 0.000079694,
+      "meta": {}
+    },
+    {
+      "id": "run_msij5rd2_lmhswg",
+      "title": "tools/call sense_traces",
+      "tool": "sense_traces",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:54:48.134Z",
+      "ended_at": "2026-08-07T05:54:48.134Z",
+      "duration_ms": 6,
+      "usd_estimate": 7.42e-7,
+      "meta": {
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
+      }
+    },
+    {
+      "id": "run_msij5qt9_3j3pg2",
+      "title": "tools/call list_collab_market",
+      "tool": "list_collab_market",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:54:47.421Z",
+      "ended_at": "2026-08-07T05:54:47.421Z",
+      "duration_ms": 120,
+      "usd_estimate": 0.00000344,
+      "meta": {}
+    },
+    {
+      "id": "run_msij5q7b_leuddp",
+      "title": "tools/call list_collab_sessions",
+      "tool": "list_collab_sessions",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:54:46.631Z",
+      "ended_at": "2026-08-07T05:54:46.631Z",
+      "duration_ms": 130,
+      "usd_estimate": 0.0000036766666666666665,
+      "meta": {}
+    },
+    {
+      "id": "run_msij5pjl_kos9gm",
+      "title": "tools/call collab_access_status",
+      "tool": "collab_access_status",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:54:45.777Z",
+      "ended_at": "2026-08-07T05:54:45.777Z",
+      "duration_ms": 0,
+      "usd_estimate": 6e-7,
+      "meta": {
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
+      }
+    },
+    {
+      "id": "run_msij5owv_rbniig",
+      "title": "tools/call list_event_pricing",
+      "tool": "list_event_pricing",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:54:44.959Z",
+      "ended_at": "2026-08-07T05:54:44.959Z",
+      "duration_ms": 1,
+      "usd_estimate": 6.414444444444444e-7,
+      "meta": {}
+    },
+    {
+      "id": "run_msij5occ_ypo8ne",
+      "title": "tools/call check_status",
+      "tool": "check_status",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:54:44.220Z",
+      "ended_at": "2026-08-07T05:54:44.220Z",
+      "duration_ms": 327,
+      "usd_estimate": 0.000008356777777777777,
+      "meta": {
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
+      }
+    },
+    {
+      "id": "run_msij5nk7_6wn1fb",
+      "title": "tools/call search_active",
+      "tool": "search_active",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-07T05:54:43.207Z",
+      "ended_at": "2026-08-07T05:54:43.207Z",
+      "duration_ms": 495,
+      "usd_estimate": 0.000012332777777777779,
+      "meta": {}
+    },
+    {
+      "id": "run_msij5mcr_7oggzf",
+      "title": "tools/call bind_identity",
+      "tool": "bind_identity",
+      "trigger": "mcp",
+      "status": "error",
+      "started_at": "2026-08-07T05:54:41.643Z",
+      "ended_at": "2026-08-07T05:54:41.643Z",
+      "duration_ms": 0,
+      "usd_estimate": 6e-7,
+      "error": "public_key_pem, public_jwk, or did required",
+      "meta": {
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
+      }
+    },
+    {
       "id": "run_msij5lpj_ld9wr3",
       "title": "tools/call get_acceleration",
       "tool": "get_acceleration",
@@ -170,12 +313,12 @@
     }
   ],
   "totals": {
-    "n": 13,
-    "ok": 12,
-    "error": 1,
+    "n": 24,
+    "ok": 22,
+    "error": 2,
     "skipped": 0,
-    "duration_ms": 6393,
+    "duration_ms": 10835,
     "token_usage": 0
   },
-  "updated_at": "2026-08-07T05:54:41.052Z"
+  "updated_at": "2026-08-07T05:59:49.038Z"
 }
