@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-07T08:19:44.814Z",
+  "updated_at": "2026-08-07T09:28:07.656Z",
   "day": "2026-08-07",
-  "day_invites": 3,
+  "day_invites": 4,
   "day_nags": 50,
-  "day_talk": 3,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5786,6 +5786,16 @@
       "target": "https://myplot.ai/.well-known/mcp.json",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-autoposting-docs-autoposting-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-07T09:28:03.455Z",
+      "name": "Autoposting",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://docs.autoposting.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -8291,7 +8301,7 @@
       "ok": true
     },
     "social:2026-08-07": {
-      "at": "2026-08-07T06:51:22.477Z",
+      "at": "2026-08-07T09:28:07.656Z",
       "ok": true
     },
     "mcp-cactal-api-cactal-ai-v1-mcp": {
@@ -8301,21 +8311,27 @@
     "mcp-myplot-ai-property-intelligence-myplot-ai-well-known-mcp-json": {
       "at": "2026-08-07T05:25:29.521Z",
       "ok": true
+    },
+    "mcp-autoposting-docs-autoposting-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-07T09:28:03.455Z",
+      "ok": true
     }
   },
   "totals": {
-    "invites": 581,
-    "invite_http_ok": 551,
+    "invites": 582,
+    "invite_http_ok": 552,
     "nags": 324,
     "nag_http_ok": 312,
-    "talk_inbox": 553,
-    "social": 34,
-    "runs": 51
+    "talk_inbox": 554,
+    "social": 35,
+    "runs": 52
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 3/120)",
-    "feedback nags queued 0 (day 50/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 3/120)",
+    "invite mcp Autoposting → http 405 talk ok https://docs.autoposting.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 50/60)",
+    "social post → ok"
   ],
-  "last_run_at": "2026-08-07T08:19:44.814Z",
+  "last_run_at": "2026-08-07T09:28:07.656Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
