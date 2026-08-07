@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-07T15:03:58.046Z",
+  "updated_at": "2026-08-07T16:06:21.271Z",
   "day": "2026-08-07",
-  "day_invites": 4,
+  "day_invites": 5,
   "day_nags": 60,
-  "day_talk": 4,
+  "day_talk": 5,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5796,6 +5796,16 @@
       "target": "https://docs.autoposting.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-ai-etincel-etincel-nonfiction-etincel-ai-api-mcp": {
+      "at": "2026-08-07T16:06:20.224Z",
+      "name": "ai.etincel/etincel-nonfiction",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://etincel.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -8315,22 +8325,26 @@
     "mcp-autoposting-docs-autoposting-ai-well-known-mcp-server-card-json": {
       "at": "2026-08-07T09:28:03.455Z",
       "ok": true
+    },
+    "mcp-ai-etincel-etincel-nonfiction-etincel-ai-api-mcp": {
+      "at": "2026-08-07T16:06:20.224Z",
+      "ok": true
     }
   },
   "totals": {
-    "invites": 582,
-    "invite_http_ok": 552,
+    "invites": 583,
+    "invite_http_ok": 553,
     "nags": 334,
     "nag_http_ok": 321,
-    "talk_inbox": 554,
+    "talk_inbox": 555,
     "social": 37,
-    "runs": 57
+    "runs": 58
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 4/120)",
-    "feedback nags queued 0 (day 60/60)",
-    "social post → ok"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 4/120)",
+    "invite mcp ai.etincel/etincel-nonfiction → http 401 talk ok https://etincel.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-07T15:03:58.046Z",
+  "last_run_at": "2026-08-07T16:06:21.271Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
