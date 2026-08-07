@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-07T21:03:24.383Z",
+  "updated_at": "2026-08-07T21:52:16.282Z",
   "day": "2026-08-07",
-  "day_invites": 6,
+  "day_invites": 8,
   "day_nags": 60,
-  "day_talk": 6,
+  "day_talk": 8,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5816,6 +5816,26 @@
       "target": "https://mcp.aivonic.ai/.well-known/mcp/server-card.json",
       "method": "POST:tasks-send",
       "talk_ok": true
+    },
+    "mcp-adadvisor-mcp-server-api-adadvisor-ai-mcp": {
+      "at": "2026-08-07T21:52:07.719Z",
+      "name": "AdAdvisor MCP Server",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.adadvisor.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-hirey-hi-mcp-hirey-ai-mcp": {
+      "at": "2026-08-07T21:52:07.757Z",
+      "name": "ai.hirey/hi",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.hirey.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -8321,7 +8341,7 @@
       "ok": true
     },
     "social:2026-08-07": {
-      "at": "2026-08-07T19:24:41.522Z",
+      "at": "2026-08-07T21:52:16.282Z",
       "ok": true
     },
     "mcp-cactal-api-cactal-ai-v1-mcp": {
@@ -8343,21 +8363,32 @@
     "mcp-ai-aivonic-mcp-mcp-aivonic-ai": {
       "at": "2026-08-07T18:06:23.635Z",
       "ok": true
+    },
+    "mcp-adadvisor-mcp-server-api-adadvisor-ai-mcp": {
+      "at": "2026-08-07T21:52:07.719Z",
+      "ok": false
+    },
+    "mcp-ai-hirey-hi-mcp-hirey-ai-mcp": {
+      "at": "2026-08-07T21:52:07.757Z",
+      "ok": true
     }
   },
   "totals": {
-    "invites": 584,
-    "invite_http_ok": 553,
+    "invites": 586,
+    "invite_http_ok": 555,
     "nags": 334,
     "nag_http_ok": 321,
-    "talk_inbox": 556,
-    "social": 39,
-    "runs": 63
+    "talk_inbox": 558,
+    "social": 40,
+    "runs": 64
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 6/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 6/120)",
+    "invite mcp AdAdvisor MCP Server → http 401 talk — https://api.adadvisor.ai/mcp",
+    "invite mcp ai.hirey/hi → http 401 talk ok https://mcp.hirey.ai/mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → ok"
   ],
-  "last_run_at": "2026-08-07T21:03:24.383Z",
+  "last_run_at": "2026-08-07T21:52:16.282Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
