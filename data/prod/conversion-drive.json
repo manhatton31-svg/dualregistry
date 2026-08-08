@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-08T16:17:17.914Z",
+  "updated_at": "2026-08-08T16:57:17.015Z",
   "day": "2026-08-08",
-  "day_invites": 1,
+  "day_invites": 3,
   "day_nags": 60,
-  "day_talk": 1,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5846,6 +5846,26 @@
       "target": "https://mcp.memoryrouter.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-ai-adoraads-beauty-mcp-adoraads-ai-beauty": {
+      "at": "2026-08-08T16:57:09.758Z",
+      "name": "ai.adoraads/beauty",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://mcp.adoraads.ai/beauty",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-ai-ironscout-ironscout-mcp-ironscout-ai-mcp": {
+      "at": "2026-08-08T16:57:12.962Z",
+      "name": "ai.ironscout/ironscout",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 404,
+      "target": "https://mcp.ironscout.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -8383,27 +8403,38 @@
       "ok": true
     },
     "social:2026-08-08": {
-      "at": "2026-08-08T14:44:12.687Z",
+      "at": "2026-08-08T16:57:17.015Z",
       "ok": true
     },
     "mcp-memoryrouter-mcp-memoryrouter-ai-mcp": {
       "at": "2026-08-08T04:42:46.695Z",
       "ok": true
+    },
+    "mcp-ai-adoraads-beauty-mcp-adoraads-ai-beauty": {
+      "at": "2026-08-08T16:57:09.758Z",
+      "ok": true
+    },
+    "mcp-ai-ironscout-ironscout-mcp-ironscout-ai-mcp": {
+      "at": "2026-08-08T16:57:12.962Z",
+      "ok": true
     }
   },
   "totals": {
-    "invites": 587,
-    "invite_http_ok": 556,
+    "invites": 589,
+    "invite_http_ok": 557,
     "nags": 394,
     "nag_http_ok": 377,
-    "talk_inbox": 559,
-    "social": 47,
-    "runs": 86
+    "talk_inbox": 561,
+    "social": 48,
+    "runs": 87
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 1/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 1/120)",
+    "invite mcp ai.adoraads/beauty → http 400 talk ok https://mcp.adoraads.ai/beauty",
+    "invite mcp ai.ironscout/ironscout → http 404 talk ok https://mcp.ironscout.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → ok"
   ],
-  "last_run_at": "2026-08-08T16:17:17.914Z",
+  "last_run_at": "2026-08-08T16:57:17.015Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
