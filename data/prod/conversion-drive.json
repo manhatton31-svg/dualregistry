@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-08T03:47:14.017Z",
+  "updated_at": "2026-08-08T04:42:50.268Z",
   "day": "2026-08-08",
-  "day_invites": 0,
+  "day_invites": 1,
   "day_nags": 30,
-  "day_talk": 0,
+  "day_talk": 1,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5836,6 +5836,16 @@
       "target": "https://mcp.hirey.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-memoryrouter-mcp-memoryrouter-ai-mcp": {
+      "at": "2026-08-08T04:42:46.695Z",
+      "name": "MemoryRouter",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://mcp.memoryrouter.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -8373,23 +8383,29 @@
       "ok": true
     },
     "social:2026-08-08": {
-      "at": "2026-08-08T02:17:08.260Z",
+      "at": "2026-08-08T04:42:50.268Z",
+      "ok": true
+    },
+    "mcp-memoryrouter-mcp-memoryrouter-ai-mcp": {
+      "at": "2026-08-08T04:42:46.695Z",
       "ok": true
     }
   },
   "totals": {
-    "invites": 586,
-    "invite_http_ok": 555,
+    "invites": 587,
+    "invite_http_ok": 556,
     "nags": 364,
     "nag_http_ok": 349,
-    "talk_inbox": 558,
-    "social": 42,
-    "runs": 69
+    "talk_inbox": 559,
+    "social": 43,
+    "runs": 70
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 0/120)",
-    "feedback nags queued 0 (day 30/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 0/120)",
+    "invite mcp MemoryRouter → http 200 talk ok https://mcp.memoryrouter.ai/mcp",
+    "feedback nags queued 0 (day 30/60)",
+    "social post → ok"
   ],
-  "last_run_at": "2026-08-08T03:47:14.017Z",
+  "last_run_at": "2026-08-08T04:42:50.268Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
