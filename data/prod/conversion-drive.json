@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-08T18:15:12.457Z",
+  "updated_at": "2026-08-08T19:03:35.000Z",
   "day": "2026-08-08",
-  "day_invites": 3,
+  "day_invites": 4,
   "day_nags": 60,
-  "day_talk": 3,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5866,6 +5866,16 @@
       "target": "https://mcp.ironscout.ai/.well-known/mcp/server-card.json",
       "method": "POST:tasks-send",
       "talk_ok": true
+    },
+    "mcp-ai-adplane-google-ads-mcp-adplane-ai": {
+      "at": "2026-08-08T19:03:31.242Z",
+      "name": "ai.adplane/google-ads",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.adplane.ai/",
+      "method": "POST:soft-json",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -8403,7 +8413,7 @@
       "ok": true
     },
     "social:2026-08-08": {
-      "at": "2026-08-08T16:57:17.015Z",
+      "at": "2026-08-08T19:03:35.000Z",
       "ok": true
     },
     "mcp-memoryrouter-mcp-memoryrouter-ai-mcp": {
@@ -8417,21 +8427,27 @@
     "mcp-ai-ironscout-ironscout-mcp-ironscout-ai-mcp": {
       "at": "2026-08-08T16:57:12.962Z",
       "ok": true
+    },
+    "mcp-ai-adplane-google-ads-mcp-adplane-ai": {
+      "at": "2026-08-08T19:03:31.242Z",
+      "ok": true
     }
   },
   "totals": {
-    "invites": 589,
-    "invite_http_ok": 557,
+    "invites": 590,
+    "invite_http_ok": 558,
     "nags": 394,
     "nag_http_ok": 377,
-    "talk_inbox": 561,
-    "social": 48,
-    "runs": 89
+    "talk_inbox": 562,
+    "social": 49,
+    "runs": 90
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 3/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 3/120)",
+    "invite mcp ai.adplane/google-ads → http 401 talk ok https://mcp.adplane.ai/",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → ok"
   ],
-  "last_run_at": "2026-08-08T18:15:12.457Z",
+  "last_run_at": "2026-08-08T19:03:35.000Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
