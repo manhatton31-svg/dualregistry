@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-10T04:16:30.782Z",
+  "updated_at": "2026-08-10T05:49:11.221Z",
   "day": "2026-08-10",
-  "day_invites": 2,
+  "day_invites": 3,
   "day_nags": 30,
-  "day_talk": 2,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5906,6 +5906,16 @@
       "target": "https://gtfi.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-nexez-agentic-commerce-nexez-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-10T05:49:07.000Z",
+      "name": "Nexez Agentic Commerce",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://nexez.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -8471,7 +8481,7 @@
       "ok": false
     },
     "social:2026-08-10": {
-      "at": "2026-08-10T02:27:52.477Z",
+      "at": "2026-08-10T05:49:11.221Z",
       "ok": true
     },
     "mcp-flamel-public-content-flamel-ai-well-known-mcp-server-card-json": {
@@ -8481,33 +8491,27 @@
     "mcp-groundtruth-subsurface-scan-qa-trade-estimating-gtfi-ai-mcp": {
       "at": "2026-08-10T04:16:20.442Z",
       "ok": true
+    },
+    "mcp-nexez-agentic-commerce-nexez-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-10T05:49:07.000Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 593,
-    "invite_http_ok": 561,
+    "invites": 594,
+    "invite_http_ok": 562,
     "nags": 484,
     "nag_http_ok": 461,
-    "talk_inbox": 565,
-    "social": 62,
-    "runs": 127
+    "talk_inbox": 566,
+    "social": 63,
+    "runs": 128
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 0/120)",
-    "invite mcp Flamel Public Content → http 405 talk — https://flamel.ai/.well-known/mcp/server-card.json",
-    "invite mcp GroundTruth — subsurface scan QA & trade e → http 200 talk ok https://gtfi.ai/mcp",
-    "feedback nags queued 10 (day 20/60)",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk ok",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk ok",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk ok",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk ok",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk ok",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk ok",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk ok",
-    "nag invited base-agent-kit → http 405 talk ok",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk ok"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 2/120)",
+    "invite mcp Nexez Agentic Commerce → http 405 talk — https://nexez.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 30/60)",
+    "social post → ok"
   ],
-  "last_run_at": "2026-08-10T04:16:30.781Z",
+  "last_run_at": "2026-08-10T05:49:11.221Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
