@@ -1,7 +1,15 @@
 {
   "version": "1.1.0",
-  "updated_at": "2026-08-08T05:19:07.705Z",
+  "updated_at": "2026-08-10T10:13:32.899Z",
   "history": [
+    {
+      "day": "2026-08-10",
+      "partner_id": "manual_research",
+      "partner_name": "Manual research day",
+      "hirey_likeness": 0,
+      "status": "prepped",
+      "prepped_at": "2026-08-10T10:13:32.899Z"
+    },
     {
       "day": "2026-08-08",
       "partner_id": "mcp-ai-hirey-hi-mcp-hirey-ai-mcp",
@@ -53,101 +61,69 @@
   ],
   "auto_send_to_targets": false,
   "last_prep": {
-    "day": "2026-08-08",
+    "day": "2026-08-10",
     "pick": {
-      "day": "2026-08-08",
+      "day": "2026-08-10",
       "partner": {
-        "id": "mcp-ai-hirey-hi-mcp-hirey-ai-mcp",
-        "name": "hi",
-        "kind": "human_network",
-        "role": "The people network your AI agent joins on your behalf — find, match, and meet anyone.",
-        "listing_id": "mcp-ai-hirey-hi-mcp-hirey-ai-mcp",
-        "engage": "warm_intro_request",
-        "status": "candidate",
-        "notes": "live_candidate reasons=human_intro,human_proxy,matchmaking"
+        "id": "manual_research",
+        "name": "Manual research day",
+        "kind": "dev_community",
+        "role": "No HiRey-class partner cleared the quality gate — operator finds one human network",
+        "engage": "operator_manual",
+        "status": "candidate"
       },
-      "hirey_likeness": 33,
+      "hirey_likeness": 0,
       "traits": [
-        "human_proxy",
-        "intro_graph",
-        "kind_human_network",
-        "engage_warm"
+        "research",
+        "quality_gate"
       ],
-      "why": "Cleared quality gate (score 33 ≥ 14; traits: human_proxy, intro_graph, kind_human_network, engage_warm). One warm first-touch only.",
+      "why": "Quality gate: 6 ranked but none cleared min score 14 + human/marketplace traits. Research day — do not force a weak pick.",
       "action": {
-        "step": "Send ONE warm email/operator note. Offer reciprocity: free list + honest product path. Ask for intros to humans who run agents, not for them to fake survey scores.",
+        "step": "Spend 15 minutes: AI people network, agent marketplace operator, MCP directory maintainer, or ask Rey for peers. Add to CONNECTOR_SEED only when a human inbox exists.",
         "do_not": [
-          "No second email the same day",
-          "No order IDs or access tokens",
-          "No 'first 100 free' reward language",
-          "No asking their agent to POST /api/products/feedback",
-          "No multipath/Talk auto-blast"
+          "Do not cold-blast Active agents",
+          "Do not mint order IDs",
+          "Do not ask bots to POST feedback",
+          "Do not force a weak discovery listing just to hit quota"
         ],
         "draft": {
-          "subject": "Dual Registry × hi — warm intros only",
-          "body": "Partner note for hi (not a survey request).\n\nDual Registry (dualregistry.dev) lists agents & MCPs free, probes them live,\nand ships Kernel Improver / Recursive Loop / MCP Mesh with Network Edition.\n\nWe are not asking you to POST synthetic feedback.\nWe are looking for warm introductions to:\n  • agents/MCPs that can call MCP tools (self-serve free path)\n  • humans who run agents (browser ~5 min)\n\nAGENT handoff (no order IDs, no tokens, no demo ord_*):\n  skill: https://www.dualregistry.dev/skill.json\n  MCP:  https://www.dualregistry.dev/api/mcp\n  first tool: tools/call improve_kernel { agent_name, goals }\n  rates: tools/call list_event_pricing\n  for-agents: https://www.dualregistry.dev/for-agents\n\nHUMAN handoff (one stable link):\n  https://www.dualregistry.dev/products\n\nQuiet policy: one touch, ignore if not relevant.\n— Dual Registry",
-          "demo_link": "https://www.dualregistry.dev/products",
-          "agent_pack": {
-            "version": "1.1.0",
-            "no_demo_order": true,
-            "no_ord_mint": true,
-            "skill": "https://www.dualregistry.dev/skill.json",
-            "install": "https://www.dualregistry.dev/install.json",
-            "mcp": "https://www.dualregistry.dev/api/mcp",
-            "quickstart": "https://www.dualregistry.dev/api/products/quickstart",
-            "for_agents": "https://www.dualregistry.dev/for-agents",
-            "wtp": "https://www.dualregistry.dev/api/products/wtp",
-            "first_tools": [
-              {
-                "name": "list_event_pricing",
-                "args": {},
-                "why": "See free allowances + reciprocity refill policy"
-              },
-              {
-                "name": "improve_kernel",
-                "args": {
-                  "agent_name": "YOUR_NAME",
-                  "goals": "YOUR_GOALS",
-                  "listing_id": "YOUR_LISTING_IF_LIVE"
-                },
-                "why": "Free one-call value — no demo order"
-              },
-              {
-                "name": "deposit_outcome",
-                "args": {
-                  "listing_id": "YOUR_LISTING",
-                  "ok": true,
-                  "quality": 0.8,
-                  "body": "Tried improve_kernel"
-                },
-                "why": "Raises O + refills free kernel/loop"
-              },
-              {
-                "name": "mesh_match",
-                "args": {
-                  "capabilities": "YOUR_CAPS",
-                  "listing_id": "YOUR_LISTING"
-                },
-                "why": "Stigmergy-boosted partners → mesh ladder"
-              }
-            ],
-            "human_path": {
-              "products": "https://www.dualregistry.dev/products",
-              "note": "Operators open browser; agents hand this link to their human"
-            },
-            "reciprocity": {
-              "refill_via": [
-                "leave_feedback",
-                "leave_trace",
-                "endorse",
-                "deposit_outcome"
-              ],
-              "note": "Refills free events — not cash, not forced surveys"
-            }
-          }
+          "subject": "(no draft — research day)",
+          "body": "",
+          "demo_link": "https://www.dualregistry.dev/products"
         }
       },
-      "queue_after": []
+      "queue_after": [
+        {
+          "id": "agent_guild",
+          "name": "Agent Guild",
+          "score": 10
+        },
+        {
+          "id": "not_human_search",
+          "name": "Not Human Search",
+          "score": 9
+        },
+        {
+          "id": "grok_agent_store",
+          "name": "Grok Agent Store",
+          "score": 8
+        },
+        {
+          "id": "official_mcp_registry",
+          "name": "Official MCP Registry",
+          "score": 4
+        },
+        {
+          "id": "shareabot",
+          "name": "Shareabot",
+          "score": 4
+        },
+        {
+          "id": "moltbook",
+          "name": "Moltbook",
+          "score": 2
+        }
+      ]
     },
     "operator_notified": false
   }
