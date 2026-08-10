@@ -2,20 +2,20 @@
   "plan": "pro",
   "rates_version": "2026-07-fluid-pro-iad1-v1",
   "month": "2026-08",
-  "month_usd": 0.2767745978888893,
-  "month_invocations": 751,
-  "month_active_cpu_ms": 4169545,
-  "month_provisioned_gb_hours": 12.083764999999973,
+  "month_usd": 0.2768633318888893,
+  "month_invocations": 752,
+  "month_active_cpu_ms": 4171298,
+  "month_provisioned_gb_hours": 12.086199444444418,
   "month_cache_hits": 0,
   "today": {
     "day": "2026-08-10",
-    "invocations": 26,
-    "active_cpu_ms": 11329,
-    "wall_ms": 26738,
-    "provisioned_gb_hours": 0.014854444444444444,
+    "invocations": 27,
+    "active_cpu_ms": 13082,
+    "wall_ms": 31120,
+    "provisioned_gb_hours": 0.01728888888888889,
     "response_bytes": 0,
     "cache_hits": 0,
-    "cache_misses": 26,
+    "cache_misses": 27,
     "skipped_cadence": 0,
     "by_class": {
       "agent_tool": {
@@ -25,10 +25,10 @@
         "usd": 0.00015994755555555554
       },
       "api_read": {
-        "n": 6,
-        "wall_ms": 20439,
-        "active_cpu_ms": 8176,
-        "usd": 0.0004146652222222223
+        "n": 7,
+        "wall_ms": 24821,
+        "active_cpu_ms": 9929,
+        "usd": 0.0005033992222222223
       },
       "discovery": {
         "n": 2,
@@ -38,18 +38,30 @@
       }
     },
     "usd": {
-      "active_cpu_hours": 0.0031469444444444444,
-      "provisioned_gb_hours": 0.014854444444444444,
-      "invocations": 26,
+      "active_cpu_hours": 0.0036338888888888888,
+      "provisioned_gb_hours": 0.01728888888888889,
+      "invocations": 27,
       "bandwidth_gb": 0,
-      "usd_active_cpu": 0.00040280888888888887,
-      "usd_provisioned_memory": 0.00015745711111111112,
-      "usd_invocations": 0.0000156,
+      "usd_active_cpu": 0.00046513777777777775,
+      "usd_provisioned_memory": 0.0001832622222222222,
+      "usd_invocations": 0.0000162,
       "usd_bandwidth": 0,
-      "usd_total": 0.000575866,
+      "usd_total": 0.0006645999999999999,
       "rates_version": "2026-07-fluid-pro-iad1-v1"
     },
     "events": [
+      {
+        "at": "2026-08-10T23:34:35.911Z",
+        "class": "api_read",
+        "route": "/api/stats",
+        "label": "stats",
+        "wall_ms": 4382,
+        "active_cpu_ms": 1753,
+        "invocations": 1,
+        "usd": 0.000088734,
+        "skipped": false,
+        "vercel_cache": null
+      },
       {
         "at": "2026-08-10T23:18:22.375Z",
         "class": "agent_tool",
@@ -364,9 +376,9 @@
       }
     ]
   },
-  "lifetime_usd": 0.31432023922222246,
-  "lifetime_invocations": 809,
-  "updated_at": "2026-08-10T23:18:22.375Z",
+  "lifetime_usd": 0.31440897322222244,
+  "lifetime_invocations": 810,
+  "updated_at": "2026-08-10T23:34:35.911Z",
   "savings_notes": [
     "Fluid Active CPU: I/O wait during probes is free",
     "Probe de-dupe: Vercel Cron primary; GH Actions commits only when tick fresh or backup",
