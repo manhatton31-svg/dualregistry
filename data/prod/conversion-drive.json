@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-10T22:09:58.173Z",
+  "updated_at": "2026-08-10T22:59:43.700Z",
   "day": "2026-08-10",
-  "day_invites": 3,
+  "day_invites": 4,
   "day_nags": 60,
-  "day_talk": 3,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5916,6 +5916,16 @@
       "target": "https://nexez.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-intangible-mcp-intangible-ai-mcp": {
+      "at": "2026-08-10T22:59:42.693Z",
+      "name": "Intangible",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.intangible.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -8495,21 +8505,26 @@
     "mcp-nexez-agentic-commerce-nexez-ai-well-known-mcp-server-card-json": {
       "at": "2026-08-10T05:49:07.000Z",
       "ok": false
+    },
+    "mcp-intangible-mcp-intangible-ai-mcp": {
+      "at": "2026-08-10T22:59:42.693Z",
+      "ok": true
     }
   },
   "totals": {
-    "invites": 594,
-    "invite_http_ok": 562,
+    "invites": 595,
+    "invite_http_ok": 563,
     "nags": 514,
     "nag_http_ok": 489,
-    "talk_inbox": 566,
+    "talk_inbox": 567,
     "social": 69,
-    "runs": 143
+    "runs": 144
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 3/120)",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 3/120)",
+    "invite mcp Intangible → http 401 talk ok https://mcp.intangible.ai/mcp",
     "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-10T22:09:58.173Z",
+  "last_run_at": "2026-08-10T22:59:43.700Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
