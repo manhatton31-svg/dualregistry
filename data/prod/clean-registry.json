@@ -1,14 +1,14 @@
 {
   "day": "2026-08-10",
-  "updated_at": "2026-08-10T01:49:32.514Z",
+  "updated_at": "2026-08-10T03:56:25.404Z",
   "counts": {
-    "total": 593,
-    "mcp": 558,
+    "total": 595,
+    "mcp": 560,
     "agents": 35
   },
   "high_water": {
-    "total": 593,
-    "mcp": 558,
+    "total": 595,
+    "mcp": 560,
     "agents": 35
   },
   "items": {
@@ -6534,6 +6534,28 @@
       "score": 28,
       "handshake": "ok",
       "hold_reason": "grower live-mcp-gate get=401 post=401"
+    },
+    "mcp-flamel-public-content-flamel-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-flamel-public-content-flamel-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Flamel Public Content",
+      "target": "https://flamel.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-08-10T03:55:19.923Z",
+      "probed_at": "2026-08-10T03:55:19.923Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-groundtruth-subsurface-scan-qa-trade-estimating-gtfi-ai-mcp": {
+      "id": "mcp-groundtruth-subsurface-scan-qa-trade-estimating-gtfi-ai-mcp",
+      "kind": "mcp",
+      "name": "GroundTruth — subsurface scan QA & trade estimating",
+      "target": "https://gtfi.ai/mcp",
+      "approved_at": "2026-08-10T03:55:31.143Z",
+      "probed_at": "2026-08-10T03:55:31.143Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
