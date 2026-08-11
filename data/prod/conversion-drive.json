@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-11T21:25:46.167Z",
+  "updated_at": "2026-08-11T22:22:01.381Z",
   "day": "2026-08-11",
-  "day_invites": 1,
+  "day_invites": 4,
   "day_nags": 60,
-  "day_talk": 1,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5936,6 +5936,36 @@
       "target": "https://hypernatural.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-hypernatural-api-hypernatural-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-11T22:21:51.452Z",
+      "name": "Hypernatural",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://api.hypernatural.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": true
+    },
+    "mcp-hypernatural-hypernatural-ai-mcp": {
+      "at": "2026-08-11T22:21:51.995Z",
+      "name": "Hypernatural",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://hypernatural.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-marketcrew-market-data-marketcrew-ai-mcp": {
+      "at": "2026-08-11T22:21:52.139Z",
+      "name": "ai.marketcrew/market-data",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://marketcrew.ai/",
+      "method": "POST:soft-json",
+      "talk_ok": true
     }
   },
   "nagged": {
@@ -8525,23 +8555,39 @@
       "ok": true
     },
     "social:2026-08-11": {
-      "at": "2026-08-11T19:49:47.344Z",
+      "at": "2026-08-11T22:22:01.381Z",
+      "ok": true
+    },
+    "mcp-hypernatural-api-hypernatural-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-11T22:21:51.452Z",
+      "ok": true
+    },
+    "mcp-hypernatural-hypernatural-ai-mcp": {
+      "at": "2026-08-11T22:21:51.995Z",
+      "ok": false
+    },
+    "mcp-ai-marketcrew-market-data-marketcrew-ai-mcp": {
+      "at": "2026-08-11T22:21:52.139Z",
       "ok": true
     }
   },
   "totals": {
-    "invites": 596,
-    "invite_http_ok": 564,
+    "invites": 599,
+    "invite_http_ok": 567,
     "nags": 574,
     "nag_http_ok": 545,
-    "talk_inbox": 568,
-    "social": 79,
-    "runs": 164
+    "talk_inbox": 571,
+    "social": 80,
+    "runs": 165
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 1/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 1/120)",
+    "invite mcp Hypernatural → http 405 talk ok https://api.hypernatural.ai/.well-known/mcp/server-card.json",
+    "invite mcp Hypernatural → http 405 talk — https://hypernatural.ai/mcp",
+    "invite mcp ai.marketcrew/market-data → http 405 talk ok https://marketcrew.ai/",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → ok"
   ],
-  "last_run_at": "2026-08-11T21:25:46.167Z",
+  "last_run_at": "2026-08-11T22:22:01.381Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
