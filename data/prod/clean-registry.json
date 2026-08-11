@@ -1,14 +1,14 @@
 {
   "day": "2026-08-11",
-  "updated_at": "2026-08-11T20:44:06.583Z",
+  "updated_at": "2026-08-11T21:31:04.480Z",
   "counts": {
-    "total": 598,
-    "mcp": 563,
+    "total": 601,
+    "mcp": 566,
     "agents": 35
   },
   "high_water": {
-    "total": 598,
-    "mcp": 563,
+    "total": 601,
+    "mcp": 566,
     "agents": 35
   },
   "items": {
@@ -6589,6 +6589,39 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-ai-marketcrew-market-data-marketcrew-ai-mcp": {
+      "id": "mcp-ai-marketcrew-market-data-marketcrew-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.marketcrew/market-data",
+      "target": "https://marketcrew.ai/mcp",
+      "approved_at": "2026-08-11T21:30:07.993Z",
+      "probed_at": "2026-08-11T21:30:07.993Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 406"
+    },
+    "mcp-hypernatural-api-hypernatural-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-hypernatural-api-hypernatural-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Hypernatural",
+      "target": "https://api.hypernatural.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-08-11T21:30:21.406Z",
+      "probed_at": "2026-08-11T21:30:21.406Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-hypernatural-hypernatural-ai-mcp": {
+      "id": "mcp-hypernatural-hypernatural-ai-mcp",
+      "kind": "mcp",
+      "name": "Hypernatural",
+      "target": "https://hypernatural.ai/mcp",
+      "approved_at": "2026-08-11T21:30:21.609Z",
+      "probed_at": "2026-08-11T21:30:21.609Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=200 post=405"
     }
   },
   "policy": {
