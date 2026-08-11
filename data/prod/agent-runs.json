@@ -2,6 +2,111 @@
   "day": "2026-08-11",
   "runs": [
     {
+      "id": "run_msp88rq2_r1inj8",
+      "title": "tools/call list_collab_market",
+      "tool": "list_collab_market",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-11T22:23:36.026Z",
+      "ended_at": "2026-08-11T22:23:36.026Z",
+      "duration_ms": 127,
+      "usd_estimate": 0.0000036234444444444447,
+      "meta": {}
+    },
+    {
+      "id": "run_msp88ptp_qsnvh3",
+      "title": "tools/call list_collab_sessions",
+      "tool": "list_collab_sessions",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-11T22:23:33.565Z",
+      "ended_at": "2026-08-11T22:23:33.565Z",
+      "duration_ms": 156,
+      "usd_estimate": 0.000004292000000000001,
+      "meta": {}
+    },
+    {
+      "id": "run_msp88odn_ars3vx",
+      "title": "tools/call collab_access_status",
+      "tool": "collab_access_status",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-11T22:23:31.691Z",
+      "ended_at": "2026-08-11T22:23:31.691Z",
+      "duration_ms": 3,
+      "usd_estimate": 6.887777777777778e-7,
+      "meta": {
+        "listing_id": "agent-agoragentic-agoragentic-com-well-known-agent-json"
+      }
+    },
+    {
+      "id": "run_msp88mia_78mi0q",
+      "title": "tools/call check_status",
+      "tool": "check_status",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-11T22:23:29.266Z",
+      "ended_at": "2026-08-11T22:23:29.266Z",
+      "duration_ms": 373,
+      "usd_estimate": 0.000009445444444444443,
+      "meta": {
+        "listing_id": "agent-agoragentic-agoragentic-com-well-known-agent-json"
+      }
+    },
+    {
+      "id": "run_msp88kod_yoy9hw",
+      "title": "tools/call bind_identity",
+      "tool": "bind_identity",
+      "trigger": "mcp",
+      "status": "error",
+      "started_at": "2026-08-11T22:23:26.893Z",
+      "ended_at": "2026-08-11T22:23:26.893Z",
+      "duration_ms": 1,
+      "usd_estimate": 6.414444444444444e-7,
+      "error": "public_key_pem, public_jwk, or did required",
+      "meta": {
+        "listing_id": "mcp-ai-gossiper-shopify-admin-mcp-r1-https-mcp-gossiper-io-mcp"
+      }
+    },
+    {
+      "id": "run_msp88idx_l3czsa",
+      "title": "tools/call get_acceleration",
+      "tool": "get_acceleration",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-11T22:23:23.925Z",
+      "ended_at": "2026-08-11T22:23:23.925Z",
+      "duration_ms": 28,
+      "usd_estimate": 0.0000012626666666666666,
+      "meta": {}
+    },
+    {
+      "id": "run_msp88g8e_8yneya",
+      "title": "tools/call check_liveness",
+      "tool": "check_liveness",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-11T22:23:21.134Z",
+      "ended_at": "2026-08-11T22:23:21.134Z",
+      "duration_ms": 212,
+      "usd_estimate": 0.000005617333333333334,
+      "meta": {
+        "listing_id": "agent-agoragentic-agoragentic-com-well-known-agent-json"
+      }
+    },
+    {
+      "id": "run_msp88bay_1arlp8",
+      "title": "tools/call search_active",
+      "tool": "search_active",
+      "trigger": "mcp",
+      "status": "ok",
+      "started_at": "2026-08-11T22:23:14.746Z",
+      "ended_at": "2026-08-11T22:23:14.746Z",
+      "duration_ms": 643,
+      "usd_estimate": 0.000015835444444444447,
+      "meta": {}
+    },
+    {
       "id": "run_msoqij7f_7qxewx",
       "title": "tools/call search_active",
       "tool": "search_active",
@@ -27,12 +132,12 @@
     }
   ],
   "totals": {
-    "n": 2,
-    "ok": 2,
-    "error": 0,
+    "n": 10,
+    "ok": 9,
+    "error": 1,
     "skipped": 0,
-    "duration_ms": 3183,
+    "duration_ms": 4726,
     "token_usage": 0
   },
-  "updated_at": "2026-08-11T14:07:18.796Z"
+  "updated_at": "2026-08-11T22:23:36.214Z"
 }
