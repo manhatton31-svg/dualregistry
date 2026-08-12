@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-12T14:01:42.129Z",
+  "updated_at": "2026-08-12T15:08:47.799Z",
   "day": "2026-08-12",
-  "day_invites": 6,
+  "day_invites": 7,
   "day_nags": 60,
-  "day_talk": 6,
+  "day_talk": 7,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6026,6 +6026,16 @@
       "target": "https://framethrower.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-naumu-naumu-ai-api-mcp": {
+      "at": "2026-08-12T15:08:47.507Z",
+      "name": "Naumu",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://naumu.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -8657,23 +8667,26 @@
     "mcp-framethrower-framethrower-ai-api-mcp": {
       "at": "2026-08-12T14:01:41.999Z",
       "ok": false
+    },
+    "mcp-naumu-naumu-ai-api-mcp": {
+      "at": "2026-08-12T15:08:47.507Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 605,
-    "invite_http_ok": 573,
+    "invites": 606,
+    "invite_http_ok": 574,
     "nags": 634,
     "nag_http_ok": 601,
-    "talk_inbox": 577,
+    "talk_inbox": 578,
     "social": 81,
-    "runs": 176
+    "runs": 177
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
-    "invite mcp FrameThrower → http 401 talk — https://framethrower.ai/api/mcp",
-    "feedback nags queued 0 (day 60/60)",
-    "social post → 405"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 6/120)",
+    "invite mcp Naumu → http 401 talk — https://naumu.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-12T14:01:42.129Z",
+  "last_run_at": "2026-08-12T15:08:47.799Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
