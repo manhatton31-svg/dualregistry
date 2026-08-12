@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-12T12:29:35.833Z",
+  "updated_at": "2026-08-12T14:01:42.129Z",
   "day": "2026-08-12",
-  "day_invites": 5,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6016,6 +6016,16 @@
       "target": "https://verify.noevant.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-framethrower-framethrower-ai-api-mcp": {
+      "at": "2026-08-12T14:01:41.999Z",
+      "name": "FrameThrower",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://framethrower.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -8621,7 +8631,7 @@
       "ok": true
     },
     "social:2026-08-12": {
-      "at": "2026-08-12T11:34:48.757Z",
+      "at": "2026-08-12T14:01:42.129Z",
       "ok": false
     },
     "mcp-dual-registry-mcp-www-dualregistry-dev-api-mcp": {
@@ -8643,21 +8653,27 @@
     "mcp-fidenta-verify-verify-noevant-ai-mcp": {
       "at": "2026-08-12T06:22:11.015Z",
       "ok": false
+    },
+    "mcp-framethrower-framethrower-ai-api-mcp": {
+      "at": "2026-08-12T14:01:41.999Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 604,
-    "invite_http_ok": 572,
+    "invites": 605,
+    "invite_http_ok": 573,
     "nags": 634,
     "nag_http_ok": 601,
-    "talk_inbox": 576,
+    "talk_inbox": 577,
     "social": 81,
-    "runs": 175
+    "runs": 176
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 5/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
+    "invite mcp FrameThrower → http 401 talk — https://framethrower.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → 405"
   ],
-  "last_run_at": "2026-08-12T12:29:35.833Z",
+  "last_run_at": "2026-08-12T14:01:42.129Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
