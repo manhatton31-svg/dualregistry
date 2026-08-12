@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-12T00:09:46.462Z",
+  "updated_at": "2026-08-12T03:00:07.351Z",
   "day": "2026-08-12",
-  "day_invites": 0,
-  "day_nags": 20,
-  "day_talk": 0,
+  "day_invites": 3,
+  "day_nags": 30,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5966,6 +5966,36 @@
       "target": "https://marketcrew.ai/",
       "method": "POST:soft-json",
       "talk_ok": true
+    },
+    "mcp-dual-registry-mcp-www-dualregistry-dev-api-mcp": {
+      "at": "2026-08-12T03:00:02.690Z",
+      "name": "Dual Registry MCP",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://www.dualregistry.dev/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "agent-agoragentic-agoragentic-com-well-known-agent-json": {
+      "at": "2026-08-12T03:00:03.386Z",
+      "name": "Agoragentic",
+      "kind": "agent",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://agoragentic.com/.well-known/agent.json",
+      "method": "GET",
+      "talk_ok": false
+    },
+    "mcp-diagramzu-mcp-diagramzu-ai-mcp": {
+      "at": "2026-08-12T03:00:03.451Z",
+      "name": "DiagramZu",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.diagramzu.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -5988,11 +6018,11 @@
       "target": "https://iturri.ai/mcp"
     },
     "ord_msc74jic_075fd308": {
-      "at": "2026-08-11T09:12:15.835Z",
+      "at": "2026-08-12T03:00:05.011Z",
       "listing_id": "agent-law-ai-https-mcp-law-ai",
       "origin": "self_serve",
       "http_ok": true,
-      "talk_ok": true,
+      "talk_ok": false,
       "status": 400,
       "target": "https://mcp.law.ai/.well-known/agent.json"
     },
@@ -6096,11 +6126,11 @@
       "target": "https://maguyva.ai/.well-known/mcp.json"
     },
     "ord_ms8zkmng_3acbbf20": {
-      "at": "2026-08-11T09:12:08.529Z",
+      "at": "2026-08-12T03:00:04.396Z",
       "listing_id": "mcp-ai-biel-biel-ai-r2-https-github-com-techdocsstudio-biel-mcp",
       "origin": "invited",
       "http_ok": true,
-      "talk_ok": true,
+      "talk_ok": false,
       "status": 200,
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
@@ -6114,11 +6144,11 @@
       "target": "https://lumify.ai/mcp"
     },
     "ord_ms8zkdle_6b69d0a8": {
-      "at": "2026-08-11T09:12:12.049Z",
+      "at": "2026-08-12T03:00:04.330Z",
       "listing_id": "mcp-ai-biel-biel-ai-r1-https-github-com-techdocsstudio-biel-mcp",
       "origin": "invited",
       "http_ok": true,
-      "talk_ok": true,
+      "talk_ok": false,
       "status": 200,
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
@@ -6132,38 +6162,38 @@
       "target": "https://api.odei.ai/.well-known/mcp.json"
     },
     "ord_ms8zkbm4_29731263": {
-      "at": "2026-08-11T09:12:08.801Z",
+      "at": "2026-08-12T03:00:04.205Z",
       "listing_id": "mcp-ai-dynamicfeed-dynamic-feed-r2-https-dynamicfeed-ai",
       "origin": "invited",
       "http_ok": true,
-      "talk_ok": true,
+      "talk_ok": false,
       "status": 405,
       "target": "https://dynamicfeed.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zl0ja_03e894b7": {
-      "at": "2026-08-11T09:12:16.391Z",
+      "at": "2026-08-12T03:00:07.292Z",
       "listing_id": "mcp-ai-oobeprotocol-sap-mcp-sap-mcp-https-github-com-oobe-protocol-sap-mcp",
       "origin": "invited",
       "http_ok": true,
-      "talk_ok": true,
+      "talk_ok": false,
       "status": 200,
       "target": "https://mcp.sap.oobeprotocol.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8yj9zq_bd731a72": {
-      "at": "2026-08-11T09:12:14.168Z",
+      "at": "2026-08-12T03:00:05.074Z",
       "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
       "origin": "invited",
       "http_ok": true,
-      "talk_ok": true,
+      "talk_ok": false,
       "status": 405,
       "target": "https://base-agent-kit-pied.vercel.app/.well-known/agent.json"
     },
     "ord_msco3wyd_5a07626a": {
-      "at": "2026-08-11T09:12:12.993Z",
+      "at": "2026-08-12T03:00:04.789Z",
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
       "origin": "self_serve",
       "http_ok": true,
-      "talk_ok": true,
+      "talk_ok": false,
       "status": 405,
       "target": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json"
     },
@@ -6195,16 +6225,16 @@
       "target": "https://www.maximem.ai/docs/.well-known/mcp/server-card.json"
     },
     "ord_msd7loeo_079e0ec5": {
-      "at": "2026-08-11T09:12:12.078Z",
+      "at": "2026-08-12T03:00:04.650Z",
       "listing_id": "agent-agoragentic-https-agoragentic-com",
       "origin": "self_serve",
       "http_ok": true,
-      "talk_ok": true,
+      "talk_ok": false,
       "status": 200,
       "target": "https://agoragentic.com/.well-known/agent.json"
     },
     "ord_msdilazx_6c753914": {
-      "at": "2026-08-11T09:12:08.802Z",
+      "at": "2026-08-12T03:00:04.330Z",
       "listing_id": null,
       "origin": "self_serve",
       "http_ok": false,
@@ -6231,11 +6261,11 @@
       "target": "https://outlit.ai/.well-known/mcp/server-card.json"
     },
     "ord_msetn81x_9e782ac5": {
-      "at": "2026-08-11T09:12:12.182Z",
+      "at": "2026-08-12T03:00:04.748Z",
       "listing_id": "agent-pictomancer-ai-https-api-pictomancer-ai",
       "origin": "self_serve",
       "http_ok": true,
-      "talk_ok": true,
+      "talk_ok": false,
       "status": 405,
       "target": "https://api.pictomancer.ai/.well-known/agent-card.json"
     },
@@ -8571,44 +8601,49 @@
       "ok": true
     },
     "social:2026-08-12": {
-      "at": "2026-08-12T00:09:46.462Z",
-      "ok": true
+      "at": "2026-08-12T03:00:07.351Z",
+      "ok": false
+    },
+    "mcp-dual-registry-mcp-www-dualregistry-dev-api-mcp": {
+      "at": "2026-08-12T03:00:02.690Z",
+      "ok": false
+    },
+    "agent-agoragentic-agoragentic-com-well-known-agent-json": {
+      "at": "2026-08-12T03:00:03.386Z",
+      "ok": false
+    },
+    "mcp-diagramzu-mcp-diagramzu-ai-mcp": {
+      "at": "2026-08-12T03:00:03.451Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 599,
-    "invite_http_ok": 567,
-    "nags": 594,
-    "nag_http_ok": 564,
-    "talk_inbox": 571,
+    "invites": 602,
+    "invite_http_ok": 570,
+    "nags": 604,
+    "nag_http_ok": 573,
+    "talk_inbox": 574,
     "social": 81,
-    "runs": 167
+    "runs": 168
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 0/120)",
-    "feedback nags queued 20 (day 0/60)",
-    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
-    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 405 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
-    "nag self_serve ac.tandem/docs-mcp → http 405 talk ok",
-    "nag self_serve ai.iturri/market-data → http 200 talk ok",
-    "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk ok",
-    "nag self_serve AdAdvisor MCP Server → http 401 talk —",
-    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk ok",
-    "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk ok",
-    "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk ok",
-    "nag invited ai.meacheal/mrc-data → http 200 talk ok",
-    "nag invited AnomalyArmor → http 405 talk ok",
-    "nag invited BeatBandit MCP → http 405 talk ok",
-    "nag invited ai.iturri/market-data → http 200 talk ok",
-    "nag invited ai.joinmultiplayer/gpu → http 202 talk ok",
-    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk ok",
-    "nag invited ai.odei/connect → http 405 talk ok",
-    "nag invited ai.llmintel/model-lifecycle → http 405 talk ok",
-    "nag invited ai.maguyva/maguyva → http 405 talk ok",
-    "nag invited ai.lumify/sports-intelligence → http 200 talk ok",
-    "social post → ok"
+    "eligible never-demoed 3 (agents 1 mcp 2) · inviting 3 (day 0/120)",
+    "invite mcp Dual Registry MCP → http 405 talk — https://www.dualregistry.dev/api/mcp",
+    "invite agent Agoragentic → http 200 talk — https://agoragentic.com/.well-known/agent.json",
+    "invite mcp DiagramZu → http 401 talk — https://mcp.diagramzu.ai/mcp",
+    "feedback nags queued 10 (day 20/60)",
+    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
+    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
+    "nag self_serve Corduroy Labs → http 0 talk —",
+    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
+    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
+    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
+    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
+    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
+    "nag invited base-agent-kit → http 405 talk —",
+    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "social post → 405"
   ],
-  "last_run_at": "2026-08-12T00:09:46.462Z",
+  "last_run_at": "2026-08-12T03:00:07.351Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
