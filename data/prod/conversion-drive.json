@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-12T03:00:07.351Z",
+  "updated_at": "2026-08-12T04:55:47.138Z",
   "day": "2026-08-12",
-  "day_invites": 3,
+  "day_invites": 4,
   "day_nags": 30,
-  "day_talk": 3,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -5996,6 +5996,16 @@
       "target": "https://mcp.diagramzu.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ninjachat-mcp-www-ninjachat-ai-api-mcp": {
+      "at": "2026-08-12T04:55:47.099Z",
+      "name": "NinjaChat MCP",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://www.ninjachat.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -8615,35 +8625,26 @@
     "mcp-diagramzu-mcp-diagramzu-ai-mcp": {
       "at": "2026-08-12T03:00:03.451Z",
       "ok": false
+    },
+    "mcp-ninjachat-mcp-www-ninjachat-ai-api-mcp": {
+      "at": "2026-08-12T04:55:47.099Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 602,
-    "invite_http_ok": 570,
+    "invites": 603,
+    "invite_http_ok": 571,
     "nags": 604,
     "nag_http_ok": 573,
-    "talk_inbox": 574,
+    "talk_inbox": 575,
     "social": 81,
-    "runs": 168
+    "runs": 169
   },
   "last_notes": [
-    "eligible never-demoed 3 (agents 1 mcp 2) · inviting 3 (day 0/120)",
-    "invite mcp Dual Registry MCP → http 405 talk — https://www.dualregistry.dev/api/mcp",
-    "invite agent Agoragentic → http 200 talk — https://agoragentic.com/.well-known/agent.json",
-    "invite mcp DiagramZu → http 401 talk — https://mcp.diagramzu.ai/mcp",
-    "feedback nags queued 10 (day 20/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
-    "social post → 405"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 3/120)",
+    "invite mcp NinjaChat MCP → http 401 talk — https://www.ninjachat.ai/api/mcp",
+    "feedback nags queued 0 (day 30/60)"
   ],
-  "last_run_at": "2026-08-12T03:00:07.351Z",
+  "last_run_at": "2026-08-12T04:55:47.138Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
