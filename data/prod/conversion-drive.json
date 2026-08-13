@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-13T13:39:53.465Z",
+  "updated_at": "2026-08-13T14:46:53.456Z",
   "day": "2026-08-13",
-  "day_invites": 2,
+  "day_invites": 3,
   "day_nags": 60,
-  "day_talk": 2,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6056,6 +6056,16 @@
       "target": "https://mcp.getfinsight.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-iranian-legal-corpus-hoghogh-ai-mcp": {
+      "at": "2026-08-13T14:46:53.410Z",
+      "name": "چیستارا — Iranian Legal Corpus",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://hoghogh.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -8703,22 +8713,26 @@
     "mcp-finsight-market-analysis-mcp-getfinsight-ai-mcp": {
       "at": "2026-08-13T10:17:46.405Z",
       "ok": false
+    },
+    "mcp-iranian-legal-corpus-hoghogh-ai-mcp": {
+      "at": "2026-08-13T14:46:53.410Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 608,
-    "invite_http_ok": 576,
+    "invites": 609,
+    "invite_http_ok": 577,
     "nags": 694,
     "nag_http_ok": 657,
-    "talk_inbox": 580,
+    "talk_inbox": 581,
     "social": 81,
-    "runs": 195
+    "runs": 196
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 2/120)",
-    "feedback nags queued 0 (day 60/60)",
-    "social post → [object Object]"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 2/120)",
+    "invite mcp چیستارا — Iranian Legal Corpus → http 200 talk — https://hoghogh.ai/mcp",
+    "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-13T13:39:53.465Z",
+  "last_run_at": "2026-08-13T14:46:53.456Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
