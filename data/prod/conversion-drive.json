@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-13T16:39:38.103Z",
+  "updated_at": "2026-08-13T17:44:52.524Z",
   "day": "2026-08-13",
-  "day_invites": 3,
+  "day_invites": 4,
   "day_nags": 60,
-  "day_talk": 3,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6066,6 +6066,16 @@
       "target": "https://hoghogh.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-melt-peer-review-peer-review-meltstudio-ai-api-mcp": {
+      "at": "2026-08-13T17:44:52.325Z",
+      "name": "Melt Peer Review",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://peer-review.meltstudio.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -8707,7 +8717,7 @@
       "ok": false
     },
     "social:2026-08-13": {
-      "at": "2026-08-13T15:43:28.946Z",
+      "at": "2026-08-13T17:44:52.524Z",
       "ok": false
     },
     "mcp-finsight-market-analysis-mcp-getfinsight-ai-mcp": {
@@ -8717,21 +8727,27 @@
     "mcp-iranian-legal-corpus-hoghogh-ai-mcp": {
       "at": "2026-08-13T14:46:53.410Z",
       "ok": false
+    },
+    "mcp-melt-peer-review-peer-review-meltstudio-ai-api-mcp": {
+      "at": "2026-08-13T17:44:52.325Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 609,
-    "invite_http_ok": 577,
+    "invites": 610,
+    "invite_http_ok": 578,
     "nags": 694,
     "nag_http_ok": 657,
-    "talk_inbox": 581,
+    "talk_inbox": 582,
     "social": 81,
-    "runs": 198
+    "runs": 199
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 3/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 3/120)",
+    "invite mcp Melt Peer Review → http 401 talk — https://peer-review.meltstudio.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-13T16:39:38.103Z",
+  "last_run_at": "2026-08-13T17:44:52.524Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
