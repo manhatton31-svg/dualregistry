@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-13T08:57:46.787Z",
+  "updated_at": "2026-08-13T10:17:46.496Z",
   "day": "2026-08-13",
-  "day_invites": 1,
+  "day_invites": 2,
   "day_nags": 50,
-  "day_talk": 1,
+  "day_talk": 2,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6046,6 +6046,16 @@
       "target": "https://creditpolicy.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-finsight-market-analysis-mcp-getfinsight-ai-mcp": {
+      "at": "2026-08-13T10:17:46.405Z",
+      "name": "FinSight Market Analysis",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.getfinsight.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -8689,42 +8699,26 @@
     "social:2026-08-13": {
       "at": "2026-08-13T08:57:46.787Z",
       "ok": false
+    },
+    "mcp-finsight-market-analysis-mcp-getfinsight-ai-mcp": {
+      "at": "2026-08-13T10:17:46.405Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 607,
-    "invite_http_ok": 575,
+    "invites": 608,
+    "invite_http_ok": 576,
     "nags": 684,
     "nag_http_ok": 648,
-    "talk_inbox": 579,
+    "talk_inbox": 580,
     "social": 81,
-    "runs": 191
+    "runs": 192
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 1/120)",
-    "feedback nags queued 20 (day 30/60)",
-    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
-    "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
-    "nag self_serve ac.tandem/docs-mcp → http 405 talk —",
-    "nag self_serve AdAdvisor MCP Server → http 401 talk —",
-    "nag self_serve ai.iturri/market-data → http 200 talk —",
-    "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
-    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
-    "nag invited AnomalyArmor → http 405 talk —",
-    "nag invited BeatBandit MCP → http 405 talk —",
-    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 405 talk —",
-    "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
-    "nag invited ai.iturri/market-data → http 200 talk —",
-    "nag invited ai.meacheal/mrc-data → http 200 talk —",
-    "nag invited ai.joinmultiplayer/gpu → http 202 talk —",
-    "nag invited ai.maguyva/maguyva → http 405 talk —",
-    "nag invited ai.odei/connect → http 405 talk —",
-    "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
-    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
-    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
-    "social post → [object Object]"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 1/120)",
+    "invite mcp FinSight Market Analysis → http 401 talk — https://mcp.getfinsight.ai/mcp",
+    "feedback nags queued 0 (day 50/60)"
   ],
-  "last_run_at": "2026-08-13T08:57:46.787Z",
+  "last_run_at": "2026-08-13T10:17:46.496Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
