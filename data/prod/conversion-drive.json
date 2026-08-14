@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-14T03:02:26.150Z",
+  "updated_at": "2026-08-14T04:57:48.692Z",
   "day": "2026-08-14",
-  "day_invites": 0,
+  "day_invites": 2,
   "day_nags": 30,
-  "day_talk": 0,
+  "day_talk": 2,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6076,6 +6076,26 @@
       "target": "https://peer-review.meltstudio.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-soar-record-gateway-soar-api-nevada-f99-workers-dev-well-known-mcp-json": {
+      "at": "2026-08-14T04:57:47.954Z",
+      "name": "SOAR Record Gateway",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://soar-api.nevada-f99.workers.dev/.well-known/mcp.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-actwise-ideation-actwise-ai-ideation-mcp-v1": {
+      "at": "2026-08-14T04:57:48.659Z",
+      "name": "ai.actwise/ideation",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://actwise.ai/ideation/mcp/v1",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -8735,32 +8755,31 @@
     "social:2026-08-14": {
       "at": "2026-08-14T03:02:26.150Z",
       "ok": false
+    },
+    "mcp-soar-record-gateway-soar-api-nevada-f99-workers-dev-well-known-mcp-json": {
+      "at": "2026-08-14T04:57:47.954Z",
+      "ok": false
+    },
+    "mcp-ai-actwise-ideation-actwise-ai-ideation-mcp-v1": {
+      "at": "2026-08-14T04:57:48.659Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 610,
-    "invite_http_ok": 578,
+    "invites": 612,
+    "invite_http_ok": 580,
     "nags": 724,
     "nag_http_ok": 685,
-    "talk_inbox": 582,
+    "talk_inbox": 584,
     "social": 81,
-    "runs": 207
+    "runs": 208
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 0/120)",
-    "feedback nags queued 10 (day 20/60)",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
-    "social post → [object Object]"
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 0/120)",
+    "invite mcp SOAR Record Gateway → http 405 talk — https://soar-api.nevada-f99.workers.dev/.well-known/mcp.json",
+    "invite mcp ai.actwise/ideation → http 400 talk — https://actwise.ai/ideation/mcp/v1",
+    "feedback nags queued 0 (day 30/60)"
   ],
-  "last_run_at": "2026-08-14T03:02:26.150Z",
+  "last_run_at": "2026-08-14T04:57:48.692Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
