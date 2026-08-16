@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-16T19:58:57.824Z",
+  "updated_at": "2026-08-16T20:33:17.267Z",
   "day": "2026-08-16",
-  "day_invites": 4,
+  "day_invites": 5,
   "day_nags": 60,
-  "day_talk": 4,
+  "day_talk": 5,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6316,6 +6316,16 @@
       "target": "https://api-demo.kaiv.ai/api/bridge/mcp/commerce-demo",
       "method": "POST:a2a-message",
       "talk_ok": false
+    },
+    "mcp-fullmakt-fullmakt-ai-mcp": {
+      "at": "2026-08-16T20:33:17.159Z",
+      "name": "Fullmakt",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://fullmakt.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9079,21 +9089,26 @@
     "mcp-ai-kaiv-commerce-demo-api-demo-kaiv-ai-api-bridge-mcp-commerce-demo": {
       "at": "2026-08-16T17:50:53.363Z",
       "ok": false
+    },
+    "mcp-fullmakt-fullmakt-ai-mcp": {
+      "at": "2026-08-16T20:33:17.159Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 634,
-    "invite_http_ok": 602,
+    "invites": 635,
+    "invite_http_ok": 603,
     "nags": 874,
     "nag_http_ok": 825,
-    "talk_inbox": 606,
+    "talk_inbox": 607,
     "social": 81,
-    "runs": 304
+    "runs": 305
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 4/120)",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 4/120)",
+    "invite mcp Fullmakt → http 401 talk — https://fullmakt.ai/mcp",
     "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-16T19:58:57.824Z",
+  "last_run_at": "2026-08-16T20:33:17.267Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
