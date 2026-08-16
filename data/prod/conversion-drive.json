@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-16T22:41:02.500Z",
+  "updated_at": "2026-08-16T23:00:17.216Z",
   "day": "2026-08-16",
-  "day_invites": 5,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6326,6 +6326,16 @@
       "target": "https://fullmakt.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-awardcast-federal-contracts-awardcast-ai-well-known-mcp-json": {
+      "at": "2026-08-16T23:00:17.091Z",
+      "name": "AwardCast Federal Contracts",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://awardcast.ai/.well-known/mcp.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9093,21 +9103,26 @@
     "mcp-fullmakt-fullmakt-ai-mcp": {
       "at": "2026-08-16T20:33:17.159Z",
       "ok": false
+    },
+    "mcp-awardcast-federal-contracts-awardcast-ai-well-known-mcp-json": {
+      "at": "2026-08-16T23:00:17.091Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 635,
-    "invite_http_ok": 603,
+    "invites": 636,
+    "invite_http_ok": 604,
     "nags": 874,
     "nag_http_ok": 825,
-    "talk_inbox": 607,
+    "talk_inbox": 608,
     "social": 81,
-    "runs": 310
+    "runs": 311
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 5/120)",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
+    "invite mcp AwardCast Federal Contracts → http 200 talk — https://awardcast.ai/.well-known/mcp.json",
     "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-16T22:41:02.500Z",
+  "last_run_at": "2026-08-16T23:00:17.216Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
