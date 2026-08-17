@@ -1,14 +1,14 @@
 {
   "day": "2026-08-17",
-  "updated_at": "2026-08-17T10:06:31.067Z",
+  "updated_at": "2026-08-17T10:49:37.610Z",
   "counts": {
-    "total": 637,
-    "mcp": 602,
+    "total": 640,
+    "mcp": 605,
     "agents": 35
   },
   "high_water": {
-    "total": 637,
-    "mcp": 602,
+    "total": 640,
+    "mcp": 605,
     "agents": 35
   },
   "items": {
@@ -7018,6 +7018,39 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-ai-bidclub-bidclub-bidclub-ai-api-mcp": {
+      "id": "mcp-ai-bidclub-bidclub-bidclub-ai-api-mcp",
+      "kind": "mcp",
+      "name": "ai.bidclub/bidclub",
+      "target": "https://bidclub.ai/api/mcp",
+      "approved_at": "2026-08-17T10:48:33.987Z",
+      "probed_at": "2026-08-17T10:48:33.987Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-drone-intelligence-droneintelligence-ai-api-mcp": {
+      "id": "mcp-drone-intelligence-droneintelligence-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Drone Intelligence",
+      "target": "https://droneintelligence.ai/api/mcp",
+      "approved_at": "2026-08-17T10:48:36.725Z",
+      "probed_at": "2026-08-17T10:48:36.725Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-ai-kaiv-dependency-trust-api-kaiv-ai-api-bridge-mcp-dependency-trust-f1aaf06d": {
+      "id": "mcp-ai-kaiv-dependency-trust-api-kaiv-ai-api-bridge-mcp-dependency-trust-f1aaf06d",
+      "kind": "mcp",
+      "name": "ai.kaiv/dependency-trust",
+      "target": "https://api.kaiv.ai/api/bridge/mcp/dependency-trust-f1aaf06d",
+      "approved_at": "2026-08-17T10:48:39.529Z",
+      "probed_at": "2026-08-17T10:48:39.529Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
     }
   },
   "policy": {
