@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-17T22:36:06.947Z",
+  "updated_at": "2026-08-17T23:02:34.168Z",
   "day": "2026-08-17",
-  "day_invites": 5,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6386,6 +6386,16 @@
       "target": "https://app.bitroad.ai/api/v1/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ai-aqta-seal-app-aqta-ai-api-mcp": {
+      "at": "2026-08-17T23:02:34.043Z",
+      "name": "ai.aqta/seal",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://app.aqta.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9181,21 +9191,26 @@
     "mcp-ai-bitroad-bitroad-app-bitroad-ai-api-v1-mcp": {
       "at": "2026-08-17T20:03:37.162Z",
       "ok": false
+    },
+    "mcp-ai-aqta-seal-app-aqta-ai-api-mcp": {
+      "at": "2026-08-17T23:02:34.043Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 641,
-    "invite_http_ok": 609,
+    "invites": 642,
+    "invite_http_ok": 610,
     "nags": 934,
     "nag_http_ok": 881,
-    "talk_inbox": 613,
+    "talk_inbox": 614,
     "social": 81,
-    "runs": 345
+    "runs": 346
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 5/120)",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
+    "invite mcp ai.aqta/seal → http 200 talk — https://app.aqta.ai/api/mcp",
     "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-17T22:36:06.947Z",
+  "last_run_at": "2026-08-17T23:02:34.168Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
