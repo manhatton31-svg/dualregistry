@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-17T10:06:57.431Z",
+  "updated_at": "2026-08-17T10:51:03.764Z",
   "day": "2026-08-17",
-  "day_invites": 0,
+  "day_invites": 3,
   "day_nags": 60,
-  "day_talk": 0,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6336,6 +6336,36 @@
       "target": "https://awardcast.ai/.well-known/mcp.json",
       "method": "GET",
       "talk_ok": false
+    },
+    "mcp-drone-intelligence-droneintelligence-ai-api-mcp": {
+      "at": "2026-08-17T10:51:03.431Z",
+      "name": "Drone Intelligence",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://droneintelligence.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-kaiv-dependency-trust-api-kaiv-ai-api-bridge-mcp-dependency-trust-f1aaf06d": {
+      "at": "2026-08-17T10:51:03.646Z",
+      "name": "ai.kaiv/dependency-trust",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.kaiv.ai/api/bridge/mcp/dependency-trust-f1aaf06d",
+      "method": "POST:a2a-message",
+      "talk_ok": false
+    },
+    "mcp-ai-bidclub-bidclub-bidclub-ai-api-mcp": {
+      "at": "2026-08-17T10:51:03.703Z",
+      "name": "ai.bidclub/bidclub",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://bidclub.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9109,23 +9139,39 @@
       "ok": false
     },
     "social:2026-08-17": {
-      "at": "2026-08-17T08:26:09.928Z",
+      "at": "2026-08-17T10:51:03.764Z",
+      "ok": false
+    },
+    "mcp-drone-intelligence-droneintelligence-ai-api-mcp": {
+      "at": "2026-08-17T10:51:03.431Z",
+      "ok": false
+    },
+    "mcp-ai-kaiv-dependency-trust-api-kaiv-ai-api-bridge-mcp-dependency-trust-f1aaf06d": {
+      "at": "2026-08-17T10:51:03.646Z",
+      "ok": false
+    },
+    "mcp-ai-bidclub-bidclub-bidclub-ai-api-mcp": {
+      "at": "2026-08-17T10:51:03.703Z",
       "ok": false
     }
   },
   "totals": {
-    "invites": 636,
-    "invite_http_ok": 604,
+    "invites": 639,
+    "invite_http_ok": 607,
     "nags": 934,
     "nag_http_ok": 881,
-    "talk_inbox": 608,
+    "talk_inbox": 611,
     "social": 81,
-    "runs": 323
+    "runs": 324
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 0/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 0/120)",
+    "invite mcp Drone Intelligence → http 400 talk — https://droneintelligence.ai/api/mcp",
+    "invite mcp ai.kaiv/dependency-trust → http 401 talk — https://api.kaiv.ai/api/bridge/mcp/dependency-trust-f1aaf06d",
+    "invite mcp ai.bidclub/bidclub → http 400 talk — https://bidclub.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-17T10:06:57.431Z",
+  "last_run_at": "2026-08-17T10:51:03.764Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
