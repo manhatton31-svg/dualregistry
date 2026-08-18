@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-18T20:56:16.848Z",
+  "updated_at": "2026-08-18T21:32:50.787Z",
   "day": "2026-08-18",
-  "day_invites": 0,
+  "day_invites": 1,
   "day_nags": 60,
-  "day_talk": 0,
+  "day_talk": 1,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6396,6 +6396,16 @@
       "target": "https://app.aqta.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-inside-ads-inside-ad-well-known-mcp-server-card-json": {
+      "at": "2026-08-18T21:32:50.698Z",
+      "name": "Inside Ads",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://inside.ad/.well-known/mcp/server-card.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9197,23 +9207,29 @@
       "ok": false
     },
     "social:2026-08-18": {
-      "at": "2026-08-18T19:01:32.968Z",
+      "at": "2026-08-18T21:32:50.786Z",
+      "ok": false
+    },
+    "mcp-inside-ads-inside-ad-well-known-mcp-server-card-json": {
+      "at": "2026-08-18T21:32:50.698Z",
       "ok": false
     }
   },
   "totals": {
-    "invites": 642,
-    "invite_http_ok": 610,
+    "invites": 643,
+    "invite_http_ok": 611,
     "nags": 994,
     "nag_http_ok": 937,
-    "talk_inbox": 614,
+    "talk_inbox": 615,
     "social": 81,
-    "runs": 378
+    "runs": 379
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 0/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 0/120)",
+    "invite mcp Inside Ads → http 200 talk — https://inside.ad/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-18T20:56:16.848Z",
+  "last_run_at": "2026-08-18T21:32:50.786Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
