@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-19T04:18:47.310Z",
+  "updated_at": "2026-08-19T04:57:09.202Z",
   "day": "2026-08-19",
-  "day_invites": 1,
+  "day_invites": 2,
   "day_nags": 30,
-  "day_talk": 1,
+  "day_talk": 2,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6416,6 +6416,16 @@
       "target": "https://mcp.facesign.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ai-groundroute-web-search-api-groundroute-ai-mcp": {
+      "at": "2026-08-19T04:57:09.141Z",
+      "name": "ai.groundroute/web-search",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.groundroute.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9231,23 +9241,26 @@
     "mcp-ai-facesign-facesign-mcp-mcp-facesign-ai-mcp": {
       "at": "2026-08-19T04:18:47.139Z",
       "ok": false
+    },
+    "mcp-ai-groundroute-web-search-api-groundroute-ai-mcp": {
+      "at": "2026-08-19T04:57:09.141Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 644,
-    "invite_http_ok": 612,
+    "invites": 645,
+    "invite_http_ok": 613,
     "nags": 1024,
     "nag_http_ok": 965,
-    "talk_inbox": 616,
+    "talk_inbox": 617,
     "social": 81,
-    "runs": 388
+    "runs": 389
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 0/120)",
-    "invite mcp ai.facesign/facesign-mcp → http 400 talk — https://mcp.facesign.ai/mcp",
-    "feedback nags queued 0 (day 30/60)",
-    "social post → [object Object]"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 1/120)",
+    "invite mcp ai.groundroute/web-search → http 401 talk — https://api.groundroute.ai/mcp",
+    "feedback nags queued 0 (day 30/60)"
   ],
-  "last_run_at": "2026-08-19T04:18:47.310Z",
+  "last_run_at": "2026-08-19T04:57:09.202Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
