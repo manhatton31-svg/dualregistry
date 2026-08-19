@@ -1,14 +1,14 @@
 {
   "day": "2026-08-19",
-  "updated_at": "2026-08-19T05:47:30.682Z",
+  "updated_at": "2026-08-19T06:43:43.141Z",
   "counts": {
-    "total": 646,
-    "mcp": 611,
+    "total": 648,
+    "mcp": 613,
     "agents": 35
   },
   "high_water": {
-    "total": 646,
-    "mcp": 611,
+    "total": 648,
+    "mcp": 613,
     "agents": 35
   },
   "items": {
@@ -7117,6 +7117,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-betslip-doctor-api-betslipdoctor-ai-api-mcp": {
+      "id": "mcp-betslip-doctor-api-betslipdoctor-ai-api-mcp",
+      "kind": "mcp",
+      "name": "BetSlip Doctor",
+      "target": "https://api.betslipdoctor.ai/api/mcp",
+      "approved_at": "2026-08-19T06:42:39.240Z",
+      "probed_at": "2026-08-19T06:42:39.240Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-heyyumi-mcp-heyyumi-ai": {
+      "id": "mcp-heyyumi-mcp-heyyumi-ai",
+      "kind": "mcp",
+      "name": "HeyYumi",
+      "target": "https://mcp.heyyumi.ai",
+      "approved_at": "2026-08-19T06:42:44.111Z",
+      "probed_at": "2026-08-19T06:42:44.111Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
