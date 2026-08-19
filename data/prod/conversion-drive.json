@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-19T06:17:52.155Z",
+  "updated_at": "2026-08-19T07:11:02.407Z",
   "day": "2026-08-19",
-  "day_invites": 2,
+  "day_invites": 4,
   "day_nags": 30,
-  "day_talk": 2,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6426,6 +6426,26 @@
       "target": "https://api.groundroute.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-betslip-doctor-api-betslipdoctor-ai-api-mcp": {
+      "at": "2026-08-19T07:11:02.190Z",
+      "name": "BetSlip Doctor",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://api.betslipdoctor.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-heyyumi-mcp-heyyumi-ai": {
+      "at": "2026-08-19T07:11:02.222Z",
+      "name": "HeyYumi",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.heyyumi.ai/",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9235,7 +9255,7 @@
       "ok": false
     },
     "social:2026-08-19": {
-      "at": "2026-08-19T04:18:47.310Z",
+      "at": "2026-08-19T07:11:02.407Z",
       "ok": false
     },
     "mcp-ai-facesign-facesign-mcp-mcp-facesign-ai-mcp": {
@@ -9245,21 +9265,32 @@
     "mcp-ai-groundroute-web-search-api-groundroute-ai-mcp": {
       "at": "2026-08-19T04:57:09.141Z",
       "ok": false
+    },
+    "mcp-betslip-doctor-api-betslipdoctor-ai-api-mcp": {
+      "at": "2026-08-19T07:11:02.190Z",
+      "ok": false
+    },
+    "mcp-heyyumi-mcp-heyyumi-ai": {
+      "at": "2026-08-19T07:11:02.222Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 645,
-    "invite_http_ok": 613,
+    "invites": 647,
+    "invite_http_ok": 615,
     "nags": 1024,
     "nag_http_ok": 965,
-    "talk_inbox": 617,
+    "talk_inbox": 619,
     "social": 81,
-    "runs": 391
+    "runs": 392
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 2/120)",
-    "feedback nags queued 0 (day 30/60)"
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 2/120)",
+    "invite mcp BetSlip Doctor → http 200 talk — https://api.betslipdoctor.ai/api/mcp",
+    "invite mcp HeyYumi → http 401 talk — https://mcp.heyyumi.ai/",
+    "feedback nags queued 0 (day 30/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-19T06:17:52.155Z",
+  "last_run_at": "2026-08-19T07:11:02.407Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
