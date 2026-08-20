@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-20T01:47:29.222Z",
+  "updated_at": "2026-08-20T02:45:10.088Z",
   "day": "2026-08-20",
-  "day_invites": 0,
+  "day_invites": 1,
   "day_nags": 30,
-  "day_talk": 0,
+  "day_talk": 1,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6456,6 +6456,16 @@
       "target": "https://www.astrofabric.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-infrapulse-infrapulse-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-20T02:45:09.995Z",
+      "name": "InfraPulse",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://infrapulse.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9289,33 +9299,29 @@
       "ok": false
     },
     "social:2026-08-20": {
-      "at": "2026-08-20T00:01:51.420Z",
+      "at": "2026-08-20T02:45:10.088Z",
+      "ok": false
+    },
+    "mcp-infrapulse-infrapulse-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-20T02:45:09.995Z",
       "ok": false
     }
   },
   "totals": {
-    "invites": 648,
-    "invite_http_ok": 616,
+    "invites": 649,
+    "invite_http_ok": 617,
     "nags": 1084,
     "nag_http_ok": 1021,
-    "talk_inbox": 620,
+    "talk_inbox": 621,
     "social": 81,
-    "runs": 421
+    "runs": 422
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 0/120)",
-    "feedback nags queued 10 (day 20/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 0/120)",
+    "invite mcp InfraPulse → http 405 talk — https://infrapulse.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 30/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-20T01:47:29.222Z",
+  "last_run_at": "2026-08-20T02:45:10.088Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
