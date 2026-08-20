@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-20T09:44:30.117Z",
+  "updated_at": "2026-08-20T10:14:06.930Z",
   "day": "2026-08-20",
-  "day_invites": 2,
+  "day_invites": 3,
   "day_nags": 60,
-  "day_talk": 2,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6476,6 +6476,16 @@
       "target": "https://docs.fireflies.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ai-fugentic-siert-kt8f7x-siert-kt8f7x-mcp-fugentic-ai": {
+      "at": "2026-08-20T10:14:06.879Z",
+      "name": "ai.fugentic/siert-kt8f7x",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://siert-kt8f7x.mcp.fugentic.ai/",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9319,22 +9329,26 @@
     "mcp-fireflies-ai-r1-docs-fireflies-ai-well-known-mcp-server-card-json": {
       "at": "2026-08-20T04:58:41.338Z",
       "ok": false
+    },
+    "mcp-ai-fugentic-siert-kt8f7x-siert-kt8f7x-mcp-fugentic-ai": {
+      "at": "2026-08-20T10:14:06.879Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 650,
-    "invite_http_ok": 618,
+    "invites": 651,
+    "invite_http_ok": 619,
     "nags": 1114,
     "nag_http_ok": 1049,
-    "talk_inbox": 622,
+    "talk_inbox": 623,
     "social": 81,
-    "runs": 431
+    "runs": 432
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 2/120)",
-    "feedback nags queued 0 (day 60/60)",
-    "social post → [object Object]"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 2/120)",
+    "invite mcp ai.fugentic/siert-kt8f7x → http 200 talk — https://siert-kt8f7x.mcp.fugentic.ai/",
+    "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-20T09:44:30.117Z",
+  "last_run_at": "2026-08-20T10:14:06.930Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
