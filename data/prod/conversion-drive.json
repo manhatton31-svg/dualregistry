@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-20T22:48:49.207Z",
+  "updated_at": "2026-08-20T23:12:43.393Z",
   "day": "2026-08-20",
-  "day_invites": 6,
+  "day_invites": 7,
   "day_nags": 60,
-  "day_talk": 6,
+  "day_talk": 7,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6516,6 +6516,16 @@
       "target": "https://api.kaiv.ai/.well-known/mcp/server-card.json",
       "method": "GET",
       "talk_ok": false
+    },
+    "mcp-ai-diezx-diezx-agents-diezx-ai-api-mcp": {
+      "at": "2026-08-20T23:12:43.240Z",
+      "name": "ai.diezx/diezx",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://agents.diezx.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9375,22 +9385,26 @@
     "mcp-ai-kaiv-version-truth-api-kaiv-ai-well-known-mcp-server-card-json": {
       "at": "2026-08-20T22:48:48.826Z",
       "ok": false
+    },
+    "mcp-ai-diezx-diezx-agents-diezx-ai-api-mcp": {
+      "at": "2026-08-20T23:12:43.240Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 654,
-    "invite_http_ok": 622,
+    "invites": 655,
+    "invite_http_ok": 623,
     "nags": 1114,
     "nag_http_ok": 1049,
-    "talk_inbox": 626,
+    "talk_inbox": 627,
     "social": 81,
-    "runs": 450
+    "runs": 451
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
-    "invite mcp ai.kaiv/version-truth → http 200 talk — https://api.kaiv.ai/.well-known/mcp/server-card.json",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 6/120)",
+    "invite mcp ai.diezx/diezx → http 401 talk — https://agents.diezx.ai/api/mcp",
     "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-20T22:48:49.207Z",
+  "last_run_at": "2026-08-20T23:12:43.393Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
