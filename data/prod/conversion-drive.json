@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-20T14:03:44.641Z",
+  "updated_at": "2026-08-20T14:51:05.480Z",
   "day": "2026-08-20",
-  "day_invites": 3,
+  "day_invites": 4,
   "day_nags": 60,
-  "day_talk": 3,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6486,6 +6486,16 @@
       "target": "https://siert-kt8f7x.mcp.fugentic.ai/",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ai-kaiv-version-truth-api-kaiv-ai-well-known-mcp-json": {
+      "at": "2026-08-20T14:51:05.065Z",
+      "name": "ai.kaiv/version-truth",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://api.kaiv.ai/.well-known/mcp.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9319,7 +9329,7 @@
       "ok": false
     },
     "social:2026-08-20": {
-      "at": "2026-08-20T12:15:54.480Z",
+      "at": "2026-08-20T14:51:05.480Z",
       "ok": false
     },
     "mcp-infrapulse-infrapulse-ai-well-known-mcp-server-card-json": {
@@ -9333,21 +9343,27 @@
     "mcp-ai-fugentic-siert-kt8f7x-siert-kt8f7x-mcp-fugentic-ai": {
       "at": "2026-08-20T10:14:06.879Z",
       "ok": false
+    },
+    "mcp-ai-kaiv-version-truth-api-kaiv-ai-well-known-mcp-json": {
+      "at": "2026-08-20T14:51:05.065Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 651,
-    "invite_http_ok": 619,
+    "invites": 652,
+    "invite_http_ok": 620,
     "nags": 1114,
     "nag_http_ok": 1049,
-    "talk_inbox": 623,
+    "talk_inbox": 624,
     "social": 81,
-    "runs": 437
+    "runs": 438
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 3/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 3/120)",
+    "invite mcp ai.kaiv/version-truth → http 200 talk — https://api.kaiv.ai/.well-known/mcp.json",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-20T14:03:44.640Z",
+  "last_run_at": "2026-08-20T14:51:05.480Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
