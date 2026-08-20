@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-20T22:09:55.454Z",
+  "updated_at": "2026-08-20T22:48:49.207Z",
   "day": "2026-08-20",
-  "day_invites": 5,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6506,6 +6506,16 @@
       "target": "https://awardcast.ai/",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ai-kaiv-version-truth-api-kaiv-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-20T22:48:48.826Z",
+      "name": "ai.kaiv/version-truth",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://api.kaiv.ai/.well-known/mcp/server-card.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9361,22 +9371,26 @@
     "mcp-awardcast-federal-contracts-awardcast-ai-mcp": {
       "at": "2026-08-20T22:09:55.361Z",
       "ok": false
+    },
+    "mcp-ai-kaiv-version-truth-api-kaiv-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-20T22:48:48.826Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 653,
-    "invite_http_ok": 621,
+    "invites": 654,
+    "invite_http_ok": 622,
     "nags": 1114,
     "nag_http_ok": 1049,
-    "talk_inbox": 625,
+    "talk_inbox": 626,
     "social": 81,
-    "runs": 449
+    "runs": 450
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 4/120)",
-    "invite mcp AwardCast Federal Contracts → http 405 talk — https://awardcast.ai/",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
+    "invite mcp ai.kaiv/version-truth → http 200 talk — https://api.kaiv.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-20T22:09:55.454Z",
+  "last_run_at": "2026-08-20T22:48:49.207Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
