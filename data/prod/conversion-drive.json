@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-21T22:34:40.392Z",
+  "updated_at": "2026-08-21T22:57:07.546Z",
   "day": "2026-08-21",
-  "day_invites": 4,
+  "day_invites": 7,
   "day_nags": 60,
-  "day_talk": 4,
+  "day_talk": 7,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6566,6 +6566,36 @@
       "target": "https://mcp.directcase.ai/",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-calaf-calaf-ai-api-mcp-account": {
+      "at": "2026-08-21T22:57:06.809Z",
+      "name": "Calaf",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://calaf.ai/api/mcp-account",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-calaf-seed-tools-calaf-ai-api-mcp": {
+      "at": "2026-08-21T22:57:06.841Z",
+      "name": "Calaf Seed Tools",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://calaf.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-latticenet-latticenet-ai-mcp": {
+      "at": "2026-08-21T22:57:07.292Z",
+      "name": "LatticeNet",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://latticenet.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9449,21 +9479,36 @@
     "mcp-directcase-legal-search-mcp-directcase-ai": {
       "at": "2026-08-21T13:55:02.705Z",
       "ok": false
+    },
+    "mcp-calaf-calaf-ai-api-mcp-account": {
+      "at": "2026-08-21T22:57:06.809Z",
+      "ok": false
+    },
+    "mcp-calaf-seed-tools-calaf-ai-api-mcp": {
+      "at": "2026-08-21T22:57:06.841Z",
+      "ok": false
+    },
+    "mcp-latticenet-latticenet-ai-mcp": {
+      "at": "2026-08-21T22:57:07.292Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 659,
-    "invite_http_ok": 627,
+    "invites": 662,
+    "invite_http_ok": 630,
     "nags": 1174,
     "nag_http_ok": 1105,
-    "talk_inbox": 631,
+    "talk_inbox": 634,
     "social": 81,
-    "runs": 484
+    "runs": 485
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 4/120)",
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 4/120)",
+    "invite mcp Calaf → http 401 talk — https://calaf.ai/api/mcp-account",
+    "invite mcp Calaf Seed Tools → http 400 talk — https://calaf.ai/api/mcp",
+    "invite mcp LatticeNet → http 401 talk — https://latticenet.ai/mcp",
     "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-21T22:34:40.392Z",
+  "last_run_at": "2026-08-21T22:57:07.546Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
