@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-21T09:47:23.154Z",
+  "updated_at": "2026-08-21T10:15:09.992Z",
   "day": "2026-08-21",
-  "day_invites": 2,
+  "day_invites": 3,
   "day_nags": 60,
-  "day_talk": 2,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6546,6 +6546,16 @@
       "target": "https://awraiter.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-intodns-ai-dns-email-security-scanner-intodns-ai-well-known-mcp-json": {
+      "at": "2026-08-21T10:15:09.878Z",
+      "name": "IntoDNS.ai DNS & Email Security Scanner",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://intodns.ai/.well-known/mcp.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9411,7 +9421,7 @@
       "ok": false
     },
     "social:2026-08-21": {
-      "at": "2026-08-21T08:00:57.297Z",
+      "at": "2026-08-21T10:15:09.992Z",
       "ok": false
     },
     "mcp-hypnothera-hypnothera-ai-api-mcp": {
@@ -9421,21 +9431,27 @@
     "mcp-awraiter-telegram-channels-awraiter-ai-mcp": {
       "at": "2026-08-21T08:52:46.008Z",
       "ok": false
+    },
+    "mcp-intodns-ai-dns-email-security-scanner-intodns-ai-well-known-mcp-json": {
+      "at": "2026-08-21T10:15:09.878Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 657,
-    "invite_http_ok": 625,
+    "invites": 658,
+    "invite_http_ok": 626,
     "nags": 1174,
     "nag_http_ok": 1105,
-    "talk_inbox": 629,
+    "talk_inbox": 630,
     "social": 81,
-    "runs": 463
+    "runs": 464
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 2/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 2/120)",
+    "invite mcp IntoDNS.ai DNS & Email Security Scanner → http 200 talk — https://intodns.ai/.well-known/mcp.json",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-21T09:47:23.154Z",
+  "last_run_at": "2026-08-21T10:15:09.992Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
