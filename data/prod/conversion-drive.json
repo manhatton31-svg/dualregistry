@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-22T15:50:54.065Z",
+  "updated_at": "2026-08-22T16:34:56.146Z",
   "day": "2026-08-22",
-  "day_invites": 3,
+  "day_invites": 4,
   "day_nags": 60,
-  "day_talk": 3,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6626,6 +6626,16 @@
       "target": "https://api.cueframe.ai/v1/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ai-mangii-manga-mcp-mangii-ai-mcp": {
+      "at": "2026-08-22T16:34:56.054Z",
+      "name": "ai.mangii/manga",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.mangii.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9523,7 +9533,7 @@
       "ok": false
     },
     "social:2026-08-22": {
-      "at": "2026-08-22T14:01:58.163Z",
+      "at": "2026-08-22T16:34:56.145Z",
       "ok": false
     },
     "mcp-datamerge-mcp-mcp-datamerge-ai": {
@@ -9537,21 +9547,27 @@
     "mcp-ai-cueframe-cueframe-api-cueframe-ai-v1-mcp": {
       "at": "2026-08-22T06:56:15.172Z",
       "ok": false
+    },
+    "mcp-ai-mangii-manga-mcp-mangii-ai-mcp": {
+      "at": "2026-08-22T16:34:56.054Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 665,
-    "invite_http_ok": 633,
+    "invites": 666,
+    "invite_http_ok": 634,
     "nags": 1234,
     "nag_http_ok": 1161,
-    "talk_inbox": 637,
+    "talk_inbox": 638,
     "social": 81,
-    "runs": 511
+    "runs": 512
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 3/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 3/120)",
+    "invite mcp ai.mangii/manga → http 401 talk — https://mcp.mangii.ai/mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-22T15:50:54.065Z",
+  "last_run_at": "2026-08-22T16:34:56.145Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
