@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-22T06:03:21.458Z",
+  "updated_at": "2026-08-22T06:56:15.262Z",
   "day": "2026-08-22",
-  "day_invites": 2,
+  "day_invites": 3,
   "day_nags": 30,
-  "day_talk": 2,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6616,6 +6616,16 @@
       "target": "https://agentroam.ai/.well-known/mcp.json",
       "method": "GET",
       "talk_ok": false
+    },
+    "mcp-ai-cueframe-cueframe-api-cueframe-ai-v1-mcp": {
+      "at": "2026-08-22T06:56:15.172Z",
+      "name": "ai.cueframe/cueframe",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.cueframe.ai/v1/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9513,7 +9523,7 @@
       "ok": false
     },
     "social:2026-08-22": {
-      "at": "2026-08-22T04:09:14.550Z",
+      "at": "2026-08-22T06:56:15.262Z",
       "ok": false
     },
     "mcp-datamerge-mcp-mcp-datamerge-ai": {
@@ -9523,22 +9533,27 @@
     "mcp-agentroam-agentroam-ai-well-known-mcp-json": {
       "at": "2026-08-22T06:03:21.357Z",
       "ok": false
+    },
+    "mcp-ai-cueframe-cueframe-api-cueframe-ai-v1-mcp": {
+      "at": "2026-08-22T06:56:15.172Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 664,
-    "invite_http_ok": 632,
+    "invites": 665,
+    "invite_http_ok": 633,
     "nags": 1204,
     "nag_http_ok": 1133,
-    "talk_inbox": 636,
+    "talk_inbox": 637,
     "social": 81,
-    "runs": 494
+    "runs": 495
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 1/120)",
-    "invite mcp AgentRoam → http 200 talk — https://agentroam.ai/.well-known/mcp.json",
-    "feedback nags queued 0 (day 30/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 2/120)",
+    "invite mcp ai.cueframe/cueframe → http 401 talk — https://api.cueframe.ai/v1/mcp",
+    "feedback nags queued 0 (day 30/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-22T06:03:21.458Z",
+  "last_run_at": "2026-08-22T06:56:15.262Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
