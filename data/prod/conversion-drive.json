@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-22T20:34:13.739Z",
+  "updated_at": "2026-08-22T20:55:55.321Z",
   "day": "2026-08-22",
-  "day_invites": 5,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6646,6 +6646,16 @@
       "target": "https://connect.emisso.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-advisors-ai-store-readiness-check-advisorsai-ai-store-readiness-mcp": {
+      "at": "2026-08-22T20:55:55.180Z",
+      "name": "Advisors AI Store Readiness Check",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://advisorsai.ai/store-readiness-mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9543,7 +9553,7 @@
       "ok": false
     },
     "social:2026-08-22": {
-      "at": "2026-08-22T18:42:44.247Z",
+      "at": "2026-08-22T20:55:55.321Z",
       "ok": false
     },
     "mcp-datamerge-mcp-mcp-datamerge-ai": {
@@ -9565,21 +9575,27 @@
     "mcp-emisso-connect-connect-emisso-ai-mcp": {
       "at": "2026-08-22T19:40:42.757Z",
       "ok": false
+    },
+    "mcp-advisors-ai-store-readiness-check-advisorsai-ai-store-readiness-mcp": {
+      "at": "2026-08-22T20:55:55.180Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 667,
-    "invite_http_ok": 635,
+    "invites": 668,
+    "invite_http_ok": 636,
     "nags": 1234,
     "nag_http_ok": 1161,
-    "talk_inbox": 639,
+    "talk_inbox": 640,
     "social": 81,
-    "runs": 520
+    "runs": 521
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 5/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
+    "invite mcp Advisors AI Store Readiness Check → http 400 talk — https://advisorsai.ai/store-readiness-mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-22T20:34:13.738Z",
+  "last_run_at": "2026-08-22T20:55:55.321Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
