@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-22T02:42:18.999Z",
+  "updated_at": "2026-08-22T03:28:21.500Z",
   "day": "2026-08-22",
-  "day_invites": 0,
+  "day_invites": 1,
   "day_nags": 30,
-  "day_talk": 0,
+  "day_talk": 1,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6596,6 +6596,16 @@
       "target": "https://latticenet.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-datamerge-mcp-mcp-datamerge-ai": {
+      "at": "2026-08-22T03:28:21.349Z",
+      "name": "DataMerge MCP",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://mcp.datamerge.ai/",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9495,31 +9505,26 @@
     "social:2026-08-22": {
       "at": "2026-08-22T01:44:55.025Z",
       "ok": false
+    },
+    "mcp-datamerge-mcp-mcp-datamerge-ai": {
+      "at": "2026-08-22T03:28:21.349Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 662,
-    "invite_http_ok": 630,
+    "invites": 663,
+    "invite_http_ok": 631,
     "nags": 1204,
     "nag_http_ok": 1133,
-    "talk_inbox": 634,
+    "talk_inbox": 635,
     "social": 81,
-    "runs": 489
+    "runs": 490
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 0/120)",
-    "feedback nags queued 10 (day 20/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 0/120)",
+    "invite mcp DataMerge MCP → http 400 talk — https://mcp.datamerge.ai/",
+    "feedback nags queued 0 (day 30/60)"
   ],
-  "last_run_at": "2026-08-22T02:42:18.999Z",
+  "last_run_at": "2026-08-22T03:28:21.500Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
