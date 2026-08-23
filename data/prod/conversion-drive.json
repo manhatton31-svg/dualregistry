@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-23T22:32:27.281Z",
+  "updated_at": "2026-08-23T22:53:52.779Z",
   "day": "2026-08-23",
-  "day_invites": 4,
+  "day_invites": 5,
   "day_nags": 60,
-  "day_talk": 4,
+  "day_talk": 5,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6696,6 +6696,16 @@
       "target": "https://www.decisionlog.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-flipdomain-domain-sales-flipdomain-ai-mcp": {
+      "at": "2026-08-23T22:53:52.426Z",
+      "name": "FlipDomain Domain Sales",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 403,
+      "target": "https://flipdomain.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9639,21 +9649,26 @@
     "mcp-decision-log-www-decisionlog-ai-well-known-mcp-server-card-json": {
       "at": "2026-08-23T20:55:22.180Z",
       "ok": false
+    },
+    "mcp-flipdomain-domain-sales-flipdomain-ai-mcp": {
+      "at": "2026-08-23T22:53:52.426Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 672,
+    "invites": 673,
     "invite_http_ok": 640,
     "nags": 1294,
     "nag_http_ok": 1217,
-    "talk_inbox": 644,
+    "talk_inbox": 645,
     "social": 81,
-    "runs": 564
+    "runs": 565
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 4/120)",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 4/120)",
+    "invite mcp FlipDomain Domain Sales → http 403 talk — https://flipdomain.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-23T22:32:27.281Z",
+  "last_run_at": "2026-08-23T22:53:52.779Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
