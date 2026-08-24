@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-24T12:16:53.890Z",
+  "updated_at": "2026-08-24T13:24:52.106Z",
   "day": "2026-08-24",
-  "day_invites": 2,
+  "day_invites": 3,
   "day_nags": 60,
-  "day_talk": 2,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6726,6 +6726,16 @@
       "target": "https://cleanvector.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ai-imaginode-imaginode-imaginode-ai-api-mcp": {
+      "at": "2026-08-24T13:24:51.901Z",
+      "name": "ai.imaginode/imaginode",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://imaginode.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9685,23 +9695,26 @@
     "mcp-cleanvector-cleanvector-ai-api-mcp": {
       "at": "2026-08-24T12:16:53.662Z",
       "ok": false
+    },
+    "mcp-ai-imaginode-imaginode-imaginode-ai-api-mcp": {
+      "at": "2026-08-24T13:24:51.901Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 675,
-    "invite_http_ok": 642,
+    "invites": 676,
+    "invite_http_ok": 643,
     "nags": 1354,
     "nag_http_ok": 1273,
-    "talk_inbox": 647,
+    "talk_inbox": 648,
     "social": 81,
-    "runs": 579
+    "runs": 580
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 1/120)",
-    "invite mcp CleanVector → http 401 talk — https://cleanvector.ai/api/mcp",
-    "feedback nags queued 0 (day 60/60)",
-    "social post → [object Object]"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 2/120)",
+    "invite mcp ai.imaginode/imaginode → http 400 talk — https://imaginode.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-24T12:16:53.890Z",
+  "last_run_at": "2026-08-24T13:24:52.106Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
