@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-24T11:37:36.720Z",
+  "updated_at": "2026-08-24T12:16:53.890Z",
   "day": "2026-08-24",
-  "day_invites": 1,
+  "day_invites": 2,
   "day_nags": 60,
-  "day_talk": 1,
+  "day_talk": 2,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6716,6 +6716,16 @@
       "target": "https://mcp.hexahq.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-cleanvector-cleanvector-ai-api-mcp": {
+      "at": "2026-08-24T12:16:53.662Z",
+      "name": "CleanVector",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://cleanvector.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9665,27 +9675,33 @@
       "ok": false
     },
     "social:2026-08-24": {
-      "at": "2026-08-24T10:07:31.283Z",
+      "at": "2026-08-24T12:16:53.890Z",
       "ok": false
     },
     "mcp-hexa-mcp-hexahq-ai-mcp": {
       "at": "2026-08-24T08:06:51.171Z",
       "ok": false
+    },
+    "mcp-cleanvector-cleanvector-ai-api-mcp": {
+      "at": "2026-08-24T12:16:53.662Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 674,
-    "invite_http_ok": 641,
+    "invites": 675,
+    "invite_http_ok": 642,
     "nags": 1354,
     "nag_http_ok": 1273,
-    "talk_inbox": 646,
+    "talk_inbox": 647,
     "social": 81,
-    "runs": 578
+    "runs": 579
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 1/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 1/120)",
+    "invite mcp CleanVector → http 401 talk — https://cleanvector.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-24T11:37:36.720Z",
+  "last_run_at": "2026-08-24T12:16:53.890Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
