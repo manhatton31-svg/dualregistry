@@ -1,14 +1,14 @@
 {
-  "day": "2026-08-24",
-  "updated_at": "2026-08-24T23:48:08.426Z",
+  "day": "2026-08-25",
+  "updated_at": "2026-08-25T01:16:58.394Z",
   "counts": {
-    "total": 677,
-    "mcp": 642,
+    "total": 679,
+    "mcp": 644,
     "agents": 35
   },
   "high_water": {
-    "total": 677,
-    "mcp": 642,
+    "total": 679,
+    "mcp": 644,
     "agents": 35
   },
   "items": {
@@ -7458,6 +7458,28 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-gessa-game-asset-generation-for-ai-agents-gessa-ai-well-known-mcp-json": {
+      "id": "mcp-gessa-game-asset-generation-for-ai-agents-gessa-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "Gessa: game asset generation for AI agents",
+      "target": "https://gessa.ai/.well-known/mcp.json",
+      "approved_at": "2026-08-25T01:15:58.284Z",
+      "probed_at": "2026-08-25T01:15:58.284Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-alfred-get-alfred-ai-api-mcp": {
+      "id": "mcp-alfred-get-alfred-ai-api-mcp",
+      "kind": "mcp",
+      "name": "alfred_",
+      "target": "https://get-alfred.ai/api/mcp",
+      "approved_at": "2026-08-25T01:15:58.552Z",
+      "probed_at": "2026-08-25T01:15:58.552Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
