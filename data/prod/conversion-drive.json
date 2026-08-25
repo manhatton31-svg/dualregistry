@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-25T11:36:40.272Z",
+  "updated_at": "2026-08-25T12:16:55.637Z",
   "day": "2026-08-25",
-  "day_invites": 5,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6786,6 +6786,16 @@
       "target": "https://gethal.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-propick-integration-mcp-propick-ae-mcp": {
+      "at": "2026-08-25T12:16:55.584Z",
+      "name": "Propick Integration MCP",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://propick.ae/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9751,7 +9761,7 @@
       "ok": false
     },
     "social:2026-08-25": {
-      "at": "2026-08-25T10:15:55.541Z",
+      "at": "2026-08-25T12:16:55.637Z",
       "ok": false
     },
     "mcp-gessa-game-asset-generation-for-ai-agents-gessa-ai-well-known-mcp-json": {
@@ -9773,21 +9783,27 @@
     "mcp-gethal-ai-gethal-ai-mcp": {
       "at": "2026-08-25T10:15:55.478Z",
       "ok": false
+    },
+    "mcp-propick-integration-mcp-propick-ae-mcp": {
+      "at": "2026-08-25T12:16:55.584Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 681,
-    "invite_http_ok": 648,
+    "invites": 682,
+    "invite_http_ok": 649,
     "nags": 1414,
     "nag_http_ok": 1329,
-    "talk_inbox": 653,
+    "talk_inbox": 654,
     "social": 81,
-    "runs": 609
+    "runs": 610
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 5/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
+    "invite mcp Propick Integration MCP → http 400 talk — https://propick.ae/mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-25T11:36:40.272Z",
+  "last_run_at": "2026-08-25T12:16:55.637Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
