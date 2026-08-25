@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-25T05:07:35.062Z",
+  "updated_at": "2026-08-25T05:51:07.609Z",
   "day": "2026-08-25",
-  "day_invites": 2,
+  "day_invites": 3,
   "day_nags": 30,
-  "day_talk": 2,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6756,6 +6756,16 @@
       "target": "https://get-alfred.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ai-agentgates-mcp-agentgates-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-25T05:51:07.530Z",
+      "name": "ai.agentgates/mcp",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://agentgates.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9731,22 +9741,26 @@
     "mcp-alfred-get-alfred-ai-api-mcp": {
       "at": "2026-08-25T01:48:06.257Z",
       "ok": false
+    },
+    "mcp-ai-agentgates-mcp-agentgates-ai-well-known-mcp-server-card-json": {
+      "at": "2026-08-25T05:51:07.530Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 678,
-    "invite_http_ok": 645,
+    "invites": 679,
+    "invite_http_ok": 646,
     "nags": 1384,
     "nag_http_ok": 1301,
-    "talk_inbox": 650,
+    "talk_inbox": 651,
     "social": 81,
-    "runs": 601
+    "runs": 602
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 2/120)",
-    "feedback nags queued 0 (day 30/60)",
-    "social post → [object Object]"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 2/120)",
+    "invite mcp ai.agentgates/mcp → http 405 talk — https://agentgates.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 30/60)"
   ],
-  "last_run_at": "2026-08-25T05:07:35.062Z",
+  "last_run_at": "2026-08-25T05:51:07.609Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
