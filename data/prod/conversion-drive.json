@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-25T14:09:03.792Z",
+  "updated_at": "2026-08-25T15:09:00.122Z",
   "day": "2026-08-25",
-  "day_invites": 6,
+  "day_invites": 7,
   "day_nags": 60,
-  "day_talk": 6,
+  "day_talk": 7,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6796,6 +6796,16 @@
       "target": "https://propick.ae/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ironshard-object-storage-sandbox-agents-mcp-ironshard-ai-mcp": {
+      "at": "2026-08-25T15:08:59.925Z",
+      "name": "IronShard Object Storage Sandbox",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://agents-mcp.ironshard.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9761,7 +9771,7 @@
       "ok": false
     },
     "social:2026-08-25": {
-      "at": "2026-08-25T12:16:55.637Z",
+      "at": "2026-08-25T15:09:00.122Z",
       "ok": false
     },
     "mcp-gessa-game-asset-generation-for-ai-agents-gessa-ai-well-known-mcp-json": {
@@ -9787,21 +9797,27 @@
     "mcp-propick-integration-mcp-propick-ae-mcp": {
       "at": "2026-08-25T12:16:55.584Z",
       "ok": false
+    },
+    "mcp-ironshard-object-storage-sandbox-agents-mcp-ironshard-ai-mcp": {
+      "at": "2026-08-25T15:08:59.925Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 682,
-    "invite_http_ok": 649,
+    "invites": 683,
+    "invite_http_ok": 650,
     "nags": 1414,
     "nag_http_ok": 1329,
-    "talk_inbox": 654,
+    "talk_inbox": 655,
     "social": 81,
-    "runs": 612
+    "runs": 613
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 6/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 6/120)",
+    "invite mcp IronShard Object Storage Sandbox → http 400 talk — https://agents-mcp.ironshard.ai/mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-25T14:09:03.792Z",
+  "last_run_at": "2026-08-25T15:09:00.122Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
