@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-26T09:21:40.679Z",
+  "updated_at": "2026-08-26T10:08:13.591Z",
   "day": "2026-08-26",
-  "day_invites": 2,
+  "day_invites": 3,
   "day_nags": 60,
-  "day_talk": 2,
+  "day_talk": 3,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6826,6 +6826,16 @@
       "target": "https://mcp.financegenius.ai/.well-known/mcp/server-card.json",
       "method": "POST:tasks-send",
       "talk_ok": false
+    },
+    "mcp-khwan-mcp-khwan-ai-mcp-core-user": {
+      "at": "2026-08-26T10:08:13.528Z",
+      "name": "Khwan",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.khwan.ai/mcp/%7Bcore%7D/%7Buser%7D",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9833,21 +9843,26 @@
     "mcp-financegenius-ai-mcp-financegenius-ai-mcp": {
       "at": "2026-08-26T04:06:53.015Z",
       "ok": false
+    },
+    "mcp-khwan-mcp-khwan-ai-mcp-core-user": {
+      "at": "2026-08-26T10:08:13.528Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 685,
-    "invite_http_ok": 651,
+    "invites": 686,
+    "invite_http_ok": 652,
     "nags": 1474,
     "nag_http_ok": 1385,
-    "talk_inbox": 657,
+    "talk_inbox": 658,
     "social": 81,
-    "runs": 637
+    "runs": 638
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 2/120)",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 2/120)",
+    "invite mcp Khwan → http 401 talk — https://mcp.khwan.ai/mcp/%7Bcore%7D/%7Buser%7D",
     "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-08-26T09:21:40.679Z",
+  "last_run_at": "2026-08-26T10:08:13.591Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
