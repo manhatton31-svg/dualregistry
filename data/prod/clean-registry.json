@@ -1,14 +1,14 @@
 {
   "day": "2026-08-26",
-  "updated_at": "2026-08-26T19:13:27.195Z",
+  "updated_at": "2026-08-26T22:12:07.215Z",
   "counts": {
-    "total": 690,
-    "mcp": 655,
+    "total": 693,
+    "mcp": 658,
     "agents": 35
   },
   "high_water": {
-    "total": 690,
-    "mcp": 655,
+    "total": 693,
+    "mcp": 658,
     "agents": 35
   },
   "items": {
@@ -7601,6 +7601,39 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-ai-askmiles-catalog-api-askmiles-ai-mcp": {
+      "id": "mcp-ai-askmiles-catalog-api-askmiles-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.askmiles/catalog",
+      "target": "https://api.askmiles.ai/mcp",
+      "approved_at": "2026-08-26T22:11:00.797Z",
+      "probed_at": "2026-08-26T22:11:00.797Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-ai-bridgeapp-bridgeapp-mcp-bridgeapp-ai-mcp": {
+      "id": "mcp-ai-bridgeapp-bridgeapp-mcp-bridgeapp-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.bridgeapp/bridgeapp",
+      "target": "https://mcp.bridgeapp.ai/mcp",
+      "approved_at": "2026-08-26T22:11:06.608Z",
+      "probed_at": "2026-08-26T22:11:06.608Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-ai-mainroom-meeting-agents-mcp-mainroom-ai-mcp": {
+      "id": "mcp-ai-mainroom-meeting-agents-mcp-mainroom-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.mainroom/meeting-agents",
+      "target": "https://mcp.mainroom.ai/mcp",
+      "approved_at": "2026-08-26T22:11:10.441Z",
+      "probed_at": "2026-08-26T22:11:10.441Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 200"
     }
   },
   "policy": {
