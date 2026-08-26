@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-26T14:21:21.725Z",
+  "updated_at": "2026-08-26T16:03:08.805Z",
   "day": "2026-08-26",
-  "day_invites": 3,
+  "day_invites": 4,
   "day_nags": 60,
-  "day_talk": 3,
+  "day_talk": 4,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6836,6 +6836,16 @@
       "target": "https://mcp.khwan.ai/mcp/%7Bcore%7D/%7Buser%7D",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-autorfp-ai-autorfp-ai-well-known-mcp-json": {
+      "at": "2026-08-26T16:03:08.555Z",
+      "name": "AutoRFP.ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://autorfp.ai/.well-known/mcp.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9837,7 +9847,7 @@
       "ok": false
     },
     "social:2026-08-26": {
-      "at": "2026-08-26T13:29:15.343Z",
+      "at": "2026-08-26T16:03:08.805Z",
       "ok": false
     },
     "mcp-financegenius-ai-mcp-financegenius-ai-mcp": {
@@ -9847,21 +9857,27 @@
     "mcp-khwan-mcp-khwan-ai-mcp-core-user": {
       "at": "2026-08-26T10:08:13.528Z",
       "ok": false
+    },
+    "mcp-autorfp-ai-autorfp-ai-well-known-mcp-json": {
+      "at": "2026-08-26T16:03:08.555Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 686,
-    "invite_http_ok": 652,
+    "invites": 687,
+    "invite_http_ok": 653,
     "nags": 1474,
     "nag_http_ok": 1385,
-    "talk_inbox": 658,
+    "talk_inbox": 659,
     "social": 81,
-    "runs": 643
+    "runs": 644
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 3/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 3/120)",
+    "invite mcp AutoRFP.ai → http 200 talk — https://autorfp.ai/.well-known/mcp.json",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-26T14:21:21.725Z",
+  "last_run_at": "2026-08-26T16:03:08.805Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
