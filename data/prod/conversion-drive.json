@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-26T16:55:52.519Z",
+  "updated_at": "2026-08-26T19:14:27.454Z",
   "day": "2026-08-26",
-  "day_invites": 4,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 4,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6846,6 +6846,26 @@
       "target": "https://autorfp.ai/.well-known/mcp.json",
       "method": "GET",
       "talk_ok": false
+    },
+    "mcp-greenlight-plug-in-solar-law-registry-solar-agentlookups-ai-mcp": {
+      "at": "2026-08-26T19:14:27.272Z",
+      "name": "GreenLight - Plug-in Solar Law Registry",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 202,
+      "target": "https://solar.agentlookups.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-orbit-mcp-buildwithorbit-ai-mcp": {
+      "at": "2026-08-26T19:14:27.234Z",
+      "name": "Orbit",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://mcp.buildwithorbit.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9847,7 +9867,7 @@
       "ok": false
     },
     "social:2026-08-26": {
-      "at": "2026-08-26T16:03:08.805Z",
+      "at": "2026-08-26T19:14:27.454Z",
       "ok": false
     },
     "mcp-financegenius-ai-mcp-financegenius-ai-mcp": {
@@ -9861,21 +9881,32 @@
     "mcp-autorfp-ai-autorfp-ai-well-known-mcp-json": {
       "at": "2026-08-26T16:03:08.555Z",
       "ok": false
+    },
+    "mcp-greenlight-plug-in-solar-law-registry-solar-agentlookups-ai-mcp": {
+      "at": "2026-08-26T19:14:27.272Z",
+      "ok": false
+    },
+    "mcp-orbit-mcp-buildwithorbit-ai-mcp": {
+      "at": "2026-08-26T19:14:27.234Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 687,
-    "invite_http_ok": 653,
+    "invites": 689,
+    "invite_http_ok": 655,
     "nags": 1474,
     "nag_http_ok": 1385,
-    "talk_inbox": 659,
+    "talk_inbox": 661,
     "social": 81,
-    "runs": 645
+    "runs": 646
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 4/120)",
-    "feedback nags queued 0 (day 60/60)"
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 4/120)",
+    "invite mcp GreenLight - Plug-in Solar Law Registry → http 202 talk — https://solar.agentlookups.ai/mcp",
+    "invite mcp Orbit → http 400 talk — https://mcp.buildwithorbit.ai/mcp",
+    "feedback nags queued 0 (day 60/60)",
+    "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-26T16:55:52.519Z",
+  "last_run_at": "2026-08-26T19:14:27.454Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
