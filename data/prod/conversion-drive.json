@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-26T03:14:25.079Z",
+  "updated_at": "2026-08-26T04:06:53.219Z",
   "day": "2026-08-26",
-  "day_invites": 1,
+  "day_invites": 2,
   "day_nags": 30,
-  "day_talk": 1,
+  "day_talk": 2,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -6816,6 +6816,16 @@
       "target": "https://dynamicfeed.ai/.well-known/mcp.json",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-financegenius-ai-mcp-financegenius-ai-mcp": {
+      "at": "2026-08-26T04:06:53.015Z",
+      "name": "FinanceGenius.AI",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 404,
+      "target": "https://mcp.financegenius.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9819,22 +9829,26 @@
     "social:2026-08-26": {
       "at": "2026-08-26T03:14:25.079Z",
       "ok": false
+    },
+    "mcp-financegenius-ai-mcp-financegenius-ai-mcp": {
+      "at": "2026-08-26T04:06:53.015Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 684,
+    "invites": 685,
     "invite_http_ok": 651,
     "nags": 1444,
     "nag_http_ok": 1357,
-    "talk_inbox": 656,
+    "talk_inbox": 657,
     "social": 81,
-    "runs": 630
+    "runs": 631
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 1/120)",
-    "feedback nags queued 0 (day 30/60)",
-    "social post → [object Object]"
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 1/120)",
+    "invite mcp FinanceGenius.AI → http 404 talk — https://mcp.financegenius.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 30/60)"
   ],
-  "last_run_at": "2026-08-26T03:14:25.079Z",
+  "last_run_at": "2026-08-26T04:06:53.219Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
