@@ -1,14 +1,14 @@
 {
-  "day": "2026-08-26",
-  "updated_at": "2026-08-26T22:12:07.215Z",
+  "day": "2026-08-27",
+  "updated_at": "2026-08-27T03:20:31.301Z",
   "counts": {
-    "total": 693,
-    "mcp": 658,
+    "total": 696,
+    "mcp": 661,
     "agents": 35
   },
   "high_water": {
-    "total": 693,
-    "mcp": 658,
+    "total": 696,
+    "mcp": 661,
     "agents": 35
   },
   "items": {
@@ -7634,6 +7634,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 200"
+    },
+    "mcp-ais-gateway-cve-prioritization-agent-flight-reco-api-aislabs-ai-mcp": {
+      "id": "mcp-ais-gateway-cve-prioritization-agent-flight-reco-api-aislabs-ai-mcp",
+      "kind": "mcp",
+      "name": "AIS Gateway — CVE prioritization + Agent Flight Recorder for AI agents",
+      "target": "https://api.aislabs.ai/mcp",
+      "approved_at": "2026-08-27T03:19:21.726Z",
+      "probed_at": "2026-08-27T03:19:21.726Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-web-search-api-for-all-your-agents-and-llms-mcp-blopus-ai-mcp": {
+      "id": "mcp-web-search-api-for-all-your-agents-and-llms-mcp-blopus-ai-mcp",
+      "kind": "mcp",
+      "name": "Web Search API for all your agents and LLMs",
+      "target": "https://mcp.blopus.ai/mcp/",
+      "approved_at": "2026-08-27T03:19:25.171Z",
+      "probed_at": "2026-08-27T03:19:25.171Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-lazy-ads-mcp-lazyads-ai-mcp": {
+      "id": "mcp-lazy-ads-mcp-lazyads-ai-mcp",
+      "kind": "mcp",
+      "name": "Lazy Ads",
+      "target": "https://mcp.lazyads.ai/mcp",
+      "approved_at": "2026-08-27T03:19:36.711Z",
+      "probed_at": "2026-08-27T03:19:36.711Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
