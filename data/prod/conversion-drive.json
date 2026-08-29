@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-29T18:37:41.376Z",
+  "updated_at": "2026-08-29T21:19:51.159Z",
   "day": "2026-08-29",
-  "day_invites": 4,
+  "day_invites": 5,
   "day_nags": 60,
-  "day_talk": 4,
+  "day_talk": 5,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -7046,6 +7046,16 @@
       "target": "https://hotker.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-hyperscale-tenant-tools-hyperscale0-ai-well-known-mcp-json": {
+      "at": "2026-08-29T21:19:51.022Z",
+      "name": "Hyperscale Tenant Tools",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://hyperscale0.ai/.well-known/mcp.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -10139,7 +10149,7 @@
       "ok": false
     },
     "social:2026-08-29": {
-      "at": "2026-08-29T18:37:41.376Z",
+      "at": "2026-08-29T21:19:51.159Z",
       "ok": false
     },
     "mcp-immopix-immopix-ai-mcp": {
@@ -10153,44 +10163,27 @@
     "mcp-hotker-ai-hotker-ai-mcp": {
       "at": "2026-08-29T18:37:37.706Z",
       "ok": false
+    },
+    "mcp-hyperscale-tenant-tools-hyperscale0-ai-well-known-mcp-json": {
+      "at": "2026-08-29T21:19:51.022Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 707,
-    "invite_http_ok": 673,
+    "invites": 708,
+    "invite_http_ok": 674,
     "nags": 1634,
     "nag_http_ok": 1536,
-    "talk_inbox": 679,
+    "talk_inbox": 680,
     "social": 81,
-    "runs": 656
+    "runs": 657
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 2/120)",
-    "invite mcp ai.levelfour/levelfour-mcp → http 401 talk — https://mcp.levelfour.ai/mcp",
-    "invite mcp HOTKER 핫커 | 한국 상품·휴대폰 성지 구매가 AI → http 400 talk — https://hotker.ai/mcp",
-    "feedback nags queued 20 (day 40/60)",
-    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
-    "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
-    "nag self_serve AdAdvisor MCP Server → http 401 talk —",
-    "nag self_serve ai.iturri/market-data → http 200 talk —",
-    "nag self_serve ac.tandem/docs-mcp → http 405 talk —",
-    "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
-    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 405 talk —",
-    "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
-    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
-    "nag invited AnomalyArmor → http 405 talk —",
-    "nag invited BeatBandit MCP → http 405 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
-    "nag invited ai.meacheal/mrc-data → http 200 talk —",
-    "nag invited ai.iturri/market-data → http 200 talk —",
-    "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
-    "nag invited ai.maguyva/maguyva → http 405 talk —",
-    "nag invited ai.odei/connect → http 405 talk —",
-    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
-    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
-    "nag invited ai.joinmultiplayer/gpu → http 200 talk —",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 4/120)",
+    "invite mcp Hyperscale Tenant Tools → http 200 talk — https://hyperscale0.ai/.well-known/mcp.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-29T18:37:41.376Z",
+  "last_run_at": "2026-08-29T21:19:51.159Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
