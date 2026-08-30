@@ -1,14 +1,14 @@
 {
   "day": "2026-08-30",
-  "updated_at": "2026-08-30T07:17:53.787Z",
+  "updated_at": "2026-08-30T13:09:29.541Z",
   "counts": {
-    "total": 711,
-    "mcp": 676,
+    "total": 714,
+    "mcp": 679,
     "agents": 35
   },
   "high_water": {
-    "total": 711,
-    "mcp": 676,
+    "total": 714,
+    "mcp": 679,
     "agents": 35
   },
   "items": {
@@ -7832,6 +7832,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-create-prints-r1-www-createprints-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-create-prints-r1-www-createprints-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Create Prints · r1",
+      "target": "https://www.createprints.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-08-30T13:08:26.883Z",
+      "probed_at": "2026-08-30T13:08:26.883Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-ai-crayonz-mcp-mcp-crayonz-ai-mcp": {
+      "id": "mcp-ai-crayonz-mcp-mcp-crayonz-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.crayonz/mcp",
+      "target": "https://mcp.crayonz.ai/mcp",
+      "approved_at": "2026-08-30T13:08:29.655Z",
+      "probed_at": "2026-08-30T13:08:29.655Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-file2markdown-mcp-file2markdown-ai-mcp": {
+      "id": "mcp-file2markdown-mcp-file2markdown-ai-mcp",
+      "kind": "mcp",
+      "name": "file2markdown",
+      "target": "https://mcp.file2markdown.ai/mcp",
+      "approved_at": "2026-08-30T13:08:39.507Z",
+      "probed_at": "2026-08-30T13:08:39.507Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 200"
     }
   },
   "policy": {
