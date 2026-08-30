@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-08-30T20:00:52.346Z",
+  "updated_at": "2026-08-30T22:41:07.093Z",
   "day": "2026-08-30",
-  "day_invites": 6,
+  "day_invites": 8,
   "day_nags": 60,
-  "day_talk": 6,
+  "day_talk": 8,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -7116,6 +7116,26 @@
       "target": "https://contractorsnearme.ai/.well-known/mcp.json",
       "method": "POST:a2a-message",
       "talk_ok": false
+    },
+    "mcp-cralo-mcp-cralo-ai-mcp": {
+      "at": "2026-08-30T22:41:02.117Z",
+      "name": "Cralo",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.cralo.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-mapmap-mcp-mapmap-ai-mcp": {
+      "at": "2026-08-30T22:41:06.963Z",
+      "name": "MapMap",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 404,
+      "target": "https://mcp.mapmap.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -10233,7 +10253,7 @@
       "ok": false
     },
     "social:2026-08-30": {
-      "at": "2026-08-30T20:00:52.346Z",
+      "at": "2026-08-30T22:41:07.093Z",
       "ok": false
     },
     "mcp-fastmetal-mcp-fastmetal-ai-mcp": {
@@ -10255,22 +10275,32 @@
     "mcp-contractors-near-me-contractorsnearme-ai-well-known-mcp-json": {
       "at": "2026-08-30T17:35:05.176Z",
       "ok": false
+    },
+    "mcp-cralo-mcp-cralo-ai-mcp": {
+      "at": "2026-08-30T22:41:02.117Z",
+      "ok": false
+    },
+    "mcp-mapmap-mcp-mapmap-ai-mcp": {
+      "at": "2026-08-30T22:41:06.963Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 714,
-    "invite_http_ok": 680,
+    "invites": 716,
+    "invite_http_ok": 681,
     "nags": 1694,
     "nag_http_ok": 1592,
-    "talk_inbox": 686,
+    "talk_inbox": 688,
     "social": 81,
-    "runs": 663
+    "runs": 664
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 6/120)",
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 6/120)",
+    "invite mcp Cralo → http 401 talk — https://mcp.cralo.ai/mcp",
+    "invite mcp MapMap → http 404 talk — https://mcp.mapmap.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-08-30T20:00:52.346Z",
+  "last_run_at": "2026-08-30T22:41:07.093Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
