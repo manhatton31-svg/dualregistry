@@ -1,14 +1,14 @@
 {
   "day": "2026-08-31",
-  "updated_at": "2026-08-31T06:44:06.793Z",
+  "updated_at": "2026-08-31T14:29:29.334Z",
   "counts": {
-    "total": 717,
-    "mcp": 682,
+    "total": 721,
+    "mcp": 686,
     "agents": 35
   },
   "high_water": {
-    "total": 717,
-    "mcp": 682,
+    "total": 721,
+    "mcp": 686,
     "agents": 35
   },
   "items": {
@@ -7898,6 +7898,50 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-deployit-product-expert-mcp-deployit-ai-demo": {
+      "id": "mcp-deployit-product-expert-mcp-deployit-ai-demo",
+      "kind": "mcp",
+      "name": "DeployIt Product Expert",
+      "target": "https://mcp.deployit.ai/demo",
+      "approved_at": "2026-08-31T14:28:29.381Z",
+      "probed_at": "2026-08-31T14:28:29.381Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-ishan-goyal-public-context-igoyal-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-ishan-goyal-public-context-igoyal-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Ishan Goyal public context",
+      "target": "https://igoyal.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-08-31T14:28:29.759Z",
+      "probed_at": "2026-08-31T14:28:29.759Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-feedback1-r1-app-feedback1-ai-api-mcp": {
+      "id": "mcp-feedback1-r1-app-feedback1-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Feedback1 · r1",
+      "target": "https://app.feedback1.ai/api/mcp",
+      "approved_at": "2026-08-31T14:28:30.071Z",
+      "probed_at": "2026-08-31T14:28:30.071Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-ai-gency-gency-lite-lite-gency-ai-api-mcp": {
+      "id": "mcp-ai-gency-gency-lite-lite-gency-ai-api-mcp",
+      "kind": "mcp",
+      "name": "ai.gency/gency-lite",
+      "target": "https://lite.gency.ai/api/mcp",
+      "approved_at": "2026-08-31T14:28:31.131Z",
+      "probed_at": "2026-08-31T14:28:31.131Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
