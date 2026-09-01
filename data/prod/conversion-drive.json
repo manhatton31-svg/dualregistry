@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-01T14:57:30.834Z",
+  "updated_at": "2026-09-01T18:23:02.820Z",
   "day": "2026-09-01",
-  "day_invites": 4,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 4,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-08-03T00:17:15.251Z",
@@ -7216,6 +7216,26 @@
       "target": "https://agentxray.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-data-parrot-ai-revenue-analyst-api-v3-dataparrot-ai-api-v3-data-parrot-mcp": {
+      "at": "2026-09-01T18:23:02.536Z",
+      "name": "Data Parrot AI Revenue Analyst",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api-v3.dataparrot.ai/api/v3/data-parrot/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-cerebrium-docs-cerebrium-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-01T18:23:02.735Z",
+      "name": "Cerebrium Docs",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://cerebrium.ai/.well-known/mcp/server-card.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -10393,7 +10413,7 @@
       "ok": false
     },
     "social:2026-09-01": {
-      "at": "2026-09-01T14:57:30.834Z",
+      "at": "2026-09-01T18:23:02.820Z",
       "ok": false
     },
     "mcp-ai-avasis-quant-research-quant-mcp-avasis-ai-well-known-mcp-server-card-json": {
@@ -10403,34 +10423,32 @@
     "mcp-ai-agentxray-mcp-agentxray-ai-api-mcp": {
       "at": "2026-09-01T14:57:26.944Z",
       "ok": false
+    },
+    "mcp-data-parrot-ai-revenue-analyst-api-v3-dataparrot-ai-api-v3-data-parrot-mcp": {
+      "at": "2026-09-01T18:23:02.536Z",
+      "ok": false
+    },
+    "mcp-cerebrium-docs-cerebrium-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-01T18:23:02.735Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 724,
-    "invite_http_ok": 689,
+    "invites": 726,
+    "invite_http_ok": 691,
     "nags": 1814,
     "nag_http_ok": 1705,
-    "talk_inbox": 696,
+    "talk_inbox": 698,
     "social": 81,
-    "runs": 672
+    "runs": 673
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 2/120)",
-    "invite mcp ai.avasis/quant-research → http 405 talk — https://quant-mcp.avasis.ai/.well-known/mcp/server-card.json",
-    "invite mcp ai.agentxray/mcp → http 202 talk — https://agentxray.ai/api/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 4/120)",
+    "invite mcp Data Parrot AI Revenue Analyst → http 401 talk — https://api-v3.dataparrot.ai/api/v3/data-parrot/mcp",
+    "invite mcp Cerebrium Docs → http 200 talk — https://cerebrium.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-01T14:57:30.834Z",
+  "last_run_at": "2026-09-01T18:23:02.820Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
