@@ -1,14 +1,14 @@
 {
-  "day": "2026-08-31",
-  "updated_at": "2026-08-31T20:19:50.299Z",
+  "day": "2026-09-01",
+  "updated_at": "2026-09-01T00:00:53.858Z",
   "counts": {
-    "total": 721,
-    "mcp": 686,
+    "total": 723,
+    "mcp": 688,
     "agents": 35
   },
   "high_water": {
-    "total": 721,
-    "mcp": 686,
+    "total": 723,
+    "mcp": 688,
     "agents": 35
   },
   "items": {
@@ -7942,6 +7942,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-ais-cve-priorities-daily-exploit-ranked-patch-li-api-aislabs-ai-cve-mcp": {
+      "id": "mcp-ais-cve-priorities-daily-exploit-ranked-patch-li-api-aislabs-ai-cve-mcp",
+      "kind": "mcp",
+      "name": "AIS CVE Priorities — daily exploit-ranked patch list for AI agents",
+      "target": "https://api.aislabs.ai/cve/mcp",
+      "approved_at": "2026-08-31T23:59:48.708Z",
+      "probed_at": "2026-08-31T23:59:48.708Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-ais-agent-flight-recorder-dead-man-alerts-resume-api-aislabs-ai-recorder-mcp": {
+      "id": "mcp-ais-agent-flight-recorder-dead-man-alerts-resume-api-aislabs-ai-recorder-mcp",
+      "kind": "mcp",
+      "name": "AIS Agent Flight Recorder — dead-man alerts & resume for AI agents",
+      "target": "https://api.aislabs.ai/recorder/mcp",
+      "approved_at": "2026-08-31T23:59:48.716Z",
+      "probed_at": "2026-08-31T23:59:48.716Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
     }
   },
   "policy": {
