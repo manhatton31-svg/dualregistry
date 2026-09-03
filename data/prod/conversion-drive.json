@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-03T06:25:37.982Z",
+  "updated_at": "2026-09-03T11:39:48.368Z",
   "day": "2026-09-03",
-  "day_invites": 40,
-  "day_nags": 30,
-  "day_talk": 40,
+  "day_invites": 60,
+  "day_nags": 50,
+  "day_talk": 60,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -1606,127 +1606,127 @@
       "talk_ok": false
     },
     "mcp-ai-inxy-seo-audit-inxy-ai-well-known-mcp-server-json": {
-      "at": "2026-08-03T16:38:28.957Z",
+      "at": "2026-09-03T11:39:30.846Z",
       "name": "ai.inxy/seo-audit",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://inxy.ai/.well-known/mcp/server.json",
-      "method": "POST:a2a-message",
-      "talk_ok": true
+      "method": "POST:soft-json",
+      "talk_ok": false
     },
     "mcp-jurisprud-ncias-ai-jurisprudencias-ai-mcp-json": {
-      "at": "2026-08-03T16:38:29.649Z",
+      "at": "2026-09-03T11:39:31.486Z",
       "name": "Jurisprudências.ai",
       "kind": "mcp",
       "http_ok": true,
       "status": 401,
       "target": "https://jurisprudencias.ai/mcp.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-gossiper-shopify-admin-mcp-server-r1-mcp-gossiper-io-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:29.154Z",
+      "at": "2026-09-03T11:39:31.691Z",
       "name": "Gossiper Shopify Admin MCP Server · r1",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://mcp.gossiper.io/.well-known/mcp.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-plori-plori-api-plori-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:30.005Z",
+      "at": "2026-09-03T11:39:31.121Z",
       "name": "ai.plori/plori",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://api.plori.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-primeta-primeta-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:32.192Z",
+      "at": "2026-09-03T11:39:31.541Z",
       "name": "Primeta",
       "kind": "mcp",
       "http_ok": true,
       "status": 200,
       "target": "https://primeta.ai/.well-known/mcp.json",
       "method": "GET",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-obris-mcp-obris-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:29.267Z",
+      "at": "2026-09-03T11:39:31.111Z",
       "name": "Obris",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://mcp.obris.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-perspective-ai-getperspective-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:29.278Z",
+      "at": "2026-09-03T11:39:31.204Z",
       "name": "Perspective AI",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://getperspective.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-compeller-compeller-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:32.833Z",
+      "at": "2026-09-03T11:39:31.511Z",
       "name": "Compeller",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://compeller.ai/.well-known/mcp.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-groundroute-web-search-api-groundroute-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:33.500Z",
+      "at": "2026-09-03T11:39:31.749Z",
       "name": "ai.groundroute/web-search",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://api.groundroute.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-deskcrew-agentic-deskcrew-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:33.658Z",
+      "at": "2026-09-03T11:39:44.214Z",
       "name": "ai.deskcrew/agentic",
       "kind": "mcp",
-      "http_ok": true,
-      "status": 405,
-      "target": "https://deskcrew.ai/.well-known/mcp.json",
-      "method": "POST:soft-json",
-      "talk_ok": true
+      "http_ok": false,
+      "status": 404,
+      "target": "https://deskcrew.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
     },
     "mcp-boolsai-grep-grep-boolsai-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:34.469Z",
+      "at": "2026-09-03T11:39:31.748Z",
       "name": "Boolsai Grep",
       "kind": "mcp",
       "http_ok": true,
       "status": 200,
       "target": "https://grep.boolsai.ai/.well-known/mcp.json",
       "method": "POST:a2a-message",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-nefesh-real-time-human-state-awareness-mcp-nefesh-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:35.371Z",
+      "at": "2026-09-03T11:39:32.190Z",
       "name": "Nefesh — Real-time Human State Awareness",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://mcp.nefesh.ai/.well-known/mcp.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-parceled-mcp-parceled-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:36.005Z",
+      "at": "2026-09-03T11:39:33.128Z",
       "name": "ai.parceled/mcp",
       "kind": "mcp",
       "http_ok": true,
@@ -1736,54 +1736,54 @@
       "talk_ok": false
     },
     "mcp-ai-primateintelligence-mcp-api-primateintelligence-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:35.479Z",
+      "at": "2026-09-03T11:39:32.313Z",
       "name": "ai.primateintelligence/mcp",
       "kind": "mcp",
       "http_ok": true,
       "status": 200,
       "target": "https://api.primateintelligence.ai/.well-known/mcp/server-card.json",
       "method": "GET",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-dsght-public-www-dsght-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:36.251Z",
+      "at": "2026-09-03T11:39:33.060Z",
       "name": "ai.dsght/public",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://www.dsght.ai/.well-known/mcp.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-posteverywhere-mcp-posteverywhere-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:37.070Z",
+      "at": "2026-09-03T11:39:33.797Z",
       "name": "ai.posteverywhere/mcp",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://posteverywhere.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-la-luer-ai-skincare-commerce-searchshopai-mcp-fly-dev-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:37.629Z",
+      "at": "2026-09-03T11:39:33.614Z",
       "name": "La Luer — AI Skincare Commerce",
       "kind": "mcp",
       "http_ok": true,
       "status": 200,
       "target": "https://searchshopai-mcp.fly.dev/.well-known/mcp.json",
       "method": "GET",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-rallyprop-sbir-opportunities-mcp-rallyprop-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:37.346Z",
+      "at": "2026-09-03T11:39:32.922Z",
       "name": "RallyProp SBIR Opportunities",
       "kind": "mcp",
       "http_ok": true,
       "status": 401,
       "target": "https://mcp.rallyprop.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-drillr-the-financial-mcp-for-ai-agents-gateway-drillr-ai-well-known-mcp-server-card-json": {
       "at": "2026-08-03T16:38:38.356Z",
@@ -1796,7 +1796,7 @@
       "talk_ok": true
     },
     "mcp-ai-pictomancer-image-processing-mcp-pictomancer-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:37.812Z",
+      "at": "2026-09-03T11:39:33.154Z",
       "name": "ai.pictomancer/image-processing",
       "kind": "mcp",
       "http_ok": true,
@@ -1956,14 +1956,14 @@
       "talk_ok": true
     },
     "mcp-cabrini-market-data-cabrini-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:42:55.679Z",
+      "at": "2026-09-03T11:39:31.397Z",
       "name": "Cabrini Market Data",
       "kind": "mcp",
-      "http_ok": false,
-      "status": 0,
-      "target": "https://cabrini.ai/.well-known/agent-card.json",
-      "method": "POST:tasks-send",
-      "talk_ok": true
+      "http_ok": true,
+      "status": 200,
+      "target": "https://cabrini.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
     },
     "mcp-scite-api-scite-ai-well-known-mcp-json": {
       "at": "2026-08-03T18:29:25.300Z",
@@ -7268,7 +7268,7 @@
   },
   "nagged": {
     "ord_ms93wmkd_190f3f47": {
-      "at": "2026-09-03T01:24:37.431Z",
+      "at": "2026-09-03T11:39:45.849Z",
       "listing_id": "mcp-ai-anomalyarmor-armor-mcp-https-github-com-anomalyarmor-agents",
       "origin": "invited",
       "http_ok": true,
@@ -7277,7 +7277,7 @@
       "target": "https://www.anomalyarmor.ai/.well-known/mcp/server-card.json"
     },
     "ord_mscep388_dd785139": {
-      "at": "2026-09-03T01:24:37.407Z",
+      "at": "2026-09-03T11:39:45.114Z",
       "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
       "origin": "self_serve",
       "http_ok": true,
@@ -7304,7 +7304,7 @@
       "target": "https://agoragentic.com/.well-known/agent.json"
     },
     "ord_ms93wib4_0882eec9": {
-      "at": "2026-09-03T01:24:37.508Z",
+      "at": "2026-09-03T11:39:45.335Z",
       "listing_id": "mcp-ai-analyticslegends-sap-analytics-https-analyticslegends-ai",
       "origin": "invited",
       "http_ok": true,
@@ -7313,7 +7313,7 @@
       "target": "https://analyticslegends.ai/.well-known/mcp.json"
     },
     "ord_ms93webj_9069141f": {
-      "at": "2026-09-03T01:24:37.512Z",
+      "at": "2026-09-03T11:39:45.426Z",
       "listing_id": "mcp-ai-afmr-discovery-https-afmr-ai-",
       "origin": "invited",
       "http_ok": true,
@@ -7322,7 +7322,7 @@
       "target": "https://afmr.ai/.well-known/mcp.json"
     },
     "ord_ms92d994_0aba80d7": {
-      "at": "2026-09-03T01:24:37.735Z",
+      "at": "2026-09-03T11:39:45.674Z",
       "listing_id": "mcp_2be3a474f3b6c8c8d8ed",
       "origin": "invited",
       "http_ok": true,
@@ -7331,7 +7331,7 @@
       "target": "https://beatbandit.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms92d504_519aecac": {
-      "at": "2026-09-03T01:24:37.642Z",
+      "at": "2026-09-03T11:39:46.124Z",
       "listing_id": "mcp_c4ca797f0ac8555201bd",
       "origin": "invited",
       "http_ok": true,
@@ -7340,7 +7340,7 @@
       "target": "https://www.anomalyarmor.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zliaw_97619c56": {
-      "at": "2026-09-03T01:24:38.304Z",
+      "at": "2026-09-03T11:39:46.196Z",
       "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -7349,7 +7349,7 @@
       "target": "https://iturri.ai/mcp"
     },
     "ord_ms909tku_7f6af09b": {
-      "at": "2026-09-03T01:24:38.248Z",
+      "at": "2026-09-03T11:39:46.454Z",
       "listing_id": "mcp-ai-meacheal-mrc-data-https-api-meacheal-ai",
       "origin": "invited",
       "http_ok": true,
@@ -7358,7 +7358,7 @@
       "target": "https://api.meacheal.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zlf93_5b5f27c0": {
-      "at": "2026-09-03T01:24:38.670Z",
+      "at": "2026-09-03T11:39:46.944Z",
       "listing_id": "mcp-ai-biel-biel-ai-https-github-com-techdocsstudio-biel-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -7367,7 +7367,7 @@
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zln09_edb5e5c9": {
-      "at": "2026-09-03T01:24:39.930Z",
+      "at": "2026-09-03T11:39:48.304Z",
       "listing_id": "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai",
       "origin": "invited",
       "http_ok": true,
@@ -7376,7 +7376,7 @@
       "target": "https://joinmultiplayer.ai/"
     },
     "ord_ms8zld07_0dff19fe": {
-      "at": "2026-09-03T01:24:38.542Z",
+      "at": "2026-09-03T11:39:47.290Z",
       "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -7385,7 +7385,7 @@
       "target": "https://llmintel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zl82k_e4963584": {
-      "at": "2026-09-03T01:24:38.530Z",
+      "at": "2026-09-03T11:39:46.831Z",
       "listing_id": "mcp-ai-maguyva-maguyva-https-github-com-maguyva-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -7403,7 +7403,7 @@
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zl5a3_01b84782": {
-      "at": "2026-09-03T01:24:38.723Z",
+      "at": "2026-09-03T11:39:47.062Z",
       "listing_id": "mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify",
       "origin": "invited",
       "http_ok": true,
@@ -7421,7 +7421,7 @@
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms90b2rl_7e0eff14": {
-      "at": "2026-09-03T01:24:38.441Z",
+      "at": "2026-09-03T11:39:46.667Z",
       "listing_id": "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei",
       "origin": "invited",
       "http_ok": true,
@@ -7466,7 +7466,7 @@
       "target": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json"
     },
     "ord_msclhcmu_afed0825": {
-      "at": "2026-09-03T01:24:37.280Z",
+      "at": "2026-09-03T11:39:45.133Z",
       "listing_id": "mcp-adadvisor-mcp-server-api-adadvisor-ai-mcp",
       "origin": "self_serve",
       "http_ok": true,
@@ -7475,7 +7475,7 @@
       "target": "https://api.adadvisor.ai/mcp"
     },
     "ord_mscxfhwf_ff3b7582": {
-      "at": "2026-09-03T01:24:37.197Z",
+      "at": "2026-09-03T11:39:44.839Z",
       "listing_id": "mcp-ai-calendarmcp-server-https-github-com-full-vibe-calendarmcp-public",
       "origin": "self_serve",
       "http_ok": true,
@@ -7484,7 +7484,7 @@
       "target": "https://calendarmcp.ai/.well-known/mcp/server-card.json"
     },
     "ord_msd8r8hj_efe042d1": {
-      "at": "2026-09-03T01:24:37.571Z",
+      "at": "2026-09-03T11:39:45.214Z",
       "listing_id": "mcp-ai-maximem-synap-https-github-com-maximem-ai-maximem-synap-sdk",
       "origin": "self_serve",
       "http_ok": true,
@@ -7511,7 +7511,7 @@
       "target": null
     },
     "ord_mse8vrpo_43d9f54a": {
-      "at": "2026-09-03T01:24:37.093Z",
+      "at": "2026-09-03T11:39:44.438Z",
       "listing_id": null,
       "origin": "self_serve",
       "http_ok": false,
@@ -7520,7 +7520,7 @@
       "target": null
     },
     "ord_mseom3gf_a6624e0e": {
-      "at": "2026-09-03T01:24:38.377Z",
+      "at": "2026-09-03T11:39:45.496Z",
       "listing_id": "mcp-ai-outlit-outlit-r1-https-github-com-outlitai-outlit-sdk",
       "origin": "self_serve",
       "http_ok": true,
@@ -7538,7 +7538,7 @@
       "target": "https://api.pictomancer.ai/.well-known/agent-card.json"
     },
     "ord_msgen2w4_8d1673db": {
-      "at": "2026-09-03T01:24:37.252Z",
+      "at": "2026-09-03T11:39:44.916Z",
       "listing_id": "mcp-ac-tandem-docs-mcp-tandem-ac-well-known-mcp-server-json",
       "origin": "self_serve",
       "http_ok": true,
@@ -8081,83 +8081,83 @@
       "ok": false
     },
     "mcp-ai-inxy-seo-audit-inxy-ai-well-known-mcp-server-json": {
-      "at": "2026-08-03T16:38:28.957Z",
-      "ok": true
+      "at": "2026-09-03T11:39:30.846Z",
+      "ok": false
     },
     "mcp-jurisprud-ncias-ai-jurisprudencias-ai-mcp-json": {
-      "at": "2026-08-03T16:38:29.649Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.486Z",
+      "ok": false
     },
     "mcp-gossiper-shopify-admin-mcp-server-r1-mcp-gossiper-io-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:29.154Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.691Z",
+      "ok": false
     },
     "mcp-ai-plori-plori-api-plori-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:30.005Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.121Z",
+      "ok": false
     },
     "mcp-primeta-primeta-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:32.192Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.541Z",
+      "ok": false
     },
     "mcp-obris-mcp-obris-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:29.267Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.111Z",
+      "ok": false
     },
     "mcp-perspective-ai-getperspective-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:29.278Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.204Z",
+      "ok": false
     },
     "mcp-compeller-compeller-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:32.833Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.511Z",
+      "ok": false
     },
     "mcp-ai-groundroute-web-search-api-groundroute-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:33.500Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.749Z",
+      "ok": false
     },
     "mcp-ai-deskcrew-agentic-deskcrew-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:33.658Z",
-      "ok": true
+      "at": "2026-09-03T11:39:44.214Z",
+      "ok": false
     },
     "mcp-boolsai-grep-grep-boolsai-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:34.469Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.748Z",
+      "ok": false
     },
     "mcp-nefesh-real-time-human-state-awareness-mcp-nefesh-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:35.371Z",
-      "ok": true
+      "at": "2026-09-03T11:39:32.190Z",
+      "ok": false
     },
     "mcp-ai-parceled-mcp-parceled-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:36.005Z",
+      "at": "2026-09-03T11:39:33.128Z",
       "ok": false
     },
     "mcp-ai-primateintelligence-mcp-api-primateintelligence-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:35.479Z",
-      "ok": true
+      "at": "2026-09-03T11:39:32.313Z",
+      "ok": false
     },
     "mcp-ai-dsght-public-www-dsght-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:36.251Z",
-      "ok": true
+      "at": "2026-09-03T11:39:33.060Z",
+      "ok": false
     },
     "mcp-ai-posteverywhere-mcp-posteverywhere-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:37.070Z",
-      "ok": true
+      "at": "2026-09-03T11:39:33.797Z",
+      "ok": false
     },
     "mcp-la-luer-ai-skincare-commerce-searchshopai-mcp-fly-dev-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:37.629Z",
-      "ok": true
+      "at": "2026-09-03T11:39:33.614Z",
+      "ok": false
     },
     "mcp-rallyprop-sbir-opportunities-mcp-rallyprop-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:38:37.346Z",
-      "ok": true
+      "at": "2026-09-03T11:39:32.922Z",
+      "ok": false
     },
     "mcp-drillr-the-financial-mcp-for-ai-agents-gateway-drillr-ai-well-known-mcp-server-card-json": {
       "at": "2026-08-03T16:38:38.356Z",
       "ok": true
     },
     "mcp-ai-pictomancer-image-processing-mcp-pictomancer-ai-well-known-mcp-json": {
-      "at": "2026-08-03T16:38:37.812Z",
+      "at": "2026-09-03T11:39:33.154Z",
       "ok": false
     },
     "mcp-law-ai-lawyer-search-mcp-law-ai-well-known-mcp-server-card-json": {
@@ -8221,8 +8221,8 @@
       "ok": true
     },
     "mcp-cabrini-market-data-cabrini-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-03T16:42:55.679Z",
-      "ok": true
+      "at": "2026-09-03T11:39:31.397Z",
+      "ok": false
     },
     "mcp-scite-api-scite-ai-well-known-mcp-json": {
       "at": "2026-08-03T18:29:25.300Z",
@@ -10577,54 +10577,64 @@
       "ok": false
     },
     "social:2026-09-03": {
-      "at": "2026-09-03T06:25:37.982Z",
+      "at": "2026-09-03T11:39:48.367Z",
       "ok": false
     }
   },
   "totals": {
-    "invites": 886,
-    "invite_http_ok": 845,
-    "nags": 1904,
-    "nag_http_ok": 1789,
-    "talk_inbox": 858,
+    "invites": 906,
+    "invite_http_ok": 864,
+    "nags": 1924,
+    "nag_http_ok": 1808,
+    "talk_inbox": 878,
     "social": 81,
-    "runs": 684
+    "runs": 685
   },
   "last_notes": [
-    "eligible never-demoed 151 (agents 0 mcp 151) · inviting 20 (day 20/120)",
-    "invite mcp x402 Trading & On-Chain Intelligence → http 200 talk — https://x402-services-production.up.railway.app/.well-known/mcp.json",
-    "invite mcp Bezal — Local Business Intelligence for AI → http 405 talk — https://app.bezal.ai/.well-known/mcp/server-card.json",
-    "invite mcp Name Whisper — ENS Intelligence Layer → http 200 talk — https://namewhisper.ai/.well-known/mcp/server-card.json",
-    "invite mcp Buron → http 405 talk — https://app.buron.ai/.well-known/mcp/server-card.json",
-    "invite mcp TinyFish AI Web Agent → http 405 talk — https://mino.ai/.well-known/mcp/server.json",
-    "invite mcp Boolsai Scan → http 405 talk — https://boolsai.ai/.well-known/mcp.json",
-    "invite mcp The Stall · r2 → http 200 talk — https://the-stall.intuitek.ai/.well-known/mcp/server-card.json",
-    "invite mcp good-sport → http 200 talk — https://mcp.good-sport.ai/.well-known/mcp/server-card.json",
-    "invite mcp Dreamlit → http 200 talk — https://mcp.dreamlit.ai/.well-known/mcp/server-card.json",
-    "invite mcp ac.tandem/docs-mcp → http 405 talk — https://tandem.ac/.well-known/mcp/server.json",
-    "invite mcp ai.artidrop/artidrop → http 200 talk — https://artidrop.ai/.well-known/mcp.json",
-    "invite mcp ai.mcpanalytics/analytics → http 405 talk — https://api.mcpanalytics.ai/.well-known/mcp/server-card.json",
-    "invite mcp Nordax AI Entity Network → http 405 talk — https://nordax.ai/.well-known/mcp.json",
-    "invite mcp Bareun — Korean NLP & Spell/Grammar Checki → http 405 talk — https://api.bareun.ai/.well-known/mcp/server-card.json",
-    "invite mcp Marcora · r1 → http 200 talk — https://mcp.marcora.ai/.well-known/mcp/server-card.json",
-    "invite mcp bodenrichtwert.ai — Amtliche Bodenrichtwer → http 200 talk — https://mcp.bodenrichtwert.ai/.well-known/mcp/server-card.json",
-    "invite mcp Jobero job search → http 405 talk — https://jobero.ai/.well-known/mcp/server-card.json",
-    "invite mcp LinkDeal → http 405 talk — https://app.linkdeal.ai/.well-known/mcp.json",
-    "invite mcp ai.autonomad/travel → http 200 talk — https://mcp.autonomad.ai/.well-known/mcp.json",
-    "invite mcp Nexez Agentic Commerce → http 405 talk — https://nexez.ai/.well-known/mcp.json",
-    "feedback nags queued 10 (day 20/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 172 (agents 0 mcp 172) · inviting 20 (day 40/120)",
+    "invite mcp ai.inxy/seo-audit → http 405 talk — https://inxy.ai/.well-known/mcp/server.json",
+    "invite mcp Obris → http 405 talk — https://mcp.obris.ai/.well-known/mcp/server-card.json",
+    "invite mcp ai.plori/plori → http 405 talk — https://api.plori.ai/.well-known/mcp/server-card.json",
+    "invite mcp Perspective AI → http 405 talk — https://getperspective.ai/.well-known/mcp/server-card.json",
+    "invite mcp Cabrini Market Data → http 200 talk — https://cabrini.ai/.well-known/mcp/server-card.json",
+    "invite mcp Jurisprudências.ai → http 401 talk — https://jurisprudencias.ai/mcp.json",
+    "invite mcp Primeta → http 200 talk — https://primeta.ai/.well-known/mcp.json",
+    "invite mcp Compeller → http 405 talk — https://compeller.ai/.well-known/mcp.json",
+    "invite mcp Gossiper Shopify Admin MCP Server · r1 → http 405 talk — https://mcp.gossiper.io/.well-known/mcp.json",
+    "invite mcp Boolsai Grep → http 200 talk — https://grep.boolsai.ai/.well-known/mcp.json",
+    "invite mcp ai.groundroute/web-search → http 405 talk — https://api.groundroute.ai/.well-known/mcp/server-card.json",
+    "invite mcp Nefesh — Real-time Human State Awareness → http 405 talk — https://mcp.nefesh.ai/.well-known/mcp.json",
+    "invite mcp ai.primateintelligence/mcp → http 200 talk — https://api.primateintelligence.ai/.well-known/mcp/server-card.json",
+    "invite mcp RallyProp SBIR Opportunities → http 401 talk — https://mcp.rallyprop.ai/.well-known/mcp/server-card.json",
+    "invite mcp ai.dsght/public → http 405 talk — https://www.dsght.ai/.well-known/mcp.json",
+    "invite mcp ai.parceled/mcp → http 405 talk — https://parceled.ai/.well-known/mcp.json",
+    "invite mcp ai.pictomancer/image-processing → http 405 talk — https://mcp.pictomancer.ai/.well-known/mcp.json",
+    "invite mcp La Luer — AI Skincare Commerce → http 200 talk — https://searchshopai-mcp.fly.dev/.well-known/mcp.json",
+    "invite mcp ai.posteverywhere/mcp → http 405 talk — https://posteverywhere.ai/.well-known/mcp/server-card.json",
+    "invite mcp ai.deskcrew/agentic → http 404 talk — https://deskcrew.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 20 (day 30/60)",
+    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
+    "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
+    "nag self_serve ac.tandem/docs-mcp → http 405 talk —",
+    "nag self_serve ai.iturri/market-data → http 200 talk —",
+    "nag self_serve AdAdvisor MCP Server → http 401 talk —",
+    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 405 talk —",
+    "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
+    "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
+    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
+    "nag invited BeatBandit MCP → http 405 talk —",
+    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
+    "nag invited AnomalyArmor → http 405 talk —",
+    "nag invited ai.iturri/market-data → http 200 talk —",
+    "nag invited ai.meacheal/mrc-data → http 200 talk —",
+    "nag invited ai.odei/connect → http 405 talk —",
+    "nag invited ai.maguyva/maguyva → http 405 talk —",
+    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
+    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
+    "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
+    "nag invited ai.joinmultiplayer/gpu → http 200 talk —",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-03T06:25:37.982Z",
+  "last_run_at": "2026-09-03T11:39:48.367Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
