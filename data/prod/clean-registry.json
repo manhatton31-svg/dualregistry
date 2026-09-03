@@ -1,14 +1,14 @@
 {
   "day": "2026-09-03",
-  "updated_at": "2026-09-03T21:22:37.664Z",
+  "updated_at": "2026-09-03T23:26:48.068Z",
   "counts": {
-    "total": 837,
-    "mcp": 802,
+    "total": 839,
+    "mcp": 804,
     "agents": 35
   },
   "high_water": {
-    "total": 837,
-    "mcp": 802,
+    "total": 839,
+    "mcp": 804,
     "agents": 35
   },
   "items": {
@@ -9215,6 +9215,28 @@
       "target": "https://traced-llm-proxy.getvda.ai/mcp",
       "approved_at": "2026-09-03T21:21:45.786Z",
       "probed_at": "2026-09-03T21:21:45.786Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-aginera-mcp-aginera-ai-mcp": {
+      "id": "mcp-aginera-mcp-aginera-ai-mcp",
+      "kind": "mcp",
+      "name": "Aginera",
+      "target": "https://mcp.aginera.ai/mcp",
+      "approved_at": "2026-09-03T23:25:36.365Z",
+      "probed_at": "2026-09-03T23:25:36.365Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-ai-getvda-traced-openai-langchain-agent-authenticated-mcp-agent-opentelemetry-api-getvda-ai-mcp": {
+      "id": "mcp-ai-getvda-traced-openai-langchain-agent-authenticated-mcp-agent-opentelemetry-api-getvda-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.getvda/traced-openai-langchain-agent",
+      "target": "https://authenticated-mcp-agent-opentelemetry-api.getvda.ai/mcp",
+      "approved_at": "2026-09-03T23:25:48.081Z",
+      "probed_at": "2026-09-03T23:25:48.081Z",
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 200"
