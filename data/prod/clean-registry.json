@@ -1,14 +1,14 @@
 {
   "day": "2026-09-04",
-  "updated_at": "2026-09-04T01:12:04.308Z",
+  "updated_at": "2026-09-04T05:56:13.770Z",
   "counts": {
-    "total": 839,
-    "mcp": 804,
+    "total": 841,
+    "mcp": 806,
     "agents": 35
   },
   "high_water": {
-    "total": 839,
-    "mcp": 804,
+    "total": 841,
+    "mcp": 806,
     "agents": 35
   },
   "items": {
@@ -9240,6 +9240,28 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-hiddencontent-api-hiddencontent-ai-v1-mcp": {
+      "id": "mcp-hiddencontent-api-hiddencontent-ai-v1-mcp",
+      "kind": "mcp",
+      "name": "HiddenContent",
+      "target": "https://api.hiddencontent.ai/v1/mcp",
+      "approved_at": "2026-09-04T05:55:14.133Z",
+      "probed_at": "2026-09-04T05:55:14.133Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-great-arrow-www-greatarrow-ai-api-mcp": {
+      "id": "mcp-great-arrow-www-greatarrow-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Great Arrow",
+      "target": "https://www.greatarrow.ai/api/mcp",
+      "approved_at": "2026-09-04T05:55:14.194Z",
+      "probed_at": "2026-09-04T05:55:14.194Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
