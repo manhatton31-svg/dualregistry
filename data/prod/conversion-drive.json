@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-04T20:51:29.860Z",
+  "updated_at": "2026-09-04T22:59:00.787Z",
   "day": "2026-09-04",
-  "day_invites": 112,
+  "day_invites": 120,
   "day_nags": 60,
-  "day_talk": 112,
+  "day_talk": 120,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -3366,34 +3366,34 @@
       "talk_ok": false
     },
     "mcp-ai-petraport-agent-commerce-petraport-ai-api-agent-commerce-v1-mcp": {
-      "at": "2026-08-04T13:27:30.023Z",
+      "at": "2026-09-04T22:58:56.818Z",
       "name": "ai.petraport/agent-commerce",
       "kind": "mcp",
       "http_ok": true,
       "status": 401,
       "target": "https://petraport.ai/api/agent-commerce/v1/mcp",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-getthroughline-throughline-getthroughline-ai-mcp": {
-      "at": "2026-08-04T13:27:30.267Z",
+      "at": "2026-09-04T22:59:00.294Z",
       "name": "ai.getthroughline/throughline",
       "kind": "mcp",
-      "http_ok": true,
-      "status": 401,
-      "target": "https://getthroughline.ai/mcp",
-      "method": "POST:soft-json",
-      "talk_ok": true
+      "http_ok": false,
+      "status": 502,
+      "target": "https://getthroughline.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
     },
     "mcp-ai-geodesiclabs-governance-platform-app-geodesiclabs-ai-mcp": {
-      "at": "2026-08-04T13:27:30.334Z",
+      "at": "2026-09-04T22:58:57.538Z",
       "name": "ai.geodesiclabs/governance-platform",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://app.geodesiclabs.ai/",
       "method": "POST:a2a-message",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-fiuto-mcp-mcp-fiuto-ai": {
       "at": "2026-09-04T20:51:28.707Z",
@@ -3406,14 +3406,14 @@
       "talk_ok": false
     },
     "mcp-hivewiki-mcp-hivewiki-ai-mcp": {
-      "at": "2026-08-04T15:59:17.722Z",
+      "at": "2026-09-04T22:58:57.212Z",
       "name": "hiveWiki",
       "kind": "mcp",
       "http_ok": true,
       "status": 401,
       "target": "https://mcp.hivewiki.ai/mcp",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-nullary-nullary-mcp-nullary-ai-mcp": {
       "at": "2026-08-04T15:59:18.713Z",
@@ -3426,14 +3426,14 @@
       "talk_ok": true
     },
     "mcp-ai-epinu-epinu-api-epinu-ai-api-agent-mcp": {
-      "at": "2026-08-04T15:59:18.915Z",
+      "at": "2026-09-04T22:58:56.978Z",
       "name": "ai.epinu/epinu",
       "kind": "mcp",
       "http_ok": true,
       "status": 200,
       "target": "https://api.epinu.ai/",
       "method": "GET",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-korey-mcp-korey-ai-mcp": {
       "at": "2026-08-04T15:59:20.016Z",
@@ -3446,14 +3446,14 @@
       "talk_ok": true
     },
     "mcp-ai-filegraph-document-processing-api-filegraph-ai-mcp": {
-      "at": "2026-08-04T15:59:19.728Z",
+      "at": "2026-09-04T22:59:00.704Z",
       "name": "ai.filegraph/document-processing",
       "kind": "mcp",
       "http_ok": false,
       "status": 404,
       "target": "https://api.filegraph.ai/.well-known/mcp/server-card.json",
       "method": "POST:tasks-send",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-dataforb2b-mcp-dataforb2b-ai-mcp": {
       "at": "2026-08-04T15:59:19.189Z",
@@ -3466,14 +3466,14 @@
       "talk_ok": true
     },
     "mcp-ai-keenable-web-search-api-keenable-ai-mcp": {
-      "at": "2026-08-04T15:59:17.766Z",
+      "at": "2026-09-04T22:58:58.096Z",
       "name": "ai.keenable/web-search",
       "kind": "mcp",
-      "http_ok": true,
-      "status": 400,
-      "target": "https://api.keenable.ai/mcp",
-      "method": "POST:soft-json",
-      "talk_ok": true
+      "http_ok": false,
+      "status": 404,
+      "target": "https://api.keenable.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
     },
     "mcp-marky-api-mymarky-ai-api-mcp": {
       "at": "2026-08-04T15:59:20.702Z",
@@ -7294,6 +7294,16 @@
       "target": "https://darkfunnels.ai/.well-known/mcp.json",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-darkfunnels-documentation-docs-darkfunnels-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-04T22:58:57.009Z",
+      "name": "DarkFunnels documentation",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://docs.darkfunnels.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -8819,48 +8829,48 @@
       "ok": false
     },
     "mcp-ai-petraport-agent-commerce-petraport-ai-api-agent-commerce-v1-mcp": {
-      "at": "2026-08-04T13:27:30.023Z",
-      "ok": true
+      "at": "2026-09-04T22:58:56.818Z",
+      "ok": false
     },
     "mcp-ai-getthroughline-throughline-getthroughline-ai-mcp": {
-      "at": "2026-08-04T13:27:30.267Z",
-      "ok": true
+      "at": "2026-09-04T22:59:00.294Z",
+      "ok": false
     },
     "mcp-ai-geodesiclabs-governance-platform-app-geodesiclabs-ai-mcp": {
-      "at": "2026-08-04T13:27:30.334Z",
-      "ok": true
+      "at": "2026-09-04T22:58:57.538Z",
+      "ok": false
     },
     "mcp-ai-fiuto-mcp-mcp-fiuto-ai": {
       "at": "2026-09-04T20:51:28.707Z",
       "ok": false
     },
     "mcp-hivewiki-mcp-hivewiki-ai-mcp": {
-      "at": "2026-08-04T15:59:17.722Z",
-      "ok": true
+      "at": "2026-09-04T22:58:57.212Z",
+      "ok": false
     },
     "mcp-ai-nullary-nullary-mcp-nullary-ai-mcp": {
       "at": "2026-08-04T15:59:18.713Z",
       "ok": true
     },
     "mcp-ai-epinu-epinu-api-epinu-ai-api-agent-mcp": {
-      "at": "2026-08-04T15:59:18.915Z",
-      "ok": true
+      "at": "2026-09-04T22:58:56.978Z",
+      "ok": false
     },
     "mcp-korey-mcp-korey-ai-mcp": {
       "at": "2026-08-04T15:59:20.016Z",
       "ok": true
     },
     "mcp-ai-filegraph-document-processing-api-filegraph-ai-mcp": {
-      "at": "2026-08-04T15:59:19.728Z",
-      "ok": true
+      "at": "2026-09-04T22:59:00.704Z",
+      "ok": false
     },
     "mcp-dataforb2b-mcp-dataforb2b-ai-mcp": {
       "at": "2026-08-04T15:59:19.189Z",
       "ok": true
     },
     "mcp-ai-keenable-web-search-api-keenable-ai-mcp": {
-      "at": "2026-08-04T15:59:17.766Z",
-      "ok": true
+      "at": "2026-09-04T22:58:58.096Z",
+      "ok": false
     },
     "mcp-marky-api-mymarky-ai-api-mcp": {
       "at": "2026-08-04T15:59:20.702Z",
@@ -10615,7 +10625,7 @@
       "ok": false
     },
     "social:2026-09-04": {
-      "at": "2026-09-04T20:51:29.860Z",
+      "at": "2026-09-04T22:59:00.787Z",
       "ok": false
     },
     "mcp-duami-duami-ai-well-known-mcp-json": {
@@ -10625,34 +10635,34 @@
     "mcp-darkfunnels-darkfunnels-ai-well-known-mcp-json": {
       "at": "2026-09-04T20:51:27.367Z",
       "ok": false
+    },
+    "mcp-darkfunnels-documentation-docs-darkfunnels-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-04T22:58:57.009Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1078,
-    "invite_http_ok": 1025,
+    "invites": 1086,
+    "invite_http_ok": 1030,
     "nags": 1994,
     "nag_http_ok": 1873,
-    "talk_inbox": 1050,
+    "talk_inbox": 1058,
     "social": 81,
-    "runs": 695
+    "runs": 696
   },
   "last_notes": [
-    "eligible never-demoed 256 (agents 0 mcp 256) · inviting 12 (day 100/120)",
-    "invite mcp Contio MeetingOS → http 401 talk — https://mcp.contio.ai/mcp",
-    "invite mcp DarkFunnels → http 200 talk — https://darkfunnels.ai/.well-known/mcp.json",
-    "invite mcp ai.hermitsh/texts → http 200 talk — https://hermitsh.ai/mcp",
-    "invite mcp ai.krtr/krtr → http 401 talk — https://www.krtr.ai/api/mcp",
-    "invite mcp Signal not Noise → http 401 talk — https://signal.lifeisagame.ai/mcp",
-    "invite mcp ai.llmse/mcp → http 405 talk — https://llmse.ai/",
-    "invite mcp MarketTrace agent-feed → http 401 talk — https://api.markettrace.ai/mcp",
-    "invite mcp ai.openarx/openarx · r3 → http 401 talk — https://mcp.openarx.ai/gov/mcp",
-    "invite mcp ai.fiuto/mcp → http 401 talk — https://mcp.fiuto.ai/",
-    "invite mcp OneLore → http 401 talk — https://mcp.onelore.ai/",
-    "invite mcp Genomic Intelligence → http 404 talk — https://mcp.genomicintelligence.ai/.well-known/mcp/server-card.json",
-    "invite mcp Modulos Demo Booking → http 405 talk — https://www.modulos.ai/",
+    "eligible never-demoed 245 (agents 0 mcp 245) · inviting 8 (day 112/120)",
+    "invite mcp ai.petraport/agent-commerce → http 401 talk — https://petraport.ai/api/agent-commerce/v1/mcp",
+    "invite mcp ai.epinu/epinu → http 200 talk — https://api.epinu.ai/",
+    "invite mcp DarkFunnels documentation → http 405 talk — https://docs.darkfunnels.ai/.well-known/mcp/server-card.json",
+    "invite mcp hiveWiki → http 401 talk — https://mcp.hivewiki.ai/mcp",
+    "invite mcp ai.geodesiclabs/governance-platform → http 405 talk — https://app.geodesiclabs.ai/",
+    "invite mcp ai.keenable/web-search → http 404 talk — https://api.keenable.ai/.well-known/mcp/server-card.json",
+    "invite mcp ai.getthroughline/throughline → http 502 talk — https://getthroughline.ai/.well-known/mcp/server-card.json",
+    "invite mcp ai.filegraph/document-processing → http 404 talk — https://api.filegraph.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → 405"
   ],
-  "last_run_at": "2026-09-04T20:51:29.860Z",
+  "last_run_at": "2026-09-04T22:59:00.787Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
