@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-05T18:09:55.788Z",
+  "updated_at": "2026-09-05T20:28:20.466Z",
   "day": "2026-09-05",
-  "day_invites": 112,
+  "day_invites": 120,
   "day_nags": 60,
-  "day_talk": 112,
+  "day_talk": 120,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -4426,14 +4426,14 @@
       "talk_ok": false
     },
     "mcp-abmeter-mcp-abmeter-ai": {
-      "at": "2026-08-05T12:09:34.990Z",
+      "at": "2026-09-05T20:28:17.384Z",
       "name": "ABMeter",
       "kind": "mcp",
       "http_ok": true,
       "status": 400,
       "target": "https://mcp.abmeter.ai/",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-omnisignal-omnisignal-https-github-com-omnisignal-ai-omnisignal-mcp": {
       "at": "2026-09-04T14:59:55.645Z",
@@ -4446,17 +4446,17 @@
       "talk_ok": false
     },
     "mcp-inferventis-mcp-server-mcp-server-295985738387-europe-west1-run-app-mcp": {
-      "at": "2026-08-05T12:09:35.410Z",
+      "at": "2026-09-05T20:28:17.479Z",
       "name": "Inferventis MCP Server",
       "kind": "mcp",
       "http_ok": true,
       "status": 401,
       "target": "https://mcp-server-295985738387.europe-west1.run.app/mcp",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ccapi-r4-api-ccapi-ai-mcp-music": {
-      "at": "2026-08-05T12:09:32.861Z",
+      "at": "2026-09-05T20:28:17.516Z",
       "name": "CCAPI · r4",
       "kind": "mcp",
       "http_ok": true,
@@ -4466,24 +4466,24 @@
       "talk_ok": false
     },
     "mcp-fine-structure-finestructure-ai-api-mcp": {
-      "at": "2026-08-05T12:09:36.770Z",
+      "at": "2026-09-05T20:28:17.638Z",
       "name": "Fine Structure",
       "kind": "mcp",
       "http_ok": true,
       "status": 200,
       "target": "https://finestructure.ai/api/mcp",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-butlerbrain-mcp-api-butlerbrain-ai-mcp": {
-      "at": "2026-08-05T12:09:36.794Z",
+      "at": "2026-09-05T20:28:17.501Z",
       "name": "ai.butlerbrain/mcp",
       "kind": "mcp",
       "http_ok": true,
       "status": 401,
       "target": "https://api.butlerbrain.ai/mcp",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-china-marketing-ai-intelligence-mcp-api-chinamarketing-ai-mcp": {
       "at": "2026-08-05T12:09:37.993Z",
@@ -4496,17 +4496,17 @@
       "talk_ok": false
     },
     "mcp-bittlebits-geo-assistant-bittlebits-ai-mcp": {
-      "at": "2026-08-05T12:09:36.768Z",
+      "at": "2026-09-05T20:28:20.225Z",
       "name": "BittleBits GEO Assistant",
       "kind": "mcp",
-      "http_ok": true,
-      "status": 401,
-      "target": "https://bittlebits.ai/mcp",
-      "method": "POST:soft-json",
-      "talk_ok": true
+      "http_ok": false,
+      "status": 503,
+      "target": "https://bittlebits.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
     },
     "mcp-ai-agentrapay-agentra-api-agentrapay-ai-mcp": {
-      "at": "2026-08-05T12:09:37.969Z",
+      "at": "2026-09-05T20:28:17.658Z",
       "name": "ai.agentrapay/agentra",
       "kind": "mcp",
       "http_ok": true,
@@ -7444,6 +7444,16 @@
       "target": "https://app.inbrix.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-ai-bizmoon-regulatory-bizmoon-ai-api-mcp": {
+      "at": "2026-09-05T20:28:17.377Z",
+      "name": "ai.bizmoon/regulatory",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://bizmoon.ai/api/mcp",
+      "method": "POST:tasks-send",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -9397,39 +9407,39 @@
       "ok": false
     },
     "mcp-abmeter-mcp-abmeter-ai": {
-      "at": "2026-08-05T12:09:34.990Z",
-      "ok": true
+      "at": "2026-09-05T20:28:17.384Z",
+      "ok": false
     },
     "mcp-ai-omnisignal-omnisignal-https-github-com-omnisignal-ai-omnisignal-mcp": {
       "at": "2026-09-04T14:59:55.645Z",
       "ok": false
     },
     "mcp-inferventis-mcp-server-mcp-server-295985738387-europe-west1-run-app-mcp": {
-      "at": "2026-08-05T12:09:35.410Z",
-      "ok": true
+      "at": "2026-09-05T20:28:17.479Z",
+      "ok": false
     },
     "mcp-ccapi-r4-api-ccapi-ai-mcp-music": {
-      "at": "2026-08-05T12:09:32.861Z",
+      "at": "2026-09-05T20:28:17.516Z",
       "ok": false
     },
     "mcp-fine-structure-finestructure-ai-api-mcp": {
-      "at": "2026-08-05T12:09:36.770Z",
-      "ok": true
+      "at": "2026-09-05T20:28:17.638Z",
+      "ok": false
     },
     "mcp-ai-butlerbrain-mcp-api-butlerbrain-ai-mcp": {
-      "at": "2026-08-05T12:09:36.794Z",
-      "ok": true
+      "at": "2026-09-05T20:28:17.501Z",
+      "ok": false
     },
     "mcp-china-marketing-ai-intelligence-mcp-api-chinamarketing-ai-mcp": {
       "at": "2026-08-05T12:09:37.993Z",
       "ok": false
     },
     "mcp-bittlebits-geo-assistant-bittlebits-ai-mcp": {
-      "at": "2026-08-05T12:09:36.768Z",
-      "ok": true
+      "at": "2026-09-05T20:28:20.225Z",
+      "ok": false
     },
     "mcp-ai-agentrapay-agentra-api-agentrapay-ai-mcp": {
-      "at": "2026-08-05T12:09:37.969Z",
+      "at": "2026-09-05T20:28:17.658Z",
       "ok": false
     },
     "mcp-memocore-memocore-ai-mcp": {
@@ -10781,7 +10791,7 @@
       "ok": false
     },
     "social:2026-09-05": {
-      "at": "2026-09-05T18:09:55.788Z",
+      "at": "2026-09-05T20:28:20.466Z",
       "ok": false
     },
     "mcp-ai-kanonik-kanonik-app-kanonik-ai-mcp": {
@@ -10839,34 +10849,34 @@
     "mcp-inbrix-app-inbrix-ai-api-mcp": {
       "at": "2026-09-05T18:09:55.449Z",
       "ok": false
+    },
+    "mcp-ai-bizmoon-regulatory-bizmoon-ai-api-mcp": {
+      "at": "2026-09-05T20:28:17.377Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1198,
-    "invite_http_ok": 1135,
+    "invites": 1206,
+    "invite_http_ok": 1142,
     "nags": 2054,
     "nag_http_ok": 1929,
-    "talk_inbox": 1170,
+    "talk_inbox": 1178,
     "social": 81,
-    "runs": 702
+    "runs": 703
   },
   "last_notes": [
-    "eligible never-demoed 235 (agents 0 mcp 235) · inviting 12 (day 100/120)",
-    "invite mcp Chipp → http 401 talk — https://build.chipp.ai/mcp",
-    "invite mcp Alchemist Cloud Tickets → http 401 talk — https://build.chipp.ai/alchemist-api/api/mcp",
-    "invite mcp Everyn → http 401 talk — https://mcp.everyn.ai/mcp",
-    "invite mcp Draconic Market Intelligence → http 401 talk — https://mcp.draconic.ai/mcp",
-    "invite mcp DeskClone → http 401 talk — https://api.deskclone.ai/v1/mcp",
-    "invite mcp ai.extend/extend → http 401 talk — https://mcp.extend.ai/mcp",
-    "invite mcp Cerebrium Docs → http 400 talk — https://cerebrium.ai/docs/mcp",
-    "invite mcp Aginera → http 401 talk — https://mcp.aginera.ai/mcp",
-    "invite mcp HiddenContent → http 401 talk — https://api.hiddencontent.ai/v1/mcp",
-    "invite mcp Fonzi for Candidates → http 401 talk — https://talent.fonzi.ai/mcp",
-    "invite mcp Fonzi for Companies → http 401 talk — https://recruiting.fonzi.ai/mcp",
-    "invite mcp inbrix → http 401 talk — https://app.inbrix.ai/api/mcp",
+    "eligible never-demoed 224 (agents 0 mcp 224) · inviting 8 (day 112/120)",
+    "invite mcp ai.bizmoon/regulatory → http 400 talk — https://bizmoon.ai/api/mcp",
+    "invite mcp ABMeter → http 400 talk — https://mcp.abmeter.ai/",
+    "invite mcp Inferventis MCP Server → http 401 talk — https://mcp-server-295985738387.europe-west1.run.app/mcp",
+    "invite mcp CCAPI · r4 → http 401 talk — https://api.ccapi.ai/mcp/music",
+    "invite mcp ai.butlerbrain/mcp → http 401 talk — https://api.butlerbrain.ai/mcp",
+    "invite mcp Fine Structure → http 200 talk — https://finestructure.ai/api/mcp",
+    "invite mcp ai.agentrapay/agentra → http 200 talk — https://api.agentrapay.ai/mcp",
+    "invite mcp BittleBits GEO Assistant → http 503 talk — https://bittlebits.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → 405"
   ],
-  "last_run_at": "2026-09-05T18:09:55.788Z",
+  "last_run_at": "2026-09-05T20:28:20.466Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
