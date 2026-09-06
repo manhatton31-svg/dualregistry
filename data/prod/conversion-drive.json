@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-06T20:29:33.291Z",
+  "updated_at": "2026-09-06T22:16:35.515Z",
   "day": "2026-09-06",
-  "day_invites": 112,
+  "day_invites": 120,
   "day_nags": 60,
-  "day_talk": 112,
+  "day_talk": 120,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -5856,14 +5856,14 @@
       "talk_ok": false
     },
     "mcp-ai-hirey-hi-mcp-hirey-ai-mcp": {
-      "at": "2026-08-07T21:52:07.757Z",
+      "at": "2026-09-06T22:16:35.181Z",
       "name": "ai.hirey/hi",
       "kind": "mcp",
       "http_ok": true,
       "status": 401,
       "target": "https://mcp.hirey.ai/mcp",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-memoryrouter-mcp-memoryrouter-ai-mcp": {
       "at": "2026-08-08T04:42:46.695Z",
@@ -8012,6 +8012,76 @@
       "http_ok": true,
       "status": 200,
       "target": "https://llm-orchestration-agent-opentelemetry-instrume-a529e4.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-mcp-agent-llm-orchestration-mcp-agent-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.274Z",
+      "name": "ai.getvda/llm-orchestration-mcp-agent",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://llm-orchestration-mcp-agent.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-memcached-mongodb-redis-compose-genera-memcached-mongodb-redis-compose-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.193Z",
+      "name": "ai.getvda/memcached-mongodb-redis-compose-generator",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://memcached-mongodb-redis-compose-generator.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-minio-and-redis-storage-stack-redis-minio-stack-generator-minio-minio-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.349Z",
+      "name": "ai.getvda/minio-and-redis-storage-stack",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://redis-minio-stack-generator-minio-minio.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-minio-postgres-redis-stack-generator-minio-postgres-redis-stack-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.372Z",
+      "name": "ai.getvda/minio-postgres-redis-stack-generator",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://minio-postgres-redis-stack-generator.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-traced-agent-llm-orchestration-traced-agent-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.396Z",
+      "name": "ai.getvda/llm-orchestration-traced-agent",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://llm-orchestration-traced-agent.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-multi-provider-schema-output-agent-instructor-litellm-6af681-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.411Z",
+      "name": "ai.getvda/multi-provider-schema-output-agent",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://instructor-litellm-6af681.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-mysql-redis-compose-generator-mysql-redis-compose-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.412Z",
+      "name": "ai.getvda/mysql-redis-compose-generator",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://mysql-redis-compose-generator.getvda.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -10547,8 +10617,8 @@
       "ok": false
     },
     "mcp-ai-hirey-hi-mcp-hirey-ai-mcp": {
-      "at": "2026-08-07T21:52:07.757Z",
-      "ok": true
+      "at": "2026-09-06T22:16:35.181Z",
+      "ok": false
     },
     "social:2026-08-08": {
       "at": "2026-08-08T21:39:48.238Z",
@@ -11641,34 +11711,57 @@
     "mcp-ai-getvda-llm-orchestration-agent-opentelemetry-llm-orchestration-agent-opentelemetry-instrume-a529e4-getvda-ai": {
       "at": "2026-09-06T20:29:33.170Z",
       "ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-mcp-agent-llm-orchestration-mcp-agent-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.274Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-memcached-mongodb-redis-compose-genera-memcached-mongodb-redis-compose-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.193Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-minio-and-redis-storage-stack-redis-minio-stack-generator-minio-minio-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.349Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-minio-postgres-redis-stack-generator-minio-postgres-redis-stack-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.372Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-traced-agent-llm-orchestration-traced-agent-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.396Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-multi-provider-schema-output-agent-instructor-litellm-6af681-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.411Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-mysql-redis-compose-generator-mysql-redis-compose-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T22:16:35.412Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1318,
-    "invite_http_ok": 1247,
+    "invites": 1326,
+    "invite_http_ok": 1255,
     "nags": 2114,
     "nag_http_ok": 1985,
-    "talk_inbox": 1290,
+    "talk_inbox": 1298,
     "social": 81,
-    "runs": 711
+    "runs": 712
   },
   "last_notes": [
-    "eligible never-demoed 124 (agents 0 mcp 124) · inviting 12 (day 100/120)",
-    "invite mcp ai.getvda/llm-orchestration-agent-langchai → http 200 talk — https://llm-orchestration-agent-langchain-core.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-agent-langsmit → http 200 talk — https://llm-orchestration-agent-langsmith.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-agent-langgrap → http 200 talk — https://llm-orchestration-agent-langgraph.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-agent-langchai → http 200 talk — https://llm-orchestration-agent-langchain-anthropic.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-agent-langchai → http 200 talk — https://llm-orchestration-agent-langchain-openai.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-agent-openai → http 200 talk — https://llm-orchestration-agent-openai.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-agent-opentele → http 200 talk — https://llm-orchestration-agent-opentelemetry-api.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-agent-mcp → http 200 talk — https://llm-orchestration-agent-mcp.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-agent-2-df5979 → http 200 talk — https://llm-orchestration-agent-2-df5979.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-jwt-agent → http 200 talk — https://llm-orchestration-jwt-agent.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-observability- → http 200 talk — https://llm-orchestration-observability-agent.getvda.ai/mcp",
-    "invite mcp ai.getvda/llm-orchestration-agent-opentele → http 200 talk — https://llm-orchestration-agent-opentelemetry-instrume-a529e4.getvda.ai/mcp",
-    "feedback nags queued 0 (day 60/60)",
-    "social post → 405"
+    "eligible never-demoed 114 (agents 0 mcp 114) · inviting 8 (day 112/120)",
+    "invite mcp ai.hirey/hi → http 401 talk — https://mcp.hirey.ai/mcp",
+    "invite mcp ai.getvda/llm-orchestration-mcp-agent → http 200 talk — https://llm-orchestration-mcp-agent.getvda.ai/mcp",
+    "invite mcp ai.getvda/memcached-mongodb-redis-compose- → http 200 talk — https://memcached-mongodb-redis-compose-generator.getvda.ai/mcp",
+    "invite mcp ai.getvda/minio-and-redis-storage-stack → http 200 talk — https://redis-minio-stack-generator-minio-minio.getvda.ai/mcp",
+    "invite mcp ai.getvda/minio-postgres-redis-stack-gener → http 200 talk — https://minio-postgres-redis-stack-generator.getvda.ai/mcp",
+    "invite mcp ai.getvda/llm-orchestration-traced-agent → http 200 talk — https://llm-orchestration-traced-agent.getvda.ai/mcp",
+    "invite mcp ai.getvda/multi-provider-schema-output-age → http 200 talk — https://instructor-litellm-6af681.getvda.ai/mcp",
+    "invite mcp ai.getvda/mysql-redis-compose-generator → http 200 talk — https://mysql-redis-compose-generator.getvda.ai/mcp",
+    "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-09-06T20:29:33.291Z",
+  "last_run_at": "2026-09-06T22:16:35.514Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
