@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-06T15:50:50.075Z",
+  "updated_at": "2026-09-06T18:13:40.930Z",
   "day": "2026-09-06",
-  "day_invites": 80,
+  "day_invites": 100,
   "day_nags": 60,
-  "day_talk": 80,
+  "day_talk": 100,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -5826,24 +5826,24 @@
       "talk_ok": false
     },
     "mcp-ai-etincel-etincel-nonfiction-etincel-ai-api-mcp": {
-      "at": "2026-08-07T16:06:20.224Z",
+      "at": "2026-09-06T18:13:37.281Z",
       "name": "ai.etincel/etincel-nonfiction",
       "kind": "mcp",
       "http_ok": true,
       "status": 401,
       "target": "https://etincel.ai/api/mcp",
       "method": "POST:soft-json",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-ai-aivonic-mcp-mcp-aivonic-ai": {
-      "at": "2026-08-07T18:06:23.635Z",
+      "at": "2026-09-06T18:13:40.880Z",
       "name": "ai.aivonic/mcp",
       "kind": "mcp",
       "http_ok": false,
       "status": 404,
       "target": "https://mcp.aivonic.ai/.well-known/mcp/server-card.json",
       "method": "POST:tasks-send",
-      "talk_ok": true
+      "talk_ok": false
     },
     "mcp-adadvisor-mcp-server-api-adadvisor-ai-mcp": {
       "at": "2026-08-07T21:52:07.719Z",
@@ -7712,6 +7712,186 @@
       "http_ok": true,
       "status": 200,
       "target": "https://authenticated-llm-agent-cryptography.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-google-sign-in-claude-agent-authenticated-llm-agent-anthropic-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.299Z",
+      "name": "ai.getvda/google-sign-in-claude-agent",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://authenticated-llm-agent-anthropic.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-google-oauth-credential-service-authenticated-llm-oauth-agent-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.404Z",
+      "name": "ai.getvda/google-oauth-credential-service",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://authenticated-llm-oauth-agent.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-fastapi-auth-token-service-fastapi-auth-token-service-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.308Z",
+      "name": "ai.getvda/fastapi-auth-token-service",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://fastapi-auth-token-service.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-google-sign-in-langchain-agent-google-auth-oauthlib-langchain-la-d46b90-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.480Z",
+      "name": "ai.getvda/google-sign-in-langchain-agent",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://google-auth-oauthlib-langchain-la-d46b90.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-kafka-and-postgres-monitoring-stack-postgres-prometheus-kafka-stack-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.527Z",
+      "name": "ai.getvda/kafka-and-postgres-monitoring-stack",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://postgres-prometheus-kafka-stack-generator.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-kafka-minio-redis-stack-generator-kafka-minio-redis-stack-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.606Z",
+      "name": "ai.getvda/kafka-minio-redis-stack-generator",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://kafka-minio-redis-stack-generator.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-google-oauth-langchain-agent-google-auth-oauthlib-langchain-la-c1a755-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.511Z",
+      "name": "ai.getvda/google-oauth-langchain-agent",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://google-auth-oauthlib-langchain-la-c1a755.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-integration-agent-drift-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.762Z",
+      "name": "ai.getvda/integration-agent",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://drift.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-observability-orchestration-llm-observability-orchestration-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.779Z",
+      "name": "ai.getvda/llm-observability-orchestration",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://llm-observability-orchestration.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-langchain-login-and-token-agent-authenticated-mcp-agent-langchain-core-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.774Z",
+      "name": "ai.getvda/langchain-login-and-token-agent",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://authenticated-mcp-agent-langchain-core.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-kafka-redis-minio-stack-generator-kafka-redis-minio-stack-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.818Z",
+      "name": "ai.getvda/kafka-redis-minio-stack-generator",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://kafka-redis-minio-stack-generator.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-observability-orchestration-agent-llm-observability-orchestration-agent-langchai-c1a755-getvda-ai": {
+      "at": "2026-09-06T18:13:37.856Z",
+      "name": "ai.getvda/llm-observability-orchestration-agent-langchain-community",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://llm-observability-orchestration-agent-langchai-c1a755.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-observability-orchestration-agent-langchain-langchain-core-langsmit-d042fc-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.873Z",
+      "name": "ai.getvda/llm-observability-orchestration-agent-langchain",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://langchain-langchain-core-langsmit-d042fc.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-2-llm-orchestration-agent-2-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.927Z",
+      "name": "ai.getvda/llm-orchestration-agent-2",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://llm-orchestration-agent-2.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-cryptography-llm-orchestration-agent-cryptography-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.928Z",
+      "name": "ai.getvda/llm-orchestration-agent-cryptography",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://llm-orchestration-agent-cryptography.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-d0a1a1-llm-orchestration-agent-d0a1a1-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.942Z",
+      "name": "ai.getvda/llm-orchestration-agent-d0a1a1",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://llm-orchestration-agent-d0a1a1.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-d2feb0-llm-orchestration-agent-d2feb0-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.972Z",
+      "name": "ai.getvda/llm-orchestration-agent-d2feb0",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://llm-orchestration-agent-d2feb0.getvda.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-langchain-llm-orchestration-agent-langchain-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:38.040Z",
+      "name": "ai.getvda/llm-orchestration-agent-langchain",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://llm-orchestration-agent-langchain.getvda.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -10235,12 +10415,12 @@
       "ok": false
     },
     "mcp-ai-etincel-etincel-nonfiction-etincel-ai-api-mcp": {
-      "at": "2026-08-07T16:06:20.224Z",
-      "ok": true
+      "at": "2026-09-06T18:13:37.281Z",
+      "ok": false
     },
     "mcp-ai-aivonic-mcp-mcp-aivonic-ai": {
-      "at": "2026-08-07T18:06:23.635Z",
-      "ok": true
+      "at": "2026-09-06T18:13:40.880Z",
+      "ok": false
     },
     "mcp-adadvisor-mcp-server-api-adadvisor-ai-mcp": {
       "at": "2026-08-07T21:52:07.719Z",
@@ -11115,7 +11295,7 @@
       "ok": false
     },
     "social:2026-09-06": {
-      "at": "2026-09-06T15:50:50.075Z",
+      "at": "2026-09-06T18:13:40.930Z",
       "ok": false
     },
     "mcp-inite-ai-visibility-inite-ai-api-mcp": {
@@ -11221,52 +11401,114 @@
     "mcp-ai-getvda-encrypted-oauth-llm-agent-authenticated-llm-agent-cryptography-getvda-ai-mcp": {
       "at": "2026-09-06T15:50:46.479Z",
       "ok": false
+    },
+    "mcp-ai-getvda-google-sign-in-claude-agent-authenticated-llm-agent-anthropic-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.299Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-google-oauth-credential-service-authenticated-llm-oauth-agent-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.404Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-fastapi-auth-token-service-fastapi-auth-token-service-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.308Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-google-sign-in-langchain-agent-google-auth-oauthlib-langchain-la-d46b90-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.480Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-kafka-and-postgres-monitoring-stack-postgres-prometheus-kafka-stack-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.527Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-kafka-minio-redis-stack-generator-kafka-minio-redis-stack-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.606Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-google-oauth-langchain-agent-google-auth-oauthlib-langchain-la-c1a755-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.511Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-integration-agent-drift-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.762Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-llm-observability-orchestration-llm-observability-orchestration-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.779Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-langchain-login-and-token-agent-authenticated-mcp-agent-langchain-core-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.774Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-kafka-redis-minio-stack-generator-kafka-redis-minio-stack-generator-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.818Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-llm-observability-orchestration-agent-llm-observability-orchestration-agent-langchai-c1a755-getvda-ai": {
+      "at": "2026-09-06T18:13:37.856Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-llm-observability-orchestration-agent-langchain-langchain-core-langsmit-d042fc-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.873Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-2-llm-orchestration-agent-2-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.927Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-cryptography-llm-orchestration-agent-cryptography-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.928Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-d0a1a1-llm-orchestration-agent-d0a1a1-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.942Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-d2feb0-llm-orchestration-agent-d2feb0-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:37.972Z",
+      "ok": false
+    },
+    "mcp-ai-getvda-llm-orchestration-agent-langchain-llm-orchestration-agent-langchain-getvda-ai-mcp": {
+      "at": "2026-09-06T18:13:38.040Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1286,
-    "invite_http_ok": 1216,
+    "invites": 1306,
+    "invite_http_ok": 1235,
     "nags": 2114,
     "nag_http_ok": 1985,
-    "talk_inbox": 1258,
+    "talk_inbox": 1278,
     "social": 81,
-    "runs": 709
+    "runs": 710
   },
   "last_notes": [
-    "eligible never-demoed 162 (agents 0 mcp 162) · inviting 20 (day 60/120)",
-    "invite mcp ai.getvda/authenticated-llm-jwt-agent → http 200 talk — https://authenticated-llm-jwt-agent.getvda.ai/mcp",
-    "invite mcp ai.getvda/authenticated-llm-agent-bcrypt → http 200 talk — https://authenticated-llm-agent-bcrypt.getvda.ai/mcp",
-    "invite mcp ai.getvda/authenticated-llm-agent → http 200 talk — https://authenticated-llm-agent.getvda.ai/mcp",
-    "invite mcp ai.getvda/authenticated-llm-mcp-agent → http 200 talk — https://authenticated-llm-mcp-agent.getvda.ai/mcp",
-    "invite mcp ai.getvda/authenticated-mcp-agent-aed9d5 → http 200 talk — https://authenticated-mcp-agent-aed9d5.getvda.ai/mcp",
-    "invite mcp ai.getvda/authenticated-mcp-agent-bcrypt → http 200 talk — https://authenticated-mcp-agent-bcrypt.getvda.ai/mcp",
-    "invite mcp ai.getvda/authenticated-mcp-traced-agent → http 200 talk — https://authenticated-mcp-traced-agent.getvda.ai/mcp",
-    "invite mcp ai.getvda/authenticated-mcp-agent-openai → http 200 talk — https://authenticated-mcp-agent-openai.getvda.ai/mcp",
-    "invite mcp ai.getvda/claude-schema-output-agent → http 200 talk — https://structured-output-agent-89bcb0.getvda.ai/mcp",
-    "invite mcp ai.getvda/authenticated-multi-llm-agent → http 200 talk — https://authenticated-multi-llm-agent.getvda.ai/mcp",
-    "invite mcp ai.getvda/dynamic-health-monitor → http 200 talk — https://health.getvda.ai/mcp",
-    "invite mcp ai.getvda/authenticated-llm-traced-agent → http 200 talk — https://authenticated-llm-traced-agent.getvda.ai/mcp",
-    "invite mcp ai.getvda/elasticsearch-mongodb-redis-stac → http 200 talk — https://elasticsearch-mongodb-redis-stack-generator-el-d8f067.getvda.ai/mcp",
-    "invite mcp ai.getvda/elasticsearch-redis-mysql-stack- → http 200 talk — https://elasticsearch-redis-mysql-stack-generator.getvda.ai/mcp",
-    "invite mcp ai.getvda/elasticsearch-redis-stack-genera → http 200 talk — https://elasticsearch-redis-stack-generator.getvda.ai/mcp",
-    "invite mcp ai.getvda/elasticsearch-redis-stack-genera → http 200 talk — https://elasticsearch-redis-stack-generator-elasticsea-588e3e.getvda.ai/mcp",
-    "invite mcp ai.getvda/encrypted-langchain-token-agent → http 200 talk — https://cryptography-langchain-core-mcp-07d652.getvda.ai/mcp",
-    "invite mcp ai.getvda/encrypted-langchain-session-agen → http 200 talk — https://bcrypt-cryptography-langchain-cor-027cf2.getvda.ai/mcp",
-    "invite mcp ai.getvda/fastapi-auth-token-jwt-service → http 200 talk — https://fastapi-auth-token-jwt-service.getvda.ai/mcp",
-    "invite mcp ai.getvda/encrypted-oauth-llm-agent → http 200 talk — https://authenticated-llm-agent-cryptography.getvda.ai/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 144 (agents 0 mcp 144) · inviting 20 (day 80/120)",
+    "invite mcp ai.etincel/etincel-nonfiction → http 401 talk — https://etincel.ai/api/mcp",
+    "invite mcp ai.getvda/google-sign-in-claude-agent → http 200 talk — https://authenticated-llm-agent-anthropic.getvda.ai/mcp",
+    "invite mcp ai.getvda/google-oauth-credential-service → http 200 talk — https://authenticated-llm-oauth-agent.getvda.ai/mcp",
+    "invite mcp ai.getvda/fastapi-auth-token-service → http 200 talk — https://fastapi-auth-token-service.getvda.ai/mcp",
+    "invite mcp ai.getvda/google-sign-in-langchain-agent → http 200 talk — https://google-auth-oauthlib-langchain-la-d46b90.getvda.ai/mcp",
+    "invite mcp ai.getvda/kafka-and-postgres-monitoring-st → http 200 talk — https://postgres-prometheus-kafka-stack-generator.getvda.ai/mcp",
+    "invite mcp ai.getvda/kafka-minio-redis-stack-generato → http 200 talk — https://kafka-minio-redis-stack-generator.getvda.ai/mcp",
+    "invite mcp ai.getvda/google-oauth-langchain-agent → http 200 talk — https://google-auth-oauthlib-langchain-la-c1a755.getvda.ai/mcp",
+    "invite mcp ai.getvda/integration-agent → http 200 talk — https://drift.getvda.ai/mcp",
+    "invite mcp ai.getvda/llm-observability-orchestration → http 200 talk — https://llm-observability-orchestration.getvda.ai/mcp",
+    "invite mcp ai.getvda/langchain-login-and-token-agent → http 200 talk — https://authenticated-mcp-agent-langchain-core.getvda.ai/mcp",
+    "invite mcp ai.getvda/kafka-redis-minio-stack-generato → http 200 talk — https://kafka-redis-minio-stack-generator.getvda.ai/mcp",
+    "invite mcp ai.getvda/llm-observability-orchestration- → http 200 talk — https://llm-observability-orchestration-agent-langchai-c1a755.getvda.ai/mcp",
+    "invite mcp ai.getvda/llm-observability-orchestration- → http 200 talk — https://langchain-langchain-core-langsmit-d042fc.getvda.ai/mcp",
+    "invite mcp ai.getvda/llm-orchestration-agent-2 → http 200 talk — https://llm-orchestration-agent-2.getvda.ai/mcp",
+    "invite mcp ai.getvda/llm-orchestration-agent-cryptogr → http 200 talk — https://llm-orchestration-agent-cryptography.getvda.ai/mcp",
+    "invite mcp ai.getvda/llm-orchestration-agent-d0a1a1 → http 200 talk — https://llm-orchestration-agent-d0a1a1.getvda.ai/mcp",
+    "invite mcp ai.getvda/llm-orchestration-agent-d2feb0 → http 200 talk — https://llm-orchestration-agent-d2feb0.getvda.ai/mcp",
+    "invite mcp ai.getvda/llm-orchestration-agent-langchai → http 200 talk — https://llm-orchestration-agent-langchain.getvda.ai/mcp",
+    "invite mcp ai.aivonic/mcp → http 404 talk — https://mcp.aivonic.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → 405"
   ],
-  "last_run_at": "2026-09-06T15:50:50.075Z",
+  "last_run_at": "2026-09-06T18:13:40.930Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
