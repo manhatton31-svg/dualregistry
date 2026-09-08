@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-08T21:03:47.228Z",
+  "updated_at": "2026-09-08T23:21:02.964Z",
   "day": "2026-09-08",
-  "day_invites": 8,
+  "day_invites": 9,
   "day_nags": 60,
-  "day_talk": 8,
+  "day_talk": 9,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -8554,6 +8554,16 @@
       "target": "https://cotal.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-akkrudata-api-akkrudata-ai-mcp": {
+      "at": "2026-09-08T23:21:02.879Z",
+      "name": "AkkruData",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.akkrudata.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -12395,7 +12405,7 @@
       "ok": false
     },
     "social:2026-09-08": {
-      "at": "2026-09-08T21:03:47.228Z",
+      "at": "2026-09-08T23:21:02.964Z",
       "ok": false
     },
     "mcp-ai-gregbenza-meet-gregbenza-ai-well-known-mcp-json": {
@@ -12405,22 +12415,27 @@
     "mcp-cotal-actions-cotal-ai-cotal-ai-well-known-mcp-server-card-json": {
       "at": "2026-09-08T09:48:36.952Z",
       "ok": false
+    },
+    "mcp-akkrudata-api-akkrudata-ai-mcp": {
+      "at": "2026-09-08T23:21:02.879Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1446,
-    "invite_http_ok": 1371,
+    "invites": 1447,
+    "invite_http_ok": 1372,
     "nags": 2234,
     "nag_http_ok": 2097,
-    "talk_inbox": 1418,
+    "talk_inbox": 1419,
     "social": 81,
-    "runs": 724
+    "runs": 725
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 8/120)",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 8/120)",
+    "invite mcp AkkruData → http 401 talk — https://api.akkrudata.ai/mcp",
     "feedback nags queued 0 (day 60/60)",
     "social post → 405"
   ],
-  "last_run_at": "2026-09-08T21:03:47.228Z",
+  "last_run_at": "2026-09-08T23:21:02.964Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
