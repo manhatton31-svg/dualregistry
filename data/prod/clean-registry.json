@@ -1,14 +1,14 @@
 {
   "day": "2026-09-09",
-  "updated_at": "2026-09-09T01:24:30.907Z",
+  "updated_at": "2026-09-09T06:26:38.032Z",
   "counts": {
-    "total": 857,
-    "mcp": 822,
+    "total": 859,
+    "mcp": 824,
     "agents": 35
   },
   "high_water": {
-    "total": 857,
-    "mcp": 822,
+    "total": 859,
+    "mcp": 824,
     "agents": 35
   },
   "items": {
@@ -9438,6 +9438,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-daystruct-api-daystruct-ai-mcp": {
+      "id": "mcp-daystruct-api-daystruct-ai-mcp",
+      "kind": "mcp",
+      "name": "Daystruct",
+      "target": "https://api.daystruct.ai/mcp",
+      "approved_at": "2026-09-09T06:25:35.365Z",
+      "probed_at": "2026-09-09T06:25:35.365Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-gentoon-www-gentoon-ai-api-mcp": {
+      "id": "mcp-gentoon-www-gentoon-ai-api-mcp",
+      "kind": "mcp",
+      "name": "GenToon",
+      "target": "https://www.gentoon.ai/api/mcp",
+      "approved_at": "2026-09-09T06:25:39.076Z",
+      "probed_at": "2026-09-09T06:25:39.076Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
