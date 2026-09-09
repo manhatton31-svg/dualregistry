@@ -1,14 +1,14 @@
 {
   "day": "2026-09-09",
-  "updated_at": "2026-09-09T06:26:38.032Z",
+  "updated_at": "2026-09-09T11:44:42.312Z",
   "counts": {
-    "total": 859,
-    "mcp": 824,
+    "total": 861,
+    "mcp": 826,
     "agents": 35
   },
   "high_water": {
-    "total": 859,
-    "mcp": 824,
+    "total": 861,
+    "mcp": 826,
     "agents": 35
   },
   "items": {
@@ -9460,6 +9460,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-ac-snag-snag-mcp-snag-ac-mcp": {
+      "id": "mcp-ac-snag-snag-mcp-snag-ac-mcp",
+      "kind": "mcp",
+      "name": "ac.snag/snag",
+      "target": "https://mcp.snag.ac/mcp",
+      "approved_at": "2026-09-09T11:43:36.918Z",
+      "probed_at": "2026-09-09T11:43:36.918Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-harmny-harmny-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-harmny-harmny-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Harmny",
+      "target": "https://harmny.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-09-09T11:43:42.790Z",
+      "probed_at": "2026-09-09T11:43:42.790Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
     }
   },
   "policy": {
