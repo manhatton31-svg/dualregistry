@@ -1,14 +1,14 @@
 {
   "day": "2026-09-10",
-  "updated_at": "2026-09-10T06:36:40.244Z",
+  "updated_at": "2026-09-10T11:51:53.187Z",
   "counts": {
-    "total": 862,
-    "mcp": 827,
+    "total": 864,
+    "mcp": 829,
     "agents": 35
   },
   "high_water": {
-    "total": 862,
-    "mcp": 827,
+    "total": 864,
+    "mcp": 829,
     "agents": 35
   },
   "items": {
@@ -9493,6 +9493,28 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-atako-r1-api-atako-ai-mcp": {
+      "id": "mcp-atako-r1-api-atako-ai-mcp",
+      "kind": "mcp",
+      "name": "Atako · r1",
+      "target": "https://api.atako.ai/mcp",
+      "approved_at": "2026-09-10T11:50:49.248Z",
+      "probed_at": "2026-09-10T11:50:49.248Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-atako-r2-api-atako-ai-mcp-public": {
+      "id": "mcp-atako-r2-api-atako-ai-mcp-public",
+      "kind": "mcp",
+      "name": "Atako · r2",
+      "target": "https://api.atako.ai/mcp/public",
+      "approved_at": "2026-09-10T11:50:49.313Z",
+      "probed_at": "2026-09-10T11:50:49.313Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 406"
     }
   },
   "policy": {
