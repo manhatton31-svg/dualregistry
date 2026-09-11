@@ -1,14 +1,14 @@
 {
   "day": "2026-09-11",
-  "updated_at": "2026-09-11T15:15:55.668Z",
+  "updated_at": "2026-09-11T18:38:57.252Z",
   "counts": {
-    "total": 867,
-    "mcp": 832,
+    "total": 870,
+    "mcp": 835,
     "agents": 35
   },
   "high_water": {
-    "total": 867,
-    "mcp": 832,
+    "total": 870,
+    "mcp": 835,
     "agents": 35
   },
   "items": {
@@ -9548,6 +9548,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 200"
+    },
+    "mcp-boolsai-directory-directory-boolsai-ai-mcp": {
+      "id": "mcp-boolsai-directory-directory-boolsai-ai-mcp",
+      "kind": "mcp",
+      "name": "Boolsai Directory",
+      "target": "https://directory.boolsai.ai/mcp",
+      "approved_at": "2026-09-11T18:37:50.040Z",
+      "probed_at": "2026-09-11T18:37:50.040Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=403 post=429"
+    },
+    "mcp-boolsai-grep-grep-boolsai-ai-mcp": {
+      "id": "mcp-boolsai-grep-grep-boolsai-ai-mcp",
+      "kind": "mcp",
+      "name": "Boolsai Grep",
+      "target": "https://grep.boolsai.ai/mcp",
+      "approved_at": "2026-09-11T18:37:50.100Z",
+      "probed_at": "2026-09-11T18:37:50.100Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=403 post=429"
+    },
+    "mcp-boolsai-scan-boolsai-ai-mcp": {
+      "id": "mcp-boolsai-scan-boolsai-ai-mcp",
+      "kind": "mcp",
+      "name": "Boolsai Scan",
+      "target": "https://boolsai.ai/mcp",
+      "approved_at": "2026-09-11T18:37:50.315Z",
+      "probed_at": "2026-09-11T18:37:50.315Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=403 post=429"
     }
   },
   "policy": {
