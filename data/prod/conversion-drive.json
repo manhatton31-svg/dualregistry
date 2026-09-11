@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-11T14:19:22.755Z",
+  "updated_at": "2026-09-11T17:47:09.741Z",
   "day": "2026-09-11",
-  "day_invites": 6,
+  "day_invites": 9,
   "day_nags": 60,
-  "day_talk": 6,
+  "day_talk": 9,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -6056,7 +6056,7 @@
       "talk_ok": false
     },
     "mcp-naumu-naumu-ai-api-mcp": {
-      "at": "2026-08-12T15:08:47.507Z",
+      "at": "2026-09-11T17:47:09.603Z",
       "name": "Naumu",
       "kind": "mcp",
       "http_ok": true,
@@ -8642,6 +8642,26 @@
       "http_ok": true,
       "status": 401,
       "target": "https://eykon.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-biel-ai-r2-mcp-biel-ai-sse-project-slug-project-slug-domain-domain": {
+      "at": "2026-09-11T17:47:09.208Z",
+      "name": "Biel.ai · r2",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://mcp.biel.ai/sse?project_slug={project_slug}&domain={domain}",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-biel-ai-r1-mcp-biel-ai-v2-project-slug-mcp": {
+      "at": "2026-09-11T17:47:09.266Z",
+      "name": "Biel.ai · r1",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://mcp.biel.ai/v2/%7Bproject_slug%7D/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -11277,7 +11297,7 @@
       "ok": false
     },
     "mcp-naumu-naumu-ai-api-mcp": {
-      "at": "2026-08-12T15:08:47.507Z",
+      "at": "2026-09-11T17:47:09.603Z",
       "ok": false
     },
     "mcp-creditpolicy-creditpolicy-ai-api-mcp": {
@@ -12541,35 +12561,35 @@
       "ok": false
     },
     "social:2026-09-11": {
-      "at": "2026-09-11T14:19:22.754Z",
+      "at": "2026-09-11T17:47:09.741Z",
+      "ok": false
+    },
+    "mcp-biel-ai-r2-mcp-biel-ai-sse-project-slug-project-slug-domain-domain": {
+      "at": "2026-09-11T17:47:09.208Z",
+      "ok": false
+    },
+    "mcp-biel-ai-r1-mcp-biel-ai-v2-project-slug-mcp": {
+      "at": "2026-09-11T17:47:09.266Z",
       "ok": false
     }
   },
   "totals": {
-    "invites": 1469,
-    "invite_http_ok": 1394,
+    "invites": 1472,
+    "invite_http_ok": 1397,
     "nags": 2414,
     "nag_http_ok": 2265,
-    "talk_inbox": 1441,
+    "talk_inbox": 1444,
     "social": 81,
-    "runs": 742
+    "runs": 743
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
-    "invite mcp FrameThrower → http 401 talk — https://framethrower.ai/api/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 6/120)",
+    "invite mcp Biel.ai · r2 → http 200 talk — https://mcp.biel.ai/sse?project_slug={project_slug}&domain={domain}",
+    "invite mcp Biel.ai · r1 → http 400 talk — https://mcp.biel.ai/v2/%7Bproject_slug%7D/mcp",
+    "invite mcp Naumu → http 401 talk — https://naumu.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)",
     "social post → 405"
   ],
-  "last_run_at": "2026-09-11T14:19:22.755Z",
+  "last_run_at": "2026-09-11T17:47:09.741Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
