@@ -1,14 +1,14 @@
 {
   "day": "2026-09-11",
-  "updated_at": "2026-09-11T11:43:52.025Z",
+  "updated_at": "2026-09-11T15:15:55.668Z",
   "counts": {
-    "total": 865,
-    "mcp": 830,
+    "total": 867,
+    "mcp": 832,
     "agents": 35
   },
   "high_water": {
-    "total": 865,
-    "mcp": 830,
+    "total": 867,
+    "mcp": 832,
     "agents": 35
   },
   "items": {
@@ -9526,6 +9526,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-biel-ai-r1-mcp-biel-ai-v2-project-slug-mcp": {
+      "id": "mcp-biel-ai-r1-mcp-biel-ai-v2-project-slug-mcp",
+      "kind": "mcp",
+      "name": "Biel.ai · r1",
+      "target": "https://mcp.biel.ai/v2/{project_slug}/mcp",
+      "approved_at": "2026-09-11T15:14:49.948Z",
+      "probed_at": "2026-09-11T15:14:49.948Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 400"
+    },
+    "mcp-biel-ai-r2-mcp-biel-ai-sse-project-slug-project-slug-domain-domain": {
+      "id": "mcp-biel-ai-r2-mcp-biel-ai-sse-project-slug-project-slug-domain-domain",
+      "kind": "mcp",
+      "name": "Biel.ai · r2",
+      "target": "https://mcp.biel.ai/sse?project_slug={project_slug}&domain={domain}",
+      "approved_at": "2026-09-11T15:14:59.579Z",
+      "probed_at": "2026-09-11T15:14:59.579Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 200"
     }
   },
   "policy": {
