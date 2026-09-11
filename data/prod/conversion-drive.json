@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-11T17:47:09.741Z",
+  "updated_at": "2026-09-11T20:04:37.639Z",
   "day": "2026-09-11",
-  "day_invites": 9,
+  "day_invites": 12,
   "day_nags": 60,
-  "day_talk": 9,
+  "day_talk": 12,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -8664,6 +8664,36 @@
       "target": "https://mcp.biel.ai/v2/%7Bproject_slug%7D/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-boolsai-grep-grep-boolsai-ai-mcp": {
+      "at": "2026-09-11T20:04:37.119Z",
+      "name": "Boolsai Grep",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 429,
+      "target": "https://grep.boolsai.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
+    },
+    "mcp-boolsai-scan-boolsai-ai-mcp": {
+      "at": "2026-09-11T20:04:37.185Z",
+      "name": "Boolsai Scan",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 429,
+      "target": "https://boolsai.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
+    },
+    "mcp-boolsai-directory-directory-boolsai-ai-mcp": {
+      "at": "2026-09-11T20:04:37.489Z",
+      "name": "Boolsai Directory",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 429,
+      "target": "https://directory.boolsai.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -12561,7 +12591,7 @@
       "ok": false
     },
     "social:2026-09-11": {
-      "at": "2026-09-11T17:47:09.741Z",
+      "at": "2026-09-11T20:04:37.639Z",
       "ok": false
     },
     "mcp-biel-ai-r2-mcp-biel-ai-sse-project-slug-project-slug-domain-domain": {
@@ -12571,25 +12601,37 @@
     "mcp-biel-ai-r1-mcp-biel-ai-v2-project-slug-mcp": {
       "at": "2026-09-11T17:47:09.266Z",
       "ok": false
+    },
+    "mcp-boolsai-grep-grep-boolsai-ai-mcp": {
+      "at": "2026-09-11T20:04:37.119Z",
+      "ok": false
+    },
+    "mcp-boolsai-scan-boolsai-ai-mcp": {
+      "at": "2026-09-11T20:04:37.185Z",
+      "ok": false
+    },
+    "mcp-boolsai-directory-directory-boolsai-ai-mcp": {
+      "at": "2026-09-11T20:04:37.489Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1472,
+    "invites": 1475,
     "invite_http_ok": 1397,
     "nags": 2414,
     "nag_http_ok": 2265,
-    "talk_inbox": 1444,
+    "talk_inbox": 1447,
     "social": 81,
-    "runs": 743
+    "runs": 744
   },
   "last_notes": [
-    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 6/120)",
-    "invite mcp Biel.ai · r2 → http 200 talk — https://mcp.biel.ai/sse?project_slug={project_slug}&domain={domain}",
-    "invite mcp Biel.ai · r1 → http 400 talk — https://mcp.biel.ai/v2/%7Bproject_slug%7D/mcp",
-    "invite mcp Naumu → http 401 talk — https://naumu.ai/api/mcp",
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 9/120)",
+    "invite mcp Boolsai Grep → http 429 talk — https://grep.boolsai.ai/.well-known/mcp/server-card.json",
+    "invite mcp Boolsai Scan → http 429 talk — https://boolsai.ai/.well-known/mcp/server-card.json",
+    "invite mcp Boolsai Directory → http 429 talk — https://directory.boolsai.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → 405"
   ],
-  "last_run_at": "2026-09-11T17:47:09.741Z",
+  "last_run_at": "2026-09-11T20:04:37.639Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
