@@ -1,14 +1,14 @@
 {
   "day": "2026-09-13",
-  "updated_at": "2026-09-13T16:34:37.497Z",
+  "updated_at": "2026-09-13T18:59:07.275Z",
   "counts": {
-    "total": 876,
-    "mcp": 841,
+    "total": 878,
+    "mcp": 843,
     "agents": 35
   },
   "high_water": {
-    "total": 876,
-    "mcp": 841,
+    "total": 878,
+    "mcp": 843,
     "agents": 35
   },
   "items": {
@@ -9647,6 +9647,28 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-empiriolabs-ai-mcp-empiriolabs-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-empiriolabs-ai-mcp-empiriolabs-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "EmpirioLabs AI",
+      "target": "https://mcp.empiriolabs.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-09-13T18:58:08.546Z",
+      "probed_at": "2026-09-13T18:58:08.546Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-empiriolabs-ai-api-empiriolabs-ai-mcp": {
+      "id": "mcp-empiriolabs-ai-api-empiriolabs-ai-mcp",
+      "kind": "mcp",
+      "name": "EmpirioLabs AI",
+      "target": "https://api.empiriolabs.ai/mcp",
+      "approved_at": "2026-09-13T18:58:10.414Z",
+      "probed_at": "2026-09-13T18:58:10.414Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
