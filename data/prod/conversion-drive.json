@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-14T18:32:10.546Z",
+  "updated_at": "2026-09-14T22:00:12.240Z",
   "day": "2026-09-14",
-  "day_invites": 5,
+  "day_invites": 6,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 6,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -8834,6 +8834,16 @@
       "target": "https://mcp.greenlandai.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-data-center-index-datacenterindex-ai-mcp": {
+      "at": "2026-09-14T22:00:12.157Z",
+      "name": "Data Center Index",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://datacenterindex.ai/mcp",
+      "method": "POST:a2a-message",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -12803,7 +12813,7 @@
       "ok": false
     },
     "social:2026-09-14": {
-      "at": "2026-09-14T18:32:10.546Z",
+      "at": "2026-09-14T22:00:12.240Z",
       "ok": false
     },
     "mcp-ai-flyvolo-knowledge-mcp-flyvolo-ai-well-known-mcp-server-card-json": {
@@ -12821,34 +12831,27 @@
     "mcp-greenlandai-mcp-greenlandai-ai-mcp": {
       "at": "2026-09-14T18:32:06.470Z",
       "ok": false
+    },
+    "mcp-data-center-index-datacenterindex-ai-mcp": {
+      "at": "2026-09-14T22:00:12.157Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1513,
-    "invite_http_ok": 1434,
+    "invites": 1514,
+    "invite_http_ok": 1435,
     "nags": 2594,
     "nag_http_ok": 2433,
-    "talk_inbox": 1485,
+    "talk_inbox": 1486,
     "social": 81,
-    "runs": 764
+    "runs": 765
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 3/120)",
-    "invite mcp Glasser → http 401 talk — https://api.glasser.ai/mcp",
-    "invite mcp GreenlandAI → http 400 talk — https://mcp.greenlandai.ai/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 5/120)",
+    "invite mcp Data Center Index → http 200 talk — https://datacenterindex.ai/mcp",
+    "feedback nags queued 0 (day 60/60)",
     "social post → 405"
   ],
-  "last_run_at": "2026-09-14T18:32:10.546Z",
+  "last_run_at": "2026-09-14T22:00:12.240Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
