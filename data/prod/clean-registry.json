@@ -1,14 +1,14 @@
 {
   "day": "2026-09-14",
-  "updated_at": "2026-09-14T01:24:45.272Z",
+  "updated_at": "2026-09-14T06:47:40.916Z",
   "counts": {
-    "total": 880,
-    "mcp": 845,
+    "total": 882,
+    "mcp": 847,
     "agents": 35
   },
   "high_water": {
-    "total": 880,
-    "mcp": 845,
+    "total": 882,
+    "mcp": 847,
     "agents": 35
   },
   "items": {
@@ -9691,6 +9691,28 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-fluttergo-fluttergo-ai-api-mcp-remote": {
+      "id": "mcp-fluttergo-fluttergo-ai-api-mcp-remote",
+      "kind": "mcp",
+      "name": "FlutterGo",
+      "target": "https://fluttergo.ai/api/mcp/remote",
+      "approved_at": "2026-09-14T06:46:41.528Z",
+      "probed_at": "2026-09-14T06:46:41.528Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
+    },
+    "mcp-ai-flyvolo-knowledge-mcp-flyvolo-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-ai-flyvolo-knowledge-mcp-flyvolo-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "ai.flyvolo/knowledge",
+      "target": "https://mcp.flyvolo.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-09-14T06:46:42.438Z",
+      "probed_at": "2026-09-14T06:46:42.438Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
     }
   },
   "policy": {
