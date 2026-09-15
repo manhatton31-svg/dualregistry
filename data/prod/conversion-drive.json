@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-15T18:56:26.699Z",
+  "updated_at": "2026-09-15T22:07:11.500Z",
   "day": "2026-09-15",
-  "day_invites": 5,
+  "day_invites": 7,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 7,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -6346,7 +6346,7 @@
       "talk_ok": false
     },
     "mcp-fullmakt-fullmakt-ai-mcp": {
-      "at": "2026-08-16T20:33:17.159Z",
+      "at": "2026-09-15T22:07:11.402Z",
       "name": "Fullmakt",
       "kind": "mcp",
       "http_ok": true,
@@ -8852,6 +8852,16 @@
       "http_ok": true,
       "status": 405,
       "target": "https://aard.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-aevia-app-aeviamodeler-ai-api-v1-connector-mcp": {
+      "at": "2026-09-15T22:07:11.352Z",
+      "name": "Aevia",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://app.aeviamodeler.ai/api/v1/connector/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -11619,7 +11629,7 @@
       "ok": false
     },
     "mcp-fullmakt-fullmakt-ai-mcp": {
-      "at": "2026-08-16T20:33:17.159Z",
+      "at": "2026-09-15T22:07:11.402Z",
       "ok": false
     },
     "mcp-awardcast-federal-contracts-awardcast-ai-well-known-mcp-json": {
@@ -12847,30 +12857,34 @@
       "ok": false
     },
     "social:2026-09-15": {
-      "at": "2026-09-15T18:56:26.699Z",
+      "at": "2026-09-15T22:07:11.500Z",
       "ok": false
     },
     "mcp-aard-aard-ai-well-known-mcp-server-card-json": {
       "at": "2026-09-15T10:09:39.890Z",
       "ok": false
+    },
+    "mcp-aevia-app-aeviamodeler-ai-api-v1-connector-mcp": {
+      "at": "2026-09-15T22:07:11.352Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1519,
-    "invite_http_ok": 1440,
+    "invites": 1521,
+    "invite_http_ok": 1442,
     "nags": 2654,
     "nag_http_ok": 2489,
-    "talk_inbox": 1491,
+    "talk_inbox": 1493,
     "social": 81,
-    "runs": 770
+    "runs": 771
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 3/120)",
-    "invite mcp MainBook Bank Statement Converter → http 400 talk — https://mcp.mainbook.ai/mcp",
-    "invite mcp ai.kaiv/commerce-demo → http 401 talk — https://api-demo.kaiv.ai/api/bridge/mcp/commerce-demo",
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 5/120)",
+    "invite mcp Aevia → http 401 talk — https://app.aeviamodeler.ai/api/v1/connector/mcp",
+    "invite mcp Fullmakt → http 401 talk — https://fullmakt.ai/mcp",
     "feedback nags queued 0 (day 60/60)",
     "social post → 405"
   ],
-  "last_run_at": "2026-09-15T18:56:26.699Z",
+  "last_run_at": "2026-09-15T22:07:11.500Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
