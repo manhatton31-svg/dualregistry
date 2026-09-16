@@ -1,14 +1,14 @@
 {
   "day": "2026-09-16",
-  "updated_at": "2026-09-16T10:12:41.667Z",
+  "updated_at": "2026-09-16T15:01:09.727Z",
   "counts": {
-    "total": 887,
-    "mcp": 852,
+    "total": 890,
+    "mcp": 855,
     "agents": 35
   },
   "high_water": {
-    "total": 887,
-    "mcp": 852,
+    "total": 890,
+    "mcp": 855,
     "agents": 35
   },
   "items": {
@@ -9768,6 +9768,39 @@
       "score": 28,
       "handshake": "ok",
       "hold_reason": "grower live-mcp-gate get=405 post=401"
+    },
+    "mcp-apatero-studio-apatero-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-apatero-studio-apatero-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Apatero Studio",
+      "target": "https://apatero.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-09-16T15:00:00.582Z",
+      "probed_at": "2026-09-16T15:00:00.582Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-docnexus-mcp-docnexus-ai-mcp": {
+      "id": "mcp-docnexus-mcp-docnexus-ai-mcp",
+      "kind": "mcp",
+      "name": "DocNexus",
+      "target": "https://mcp.docnexus.ai/mcp",
+      "approved_at": "2026-09-16T15:00:08.258Z",
+      "probed_at": "2026-09-16T15:00:08.258Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-hyreflow-recruit-hyreflow-ai-api-v2-mcp": {
+      "id": "mcp-hyreflow-recruit-hyreflow-ai-api-v2-mcp",
+      "kind": "mcp",
+      "name": "Hyreflow",
+      "target": "https://recruit.hyreflow.ai/api/v2/mcp",
+      "approved_at": "2026-09-16T15:00:12.446Z",
+      "probed_at": "2026-09-16T15:00:12.446Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
