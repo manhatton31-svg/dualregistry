@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-17T18:29:52.130Z",
+  "updated_at": "2026-09-17T21:40:57.352Z",
   "day": "2026-09-17",
-  "day_invites": 1,
+  "day_invites": 7,
   "day_nags": 60,
-  "day_talk": 1,
+  "day_talk": 7,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -6426,7 +6426,7 @@
       "talk_ok": false
     },
     "mcp-inside-ads-inside-ad-well-known-mcp-server-card-json": {
-      "at": "2026-08-18T21:32:50.698Z",
+      "at": "2026-09-17T21:40:57.238Z",
       "name": "Inside Ads",
       "kind": "mcp",
       "http_ok": true,
@@ -8902,6 +8902,56 @@
       "http_ok": true,
       "status": 400,
       "target": "https://fukushi.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-huntboard-huntboard-ai-mcp": {
+      "at": "2026-09-17T21:40:56.121Z",
+      "name": "HuntBoard",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://huntboard.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-b-cited-r1-mcp-bcited-ai-public": {
+      "at": "2026-09-17T21:40:56.231Z",
+      "name": "b/cited · r1",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://mcp.bcited.ai/public",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-b-cited-r2-mcp-bcited-ai-mcp": {
+      "at": "2026-09-17T21:40:56.345Z",
+      "name": "b/cited · r2",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.bcited.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-family-office-knowledge-graph-familyofficeknowledgegraph-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-17T21:40:56.348Z",
+      "name": "Family Office Knowledge Graph",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://familyofficeknowledgegraph.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-fugentic-siert-kt8f7x-siert-kt8f7x-mcp-fugentic-ai-mcp": {
+      "at": "2026-09-17T21:40:56.749Z",
+      "name": "ai.fugentic/siert-kt8f7x",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://siert-kt8f7x.mcp.fugentic.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -11709,7 +11759,7 @@
       "ok": false
     },
     "mcp-inside-ads-inside-ad-well-known-mcp-server-card-json": {
-      "at": "2026-08-18T21:32:50.698Z",
+      "at": "2026-09-17T21:40:57.238Z",
       "ok": false
     },
     "social:2026-08-19": {
@@ -12925,39 +12975,54 @@
       "ok": false
     },
     "social:2026-09-17": {
-      "at": "2026-09-17T18:29:52.129Z",
+      "at": "2026-09-17T21:40:57.352Z",
       "ok": false
     },
     "mcp-ai-japan-disability-welfare-dictionary-fukushi-ai-api-mcp": {
       "at": "2026-09-17T18:29:48.081Z",
       "ok": false
+    },
+    "mcp-huntboard-huntboard-ai-mcp": {
+      "at": "2026-09-17T21:40:56.121Z",
+      "ok": false
+    },
+    "mcp-b-cited-r1-mcp-bcited-ai-public": {
+      "at": "2026-09-17T21:40:56.231Z",
+      "ok": false
+    },
+    "mcp-b-cited-r2-mcp-bcited-ai-mcp": {
+      "at": "2026-09-17T21:40:56.345Z",
+      "ok": false
+    },
+    "mcp-family-office-knowledge-graph-familyofficeknowledgegraph-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-17T21:40:56.348Z",
+      "ok": false
+    },
+    "mcp-ai-fugentic-siert-kt8f7x-siert-kt8f7x-mcp-fugentic-ai-mcp": {
+      "at": "2026-09-17T21:40:56.749Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1532,
-    "invite_http_ok": 1453,
+    "invites": 1538,
+    "invite_http_ok": 1459,
     "nags": 2774,
     "nag_http_ok": 2601,
-    "talk_inbox": 1504,
+    "talk_inbox": 1510,
     "social": 81,
-    "runs": 782
+    "runs": 783
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 0/120)",
-    "invite mcp 障害福祉AI辞典 (Japan Disability Welfare Diction → http 400 talk — https://fukushi.ai/api/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 6 (agents 0 mcp 6) · inviting 6 (day 1/120)",
+    "invite mcp HuntBoard → http 200 talk — https://huntboard.ai/mcp",
+    "invite mcp b/cited · r1 → http 400 talk — https://mcp.bcited.ai/public",
+    "invite mcp b/cited · r2 → http 401 talk — https://mcp.bcited.ai/mcp",
+    "invite mcp Family Office Knowledge Graph → http 405 talk — https://familyofficeknowledgegraph.ai/.well-known/mcp/server-card.json",
+    "invite mcp ai.fugentic/siert-kt8f7x → http 200 talk — https://siert-kt8f7x.mcp.fugentic.ai/mcp",
+    "invite mcp Inside Ads → http 200 talk — https://inside.ad/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-17T18:29:52.129Z",
+  "last_run_at": "2026-09-17T21:40:57.352Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
