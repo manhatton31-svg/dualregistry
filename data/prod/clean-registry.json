@@ -1,14 +1,14 @@
 {
-  "day": "2026-09-17",
-  "updated_at": "2026-09-17T23:56:48.957Z",
+  "day": "2026-09-18",
+  "updated_at": "2026-09-18T03:43:48.121Z",
   "counts": {
-    "total": 896,
-    "mcp": 861,
+    "total": 898,
+    "mcp": 863,
     "agents": 35
   },
   "high_water": {
-    "total": 896,
-    "mcp": 861,
+    "total": 898,
+    "mcp": 863,
     "agents": 35
   },
   "items": {
@@ -9867,6 +9867,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 200"
+    },
+    "mcp-dryos-workspace-www-dryos-ai-api-mcp": {
+      "id": "mcp-dryos-workspace-www-dryos-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Dryos Workspace",
+      "target": "https://www.dryos.ai/api/mcp",
+      "approved_at": "2026-09-18T03:42:46.009Z",
+      "probed_at": "2026-09-18T03:42:46.009Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-dryos-api-dryos-ai-mcp": {
+      "id": "mcp-dryos-api-dryos-ai-mcp",
+      "kind": "mcp",
+      "name": "Dryos",
+      "target": "https://api.dryos.ai/mcp",
+      "approved_at": "2026-09-18T03:42:56.297Z",
+      "probed_at": "2026-09-18T03:42:56.297Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
     }
   },
   "policy": {
