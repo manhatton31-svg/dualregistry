@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-19T17:56:05.137Z",
+  "updated_at": "2026-09-19T20:31:28.461Z",
   "day": "2026-09-19",
-  "day_invites": 9,
+  "day_invites": 10,
   "day_nags": 60,
-  "day_talk": 9,
+  "day_talk": 10,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -9034,6 +9034,16 @@
       "target": "https://mcp.adsap.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-coach-mcp-mcp-iamcoach-ai": {
+      "at": "2026-09-19T20:31:27.900Z",
+      "name": "Coach MCP",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.iamcoach.ai/",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -13099,7 +13109,7 @@
       "ok": false
     },
     "social:2026-09-19": {
-      "at": "2026-09-19T17:56:05.136Z",
+      "at": "2026-09-19T20:31:28.461Z",
       "ok": false
     },
     "mcp-autorfp-ai-autorfp-ai-well-known-mcp-server-card-json": {
@@ -13121,23 +13131,27 @@
     "mcp-adsap-mcp-adsap-ai-mcp": {
       "at": "2026-09-19T14:50:10.655Z",
       "ok": false
+    },
+    "mcp-coach-mcp-mcp-iamcoach-ai": {
+      "at": "2026-09-19T20:31:27.900Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1555,
-    "invite_http_ok": 1476,
+    "invites": 1556,
+    "invite_http_ok": 1477,
     "nags": 2894,
     "nag_http_ok": 2713,
-    "talk_inbox": 1527,
+    "talk_inbox": 1528,
     "social": 81,
-    "runs": 796
+    "runs": 797
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 8/120)",
-    "invite mcp ai.kaiv/version-truth → http 200 talk — https://api.kaiv.ai/.well-known/mcp.json",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 9/120)",
+    "invite mcp Coach MCP → http 401 talk — https://mcp.iamcoach.ai/",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-19T17:56:05.136Z",
+  "last_run_at": "2026-09-19T20:31:28.461Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
