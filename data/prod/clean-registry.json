@@ -1,14 +1,14 @@
 {
   "day": "2026-09-20",
-  "updated_at": "2026-09-20T20:50:24.953Z",
+  "updated_at": "2026-09-20T23:03:01.412Z",
   "counts": {
-    "total": 909,
-    "mcp": 874,
+    "total": 912,
+    "mcp": 877,
     "agents": 35
   },
   "high_water": {
-    "total": 909,
-    "mcp": 874,
+    "total": 912,
+    "mcp": 877,
     "agents": 35
   },
   "items": {
@@ -10010,6 +10010,39 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-botinfo-advanced-robot-market-data-mcp-botinfo-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-botinfo-advanced-robot-market-data-mcp-botinfo-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "BotInfo — Advanced Robot Market Data",
+      "target": "https://mcp.botinfo.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-09-20T23:01:56.828Z",
+      "probed_at": "2026-09-20T23:01:56.828Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-clip-studio-mcp-clipstudio-ai-api-mcp": {
+      "id": "mcp-clip-studio-mcp-clipstudio-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Clip Studio MCP",
+      "target": "https://clipstudio.ai/api/mcp",
+      "approved_at": "2026-09-20T23:01:59.412Z",
+      "probed_at": "2026-09-20T23:01:59.412Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-edgepedia-www-edgechat-ai-mcp": {
+      "id": "mcp-edgepedia-www-edgechat-ai-mcp",
+      "kind": "mcp",
+      "name": "Edgepedia",
+      "target": "https://www.edgechat.ai/mcp",
+      "approved_at": "2026-09-20T23:01:59.749Z",
+      "probed_at": "2026-09-20T23:01:59.749Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
