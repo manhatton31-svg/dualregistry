@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-20T21:46:25.851Z",
+  "updated_at": "2026-09-20T23:35:59.359Z",
   "day": "2026-09-20",
-  "day_invites": 10,
+  "day_invites": 16,
   "day_nags": 60,
-  "day_talk": 10,
+  "day_talk": 16,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -6596,7 +6596,7 @@
       "talk_ok": false
     },
     "mcp-calaf-calaf-ai-api-mcp-account": {
-      "at": "2026-08-21T22:57:06.809Z",
+      "at": "2026-09-20T23:35:58.604Z",
       "name": "Calaf",
       "kind": "mcp",
       "http_ok": true,
@@ -6606,7 +6606,7 @@
       "talk_ok": false
     },
     "mcp-calaf-seed-tools-calaf-ai-api-mcp": {
-      "at": "2026-08-21T22:57:06.841Z",
+      "at": "2026-09-20T23:35:58.324Z",
       "name": "Calaf Seed Tools",
       "kind": "mcp",
       "http_ok": true,
@@ -6616,7 +6616,7 @@
       "talk_ok": false
     },
     "mcp-latticenet-latticenet-ai-mcp": {
-      "at": "2026-08-21T22:57:07.292Z",
+      "at": "2026-09-20T23:35:58.885Z",
       "name": "LatticeNet",
       "kind": "mcp",
       "http_ok": true,
@@ -9082,6 +9082,36 @@
       "http_ok": true,
       "status": 202,
       "target": "https://coingraph.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-edgepedia-www-edgechat-ai-mcp": {
+      "at": "2026-09-20T23:35:58.349Z",
+      "name": "Edgepedia",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://www.edgechat.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-botinfo-advanced-robot-market-data-mcp-botinfo-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-20T23:35:58.478Z",
+      "name": "BotInfo — Advanced Robot Market Data",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://mcp.botinfo.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-clip-studio-mcp-clipstudio-ai-api-mcp": {
+      "at": "2026-09-20T23:35:59.150Z",
+      "name": "Clip Studio MCP",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://clipstudio.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -11969,15 +11999,15 @@
       "ok": false
     },
     "mcp-calaf-calaf-ai-api-mcp-account": {
-      "at": "2026-08-21T22:57:06.809Z",
+      "at": "2026-09-20T23:35:58.604Z",
       "ok": false
     },
     "mcp-calaf-seed-tools-calaf-ai-api-mcp": {
-      "at": "2026-08-21T22:57:06.841Z",
+      "at": "2026-09-20T23:35:58.324Z",
       "ok": false
     },
     "mcp-latticenet-latticenet-ai-mcp": {
-      "at": "2026-08-21T22:57:07.292Z",
+      "at": "2026-09-20T23:35:58.885Z",
       "ok": false
     },
     "social:2026-08-22": {
@@ -13195,23 +13225,39 @@
     "mcp-coingraph-coingraph-ai-api-mcp": {
       "at": "2026-09-20T21:46:25.627Z",
       "ok": false
+    },
+    "mcp-edgepedia-www-edgechat-ai-mcp": {
+      "at": "2026-09-20T23:35:58.349Z",
+      "ok": false
+    },
+    "mcp-botinfo-advanced-robot-market-data-mcp-botinfo-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-20T23:35:58.478Z",
+      "ok": false
+    },
+    "mcp-clip-studio-mcp-clipstudio-ai-api-mcp": {
+      "at": "2026-09-20T23:35:59.150Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1567,
-    "invite_http_ok": 1488,
+    "invites": 1573,
+    "invite_http_ok": 1494,
     "nags": 2954,
     "nag_http_ok": 2769,
-    "talk_inbox": 1539,
+    "talk_inbox": 1545,
     "social": 81,
-    "runs": 805
+    "runs": 806
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 9/120)",
-    "invite mcp CoinGraph → http 202 talk — https://coingraph.ai/api/mcp",
-    "feedback nags queued 0 (day 60/60)",
-    "social post → [object Object]"
+    "eligible never-demoed 6 (agents 0 mcp 6) · inviting 6 (day 10/120)",
+    "invite mcp Calaf Seed Tools → http 400 talk — https://calaf.ai/api/mcp",
+    "invite mcp Edgepedia → http 400 talk — https://www.edgechat.ai/mcp",
+    "invite mcp BotInfo — Advanced Robot Market Data → http 200 talk — https://mcp.botinfo.ai/.well-known/mcp/server-card.json",
+    "invite mcp Calaf → http 401 talk — https://calaf.ai/api/mcp-account",
+    "invite mcp LatticeNet → http 401 talk — https://latticenet.ai/mcp",
+    "invite mcp Clip Studio MCP → http 401 talk — https://clipstudio.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)"
   ],
-  "last_run_at": "2026-09-20T21:46:25.851Z",
+  "last_run_at": "2026-09-20T23:35:59.359Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
