@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-21T19:35:06.894Z",
+  "updated_at": "2026-09-21T22:48:30.706Z",
   "day": "2026-09-21",
-  "day_invites": 4,
+  "day_invites": 7,
   "day_nags": 60,
-  "day_talk": 4,
+  "day_talk": 7,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -6666,7 +6666,7 @@
       "talk_ok": false
     },
     "mcp-emisso-connect-connect-emisso-ai-mcp": {
-      "at": "2026-08-22T19:40:42.757Z",
+      "at": "2026-09-21T22:48:30.217Z",
       "name": "Emisso Connect",
       "kind": "mcp",
       "http_ok": true,
@@ -6676,13 +6676,13 @@
       "talk_ok": false
     },
     "mcp-advisors-ai-store-readiness-check-advisorsai-ai-store-readiness-mcp": {
-      "at": "2026-08-22T20:55:55.180Z",
+      "at": "2026-09-21T22:48:30.619Z",
       "name": "Advisors AI Store Readiness Check",
       "kind": "mcp",
-      "http_ok": true,
-      "status": 400,
-      "target": "https://advisorsai.ai/store-readiness-mcp",
-      "method": "POST:soft-json",
+      "http_ok": false,
+      "status": 530,
+      "target": "https://advisorsai.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
       "talk_ok": false
     },
     "mcp-analytics-legends-sap-analytics-intelligence-analyticslegends-ai-mcp": {
@@ -9112,6 +9112,16 @@
       "http_ok": true,
       "status": 401,
       "target": "https://clipstudio.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-content-sweep-contentsweep-ai-api-mcp": {
+      "at": "2026-09-21T22:48:30.505Z",
+      "name": "Content Sweep",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://contentsweep.ai/",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -12031,11 +12041,11 @@
       "ok": false
     },
     "mcp-emisso-connect-connect-emisso-ai-mcp": {
-      "at": "2026-08-22T19:40:42.757Z",
+      "at": "2026-09-21T22:48:30.217Z",
       "ok": false
     },
     "mcp-advisors-ai-store-readiness-check-advisorsai-ai-store-readiness-mcp": {
-      "at": "2026-08-22T20:55:55.180Z",
+      "at": "2026-09-21T22:48:30.619Z",
       "ok": false
     },
     "social:2026-08-23": {
@@ -13239,35 +13249,31 @@
       "ok": false
     },
     "social:2026-09-21": {
-      "at": "2026-09-21T19:35:06.894Z",
+      "at": "2026-09-21T22:48:30.706Z",
+      "ok": false
+    },
+    "mcp-content-sweep-contentsweep-ai-api-mcp": {
+      "at": "2026-09-21T22:48:30.505Z",
       "ok": false
     }
   },
   "totals": {
-    "invites": 1577,
-    "invite_http_ok": 1498,
+    "invites": 1580,
+    "invite_http_ok": 1500,
     "nags": 3014,
     "nag_http_ok": 2825,
-    "talk_inbox": 1549,
+    "talk_inbox": 1552,
     "social": 81,
-    "runs": 810
+    "runs": 811
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 3/120)",
-    "invite mcp ai.mangii/manga → http 401 talk — https://mcp.mangii.ai/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 4/120)",
+    "invite mcp Emisso Connect → http 401 talk — https://connect.emisso.ai/mcp",
+    "invite mcp Content Sweep → http 405 talk — https://contentsweep.ai/",
+    "invite mcp Advisors AI Store Readiness Check → http 530 talk — https://advisorsai.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-21T19:35:06.894Z",
+  "last_run_at": "2026-09-21T22:48:30.706Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
