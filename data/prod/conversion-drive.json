@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-22T19:55:33.813Z",
+  "updated_at": "2026-09-22T22:53:17.123Z",
   "day": "2026-09-22",
-  "day_invites": 5,
+  "day_invites": 8,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 8,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -6706,7 +6706,7 @@
       "talk_ok": false
     },
     "mcp-agentmesh-api-agentmesh-ai-v1-mcp": {
-      "at": "2026-08-23T20:00:17.605Z",
+      "at": "2026-09-22T22:53:16.244Z",
       "name": "AgentMesh",
       "kind": "mcp",
       "http_ok": true,
@@ -6716,7 +6716,7 @@
       "talk_ok": false
     },
     "mcp-decision-log-www-decisionlog-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-23T20:55:22.180Z",
+      "at": "2026-09-22T22:53:16.925Z",
       "name": "Decision Log",
       "kind": "mcp",
       "http_ok": true,
@@ -9152,6 +9152,16 @@
       "http_ok": true,
       "status": 401,
       "target": "https://mcp.aidoo.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-bindry-api-bindry-ai-api-mcp": {
+      "at": "2026-09-22T22:53:16.271Z",
+      "name": "Bindry",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.bindry.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -12091,11 +12101,11 @@
       "ok": false
     },
     "mcp-agentmesh-api-agentmesh-ai-v1-mcp": {
-      "at": "2026-08-23T20:00:17.605Z",
+      "at": "2026-09-22T22:53:16.244Z",
       "ok": false
     },
     "mcp-decision-log-www-decisionlog-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-23T20:55:22.180Z",
+      "at": "2026-09-22T22:53:16.925Z",
       "ok": false
     },
     "mcp-flipdomain-domain-sales-flipdomain-ai-mcp": {
@@ -13287,7 +13297,7 @@
       "ok": false
     },
     "social:2026-09-22": {
-      "at": "2026-09-22T19:55:33.812Z",
+      "at": "2026-09-22T22:53:17.123Z",
       "ok": false
     },
     "mcp-askwatch-google-search-console-mcp-mcp-askwatch-ai-gsc": {
@@ -13301,26 +13311,29 @@
     "mcp-aidoo-for-odoo-r1-mcp-aidoo-ai-mcp": {
       "at": "2026-09-22T19:55:33.528Z",
       "ok": false
+    },
+    "mcp-bindry-api-bindry-ai-api-mcp": {
+      "at": "2026-09-22T22:53:16.271Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1585,
-    "invite_http_ok": 1505,
+    "invites": 1588,
+    "invite_http_ok": 1508,
     "nags": 3074,
     "nag_http_ok": 2881,
-    "talk_inbox": 1557,
+    "talk_inbox": 1560,
     "social": 81,
-    "runs": 816
+    "runs": 817
   },
   "last_notes": [
-    "eligible never-demoed 4 (agents 0 mcp 4) · inviting 4 (day 1/120)",
-    "invite mcp AskWatch Google Search Console MCP → http 401 talk — https://mcp.askwatch.ai/gsc",
-    "invite mcp Project Desk → http 401 talk — https://atlier.ai/mcp",
-    "invite mcp Aidoo for Odoo · r2 → http 401 talk — https://mcp.aidoo.ai/sse",
-    "invite mcp Aidoo for Odoo · r1 → http 401 talk — https://mcp.aidoo.ai/mcp",
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 5/120)",
+    "invite mcp AgentMesh → http 401 talk — https://api.agentmesh.ai/v1/mcp",
+    "invite mcp Bindry → http 401 talk — https://api.bindry.ai/api/mcp",
+    "invite mcp Decision Log → http 405 talk — https://www.decisionlog.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-22T19:55:33.812Z",
+  "last_run_at": "2026-09-22T22:53:17.123Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
