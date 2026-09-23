@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-23T17:15:41.454Z",
+  "updated_at": "2026-09-23T20:28:59.016Z",
   "day": "2026-09-23",
-  "day_invites": 6,
+  "day_invites": 7,
   "day_nags": 60,
-  "day_talk": 6,
+  "day_talk": 7,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -9184,6 +9184,16 @@
       "target": "https://fugentic.mcp.fugentic.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-commsync-commsync-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-23T20:28:58.915Z",
+      "name": "CommSync",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://commsync.ai/.well-known/mcp/server-card.json",
+      "method": "POST:a2a-message",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -13337,7 +13347,7 @@
       "ok": false
     },
     "social:2026-09-23": {
-      "at": "2026-09-23T17:15:41.454Z",
+      "at": "2026-09-23T20:28:59.016Z",
       "ok": false
     },
     "mcp-contexel-contexel-ai-mcp": {
@@ -13347,34 +13357,27 @@
     "mcp-ai-fugentic-fugentic-fugentic-mcp-fugentic-ai-mcp": {
       "at": "2026-09-23T17:15:37.281Z",
       "ok": false
+    },
+    "mcp-commsync-commsync-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-23T20:28:58.915Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1594,
-    "invite_http_ok": 1514,
+    "invites": 1595,
+    "invite_http_ok": 1515,
     "nags": 3134,
     "nag_http_ok": 2937,
-    "talk_inbox": 1566,
+    "talk_inbox": 1567,
     "social": 81,
-    "runs": 821
+    "runs": 822
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 4/120)",
-    "invite mcp ai.fugentic/fugentic → http 200 talk — https://fugentic.mcp.fugentic.ai/mcp",
-    "invite mcp ai.imaginode/imaginode → http 401 talk — https://imaginode.ai/api/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 6/120)",
+    "invite mcp CommSync → http 405 talk — https://commsync.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-23T17:15:41.454Z",
+  "last_run_at": "2026-09-23T20:28:59.016Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
