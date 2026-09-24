@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-24T17:21:34.832Z",
+  "updated_at": "2026-09-24T20:42:46.100Z",
   "day": "2026-09-24",
-  "day_invites": 8,
+  "day_invites": 9,
   "day_nags": 60,
-  "day_talk": 8,
+  "day_talk": 9,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -9204,6 +9204,16 @@
       "target": "https://fastinsight.ai/api/public/mcp",
       "method": "POST:a2a-message",
       "talk_ok": false
+    },
+    "mcp-drillr-the-financial-mcp-for-ai-agents-gateway-drillr-ai-mcp-data": {
+      "at": "2026-09-24T20:42:45.986Z",
+      "name": "Drillr — The financial MCP for AI agents",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://gateway.drillr.ai/mcp/data",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -13373,39 +13383,33 @@
       "ok": false
     },
     "social:2026-09-24": {
-      "at": "2026-09-24T17:21:34.832Z",
+      "at": "2026-09-24T20:42:46.100Z",
       "ok": false
     },
     "mcp-fast-insight-fastinsight-ai-api-public-mcp": {
       "at": "2026-09-24T06:41:27.295Z",
       "ok": false
+    },
+    "mcp-drillr-the-financial-mcp-for-ai-agents-gateway-drillr-ai-mcp-data": {
+      "at": "2026-09-24T20:42:45.986Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1603,
-    "invite_http_ok": 1523,
+    "invites": 1604,
+    "invite_http_ok": 1524,
     "nags": 3194,
     "nag_http_ok": 2993,
-    "talk_inbox": 1575,
+    "talk_inbox": 1576,
     "social": 81,
-    "runs": 827
+    "runs": 828
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 7/120)",
-    "invite mcp IronShard Object Storage Sandbox → http 400 talk — https://agents-mcp.ironshard.ai/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 8/120)",
+    "invite mcp Drillr — The financial MCP for AI agents → http 401 talk — https://gateway.drillr.ai/mcp/data",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-24T17:21:34.832Z",
+  "last_run_at": "2026-09-24T20:42:46.100Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
