@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-26T18:01:54.350Z",
+  "updated_at": "2026-09-26T21:01:54.995Z",
   "day": "2026-09-26",
-  "day_invites": 15,
+  "day_invites": 17,
   "day_nags": 60,
-  "day_talk": 15,
+  "day_talk": 17,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -9314,6 +9314,26 @@
       "target": "https://mcp.getle.ad/.well-known/mcp/server-card.json",
       "method": "POST:tasks-send",
       "talk_ok": false
+    },
+    "mcp-ai-colaunched-public-mcp-colaunched-ai-public": {
+      "at": "2026-09-26T21:01:54.139Z",
+      "name": "ai.colaunched/public",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://mcp.colaunched.ai/public",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ai-colaunched-colaunched-mcp-colaunched-ai-mcp": {
+      "at": "2026-09-26T21:01:54.233Z",
+      "name": "ai.colaunched/colaunched",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.colaunched.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -13507,7 +13527,7 @@
       "ok": false
     },
     "social:2026-09-26": {
-      "at": "2026-09-26T18:01:54.350Z",
+      "at": "2026-09-26T21:01:54.995Z",
       "ok": false
     },
     "mcp-afg-agents-hire-agents-test-money-afg-ai-well-known-mcp-server-card-json": {
@@ -13541,27 +13561,32 @@
     "mcp-getlead-mcp-getle-ad-mcp": {
       "at": "2026-09-26T18:01:54.234Z",
       "ok": false
+    },
+    "mcp-ai-colaunched-public-mcp-colaunched-ai-public": {
+      "at": "2026-09-26T21:01:54.139Z",
+      "ok": false
+    },
+    "mcp-ai-colaunched-colaunched-mcp-colaunched-ai-mcp": {
+      "at": "2026-09-26T21:01:54.233Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1627,
-    "invite_http_ok": 1544,
+    "invites": 1629,
+    "invite_http_ok": 1546,
     "nags": 3314,
     "nag_http_ok": 3105,
-    "talk_inbox": 1599,
+    "talk_inbox": 1601,
     "social": 81,
-    "runs": 839
+    "runs": 840
   },
   "last_notes": [
-    "eligible never-demoed 5 (agents 0 mcp 5) · inviting 5 (day 10/120)",
-    "invite mcp DeepDNA → http 400 talk — https://deepdna.ai/mcp",
-    "invite mcp AlpiX · r1 → http 400 talk — https://alpix.alpic.ai/",
-    "invite mcp Doklad.ai → http 401 talk — https://doklad.ai/mcp",
-    "invite mcp Licensed House Painters → http 200 talk — https://house-painters.ottobot.agency/mcp",
-    "invite mcp Getlead → http 404 talk — https://mcp.getle.ad/.well-known/mcp/server-card.json",
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 15/120)",
+    "invite mcp ai.colaunched/public → http 200 talk — https://mcp.colaunched.ai/public",
+    "invite mcp ai.colaunched/colaunched → http 401 talk — https://mcp.colaunched.ai/mcp",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-26T18:01:54.350Z",
+  "last_run_at": "2026-09-26T21:01:54.995Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
