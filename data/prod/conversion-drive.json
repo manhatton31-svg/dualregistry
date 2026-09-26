@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-26T14:21:46.250Z",
+  "updated_at": "2026-09-26T18:01:54.350Z",
   "day": "2026-09-26",
-  "day_invites": 10,
+  "day_invites": 15,
   "day_nags": 60,
-  "day_talk": 10,
+  "day_talk": 15,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -6956,7 +6956,7 @@
       "talk_ok": false
     },
     "mcp-alpix-r1-alpix-alpic-ai": {
-      "at": "2026-08-27T14:34:10.362Z",
+      "at": "2026-09-26T17:57:28.590Z",
       "name": "AlpiX · r1",
       "kind": "mcp",
       "http_ok": true,
@@ -9273,6 +9273,46 @@
       "status": 405,
       "target": "https://councilof.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-deepdna-deepdna-ai-mcp": {
+      "at": "2026-09-26T17:57:28.589Z",
+      "name": "DeepDNA",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://deepdna.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-doklad-ai-doklad-ai-mcp": {
+      "at": "2026-09-26T17:57:28.847Z",
+      "name": "Doklad.ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://doklad.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-licensed-house-painters-house-painters-ottobot-agency-mcp": {
+      "at": "2026-09-26T17:57:28.928Z",
+      "name": "Licensed House Painters",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://house-painters.ottobot.agency/mcp",
+      "method": "POST:a2a-message",
+      "talk_ok": false
+    },
+    "mcp-getlead-mcp-getle-ad-mcp": {
+      "at": "2026-09-26T18:01:54.234Z",
+      "name": "Getlead",
+      "kind": "mcp",
+      "http_ok": false,
+      "status": 404,
+      "target": "https://mcp.getle.ad/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
       "talk_ok": false
     }
   },
@@ -12327,7 +12367,7 @@
       "ok": false
     },
     "mcp-alpix-r1-alpix-alpic-ai": {
-      "at": "2026-08-27T14:34:10.362Z",
+      "at": "2026-09-26T17:57:28.590Z",
       "ok": false
     },
     "mcp-foliora-managed-ai-search-www-foliora-ai-mcp": {
@@ -13467,7 +13507,7 @@
       "ok": false
     },
     "social:2026-09-26": {
-      "at": "2026-09-26T14:21:46.250Z",
+      "at": "2026-09-26T18:01:54.350Z",
       "ok": false
     },
     "mcp-afg-agents-hire-agents-test-money-afg-ai-well-known-mcp-server-card-json": {
@@ -13485,32 +13525,43 @@
     "mcp-council-of-ai-gspc-councilof-ai-well-known-mcp-server-card-json": {
       "at": "2026-09-26T09:56:40.919Z",
       "ok": false
+    },
+    "mcp-deepdna-deepdna-ai-mcp": {
+      "at": "2026-09-26T17:57:28.589Z",
+      "ok": false
+    },
+    "mcp-doklad-ai-doklad-ai-mcp": {
+      "at": "2026-09-26T17:57:28.847Z",
+      "ok": false
+    },
+    "mcp-licensed-house-painters-house-painters-ottobot-agency-mcp": {
+      "at": "2026-09-26T17:57:28.928Z",
+      "ok": false
+    },
+    "mcp-getlead-mcp-getle-ad-mcp": {
+      "at": "2026-09-26T18:01:54.234Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1622,
-    "invite_http_ok": 1540,
+    "invites": 1627,
+    "invite_http_ok": 1544,
     "nags": 3314,
     "nag_http_ok": 3105,
-    "talk_inbox": 1594,
+    "talk_inbox": 1599,
     "social": 81,
-    "runs": 838
+    "runs": 839
   },
   "last_notes": [
-    "eligible never-demoed 0 (agents 0 mcp 0) · inviting 0 (day 10/120)",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 5 (agents 0 mcp 5) · inviting 5 (day 10/120)",
+    "invite mcp DeepDNA → http 400 talk — https://deepdna.ai/mcp",
+    "invite mcp AlpiX · r1 → http 400 talk — https://alpix.alpic.ai/",
+    "invite mcp Doklad.ai → http 401 talk — https://doklad.ai/mcp",
+    "invite mcp Licensed House Painters → http 200 talk — https://house-painters.ottobot.agency/mcp",
+    "invite mcp Getlead → http 404 talk — https://mcp.getle.ad/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-26T14:21:46.250Z",
+  "last_run_at": "2026-09-26T18:01:54.350Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
