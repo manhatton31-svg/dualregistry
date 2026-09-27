@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-27T17:48:21.038Z",
+  "updated_at": "2026-09-27T20:28:16.654Z",
   "day": "2026-09-27",
-  "day_invites": 8,
+  "day_invites": 9,
   "day_nags": 60,
-  "day_talk": 8,
+  "day_talk": 9,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -9384,6 +9384,16 @@
       "target": "https://bankrolled.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-agent-bev-agent-bev-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-27T20:28:16.564Z",
+      "name": "agent-bev",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://agent-bev.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -13625,7 +13635,7 @@
       "ok": false
     },
     "social:2026-09-27": {
-      "at": "2026-09-27T17:48:21.038Z",
+      "at": "2026-09-27T20:28:16.654Z",
       "ok": false
     },
     "mcp-falpha-agent-falpha-ai-mcp": {
@@ -13643,33 +13653,27 @@
     "mcp-bankrolled-ai-agent-hub-bankrolled-ai-well-known-mcp-server-card-json": {
       "at": "2026-09-27T17:48:17.322Z",
       "ok": false
+    },
+    "mcp-agent-bev-agent-bev-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-27T20:28:16.564Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1637,
-    "invite_http_ok": 1554,
+    "invites": 1638,
+    "invite_http_ok": 1555,
     "nags": 3374,
     "nag_http_ok": 3161,
-    "talk_inbox": 1609,
+    "talk_inbox": 1610,
     "social": 81,
-    "runs": 845
+    "runs": 846
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 7/120)",
-    "invite mcp Bankrolled.ai Agent Hub → http 200 talk — https://bankrolled.ai/.well-known/mcp/server-card.json",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 405 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 8/120)",
+    "invite mcp agent-bev → http 405 talk — https://agent-bev.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-27T17:48:21.038Z",
+  "last_run_at": "2026-09-27T20:28:16.654Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
