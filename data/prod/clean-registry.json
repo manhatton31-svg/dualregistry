@@ -1,14 +1,14 @@
 {
   "day": "2026-09-27",
-  "updated_at": "2026-09-27T00:36:12.614Z",
+  "updated_at": "2026-09-27T05:48:16.896Z",
   "counts": {
-    "total": 935,
-    "mcp": 900,
+    "total": 938,
+    "mcp": 903,
     "agents": 35
   },
   "high_water": {
-    "total": 935,
-    "mcp": 900,
+    "total": 938,
+    "mcp": 903,
     "agents": 35
   },
   "items": {
@@ -10293,6 +10293,39 @@
       "target": "https://filmai.ai/api/mcp/mcp",
       "approved_at": "2026-09-27T00:36:12.473Z",
       "probed_at": "2026-09-27T00:36:12.473Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-agent-bev-mcp-bev-buyer-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-agent-bev-mcp-bev-buyer-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "agent-bev",
+      "target": "https://mcp.bev-buyer.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-09-27T05:48:05.643Z",
+      "probed_at": "2026-09-27T05:48:05.643Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-clearvoyance-clearvoyance-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-clearvoyance-clearvoyance-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Clearvoyance",
+      "target": "https://clearvoyance.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-09-27T05:48:09.746Z",
+      "probed_at": "2026-09-27T05:48:09.746Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-falpha-agent-falpha-ai-mcp": {
+      "id": "mcp-falpha-agent-falpha-ai-mcp",
+      "kind": "mcp",
+      "name": "fAlpha",
+      "target": "https://agent.falpha.ai/mcp",
+      "approved_at": "2026-09-27T05:48:13.260Z",
+      "probed_at": "2026-09-27T05:48:13.260Z",
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
