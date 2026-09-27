@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-27T20:28:16.654Z",
+  "updated_at": "2026-09-27T23:21:52.551Z",
   "day": "2026-09-27",
-  "day_invites": 9,
+  "day_invites": 14,
   "day_nags": 60,
-  "day_talk": 9,
+  "day_talk": 14,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -6996,17 +6996,17 @@
       "talk_ok": false
     },
     "mcp-askline-askline-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-28T21:27:03.981Z",
+      "at": "2026-09-27T23:21:52.436Z",
       "name": "Askline",
       "kind": "mcp",
-      "http_ok": true,
-      "status": 405,
-      "target": "https://askline.ai/.well-known/mcp/server-card.json",
-      "method": "POST:soft-json",
+      "http_ok": false,
+      "status": 404,
+      "target": "https://askline.ai/.well-known/agent-card.json",
+      "method": "POST:tasks-send",
       "talk_ok": false
     },
     "mcp-citybook-mcp-citybook-ai-mcp": {
-      "at": "2026-08-28T21:27:04.092Z",
+      "at": "2026-09-27T23:21:48.836Z",
       "name": "Citybook",
       "kind": "mcp",
       "http_ok": true,
@@ -7016,7 +7016,7 @@
       "talk_ok": false
     },
     "mcp-advisors-ai-service-navigator-advisorsai-ai-mcp": {
-      "at": "2026-08-28T21:27:04.613Z",
+      "at": "2026-09-27T23:21:48.924Z",
       "name": "Advisors AI Service Navigator",
       "kind": "mcp",
       "http_ok": true,
@@ -7026,7 +7026,7 @@
       "talk_ok": false
     },
     "mcp-instantclips-app-instantclips-ai-mcp": {
-      "at": "2026-08-28T21:27:04.737Z",
+      "at": "2026-09-27T23:21:49.241Z",
       "name": "InstantClips",
       "kind": "mcp",
       "http_ok": true,
@@ -9392,6 +9392,16 @@
       "http_ok": true,
       "status": 405,
       "target": "https://agent-bev.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-caybl-api-caybl-ai-mcp": {
+      "at": "2026-09-27T23:21:48.728Z",
+      "name": "Caybl",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.caybl.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -12467,19 +12477,19 @@
       "ok": false
     },
     "mcp-askline-askline-ai-well-known-mcp-server-card-json": {
-      "at": "2026-08-28T21:27:03.981Z",
+      "at": "2026-09-27T23:21:52.436Z",
       "ok": false
     },
     "mcp-citybook-mcp-citybook-ai-mcp": {
-      "at": "2026-08-28T21:27:04.092Z",
+      "at": "2026-09-27T23:21:48.836Z",
       "ok": false
     },
     "mcp-advisors-ai-service-navigator-advisorsai-ai-mcp": {
-      "at": "2026-08-28T21:27:04.613Z",
+      "at": "2026-09-27T23:21:48.924Z",
       "ok": false
     },
     "mcp-instantclips-app-instantclips-ai-mcp": {
-      "at": "2026-08-28T21:27:04.737Z",
+      "at": "2026-09-27T23:21:49.241Z",
       "ok": false
     },
     "mcp-dynt-api-dynt-ai-mcp": {
@@ -13635,7 +13645,7 @@
       "ok": false
     },
     "social:2026-09-27": {
-      "at": "2026-09-27T20:28:16.654Z",
+      "at": "2026-09-27T23:21:52.551Z",
       "ok": false
     },
     "mcp-falpha-agent-falpha-ai-mcp": {
@@ -13657,23 +13667,31 @@
     "mcp-agent-bev-agent-bev-ai-well-known-mcp-server-card-json": {
       "at": "2026-09-27T20:28:16.564Z",
       "ok": false
+    },
+    "mcp-caybl-api-caybl-ai-mcp": {
+      "at": "2026-09-27T23:21:48.728Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1638,
-    "invite_http_ok": 1555,
+    "invites": 1643,
+    "invite_http_ok": 1559,
     "nags": 3374,
     "nag_http_ok": 3161,
-    "talk_inbox": 1610,
+    "talk_inbox": 1615,
     "social": 81,
-    "runs": 846
+    "runs": 847
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 8/120)",
-    "invite mcp agent-bev → http 405 talk — https://agent-bev.ai/.well-known/mcp/server-card.json",
+    "eligible never-demoed 5 (agents 0 mcp 5) · inviting 5 (day 9/120)",
+    "invite mcp Caybl → http 401 talk — https://api.caybl.ai/mcp",
+    "invite mcp Citybook → http 401 talk — https://mcp.citybook.ai/mcp",
+    "invite mcp Advisors AI Service Navigator → http 400 talk — https://advisorsai.ai/mcp",
+    "invite mcp InstantClips → http 401 talk — https://app.instantclips.ai/mcp",
+    "invite mcp Askline → http 404 talk — https://askline.ai/.well-known/agent-card.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-27T20:28:16.654Z",
+  "last_run_at": "2026-09-27T23:21:52.551Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
