@@ -1,14 +1,14 @@
 {
   "day": "2026-09-27",
-  "updated_at": "2026-09-27T19:34:40.487Z",
+  "updated_at": "2026-09-27T22:34:35.188Z",
   "counts": {
-    "total": 940,
-    "mcp": 905,
+    "total": 941,
+    "mcp": 906,
     "agents": 35
   },
   "high_water": {
-    "total": 940,
-    "mcp": 905,
+    "total": 941,
+    "mcp": 906,
     "agents": 35
   },
   "items": {
@@ -10351,6 +10351,17 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-caybl-api-caybl-ai-mcp": {
+      "id": "mcp-caybl-api-caybl-ai-mcp",
+      "kind": "mcp",
+      "name": "Caybl",
+      "target": "https://api.caybl.ai/mcp",
+      "approved_at": "2026-09-27T22:33:35.188Z",
+      "probed_at": "2026-09-27T22:33:35.188Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
