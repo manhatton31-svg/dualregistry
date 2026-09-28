@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-28T17:03:13.209Z",
+  "updated_at": "2026-09-28T22:30:21.634Z",
   "day": "2026-09-28",
-  "day_invites": 5,
+  "day_invites": 10,
   "day_nags": 60,
-  "day_talk": 5,
+  "day_talk": 10,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -7056,7 +7056,7 @@
       "talk_ok": false
     },
     "mcp-ai-levelfour-levelfour-mcp-mcp-levelfour-ai-mcp": {
-      "at": "2026-08-29T18:37:37.456Z",
+      "at": "2026-09-28T22:30:20.723Z",
       "name": "ai.levelfour/levelfour-mcp",
       "kind": "mcp",
       "http_ok": true,
@@ -7066,7 +7066,7 @@
       "talk_ok": false
     },
     "mcp-hotker-ai-hotker-ai-mcp": {
-      "at": "2026-08-29T18:37:37.706Z",
+      "at": "2026-09-28T22:30:20.891Z",
       "name": "HOTKER 핫커 | 한국 상품·휴대폰 성지 구매가 AI",
       "kind": "mcp",
       "http_ok": true,
@@ -7076,13 +7076,13 @@
       "talk_ok": false
     },
     "mcp-hyperscale-tenant-tools-hyperscale0-ai-well-known-mcp-json": {
-      "at": "2026-08-29T21:19:51.022Z",
+      "at": "2026-09-28T22:30:20.651Z",
       "name": "Hyperscale Tenant Tools",
       "kind": "mcp",
       "http_ok": true,
-      "status": 200,
+      "status": 405,
       "target": "https://hyperscale0.ai/.well-known/mcp.json",
-      "method": "GET",
+      "method": "POST:soft-json",
       "talk_ok": false
     },
     "mcp-feedback1-app-feedback1-ai-api-mcp-sse": {
@@ -9433,6 +9433,26 @@
       "status": 401,
       "target": "https://mcp.ekwo.ai/mcp",
       "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-fenbs-fenbs-ai-api-mcp": {
+      "at": "2026-09-28T22:30:20.814Z",
+      "name": "fenbs",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://fenbs.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-clawfight-r1-clawfight-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-28T22:30:21.382Z",
+      "name": "Clawfight · r1",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://clawfight.ai/.well-known/mcp/server-card.json",
+      "method": "GET",
       "talk_ok": false
     }
   },
@@ -12535,15 +12555,15 @@
       "ok": false
     },
     "mcp-ai-levelfour-levelfour-mcp-mcp-levelfour-ai-mcp": {
-      "at": "2026-08-29T18:37:37.456Z",
+      "at": "2026-09-28T22:30:20.723Z",
       "ok": false
     },
     "mcp-hotker-ai-hotker-ai-mcp": {
-      "at": "2026-08-29T18:37:37.706Z",
+      "at": "2026-09-28T22:30:20.891Z",
       "ok": false
     },
     "mcp-hyperscale-tenant-tools-hyperscale0-ai-well-known-mcp-json": {
-      "at": "2026-08-29T21:19:51.022Z",
+      "at": "2026-09-28T22:30:20.651Z",
       "ok": false
     },
     "mcp-feedback1-app-feedback1-ai-api-mcp-sse": {
@@ -13707,7 +13727,7 @@
       "ok": false
     },
     "social:2026-09-28": {
-      "at": "2026-09-28T17:03:13.209Z",
+      "at": "2026-09-28T22:30:21.634Z",
       "ok": false
     },
     "mcp-connie-mcp-connie-ai": {
@@ -13717,45 +13737,35 @@
     "mcp-ekwo-os-open-source-accounting-ledger-invoices-a-mcp-ekwo-ai-mcp": {
       "at": "2026-09-28T17:03:09.242Z",
       "ok": false
+    },
+    "mcp-fenbs-fenbs-ai-api-mcp": {
+      "at": "2026-09-28T22:30:20.814Z",
+      "ok": false
+    },
+    "mcp-clawfight-r1-clawfight-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-28T22:30:21.382Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1648,
-    "invite_http_ok": 1564,
+    "invites": 1653,
+    "invite_http_ok": 1569,
     "nags": 3434,
     "nag_http_ok": 3218,
-    "talk_inbox": 1620,
+    "talk_inbox": 1625,
     "social": 81,
-    "runs": 850
+    "runs": 851
   },
   "last_notes": [
-    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 2/120)",
-    "invite mcp Immopix → http 401 talk — https://immopix.ai/mcp",
-    "invite mcp Connie → http 401 talk — https://mcp.connie.ai/",
-    "invite mcp Ekwo OS — open source accounting: ledger,  → http 401 talk — https://mcp.ekwo.ai/mcp",
-    "feedback nags queued 20 (day 40/60)",
-    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
-    "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
-    "nag self_serve AdAdvisor MCP Server → http 401 talk —",
-    "nag self_serve ac.tandem/docs-mcp → http 405 talk —",
-    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 405 talk —",
-    "nag self_serve ai.iturri/market-data → http 200 talk —",
-    "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
-    "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
-    "nag invited BeatBandit MCP → http 405 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
-    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
-    "nag invited ai.meacheal/mrc-data → http 200 talk —",
-    "nag invited AnomalyArmor → http 405 talk —",
-    "nag invited ai.iturri/market-data → http 200 talk —",
-    "nag invited ai.odei/connect → http 405 talk —",
-    "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
-    "nag invited ai.maguyva/maguyva → http 405 talk —",
-    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
-    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
-    "nag invited ai.joinmultiplayer/gpu → http 200 talk —",
+    "eligible never-demoed 5 (agents 0 mcp 5) · inviting 5 (day 5/120)",
+    "invite mcp Hyperscale Tenant Tools → http 405 talk — https://hyperscale0.ai/.well-known/mcp.json",
+    "invite mcp ai.levelfour/levelfour-mcp → http 401 talk — https://mcp.levelfour.ai/mcp",
+    "invite mcp fenbs → http 401 talk — https://fenbs.ai/api/mcp",
+    "invite mcp HOTKER 핫커 | 한국 상품·휴대폰 성지 구매가 AI → http 400 talk — https://hotker.ai/mcp",
+    "invite mcp Clawfight · r1 → http 200 talk — https://clawfight.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-28T17:03:13.209Z",
+  "last_run_at": "2026-09-28T22:30:21.634Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
