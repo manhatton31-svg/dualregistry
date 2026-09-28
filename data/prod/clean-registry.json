@@ -1,14 +1,14 @@
 {
   "day": "2026-09-28",
-  "updated_at": "2026-09-28T15:07:48.695Z",
+  "updated_at": "2026-09-28T21:14:43.111Z",
   "counts": {
-    "total": 944,
-    "mcp": 909,
+    "total": 946,
+    "mcp": 911,
     "agents": 35
   },
   "high_water": {
-    "total": 944,
-    "mcp": 909,
+    "total": 946,
+    "mcp": 911,
     "agents": 35
   },
   "items": {
@@ -10395,6 +10395,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-clawfight-r1-clawfight-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-clawfight-r1-clawfight-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Clawfight · r1",
+      "target": "https://clawfight.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-09-28T21:14:14.049Z",
+      "probed_at": "2026-09-28T21:14:14.049Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-fenbs-fenbs-ai-api-mcp": {
+      "id": "mcp-fenbs-fenbs-ai-api-mcp",
+      "kind": "mcp",
+      "name": "fenbs",
+      "target": "https://fenbs.ai/api/mcp",
+      "approved_at": "2026-09-28T21:14:18.234Z",
+      "probed_at": "2026-09-28T21:14:18.234Z",
+      "score": 35,
+      "handshake": "ok",
+      "hold_reason": "grower remote-json 200"
     }
   },
   "policy": {
