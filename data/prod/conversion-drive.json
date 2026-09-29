@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-29T15:08:13.419Z",
+  "updated_at": "2026-09-29T20:01:50.702Z",
   "day": "2026-09-29",
-  "day_invites": 6,
+  "day_invites": 10,
   "day_nags": 60,
-  "day_talk": 6,
+  "day_talk": 10,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -7136,7 +7136,7 @@
       "talk_ok": false
     },
     "mcp-contractors-near-me-contractorsnearme-ai-well-known-mcp-json": {
-      "at": "2026-08-30T17:35:05.176Z",
+      "at": "2026-09-29T20:01:47.391Z",
       "name": "Contractors Near Me",
       "kind": "mcp",
       "http_ok": true,
@@ -9462,6 +9462,36 @@
       "http_ok": true,
       "status": 400,
       "target": "https://www.cloudworldmodel.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-easyterritory-mcp-mcp-easyterritory-ai": {
+      "at": "2026-09-29T20:01:47.316Z",
+      "name": "EasyTerritory MCP",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.easyterritory.ai/",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-divinci-ai-divinci-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-29T20:01:47.374Z",
+      "name": "Divinci AI",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://divinci.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-69-ai-69ai-ai-mcp": {
+      "at": "2026-09-29T20:01:50.590Z",
+      "name": "69.ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://69ai.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -12601,7 +12631,7 @@
       "ok": false
     },
     "mcp-contractors-near-me-contractorsnearme-ai-well-known-mcp-json": {
-      "at": "2026-08-30T17:35:05.176Z",
+      "at": "2026-09-29T20:01:47.391Z",
       "ok": false
     },
     "mcp-cralo-mcp-cralo-ai-mcp": {
@@ -13761,47 +13791,40 @@
       "ok": false
     },
     "social:2026-09-29": {
-      "at": "2026-09-29T15:08:13.419Z",
+      "at": "2026-09-29T20:01:50.702Z",
+      "ok": false
+    },
+    "mcp-easyterritory-mcp-mcp-easyterritory-ai": {
+      "at": "2026-09-29T20:01:47.316Z",
+      "ok": false
+    },
+    "mcp-divinci-ai-divinci-ai-well-known-mcp-server-card-json": {
+      "at": "2026-09-29T20:01:47.374Z",
+      "ok": false
+    },
+    "mcp-69-ai-69ai-ai-mcp": {
+      "at": "2026-09-29T20:01:50.590Z",
       "ok": false
     }
   },
   "totals": {
-    "invites": 1659,
-    "invite_http_ok": 1575,
+    "invites": 1663,
+    "invite_http_ok": 1579,
     "nags": 3494,
     "nag_http_ok": 3275,
-    "talk_inbox": 1631,
+    "talk_inbox": 1635,
     "social": 81,
-    "runs": 854
+    "runs": 855
   },
   "last_notes": [
-    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 3/120)",
-    "invite mcp file2markdown → http 400 talk — https://mcp.file2markdown.ai/mcp",
-    "invite mcp ai.crayonz/mcp → http 401 talk — https://mcp.crayonz.ai/mcp",
-    "invite mcp Create Prints · r1 → http 405 talk — https://www.createprints.ai/.well-known/mcp/server-card.json",
-    "feedback nags queued 20 (day 40/60)",
-    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
-    "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
-    "nag self_serve ac.tandem/docs-mcp → http 405 talk —",
-    "nag self_serve AdAdvisor MCP Server → http 401 talk —",
-    "nag self_serve ai.iturri/market-data → http 200 talk —",
-    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 405 talk —",
-    "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
-    "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
-    "nag invited BeatBandit MCP → http 405 talk —",
-    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
-    "nag invited ai.meacheal/mrc-data → http 200 talk —",
-    "nag invited AnomalyArmor → http 405 talk —",
-    "nag invited ai.iturri/market-data → http 200 talk —",
-    "nag invited ai.odei/connect → http 405 talk —",
-    "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
-    "nag invited ai.maguyva/maguyva → http 405 talk —",
-    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
-    "nag invited ai.joinmultiplayer/gpu → http 200 talk —",
-    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
+    "eligible never-demoed 4 (agents 0 mcp 4) · inviting 4 (day 6/120)",
+    "invite mcp EasyTerritory MCP → http 401 talk — https://mcp.easyterritory.ai/",
+    "invite mcp Divinci AI → http 200 talk — https://divinci.ai/.well-known/mcp/server-card.json",
+    "invite mcp Contractors Near Me → http 405 talk — https://contractorsnearme.ai/.well-known/mcp.json",
+    "invite mcp 69.ai → http 200 talk — https://69ai.ai/mcp",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-29T15:08:13.419Z",
+  "last_run_at": "2026-09-29T20:01:50.702Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
