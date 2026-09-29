@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-09-29T20:01:50.702Z",
+  "updated_at": "2026-09-29T23:39:01.314Z",
   "day": "2026-09-29",
-  "day_invites": 10,
+  "day_invites": 13,
   "day_nags": 60,
-  "day_talk": 10,
+  "day_talk": 13,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-09-02T01:18:58.853Z",
@@ -7146,7 +7146,7 @@
       "talk_ok": false
     },
     "mcp-cralo-mcp-cralo-ai-mcp": {
-      "at": "2026-08-30T22:41:02.117Z",
+      "at": "2026-09-29T23:38:54.996Z",
       "name": "Cralo",
       "kind": "mcp",
       "http_ok": true,
@@ -7156,7 +7156,7 @@
       "talk_ok": false
     },
     "mcp-mapmap-mcp-mapmap-ai-mcp": {
-      "at": "2026-08-30T22:41:06.963Z",
+      "at": "2026-09-29T23:39:00.915Z",
       "name": "MapMap",
       "kind": "mcp",
       "http_ok": false,
@@ -9492,6 +9492,16 @@
       "http_ok": true,
       "status": 200,
       "target": "https://69ai.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-projectory-mcp-projectory-ae-mcp": {
+      "at": "2026-09-29T23:38:55.264Z",
+      "name": "Projectory",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://mcp.projectory.ae/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -12635,11 +12645,11 @@
       "ok": false
     },
     "mcp-cralo-mcp-cralo-ai-mcp": {
-      "at": "2026-08-30T22:41:02.117Z",
+      "at": "2026-09-29T23:38:54.996Z",
       "ok": false
     },
     "mcp-mapmap-mcp-mapmap-ai-mcp": {
-      "at": "2026-08-30T22:41:06.963Z",
+      "at": "2026-09-29T23:39:00.915Z",
       "ok": false
     },
     "social:2026-08-31": {
@@ -13791,7 +13801,7 @@
       "ok": false
     },
     "social:2026-09-29": {
-      "at": "2026-09-29T20:01:50.702Z",
+      "at": "2026-09-29T23:39:01.314Z",
       "ok": false
     },
     "mcp-easyterritory-mcp-mcp-easyterritory-ai": {
@@ -13805,26 +13815,29 @@
     "mcp-69-ai-69ai-ai-mcp": {
       "at": "2026-09-29T20:01:50.590Z",
       "ok": false
+    },
+    "mcp-projectory-mcp-projectory-ae-mcp": {
+      "at": "2026-09-29T23:38:55.264Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 1663,
-    "invite_http_ok": 1579,
+    "invites": 1666,
+    "invite_http_ok": 1581,
     "nags": 3494,
     "nag_http_ok": 3275,
-    "talk_inbox": 1635,
+    "talk_inbox": 1638,
     "social": 81,
-    "runs": 855
+    "runs": 856
   },
   "last_notes": [
-    "eligible never-demoed 4 (agents 0 mcp 4) · inviting 4 (day 6/120)",
-    "invite mcp EasyTerritory MCP → http 401 talk — https://mcp.easyterritory.ai/",
-    "invite mcp Divinci AI → http 200 talk — https://divinci.ai/.well-known/mcp/server-card.json",
-    "invite mcp Contractors Near Me → http 405 talk — https://contractorsnearme.ai/.well-known/mcp.json",
-    "invite mcp 69.ai → http 200 talk — https://69ai.ai/mcp",
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 10/120)",
+    "invite mcp Cralo → http 401 talk — https://mcp.cralo.ai/mcp",
+    "invite mcp Projectory → http 400 talk — https://mcp.projectory.ae/mcp",
+    "invite mcp MapMap → http 404 talk — https://mcp.mapmap.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-09-29T20:01:50.702Z",
+  "last_run_at": "2026-09-29T23:39:01.314Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
