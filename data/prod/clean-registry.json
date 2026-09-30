@@ -1,14 +1,14 @@
 {
   "day": "2026-09-30",
-  "updated_at": "2026-09-30T14:56:22.667Z",
+  "updated_at": "2026-09-30T19:53:01.269Z",
   "counts": {
-    "total": 955,
-    "mcp": 920,
+    "total": 958,
+    "mcp": 923,
     "agents": 35
   },
   "high_water": {
-    "total": 955,
-    "mcp": 920,
+    "total": 958,
+    "mcp": 923,
     "agents": 35
   },
   "items": {
@@ -10516,6 +10516,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-coldstate-deterministic-knowledge-infrastructure-cold-api-coldstate-ai-well-known-mcp-json": {
+      "id": "mcp-coldstate-deterministic-knowledge-infrastructure-cold-api-coldstate-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "ColdState — Deterministic Knowledge Infrastructure",
+      "target": "https://cold-api.coldstate.ai/.well-known/mcp.json",
+      "approved_at": "2026-09-30T19:52:32.675Z",
+      "probed_at": "2026-09-30T19:52:32.675Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-daishi-studio-daishi-ai-well-known-mcp-json": {
+      "id": "mcp-daishi-studio-daishi-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "Daishi Studio",
+      "target": "https://daishi.ai/.well-known/mcp.json",
+      "approved_at": "2026-09-30T19:52:33.809Z",
+      "probed_at": "2026-09-30T19:52:33.809Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-contentmaschine-contentmaschine-ai-api-mcp": {
+      "id": "mcp-contentmaschine-contentmaschine-ai-api-mcp",
+      "kind": "mcp",
+      "name": "ContentMaschine",
+      "target": "https://contentmaschine.ai/api/mcp",
+      "approved_at": "2026-09-30T19:52:35.923Z",
+      "probed_at": "2026-09-30T19:52:35.923Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
