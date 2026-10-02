@@ -1,14 +1,14 @@
 {
-  "day": "2026-10-01",
-  "updated_at": "2026-10-01T21:23:38.397Z",
+  "day": "2026-10-02",
+  "updated_at": "2026-10-02T01:02:03.407Z",
   "counts": {
-    "total": 965,
-    "mcp": 930,
+    "total": 967,
+    "mcp": 932,
     "agents": 35
   },
   "high_water": {
-    "total": 965,
-    "mcp": 930,
+    "total": 967,
+    "mcp": 932,
     "agents": 35
   },
   "items": {
@@ -10626,6 +10626,28 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-asrm-ai-search-rank-monitor-asrm-ai-mcp": {
+      "id": "mcp-asrm-ai-search-rank-monitor-asrm-ai-mcp",
+      "kind": "mcp",
+      "name": "ASRM (AI Search Rank Monitor)",
+      "target": "https://asrm.ai/mcp",
+      "approved_at": "2026-10-02T01:00:58.125Z",
+      "probed_at": "2026-10-02T01:00:58.125Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-distilla-api-distilla-ai-mcp": {
+      "id": "mcp-distilla-api-distilla-ai-mcp",
+      "kind": "mcp",
+      "name": "Distilla",
+      "target": "https://api.distilla.ai/mcp",
+      "approved_at": "2026-10-02T01:01:06.497Z",
+      "probed_at": "2026-10-02T01:01:06.497Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
