@@ -1,14 +1,14 @@
 {
   "day": "2026-10-03",
-  "updated_at": "2026-10-03T16:46:55.706Z",
+  "updated_at": "2026-10-03T19:41:40.068Z",
   "counts": {
-    "total": 977,
-    "mcp": 942,
+    "total": 980,
+    "mcp": 945,
     "agents": 35
   },
   "high_water": {
-    "total": 977,
-    "mcp": 942,
+    "total": 980,
+    "mcp": 945,
     "agents": 35
   },
   "items": {
@@ -10758,6 +10758,39 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-adrails-adrails-ai-api-mcp": {
+      "id": "mcp-adrails-adrails-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Adrails",
+      "target": "https://adrails.ai/api/mcp",
+      "approved_at": "2026-10-03T19:41:06.077Z",
+      "probed_at": "2026-10-03T19:41:06.077Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-athaus-immobiliensuche-suche-mcp-athaus-ai-mcp": {
+      "id": "mcp-athaus-immobiliensuche-suche-mcp-athaus-ai-mcp",
+      "kind": "mcp",
+      "name": "Athaus Immobiliensuche",
+      "target": "https://suche.mcp.athaus.ai/mcp",
+      "approved_at": "2026-10-03T19:41:10.320Z",
+      "probed_at": "2026-10-03T19:41:10.320Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-athaus-f-r-makler-anbieter-mcp-athaus-ai-mcp": {
+      "id": "mcp-athaus-f-r-makler-anbieter-mcp-athaus-ai-mcp",
+      "kind": "mcp",
+      "name": "Athaus für Makler",
+      "target": "https://anbieter.mcp.athaus.ai/mcp",
+      "approved_at": "2026-10-03T19:41:10.424Z",
+      "probed_at": "2026-10-03T19:41:10.424Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
