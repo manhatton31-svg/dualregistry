@@ -1,14 +1,14 @@
 {
   "day": "2026-10-03",
-  "updated_at": "2026-10-03T12:45:52.574Z",
+  "updated_at": "2026-10-03T16:46:55.706Z",
   "counts": {
-    "total": 973,
-    "mcp": 938,
+    "total": 977,
+    "mcp": 942,
     "agents": 35
   },
   "high_water": {
-    "total": 973,
-    "mcp": 938,
+    "total": 977,
+    "mcp": 942,
     "agents": 35
   },
   "items": {
@@ -10714,6 +10714,50 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-web-content-url-tools-apify-com-well-known-mcp-server-card-json": {
+      "id": "mcp-web-content-url-tools-apify-com-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Web Content & URL Tools",
+      "target": "https://apify.com/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-03T16:46:24.526Z",
+      "probed_at": "2026-10-03T16:46:24.526Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-ugc-the-human-ad-network-api-ugc-africa-well-known-mcp-json": {
+      "id": "mcp-ugc-the-human-ad-network-api-ugc-africa-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "UGC, the Human Ad Network",
+      "target": "https://api.ugc.africa/.well-known/mcp.json",
+      "approved_at": "2026-10-03T16:46:25.443Z",
+      "probed_at": "2026-10-03T16:46:25.443Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-crub-mcp-crub-ai-mcp": {
+      "id": "mcp-crub-mcp-crub-ai-mcp",
+      "kind": "mcp",
+      "name": "Crub",
+      "target": "https://mcp.crub.ai/mcp",
+      "approved_at": "2026-10-03T16:46:27.991Z",
+      "probed_at": "2026-10-03T16:46:27.991Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-fala-fala-elav8-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-fala-fala-elav8-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "FALA",
+      "target": "https://fala.elav8.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-03T16:46:28.689Z",
+      "probed_at": "2026-10-03T16:46:28.689Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
     }
   },
   "policy": {
