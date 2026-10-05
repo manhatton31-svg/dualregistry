@@ -1,14 +1,14 @@
 {
   "day": "2026-10-05",
-  "updated_at": "2026-10-05T04:25:05.947Z",
+  "updated_at": "2026-10-05T11:45:16.351Z",
   "counts": {
-    "total": 990,
-    "mcp": 955,
+    "total": 993,
+    "mcp": 958,
     "agents": 35
   },
   "high_water": {
-    "total": 990,
-    "mcp": 955,
+    "total": 993,
+    "mcp": 958,
     "agents": 35
   },
   "items": {
@@ -10901,6 +10901,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-alcock-arena-alcock-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-alcock-arena-alcock-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Alcock Arena",
+      "target": "https://alcock.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-05T11:45:09.541Z",
+      "probed_at": "2026-10-05T11:45:09.541Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-1clickwebsite-www-1clickwebsite-ai-api-mcp": {
+      "id": "mcp-1clickwebsite-www-1clickwebsite-ai-api-mcp",
+      "kind": "mcp",
+      "name": "1ClickWebsite",
+      "target": "https://www.1clickwebsite.ai/api/mcp",
+      "approved_at": "2026-10-05T11:45:10.126Z",
+      "probed_at": "2026-10-05T11:45:10.126Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-bumit-bumit-ai-mcp": {
+      "id": "mcp-bumit-bumit-ai-mcp",
+      "kind": "mcp",
+      "name": "BUMIT",
+      "target": "https://bumit.ai/mcp",
+      "approved_at": "2026-10-05T11:45:13.459Z",
+      "probed_at": "2026-10-05T11:45:13.459Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
