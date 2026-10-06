@@ -1,14 +1,14 @@
 {
   "day": "2026-10-06",
-  "updated_at": "2026-10-06T14:28:48.884Z",
+  "updated_at": "2026-10-06T19:46:24.854Z",
   "counts": {
-    "total": 999,
-    "mcp": 964,
+    "total": 1005,
+    "mcp": 970,
     "agents": 35
   },
   "high_water": {
-    "total": 999,
-    "mcp": 964,
+    "total": 1005,
+    "mcp": 970,
     "agents": 35
   },
   "items": {
@@ -11000,6 +11000,72 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-archome-ai-archome-ai-api-mcp": {
+      "id": "mcp-archome-ai-archome-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Archome AI",
+      "target": "https://archome.ai/api/mcp",
+      "approved_at": "2026-10-06T19:45:52.481Z",
+      "probed_at": "2026-10-06T19:45:52.481Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-aitopia-mcp-aitopia-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-aitopia-mcp-aitopia-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "AITOPIA",
+      "target": "https://mcp.aitopia.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-06T19:45:53.698Z",
+      "probed_at": "2026-10-06T19:45:53.698Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-beevr-beevr-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-beevr-beevr-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "BeevR",
+      "target": "https://beevr.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-06T19:45:54.335Z",
+      "probed_at": "2026-10-06T19:45:54.335Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-companyproof-companyproof-ai-v2-mcp": {
+      "id": "mcp-companyproof-companyproof-ai-v2-mcp",
+      "kind": "mcp",
+      "name": "CompanyProof",
+      "target": "https://companyproof.ai/v2/mcp",
+      "approved_at": "2026-10-06T19:45:59.296Z",
+      "probed_at": "2026-10-06T19:45:59.296Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-dotsy-mcp-dotsy-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-dotsy-mcp-dotsy-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Dotsy",
+      "target": "https://mcp.dotsy.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-06T19:46:00.215Z",
+      "probed_at": "2026-10-06T19:46:00.215Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-ecocheck-ecocheck-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-ecocheck-ecocheck-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "EcoCheck",
+      "target": "https://ecocheck.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-06T19:46:00.216Z",
+      "probed_at": "2026-10-06T19:46:00.216Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
     }
   },
   "policy": {
