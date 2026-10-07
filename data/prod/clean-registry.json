@@ -1,14 +1,14 @@
 {
   "day": "2026-10-07",
-  "updated_at": "2026-10-07T09:21:00.043Z",
+  "updated_at": "2026-10-07T16:47:53.820Z",
   "counts": {
-    "total": 1008,
-    "mcp": 973,
+    "total": 1010,
+    "mcp": 975,
     "agents": 35
   },
   "high_water": {
-    "total": 1008,
-    "mcp": 973,
+    "total": 1010,
+    "mcp": 975,
     "agents": 35
   },
   "items": {
@@ -11099,6 +11099,28 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-autoposter-ai-agent-autoposter-ai-mcp": {
+      "id": "mcp-autoposter-ai-agent-autoposter-ai-mcp",
+      "kind": "mcp",
+      "name": "AutoPoster AI",
+      "target": "https://agent.autoposter.ai/mcp",
+      "approved_at": "2026-10-07T16:47:48.465Z",
+      "probed_at": "2026-10-07T16:47:48.465Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-beevr-beevr-ai-well-known-mcp-json": {
+      "id": "mcp-beevr-beevr-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "BeevR",
+      "target": "https://beevr.ai/.well-known/mcp.json",
+      "approved_at": "2026-10-07T16:47:53.819Z",
+      "probed_at": "2026-10-07T16:47:53.819Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
     }
   },
   "policy": {
