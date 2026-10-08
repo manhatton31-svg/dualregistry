@@ -1,14 +1,14 @@
 {
   "day": "2026-10-08",
-  "updated_at": "2026-10-08T15:31:15.688Z",
+  "updated_at": "2026-10-08T20:50:07.589Z",
   "counts": {
-    "total": 1016,
-    "mcp": 981,
+    "total": 1019,
+    "mcp": 984,
     "agents": 35
   },
   "high_water": {
-    "total": 1016,
-    "mcp": 981,
+    "total": 1019,
+    "mcp": 984,
     "agents": 35
   },
   "items": {
@@ -11187,6 +11187,39 @@
       "score": 28,
       "handshake": "ok",
       "hold_reason": "grower live-mcp-gate get=401 post=401"
+    },
+    "mcp-autron-autron-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-autron-autron-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Autron",
+      "target": "https://autron.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-08T20:49:55.936Z",
+      "probed_at": "2026-10-08T20:49:55.936Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-cocuyo-cocuyo-ai-mcp": {
+      "id": "mcp-cocuyo-cocuyo-ai-mcp",
+      "kind": "mcp",
+      "name": "Cocuyo",
+      "target": "https://cocuyo.ai/mcp",
+      "approved_at": "2026-10-08T20:49:58.839Z",
+      "probed_at": "2026-10-08T20:49:58.839Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-catchmycall-mcp-catchmycall-ai-mcp": {
+      "id": "mcp-catchmycall-mcp-catchmycall-ai-mcp",
+      "kind": "mcp",
+      "name": "CatchMyCall",
+      "target": "https://mcp.catchmycall.ai/mcp",
+      "approved_at": "2026-10-08T20:50:07.589Z",
+      "probed_at": "2026-10-08T20:50:07.589Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
