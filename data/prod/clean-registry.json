@@ -1,14 +1,14 @@
 {
   "day": "2026-10-08",
-  "updated_at": "2026-10-08T01:36:11.575Z",
+  "updated_at": "2026-10-08T08:01:53.374Z",
   "counts": {
-    "total": 1011,
-    "mcp": 976,
+    "total": 1014,
+    "mcp": 979,
     "agents": 35
   },
   "high_water": {
-    "total": 1011,
-    "mcp": 976,
+    "total": 1014,
+    "mcp": 979,
     "agents": 35
   },
   "items": {
@@ -11132,6 +11132,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-bithuman-mcp-bithuman-ai-well-known-mcp-json": {
+      "id": "mcp-bithuman-mcp-bithuman-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "bitHuman",
+      "target": "https://mcp.bithuman.ai/.well-known/mcp.json",
+      "approved_at": "2026-10-08T08:01:48.613Z",
+      "probed_at": "2026-10-08T08:01:48.613Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-baseray-api-baseray-ai-mcp": {
+      "id": "mcp-baseray-api-baseray-ai-mcp",
+      "kind": "mcp",
+      "name": "baseray",
+      "target": "https://api.baseray.ai/mcp",
+      "approved_at": "2026-10-08T08:01:50.752Z",
+      "probed_at": "2026-10-08T08:01:50.752Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-clevra-app-clevra-ai-api-mcp": {
+      "id": "mcp-clevra-app-clevra-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Clevra",
+      "target": "https://app.clevra.ai/api/mcp",
+      "approved_at": "2026-10-08T08:01:51.537Z",
+      "probed_at": "2026-10-08T08:01:51.537Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
