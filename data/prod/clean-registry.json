@@ -1,14 +1,14 @@
 {
   "day": "2026-10-08",
-  "updated_at": "2026-10-08T08:01:53.374Z",
+  "updated_at": "2026-10-08T15:31:15.688Z",
   "counts": {
-    "total": 1014,
-    "mcp": 979,
+    "total": 1016,
+    "mcp": 981,
     "agents": 35
   },
   "high_water": {
-    "total": 1014,
-    "mcp": 979,
+    "total": 1016,
+    "mcp": 981,
     "agents": 35
   },
   "items": {
@@ -11165,6 +11165,28 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-cybret-findings-mcp-cybret-ai-mcp": {
+      "id": "mcp-cybret-findings-mcp-cybret-ai-mcp",
+      "kind": "mcp",
+      "name": "Cybret findings",
+      "target": "https://mcp.cybret.ai/mcp",
+      "approved_at": "2026-10-08T15:31:12.918Z",
+      "probed_at": "2026-10-08T15:31:12.918Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-eximagent-mcp-eximagent-ai-mcp": {
+      "id": "mcp-eximagent-mcp-eximagent-ai-mcp",
+      "kind": "mcp",
+      "name": "EximAgent",
+      "target": "https://mcp.eximagent.ai/mcp",
+      "approved_at": "2026-10-08T15:31:15.687Z",
+      "probed_at": "2026-10-08T15:31:15.687Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
     }
   },
   "policy": {
