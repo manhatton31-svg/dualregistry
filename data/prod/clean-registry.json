@@ -1,14 +1,14 @@
 {
   "day": "2026-10-09",
-  "updated_at": "2026-10-09T19:47:42.182Z",
+  "updated_at": "2026-10-09T23:50:43.696Z",
   "counts": {
-    "total": 1031,
-    "mcp": 996,
+    "total": 1033,
+    "mcp": 998,
     "agents": 35
   },
   "high_water": {
-    "total": 1031,
-    "mcp": 996,
+    "total": 1033,
+    "mcp": 998,
     "agents": 35
   },
   "items": {
@@ -11352,6 +11352,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-agent-ready-report-agenticplug-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-agent-ready-report-agenticplug-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Agent Ready Report",
+      "target": "https://agenticplug.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-09T23:50:09.346Z",
+      "probed_at": "2026-10-09T23:50:09.346Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-events-aero-events-aero-mcp-events": {
+      "id": "mcp-events-aero-events-aero-mcp-events",
+      "kind": "mcp",
+      "name": "Events.Aero",
+      "target": "https://events.aero/mcp/events",
+      "approved_at": "2026-10-09T23:50:10.215Z",
+      "probed_at": "2026-10-09T23:50:10.215Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
     }
   },
   "policy": {
