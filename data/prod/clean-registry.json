@@ -1,14 +1,14 @@
 {
   "day": "2026-10-09",
-  "updated_at": "2026-10-09T07:23:44.495Z",
+  "updated_at": "2026-10-09T14:31:34.436Z",
   "counts": {
-    "total": 1022,
-    "mcp": 987,
+    "total": 1027,
+    "mcp": 992,
     "agents": 35
   },
   "high_water": {
-    "total": 1022,
-    "mcp": 987,
+    "total": 1027,
+    "mcp": 992,
     "agents": 35
   },
   "items": {
@@ -11253,6 +11253,61 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-aivikings-ai-aivikings-ai-well-known-mcp-json": {
+      "id": "mcp-aivikings-ai-aivikings-ai-well-known-mcp-json",
+      "kind": "mcp",
+      "name": "AiVikings.ai",
+      "target": "https://aivikings.ai/.well-known/mcp.json",
+      "approved_at": "2026-10-09T14:31:26.324Z",
+      "probed_at": "2026-10-09T14:31:26.324Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-switchboard-switchboard-anywhereintelligence-ai-mcp": {
+      "id": "mcp-switchboard-switchboard-anywhereintelligence-ai-mcp",
+      "kind": "mcp",
+      "name": "Switchboard",
+      "target": "https://switchboard.anywhereintelligence.ai/mcp",
+      "approved_at": "2026-10-09T14:31:26.642Z",
+      "probed_at": "2026-10-09T14:31:26.642Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-cleve-cleve-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-cleve-cleve-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Cleve",
+      "target": "https://cleve.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-09T14:31:29.543Z",
+      "probed_at": "2026-10-09T14:31:29.543Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-cluvi-ai-cluvi-ai-mcp": {
+      "id": "mcp-cluvi-ai-cluvi-ai-mcp",
+      "kind": "mcp",
+      "name": "Cluvi AI",
+      "target": "https://cluvi.ai/mcp",
+      "approved_at": "2026-10-09T14:31:30.862Z",
+      "probed_at": "2026-10-09T14:31:30.862Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-boardmark-mcp-boardmark-ai-mcp": {
+      "id": "mcp-boardmark-mcp-boardmark-ai-mcp",
+      "kind": "mcp",
+      "name": "BoardMark",
+      "target": "https://mcp.boardmark.ai/mcp",
+      "approved_at": "2026-10-09T14:31:34.436Z",
+      "probed_at": "2026-10-09T14:31:34.436Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
