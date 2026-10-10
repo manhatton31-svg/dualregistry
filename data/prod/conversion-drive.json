@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-10T19:20:24.533Z",
+  "updated_at": "2026-10-10T22:53:11.893Z",
   "day": "2026-10-10",
-  "day_invites": 54,
+  "day_invites": 58,
   "day_nags": 60,
-  "day_talk": 54,
+  "day_talk": 58,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -5966,7 +5966,7 @@
       "talk_ok": false
     },
     "mcp-hypernatural-api-hypernatural-ai-well-known-mcp-server-card-json": {
-      "at": "2026-09-10T22:39:23.863Z",
+      "at": "2026-10-10T22:53:10.966Z",
       "name": "Hypernatural",
       "kind": "mcp",
       "http_ok": true,
@@ -5976,7 +5976,7 @@
       "talk_ok": false
     },
     "mcp-hypernatural-hypernatural-ai-mcp": {
-      "at": "2026-09-10T22:39:24.264Z",
+      "at": "2026-10-10T22:53:11.101Z",
       "name": "Hypernatural",
       "kind": "mcp",
       "http_ok": true,
@@ -5986,7 +5986,7 @@
       "talk_ok": false
     },
     "mcp-ai-marketcrew-market-data-marketcrew-ai-mcp": {
-      "at": "2026-09-10T22:39:24.942Z",
+      "at": "2026-10-10T22:53:11.774Z",
       "name": "ai.marketcrew/market-data",
       "kind": "mcp",
       "http_ok": true,
@@ -10364,6 +10364,16 @@
       "target": "https://chatterlab.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-directories-ai-directories-ai-mcp": {
+      "at": "2026-10-10T22:53:11.113Z",
+      "name": "Directories.ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://directories.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -12957,15 +12967,15 @@
       "ok": true
     },
     "mcp-hypernatural-api-hypernatural-ai-well-known-mcp-server-card-json": {
-      "at": "2026-09-10T22:39:23.863Z",
+      "at": "2026-10-10T22:53:10.966Z",
       "ok": false
     },
     "mcp-hypernatural-hypernatural-ai-mcp": {
-      "at": "2026-09-10T22:39:24.264Z",
+      "at": "2026-10-10T22:53:11.101Z",
       "ok": false
     },
     "mcp-ai-marketcrew-market-data-marketcrew-ai-mcp": {
-      "at": "2026-09-10T22:39:24.942Z",
+      "at": "2026-10-10T22:53:11.774Z",
       "ok": false
     },
     "social:2026-08-12": {
@@ -15041,7 +15051,7 @@
       "ok": false
     },
     "social:2026-10-10": {
-      "at": "2026-10-10T19:20:24.533Z",
+      "at": "2026-10-10T22:53:11.893Z",
       "ok": false
     },
     "mcp-bugtape-app-bugtape-ai-mcp": {
@@ -15067,23 +15077,30 @@
     "mcp-chatterlab-chatterlab-ai-api-mcp": {
       "at": "2026-10-10T15:14:33.188Z",
       "ok": false
+    },
+    "mcp-directories-ai-directories-ai-mcp": {
+      "at": "2026-10-10T22:53:11.113Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2496,
-    "invite_http_ok": 2363,
+    "invites": 2500,
+    "invite_http_ok": 2367,
     "nags": 4154,
     "nag_http_ok": 3887,
-    "talk_inbox": 2468,
+    "talk_inbox": 2472,
     "social": 81,
-    "runs": 906
+    "runs": 907
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 53/120)",
-    "invite mcp eYKON Intelligence → http 401 talk — https://eykon.ai/api/mcp",
+    "eligible never-demoed 4 (agents 0 mcp 4) · inviting 4 (day 54/120)",
+    "invite mcp Hypernatural → http 405 talk — https://api.hypernatural.ai/.well-known/mcp/server-card.json",
+    "invite mcp Directories.ai → http 400 talk — https://directories.ai/mcp",
+    "invite mcp Hypernatural → http 405 talk — https://hypernatural.ai/mcp",
+    "invite mcp ai.marketcrew/market-data → http 405 talk — https://marketcrew.ai/",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-10T19:20:24.533Z",
+  "last_run_at": "2026-10-10T22:53:11.893Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
