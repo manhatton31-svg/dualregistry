@@ -1,14 +1,14 @@
 {
   "day": "2026-10-10",
-  "updated_at": "2026-10-10T04:39:45.341Z",
+  "updated_at": "2026-10-10T10:49:39.968Z",
   "counts": {
-    "total": 1034,
-    "mcp": 999,
+    "total": 1037,
+    "mcp": 1002,
     "agents": 35
   },
   "high_water": {
-    "total": 1034,
-    "mcp": 999,
+    "total": 1037,
+    "mcp": 1002,
     "agents": 35
   },
   "items": {
@@ -11385,6 +11385,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 406"
+    },
+    "mcp-ankra-docs-ankra-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-ankra-docs-ankra-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Ankra",
+      "target": "https://docs.ankra.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-10T10:49:08.727Z",
+      "probed_at": "2026-10-10T10:49:08.727Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-audo-audo-ai-mcp": {
+      "id": "mcp-audo-audo-ai-mcp",
+      "kind": "mcp",
+      "name": "Audo",
+      "target": "https://audo.ai/mcp",
+      "approved_at": "2026-10-10T10:49:08.997Z",
+      "probed_at": "2026-10-10T10:49:08.997Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-chatterlab-chatterlab-ai-api-mcp": {
+      "id": "mcp-chatterlab-chatterlab-ai-api-mcp",
+      "kind": "mcp",
+      "name": "ChatterLab",
+      "target": "https://chatterlab.ai/api/mcp",
+      "approved_at": "2026-10-10T10:49:10.428Z",
+      "probed_at": "2026-10-10T10:49:10.428Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
