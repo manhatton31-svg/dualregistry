@@ -1,14 +1,14 @@
 {
   "day": "2026-10-11",
-  "updated_at": "2026-10-11T15:24:58.297Z",
+  "updated_at": "2026-10-11T19:38:58.366Z",
   "counts": {
-    "total": 1042,
-    "mcp": 1007,
+    "total": 1047,
+    "mcp": 1012,
     "agents": 35
   },
   "high_water": {
-    "total": 1042,
-    "mcp": 1007,
+    "total": 1047,
+    "mcp": 1012,
     "agents": 35
   },
   "items": {
@@ -11473,6 +11473,61 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-easyvoice-text-to-speech-easyvoice-ae-api-mcp": {
+      "id": "mcp-easyvoice-text-to-speech-easyvoice-ae-api-mcp",
+      "kind": "mcp",
+      "name": "EasyVoice text to speech",
+      "target": "https://easyvoice.ae/api/mcp",
+      "approved_at": "2026-10-11T19:38:47.690Z",
+      "probed_at": "2026-10-11T19:38:47.690Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-celesto-cloud-computers-mcp-celesto-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-celesto-cloud-computers-mcp-celesto-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Celesto Cloud Computers",
+      "target": "https://mcp.celesto.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-11T19:38:53.399Z",
+      "probed_at": "2026-10-11T19:38:53.399Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-autoblogging-ai-autoblogging-ai-mcp": {
+      "id": "mcp-autoblogging-ai-autoblogging-ai-mcp",
+      "kind": "mcp",
+      "name": "Autoblogging.ai",
+      "target": "https://autoblogging.ai/mcp",
+      "approved_at": "2026-10-11T19:38:53.444Z",
+      "probed_at": "2026-10-11T19:38:53.444Z",
+      "score": 35,
+      "handshake": "ok",
+      "hold_reason": "grower remote-json 200"
+    },
+    "mcp-coreplex-coreplex-ai-api-apps-6a9567482e969b1ab43e0c49-functions-coreplex": {
+      "id": "mcp-coreplex-coreplex-ai-api-apps-6a9567482e969b1ab43e0c49-functions-coreplex",
+      "kind": "mcp",
+      "name": "Coreplex",
+      "target": "https://coreplex.ai/api/apps/6a9567482e969b1ab43e0c49/functions/coreplexMcp",
+      "approved_at": "2026-10-11T19:38:55.336Z",
+      "probed_at": "2026-10-11T19:38:55.336Z",
+      "score": 35,
+      "handshake": "ok",
+      "hold_reason": "grower remote-json 200"
+    },
+    "mcp-custodo-api-custodo-ai-mcp": {
+      "id": "mcp-custodo-api-custodo-ai-mcp",
+      "kind": "mcp",
+      "name": "Custodo",
+      "target": "https://api.custodo.ai/mcp",
+      "approved_at": "2026-10-11T19:38:56.709Z",
+      "probed_at": "2026-10-11T19:38:56.709Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
