@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-11T19:27:52.664Z",
+  "updated_at": "2026-10-11T23:06:30.964Z",
   "day": "2026-10-11",
-  "day_invites": 13,
+  "day_invites": 21,
   "day_nags": 60,
-  "day_talk": 13,
+  "day_talk": 21,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -8666,31 +8666,31 @@
       "talk_ok": false
     },
     "mcp-boolsai-grep-grep-boolsai-ai-mcp": {
-      "at": "2026-09-11T20:04:37.119Z",
+      "at": "2026-10-11T23:06:26.885Z",
       "name": "Boolsai Grep",
       "kind": "mcp",
       "http_ok": false,
-      "status": 429,
+      "status": 0,
       "target": "https://grep.boolsai.ai/.well-known/mcp/server-card.json",
       "method": "POST:tasks-send",
       "talk_ok": false
     },
     "mcp-boolsai-scan-boolsai-ai-mcp": {
-      "at": "2026-09-11T20:04:37.185Z",
+      "at": "2026-10-11T23:06:30.829Z",
       "name": "Boolsai Scan",
       "kind": "mcp",
       "http_ok": false,
-      "status": 429,
+      "status": 403,
       "target": "https://boolsai.ai/.well-known/mcp/server-card.json",
       "method": "POST:tasks-send",
       "talk_ok": false
     },
     "mcp-boolsai-directory-directory-boolsai-ai-mcp": {
-      "at": "2026-09-11T20:04:37.489Z",
+      "at": "2026-10-11T23:06:26.563Z",
       "name": "Boolsai Directory",
       "kind": "mcp",
       "http_ok": false,
-      "status": 429,
+      "status": 0,
       "target": "https://directory.boolsai.ai/.well-known/mcp/server-card.json",
       "method": "POST:tasks-send",
       "talk_ok": false
@@ -10413,6 +10413,56 @@
       "status": 401,
       "target": "https://arcdeck.ai/mcp",
       "method": "POST:a2a-message",
+      "talk_ok": false
+    },
+    "mcp-celesto-cloud-computers-mcp-celesto-ai-well-known-mcp-server-card-json": {
+      "at": "2026-10-11T23:06:24.981Z",
+      "name": "Celesto Cloud Computers",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://mcp.celesto.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-coreplex-coreplex-ai-api-apps-6a9567482e969b1ab43e0c49-functions-coreplex": {
+      "at": "2026-10-11T23:06:25.305Z",
+      "name": "Coreplex",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 202,
+      "target": "https://coreplex.ai/api/apps/6a9567482e969b1ab43e0c49/functions/coreplexMcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-custodo-api-custodo-ai-mcp": {
+      "at": "2026-10-11T23:06:25.469Z",
+      "name": "Custodo",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.custodo.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-easyvoice-text-to-speech-easyvoice-ae-api-mcp": {
+      "at": "2026-10-11T23:06:25.596Z",
+      "name": "EasyVoice text to speech",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 400,
+      "target": "https://easyvoice.ae/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-autoblogging-ai-autoblogging-ai-mcp": {
+      "at": "2026-10-11T23:06:26.211Z",
+      "name": "Autoblogging.ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 202,
+      "target": "https://autoblogging.ai/mcp",
+      "method": "POST:soft-json",
       "talk_ok": false
     }
   },
@@ -14323,15 +14373,15 @@
       "ok": false
     },
     "mcp-boolsai-grep-grep-boolsai-ai-mcp": {
-      "at": "2026-09-11T20:04:37.119Z",
+      "at": "2026-10-11T23:06:26.885Z",
       "ok": false
     },
     "mcp-boolsai-scan-boolsai-ai-mcp": {
-      "at": "2026-09-11T20:04:37.185Z",
+      "at": "2026-10-11T23:06:30.829Z",
       "ok": false
     },
     "mcp-boolsai-directory-directory-boolsai-ai-mcp": {
-      "at": "2026-09-11T20:04:37.489Z",
+      "at": "2026-10-11T23:06:26.563Z",
       "ok": false
     },
     "social:2026-09-12": {
@@ -15127,7 +15177,7 @@
       "ok": false
     },
     "social:2026-10-11": {
-      "at": "2026-10-11T19:27:52.664Z",
+      "at": "2026-10-11T23:06:30.964Z",
       "ok": false
     },
     "mcp-contentsweep-supplier-feeds-mcp-contentsweep-ai-well-known-mcp-server-card-json": {
@@ -15141,27 +15191,50 @@
     "mcp-arcdeck-arcdeck-ai-mcp": {
       "at": "2026-10-11T19:27:52.233Z",
       "ok": false
+    },
+    "mcp-celesto-cloud-computers-mcp-celesto-ai-well-known-mcp-server-card-json": {
+      "at": "2026-10-11T23:06:24.981Z",
+      "ok": false
+    },
+    "mcp-coreplex-coreplex-ai-api-apps-6a9567482e969b1ab43e0c49-functions-coreplex": {
+      "at": "2026-10-11T23:06:25.305Z",
+      "ok": false
+    },
+    "mcp-custodo-api-custodo-ai-mcp": {
+      "at": "2026-10-11T23:06:25.469Z",
+      "ok": false
+    },
+    "mcp-easyvoice-text-to-speech-easyvoice-ae-api-mcp": {
+      "at": "2026-10-11T23:06:25.596Z",
+      "ok": false
+    },
+    "mcp-autoblogging-ai-autoblogging-ai-mcp": {
+      "at": "2026-10-11T23:06:26.211Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2513,
-    "invite_http_ok": 2379,
+    "invites": 2521,
+    "invite_http_ok": 2384,
     "nags": 4214,
     "nag_http_ok": 3944,
-    "talk_inbox": 2485,
+    "talk_inbox": 2493,
     "social": 81,
-    "runs": 911
+    "runs": 912
   },
   "last_notes": [
-    "eligible never-demoed 5 (agents 0 mcp 5) · inviting 5 (day 8/120)",
-    "invite mcp Docspeed → http 401 talk — https://api.docspeed.ai/mcp/",
-    "invite mcp Arcdeck → http 401 talk — https://arcdeck.ai/mcp",
-    "invite mcp Biel.ai · r1 → http 400 talk — https://mcp.biel.ai/v2/%7Bproject_slug%7D/mcp",
-    "invite mcp Biel.ai · r2 → http 530 talk — https://mcp.biel.ai/.well-known/mcp/server-card.json",
-    "invite mcp Naumu → http 401 talk — https://naumu.ai/api/mcp",
+    "eligible never-demoed 8 (agents 0 mcp 8) · inviting 8 (day 13/120)",
+    "invite mcp Celesto Cloud Computers → http 405 talk — https://mcp.celesto.ai/.well-known/mcp/server-card.json",
+    "invite mcp Coreplex → http 202 talk — https://coreplex.ai/api/apps/6a9567482e969b1ab43e0c49/functions/coreplexMcp",
+    "invite mcp Custodo → http 401 talk — https://api.custodo.ai/mcp",
+    "invite mcp EasyVoice text to speech → http 400 talk — https://easyvoice.ae/api/mcp",
+    "invite mcp Autoblogging.ai → http 202 talk — https://autoblogging.ai/mcp",
+    "invite mcp Boolsai Directory → http 0 talk — https://directory.boolsai.ai/.well-known/mcp/server-card.json",
+    "invite mcp Boolsai Grep → http 0 talk — https://grep.boolsai.ai/.well-known/mcp/server-card.json",
+    "invite mcp Boolsai Scan → http 403 talk — https://boolsai.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-11T19:27:52.664Z",
+  "last_run_at": "2026-10-11T23:06:30.964Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
