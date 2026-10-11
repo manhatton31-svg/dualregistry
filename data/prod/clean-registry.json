@@ -1,14 +1,14 @@
 {
   "day": "2026-10-11",
-  "updated_at": "2026-10-11T08:56:51.120Z",
+  "updated_at": "2026-10-11T15:24:58.297Z",
   "counts": {
-    "total": 1040,
-    "mcp": 1005,
+    "total": 1042,
+    "mcp": 1007,
     "agents": 35
   },
   "high_water": {
-    "total": 1040,
-    "mcp": 1005,
+    "total": 1042,
+    "mcp": 1007,
     "agents": 35
   },
   "items": {
@@ -11451,6 +11451,28 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-arcdeck-arcdeck-ai-mcp": {
+      "id": "mcp-arcdeck-arcdeck-ai-mcp",
+      "kind": "mcp",
+      "name": "Arcdeck",
+      "target": "https://arcdeck.ai/mcp",
+      "approved_at": "2026-10-11T15:24:49.353Z",
+      "probed_at": "2026-10-11T15:24:49.353Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-docspeed-api-docspeed-ai-mcp": {
+      "id": "mcp-docspeed-api-docspeed-ai-mcp",
+      "kind": "mcp",
+      "name": "Docspeed",
+      "target": "https://api.docspeed.ai/mcp/",
+      "approved_at": "2026-10-11T15:24:55.913Z",
+      "probed_at": "2026-10-11T15:24:55.913Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
