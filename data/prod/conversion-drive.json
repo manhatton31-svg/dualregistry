@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-11T14:52:18.223Z",
+  "updated_at": "2026-10-11T19:27:52.664Z",
   "day": "2026-10-11",
-  "day_invites": 8,
+  "day_invites": 13,
   "day_nags": 60,
-  "day_talk": 8,
+  "day_talk": 13,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -6056,7 +6056,7 @@
       "talk_ok": false
     },
     "mcp-naumu-naumu-ai-api-mcp": {
-      "at": "2026-09-11T17:47:09.603Z",
+      "at": "2026-10-11T19:27:52.481Z",
       "name": "Naumu",
       "kind": "mcp",
       "http_ok": true,
@@ -8646,17 +8646,17 @@
       "talk_ok": false
     },
     "mcp-biel-ai-r2-mcp-biel-ai-sse-project-slug-project-slug-domain-domain": {
-      "at": "2026-09-11T17:47:09.208Z",
+      "at": "2026-10-11T19:27:52.307Z",
       "name": "Biel.ai · r2",
       "kind": "mcp",
-      "http_ok": true,
-      "status": 200,
-      "target": "https://mcp.biel.ai/sse?project_slug={project_slug}&domain={domain}",
-      "method": "POST:soft-json",
+      "http_ok": false,
+      "status": 530,
+      "target": "https://mcp.biel.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
       "talk_ok": false
     },
     "mcp-biel-ai-r1-mcp-biel-ai-v2-project-slug-mcp": {
-      "at": "2026-09-11T17:47:09.266Z",
+      "at": "2026-10-11T19:27:52.256Z",
       "name": "Biel.ai · r1",
       "kind": "mcp",
       "http_ok": true,
@@ -10393,6 +10393,26 @@
       "status": 405,
       "target": "https://mcp.contentsweep.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-docspeed-api-docspeed-ai-mcp": {
+      "at": "2026-10-11T19:27:51.971Z",
+      "name": "Docspeed",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.docspeed.ai/mcp/",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-arcdeck-arcdeck-ai-mcp": {
+      "at": "2026-10-11T19:27:52.233Z",
+      "name": "Arcdeck",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://arcdeck.ai/mcp",
+      "method": "POST:a2a-message",
       "talk_ok": false
     }
   },
@@ -13027,7 +13047,7 @@
       "ok": false
     },
     "mcp-naumu-naumu-ai-api-mcp": {
-      "at": "2026-09-11T17:47:09.603Z",
+      "at": "2026-10-11T19:27:52.481Z",
       "ok": false
     },
     "mcp-creditpolicy-creditpolicy-ai-api-mcp": {
@@ -14295,11 +14315,11 @@
       "ok": false
     },
     "mcp-biel-ai-r2-mcp-biel-ai-sse-project-slug-project-slug-domain-domain": {
-      "at": "2026-09-11T17:47:09.208Z",
+      "at": "2026-10-11T19:27:52.307Z",
       "ok": false
     },
     "mcp-biel-ai-r1-mcp-biel-ai-v2-project-slug-mcp": {
-      "at": "2026-09-11T17:47:09.266Z",
+      "at": "2026-10-11T19:27:52.256Z",
       "ok": false
     },
     "mcp-boolsai-grep-grep-boolsai-ai-mcp": {
@@ -15107,50 +15127,41 @@
       "ok": false
     },
     "social:2026-10-11": {
-      "at": "2026-10-11T14:52:18.223Z",
+      "at": "2026-10-11T19:27:52.664Z",
       "ok": false
     },
     "mcp-contentsweep-supplier-feeds-mcp-contentsweep-ai-well-known-mcp-server-card-json": {
       "at": "2026-10-11T07:52:49.752Z",
       "ok": false
+    },
+    "mcp-docspeed-api-docspeed-ai-mcp": {
+      "at": "2026-10-11T19:27:51.971Z",
+      "ok": false
+    },
+    "mcp-arcdeck-arcdeck-ai-mcp": {
+      "at": "2026-10-11T19:27:52.233Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2508,
-    "invite_http_ok": 2375,
+    "invites": 2513,
+    "invite_http_ok": 2379,
     "nags": 4214,
     "nag_http_ok": 3944,
-    "talk_inbox": 2480,
+    "talk_inbox": 2485,
     "social": 81,
-    "runs": 910
+    "runs": 911
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 6/120)",
-    "invite mcp Fidenta Verify → http 200 talk — https://verify.noevant.ai/mcp",
-    "invite mcp FrameThrower → http 401 talk — https://framethrower.ai/api/mcp",
-    "feedback nags queued 20 (day 40/60)",
-    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
-    "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
-    "nag self_serve AdAdvisor MCP Server → http 401 talk —",
-    "nag self_serve ac.tandem/docs-mcp → http 405 talk —",
-    "nag self_serve ai.iturri/market-data → http 200 talk —",
-    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 405 talk —",
-    "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
-    "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
-    "nag invited BeatBandit MCP → http 405 talk —",
-    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
-    "nag invited AnomalyArmor → http 405 talk —",
-    "nag invited ai.iturri/market-data → http 200 talk —",
-    "nag invited ai.meacheal/mrc-data → http 200 talk —",
-    "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
-    "nag invited ai.odei/connect → http 405 talk —",
-    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
-    "nag invited ai.maguyva/maguyva → http 405 talk —",
-    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
-    "nag invited ai.joinmultiplayer/gpu → http 200 talk —",
+    "eligible never-demoed 5 (agents 0 mcp 5) · inviting 5 (day 8/120)",
+    "invite mcp Docspeed → http 401 talk — https://api.docspeed.ai/mcp/",
+    "invite mcp Arcdeck → http 401 talk — https://arcdeck.ai/mcp",
+    "invite mcp Biel.ai · r1 → http 400 talk — https://mcp.biel.ai/v2/%7Bproject_slug%7D/mcp",
+    "invite mcp Biel.ai · r2 → http 530 talk — https://mcp.biel.ai/.well-known/mcp/server-card.json",
+    "invite mcp Naumu → http 401 talk — https://naumu.ai/api/mcp",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-11T14:52:18.223Z",
+  "last_run_at": "2026-10-11T19:27:52.664Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
