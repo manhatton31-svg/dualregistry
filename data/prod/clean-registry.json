@@ -1,14 +1,14 @@
 {
   "day": "2026-10-12",
-  "updated_at": "2026-10-12T09:37:25.984Z",
+  "updated_at": "2026-10-12T19:20:55.473Z",
   "counts": {
-    "total": 1049,
-    "mcp": 1014,
+    "total": 1054,
+    "mcp": 1019,
     "agents": 35
   },
   "high_water": {
-    "total": 1049,
-    "mcp": 1014,
+    "total": 1054,
+    "mcp": 1019,
     "agents": 35
   },
   "items": {
@@ -11550,6 +11550,61 @@
       "score": 35,
       "handshake": "ok",
       "hold_reason": "grower remote-json 200"
+    },
+    "mcp-agentboard-www-agentboard-ai-mcp": {
+      "id": "mcp-agentboard-www-agentboard-ai-mcp",
+      "kind": "mcp",
+      "name": "Agentboard",
+      "target": "https://www.agentboard.ai/mcp",
+      "approved_at": "2026-10-12T19:20:20.100Z",
+      "probed_at": "2026-10-12T19:20:20.100Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-alpha-bazaar-arena-api-alphabazaar-ai-mcp": {
+      "id": "mcp-alpha-bazaar-arena-api-alphabazaar-ai-mcp",
+      "kind": "mcp",
+      "name": "Alpha Bazaar Arena",
+      "target": "https://api.alphabazaar.ai/mcp",
+      "approved_at": "2026-10-12T19:20:21.909Z",
+      "probed_at": "2026-10-12T19:20:21.909Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-arc-store-checks-www-arcreport-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-arc-store-checks-www-arcreport-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "ARC store checks",
+      "target": "https://www.arcreport.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-12T19:20:22.376Z",
+      "probed_at": "2026-10-12T19:20:22.376Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-crowdos-api-crowdos-ai-mcp": {
+      "id": "mcp-crowdos-api-crowdos-ai-mcp",
+      "kind": "mcp",
+      "name": "CrowdOS",
+      "target": "https://api.crowdos.ai/mcp",
+      "approved_at": "2026-10-12T19:20:32.652Z",
+      "probed_at": "2026-10-12T19:20:32.652Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-dispatchmind-app-dispatchmind-ai-mcp": {
+      "id": "mcp-dispatchmind-app-dispatchmind-ai-mcp",
+      "kind": "mcp",
+      "name": "DispatchMind",
+      "target": "https://app.dispatchmind.ai/mcp",
+      "approved_at": "2026-10-12T19:20:32.738Z",
+      "probed_at": "2026-10-12T19:20:32.738Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
