@@ -1,14 +1,14 @@
 {
   "day": "2026-10-13",
-  "updated_at": "2026-10-13T01:33:04.379Z",
+  "updated_at": "2026-10-13T08:30:18.082Z",
   "counts": {
-    "total": 1055,
-    "mcp": 1020,
+    "total": 1057,
+    "mcp": 1022,
     "agents": 35
   },
   "high_water": {
-    "total": 1055,
-    "mcp": 1020,
+    "total": 1057,
+    "mcp": 1022,
     "agents": 35
   },
   "items": {
@@ -11616,6 +11616,28 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-apir-agent-verification-apir-ai-api-mcp": {
+      "id": "mcp-apir-agent-verification-apir-ai-api-mcp",
+      "kind": "mcp",
+      "name": "APIR Agent Verification",
+      "target": "https://apir.ai/api/mcp",
+      "approved_at": "2026-10-13T08:29:16.814Z",
+      "probed_at": "2026-10-13T08:29:16.814Z",
+      "score": 35,
+      "handshake": "ok",
+      "hold_reason": "grower remote-json 200"
+    },
+    "mcp-claritytrack-www-claritytrack-ai-mcp": {
+      "id": "mcp-claritytrack-www-claritytrack-ai-mcp",
+      "kind": "mcp",
+      "name": "ClarityTrack",
+      "target": "https://www.claritytrack.ai/mcp",
+      "approved_at": "2026-10-13T08:29:17.638Z",
+      "probed_at": "2026-10-13T08:29:17.638Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
