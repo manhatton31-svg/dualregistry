@@ -1,14 +1,14 @@
 {
   "day": "2026-10-13",
-  "updated_at": "2026-10-13T08:30:18.082Z",
+  "updated_at": "2026-10-13T16:21:59.595Z",
   "counts": {
-    "total": 1057,
-    "mcp": 1022,
+    "total": 1061,
+    "mcp": 1026,
     "agents": 35
   },
   "high_water": {
-    "total": 1057,
-    "mcp": 1022,
+    "total": 1061,
+    "mcp": 1026,
     "agents": 35
   },
   "items": {
@@ -11638,6 +11638,50 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-agenlify-ai-agent-directory-agenlify-ai-mcp": {
+      "id": "mcp-agenlify-ai-agent-directory-agenlify-ai-mcp",
+      "kind": "mcp",
+      "name": "Agenlify AI Agent Directory",
+      "target": "https://agenlify.ai/mcp",
+      "approved_at": "2026-10-13T16:20:52.786Z",
+      "probed_at": "2026-10-13T16:20:52.786Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-brain-memory-mcp-brainmemory-ai-mcp": {
+      "id": "mcp-brain-memory-mcp-brainmemory-ai-mcp",
+      "kind": "mcp",
+      "name": "Brain Memory",
+      "target": "https://mcp.brainmemory.ai/mcp",
+      "approved_at": "2026-10-13T16:20:58.171Z",
+      "probed_at": "2026-10-13T16:20:58.171Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-condux-error-monitoring-app-condux-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-condux-error-monitoring-app-condux-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Condux error monitoring",
+      "target": "https://app.condux.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-13T16:21:00.667Z",
+      "probed_at": "2026-10-13T16:21:00.667Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-ai-docuwriter-docuwriter-app-docuwriter-ai-mcp": {
+      "id": "mcp-ai-docuwriter-docuwriter-app-docuwriter-ai-mcp",
+      "kind": "mcp",
+      "name": "ai.docuwriter/docuwriter",
+      "target": "https://app.docuwriter.ai/mcp",
+      "approved_at": "2026-10-13T16:21:05.447Z",
+      "probed_at": "2026-10-13T16:21:05.447Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=405 post=401"
     }
   },
   "policy": {
