@@ -1,14 +1,14 @@
 {
   "day": "2026-10-15",
-  "updated_at": "2026-10-15T15:18:25.930Z",
+  "updated_at": "2026-10-15T19:12:52.516Z",
   "counts": {
-    "total": 1118,
-    "mcp": 1083,
+    "total": 1121,
+    "mcp": 1086,
     "agents": 35
   },
   "high_water": {
-    "total": 1118,
-    "mcp": 1083,
+    "total": 1121,
+    "mcp": 1086,
     "agents": 35
   },
   "items": {
@@ -12309,6 +12309,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-ask-your-audience-mcp-askyouraudience-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-ask-your-audience-mcp-askyouraudience-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Ask Your Audience",
+      "target": "https://mcp.askyouraudience.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-15T19:12:46.265Z",
+      "probed_at": "2026-10-15T19:12:46.265Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-build-ship-api-buildandship-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-build-ship-api-buildandship-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Build & Ship",
+      "target": "https://api.buildandship.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-15T19:12:48.417Z",
+      "probed_at": "2026-10-15T19:12:48.417Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-deepinquiry-verified-facts-www-deepinquiry-ai-mcp": {
+      "id": "mcp-deepinquiry-verified-facts-www-deepinquiry-ai-mcp",
+      "kind": "mcp",
+      "name": "DeepInquiry Verified Facts",
+      "target": "https://www.deepinquiry.ai/mcp",
+      "approved_at": "2026-10-15T19:12:51.542Z",
+      "probed_at": "2026-10-15T19:12:51.542Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
