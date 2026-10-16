@@ -1,14 +1,14 @@
 {
   "day": "2026-10-16",
-  "updated_at": "2026-10-16T05:04:08.174Z",
+  "updated_at": "2026-10-16T09:49:49.944Z",
   "counts": {
-    "total": 1123,
-    "mcp": 1088,
+    "total": 1126,
+    "mcp": 1091,
     "agents": 35
   },
   "high_water": {
-    "total": 1123,
-    "mcp": 1088,
+    "total": 1126,
+    "mcp": 1091,
     "agents": 35
   },
   "items": {
@@ -12364,6 +12364,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-annsa-annsa-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-annsa-annsa-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Annsa",
+      "target": "https://annsa.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-16T09:49:44.002Z",
+      "probed_at": "2026-10-16T09:49:44.002Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-photo-mosaic-ai-collage-maker-collager-ai-collager-ai-mcp": {
+      "id": "mcp-photo-mosaic-ai-collage-maker-collager-ai-collager-ai-mcp",
+      "kind": "mcp",
+      "name": "Photo Mosaic & AI Collage Maker - Collager.ai",
+      "target": "https://collager.ai/mcp",
+      "approved_at": "2026-10-16T09:49:47.839Z",
+      "probed_at": "2026-10-16T09:49:47.839Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-boxcompute-mcp-boxcompute-ai-mcp": {
+      "id": "mcp-boxcompute-mcp-boxcompute-ai-mcp",
+      "kind": "mcp",
+      "name": "BoxCompute",
+      "target": "https://mcp.boxcompute.ai/mcp",
+      "approved_at": "2026-10-16T09:49:49.458Z",
+      "probed_at": "2026-10-16T09:49:49.458Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
