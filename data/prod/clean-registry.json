@@ -1,14 +1,14 @@
 {
   "day": "2026-10-16",
-  "updated_at": "2026-10-16T09:49:49.944Z",
+  "updated_at": "2026-10-16T14:35:37.637Z",
   "counts": {
-    "total": 1126,
-    "mcp": 1091,
+    "total": 1128,
+    "mcp": 1093,
     "agents": 35
   },
   "high_water": {
-    "total": 1126,
-    "mcp": 1091,
+    "total": 1128,
+    "mcp": 1093,
     "agents": 35
   },
   "items": {
@@ -12397,6 +12397,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-amdahl-docs-amdahl-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-amdahl-docs-amdahl-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Amdahl",
+      "target": "https://docs.amdahl.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-16T14:35:32.951Z",
+      "probed_at": "2026-10-16T14:35:32.951Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-aunoo-agentic-agentic-aunoo-ai-mcp": {
+      "id": "mcp-aunoo-agentic-agentic-aunoo-ai-mcp",
+      "kind": "mcp",
+      "name": "Aunoo Agentic",
+      "target": "https://agentic.aunoo.ai/mcp",
+      "approved_at": "2026-10-16T14:35:34.720Z",
+      "probed_at": "2026-10-16T14:35:34.720Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
