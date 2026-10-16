@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-16T21:37:47.874Z",
+  "updated_at": "2026-10-16T23:57:07.280Z",
   "day": "2026-10-16",
-  "day_invites": 17,
+  "day_invites": 20,
   "day_nags": 60,
-  "day_talk": 17,
+  "day_talk": 20,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -6406,7 +6406,7 @@
       "talk_ok": false
     },
     "mcp-ai-bitroad-bitroad-app-bitroad-ai-api-v1-mcp": {
-      "at": "2026-09-16T21:46:12.493Z",
+      "at": "2026-10-16T23:57:07.050Z",
       "name": "ai.bitroad/bitroad",
       "kind": "mcp",
       "http_ok": true,
@@ -6416,7 +6416,7 @@
       "talk_ok": false
     },
     "mcp-ai-aqta-seal-app-aqta-ai-api-mcp": {
-      "at": "2026-09-16T23:54:07.070Z",
+      "at": "2026-10-16T23:57:06.948Z",
       "name": "ai.aqta/seal",
       "kind": "mcp",
       "http_ok": true,
@@ -11294,6 +11294,16 @@
       "target": "https://mcp.bynor.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-athenahq-docs-athenahq-ai-well-known-mcp-server-card-json": {
+      "at": "2026-10-16T23:57:07.037Z",
+      "name": "AthenaHQ",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 405,
+      "target": "https://docs.athenahq.ai/.well-known/mcp/server-card.json",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -14087,11 +14097,11 @@
       "ok": false
     },
     "mcp-ai-bitroad-bitroad-app-bitroad-ai-api-v1-mcp": {
-      "at": "2026-09-16T21:46:12.493Z",
+      "at": "2026-10-16T23:57:07.050Z",
       "ok": false
     },
     "mcp-ai-aqta-seal-app-aqta-ai-api-mcp": {
-      "at": "2026-09-16T23:54:07.070Z",
+      "at": "2026-10-16T23:57:06.948Z",
       "ok": false
     },
     "social:2026-08-18": {
@@ -16355,7 +16365,7 @@
       "ok": false
     },
     "social:2026-10-16": {
-      "at": "2026-10-16T21:37:47.874Z",
+      "at": "2026-10-16T23:57:07.280Z",
       "ok": false
     },
     "mcp-apex-ai-academy-apexai-academy-well-known-mcp-json": {
@@ -16393,26 +16403,29 @@
     "mcp-bynor-mcp-bynor-ai-mcp": {
       "at": "2026-10-16T18:26:15.526Z",
       "ok": false
+    },
+    "mcp-athenahq-docs-athenahq-ai-well-known-mcp-server-card-json": {
+      "at": "2026-10-16T23:57:07.037Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2658,
-    "invite_http_ok": 2519,
+    "invites": 2661,
+    "invite_http_ok": 2522,
     "nags": 4514,
     "nag_http_ok": 4220,
-    "talk_inbox": 2630,
+    "talk_inbox": 2633,
     "social": 81,
-    "runs": 937
+    "runs": 938
   },
   "last_notes": [
-    "eligible never-demoed 4 (agents 0 mcp 4) · inviting 4 (day 13/120)",
-    "invite mcp DocNexus → http 401 talk — https://mcp.docnexus.ai/mcp",
-    "invite mcp Hyreflow → http 401 talk — https://recruit.hyreflow.ai/api/v2/mcp",
-    "invite mcp Apatero Studio → http 200 talk — https://apatero.ai/.well-known/mcp/server-card.json",
-    "invite mcp ai.childadhd/library → http 405 talk — https://childadhd.ai/.well-known/mcp.json",
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 17/120)",
+    "invite mcp ai.aqta/seal → http 200 talk — https://app.aqta.ai/api/mcp",
+    "invite mcp AthenaHQ → http 405 talk — https://docs.athenahq.ai/.well-known/mcp/server-card.json",
+    "invite mcp ai.bitroad/bitroad → http 401 talk — https://app.bitroad.ai/api/v1/mcp",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-16T21:37:47.874Z",
+  "last_run_at": "2026-10-16T23:57:07.280Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
