@@ -1,14 +1,14 @@
 {
   "day": "2026-10-16",
-  "updated_at": "2026-10-16T14:35:37.637Z",
+  "updated_at": "2026-10-16T18:24:17.197Z",
   "counts": {
-    "total": 1128,
-    "mcp": 1093,
+    "total": 1130,
+    "mcp": 1095,
     "agents": 35
   },
   "high_water": {
-    "total": 1128,
-    "mcp": 1093,
+    "total": 1130,
+    "mcp": 1095,
     "agents": 35
   },
   "items": {
@@ -12419,6 +12419,28 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-circleback-circleback-ai-api-mcp": {
+      "id": "mcp-circleback-circleback-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Circleback",
+      "target": "https://circleback.ai/api/mcp",
+      "approved_at": "2026-10-16T18:23:17.192Z",
+      "probed_at": "2026-10-16T18:23:17.192Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
+    },
+    "mcp-bynor-mcp-bynor-ai-mcp": {
+      "id": "mcp-bynor-mcp-bynor-ai-mcp",
+      "kind": "mcp",
+      "name": "Bynor",
+      "target": "https://mcp.bynor.ai/mcp",
+      "approved_at": "2026-10-16T18:23:18.586Z",
+      "probed_at": "2026-10-16T18:23:18.586Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
