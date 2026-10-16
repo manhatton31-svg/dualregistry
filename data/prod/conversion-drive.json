@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-16T14:44:57.222Z",
+  "updated_at": "2026-10-16T18:26:15.726Z",
   "day": "2026-10-16",
-  "day_invites": 8,
+  "day_invites": 13,
   "day_nags": 60,
-  "day_talk": 8,
+  "day_talk": 13,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -6366,7 +6366,7 @@
       "talk_ok": false
     },
     "mcp-drone-intelligence-droneintelligence-ai-api-mcp": {
-      "at": "2026-09-16T14:52:27.105Z",
+      "at": "2026-10-16T18:26:14.920Z",
       "name": "Drone Intelligence",
       "kind": "mcp",
       "http_ok": true,
@@ -6376,7 +6376,7 @@
       "talk_ok": false
     },
     "mcp-ai-kaiv-dependency-trust-api-kaiv-ai-api-bridge-mcp-dependency-trust-f1aaf06d": {
-      "at": "2026-09-16T14:52:27.403Z",
+      "at": "2026-10-16T18:26:15.440Z",
       "name": "ai.kaiv/dependency-trust",
       "kind": "mcp",
       "http_ok": true,
@@ -6386,7 +6386,7 @@
       "talk_ok": false
     },
     "mcp-ai-bidclub-bidclub-bidclub-ai-api-mcp": {
-      "at": "2026-09-16T14:52:27.417Z",
+      "at": "2026-10-16T18:26:15.232Z",
       "name": "ai.bidclub/bidclub",
       "kind": "mcp",
       "http_ok": true,
@@ -11274,6 +11274,26 @@
       "target": "https://agentic.aunoo.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-circleback-circleback-ai-api-mcp": {
+      "at": "2026-10-16T18:26:15.238Z",
+      "name": "Circleback",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://circleback.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-bynor-mcp-bynor-ai-mcp": {
+      "at": "2026-10-16T18:26:15.526Z",
+      "name": "Bynor",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.bynor.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -14051,15 +14071,15 @@
       "ok": false
     },
     "mcp-drone-intelligence-droneintelligence-ai-api-mcp": {
-      "at": "2026-09-16T14:52:27.105Z",
+      "at": "2026-10-16T18:26:14.920Z",
       "ok": false
     },
     "mcp-ai-kaiv-dependency-trust-api-kaiv-ai-api-bridge-mcp-dependency-trust-f1aaf06d": {
-      "at": "2026-09-16T14:52:27.403Z",
+      "at": "2026-10-16T18:26:15.440Z",
       "ok": false
     },
     "mcp-ai-bidclub-bidclub-bidclub-ai-api-mcp": {
-      "at": "2026-09-16T14:52:27.417Z",
+      "at": "2026-10-16T18:26:15.232Z",
       "ok": false
     },
     "mcp-ai-childadhd-library-childadhd-ai-well-known-mcp-json": {
@@ -16335,7 +16355,7 @@
       "ok": false
     },
     "social:2026-10-16": {
-      "at": "2026-10-16T14:44:57.222Z",
+      "at": "2026-10-16T18:26:15.726Z",
       "ok": false
     },
     "mcp-apex-ai-academy-apexai-academy-well-known-mcp-json": {
@@ -16365,34 +16385,35 @@
     "mcp-aunoo-agentic-agentic-aunoo-ai-mcp": {
       "at": "2026-10-16T14:44:45.230Z",
       "ok": false
+    },
+    "mcp-circleback-circleback-ai-api-mcp": {
+      "at": "2026-10-16T18:26:15.238Z",
+      "ok": false
+    },
+    "mcp-bynor-mcp-bynor-ai-mcp": {
+      "at": "2026-10-16T18:26:15.526Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2649,
-    "invite_http_ok": 2510,
+    "invites": 2654,
+    "invite_http_ok": 2515,
     "nags": 4514,
     "nag_http_ok": 4220,
-    "talk_inbox": 2621,
+    "talk_inbox": 2626,
     "social": 81,
-    "runs": 935
+    "runs": 936
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 6/120)",
-    "invite mcp Amdahl → http 405 talk — https://docs.amdahl.ai/.well-known/mcp/server-card.json",
-    "invite mcp Aunoo Agentic → http 400 talk — https://agentic.aunoo.ai/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 404 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
+    "eligible never-demoed 5 (agents 0 mcp 5) · inviting 5 (day 8/120)",
+    "invite mcp Drone Intelligence → http 400 talk — https://droneintelligence.ai/api/mcp",
+    "invite mcp ai.bidclub/bidclub → http 400 talk — https://bidclub.ai/api/mcp",
+    "invite mcp Circleback → http 401 talk — https://circleback.ai/api/mcp",
+    "invite mcp ai.kaiv/dependency-trust → http 200 talk — https://api.kaiv.ai/api/bridge/mcp/dependency-trust-f1aaf06d",
+    "invite mcp Bynor → http 401 talk — https://mcp.bynor.ai/mcp",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-16T14:44:57.222Z",
+  "last_run_at": "2026-10-16T18:26:15.726Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
