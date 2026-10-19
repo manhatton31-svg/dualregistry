@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-19T20:31:49.266Z",
+  "updated_at": "2026-10-19T23:54:34.471Z",
   "day": "2026-10-19",
-  "day_invites": 16,
+  "day_invites": 18,
   "day_nags": 60,
-  "day_talk": 16,
+  "day_talk": 18,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -6526,7 +6526,7 @@
       "talk_ok": false
     },
     "mcp-awardcast-federal-contracts-awardcast-ai-mcp": {
-      "at": "2026-09-19T22:27:28.959Z",
+      "at": "2026-10-19T23:54:34.179Z",
       "name": "AwardCast Federal Contracts",
       "kind": "mcp",
       "http_ok": true,
@@ -11424,6 +11424,16 @@
       "target": "https://data.azquo.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-agentmash-agentmash-ai-mcp": {
+      "at": "2026-10-19T23:54:34.120Z",
+      "name": "AgentMash",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://agentmash.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -14277,7 +14287,7 @@
       "ok": false
     },
     "mcp-awardcast-federal-contracts-awardcast-ai-mcp": {
-      "at": "2026-09-19T22:27:28.959Z",
+      "at": "2026-10-19T23:54:34.179Z",
       "ok": false
     },
     "mcp-ai-kaiv-version-truth-api-kaiv-ai-well-known-mcp-server-card-json": {
@@ -16561,7 +16571,7 @@
       "ok": false
     },
     "social:2026-10-19": {
-      "at": "2026-10-19T20:31:49.266Z",
+      "at": "2026-10-19T23:54:34.470Z",
       "ok": false
     },
     "mcp-cordex-app-cordex-ai-api-mcp": {
@@ -16587,34 +16597,28 @@
     "mcp-azquo-data-azquo-ai-mcp": {
       "at": "2026-10-19T15:00:44.081Z",
       "ok": false
+    },
+    "mcp-agentmash-agentmash-ai-mcp": {
+      "at": "2026-10-19T23:54:34.120Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2698,
-    "invite_http_ok": 2557,
+    "invites": 2700,
+    "invite_http_ok": 2559,
     "nags": 4694,
     "nag_http_ok": 4382,
-    "talk_inbox": 2670,
+    "talk_inbox": 2672,
     "social": 81,
-    "runs": 957
+    "runs": 958
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 14/120)",
-    "invite mcp Coach MCP → http 401 talk — https://mcp.iamcoach.ai/",
-    "invite mcp ai.kaiv/version-truth → http 200 talk — https://api.kaiv.ai/.well-known/mcp.json",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 404 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 16/120)",
+    "invite mcp AgentMash → http 401 talk — https://agentmash.ai/mcp",
+    "invite mcp AwardCast Federal Contracts → http 405 talk — https://awardcast.ai/",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-19T20:31:49.266Z",
+  "last_run_at": "2026-10-19T23:54:34.471Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
