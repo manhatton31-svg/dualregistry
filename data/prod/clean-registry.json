@@ -1,14 +1,14 @@
 {
   "day": "2026-10-19",
-  "updated_at": "2026-10-19T06:55:40.540Z",
+  "updated_at": "2026-10-19T14:25:06.087Z",
   "counts": {
-    "total": 1139,
-    "mcp": 1104,
+    "total": 1143,
+    "mcp": 1108,
     "agents": 35
   },
   "high_water": {
-    "total": 1139,
-    "mcp": 1104,
+    "total": 1143,
+    "mcp": 1108,
     "agents": 35
   },
   "items": {
@@ -12540,6 +12540,50 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-aetherya-mcp-aetherya-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-aetherya-mcp-aetherya-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Aetherya",
+      "target": "https://mcp.aetherya.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-19T14:24:58.529Z",
+      "probed_at": "2026-10-19T14:24:58.529Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-blitzapi-docs-blitz-api-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-blitzapi-docs-blitz-api-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "BlitzAPI",
+      "target": "https://docs.blitz-api.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-19T14:25:01.005Z",
+      "probed_at": "2026-10-19T14:25:01.005Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-caimera-app-caimera-ai-api-mcp": {
+      "id": "mcp-caimera-app-caimera-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Caimera",
+      "target": "https://app.caimera.ai/api/mcp",
+      "approved_at": "2026-10-19T14:25:04.839Z",
+      "probed_at": "2026-10-19T14:25:04.839Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-azquo-data-azquo-ai-mcp": {
+      "id": "mcp-azquo-data-azquo-ai-mcp",
+      "kind": "mcp",
+      "name": "Azquo",
+      "target": "https://data.azquo.ai/mcp",
+      "approved_at": "2026-10-19T14:25:06.086Z",
+      "probed_at": "2026-10-19T14:25:06.086Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
     }
   },
   "policy": {
