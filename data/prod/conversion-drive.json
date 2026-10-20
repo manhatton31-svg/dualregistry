@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-20T18:40:55.565Z",
+  "updated_at": "2026-10-20T21:55:47.941Z",
   "day": "2026-10-20",
-  "day_invites": 13,
+  "day_invites": 17,
   "day_nags": 60,
-  "day_talk": 13,
+  "day_talk": 17,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -9066,7 +9066,7 @@
       "talk_ok": false
     },
     "mcp-agenticbooks-mcp-agenticbooks-ai-mcp": {
-      "at": "2026-09-20T19:23:15.861Z",
+      "at": "2026-10-20T21:55:46.507Z",
       "name": "AgenticBooks",
       "kind": "mcp",
       "http_ok": true,
@@ -9076,12 +9076,12 @@
       "talk_ok": false
     },
     "mcp-coingraph-coingraph-ai-api-mcp": {
-      "at": "2026-09-20T21:46:25.627Z",
+      "at": "2026-10-20T21:55:47.784Z",
       "name": "CoinGraph",
       "kind": "mcp",
       "http_ok": true,
-      "status": 202,
-      "target": "https://coingraph.ai/api/mcp",
+      "status": 200,
+      "target": "https://coingraph.ai/",
       "method": "POST:soft-json",
       "talk_ok": false
     },
@@ -11483,6 +11483,26 @@
       "status": 202,
       "target": "https://artemisgtm.ai/mcp",
       "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-buzzberg-mcp-buzzberg-ai-mcp": {
+      "at": "2026-10-20T21:55:47.055Z",
+      "name": "Buzzberg",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.buzzberg.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-ask-gina-spot-docs-askgina-ai-well-known-mcp-server-card-json": {
+      "at": "2026-10-20T21:55:47.482Z",
+      "name": "Ask Gina Spot",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://docs.askgina.ai/.well-known/mcp/server-card.json",
+      "method": "GET",
       "talk_ok": false
     }
   },
@@ -15589,11 +15609,11 @@
       "ok": false
     },
     "mcp-agenticbooks-mcp-agenticbooks-ai-mcp": {
-      "at": "2026-09-20T19:23:15.861Z",
+      "at": "2026-10-20T21:55:46.507Z",
       "ok": false
     },
     "mcp-coingraph-coingraph-ai-api-mcp": {
-      "at": "2026-09-20T21:46:25.627Z",
+      "at": "2026-10-20T21:55:47.784Z",
       "ok": false
     },
     "mcp-edgepedia-www-edgechat-ai-mcp": {
@@ -16657,7 +16677,7 @@
       "ok": false
     },
     "social:2026-10-20": {
-      "at": "2026-10-20T18:40:55.565Z",
+      "at": "2026-10-20T21:55:47.941Z",
       "ok": false
     },
     "mcp-boon-mcp-boon-ai-api-mcp": {
@@ -16675,35 +16695,34 @@
     "mcp-ai-artemisgtm-gtm-engineer-artemisgtm-ai-mcp": {
       "at": "2026-10-20T18:40:51.838Z",
       "ok": false
+    },
+    "mcp-buzzberg-mcp-buzzberg-ai-mcp": {
+      "at": "2026-10-20T21:55:47.055Z",
+      "ok": false
+    },
+    "mcp-ask-gina-spot-docs-askgina-ai-well-known-mcp-server-card-json": {
+      "at": "2026-10-20T21:55:47.482Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2713,
-    "invite_http_ok": 2572,
+    "invites": 2717,
+    "invite_http_ok": 2576,
     "nags": 4754,
     "nag_http_ok": 4436,
-    "talk_inbox": 2685,
+    "talk_inbox": 2689,
     "social": 81,
-    "runs": 962
+    "runs": 963
   },
   "last_notes": [
-    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 10/120)",
-    "invite mcp DirectCase Legal Search → http 401 talk — https://mcp.directcase.ai/",
-    "invite mcp FoodPhoto → http 401 talk — https://foodphoto.ai/mcp",
-    "invite mcp ai.artemisgtm/gtm-engineer → http 202 talk — https://artemisgtm.ai/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 404 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 4 (agents 0 mcp 4) · inviting 4 (day 13/120)",
+    "invite mcp AgenticBooks → http 401 talk — https://mcp.agenticbooks.ai/mcp",
+    "invite mcp Buzzberg → http 401 talk — https://mcp.buzzberg.ai/mcp",
+    "invite mcp Ask Gina Spot → http 200 talk — https://docs.askgina.ai/.well-known/mcp/server-card.json",
+    "invite mcp CoinGraph → http 200 talk — https://coingraph.ai/",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-20T18:40:55.565Z",
+  "last_run_at": "2026-10-20T21:55:47.941Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
