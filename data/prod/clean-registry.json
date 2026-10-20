@@ -1,14 +1,14 @@
 {
   "day": "2026-10-20",
-  "updated_at": "2026-10-20T17:58:45.076Z",
+  "updated_at": "2026-10-20T21:30:34.324Z",
   "counts": {
-    "total": 1149,
-    "mcp": 1114,
+    "total": 1151,
+    "mcp": 1116,
     "agents": 35
   },
   "high_water": {
-    "total": 1149,
-    "mcp": 1114,
+    "total": 1151,
+    "mcp": 1116,
     "agents": 35
   },
   "items": {
@@ -12650,6 +12650,28 @@
       "score": 35,
       "handshake": "ok",
       "hold_reason": "grower remote-json 200"
+    },
+    "mcp-ask-gina-spot-docs-askgina-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-ask-gina-spot-docs-askgina-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Ask Gina Spot",
+      "target": "https://docs.askgina.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-20T21:30:30.818Z",
+      "probed_at": "2026-10-20T21:30:30.818Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-buzzberg-mcp-buzzberg-ai-mcp": {
+      "id": "mcp-buzzberg-mcp-buzzberg-ai-mcp",
+      "kind": "mcp",
+      "name": "Buzzberg",
+      "target": "https://mcp.buzzberg.ai/mcp",
+      "approved_at": "2026-10-20T21:30:33.889Z",
+      "probed_at": "2026-10-20T21:30:33.889Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
