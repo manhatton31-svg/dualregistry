@@ -1,14 +1,14 @@
 {
   "day": "2026-10-21",
-  "updated_at": "2026-10-21T00:08:39.815Z",
+  "updated_at": "2026-10-21T04:47:35.796Z",
   "counts": {
-    "total": 1152,
-    "mcp": 1117,
+    "total": 1155,
+    "mcp": 1120,
     "agents": 35
   },
   "high_water": {
-    "total": 1152,
-    "mcp": 1117,
+    "total": 1155,
+    "mcp": 1120,
     "agents": 35
   },
   "items": {
@@ -12683,6 +12683,39 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-booqer-booqer-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-booqer-booqer-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Booqer",
+      "target": "https://booqer.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-21T04:47:23.630Z",
+      "probed_at": "2026-10-21T04:47:23.630Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-1court-directory-r1-state-1court-ai-api-mcp": {
+      "id": "mcp-1court-directory-r1-state-1court-ai-api-mcp",
+      "kind": "mcp",
+      "name": "1Court Directory · r1",
+      "target": "https://state.1court.ai/api/mcp",
+      "approved_at": "2026-10-21T04:47:23.944Z",
+      "probed_at": "2026-10-21T04:47:23.944Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-blinibot-agent-lounge-blinibot-ai-api-agents-mcp": {
+      "id": "mcp-blinibot-agent-lounge-blinibot-ai-api-agents-mcp",
+      "kind": "mcp",
+      "name": "BliniBot Agent Lounge",
+      "target": "https://blinibot.ai/api/agents/mcp",
+      "approved_at": "2026-10-21T04:47:24.094Z",
+      "probed_at": "2026-10-21T04:47:24.094Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
