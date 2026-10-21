@@ -1,14 +1,14 @@
 {
   "day": "2026-10-21",
-  "updated_at": "2026-10-21T09:51:39.381Z",
+  "updated_at": "2026-10-21T14:53:39.172Z",
   "counts": {
-    "total": 1155,
-    "mcp": 1120,
+    "total": 1158,
+    "mcp": 1123,
     "agents": 35
   },
   "high_water": {
-    "total": 1155,
-    "mcp": 1120,
+    "total": 1158,
+    "mcp": 1123,
     "agents": 35
   },
   "items": {
@@ -12716,6 +12716,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-adkix-adkix-ai-api-mcp": {
+      "id": "mcp-adkix-adkix-ai-api-mcp",
+      "kind": "mcp",
+      "name": "adkix",
+      "target": "https://adkix.ai/api/mcp",
+      "approved_at": "2026-10-21T14:53:23.967Z",
+      "probed_at": "2026-10-21T14:53:23.967Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-arihaan-jobs-jobs-api-arihaan-ai-mcp-json": {
+      "id": "mcp-arihaan-jobs-jobs-api-arihaan-ai-mcp-json",
+      "kind": "mcp",
+      "name": "Arihaan Jobs",
+      "target": "https://jobs-api.arihaan.ai/mcp.json",
+      "approved_at": "2026-10-21T14:53:26.587Z",
+      "probed_at": "2026-10-21T14:53:26.587Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /mcp.json"
+    },
+    "mcp-fabric-verify-mcp-augmentev-com-mcp": {
+      "id": "mcp-fabric-verify-mcp-augmentev-com-mcp",
+      "kind": "mcp",
+      "name": "Fabric Verify",
+      "target": "https://mcp.augmentev.com/mcp",
+      "approved_at": "2026-10-21T14:53:28.519Z",
+      "probed_at": "2026-10-21T14:53:28.519Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
     }
   },
   "policy": {
