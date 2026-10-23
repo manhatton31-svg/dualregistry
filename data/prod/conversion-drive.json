@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-23T20:19:29.725Z",
+  "updated_at": "2026-10-23T23:14:44.903Z",
   "day": "2026-10-23",
-  "day_invites": 9,
+  "day_invites": 11,
   "day_nags": 60,
-  "day_talk": 9,
+  "day_talk": 11,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -9186,13 +9186,13 @@
       "talk_ok": false
     },
     "mcp-commsync-commsync-ai-well-known-mcp-server-card-json": {
-      "at": "2026-09-23T20:28:58.915Z",
+      "at": "2026-10-23T23:14:43.499Z",
       "name": "CommSync",
       "kind": "mcp",
       "http_ok": true,
       "status": 405,
       "target": "https://commsync.ai/.well-known/mcp/server-card.json",
-      "method": "POST:a2a-message",
+      "method": "POST:soft-json",
       "talk_ok": false
     },
     "mcp-fast-insight-fastinsight-ai-api-public-mcp": {
@@ -11682,6 +11682,16 @@
       "http_ok": true,
       "status": 401,
       "target": "https://api.appgoat.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-dubai-data-dubai-real-estate-statistics-datadubai-ae-well-known-mcp-json": {
+      "at": "2026-10-23T23:14:44.810Z",
+      "name": "Dubai Data — Dubai real estate statistics",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://datadubai.ae/.well-known/mcp.json",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -15849,7 +15859,7 @@
       "ok": false
     },
     "mcp-commsync-commsync-ai-well-known-mcp-server-card-json": {
-      "at": "2026-09-23T20:28:58.915Z",
+      "at": "2026-10-23T23:14:43.499Z",
       "ok": false
     },
     "social:2026-09-24": {
@@ -16953,7 +16963,7 @@
       "ok": false
     },
     "social:2026-10-23": {
-      "at": "2026-10-23T20:19:29.725Z",
+      "at": "2026-10-23T23:14:44.903Z",
       "ok": false
     },
     "mcp-aistlabs-aistlabs-ai-mcp": {
@@ -16967,25 +16977,28 @@
     "mcp-appgoat-api-appgoat-ai-mcp": {
       "at": "2026-10-23T20:19:29.506Z",
       "ok": false
+    },
+    "mcp-dubai-data-dubai-real-estate-statistics-datadubai-ae-well-known-mcp-json": {
+      "at": "2026-10-23T23:14:44.810Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2762,
-    "invite_http_ok": 2621,
+    "invites": 2764,
+    "invite_http_ok": 2623,
     "nags": 4934,
     "nag_http_ok": 4598,
-    "talk_inbox": 2734,
+    "talk_inbox": 2736,
     "social": 81,
-    "runs": 980
+    "runs": 981
   },
   "last_notes": [
-    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 6/120)",
-    "invite mcp ai.imaginode/imaginode → http 401 talk — https://imaginode.ai/api/mcp",
-    "invite mcp AppGoat → http 401 talk — https://api.appgoat.ai/mcp",
-    "invite mcp ai.fugentic/fugentic → http 400 talk — https://fugentic.mcp.fugentic.ai/mcp",
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 9/120)",
+    "invite mcp CommSync → http 405 talk — https://commsync.ai/.well-known/mcp/server-card.json",
+    "invite mcp Dubai Data — Dubai real estate statistics → http 200 talk — https://datadubai.ae/.well-known/mcp.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-23T20:19:29.725Z",
+  "last_run_at": "2026-10-23T23:14:44.903Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
