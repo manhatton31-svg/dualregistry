@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-23T16:58:59.540Z",
+  "updated_at": "2026-10-23T20:19:29.725Z",
   "day": "2026-10-23",
-  "day_invites": 6,
+  "day_invites": 9,
   "day_nags": 60,
-  "day_talk": 6,
+  "day_talk": 9,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -6756,7 +6756,7 @@
       "talk_ok": false
     },
     "mcp-ai-imaginode-imaginode-imaginode-ai-api-mcp": {
-      "at": "2026-09-23T17:15:37.380Z",
+      "at": "2026-10-23T20:19:29.423Z",
       "name": "ai.imaginode/imaginode",
       "kind": "mcp",
       "http_ok": true,
@@ -9176,11 +9176,11 @@
       "talk_ok": false
     },
     "mcp-ai-fugentic-fugentic-fugentic-mcp-fugentic-ai-mcp": {
-      "at": "2026-09-23T17:15:37.281Z",
+      "at": "2026-10-23T20:19:29.443Z",
       "name": "ai.fugentic/fugentic",
       "kind": "mcp",
       "http_ok": true,
-      "status": 200,
+      "status": 400,
       "target": "https://fugentic.mcp.fugentic.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
@@ -11672,6 +11672,16 @@
       "http_ok": true,
       "status": 200,
       "target": "https://api.atmy.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-appgoat-api-appgoat-ai-mcp": {
+      "at": "2026-10-23T20:19:29.506Z",
+      "name": "AppGoat",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://api.appgoat.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -14635,7 +14645,7 @@
       "ok": false
     },
     "mcp-ai-imaginode-imaginode-imaginode-ai-api-mcp": {
-      "at": "2026-09-23T17:15:37.380Z",
+      "at": "2026-10-23T20:19:29.423Z",
       "ok": false
     },
     "social:2026-08-25": {
@@ -15835,7 +15845,7 @@
       "ok": false
     },
     "mcp-ai-fugentic-fugentic-fugentic-mcp-fugentic-ai-mcp": {
-      "at": "2026-09-23T17:15:37.281Z",
+      "at": "2026-10-23T20:19:29.443Z",
       "ok": false
     },
     "mcp-commsync-commsync-ai-well-known-mcp-server-card-json": {
@@ -16943,7 +16953,7 @@
       "ok": false
     },
     "social:2026-10-23": {
-      "at": "2026-10-23T16:58:59.540Z",
+      "at": "2026-10-23T20:19:29.725Z",
       "ok": false
     },
     "mcp-aistlabs-aistlabs-ai-mcp": {
@@ -16953,37 +16963,29 @@
     "mcp-atmy-air-quality-api-atmy-ai-mcp": {
       "at": "2026-10-23T16:58:55.623Z",
       "ok": false
+    },
+    "mcp-appgoat-api-appgoat-ai-mcp": {
+      "at": "2026-10-23T20:19:29.506Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2759,
-    "invite_http_ok": 2618,
+    "invites": 2762,
+    "invite_http_ok": 2621,
     "nags": 4934,
     "nag_http_ok": 4598,
-    "talk_inbox": 2731,
+    "talk_inbox": 2734,
     "social": 81,
-    "runs": 979
+    "runs": 980
   },
   "last_notes": [
-    "eligible never-demoed 5 (agents 0 mcp 5) · inviting 5 (day 1/120)",
-    "invite mcp AISTLabs → http 401 talk — https://aistlabs.ai/mcp",
-    "invite mcp Contexel → http 401 talk — https://contexel.ai/mcp",
-    "invite mcp CleanVector → http 401 talk — https://cleanvector.ai/api/mcp",
-    "invite mcp Hexa → http 401 talk — https://mcp.hexahq.ai/mcp",
-    "invite mcp Atmy air quality → http 200 talk — https://api.atmy.ai/mcp",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 404 talk —",
+    "eligible never-demoed 3 (agents 0 mcp 3) · inviting 3 (day 6/120)",
+    "invite mcp ai.imaginode/imaginode → http 401 talk — https://imaginode.ai/api/mcp",
+    "invite mcp AppGoat → http 401 talk — https://api.appgoat.ai/mcp",
+    "invite mcp ai.fugentic/fugentic → http 400 talk — https://fugentic.mcp.fugentic.ai/mcp",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-23T16:58:59.540Z",
+  "last_run_at": "2026-10-23T20:19:29.725Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
