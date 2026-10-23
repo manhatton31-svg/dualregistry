@@ -1,14 +1,14 @@
 {
   "day": "2026-10-23",
-  "updated_at": "2026-10-23T11:57:11.878Z",
+  "updated_at": "2026-10-23T16:40:53.244Z",
   "counts": {
-    "total": 1166,
-    "mcp": 1131,
+    "total": 1168,
+    "mcp": 1133,
     "agents": 35
   },
   "high_water": {
-    "total": 1166,
-    "mcp": 1131,
+    "total": 1168,
+    "mcp": 1133,
     "agents": 35
   },
   "items": {
@@ -12837,6 +12837,28 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-aistlabs-aistlabs-ai-mcp": {
+      "id": "mcp-aistlabs-aistlabs-ai-mcp",
+      "kind": "mcp",
+      "name": "AISTLabs",
+      "target": "https://aistlabs.ai/mcp",
+      "approved_at": "2026-10-23T16:40:47.918Z",
+      "probed_at": "2026-10-23T16:40:47.918Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-atmy-air-quality-api-atmy-ai-mcp": {
+      "id": "mcp-atmy-air-quality-api-atmy-ai-mcp",
+      "kind": "mcp",
+      "name": "Atmy air quality",
+      "target": "https://api.atmy.ai/mcp",
+      "approved_at": "2026-10-23T16:40:51.377Z",
+      "probed_at": "2026-10-23T16:40:51.377Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
     }
   },
   "policy": {
