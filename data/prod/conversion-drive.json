@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-24T18:02:50.128Z",
+  "updated_at": "2026-10-24T20:41:39.341Z",
   "day": "2026-10-24",
-  "day_invites": 12,
+  "day_invites": 13,
   "day_nags": 60,
-  "day_talk": 12,
+  "day_talk": 13,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -11734,6 +11734,16 @@
       "target": "https://zoll.agency/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-apiant-mcp-apiant-ai-well-known-mcp-server-card-json": {
+      "at": "2026-10-24T20:41:39.197Z",
+      "name": "APIANT",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://mcp.apiant.ai/.well-known/mcp/server-card.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -17023,7 +17033,7 @@
       "ok": false
     },
     "social:2026-10-24": {
-      "at": "2026-10-24T18:02:50.128Z",
+      "at": "2026-10-24T20:41:39.341Z",
       "ok": false
     },
     "mcp-celestio-celestio-ai-well-known-mcp-server-card-json": {
@@ -17041,23 +17051,27 @@
     "mcp-zoll-agency-zoll-agency-mcp": {
       "at": "2026-10-24T14:50:14.493Z",
       "ok": false
+    },
+    "mcp-apiant-mcp-apiant-ai-well-known-mcp-server-card-json": {
+      "at": "2026-10-24T20:41:39.197Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2776,
-    "invite_http_ok": 2635,
+    "invites": 2777,
+    "invite_http_ok": 2636,
     "nags": 4994,
     "nag_http_ok": 4652,
-    "talk_inbox": 2748,
+    "talk_inbox": 2749,
     "social": 81,
-    "runs": 986
+    "runs": 987
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 11/120)",
-    "invite mcp IronShard Object Storage Sandbox → http 400 talk — https://agents-mcp.ironshard.ai/mcp",
+    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 12/120)",
+    "invite mcp APIANT → http 200 talk — https://mcp.apiant.ai/.well-known/mcp/server-card.json",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-24T18:02:50.128Z",
+  "last_run_at": "2026-10-24T20:41:39.341Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
