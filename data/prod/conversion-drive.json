@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-24T20:41:39.341Z",
+  "updated_at": "2026-10-24T22:44:54.833Z",
   "day": "2026-10-24",
-  "day_invites": 13,
+  "day_invites": 15,
   "day_nags": 60,
-  "day_talk": 13,
+  "day_talk": 15,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -9206,7 +9206,7 @@
       "talk_ok": false
     },
     "mcp-drillr-the-financial-mcp-for-ai-agents-gateway-drillr-ai-mcp-data": {
-      "at": "2026-09-24T20:42:45.986Z",
+      "at": "2026-10-24T22:44:54.512Z",
       "name": "Drillr — The financial MCP for AI agents",
       "kind": "mcp",
       "http_ok": true,
@@ -11743,6 +11743,16 @@
       "status": 200,
       "target": "https://mcp.apiant.ai/.well-known/mcp/server-card.json",
       "method": "GET",
+      "talk_ok": false
+    },
+    "mcp-blaze-app-blaze-ai-mcp": {
+      "at": "2026-10-24T22:44:54.522Z",
+      "name": "Blaze",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://app.blaze.ai/mcp",
+      "method": "POST:soft-json",
       "talk_ok": false
     }
   },
@@ -15921,7 +15931,7 @@
       "ok": false
     },
     "mcp-drillr-the-financial-mcp-for-ai-agents-gateway-drillr-ai-mcp-data": {
-      "at": "2026-09-24T20:42:45.986Z",
+      "at": "2026-10-24T22:44:54.512Z",
       "ok": false
     },
     "social:2026-09-25": {
@@ -17033,7 +17043,7 @@
       "ok": false
     },
     "social:2026-10-24": {
-      "at": "2026-10-24T20:41:39.341Z",
+      "at": "2026-10-24T22:44:54.833Z",
       "ok": false
     },
     "mcp-celestio-celestio-ai-well-known-mcp-server-card-json": {
@@ -17055,23 +17065,28 @@
     "mcp-apiant-mcp-apiant-ai-well-known-mcp-server-card-json": {
       "at": "2026-10-24T20:41:39.197Z",
       "ok": false
+    },
+    "mcp-blaze-app-blaze-ai-mcp": {
+      "at": "2026-10-24T22:44:54.522Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2777,
-    "invite_http_ok": 2636,
+    "invites": 2779,
+    "invite_http_ok": 2638,
     "nags": 4994,
     "nag_http_ok": 4652,
-    "talk_inbox": 2749,
+    "talk_inbox": 2751,
     "social": 81,
-    "runs": 987
+    "runs": 988
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 12/120)",
-    "invite mcp APIANT → http 200 talk — https://mcp.apiant.ai/.well-known/mcp/server-card.json",
+    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 13/120)",
+    "invite mcp Drillr — The financial MCP for AI agents → http 401 talk — https://gateway.drillr.ai/mcp/data",
+    "invite mcp Blaze → http 401 talk — https://app.blaze.ai/mcp",
     "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-24T20:41:39.341Z",
+  "last_run_at": "2026-10-24T22:44:54.833Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
