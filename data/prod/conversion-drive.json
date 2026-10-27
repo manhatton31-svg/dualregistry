@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-27T01:24:37.083Z",
+  "updated_at": "2026-10-27T06:46:30.894Z",
   "day": "2026-10-27",
-  "day_invites": 1,
-  "day_nags": 20,
-  "day_talk": 1,
+  "day_invites": 21,
+  "day_nags": 30,
+  "day_talk": 21,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -6976,12 +6976,12 @@
       "talk_ok": false
     },
     "mcp-ai-jawz-jawz-jawz-ai-api-mcp": {
-      "at": "2026-09-27T01:44:04.824Z",
+      "at": "2026-10-27T06:46:26.532Z",
       "name": "ai.jawz/jawz",
       "kind": "mcp",
       "http_ok": true,
-      "status": 405,
-      "target": "https://jawz.ai/",
+      "status": 400,
+      "target": "https://jawz.ai/api/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     },
@@ -9336,7 +9336,7 @@
       "talk_ok": false
     },
     "mcp-filmai-filmai-ai-api-mcp-mcp": {
-      "at": "2026-09-27T01:44:03.526Z",
+      "at": "2026-10-27T06:46:26.924Z",
       "name": "電影大師 filmai",
       "kind": "mcp",
       "http_ok": true,
@@ -11794,6 +11794,186 @@
       "target": "https://app.bugtape.ai/",
       "method": "GET",
       "talk_ok": false
+    },
+    "mcp-chipp-analytics-and-evals-mcp-chipp-ai-mcp-analytics": {
+      "at": "2026-10-27T06:46:25.768Z",
+      "name": "Chipp Analytics and evals",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/analytics",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-agent-settings-mcp-chipp-ai-mcp-app-settings": {
+      "at": "2026-10-27T06:46:25.806Z",
+      "name": "Chipp Agent settings",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/app-settings",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-actions-and-components-mcp-chipp-ai-mcp-actions": {
+      "at": "2026-10-27T06:46:25.867Z",
+      "name": "Chipp Actions and components",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/actions",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-agents-mcp-chipp-ai-mcp-apps": {
+      "at": "2026-10-27T06:46:25.921Z",
+      "name": "Chipp Agents",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/apps",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-billing-and-monetization-mcp-chipp-ai-mcp-billing": {
+      "at": "2026-10-27T06:46:25.956Z",
+      "name": "Chipp Billing and monetization",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/billing",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-channels-mcp-chipp-ai-mcp-channels": {
+      "at": "2026-10-27T06:46:25.999Z",
+      "name": "Chipp Channels",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/channels",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-core-mcp-chipp-ai-mcp-core": {
+      "at": "2026-10-27T06:46:26.076Z",
+      "name": "Chipp Core",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/core",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-data-operations-mcp-chipp-ai-mcp-data-ops": {
+      "at": "2026-10-27T06:46:26.107Z",
+      "name": "Chipp Data operations",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/data-ops",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-knowledge-mcp-chipp-ai-mcp-knowledge": {
+      "at": "2026-10-27T06:46:26.138Z",
+      "name": "Chipp Knowledge",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/knowledge",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-legacy-code-mcp-chipp-ai-mcp-legacy-code": {
+      "at": "2026-10-27T06:46:26.240Z",
+      "name": "Chipp Legacy code",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/legacy-code",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-integrations-mcp-chipp-ai-mcp-integrations": {
+      "at": "2026-10-27T06:46:26.217Z",
+      "name": "Chipp Integrations",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/integrations",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-memory-and-schedules-mcp-chipp-ai-mcp-memory": {
+      "at": "2026-10-27T06:46:26.263Z",
+      "name": "Chipp Memory and schedules",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/memory",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-packs-mcp-chipp-ai-mcp-packs": {
+      "at": "2026-10-27T06:46:26.353Z",
+      "name": "Chipp Packs",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/packs",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-newsletters-mcp-chipp-ai-mcp-newsletters": {
+      "at": "2026-10-27T06:46:26.374Z",
+      "name": "Chipp Newsletters",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/newsletters",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-observability-mcp-chipp-ai-mcp-observability": {
+      "at": "2026-10-27T06:46:26.491Z",
+      "name": "Chipp Observability",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/observability",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-releases-mcp-chipp-ai-mcp-releases": {
+      "at": "2026-10-27T06:46:26.513Z",
+      "name": "Chipp Releases",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/releases",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-software-factory-projects-mcp-chipp-ai-mcp-projects": {
+      "at": "2026-10-27T06:46:26.483Z",
+      "name": "Chipp Software factory projects",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/projects",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-chipp-tickets-mcp-chipp-ai-mcp-tickets": {
+      "at": "2026-10-27T06:46:26.619Z",
+      "name": "Chipp Tickets",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.chipp.ai/mcp/tickets",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -11816,7 +11996,7 @@
       "target": "https://iturri.ai/mcp"
     },
     "ord_msc74jic_075fd308": {
-      "at": "2026-10-26T05:26:48.984Z",
+      "at": "2026-10-27T06:46:28.561Z",
       "listing_id": "agent-law-ai-https-mcp-law-ai",
       "origin": "self_serve",
       "http_ok": true,
@@ -11924,7 +12104,7 @@
       "target": "https://maguyva.ai/.well-known/mcp.json"
     },
     "ord_ms8zkmng_3acbbf20": {
-      "at": "2026-10-26T05:26:48.060Z",
+      "at": "2026-10-27T06:46:27.779Z",
       "listing_id": "mcp-ai-biel-biel-ai-r2-https-github-com-techdocsstudio-biel-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -11942,7 +12122,7 @@
       "target": "https://lumify.ai/mcp"
     },
     "ord_ms8zkdle_6b69d0a8": {
-      "at": "2026-10-26T05:26:48.087Z",
+      "at": "2026-10-27T06:46:27.676Z",
       "listing_id": "mcp-ai-biel-biel-ai-r1-https-github-com-techdocsstudio-biel-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -11960,7 +12140,7 @@
       "target": "https://api.odei.ai/.well-known/mcp.json"
     },
     "ord_ms8zkbm4_29731263": {
-      "at": "2026-10-26T05:26:49.229Z",
+      "at": "2026-10-27T06:46:30.288Z",
       "listing_id": "mcp-ai-dynamicfeed-dynamic-feed-r2-https-dynamicfeed-ai",
       "origin": "invited",
       "http_ok": false,
@@ -11969,7 +12149,7 @@
       "target": "https://dynamicfeed.ai/.well-known/agent-card.json"
     },
     "ord_ms8zl0ja_03e894b7": {
-      "at": "2026-10-26T05:26:50.656Z",
+      "at": "2026-10-27T06:46:30.857Z",
       "listing_id": "mcp-ai-oobeprotocol-sap-mcp-sap-mcp-https-github-com-oobe-protocol-sap-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -11978,7 +12158,7 @@
       "target": "https://mcp.sap.oobeprotocol.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8yj9zq_bd731a72": {
-      "at": "2026-10-26T05:26:49.130Z",
+      "at": "2026-10-27T06:46:28.972Z",
       "listing_id": "agtpub_875a9cfb88f7fdb2ce50",
       "origin": "invited",
       "http_ok": true,
@@ -11987,7 +12167,7 @@
       "target": "https://base-agent-kit-pied.vercel.app/.well-known/agent.json"
     },
     "ord_msco3wyd_5a07626a": {
-      "at": "2026-10-26T05:26:48.752Z",
+      "at": "2026-10-27T06:46:28.604Z",
       "listing_id": "agtpub_4c34b0bf38d34d7e64ee",
       "origin": "self_serve",
       "http_ok": true,
@@ -12023,7 +12203,7 @@
       "target": "https://www.maximem.ai/docs/.well-known/mcp/server-card.json"
     },
     "ord_msd7loeo_079e0ec5": {
-      "at": "2026-10-26T05:26:48.834Z",
+      "at": "2026-10-27T06:46:28.275Z",
       "listing_id": "agent-agoragentic-https-agoragentic-com",
       "origin": "self_serve",
       "http_ok": true,
@@ -12032,7 +12212,7 @@
       "target": "https://agoragentic.com/.well-known/agent.json"
     },
     "ord_msdilazx_6c753914": {
-      "at": "2026-10-26T05:26:48.088Z",
+      "at": "2026-10-27T06:46:27.779Z",
       "listing_id": null,
       "origin": "self_serve",
       "http_ok": false,
@@ -12059,7 +12239,7 @@
       "target": "https://outlit.ai/.well-known/mcp/server-card.json"
     },
     "ord_msetn81x_9e782ac5": {
-      "at": "2026-10-26T05:26:48.599Z",
+      "at": "2026-10-27T06:46:28.264Z",
       "listing_id": "agent-pictomancer-ai-https-api-pictomancer-ai",
       "origin": "self_serve",
       "http_ok": true,
@@ -14855,7 +15035,7 @@
       "ok": false
     },
     "mcp-ai-jawz-jawz-jawz-ai-api-mcp": {
-      "at": "2026-09-27T01:44:04.824Z",
+      "at": "2026-10-27T06:46:26.532Z",
       "ok": false
     },
     "mcp-funlet-mcp-funlet-ai-mcp": {
@@ -16031,7 +16211,7 @@
       "ok": false
     },
     "mcp-filmai-filmai-ai-api-mcp-mcp": {
-      "at": "2026-09-27T01:44:03.526Z",
+      "at": "2026-10-27T06:46:26.924Z",
       "ok": false
     },
     "social:2026-09-27": {
@@ -17135,45 +17315,126 @@
       "ok": false
     },
     "social:2026-10-27": {
-      "at": "2026-10-27T01:24:37.083Z",
+      "at": "2026-10-27T06:46:30.893Z",
+      "ok": false
+    },
+    "mcp-chipp-analytics-and-evals-mcp-chipp-ai-mcp-analytics": {
+      "at": "2026-10-27T06:46:25.768Z",
+      "ok": false
+    },
+    "mcp-chipp-agent-settings-mcp-chipp-ai-mcp-app-settings": {
+      "at": "2026-10-27T06:46:25.806Z",
+      "ok": false
+    },
+    "mcp-chipp-actions-and-components-mcp-chipp-ai-mcp-actions": {
+      "at": "2026-10-27T06:46:25.867Z",
+      "ok": false
+    },
+    "mcp-chipp-agents-mcp-chipp-ai-mcp-apps": {
+      "at": "2026-10-27T06:46:25.921Z",
+      "ok": false
+    },
+    "mcp-chipp-billing-and-monetization-mcp-chipp-ai-mcp-billing": {
+      "at": "2026-10-27T06:46:25.956Z",
+      "ok": false
+    },
+    "mcp-chipp-channels-mcp-chipp-ai-mcp-channels": {
+      "at": "2026-10-27T06:46:25.999Z",
+      "ok": false
+    },
+    "mcp-chipp-core-mcp-chipp-ai-mcp-core": {
+      "at": "2026-10-27T06:46:26.076Z",
+      "ok": false
+    },
+    "mcp-chipp-data-operations-mcp-chipp-ai-mcp-data-ops": {
+      "at": "2026-10-27T06:46:26.107Z",
+      "ok": false
+    },
+    "mcp-chipp-knowledge-mcp-chipp-ai-mcp-knowledge": {
+      "at": "2026-10-27T06:46:26.138Z",
+      "ok": false
+    },
+    "mcp-chipp-legacy-code-mcp-chipp-ai-mcp-legacy-code": {
+      "at": "2026-10-27T06:46:26.240Z",
+      "ok": false
+    },
+    "mcp-chipp-integrations-mcp-chipp-ai-mcp-integrations": {
+      "at": "2026-10-27T06:46:26.217Z",
+      "ok": false
+    },
+    "mcp-chipp-memory-and-schedules-mcp-chipp-ai-mcp-memory": {
+      "at": "2026-10-27T06:46:26.263Z",
+      "ok": false
+    },
+    "mcp-chipp-packs-mcp-chipp-ai-mcp-packs": {
+      "at": "2026-10-27T06:46:26.353Z",
+      "ok": false
+    },
+    "mcp-chipp-newsletters-mcp-chipp-ai-mcp-newsletters": {
+      "at": "2026-10-27T06:46:26.374Z",
+      "ok": false
+    },
+    "mcp-chipp-observability-mcp-chipp-ai-mcp-observability": {
+      "at": "2026-10-27T06:46:26.491Z",
+      "ok": false
+    },
+    "mcp-chipp-releases-mcp-chipp-ai-mcp-releases": {
+      "at": "2026-10-27T06:46:26.513Z",
+      "ok": false
+    },
+    "mcp-chipp-software-factory-projects-mcp-chipp-ai-mcp-projects": {
+      "at": "2026-10-27T06:46:26.483Z",
+      "ok": false
+    },
+    "mcp-chipp-tickets-mcp-chipp-ai-mcp-tickets": {
+      "at": "2026-10-27T06:46:26.619Z",
       "ok": false
     }
   },
   "totals": {
-    "invites": 2808,
-    "invite_http_ok": 2664,
-    "nags": 5134,
-    "nag_http_ok": 4780,
-    "talk_inbox": 2780,
+    "invites": 2828,
+    "invite_http_ok": 2684,
+    "nags": 5144,
+    "nag_http_ok": 4788,
+    "talk_inbox": 2800,
     "social": 81,
-    "runs": 1001
+    "runs": 1002
   },
   "last_notes": [
-    "eligible never-demoed 1 (agents 0 mcp 1) · inviting 1 (day 0/120)",
-    "invite mcp BugTape demo → http 200 talk — https://app.bugtape.ai/",
-    "feedback nags queued 20 (day 0/60)",
-    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
-    "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
-    "nag self_serve AdAdvisor MCP Server → http 401 talk —",
-    "nag self_serve ac.tandem/docs-mcp → http 405 talk —",
-    "nag self_serve ai.iturri/market-data → http 200 talk —",
-    "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
-    "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
-    "nag invited BeatBandit MCP → http 401 talk —",
-    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
-    "nag invited AnomalyArmor → http 401 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
-    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 200 talk —",
-    "nag invited ai.iturri/market-data → http 200 talk —",
-    "nag invited ai.meacheal/mrc-data → http 200 talk —",
-    "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
-    "nag invited ai.odei/connect → http 405 talk —",
-    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
-    "nag invited ai.maguyva/maguyva → http 405 talk —",
-    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
-    "nag invited ai.joinmultiplayer/gpu → http 200 talk —",
+    "eligible never-demoed 22 (agents 0 mcp 22) · inviting 20 (day 1/120)",
+    "invite mcp Chipp Analytics and evals → http 401 talk — https://mcp.chipp.ai/mcp/analytics",
+    "invite mcp Chipp Agent settings → http 401 talk — https://mcp.chipp.ai/mcp/app-settings",
+    "invite mcp Chipp Actions and components → http 401 talk — https://mcp.chipp.ai/mcp/actions",
+    "invite mcp Chipp Agents → http 401 talk — https://mcp.chipp.ai/mcp/apps",
+    "invite mcp Chipp Billing and monetization → http 401 talk — https://mcp.chipp.ai/mcp/billing",
+    "invite mcp Chipp Channels → http 401 talk — https://mcp.chipp.ai/mcp/channels",
+    "invite mcp Chipp Core → http 401 talk — https://mcp.chipp.ai/mcp/core",
+    "invite mcp Chipp Data operations → http 401 talk — https://mcp.chipp.ai/mcp/data-ops",
+    "invite mcp Chipp Knowledge → http 401 talk — https://mcp.chipp.ai/mcp/knowledge",
+    "invite mcp Chipp Legacy code → http 401 talk — https://mcp.chipp.ai/mcp/legacy-code",
+    "invite mcp Chipp Integrations → http 401 talk — https://mcp.chipp.ai/mcp/integrations",
+    "invite mcp Chipp Memory and schedules → http 401 talk — https://mcp.chipp.ai/mcp/memory",
+    "invite mcp Chipp Packs → http 401 talk — https://mcp.chipp.ai/mcp/packs",
+    "invite mcp Chipp Newsletters → http 401 talk — https://mcp.chipp.ai/mcp/newsletters",
+    "invite mcp Chipp Observability → http 401 talk — https://mcp.chipp.ai/mcp/observability",
+    "invite mcp Chipp Releases → http 401 talk — https://mcp.chipp.ai/mcp/releases",
+    "invite mcp ai.jawz/jawz → http 400 talk — https://jawz.ai/api/mcp",
+    "invite mcp Chipp Software factory projects → http 401 talk — https://mcp.chipp.ai/mcp/projects",
+    "invite mcp Chipp Tickets → http 401 talk — https://mcp.chipp.ai/mcp/tickets",
+    "invite mcp 電影大師 filmai → http 401 talk — https://filmai.ai/api/mcp/mcp",
+    "feedback nags queued 10 (day 20/60)",
+    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
+    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
+    "nag self_serve Corduroy Labs → http 0 talk —",
+    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
+    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
+    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
+    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
+    "nag invited base-agent-kit → http 405 talk —",
+    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 404 talk —",
+    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-27T01:24:37.083Z",
+  "last_run_at": "2026-10-27T06:46:30.893Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
