@@ -1,14 +1,14 @@
 {
   "day": "2026-10-28",
-  "updated_at": "2026-10-28T15:45:16.270Z",
+  "updated_at": "2026-10-28T20:37:09.967Z",
   "counts": {
-    "total": 1203,
-    "mcp": 1168,
+    "total": 1205,
+    "mcp": 1170,
     "agents": 35
   },
   "high_water": {
-    "total": 1203,
-    "mcp": 1168,
+    "total": 1205,
+    "mcp": 1170,
     "agents": 35
   },
   "items": {
@@ -13244,6 +13244,28 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-assistable-docs-assistable-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-assistable-docs-assistable-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Assistable",
+      "target": "https://docs.assistable.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-10-28T20:36:14.191Z",
+      "probed_at": "2026-10-28T20:36:14.191Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-anyforge-crew-anyforge-ai-api-mcp": {
+      "id": "mcp-anyforge-crew-anyforge-ai-api-mcp",
+      "kind": "mcp",
+      "name": "AnyForge",
+      "target": "https://crew.anyforge.ai/api/mcp",
+      "approved_at": "2026-10-28T20:36:16.383Z",
+      "probed_at": "2026-10-28T20:36:16.383Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
