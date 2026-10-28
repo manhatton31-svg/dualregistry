@@ -1,14 +1,14 @@
 {
   "day": "2026-10-28",
-  "updated_at": "2026-10-28T08:51:42.791Z",
+  "updated_at": "2026-10-28T15:45:16.270Z",
   "counts": {
-    "total": 1201,
-    "mcp": 1166,
+    "total": 1203,
+    "mcp": 1168,
     "agents": 35
   },
   "high_water": {
-    "total": 1201,
-    "mcp": 1166,
+    "total": 1203,
+    "mcp": 1168,
     "agents": 35
   },
   "items": {
@@ -13222,6 +13222,28 @@
       "score": 35,
       "handshake": "ok",
       "hold_reason": "grower remote-json 200"
+    },
+    "mcp-akaphone-app-akaphone-ai-mcp": {
+      "id": "mcp-akaphone-app-akaphone-ai-mcp",
+      "kind": "mcp",
+      "name": "AkaPhone",
+      "target": "https://app.akaphone.ai/mcp",
+      "approved_at": "2026-10-28T15:45:11.294Z",
+      "probed_at": "2026-10-28T15:45:11.294Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-bobos-dispatcher-dispatcher-bobos-ai-mcp-v1-control": {
+      "id": "mcp-bobos-dispatcher-dispatcher-bobos-ai-mcp-v1-control",
+      "kind": "mcp",
+      "name": "Bobos Dispatcher",
+      "target": "https://dispatcher.bobos.ai/mcp/v1/control",
+      "approved_at": "2026-10-28T15:45:13.678Z",
+      "probed_at": "2026-10-28T15:45:13.678Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
