@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-10-30T19:38:07.391Z",
+  "updated_at": "2026-10-30T23:17:18.103Z",
   "day": "2026-10-30",
-  "day_invites": 16,
+  "day_invites": 20,
   "day_nags": 60,
-  "day_talk": 16,
+  "day_talk": 20,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-10-02T02:10:49.785Z",
@@ -9546,7 +9546,7 @@
       "talk_ok": false
     },
     "mcp-daishi-studio-daishi-ai-well-known-mcp-json": {
-      "at": "2026-09-30T20:44:47.301Z",
+      "at": "2026-10-30T23:17:17.704Z",
       "name": "Daishi Studio",
       "kind": "mcp",
       "http_ok": true,
@@ -9556,7 +9556,7 @@
       "talk_ok": false
     },
     "mcp-contentmaschine-contentmaschine-ai-api-mcp": {
-      "at": "2026-09-30T20:44:47.465Z",
+      "at": "2026-10-30T23:17:17.734Z",
       "name": "ContentMaschine",
       "kind": "mcp",
       "http_ok": true,
@@ -9566,7 +9566,7 @@
       "talk_ok": false
     },
     "mcp-coldstate-deterministic-knowledge-infrastructure-cold-api-coldstate-ai-well-known-mcp-json": {
-      "at": "2026-09-30T20:44:47.471Z",
+      "at": "2026-10-30T23:17:17.934Z",
       "name": "ColdState — Deterministic Knowledge Infrastructure",
       "kind": "mcp",
       "http_ok": true,
@@ -12142,6 +12142,16 @@
       "http_ok": true,
       "status": 401,
       "target": "https://mcp.artil.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-seo-geo-by-alvin-s-club-studio-alvinsclub-ai-seo-mcp": {
+      "at": "2026-10-30T23:17:17.329Z",
+      "name": "SEO & GEO by Alvin's Club",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://studio.alvinsclub.ai/seo/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
     }
@@ -16481,15 +16491,15 @@
       "ok": false
     },
     "mcp-daishi-studio-daishi-ai-well-known-mcp-json": {
-      "at": "2026-09-30T20:44:47.301Z",
+      "at": "2026-10-30T23:17:17.704Z",
       "ok": false
     },
     "mcp-contentmaschine-contentmaschine-ai-api-mcp": {
-      "at": "2026-09-30T20:44:47.465Z",
+      "at": "2026-10-30T23:17:17.734Z",
       "ok": false
     },
     "mcp-coldstate-deterministic-knowledge-infrastructure-cold-api-coldstate-ai-well-known-mcp-json": {
-      "at": "2026-09-30T20:44:47.471Z",
+      "at": "2026-10-30T23:17:17.934Z",
       "ok": false
     },
     "mcp-aimentiontracker-mcp-aimentiontracker-ai-mcp": {
@@ -17617,7 +17627,7 @@
       "ok": false
     },
     "social:2026-10-30": {
-      "at": "2026-10-30T19:38:07.391Z",
+      "at": "2026-10-30T23:17:18.103Z",
       "ok": false
     },
     "mcp-aisma-api-aisma-ai-mcp": {
@@ -17639,39 +17649,30 @@
     "mcp-artil-email-sms-messaging-for-ai-agents-mcp-artil-ai-mcp": {
       "at": "2026-10-30T19:37:55.342Z",
       "ok": false
+    },
+    "mcp-seo-geo-by-alvin-s-club-studio-alvinsclub-ai-seo-mcp": {
+      "at": "2026-10-30T23:17:17.329Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 2888,
-    "invite_http_ok": 2741,
+    "invites": 2892,
+    "invite_http_ok": 2745,
     "nags": 5354,
     "nag_http_ok": 4980,
-    "talk_inbox": 2860,
+    "talk_inbox": 2864,
     "social": 81,
-    "runs": 1018
+    "runs": 1019
   },
   "last_notes": [
-    "eligible never-demoed 7 (agents 0 mcp 7) · inviting 7 (day 9/120)",
-    "invite mcp ai.gency/gency-lite → http 401 talk — https://lite.gency.ai/api/mcp",
-    "invite mcp Ishan Goyal public context → http 405 talk — https://igoyal.ai/.well-known/mcp/server-card.json",
-    "invite mcp DeployIt Product Expert → http 400 talk — https://mcp.deployit.ai/demo",
-    "invite mcp Artil — Email, SMS & Messaging for AI Agen → http 401 talk — https://mcp.artil.ai/mcp",
-    "invite mcp Feedback1 · r1 → http 401 talk — https://app.feedback1.ai/api/mcp",
-    "invite mcp Dubai Grocery Prices → http 200 talk — https://prices.brainy.ae/mcp",
-    "invite mcp Dubai Data — Dubai real estate statistics → http 200 talk — https://datadubai.ae/.well-known/mcp/server-card.json",
-    "feedback nags queued 10 (day 50/60)",
-    "nag invited ai.biel/biel-ai · r2 → http 200 talk —",
-    "nag invited ai.biel/biel-ai · r1 → http 200 talk —",
-    "nag self_serve Corduroy Labs → http 0 talk —",
-    "nag self_serve agent-pictomancer-ai-https-api-picto → http 405 talk —",
-    "nag self_serve agtpub_4c34b0bf38d34d7e64ee → http 405 talk —",
-    "nag self_serve agent-agoragentic-https-agoragentic- → http 200 talk —",
-    "nag invited base-agent-kit → http 405 talk —",
-    "nag self_serve agent-law-ai-https-mcp-law-ai → http 400 talk —",
-    "nag invited ai.dynamicfeed/dynamic-feed · r2 → http 404 talk —",
-    "nag invited ai.oobeprotocol.sap.mcp/sap-mcp → http 200 talk —",
+    "eligible never-demoed 4 (agents 0 mcp 4) · inviting 4 (day 16/120)",
+    "invite mcp SEO & GEO by Alvin's Club → http 401 talk — https://studio.alvinsclub.ai/seo/mcp",
+    "invite mcp Daishi Studio → http 200 talk — https://daishi.ai/.well-known/mcp.json",
+    "invite mcp ContentMaschine → http 401 talk — https://contentmaschine.ai/api/mcp",
+    "invite mcp ColdState — Deterministic Knowledge Infras → http 200 talk — https://cold-api.coldstate.ai/.well-known/mcp.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-10-30T19:38:07.391Z",
+  "last_run_at": "2026-10-30T23:17:18.103Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
