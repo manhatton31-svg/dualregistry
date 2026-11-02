@@ -1,14 +1,14 @@
 {
   "day": "2026-11-02",
-  "updated_at": "2026-11-02T17:20:06.914Z",
+  "updated_at": "2026-11-02T23:58:52.021Z",
   "counts": {
-    "total": 1226,
-    "mcp": 1191,
+    "total": 1230,
+    "mcp": 1195,
     "agents": 35
   },
   "high_water": {
-    "total": 1226,
-    "mcp": 1191,
+    "total": 1230,
+    "mcp": 1195,
     "agents": 35
   },
   "items": {
@@ -13497,6 +13497,50 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-a1-lane-a1lane-ai-mcp-v1": {
+      "id": "mcp-a1-lane-a1lane-ai-mcp-v1",
+      "kind": "mcp",
+      "name": "A1 Lane",
+      "target": "https://a1lane.ai/mcp/v1",
+      "approved_at": "2026-11-02T23:58:45.404Z",
+      "probed_at": "2026-11-02T23:58:45.404Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-aigamedev-ai-aigamedev-ai-mcp": {
+      "id": "mcp-aigamedev-ai-aigamedev-ai-mcp",
+      "kind": "mcp",
+      "name": "aigamedev.ai",
+      "target": "https://aigamedev.ai/mcp",
+      "approved_at": "2026-11-02T23:58:47.907Z",
+      "probed_at": "2026-11-02T23:58:47.907Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-certscore-ai-mcp-certscore-ai-mcp": {
+      "id": "mcp-certscore-ai-mcp-certscore-ai-mcp",
+      "kind": "mcp",
+      "name": "CertScore.ai",
+      "target": "https://mcp.certscore.ai/mcp",
+      "approved_at": "2026-11-02T23:58:51.773Z",
+      "probed_at": "2026-11-02T23:58:51.773Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-campaign-magic-campaignmagic-ai-api-mcp": {
+      "id": "mcp-campaign-magic-campaignmagic-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Campaign Magic",
+      "target": "https://campaignmagic.ai/api/mcp",
+      "approved_at": "2026-11-02T23:58:52.020Z",
+      "probed_at": "2026-11-02T23:58:52.020Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
