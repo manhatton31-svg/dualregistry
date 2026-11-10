@@ -1,14 +1,14 @@
 {
-  "day": "2026-11-09",
-  "updated_at": "2026-11-09T16:46:46.981Z",
+  "day": "2026-11-10",
+  "updated_at": "2026-11-10T00:33:16.433Z",
   "counts": {
-    "total": 1258,
-    "mcp": 1223,
+    "total": 1261,
+    "mcp": 1226,
     "agents": 35
   },
   "high_water": {
-    "total": 1258,
-    "mcp": 1223,
+    "total": 1261,
+    "mcp": 1226,
     "agents": 35
   },
   "items": {
@@ -13849,6 +13849,39 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-mrk-dubai-property-mrk-ae-well-known-mcp-server-card-json": {
+      "id": "mcp-mrk-dubai-property-mrk-ae-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "MRK Dubai Property",
+      "target": "https://mrk.ae/.well-known/mcp/server-card.json",
+      "approved_at": "2026-11-10T00:33:06.955Z",
+      "probed_at": "2026-11-10T00:33:06.955Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-avlira-back-office-app-avlira-ai-mcp": {
+      "id": "mcp-avlira-back-office-app-avlira-ai-mcp",
+      "kind": "mcp",
+      "name": "Avlira Back Office",
+      "target": "https://app.avlira.ai/mcp",
+      "approved_at": "2026-11-10T00:33:13.059Z",
+      "probed_at": "2026-11-10T00:33:13.059Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-beefi-mcp-beefi-ai-mcp": {
+      "id": "mcp-beefi-mcp-beefi-ai-mcp",
+      "kind": "mcp",
+      "name": "Beefi",
+      "target": "https://mcp.beefi.ai/mcp",
+      "approved_at": "2026-11-10T00:33:14.676Z",
+      "probed_at": "2026-11-10T00:33:14.676Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
     }
   },
   "policy": {
