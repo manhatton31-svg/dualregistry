@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-11-12T01:03:15.977Z",
+  "updated_at": "2026-11-12T08:12:58.648Z",
   "day": "2026-11-12",
-  "day_invites": 20,
-  "day_nags": 20,
-  "day_talk": 20,
+  "day_invites": 34,
+  "day_nags": 40,
+  "day_talk": 34,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-11-01T08:03:19.060Z",
@@ -5896,7 +5896,7 @@
       "talk_ok": false
     },
     "mcp-ai-adplane-google-ads-mcp-adplane-ai": {
-      "at": "2026-10-10T15:14:32.225Z",
+      "at": "2026-11-12T08:12:47.824Z",
       "name": "ai.adplane/google-ads",
       "kind": "mcp",
       "http_ok": true,
@@ -5906,7 +5906,7 @@
       "talk_ok": false
     },
     "mcp-bareun-korean-nlp-spell-grammar-checking-api-bareun-ai-mcp": {
-      "at": "2026-10-10T15:14:32.318Z",
+      "at": "2026-11-12T08:12:47.980Z",
       "name": "Bareun — Korean NLP & Spell/Grammar Checking",
       "kind": "mcp",
       "http_ok": true,
@@ -5976,7 +5976,7 @@
       "talk_ok": false
     },
     "mcp-hypernatural-hypernatural-ai-mcp": {
-      "at": "2026-10-10T22:53:11.101Z",
+      "at": "2026-11-12T08:12:48.631Z",
       "name": "Hypernatural",
       "kind": "mcp",
       "http_ok": true,
@@ -5996,7 +5996,7 @@
       "talk_ok": false
     },
     "mcp-dual-registry-mcp-www-dualregistry-dev-api-mcp": {
-      "at": "2026-10-11T07:52:49.390Z",
+      "at": "2026-11-12T08:12:47.910Z",
       "name": "Dual Registry MCP",
       "kind": "mcp",
       "http_ok": true,
@@ -8526,7 +8526,7 @@
       "talk_ok": false
     },
     "mcp-fairmind-project-context-project-context-fairmind-ai-mcp-mcp": {
-      "at": "2026-10-10T15:14:33.193Z",
+      "at": "2026-11-12T08:12:48.571Z",
       "name": "FairMind Project Context",
       "kind": "mcp",
       "http_ok": true,
@@ -8666,7 +8666,7 @@
       "talk_ok": false
     },
     "mcp-boolsai-grep-grep-boolsai-ai-mcp": {
-      "at": "2026-10-11T23:06:26.885Z",
+      "at": "2026-11-12T08:12:49.583Z",
       "name": "Boolsai Grep",
       "kind": "mcp",
       "http_ok": false,
@@ -8676,7 +8676,7 @@
       "talk_ok": false
     },
     "mcp-boolsai-scan-boolsai-ai-mcp": {
-      "at": "2026-10-11T23:06:30.829Z",
+      "at": "2026-11-12T08:12:53.300Z",
       "name": "Boolsai Scan",
       "kind": "mcp",
       "http_ok": false,
@@ -8686,7 +8686,7 @@
       "talk_ok": false
     },
     "mcp-boolsai-directory-directory-boolsai-ai-mcp": {
-      "at": "2026-10-11T23:06:26.563Z",
+      "at": "2026-11-12T08:12:49.626Z",
       "name": "Boolsai Directory",
       "kind": "mcp",
       "http_ok": false,
@@ -10336,7 +10336,7 @@
       "talk_ok": false
     },
     "mcp-eximagent-mcp-eximagent-ai-mcp": {
-      "at": "2026-10-10T15:14:32.475Z",
+      "at": "2026-11-12T08:12:49.830Z",
       "name": "EximAgent",
       "kind": "mcp",
       "http_ok": true,
@@ -10346,13 +10346,13 @@
       "talk_ok": false
     },
     "mcp-contractors-near-me-contractorsnearme-ai-api-mcp": {
-      "at": "2026-10-10T15:14:33.010Z",
+      "at": "2026-11-12T08:12:50.755Z",
       "name": "Contractors Near Me",
       "kind": "mcp",
-      "http_ok": false,
-      "status": 429,
-      "target": "https://contractorsnearme.ai/.well-known/mcp/server-card.json",
-      "method": "POST:tasks-send",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://contractorsnearme.ai/",
+      "method": "POST:soft-json",
       "talk_ok": false
     },
     "mcp-chatterlab-chatterlab-ai-api-mcp": {
@@ -10536,13 +10536,13 @@
       "talk_ok": false
     },
     "mcp-atmark-api-atmark-ai-mcp": {
-      "at": "2026-10-13T01:35:30.348Z",
+      "at": "2026-11-12T08:12:49.482Z",
       "name": "Atmark",
       "kind": "mcp",
-      "http_ok": true,
-      "status": 400,
-      "target": "https://api.atmark.ai/mcp",
-      "method": "POST:soft-json",
+      "http_ok": false,
+      "status": 0,
+      "target": "https://api.atmark.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
       "talk_ok": false
     },
     "mcp-claritytrack-www-claritytrack-ai-mcp": {
@@ -12694,11 +12694,41 @@
       "target": "https://data.benchlm.ai/.well-known/mcp/server-card.json",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-beefi-mcp-beefi-ai-mcp": {
+      "at": "2026-11-12T08:12:50.007Z",
+      "name": "Beefi",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://mcp.beefi.ai/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-brownpaper-ai-app-brownpaper-ai-api-mcp": {
+      "at": "2026-11-12T08:12:50.042Z",
+      "name": "Brownpaper AI",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://app.brownpaper.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-moha-your-account-employerofrecord-ae-mcp-account": {
+      "at": "2026-11-12T08:12:50.376Z",
+      "name": "Moha: your account",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://employerofrecord.ae/mcp/account",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
     "ord_ms93wmkd_190f3f47": {
-      "at": "2026-11-12T01:03:13.640Z",
+      "at": "2026-11-12T08:12:55.111Z",
       "listing_id": "mcp-ai-anomalyarmor-armor-mcp-https-github-com-anomalyarmor-agents",
       "origin": "invited",
       "http_ok": true,
@@ -12707,7 +12737,7 @@
       "target": "https://www.anomalyarmor.ai/.well-known/mcp/server-card.json"
     },
     "ord_mscep388_dd785139": {
-      "at": "2026-11-12T01:03:12.657Z",
+      "at": "2026-11-12T08:12:54.229Z",
       "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
       "origin": "self_serve",
       "http_ok": true,
@@ -12734,7 +12764,7 @@
       "target": "https://agoragentic.com/.well-known/agent.json"
     },
     "ord_ms93wib4_0882eec9": {
-      "at": "2026-11-12T01:03:12.975Z",
+      "at": "2026-11-12T08:12:54.548Z",
       "listing_id": "mcp-ai-analyticslegends-sap-analytics-https-analyticslegends-ai",
       "origin": "invited",
       "http_ok": true,
@@ -12743,7 +12773,7 @@
       "target": "https://analyticslegends.ai/.well-known/mcp.json"
     },
     "ord_ms93webj_9069141f": {
-      "at": "2026-11-12T01:03:13.246Z",
+      "at": "2026-11-12T08:12:54.955Z",
       "listing_id": "mcp-ai-afmr-discovery-https-afmr-ai-",
       "origin": "invited",
       "http_ok": true,
@@ -12752,7 +12782,7 @@
       "target": "https://afmr.ai/.well-known/mcp.json"
     },
     "ord_ms92d994_0aba80d7": {
-      "at": "2026-11-12T01:03:13.247Z",
+      "at": "2026-11-12T08:12:55.401Z",
       "listing_id": "mcp-beatbandit-mcp-beatbandit-ai-api-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -12761,7 +12791,7 @@
       "target": "https://beatbandit.ai/api/mcp"
     },
     "ord_ms92d504_519aecac": {
-      "at": "2026-11-12T01:03:13.644Z",
+      "at": "2026-11-12T08:12:55.427Z",
       "listing_id": "mcp-anomalyarmor-mcp-anomalyarmor-ai-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -12770,7 +12800,7 @@
       "target": "https://mcp.anomalyarmor.ai/mcp"
     },
     "ord_ms8zliaw_97619c56": {
-      "at": "2026-11-12T01:03:13.737Z",
+      "at": "2026-11-12T08:12:55.567Z",
       "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -12779,7 +12809,7 @@
       "target": "https://iturri.ai/mcp"
     },
     "ord_ms909tku_7f6af09b": {
-      "at": "2026-11-12T01:03:14.220Z",
+      "at": "2026-11-12T08:12:55.603Z",
       "listing_id": "mcp-ai-meacheal-mrc-data-https-api-meacheal-ai",
       "origin": "invited",
       "http_ok": true,
@@ -12788,7 +12818,7 @@
       "target": "https://api.meacheal.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zlf93_5b5f27c0": {
-      "at": "2026-11-12T01:03:14.621Z",
+      "at": "2026-11-12T08:12:56.607Z",
       "listing_id": "mcp-ai-biel-biel-ai-https-github-com-techdocsstudio-biel-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -12797,7 +12827,7 @@
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zln09_edb5e5c9": {
-      "at": "2026-11-12T01:03:15.922Z",
+      "at": "2026-11-12T08:12:58.597Z",
       "listing_id": "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai",
       "origin": "invited",
       "http_ok": true,
@@ -12806,7 +12836,7 @@
       "target": "https://joinmultiplayer.ai/"
     },
     "ord_ms8zld07_0dff19fe": {
-      "at": "2026-11-12T01:03:14.282Z",
+      "at": "2026-11-12T08:12:55.847Z",
       "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -12815,7 +12845,7 @@
       "target": "https://llmintel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zl82k_e4963584": {
-      "at": "2026-11-12T01:03:14.554Z",
+      "at": "2026-11-12T08:12:56.032Z",
       "listing_id": "mcp-ai-maguyva-maguyva-https-github-com-maguyva-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -12833,7 +12863,7 @@
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zl5a3_01b84782": {
-      "at": "2026-11-12T01:03:14.842Z",
+      "at": "2026-11-12T08:12:56.157Z",
       "listing_id": "mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify",
       "origin": "invited",
       "http_ok": true,
@@ -12851,7 +12881,7 @@
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms90b2rl_7e0eff14": {
-      "at": "2026-11-12T01:03:14.031Z",
+      "at": "2026-11-12T08:12:55.848Z",
       "listing_id": "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei",
       "origin": "invited",
       "http_ok": true,
@@ -12896,7 +12926,7 @@
       "target": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json"
     },
     "ord_msclhcmu_afed0825": {
-      "at": "2026-11-12T01:03:12.462Z",
+      "at": "2026-11-12T08:12:54.051Z",
       "listing_id": "mcp-adadvisor-mcp-server-api-adadvisor-ai-mcp",
       "origin": "self_serve",
       "http_ok": true,
@@ -12905,7 +12935,7 @@
       "target": "https://api.adadvisor.ai/mcp"
     },
     "ord_mscxfhwf_ff3b7582": {
-      "at": "2026-11-12T01:03:12.360Z",
+      "at": "2026-11-12T08:12:53.798Z",
       "listing_id": "mcp-ai-calendarmcp-server-https-github-com-full-vibe-calendarmcp-public",
       "origin": "self_serve",
       "http_ok": true,
@@ -12914,7 +12944,7 @@
       "target": "https://calendarmcp.ai/.well-known/mcp/server-card.json"
     },
     "ord_msd8r8hj_efe042d1": {
-      "at": "2026-11-12T01:03:13.504Z",
+      "at": "2026-11-12T08:12:55.063Z",
       "listing_id": "mcp-ai-maximem-synap-https-github-com-maximem-ai-maximem-synap-sdk",
       "origin": "self_serve",
       "http_ok": true,
@@ -12941,7 +12971,7 @@
       "target": null
     },
     "ord_mse8vrpo_43d9f54a": {
-      "at": "2026-11-12T01:03:11.962Z",
+      "at": "2026-11-12T08:12:53.378Z",
       "listing_id": null,
       "origin": "self_serve",
       "http_ok": false,
@@ -12950,7 +12980,7 @@
       "target": null
     },
     "ord_mseom3gf_a6624e0e": {
-      "at": "2026-11-12T01:03:12.869Z",
+      "at": "2026-11-12T08:12:55.067Z",
       "listing_id": "mcp-ai-outlit-outlit-r1-https-github-com-outlitai-outlit-sdk",
       "origin": "self_serve",
       "http_ok": true,
@@ -12968,7 +12998,7 @@
       "target": "https://api.pictomancer.ai/.well-known/agent-card.json"
     },
     "ord_msgen2w4_8d1673db": {
-      "at": "2026-11-12T01:03:12.741Z",
+      "at": "2026-11-12T08:12:54.179Z",
       "listing_id": "mcp-ac-tandem-docs-mcp-tandem-ac-well-known-mcp-server-json",
       "origin": "self_serve",
       "http_ok": true,
@@ -15247,7 +15277,7 @@
       "ok": false
     },
     "mcp-ai-adplane-google-ads-mcp-adplane-ai": {
-      "at": "2026-10-10T15:14:32.225Z",
+      "at": "2026-11-12T08:12:47.824Z",
       "ok": false
     },
     "social:2026-08-09": {
@@ -15255,7 +15285,7 @@
       "ok": true
     },
     "mcp-bareun-korean-nlp-spell-grammar-checking-api-bareun-ai-mcp": {
-      "at": "2026-10-10T15:14:32.318Z",
+      "at": "2026-11-12T08:12:47.980Z",
       "ok": false
     },
     "social:2026-08-10": {
@@ -15291,7 +15321,7 @@
       "ok": false
     },
     "mcp-hypernatural-hypernatural-ai-mcp": {
-      "at": "2026-10-10T22:53:11.101Z",
+      "at": "2026-11-12T08:12:48.631Z",
       "ok": false
     },
     "mcp-ai-marketcrew-market-data-marketcrew-ai-mcp": {
@@ -15303,7 +15333,7 @@
       "ok": false
     },
     "mcp-dual-registry-mcp-www-dualregistry-dev-api-mcp": {
-      "at": "2026-10-11T07:52:49.390Z",
+      "at": "2026-11-12T08:12:47.910Z",
       "ok": false
     },
     "agent-agoragentic-agoragentic-com-well-known-agent-json": {
@@ -16531,7 +16561,7 @@
       "ok": false
     },
     "mcp-fairmind-project-context-project-context-fairmind-ai-mcp-mcp": {
-      "at": "2026-10-10T15:14:33.193Z",
+      "at": "2026-11-12T08:12:48.571Z",
       "ok": false
     },
     "social:2026-09-08": {
@@ -16603,15 +16633,15 @@
       "ok": false
     },
     "mcp-boolsai-grep-grep-boolsai-ai-mcp": {
-      "at": "2026-10-11T23:06:26.885Z",
+      "at": "2026-11-12T08:12:49.583Z",
       "ok": false
     },
     "mcp-boolsai-scan-boolsai-ai-mcp": {
-      "at": "2026-10-11T23:06:30.829Z",
+      "at": "2026-11-12T08:12:53.300Z",
       "ok": false
     },
     "mcp-boolsai-directory-directory-boolsai-ai-mcp": {
-      "at": "2026-10-11T23:06:26.563Z",
+      "at": "2026-11-12T08:12:49.626Z",
       "ok": false
     },
     "social:2026-09-12": {
@@ -17387,11 +17417,11 @@
       "ok": false
     },
     "mcp-eximagent-mcp-eximagent-ai-mcp": {
-      "at": "2026-10-10T15:14:32.475Z",
+      "at": "2026-11-12T08:12:49.830Z",
       "ok": false
     },
     "mcp-contractors-near-me-contractorsnearme-ai-api-mcp": {
-      "at": "2026-10-10T15:14:33.010Z",
+      "at": "2026-11-12T08:12:50.755Z",
       "ok": false
     },
     "mcp-chatterlab-chatterlab-ai-api-mcp": {
@@ -17475,7 +17505,7 @@
       "ok": false
     },
     "mcp-atmark-api-atmark-ai-mcp": {
-      "at": "2026-10-13T01:35:30.348Z",
+      "at": "2026-11-12T08:12:49.482Z",
       "ok": false
     },
     "social:2026-10-13": {
@@ -18459,64 +18489,70 @@
       "ok": false
     },
     "social:2026-11-12": {
-      "at": "2026-11-12T01:03:15.977Z",
+      "at": "2026-11-12T08:12:58.648Z",
+      "ok": false
+    },
+    "mcp-beefi-mcp-beefi-ai-mcp": {
+      "at": "2026-11-12T08:12:50.007Z",
+      "ok": false
+    },
+    "mcp-brownpaper-ai-app-brownpaper-ai-api-mcp": {
+      "at": "2026-11-12T08:12:50.042Z",
+      "ok": false
+    },
+    "mcp-moha-your-account-employerofrecord-ae-mcp-account": {
+      "at": "2026-11-12T08:12:50.376Z",
       "ok": false
     }
   },
   "totals": {
-    "invites": 3793,
-    "invite_http_ok": 3581,
-    "nags": 6094,
-    "nag_http_ok": 5680,
-    "talk_inbox": 3765,
+    "invites": 3807,
+    "invite_http_ok": 3591,
+    "nags": 6114,
+    "nag_http_ok": 5699,
+    "talk_inbox": 3779,
     "social": 81,
-    "runs": 1068
+    "runs": 1069
   },
   "last_notes": [
-    "eligible never-demoed 33 (agents 0 mcp 33) · inviting 20 (day 0/120)",
-    "invite mcp APEX Runner Crypto Signals → http 405 talk — https://apexrunner.ai/mcp.json",
-    "invite mcp BenchLM Data → http 405 talk — https://data.benchlm.ai/.well-known/mcp/server-card.json",
-    "invite mcp ARC store checks → http 405 talk — https://www.arcreport.ai/.well-known/mcp/server-card.json",
-    "invite mcp FinSight Market Analysis → http 401 talk — https://mcp.getfinsight.ai/mcp",
-    "invite mcp Melt Peer Review → http 401 talk — https://peer-review.meltstudio.ai/api/mcp",
-    "invite mcp Agentboard → http 202 talk — https://www.agentboard.ai/mcp",
-    "invite mcp چیستارا — Iranian Legal Corpus → http 200 talk — https://hoghogh.ai/mcp",
-    "invite mcp Alpha Bazaar Arena → http 400 talk — https://api.alphabazaar.ai/mcp",
-    "invite mcp CrowdOS → http 401 talk — https://api.crowdos.ai/mcp",
-    "invite mcp DispatchMind → http 401 talk — https://app.dispatchmind.ai/mcp",
-    "invite mcp ai.smithery/anirbanbasu-pymcp → http 200 talk — https://server.smithery.ai/",
-    "invite mcp ai.smithery/arjunkmrm-http-test → http 200 talk — https://server.smithery.ai/",
-    "invite mcp ai.smithery/arjunkmrm-local001 → http 200 talk — https://server.smithery.ai/",
-    "invite mcp ai.smithery/arjunkmrm-clock → http 200 talk — https://server.smithery.ai/",
-    "invite mcp ai.smithery/arjunkmrm-ahoy2 → http 200 talk — https://server.smithery.ai/",
-    "invite mcp AdAdvisor MCP Server → http 401 talk — https://api.adadvisor.ai/mcp",
-    "invite mcp Cactal → http 200 talk — https://api.cactal.ai/",
-    "invite mcp ai.smithery/arjunkmrm-mango-sago → http 200 talk — https://server.smithery.ai/",
-    "invite mcp ai.smithery/arjunkmrm-py-test-2 → http 200 talk — https://server.smithery.ai/",
-    "invite mcp ai.smithery/arjunkmrm-local02 → http 200 talk — https://server.smithery.ai/",
-    "feedback nags queued 20 (day 0/60)",
+    "eligible never-demoed 14 (agents 0 mcp 14) · inviting 14 (day 20/120)",
+    "invite mcp ai.adplane/google-ads → http 401 talk — https://mcp.adplane.ai/",
+    "invite mcp Dual Registry MCP → http 405 talk — https://www.dualregistry.dev/",
+    "invite mcp Bareun — Korean NLP & Spell/Grammar Checki → http 401 talk — https://api.bareun.ai/mcp",
+    "invite mcp FairMind Project Context → http 401 talk — https://project-context.fairmind.ai/mcp/mcp",
+    "invite mcp Hypernatural → http 405 talk — https://hypernatural.ai/mcp",
+    "invite mcp Atmark → http 0 talk — https://api.atmark.ai/.well-known/mcp/server-card.json",
+    "invite mcp Boolsai Grep → http 0 talk — https://grep.boolsai.ai/.well-known/mcp/server-card.json",
+    "invite mcp Boolsai Directory → http 0 talk — https://directory.boolsai.ai/.well-known/mcp/server-card.json",
+    "invite mcp EximAgent → http 401 talk — https://mcp.eximagent.ai/mcp",
+    "invite mcp Beefi → http 401 talk — https://mcp.beefi.ai/mcp",
+    "invite mcp Brownpaper AI → http 401 talk — https://app.brownpaper.ai/api/mcp",
+    "invite mcp Moha: your account → http 401 talk — https://employerofrecord.ae/mcp/account",
+    "invite mcp Contractors Near Me → http 200 talk — https://contractorsnearme.ai/",
+    "invite mcp Boolsai Scan → http 403 talk — https://boolsai.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 20 (day 20/60)",
     "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
     "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
     "nag self_serve AdAdvisor MCP Server → http 401 talk —",
-    "nag self_serve ai.iturri/market-data → http 200 talk —",
     "nag self_serve ac.tandem/docs-mcp → http 405 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
+    "nag self_serve ai.iturri/market-data → http 200 talk —",
     "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
     "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
-    "nag invited BeatBandit MCP → http 401 talk —",
     "nag self_serve mcp-ai-maximem-synap-https-github-co → http 200 talk —",
+    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
     "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
+    "nag invited BeatBandit MCP → http 401 talk —",
     "nag invited AnomalyArmor → http 401 talk —",
     "nag invited ai.iturri/market-data → http 200 talk —",
-    "nag invited ai.odei/connect → http 405 talk —",
     "nag invited ai.meacheal/mrc-data → http 200 talk —",
     "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
+    "nag invited ai.odei/connect → http 405 talk —",
     "nag invited ai.maguyva/maguyva → http 405 talk —",
-    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
     "nag invited ai.lumify/sports-intelligence → http 200 talk —",
+    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
     "nag invited ai.joinmultiplayer/gpu → http 200 talk —",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-11-12T01:03:15.977Z",
+  "last_run_at": "2026-11-12T08:12:58.648Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
