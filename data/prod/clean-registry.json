@@ -1,14 +1,14 @@
 {
   "day": "2026-11-13",
-  "updated_at": "2026-11-13T07:21:16.016Z",
+  "updated_at": "2026-11-13T15:35:20.423Z",
   "counts": {
-    "total": 1280,
-    "mcp": 1245,
+    "total": 1283,
+    "mcp": 1248,
     "agents": 35
   },
   "high_water": {
-    "total": 1280,
-    "mcp": 1245,
+    "total": 1283,
+    "mcp": 1248,
     "agents": 35
   },
   "items": {
@@ -14091,6 +14091,39 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-agimon-agimon-ai-api-v1-mcp": {
+      "id": "mcp-agimon-agimon-ai-api-v1-mcp",
+      "kind": "mcp",
+      "name": "Agimon",
+      "target": "https://agimon.ai/api/v1/mcp",
+      "approved_at": "2026-11-13T15:35:16.494Z",
+      "probed_at": "2026-11-13T15:35:16.494Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
+    },
+    "mcp-awen-www-awen-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-awen-www-awen-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "awen",
+      "target": "https://www.awen.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-11-13T15:35:17.323Z",
+      "probed_at": "2026-11-13T15:35:17.323Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-boomlink-boomlink-ai-api-v1-mcp": {
+      "id": "mcp-boomlink-boomlink-ai-api-v1-mcp",
+      "kind": "mcp",
+      "name": "Boomlink",
+      "target": "https://boomlink.ai/api/v1/mcp",
+      "approved_at": "2026-11-13T15:35:19.862Z",
+      "probed_at": "2026-11-13T15:35:19.862Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
     }
   },
   "policy": {
