@@ -1,14 +1,14 @@
 {
   "day": "2026-11-16",
-  "updated_at": "2026-11-16T02:56:26.712Z",
+  "updated_at": "2026-11-16T10:47:55.207Z",
   "counts": {
-    "total": 1296,
-    "mcp": 1261,
+    "total": 1299,
+    "mcp": 1264,
     "agents": 35
   },
   "high_water": {
-    "total": 1296,
-    "mcp": 1261,
+    "total": 1299,
+    "mcp": 1264,
     "agents": 35
   },
   "items": {
@@ -14267,6 +14267,39 @@
       "score": 40,
       "handshake": "ok",
       "hold_reason": "grower mcp-card /.well-known/mcp.json"
+    },
+    "mcp-acquisity-api-acquisity-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-acquisity-api-acquisity-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Acquisity",
+      "target": "https://api.acquisity.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-11-16T10:47:47.581Z",
+      "probed_at": "2026-11-16T10:47:47.581Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-agentic-blue-api-agenticblue-ai-mcp": {
+      "id": "mcp-agentic-blue-api-agenticblue-ai-mcp",
+      "kind": "mcp",
+      "name": "Agentic Blue",
+      "target": "https://api.agenticblue.ai/mcp",
+      "approved_at": "2026-11-16T10:47:49.797Z",
+      "probed_at": "2026-11-16T10:47:49.797Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=405 post=401"
+    },
+    "mcp-atomsell-app-atomsell-ai-mcp": {
+      "id": "mcp-atomsell-app-atomsell-ai-mcp",
+      "kind": "mcp",
+      "name": "AtomSell",
+      "target": "https://app.atomsell.ai/mcp",
+      "approved_at": "2026-11-16T10:47:53.188Z",
+      "probed_at": "2026-11-16T10:47:53.188Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
     }
   },
   "policy": {
