@@ -1,14 +1,14 @@
 {
   "day": "2026-11-18",
-  "updated_at": "2026-11-18T11:15:30.719Z",
+  "updated_at": "2026-11-18T19:29:05.106Z",
   "counts": {
-    "total": 1312,
-    "mcp": 1277,
+    "total": 1314,
+    "mcp": 1279,
     "agents": 35
   },
   "high_water": {
-    "total": 1312,
-    "mcp": 1277,
+    "total": 1314,
+    "mcp": 1279,
     "agents": 35
   },
   "items": {
@@ -14443,6 +14443,28 @@
       "score": 28,
       "handshake": "ok",
       "hold_reason": "grower live-mcp-gate get=401 post=401"
+    },
+    "mcp-13f-ai-13f-ai-api-mcp": {
+      "id": "mcp-13f-ai-13f-ai-api-mcp",
+      "kind": "mcp",
+      "name": "13F.ai",
+      "target": "https://13f.ai/api/mcp",
+      "approved_at": "2026-11-18T19:28:50.705Z",
+      "probed_at": "2026-11-18T19:28:50.705Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-bluebox-app-bluebox-ai-v1-mcp": {
+      "id": "mcp-bluebox-app-bluebox-ai-v1-mcp",
+      "kind": "mcp",
+      "name": "Bluebox",
+      "target": "https://app.bluebox.ai/v1/mcp",
+      "approved_at": "2026-11-18T19:29:05.105Z",
+      "probed_at": "2026-11-18T19:29:05.105Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
