@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-11-18T17:37:33.919Z",
+  "updated_at": "2026-11-18T23:36:58.983Z",
   "day": "2026-11-18",
-  "day_invites": 22,
+  "day_invites": 26,
   "day_nags": 60,
-  "day_talk": 22,
+  "day_talk": 26,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-11-01T08:03:19.060Z",
@@ -6516,7 +6516,7 @@
       "talk_ok": false
     },
     "mcp-ai-kaiv-version-truth-api-kaiv-ai-well-known-mcp-json": {
-      "at": "2026-10-19T20:31:45.046Z",
+      "at": "2026-11-18T23:36:58.825Z",
       "name": "ai.kaiv/version-truth",
       "kind": "mcp",
       "http_ok": true,
@@ -9036,7 +9036,7 @@
       "talk_ok": false
     },
     "mcp-coach-mcp-mcp-iamcoach-ai": {
-      "at": "2026-10-19T20:31:44.562Z",
+      "at": "2026-11-18T23:36:58.510Z",
       "name": "Coach MCP",
       "kind": "mcp",
       "http_ok": true,
@@ -13114,6 +13114,26 @@
       "target": "https://api.agent-neo.ai/api/v1/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-bluebox-app-bluebox-ai-v1-mcp": {
+      "at": "2026-11-18T23:36:58.295Z",
+      "name": "Bluebox",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://app.bluebox.ai/v1/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
+    },
+    "mcp-13f-ai-13f-ai-api-mcp": {
+      "at": "2026-11-18T23:36:58.458Z",
+      "name": "13F.ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 401,
+      "target": "https://13f.ai/api/mcp",
+      "method": "POST:soft-json",
+      "talk_ok": false
     }
   },
   "nagged": {
@@ -15963,7 +15983,7 @@
       "ok": false
     },
     "mcp-ai-kaiv-version-truth-api-kaiv-ai-well-known-mcp-json": {
-      "at": "2026-10-19T20:31:45.046Z",
+      "at": "2026-11-18T23:36:58.825Z",
       "ok": false
     },
     "mcp-awardcast-federal-contracts-awardcast-ai-mcp": {
@@ -17203,7 +17223,7 @@
       "ok": false
     },
     "mcp-coach-mcp-mcp-iamcoach-ai": {
-      "at": "2026-10-19T20:31:44.562Z",
+      "at": "2026-11-18T23:36:58.510Z",
       "ok": false
     },
     "social:2026-09-20": {
@@ -19055,7 +19075,7 @@
       "ok": false
     },
     "social:2026-11-18": {
-      "at": "2026-11-18T17:37:33.919Z",
+      "at": "2026-11-18T23:36:58.983Z",
       "ok": false
     },
     "mcp-beatview-platform-beatview-ai-mcp": {
@@ -19073,54 +19093,34 @@
     "mcp-agent-neo-api-agent-neo-ai-api-v1-mcp": {
       "at": "2026-11-18T17:37:28.845Z",
       "ok": false
+    },
+    "mcp-bluebox-app-bluebox-ai-v1-mcp": {
+      "at": "2026-11-18T23:36:58.295Z",
+      "ok": false
+    },
+    "mcp-13f-ai-13f-ai-api-mcp": {
+      "at": "2026-11-18T23:36:58.458Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 4007,
-    "invite_http_ok": 3784,
+    "invites": 4011,
+    "invite_http_ok": 3788,
     "nags": 6494,
     "nag_http_ok": 6057,
-    "talk_inbox": 3979,
+    "talk_inbox": 3983,
     "social": 81,
-    "runs": 1092
+    "runs": 1093
   },
   "last_notes": [
-    "eligible never-demoed 12 (agents 0 mcp 12) · inviting 12 (day 10/120)",
-    "invite mcp AutoRFP.ai → http 200 talk — https://autorfp.ai/.well-known/mcp/server-card.json",
-    "invite mcp AudioPod AI → http 200 talk — https://docs.audiopod.ai/.well-known/mcp/server-card.json",
-    "invite mcp Flowstep → http 200 talk — https://docs.flowstep.ai/.well-known/mcp.json",
-    "invite mcp Aetherya → http 200 talk — https://mcp.aetherya.ai/.well-known/mcp/server-card.json",
-    "invite mcp Autoposting → http 200 talk — https://docs.autoposting.ai/.well-known/mcp.json",
-    "invite mcp Tipline: unofficial GTA 6 guide → http 202 talk — https://tipline.brainy.ae/mcp",
-    "invite mcp BlitzAPI → http 200 talk — https://docs.blitz-api.ai/.well-known/mcp/server-card.json",
-    "invite mcp Adsap → http 401 talk — https://mcp.adsap.ai/mcp",
-    "invite mcp Azquo → http 401 talk — https://data.azquo.ai/mcp",
-    "invite mcp Caimera → http 401 talk — https://app.caimera.ai/api/mcp",
-    "invite mcp Agent NEO → http 401 talk — https://api.agent-neo.ai/api/v1/mcp",
-    "invite mcp ai.fugentic/siert-kt8f7x → http 404 talk — https://siert-kt8f7x.mcp.fugentic.ai/.well-known/mcp/server-card.json",
-    "feedback nags queued 20 (day 40/60)",
-    "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
-    "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
-    "nag self_serve AdAdvisor MCP Server → http 401 talk —",
-    "nag self_serve ac.tandem/docs-mcp → http 405 talk —",
-    "nag self_serve ai.iturri/market-data → http 200 talk —",
-    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
-    "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
-    "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
-    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 200 talk —",
-    "nag invited BeatBandit MCP → http 401 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
-    "nag invited AnomalyArmor → http 401 talk —",
-    "nag invited ai.iturri/market-data → http 200 talk —",
-    "nag invited ai.meacheal/mrc-data → http 200 talk —",
-    "nag invited ai.odei/connect → http 405 talk —",
-    "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
-    "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
-    "nag invited ai.maguyva/maguyva → http 405 talk —",
-    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
-    "nag invited ai.joinmultiplayer/gpu → http 200 talk —",
+    "eligible never-demoed 4 (agents 0 mcp 4) · inviting 4 (day 22/120)",
+    "invite mcp Bluebox → http 401 talk — https://app.bluebox.ai/v1/mcp",
+    "invite mcp 13F.ai → http 401 talk — https://13f.ai/api/mcp",
+    "invite mcp Coach MCP → http 401 talk — https://mcp.iamcoach.ai/",
+    "invite mcp ai.kaiv/version-truth → http 200 talk — https://api.kaiv.ai/.well-known/mcp.json",
+    "feedback nags queued 0 (day 60/60)",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-11-18T17:37:33.919Z",
+  "last_run_at": "2026-11-18T23:36:58.983Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
