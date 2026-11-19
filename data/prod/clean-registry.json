@@ -1,14 +1,14 @@
 {
   "day": "2026-11-19",
-  "updated_at": "2026-11-19T09:11:46.507Z",
+  "updated_at": "2026-11-19T18:18:09.276Z",
   "counts": {
-    "total": 1317,
-    "mcp": 1282,
+    "total": 1319,
+    "mcp": 1284,
     "agents": 35
   },
   "high_water": {
-    "total": 1317,
-    "mcp": 1282,
+    "total": 1319,
+    "mcp": 1284,
     "agents": 35
   },
   "items": {
@@ -14498,6 +14498,28 @@
       "score": 28,
       "handshake": "ok",
       "hold_reason": "grower live-mcp-gate get=401 post=401"
+    },
+    "mcp-agenticcart-ai-readiness-checks-for-online-store-agenticcart-ai-mcp": {
+      "id": "mcp-agenticcart-ai-readiness-checks-for-online-store-agenticcart-ai-mcp",
+      "kind": "mcp",
+      "name": "AgenticCart: AI readiness checks for online stores",
+      "target": "https://agenticcart.ai/mcp",
+      "approved_at": "2026-11-19T18:18:03.270Z",
+      "probed_at": "2026-11-19T18:18:03.270Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-apipod-www-apipod-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-apipod-www-apipod-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "APIPod",
+      "target": "https://www.apipod.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-11-19T18:18:04.041Z",
+      "probed_at": "2026-11-19T18:18:04.041Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
     }
   },
   "policy": {
