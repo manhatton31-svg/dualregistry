@@ -1,14 +1,14 @@
 {
   "day": "2026-11-22",
-  "updated_at": "2026-11-22T13:38:05.650Z",
+  "updated_at": "2026-11-22T23:54:21.053Z",
   "counts": {
-    "total": 1333,
-    "mcp": 1298,
+    "total": 1336,
+    "mcp": 1301,
     "agents": 35
   },
   "high_water": {
-    "total": 1333,
-    "mcp": 1298,
+    "total": 1336,
+    "mcp": 1301,
     "agents": 35
   },
   "items": {
@@ -14674,6 +14674,39 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-avioverse-easa-library-avioverse-aero-well-known-mcp-server-card-json": {
+      "id": "mcp-avioverse-easa-library-avioverse-aero-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Avioverse EASA library",
+      "target": "https://avioverse.aero/.well-known/mcp/server-card.json",
+      "approved_at": "2026-11-22T23:53:17.230Z",
+      "probed_at": "2026-11-22T23:53:17.230Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-adlio-meta-ads-launcher-adlio-ai-api-mcp": {
+      "id": "mcp-adlio-meta-ads-launcher-adlio-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Adlio: Meta Ads Launcher",
+      "target": "https://adlio.ai/api/mcp",
+      "approved_at": "2026-11-22T23:53:18.177Z",
+      "probed_at": "2026-11-22T23:53:18.177Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
+    },
+    "mcp-architool-architool-ai-api-mcp": {
+      "id": "mcp-architool-architool-ai-api-mcp",
+      "kind": "mcp",
+      "name": "ArchiTool",
+      "target": "https://architool.ai/api/mcp",
+      "approved_at": "2026-11-22T23:53:22.730Z",
+      "probed_at": "2026-11-22T23:53:22.730Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 401"
     }
   },
   "policy": {
