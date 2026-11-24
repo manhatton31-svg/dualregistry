@@ -1,14 +1,14 @@
 {
   "day": "2026-11-24",
-  "updated_at": "2026-11-24T03:27:42.254Z",
+  "updated_at": "2026-11-24T14:09:58.898Z",
   "counts": {
-    "total": 1340,
-    "mcp": 1305,
+    "total": 1345,
+    "mcp": 1310,
     "agents": 35
   },
   "high_water": {
-    "total": 1340,
-    "mcp": 1305,
+    "total": 1345,
+    "mcp": 1310,
     "agents": 35
   },
   "items": {
@@ -14751,6 +14751,61 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 401"
+    },
+    "mcp-1alexander-ai-visibility-tracker-1alexander-ai-well-known-mcp-server-json": {
+      "id": "mcp-1alexander-ai-visibility-tracker-1alexander-ai-well-known-mcp-server-json",
+      "kind": "mcp",
+      "name": "1Alexander AI Visibility Tracker",
+      "target": "https://1alexander.ai/.well-known/mcp/server.json",
+      "approved_at": "2026-11-24T14:08:54.465Z",
+      "probed_at": "2026-11-24T14:08:54.465Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server.json"
+    },
+    "mcp-appcart-for-buyers-appcart-ai-api-mcp-buy": {
+      "id": "mcp-appcart-for-buyers-appcart-ai-api-mcp-buy",
+      "kind": "mcp",
+      "name": "Appcart for buyers",
+      "target": "https://appcart.ai/api/mcp/buy",
+      "approved_at": "2026-11-24T14:08:57.883Z",
+      "probed_at": "2026-11-24T14:08:57.883Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-appcart-for-sellers-appcart-ai-api-mcp-sell": {
+      "id": "mcp-appcart-for-sellers-appcart-ai-api-mcp-sell",
+      "kind": "mcp",
+      "name": "Appcart for sellers",
+      "target": "https://appcart.ai/api/mcp/sell",
+      "approved_at": "2026-11-24T14:08:58.035Z",
+      "probed_at": "2026-11-24T14:08:58.035Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-anitilo-api-anitilo-ai-mcp": {
+      "id": "mcp-anitilo-api-anitilo-ai-mcp",
+      "kind": "mcp",
+      "name": "Anitilo",
+      "target": "https://api.anitilo.ai/mcp",
+      "approved_at": "2026-11-24T14:08:59.197Z",
+      "probed_at": "2026-11-24T14:08:59.197Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-bluemetal-api-bluemetal-ai-mcp": {
+      "id": "mcp-bluemetal-api-bluemetal-ai-mcp",
+      "kind": "mcp",
+      "name": "BlueMetal",
+      "target": "https://api.bluemetal.ai/mcp",
+      "approved_at": "2026-11-24T14:09:01.043Z",
+      "probed_at": "2026-11-24T14:09:01.043Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 401"
     }
   },
   "policy": {
