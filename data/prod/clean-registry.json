@@ -1,14 +1,14 @@
 {
   "day": "2026-11-26",
-  "updated_at": "2026-11-26T08:46:20.591Z",
+  "updated_at": "2026-11-26T18:41:11.658Z",
   "counts": {
-    "total": 1350,
-    "mcp": 1315,
+    "total": 1354,
+    "mcp": 1319,
     "agents": 35
   },
   "high_water": {
-    "total": 1350,
-    "mcp": 1315,
+    "total": 1354,
+    "mcp": 1319,
     "agents": 35
   },
   "items": {
@@ -14861,6 +14861,50 @@
       "score": 32,
       "handshake": "ok",
       "hold_reason": "grower remote-mcp-body 405"
+    },
+    "mcp-compare-ac-us-air-conditioner-heat-pump-and-spac-compare-ac-api-mcp": {
+      "id": "mcp-compare-ac-us-air-conditioner-heat-pump-and-spac-compare-ac-api-mcp",
+      "kind": "mcp",
+      "name": "compare.ac: US air conditioner, heat pump and space heater prices",
+      "target": "https://compare.ac/api/mcp",
+      "approved_at": "2026-11-26T18:40:05.955Z",
+      "probed_at": "2026-11-26T18:40:05.955Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-alchemyagent-mcp-alchemyagent-ai-mcp": {
+      "id": "mcp-alchemyagent-mcp-alchemyagent-ai-mcp",
+      "kind": "mcp",
+      "name": "AlchemyAgent",
+      "target": "https://mcp.alchemyagent.ai/mcp",
+      "approved_at": "2026-11-26T18:40:10.444Z",
+      "probed_at": "2026-11-26T18:40:10.444Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 406"
+    },
+    "mcp-argil-docs-argil-ai-well-known-mcp-server-card-json": {
+      "id": "mcp-argil-docs-argil-ai-well-known-mcp-server-card-json",
+      "kind": "mcp",
+      "name": "Argil",
+      "target": "https://docs.argil.ai/.well-known/mcp/server-card.json",
+      "approved_at": "2026-11-26T18:40:10.978Z",
+      "probed_at": "2026-11-26T18:40:10.978Z",
+      "score": 40,
+      "handshake": "ok",
+      "hold_reason": "grower mcp-card /.well-known/mcp/server-card.json"
+    },
+    "mcp-bettershell-resume-builder-bettershell-ai-mcp": {
+      "id": "mcp-bettershell-resume-builder-bettershell-ai-mcp",
+      "kind": "mcp",
+      "name": "BetterShell Resume Builder",
+      "target": "https://bettershell.ai/mcp",
+      "approved_at": "2026-11-26T18:40:13.153Z",
+      "probed_at": "2026-11-26T18:40:13.153Z",
+      "score": 30,
+      "handshake": "ok",
+      "hold_reason": "grower post-initialize 200"
     }
   },
   "policy": {
