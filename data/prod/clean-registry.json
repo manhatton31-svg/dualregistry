@@ -1,14 +1,14 @@
 {
-  "day": "2026-11-26",
-  "updated_at": "2026-11-26T18:41:11.658Z",
+  "day": "2026-11-27",
+  "updated_at": "2026-11-27T01:57:40.971Z",
   "counts": {
-    "total": 1354,
-    "mcp": 1319,
+    "total": 1356,
+    "mcp": 1321,
     "agents": 35
   },
   "high_water": {
-    "total": 1354,
-    "mcp": 1319,
+    "total": 1356,
+    "mcp": 1321,
     "agents": 35
   },
   "items": {
@@ -14905,6 +14905,28 @@
       "score": 30,
       "handshake": "ok",
       "hold_reason": "grower post-initialize 200"
+    },
+    "mcp-apply-guy-ai-job-search-1-click-apply-api-applyguy-ai-mcp": {
+      "id": "mcp-apply-guy-ai-job-search-1-click-apply-api-applyguy-ai-mcp",
+      "kind": "mcp",
+      "name": "Apply Guy: AI Job Search & 1-Click Apply",
+      "target": "https://api.applyguy.ai/mcp",
+      "approved_at": "2026-11-27T01:56:40.533Z",
+      "probed_at": "2026-11-27T01:56:40.533Z",
+      "score": 28,
+      "handshake": "ok",
+      "hold_reason": "grower live-mcp-gate get=401 post=401"
+    },
+    "mcp-cytrix-cytric-apps-azwell-ai-api-mcp": {
+      "id": "mcp-cytrix-cytric-apps-azwell-ai-api-mcp",
+      "kind": "mcp",
+      "name": "Cytrix",
+      "target": "https://cytric.apps.azwell.ai/api/mcp",
+      "approved_at": "2026-11-27T01:56:42.811Z",
+      "probed_at": "2026-11-27T01:56:42.811Z",
+      "score": 32,
+      "handshake": "ok",
+      "hold_reason": "grower remote-mcp-body 405"
     }
   },
   "policy": {
