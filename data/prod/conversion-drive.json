@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-11-27T11:28:08.706Z",
+  "updated_at": "2026-11-27T20:15:34.310Z",
   "day": "2026-11-27",
-  "day_invites": 11,
-  "day_nags": 40,
-  "day_talk": 11,
+  "day_invites": 18,
+  "day_nags": 60,
+  "day_talk": 18,
   "invited": {
     "agtpub_ae427eacf129a7ad16a0": {
       "at": "2026-11-01T08:03:19.060Z",
@@ -7036,7 +7036,7 @@
       "talk_ok": false
     },
     "mcp-dynt-api-dynt-ai-mcp": {
-      "at": "2026-10-28T14:25:41.904Z",
+      "at": "2026-11-27T20:15:28.492Z",
       "name": "Dynt",
       "kind": "mcp",
       "http_ok": true,
@@ -7046,7 +7046,7 @@
       "talk_ok": false
     },
     "mcp-immopix-immopix-ai-mcp": {
-      "at": "2026-10-28T19:48:22.924Z",
+      "at": "2026-11-27T20:15:28.356Z",
       "name": "Immopix",
       "kind": "mcp",
       "http_ok": true,
@@ -9416,7 +9416,7 @@
       "talk_ok": false
     },
     "mcp-connie-mcp-connie-ai": {
-      "at": "2026-10-28T19:48:22.626Z",
+      "at": "2026-11-27T20:15:28.372Z",
       "name": "Connie",
       "kind": "mcp",
       "http_ok": true,
@@ -9426,7 +9426,7 @@
       "talk_ok": false
     },
     "mcp-ekwo-os-open-source-accounting-ledger-invoices-a-mcp-ekwo-ai-mcp": {
-      "at": "2026-10-28T19:48:22.849Z",
+      "at": "2026-11-27T20:15:28.215Z",
       "name": "Ekwo OS — open source accounting: ledger, invoices and VAT on your own Supabase ",
       "kind": "mcp",
       "http_ok": true,
@@ -12006,17 +12006,17 @@
       "talk_ok": false
     },
     "mcp-bobos-dispatcher-dispatcher-bobos-ai-mcp-v1-control": {
-      "at": "2026-10-28T19:48:22.499Z",
+      "at": "2026-11-27T20:15:29.966Z",
       "name": "Bobos Dispatcher",
       "kind": "mcp",
-      "http_ok": true,
-      "status": 401,
-      "target": "https://dispatcher.bobos.ai/mcp/v1/control",
-      "method": "POST:soft-json",
+      "http_ok": false,
+      "status": 403,
+      "target": "https://dispatcher.bobos.ai/.well-known/mcp/server-card.json",
+      "method": "POST:tasks-send",
       "talk_ok": false
     },
     "mcp-akaphone-app-akaphone-ai-mcp": {
-      "at": "2026-10-28T19:48:22.795Z",
+      "at": "2026-11-27T20:15:28.104Z",
       "name": "AkaPhone",
       "kind": "mcp",
       "http_ok": true,
@@ -13564,11 +13564,21 @@
       "target": "https://ailattice.ai/mcp",
       "method": "POST:soft-json",
       "talk_ok": false
+    },
+    "mcp-autorfp-ai-autorfp-ai-mcp-json": {
+      "at": "2026-11-27T20:15:28.083Z",
+      "name": "AutoRFP.ai",
+      "kind": "mcp",
+      "http_ok": true,
+      "status": 200,
+      "target": "https://autorfp.ai/mcp.json",
+      "method": "GET",
+      "talk_ok": false
     }
   },
   "nagged": {
     "ord_ms93wmkd_190f3f47": {
-      "at": "2026-11-27T11:28:06.220Z",
+      "at": "2026-11-27T20:15:31.739Z",
       "listing_id": "mcp-ai-anomalyarmor-armor-mcp-https-github-com-anomalyarmor-agents",
       "origin": "invited",
       "http_ok": true,
@@ -13577,7 +13587,7 @@
       "target": "https://www.anomalyarmor.ai/.well-known/mcp/server-card.json"
     },
     "ord_mscep388_dd785139": {
-      "at": "2026-11-27T11:28:05.394Z",
+      "at": "2026-11-27T20:15:30.775Z",
       "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
       "origin": "self_serve",
       "http_ok": true,
@@ -13604,7 +13614,7 @@
       "target": "https://agoragentic.com/.well-known/agent.json"
     },
     "ord_ms93wib4_0882eec9": {
-      "at": "2026-11-27T11:28:06.471Z",
+      "at": "2026-11-27T20:15:31.654Z",
       "listing_id": "mcp-ai-analyticslegends-sap-analytics-https-analyticslegends-ai",
       "origin": "invited",
       "http_ok": true,
@@ -13613,7 +13623,7 @@
       "target": "https://analyticslegends.ai/.well-known/mcp.json"
     },
     "ord_ms93webj_9069141f": {
-      "at": "2026-11-27T11:28:06.579Z",
+      "at": "2026-11-27T20:15:31.862Z",
       "listing_id": "mcp-ai-afmr-discovery-https-afmr-ai-",
       "origin": "invited",
       "http_ok": true,
@@ -13622,7 +13632,7 @@
       "target": "https://afmr.ai/.well-known/mcp.json"
     },
     "ord_ms92d994_0aba80d7": {
-      "at": "2026-11-27T11:28:06.835Z",
+      "at": "2026-11-27T20:15:32.051Z",
       "listing_id": "mcp-beatbandit-mcp-beatbandit-ai-api-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -13631,7 +13641,7 @@
       "target": "https://beatbandit.ai/api/mcp"
     },
     "ord_ms92d504_519aecac": {
-      "at": "2026-11-27T11:28:06.807Z",
+      "at": "2026-11-27T20:15:32.101Z",
       "listing_id": "mcp-anomalyarmor-mcp-anomalyarmor-ai-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -13640,7 +13650,7 @@
       "target": "https://mcp.anomalyarmor.ai/mcp"
     },
     "ord_ms8zliaw_97619c56": {
-      "at": "2026-11-27T11:28:07.385Z",
+      "at": "2026-11-27T20:15:32.647Z",
       "listing_id": "mcp-ai-iturri-market-data-https-github-com-iturri-ai-iturri-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -13649,7 +13659,7 @@
       "target": "https://iturri.ai/mcp"
     },
     "ord_ms909tku_7f6af09b": {
-      "at": "2026-11-27T11:28:07.282Z",
+      "at": "2026-11-27T20:15:32.530Z",
       "listing_id": "mcp-ai-meacheal-mrc-data-https-api-meacheal-ai",
       "origin": "invited",
       "http_ok": true,
@@ -13658,7 +13668,7 @@
       "target": "https://api.meacheal.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zlf93_5b5f27c0": {
-      "at": "2026-11-27T11:28:08.125Z",
+      "at": "2026-11-27T20:15:33.441Z",
       "listing_id": "mcp-ai-biel-biel-ai-https-github-com-techdocsstudio-biel-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -13667,7 +13677,7 @@
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zln09_edb5e5c9": {
-      "at": "2026-11-27T11:28:08.665Z",
+      "at": "2026-11-27T20:15:34.270Z",
       "listing_id": "mcp-ai-joinmultiplayer-gpu-https-github-com-yukakust-joinmultiplayer-ai",
       "origin": "invited",
       "http_ok": true,
@@ -13676,7 +13686,7 @@
       "target": "https://joinmultiplayer.ai/"
     },
     "ord_ms8zld07_0dff19fe": {
-      "at": "2026-11-27T11:28:07.627Z",
+      "at": "2026-11-27T20:15:32.948Z",
       "listing_id": "mcp-ai-llmintel-model-lifecycle-https-github-com-hivemindunit-llmintel-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -13685,7 +13695,7 @@
       "target": "https://llmintel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zl82k_e4963584": {
-      "at": "2026-11-27T11:28:07.793Z",
+      "at": "2026-11-27T20:15:33.127Z",
       "listing_id": "mcp-ai-maguyva-maguyva-https-github-com-maguyva-mcp",
       "origin": "invited",
       "http_ok": true,
@@ -13703,7 +13713,7 @@
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms8zl5a3_01b84782": {
-      "at": "2026-11-27T11:28:08.068Z",
+      "at": "2026-11-27T20:15:33.572Z",
       "listing_id": "mcp-ai-lumify-sports-intelligence-https-github-com-lumifyai-lumify",
       "origin": "invited",
       "http_ok": true,
@@ -13721,7 +13731,7 @@
       "target": "https://biel.ai/.well-known/mcp/server-card.json"
     },
     "ord_ms90b2rl_7e0eff14": {
-      "at": "2026-11-27T11:28:07.358Z",
+      "at": "2026-11-27T20:15:32.684Z",
       "listing_id": "mcp-ai-odei-connect-https-github-com-zer0h1ro-odei",
       "origin": "invited",
       "http_ok": true,
@@ -13766,7 +13776,7 @@
       "target": "https://agent-guild-5d5r.onrender.com/.well-known/agent.json"
     },
     "ord_msclhcmu_afed0825": {
-      "at": "2026-11-27T11:28:05.224Z",
+      "at": "2026-11-27T20:15:30.548Z",
       "listing_id": "mcp-adadvisor-mcp-server-api-adadvisor-ai-mcp",
       "origin": "self_serve",
       "http_ok": true,
@@ -13775,7 +13785,7 @@
       "target": "https://api.adadvisor.ai/mcp"
     },
     "ord_mscxfhwf_ff3b7582": {
-      "at": "2026-11-27T11:28:04.976Z",
+      "at": "2026-11-27T20:15:30.290Z",
       "listing_id": "mcp-ai-calendarmcp-server-https-github-com-full-vibe-calendarmcp-public",
       "origin": "self_serve",
       "http_ok": true,
@@ -13784,7 +13794,7 @@
       "target": "https://calendarmcp.ai/.well-known/mcp/server-card.json"
     },
     "ord_msd8r8hj_efe042d1": {
-      "at": "2026-11-27T11:28:06.463Z",
+      "at": "2026-11-27T20:15:31.781Z",
       "listing_id": "mcp-ai-maximem-synap-https-github-com-maximem-ai-maximem-synap-sdk",
       "origin": "self_serve",
       "http_ok": true,
@@ -13811,7 +13821,7 @@
       "target": null
     },
     "ord_mse8vrpo_43d9f54a": {
-      "at": "2026-11-27T11:28:04.659Z",
+      "at": "2026-11-27T20:15:30.055Z",
       "listing_id": null,
       "origin": "self_serve",
       "http_ok": false,
@@ -13820,7 +13830,7 @@
       "target": null
     },
     "ord_mseom3gf_a6624e0e": {
-      "at": "2026-11-27T11:28:07.762Z",
+      "at": "2026-11-27T20:15:33.141Z",
       "listing_id": "mcp-ai-outlit-outlit-r1-https-github-com-outlitai-outlit-sdk",
       "origin": "self_serve",
       "http_ok": true,
@@ -13838,7 +13848,7 @@
       "target": "https://api.pictomancer.ai/.well-known/agent-card.json"
     },
     "ord_msgen2w4_8d1673db": {
-      "at": "2026-11-27T11:28:06.376Z",
+      "at": "2026-11-27T20:15:31.437Z",
       "listing_id": "mcp-ac-tandem-docs-mcp-tandem-ac-mcp",
       "origin": "self_serve",
       "http_ok": true,
@@ -16653,7 +16663,7 @@
       "ok": false
     },
     "mcp-dynt-api-dynt-ai-mcp": {
-      "at": "2026-10-28T14:25:41.904Z",
+      "at": "2026-11-27T20:15:28.492Z",
       "ok": false
     },
     "social:2026-08-29": {
@@ -16661,7 +16671,7 @@
       "ok": false
     },
     "mcp-immopix-immopix-ai-mcp": {
-      "at": "2026-10-28T19:48:22.924Z",
+      "at": "2026-11-27T20:15:28.356Z",
       "ok": false
     },
     "mcp-ai-levelfour-levelfour-mcp-mcp-levelfour-ai-mcp": {
@@ -17841,11 +17851,11 @@
       "ok": false
     },
     "mcp-connie-mcp-connie-ai": {
-      "at": "2026-10-28T19:48:22.626Z",
+      "at": "2026-11-27T20:15:28.372Z",
       "ok": false
     },
     "mcp-ekwo-os-open-source-accounting-ledger-invoices-a-mcp-ekwo-ai-mcp": {
-      "at": "2026-10-28T19:48:22.849Z",
+      "at": "2026-11-27T20:15:28.215Z",
       "ok": false
     },
     "mcp-fenbs-fenbs-ai-api-mcp": {
@@ -18997,11 +19007,11 @@
       "ok": false
     },
     "mcp-bobos-dispatcher-dispatcher-bobos-ai-mcp-v1-control": {
-      "at": "2026-10-28T19:48:22.499Z",
+      "at": "2026-11-27T20:15:29.966Z",
       "ok": false
     },
     "mcp-akaphone-app-akaphone-ai-mcp": {
-      "at": "2026-10-28T19:48:22.795Z",
+      "at": "2026-11-27T20:15:28.104Z",
       "ok": false
     },
     "mcp-anyforge-crew-anyforge-ai-api-mcp": {
@@ -19733,50 +19743,59 @@
       "ok": false
     },
     "social:2026-11-27": {
-      "at": "2026-11-27T11:28:08.706Z",
+      "at": "2026-11-27T20:15:34.310Z",
       "ok": false
     },
     "mcp-ai-lattice-ailattice-ai-mcp": {
       "at": "2026-11-27T11:28:04.571Z",
       "ok": false
+    },
+    "mcp-autorfp-ai-autorfp-ai-mcp-json": {
+      "at": "2026-11-27T20:15:28.083Z",
+      "ok": false
     }
   },
   "totals": {
-    "invites": 4200,
-    "invite_http_ok": 3968,
-    "nags": 6964,
-    "nag_http_ok": 6499,
-    "talk_inbox": 4172,
+    "invites": 4207,
+    "invite_http_ok": 3974,
+    "nags": 6984,
+    "nag_http_ok": 6518,
+    "talk_inbox": 4179,
     "social": 81,
-    "runs": 1118
+    "runs": 1119
   },
   "last_notes": [
-    "eligible never-demoed 2 (agents 0 mcp 2) · inviting 2 (day 9/120)",
-    "invite mcp JustIdea Agency → http 405 talk — https://justidea.agency/.well-known/mcp/server-card.json",
-    "invite mcp AI Lattice → http 202 talk — https://ailattice.ai/mcp",
-    "feedback nags queued 20 (day 20/60)",
+    "eligible never-demoed 7 (agents 0 mcp 7) · inviting 7 (day 11/120)",
+    "invite mcp AutoRFP.ai → http 200 talk — https://autorfp.ai/mcp.json",
+    "invite mcp AkaPhone → http 401 talk — https://app.akaphone.ai/mcp",
+    "invite mcp Ekwo OS — open source accounting: ledger,  → http 401 talk — https://mcp.ekwo.ai/mcp",
+    "invite mcp Immopix → http 401 talk — https://immopix.ai/mcp",
+    "invite mcp Connie → http 401 talk — https://mcp.connie.ai/",
+    "invite mcp Dynt → http 401 talk — https://api.dynt.ai/mcp",
+    "invite mcp Bobos Dispatcher → http 403 talk — https://dispatcher.bobos.ai/.well-known/mcp/server-card.json",
+    "feedback nags queued 20 (day 40/60)",
     "nag self_serve ai.analyticslegends/sap-analytics → http 0 talk —",
     "nag self_serve mcp-ai-calendarmcp-server-https-gith → http 405 talk —",
     "nag self_serve AdAdvisor MCP Server → http 401 talk —",
     "nag self_serve ai.iturri/market-data → http 200 talk —",
-    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
     "nag self_serve ac.tandem/docs-mcp → http 200 talk —",
-    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 200 talk —",
     "nag invited mcp-ai-analyticslegends-sap-analytic → http 405 talk —",
+    "nag invited mcp-ai-anomalyarmor-armor-mcp-https- → http 405 talk —",
+    "nag self_serve mcp-ai-maximem-synap-https-github-co → http 200 talk —",
     "nag invited mcp-ai-afmr-discovery-https-afmr-ai- → http 405 talk —",
-    "nag invited AnomalyArmor → http 401 talk —",
     "nag invited BeatBandit MCP → http 401 talk —",
+    "nag invited AnomalyArmor → http 401 talk —",
     "nag invited ai.meacheal/mrc-data → http 200 talk —",
-    "nag invited ai.odei/connect → http 405 talk —",
     "nag invited ai.iturri/market-data → http 200 talk —",
+    "nag invited ai.odei/connect → http 405 talk —",
     "nag invited ai.llmintel/model-lifecycle → http 405 talk —",
-    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
     "nag invited ai.maguyva/maguyva → http 405 talk —",
-    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
+    "nag self_serve ai.outlit/outlit · r1 → http 405 talk —",
     "nag invited mcp-ai-biel-biel-ai-https-github-com → http 200 talk —",
+    "nag invited ai.lumify/sports-intelligence → http 200 talk —",
     "nag invited ai.joinmultiplayer/gpu → http 200 talk —",
     "social post → [object Object]"
   ],
-  "last_run_at": "2026-11-27T11:28:08.706Z",
+  "last_run_at": "2026-11-27T20:15:34.310Z",
   "operator_wave_at": "2026-08-03T15:29:14.259481+00:00"
 }
